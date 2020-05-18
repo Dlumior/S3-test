@@ -5,12 +5,13 @@ import { ThemeProvider } from "@material-ui/core";
 
 import theme from "./theme.js";
 import store from "./redux/store.js";
+
 import Home from "./pages/Home/Home.js";
 import Administrador from "./pages/Administrador/Administrador.js";
-import Coordinador from "./pages/Administrador/Coordinador.js";
+import Coordinador from "./pages/Coordinador/Coordinador.js";
 
-import regTutor from "./pages/Coordinador/RegistrarTutor.js";
-import regAlumno from "./pages/Coordinador/RegistrarAlumno.js";
+// import regTutor from "./pages/Coordinador/RegistrarTutor.js";
+// import regAlumno from "./pages/Coordinador/RegistrarAlumno.js";
 
 function App() {
   return (
@@ -19,10 +20,11 @@ function App() {
         <Router>
           <div>
             <Route exact path="/" component={Home} />
-            <Route exact path="/administrador" component={Administrador} />
-            <Route exact path="/ListarCoordinador" component={Coordinador} />
+            <Route path="/administrador" component={Administrador} />
+            <Route path="/coordinador" component={Coordinador} />
+            {/* <Route exact path="/ListarCoordinador" component={Coordinador} />
             <Route exact path="/RegistrarTutor" component={regTutor} />
-            <Route exact path="/RegistrarAlumno" component={regAlumno} />
+            <Route exact path="/RegistrarAlumno" component={regAlumno} /> */}
           </div>
         </Router>
       </ThemeProvider>

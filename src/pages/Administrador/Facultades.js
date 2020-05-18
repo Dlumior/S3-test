@@ -6,7 +6,7 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 const Facultades = () => {
   return (
     <div>
-      <NombrePrincipal />
+      <NombrePrincipal titulo="Facultades" />
       <Tabla />
     </div>
   );
