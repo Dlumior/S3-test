@@ -15,7 +15,7 @@ const Datos = () => {
   return (
     <Paper className={classes.caja}>
       <Grid container xs={12} direction="column" spacing={2}>
-        <Grid item xs={12} container spacing={1}>
+        <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
               autoFocus
@@ -37,7 +37,7 @@ const Datos = () => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={12} container spacing={1}>
+        <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
               autoFocus
@@ -59,7 +59,7 @@ const Datos = () => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={12} container justify="flex-end" alignItems="center">
+        <Grid item xs={12} container justify="flex-start" alignItems="center">
           <Button color="primary" variant="outlined">
             Editar
           </Button>
