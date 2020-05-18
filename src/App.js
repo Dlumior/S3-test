@@ -9,7 +9,6 @@ import Home from "./pages/Home/Home.js";
 import Administrador from "./pages/Administrador/Administrador.js";
 import Coordinador from "./pages/Coordinador/Coordinador.js";
 
-
 function App() {
   return (
     <Provider store={store}>
@@ -17,9 +16,8 @@ function App() {
         <Router>
           <div>
             <Route exact path="/" component={Home} />
-            <Route exact path="/administrador" component={Administrador} />
+            <Route path="/administrador" component={Administrador} />
             <Route exact path="/coordinador" component={Coordinador} />
-
           </div>
         </Router>
       </ThemeProvider>

@@ -17,6 +17,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import { Link as LinkRouter } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -136,12 +137,19 @@ const BarraNavegacion = (props) => {
         <List>
           {["Perfil", "Institución", "Facultades", "Coordinadores"].map(
             (text, index) => (
-              <ListItem button key={text}>
+              // <LinkRouter to={}>
+              <ListItem
+                button
+                key={text}
+                component={LinkRouter}
+                to={"/administrador/" + text.toLowerCase()}
+              >
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
+              // </LinkRouter>
             )
           )}
         </List>
@@ -164,6 +172,7 @@ const BarraNavegacion = (props) => {
       >
         <div className={classes.drawerHeader} />
         {props.contenido}
+        {props.children}
       </main>
     </div>
   );
