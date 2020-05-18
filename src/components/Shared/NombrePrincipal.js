@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NombrePrincipal = () => {
+
+const NombrePrincipal = (props) => {
   const classes = useStyles();
 
   return (
@@ -24,7 +25,7 @@ const NombrePrincipal = () => {
             alignItems="flex-start"
             justify="center"
           >
-            <Typography variant="h4">Facultades</Typography>
+            <Typography variant="h4">{props.titulo}</Typography>
           </Grid>
         </Grid>
       </Container>

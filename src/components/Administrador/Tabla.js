@@ -8,18 +8,7 @@ const data = {
       title: "Facultad",
       field: "facultad",
     },
-    {
-      title: "",
-      field: "espacio1",
-    },
-    {
-      title: "",
-      field: "espacio2",
-    },
-    {
-      title: "",
-      field: "espacio3",
-    },
+   
     {
       title: "Botón ver facultad",
       render: (rowData) => (
