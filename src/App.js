@@ -7,6 +7,8 @@ import theme from "./theme.js";
 import store from "./redux/store.js";
 import Home from "./pages/Home/Home.js";
 import Administrador from "./pages/Administrador/Administrador.js";
+import Coordinador from "./pages/Coordinador/Coordinador.js";
+
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <div>
             <Route exact path="/" component={Home} />
             <Route exact path="/administrador" component={Administrador} />
+            <Route exact path="/coordinador" component={Coordinador} />
+
           </div>
         </Router>
       </ThemeProvider>
