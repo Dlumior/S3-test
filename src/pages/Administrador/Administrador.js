@@ -4,19 +4,23 @@ import { Route } from "react-router-dom";
 import BarraNavegacion from "../../components/Administrador/BarraNavegacion.js";
 import Perfil from "./Perfil.js";
 import Facultades from "./Facultades.js";
+import Coordinador from "../Administrador/Coordinador";
 
 const Administrador = () => {
   return (
     <div>
       <BarraNavegacion>
-        {/* <Router> */}
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route
           exact
           path={"/administrador/facultades"}
           component={Facultades}
         />
-        {/* </Router> */}
+        <Route
+          exact
+          path={"/administrador/coordinadores"}
+          component={Coordinador}
+        />
       </BarraNavegacion>
     </div>
   );
