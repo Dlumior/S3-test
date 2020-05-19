@@ -136,8 +136,8 @@ const BarraNavegacion = (props) => {
         <Divider />
         <List>
           {[
-            "Registrar_Alumnos",
-            "Registrar_Tutores",
+            "Registrar Alumnos",
+            "Registrar Tutores",
             "Send email",
             "Drafts",
           ].map((text, index) => (
