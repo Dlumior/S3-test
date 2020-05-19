@@ -9,6 +9,7 @@ import store from "./redux/store.js";
 import Home from "./pages/Home/Home.js";
 import Administrador from "./pages/Administrador/Administrador.js";
 import Coordinador from "./pages/Coordinador/Coordinador.js";
+import RegistrarAlumno from "./pages/Coordinador/RegistrarAlumno.js";
 
 // import regTutor from "./pages/Coordinador/RegistrarTutor.js";
 // import regAlumno from "./pages/Coordinador/RegistrarAlumno.js";
@@ -23,8 +24,8 @@ function App() {
             <Route path="/administrador" component={Administrador} />
             <Route path="/coordinador" component={Coordinador} />
             {/* <Route exact path="/ListarCoordinador" component={Coordinador} />
-            <Route exact path="/RegistrarTutor" component={regTutor} />
-            <Route exact path="/RegistrarAlumno" component={regAlumno} /> */}
+            <Route exact path="/RegistrarTutor" component={regTutor} />*/}
+            <Route exact path="/RegistrarAlumno" component={RegistrarAlumno} /> 
           </div>
         </Router>
       </ThemeProvider>
