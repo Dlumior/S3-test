@@ -39,9 +39,9 @@ export async function GET(props) {
 export async function POST(props) {
     console.log(">>> POST", props);
     console.log(">>> POST", props.request);
-    console.log(">>> POST", props.endpoint);
+    console.log(">>> POST", props.servicio);
     try {
-        let response = await fetch(props.endpoint,
+        let response = await fetch(props.servicio,
         {
             method: 'POST',
             mode: 'cors',
@@ -49,7 +49,7 @@ export async function POST(props) {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify( props.request ),
+            body: JSON.stringify( props.request )
         });
         let responseJson = await response.json();
         console.log(">>> YEEEE");

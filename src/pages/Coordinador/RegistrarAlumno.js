@@ -22,7 +22,6 @@ const RegistrarAlumno = () => {
 
     <Container fullWidth disableGutters maxWidth={"xl"}>
       <CabeceraRegistrarAlumno titulo={titulo} />
-
       <FormularioRegistrarAlumno />
     </Container>
   );

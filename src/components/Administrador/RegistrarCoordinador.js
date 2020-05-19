@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+/*import React, { Component } from "react";
 import * as Conexion from "./../../Conexion/Controller";
 
 import Button from "@material-ui/core/Button";
@@ -48,7 +48,6 @@ class RegistrarCoordinador extends Component {
     
   }
   async handleOnClick(e) {
-    /** Registar */
     e.preventDefault(); //prevenir que se refresque la pantalla
     let {
       codigo,
@@ -171,6 +170,7 @@ class RegistrarCoordinador extends Component {
     );
   }
 }
+*/
 
 /*
 const RegistrarCoordinador = () => {
@@ -267,4 +267,4 @@ const RegistrarCoordinador = () => {
   );
 };
 */
-export default RegistrarCoordinador;
+//export default RegistrarCoordinador;

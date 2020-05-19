@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as Controller from "./../../Conexion/Controller";
 import {
   Paper,
   Tabs,
@@ -19,70 +20,73 @@ const style = {
     alignItems: "left",
     backgroundImage: "",
   },
-  form: {
-    width: "100%",
-    marginTop: "1%",
-    alignItems: "center",
-  },
-  registryTitle: {
-    marginTop: "3%",
+  formRegistrarAlumno: {
+    alignSelf: "center",
+    width: "90%",
+    backgroundColor: "#ffffff",
     marginLeft: "3%",
-    alignItems: "center",
+    marginRight: "3%",
+  },
+  envoltorioFormulario: {
+    paddingTop: "1%",
+    paddingBottom: "2%",
+    width: "100%",
+    backgroundColor: "#f2f2f2",
   },
 };
 class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
-      currentProgram: "INF",
-      programs: ["", "INF", "IND", "ING"],
-      student: {
-        userName: "",
-        userLastName: "",
-        email: "",
-        //password: "",
-        currentProgram: "",
-        telephone: "",
-        address: "",
+      programas: ["", "Ingenieria Informatica", "Ingenieria industrial", "Ingenieria Civil", "Ingenieria Mecatronica"],
+      alumno: {
+        codigo:"",
+        nombres: "",
+        apellidos: "",
+        correo: "",
+        programa: "",
+        telefono: "",
+        direccion: "",
       },
     };
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   async handleOnClick(e) {
-    /** Registar */
+    /** Registar propiamente */
     e.preventDefault(); //prevenir que se refresque la pantalla
-    console.log("user: ", this.state.user);
+    console.log("alumno: ", this.state.alumno);
     let {
-      userName,
-      userLastName,
-      email,
-      //currentProgram,
-      telephone,
-      address,
-    } = this.state.student;
+      nombres,
+      apellidos,
+      codigo,
+      correo,
+      currentProgram,
+      telefono,
+      direccion,
+    } = this.state.alumno;
     const nuevoEstudiante = {
-      student: {
-        names: userName,
-        lastnames: userLastName,
-        studentCode: 20202020,
-        email: email,
-        phoneNumber: telephone,
-        address: address,
-        username: "username",
-        password: "password",
-      },
+      alumno:{
+        APELLIDOS: apellidos,
+        CODIGO: codigo,
+        CONTRASENHA: "sudo tys",
+        CORREO: correo,
+        DIRECCION: direccion,
+        NOMBRE: nombres,
+        PROGRAMA: [1],
+        TELEFONO: telefono,
+        USUARIO: "UsuarioPruebaRegistrar"
+      }
     };
-    //let endpoint = '/api/student';
-    const props = { endpoint: "/api/student", request: nuevoEstudiante };
+    const props = { servicio: "/api/alumno", request: nuevoEstudiante };
     console.log("saving new student in DB:", nuevoEstudiante);
-    //let newStudents = await Networking.POST(props);
-    //console.log("got updated students from back:", newStudents);
+    let nuevoAlumno = await Controller.POST(props);
+    console.log("got updated alumno from back:", nuevoAlumno);
   }
   handleOnChange = (e) => {
-    let student = Object.assign({}, this.state.student);
-    student[e.target.name] = e.target.value;
-    this.setState({ student: student });
+    let alumno = Object.assign({}, this.state.alumno);
+    alumno[e.target.name] = e.target.value;
+    this.setState({ alumno: alumno });
   };
   handleTabOnChange = (e) => {
     //para cuando funcione la pestaña de importar alumnos
@@ -106,16 +110,16 @@ class FormularioRegistrarAlumno extends Component {
             <Tab label="Importar Alumnos" disabled />
           </Tabs>
         </Paper>
-        <div style={styles.wrapperForm}>
+        <div style={style.envoltorioFormulario}>
           <br />
-          <div style={styles.frmStudentRegister}>
+          <div style={style.formRegistrarAlumno}>
             <Grid container spacing={5}>
               <Grid item md={1} xs={1} style={style.paper} />
               <Grid item md={3} xs={4} style={style.paper}>
                 <Grid item md={12} xs={12}>
                   <TextField
                     fullWidth
-                    name="userName"
+                    name="nombres"
                     label="Nombres"
                     onChange={this.handleOnChange}
                   />
@@ -123,7 +127,7 @@ class FormularioRegistrarAlumno extends Component {
                 <Grid item md={12} xs={12}>
                   <TextField
                     fullWidth
-                    name="userLastName"
+                    name="apellidos"
                     label="Apellidos"
                     onChange={this.handleOnChange}
                   />
@@ -131,7 +135,7 @@ class FormularioRegistrarAlumno extends Component {
                 <Grid item md={12} xs={12}>
                   <TextField
                     fullWidth
-                    name="email"
+                    name="correo"
                     type="email"
                     label="Correo"
                     onChange={this.handleOnChange}
@@ -143,10 +147,10 @@ class FormularioRegistrarAlumno extends Component {
                   <Select
                     fullWidth
                     value={this.state.currentProgram}
-                    onChange={this.handleOnChangeSelect}
-                    name="currentProgram"
+                    onChange={()=>this.handleOnChangeSelect}
+                    name="programa"
                   >
-                    {this.state.programs.map((program) => (
+                    {this.state.programas.map((program) => (
                       <MenuItem value={program}>{program}</MenuItem>
                     ))}
                   </Select>
@@ -158,7 +162,7 @@ class FormularioRegistrarAlumno extends Component {
               <Grid item md={3} xs={4} style={style.paper}>
                 <Grid item md={12} xs={12}>
                   <TextField
-                    name="telephone"
+                    name="telefono"
                     fullWidth
                     label="Telefono"
                     onChange={this.handleOnChange}
@@ -166,7 +170,7 @@ class FormularioRegistrarAlumno extends Component {
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
-                    name="address"
+                    name="direccion"
                     fullWidth
                     label="Direccion"
                     onChange={this.handleOnChange}
@@ -174,9 +178,9 @@ class FormularioRegistrarAlumno extends Component {
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
-                    name="code"
+                    name="codigo"
                     fullWidth
-                    label="codigo"
+                    label="Codigo"
                     onChange={this.handleOnChange}
                   />
                 </Grid>
@@ -208,18 +212,3 @@ class FormularioRegistrarAlumno extends Component {
 
 export default FormularioRegistrarAlumno;
 
-var styles = {
-  frmStudentRegister: {
-    alignSelf: "center",
-    width: "90%",
-    backgroundColor: "#ffffff",
-    marginLeft: "3%",
-    marginRight: "3%",
-  },
-  wrapperForm: {
-    paddingTop: "1%",
-    paddingBottom: "2%",
-    width: "100%",
-    backgroundColor: "#f2f2f2",
-  },
-};
