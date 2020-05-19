@@ -11,6 +11,8 @@ import {
   FormControl,
 } from "@material-ui/core";
 
+import useFetchData from "../../Conexion/useFetchData.js";
+
 const useStyles = makeStyles((theme) => ({
   caja: {
     padding: theme.spacing(5),
@@ -62,18 +64,23 @@ const handleCode = (e, datos, setDatos) => {
   });
 };
 
-const handleClick = (e, datos, setDatos) => {
-  setDatos({
-    ...datos,
-    password: datos.name + datos.lastnames,
-  });
-  console.log(datos);
-};
-
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
   const { datos, setDatos } = props;
   const [age, setAge] = React.useState("");
+  const [res, apiMethod] = useFetchData({
+    url: "/api/tutor",
+    payload: datos,
+  });
+
+  const handleClick = (e, datos, setDatos) => {
+    setDatos({
+      ...datos,
+      password: datos.name + datos.lastnames,
+    });
+    apiMethod();
+    console.log(datos);
+  };
 
   const handleChange = (event) => {
     setAge(event.target.value);
