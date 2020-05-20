@@ -71,7 +71,7 @@ const RegistrarCoordinador = () => {
     imagen: null,
   });
   const [res, apiMethod] = useFetchData({
-    url: "/api/tutor",
+    url: "/api/coordinador",
     payload: datosForm,
   });
   
