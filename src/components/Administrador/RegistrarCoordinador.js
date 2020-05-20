@@ -169,7 +169,7 @@ const handleName = (e, datosForm, setDatosForm) => {
   }
 }
 */
-
+/*
 const handleCorreo = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
