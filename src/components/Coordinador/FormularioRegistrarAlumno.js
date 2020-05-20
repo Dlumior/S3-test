@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import ListaProgramas from "./ListaProgramas";
 const style = {
   paper: {
     marginTop: "4%",
@@ -38,9 +39,15 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
-      programas: ["", "Ingenieria Informatica", "Ingenieria industrial", "Ingenieria Civil", "Ingenieria Mecatronica"],
+      programas: [
+        "",
+        "Ingenieria Informatica",
+        "Ingenieria industrial",
+        "Ingenieria Civil",
+        "Ingenieria Mecatronica",
+      ],
       alumno: {
-        codigo:"",
+        codigo: "",
         nombres: "",
         apellidos: "",
         correo: "",
@@ -50,6 +57,7 @@ class FormularioRegistrarAlumno extends Component {
       },
     };
     this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   async handleOnClick(e) {
@@ -66,17 +74,17 @@ class FormularioRegistrarAlumno extends Component {
       direccion,
     } = this.state.alumno;
     const nuevoEstudiante = {
-      alumno:{
+      alumno: {
         APELLIDOS: apellidos,
         CODIGO: codigo,
         CONTRASENHA: "sudo tys",
         CORREO: correo,
         DIRECCION: direccion,
         NOMBRE: nombres,
-        PROGRAMA: [1],
+        PROGRAMA: currentProgram.ID,
         TELEFONO: telefono,
-        USUARIO: "UsuarioPruebaRegistrar"
-      }
+        USUARIO: "UsuarioPruebaRegistrar",
+      },
     };
     const props = { servicio: "/api/alumno", request: nuevoEstudiante };
     console.log("saving new student in DB:", nuevoEstudiante);
@@ -91,9 +99,8 @@ class FormularioRegistrarAlumno extends Component {
   handleTabOnChange = (e) => {
     //para cuando funcione la pestaña de importar alumnos
   };
-  handleOnChangeSelect = (e) => {
-    this.setState({ currentProgram: e.target.value });
-    console.log(e.target.value);
+   handleOnChangePrograma(programa) {
+     this.setState({ currentProgram: programa });
   };
   render() {
     return (
@@ -143,18 +150,11 @@ class FormularioRegistrarAlumno extends Component {
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <br />
-                  <InputLabel>Programa</InputLabel>
-                  <Select
-                    fullWidth
-                    value={this.state.currentProgram}
-                    onChange={()=>this.handleOnChangeSelect}
-                    name="programa"
-                  >
-                    {this.state.programas.map((program) => (
-                      <MenuItem value={program}>{program}</MenuItem>
-                    ))}
-                  </Select>
-
+                  <ListaProgramas
+                    titulo={"Programas"}
+                    escogerPrograma={this.handleOnChangePrograma}
+                    enlace={"/api/programas"}
+                  />
                   <br />
                 </Grid>
               </Grid>
@@ -194,7 +194,7 @@ class FormularioRegistrarAlumno extends Component {
                     size="large"
                     variant="contained"
                     color="primary"
-                 onClick={this.handleOnClick}
+                    onClick={this.handleOnClick}
                   >
                     Guardar
                   </Button>
@@ -211,4 +211,3 @@ class FormularioRegistrarAlumno extends Component {
 }
 
 export default FormularioRegistrarAlumno;
-
