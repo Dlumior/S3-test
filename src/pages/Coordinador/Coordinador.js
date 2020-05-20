@@ -5,18 +5,22 @@ import BarraNavegacion from "../../components/Coordinador/BarraNavegacion.js";
 import RegistrarTutor from "./RegistrarTutor.js";
 import RegistrarAlumno from "./RegistrarAlumno.js";
 
+import Perfil from "./Perfil.js";
+
 const Coordinador = () => {
   return (
     <div>
       <BarraNavegacion>
+        {/*perfil...*/}
+        <Route exact path={"/coordinador/perfil"} component={Perfil} />
         <Route
           exact
-          path="/coordinador/registrar_tutores"
+          path="/coordinador/Registrar_Tutores"
           component={RegistrarTutor}
         />
         <Route
           exact
-          path="/coordinador/registrar_alumnos"
+          path="/coordinador/Registrar_Alumnos"
           component={RegistrarAlumno}
         />
       </BarraNavegacion>
