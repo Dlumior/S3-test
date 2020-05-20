@@ -1,23 +1,13 @@
 import React from "react";
-import {
-  Paper,
-  Grid,
-  TextField,
-  Button,
-  makeStyles,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from "@material-ui/core";
+import { Paper, Grid, TextField, Button, makeStyles } from "@material-ui/core";
 
-import useFetchData from "../../Conexion/useFetchData.js";
+import * as Controller from "./../../Conexion/Controller";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
     padding: theme.spacing(5),
     width: theme.spacing(150),
-    height: theme.spacing(57),
+    height: theme.spacing(50),
   },
 }));
 
@@ -67,24 +57,23 @@ const handleCode = (e, datos, setDatos) => {
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
   const { datos, setDatos } = props;
-  const [age, setAge] = React.useState("");
-  const [res, apiMethod] = useFetchData({
-    url: "/api/tutor",
-    payload: datos,
-  });
+  // const [age, setAge] = React.useState("");
 
-  const handleClick = (e, datos, setDatos) => {
+  const handleClick = async (e, datos, setDatos) => {
     setDatos({
       ...datos,
       password: datos.name + datos.lastnames,
     });
-    apiMethod();
-    console.log(datos);
+
+    const props = { servicio: "/api/tutor", request: { tutor: datos } };
+    console.log("saving new tutor in DB:", datos);
+    let nuevoTutor = await Controller.POST(props);
+    console.log("got updated alumno from back:", nuevoTutor);
   };
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  // const handleChange = (event) => {
+  //   setAge(event.target.value);
+  // };
 
   return (
     <Paper className={classes.caja}>
@@ -163,7 +152,7 @@ const FormRegistroTutor = (props) => {
             />
           </Grid>
         </Grid>
-        <Grid item xs={12} container spacing={10}>
+        {/* <Grid item xs={12} container spacing={10}>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <InputLabel id="programa">Programa</InputLabel>
@@ -180,7 +169,7 @@ const FormRegistroTutor = (props) => {
               </Select>
             </FormControl>
           </Grid>
-        </Grid>
+        </Grid> */}
         <Grid
           item
           xs={12}
