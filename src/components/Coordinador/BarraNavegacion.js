@@ -82,6 +82,7 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -136,6 +137,7 @@ const BarraNavegacion = (props) => {
         <Divider />
         <List>
           {[
+            "Perfil",
             "Registrar Alumnos",
             "Registrar Tutores",
             "Send email",
@@ -145,7 +147,8 @@ const BarraNavegacion = (props) => {
               button
               key={text}
               component={LinkRouter}
-              to={"/coordinador/" + text.toLowerCase()}
+              //to={"/coordinador/" + text.toLowerCase()}
+              to={"/coordinador/" + text.split(' ').join('_')}
             >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
