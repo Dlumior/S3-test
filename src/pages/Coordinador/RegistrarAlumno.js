@@ -1,19 +1,7 @@
 import React from "react";
-import {
-  Paper,
-  Tabs,
-  Tab,
-  Typography,
-  Grid,
-  TextField,
-  Button,
-  Container,
-  Select,
-  MenuItem,
-  InputLabel,
-} from "@material-ui/core";
 import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
 import CabeceraRegistrarAlumno from "../../components/Coordinador/CabeceraRegistrarAlumno";
+import { Container } from "@material-ui/core";
 
 
 const titulo = "Registrar Alumno";
