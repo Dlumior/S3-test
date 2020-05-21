@@ -1,6 +1,7 @@
+
 import { useState, useCallback } from "react";
 
-const baseURL = "http://localhost";
+const baseURL = "http://3.95.30.72:5000";
 
 export async function POST(props) {
   try {
