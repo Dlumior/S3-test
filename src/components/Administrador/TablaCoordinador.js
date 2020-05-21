@@ -12,7 +12,9 @@ const data = {
     {
       title: "Botón ver Coordinador",
       render: (rowData) => (
-        <Button color="primary" variant="outlined">
+        <Button 
+          variant="contained"
+          color="primary">
           Ver Coordinador
         </Button>
       ),
