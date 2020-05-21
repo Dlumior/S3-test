@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 //import * as Conexion from "./../../Conexion/Controller";
-import useFetchData from "../../Conexion/useFetchData";
-
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -24,41 +22,40 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const handleCodigo = (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      codigo: e.target.value,
-    });
+  setDatosForm({
+    ...datosForm,
+    codigo: e.target.value,
+  });
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      nombre: e.target.value,
-    });
+  setDatosForm({
+    ...datosForm,
+    nombre: e.target.value,
+  });
 };
 
 const handleApellidos = (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      apellidos: e.target.value,
-    });
+  setDatosForm({
+    ...datosForm,
+    apellidos: e.target.value,
+  });
 };
 
 const handleCorreo = (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      correo: e.target.value,
-    });
+  setDatosForm({
+    ...datosForm,
+    correo: e.target.value,
+  });
 };
 const handleTelefono = (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      correo: e.target.value,
-    });
+  setDatosForm({
+    ...datosForm,
+    correo: e.target.value,
+  });
 };
 
 const RegistrarCoordinador = () => {
-  
   const [datosForm, setDatosForm] = React.useState({
     codigo: "",
     nombre: "",
@@ -70,11 +67,7 @@ const RegistrarCoordinador = () => {
     direccion: "",
     imagen: null,
   });
-  const [res, apiMethod] = useFetchData({
-    url: "/api/coordinador",
-    payload: datosForm,
-  });
-  
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -91,7 +84,6 @@ const RegistrarCoordinador = () => {
       ...datosForm,
       contrasenha: datosForm.nombre + datosForm.apellidos,
     });
-    apiMethod();
     console.log(datosForm);
   };
 
@@ -163,10 +155,10 @@ const RegistrarCoordinador = () => {
             Cancelar
           </Button>
 
-          <Button 
+          <Button
             onClick={(e) => handleClick(e, datosForm, setDatosForm)}
-            color="primary">
-                
+            color="primary"
+          >
             Crear
           </Button>
         </DialogActions>
