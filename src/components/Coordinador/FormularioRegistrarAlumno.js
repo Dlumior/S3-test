@@ -10,6 +10,7 @@ import {
   Button,
   Select,
   MenuItem,
+  FormHelperText,
 } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
 const style = {
@@ -39,6 +40,7 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
+      validacionNombreMensaje: "",
       programas: [
         "",
         "Ingenieria Informatica",
@@ -46,7 +48,17 @@ class FormularioRegistrarAlumno extends Component {
         "Ingenieria Civil",
         "Ingenieria Mecatronica",
       ],
+      programaActual: [],
       alumno: {
+        codigo: "",
+        nombres: "",
+        apellidos: "",
+        correo: "",
+        programa: [],
+        telefono: "",
+        direccion: "",
+      },
+      mensaje: {
         codigo: "",
         nombres: "",
         apellidos: "",
@@ -54,6 +66,44 @@ class FormularioRegistrarAlumno extends Component {
         programa: "",
         telefono: "",
         direccion: "",
+      },
+      validacion: {
+        ok: false,
+        codigo: {
+          lim: 12,
+          mssgOk: "",
+          mssgError: "Codigo deben ser maximo de 12 caracteres",
+        },
+        nombres: {
+          lim: 100,
+          mssgOk: "",
+          mssgError: "Nombres deben ser maximo de 100 caracteres",
+        },
+        apellidos: {
+          lim: 100,
+          mssgOk: "",
+          mssgError: "Nombres deben ser maximo de 100 caracteres",
+        },
+        correo: {
+          lim: 5,
+          regex: "/[@]/g",
+          mssgOk: "",
+          mssgError: "Nombres deben ser maximo de 45 caracteres",
+        },
+        programa: {
+          mssgOk: "",
+          mssgError: "Debes seleccionar el programa del alumno",
+        },
+        telefono: {
+          lim: 45,
+          mssgOk: "",
+          mssgError: "Nombres deben ser maximo de 45 caracteres",
+        },
+        direccion: {
+          lim: 100,
+          mssgOk: "",
+          mssgError: "Nombres deben ser maximo de 100 caracteres",
+        },
       },
     };
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -69,7 +119,7 @@ class FormularioRegistrarAlumno extends Component {
       apellidos,
       codigo,
       correo,
-      currentProgram,
+      programa,
       telefono,
       direccion,
     } = this.state.alumno;
@@ -81,7 +131,7 @@ class FormularioRegistrarAlumno extends Component {
         CORREO: correo,
         DIRECCION: direccion,
         NOMBRE: nombres,
-        PROGRAMA: currentProgram.ID,
+        PROGRAMA: programa,
         TELEFONO: telefono,
         USUARIO: "UsuarioPruebaRegistrar",
       },
@@ -89,19 +139,42 @@ class FormularioRegistrarAlumno extends Component {
     const props = { servicio: "/api/alumno", request: nuevoEstudiante };
     console.log("saving new student in DB:", nuevoEstudiante);
     let nuevoAlumno = await Controller.POST(props);
+    if (nuevoAlumno) {
+      alert("Alumno registrado Satisfactoriamente");
+    }
     console.log("got updated alumno from back:", nuevoAlumno);
   }
   handleOnChange = (e) => {
     let alumno = Object.assign({}, this.state.alumno);
+    if (e.target.value.length > this.state.validacion[e.target.name].lim) {
+      let mensajes = Object.assign({}, this.state.mensaje);
+      mensajes[e.target.name] = this.state.validacion[e.target.name].mssgError;
+      this.setState({ mensaje: mensajes });
+      e.target.value = this.state.alumno[e.target.name];
+
+      return;
+    }
+    if (this.state.validacion[e.target.name].regex !== undefined) {
+      const str = e.target.value;
+      var result = str.match(this.state.validacion[e.target.name].regex);
+      console.log("result", result);
+      return;
+    }
+
+    let mensajes = Object.assign({}, this.state.mensaje);
+    mensajes[e.target.name] = this.state.validacion[e.target.name].mssgOk;
     alumno[e.target.name] = e.target.value;
+    this.setState({ mensaje: mensajes });
     this.setState({ alumno: alumno });
   };
   handleTabOnChange = (e) => {
     //para cuando funcione la pestaña de importar alumnos
   };
-   handleOnChangePrograma(programa) {
-     this.setState({ currentProgram: programa });
-  };
+  handleOnChangePrograma(programa) {
+    console.log("proograma:", programa);
+    this.state.alumno.programa = programa;
+    console.log("proograma:", this.state.alumno.programa);
+  }
   render() {
     return (
       <div>
@@ -130,6 +203,9 @@ class FormularioRegistrarAlumno extends Component {
                     label="Nombres"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.nombres}
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
@@ -138,6 +214,9 @@ class FormularioRegistrarAlumno extends Component {
                     label="Apellidos"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.apellidos}
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
@@ -147,14 +226,20 @@ class FormularioRegistrarAlumno extends Component {
                     label="Correo"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.correo}
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <br />
                   <ListaProgramas
                     titulo={"Programas"}
                     escogerPrograma={this.handleOnChangePrograma}
-                    enlace={"/api/programas"}
+                    enlace={"/api/programa"}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.programas}
+                  </FormHelperText>
                   <br />
                 </Grid>
               </Grid>
@@ -167,6 +252,9 @@ class FormularioRegistrarAlumno extends Component {
                     label="Telefono"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.telefono}
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
@@ -175,6 +263,9 @@ class FormularioRegistrarAlumno extends Component {
                     label="Direccion"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.direccion}
+                  </FormHelperText>
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
@@ -183,6 +274,9 @@ class FormularioRegistrarAlumno extends Component {
                     label="Codigo"
                     onChange={this.handleOnChange}
                   />
+                  <FormHelperText error>
+                    {this.state.mensaje.codigo}
+                  </FormHelperText>
                 </Grid>
               </Grid>
 

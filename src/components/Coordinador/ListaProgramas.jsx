@@ -3,25 +3,24 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText } from "@material-ui/core";
-
+import * as Conexion from "./../../Conexion/Controller";
 class ListaProgramas extends React.Component {
   constructor() {
     super();
     this.state = {
       programas: [
-        { ID: 1, NOMBRE: "" },
-        { ID: 2, NOMBRE: "Ingenieria Informatica" },
-        { ID: 3, NOMBRE: "Ingenieria industrial" },
-        { ID: 4, NOMBRE: "Ingenieria Civil" },
-        { ID: 5, NOMBRE: "Ingenieria Mecatronicaaaaaaaaaaaaaa" },
+        
       ],
-      programa: "",
+      programa: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.renderProgramas = this.renderProgramas.bind(this);
   }
-  handleOnChange(e) {
-    this.props.escogerPrograma( e.target.value);
+  async handleOnChange(e) {
+      let programa = e.target.value;
+      let programas = [];
+      programas.push(programa.ID_PROGRAMA);
+    await this.props.escogerPrograma(programas);
     this.setState({ programa: e.target.value });
     e.target.value=this.state.programa;
 
@@ -38,11 +37,13 @@ class ListaProgramas extends React.Component {
       </div>
     );
   };
-  componentDidMount() {
-    /** METODO GET PENDIENTE
-        let listaProgramas = await Conexion.GET({this.props.enlace});
-        if(listaProgramas) this.setstate({programas:listaProgramas});
-    */
+  async componentDidMount() {
+    let listaProgramas = await Conexion.GET({servicio:this.props.enlace});
+    console.log("programas",listaProgramas);
+    this.setState({programas:listaProgramas.programa});
+    
+    console.log("programas del state",this.state.programas);
+    
   }
   shouldComponentUpdate(nextState, nextProps) {
     if (nextState.programas != this.state.programas) {
@@ -67,7 +68,7 @@ class ListaProgramas extends React.Component {
           displayEmpty
         >
           {this.state.programas.map((programa) => (
-            <MenuItem key={programa.ID} value={programa}>
+            <MenuItem key={programa.ID_PROGRAMA} value={programa}>
               {" "}
               {programa.NOMBRE}
             </MenuItem>

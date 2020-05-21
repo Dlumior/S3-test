@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Perfil = () => {
   const classes = useStyles();
-
   return (
     <div>
       <Cabecera />

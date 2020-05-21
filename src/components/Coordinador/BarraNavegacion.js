@@ -148,7 +148,7 @@ const BarraNavegacion = (props) => {
               key={text}
               component={LinkRouter}
               //to={"/coordinador/" + text.toLowerCase()}
-              to={"/coordinador/" + text.split(' ').join('_')}
+              to={"/coordinador/" + text.split(' ').join('')}
             >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
