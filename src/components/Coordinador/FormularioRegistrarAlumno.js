@@ -6,7 +6,6 @@ import {
   Grid,
   TextField,
   Tab,
-  InputLabel,
   Button,
   Select,
   MenuItem,
