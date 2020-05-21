@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import * as Conexion from "./../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
 
-
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -58,7 +57,6 @@ const handleTelefono = (e, datosForm, setDatosForm) => {
 };
 
 const RegistrarCoordinador = () => {
-  
   const [datosForm, setDatosForm] = React.useState({
     CODIGO: "",
     NOMBRE: "",
@@ -197,8 +195,8 @@ const RegistrarCoordinador = () => {
           <Button 
             variant="contained"
             onClick={(e) => handleClick(e, datosForm, setDatosForm)}
-            color="primary">
-                
+            color="primary"
+          >
             Crear
           </Button>
         </DialogActions>
