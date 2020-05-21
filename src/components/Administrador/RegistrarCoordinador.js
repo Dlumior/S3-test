@@ -1,4 +1,7 @@
-import React from "react";
+import React, { Component } from "react";
+//import * as Conexion from "./../../Conexion/Controller";
+import useFetchData from "../../Conexion/useFetchData";
+
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -20,7 +23,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RegistrarAdministrador = () => {
+const handleCodigo = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      codigo: e.target.value,
+    });
+};
+
+const handleName = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      nombre: e.target.value,
+    });
+};
+
+const handleApellidos = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      apellidos: e.target.value,
+    });
+};
+
+const handleCorreo = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      correo: e.target.value,
+    });
+};
+const handleTelefono = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      correo: e.target.value,
+    });
+};
+
+const RegistrarCoordinador = () => {
+  
+  const [datosForm, setDatosForm] = React.useState({
+    codigo: "",
+    nombre: "",
+    apellidos: "",
+    correo: "",
+    telefono: "",
+    usuario: "",
+    contrasenha: "",
+    direccion: "",
+    imagen: null,
+  });
+  const [res, apiMethod] = useFetchData({
+    url: "/api/coordinador",
+    payload: datosForm,
+  });
+  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -30,6 +84,15 @@ const RegistrarAdministrador = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = (e, datosForm, setDatosForm) => {
+    setDatosForm({
+      ...datosForm,
+      contrasenha: datosForm.nombre + datosForm.apellidos,
+    });
+    apiMethod();
+    console.log(datosForm);
   };
 
   return (
@@ -54,41 +117,42 @@ const RegistrarAdministrador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
+                id="codigo"
                 label="Codigo"
-                type="text"
+                onChange={(e) => handleCodigo(e, datosForm, setDatosForm)}
                 fullWidth
               />
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
+                id="nombre"
                 label="Nombre"
-                type="text"
+                onChange={(e) => handleName(e, datosForm, setDatosForm)}
                 fullWidth
               />
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
-                label="Apellido"
-                type="text"
+                id="apellido"
+                label="Apellidos"
+                onChange={(e) => handleApellidos(e, datosForm, setDatosForm)}
                 fullWidth
               />
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
+                id="correo"
                 label="Correo electrónico"
                 type="email"
+                onChange={(e) => handleCorreo(e, datosForm, setDatosForm)}
                 fullWidth
               />
               <TextField
                 autoFocus
                 margin="dense"
-                id="name"
+                id="telefono"
                 label="Teléfono"
-                type="email"
+                onChange={(e) => handleTelefono(e, datosForm, setDatosForm)}
                 fullWidth
               />
             </Grid>
@@ -98,7 +162,11 @@ const RegistrarAdministrador = () => {
           <Button onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+
+          <Button 
+            onClick={(e) => handleClick(e, datosForm, setDatosForm)}
+            color="primary">
+                
             Crear
           </Button>
         </DialogActions>
@@ -106,5 +174,4 @@ const RegistrarAdministrador = () => {
     </div>
   );
 };
-
-export default RegistrarAdministrador;
+export default RegistrarCoordinador;

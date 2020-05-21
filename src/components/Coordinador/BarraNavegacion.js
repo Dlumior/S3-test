@@ -82,6 +82,7 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -135,35 +136,27 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-          {["Perfil", "Institución", "Facultades", "Coordinadores"].map(
-            (text, index) => (
-              // <LinkRouter to={}>
-              <ListItem
-                button
-                key={text}
-                component={LinkRouter}
-                to={"/administrador/" + text.toLowerCase()}
-              >
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-              // </LinkRouter>
-            )
-          )}
-        </List>
-        {/* <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
+          {[
+            "Perfil",
+            "Registrar Alumnos",
+            "Registrar Tutores",
+            "Send email",
+            "Drafts",
+          ].map((text, index) => (
+            <ListItem
+              button
+              key={text}
+              component={LinkRouter}
+              //to={"/coordinador/" + text.toLowerCase()}
+              to={"/coordinador/" + text.split(' ').join('')}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List> */}
+        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {

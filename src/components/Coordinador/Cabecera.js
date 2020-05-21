@@ -44,8 +44,8 @@ const Cabecera = () => {
             alignItems="flex-start"
             justify="center"
           >
-            <Typography variant="h4">HERRERA GUTIERREZ, Carolina</Typography>
-            <Typography variant="h6">Administrador</Typography>
+            <Typography variant="h4">SANTIESTEBAN, Luis Rios</Typography>
+            <Typography variant="h6">Coordinador</Typography>
           </Grid>
         </Grid>
       </Container>

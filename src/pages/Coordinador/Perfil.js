@@ -1,7 +1,7 @@
 import React from "react";
 
-import Datos from "../../components/Administrador/Datos";
-import Cabecera from "../../components/Administrador/Cabecera.js";
+import Datos from "../../components/Coordinador/Datos";
+import Cabecera from "../../components/Coordinador/Cabecera.js";
 import { Grid, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Perfil = () => {
   const classes = useStyles();
-
   return (
     <div>
       <Cabecera />
