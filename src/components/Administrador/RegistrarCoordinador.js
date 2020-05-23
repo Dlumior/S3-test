@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-//import * as Conexion from "./../../Conexion/Controller";
-import useFetchData from "../../Conexion/useFetchData";
-
+import * as Conexion from "./../../Conexion/Controller";
+//import useFetchData from "../../Conexion/useFetchData";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -26,54 +25,57 @@ const useStyles = makeStyles((theme) => ({
 const handleCodigo = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      codigo: e.target.value,
+      CODIGO: e.target.value,
     });
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      nombre: e.target.value,
+      NOMBRE: e.target.value,
     });
 };
 
 const handleApellidos = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      apellidos: e.target.value,
+      APELLIDOS: e.target.value,
     });
 };
 
 const handleCorreo = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      correo: e.target.value,
+      CORREO: e.target.value,
     });
 };
 const handleTelefono = (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      correo: e.target.value,
+      TELEFONO: e.target.value,
     });
 };
 
 const RegistrarCoordinador = () => {
-  
   const [datosForm, setDatosForm] = React.useState({
-    codigo: "",
-    nombre: "",
-    apellidos: "",
-    correo: "",
-    telefono: "",
-    usuario: "",
-    contrasenha: "",
-    direccion: "",
-    imagen: null,
+    CODIGO: "",
+    NOMBRE: "",
+    APELLIDOS: "",
+    CORREO: "",
+    TELEFONO: "",
+    USUARIO: "",
+    CONTRASENHA: "",
+    DIRECCION: "",
+    IMAGEN: null,
   });
+  
+
+  /*
   const [res, apiMethod] = useFetchData({
     url: "/api/coordinador",
     payload: datosForm,
   });
+  */
   
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -86,18 +88,43 @@ const RegistrarCoordinador = () => {
     setOpen(false);
   };
 
-  const handleClick = (e, datosForm, setDatosForm) => {
+  const handleClick = async (e, datosForm, setDatosForm) => {
     setDatosForm({
       ...datosForm,
-      contrasenha: datosForm.nombre + datosForm.apellidos,
+      CONTRASENHA: datosForm.nombre + datosForm.APELLIDOS,
     });
+    if (datosForm.NOMBRE==''){      
+      alert("Debe colocar un nombre");
+    } else if (datosForm.APELLIDOS==''){      
+      alert("Debe colocar un apellido");
+    } else if (datosForm.CORREO==''){      
+      alert("Debe colocar un correo");
+    }else if (datosForm.CODIGO==''){      
+      alert("Debe colocar un codigo");
+    }else{
+      const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
+      console.log("saving new coord in DB:", datosForm);
+      let nuevoCoord = await Conexion.POST(props);
+      console.log("got updated coord from back:", nuevoCoord);
+
+      if (nuevoCoord){      
+        alert("Se registro coordinador Correctamente");
+      }
+
+    }
+/*
     apiMethod();
     console.log(datosForm);
+*/
   };
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button 
+        variant="contained"
+        color="primary"
+        onClick={handleClickOpen}>
+
         Registrar coordinador
       </Button>
       <Dialog
@@ -117,7 +144,7 @@ const RegistrarCoordinador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="codigo"
+                id="CODIGO"
                 label="Codigo"
                 onChange={(e) => handleCodigo(e, datosForm, setDatosForm)}
                 fullWidth
@@ -125,7 +152,7 @@ const RegistrarCoordinador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="nombre"
+                id="NOMBRE"
                 label="Nombre"
                 onChange={(e) => handleName(e, datosForm, setDatosForm)}
                 fullWidth
@@ -133,7 +160,7 @@ const RegistrarCoordinador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="apellido"
+                id="APELLIDOS"
                 label="Apellidos"
                 onChange={(e) => handleApellidos(e, datosForm, setDatosForm)}
                 fullWidth
@@ -141,7 +168,7 @@ const RegistrarCoordinador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="correo"
+                id="CORREO"
                 label="Correo electrónico"
                 type="email"
                 onChange={(e) => handleCorreo(e, datosForm, setDatosForm)}
@@ -150,7 +177,7 @@ const RegistrarCoordinador = () => {
               <TextField
                 autoFocus
                 margin="dense"
-                id="telefono"
+                id="TELEFONO"
                 label="Teléfono"
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm)}
                 fullWidth
@@ -159,14 +186,17 @@ const RegistrarCoordinador = () => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button 
+            variant="outlined"
+            onClick={handleClose} color="primary">
             Cancelar
           </Button>
 
           <Button 
+            variant="contained"
             onClick={(e) => handleClick(e, datosForm, setDatosForm)}
-            color="primary">
-                
+            color="primary"
+          >
             Crear
           </Button>
         </DialogActions>

@@ -4,14 +4,14 @@
 
 /**
  *  @param props objeto que contiene url y request
- *  @param props.endpoint URL del endpoint al cual se conectara
+ *  @param props.servicio URL del endpoint al cual se conectara
  * 
  *  @returns metodo GET/ un objeto json que el endpoint en el backend devuelve 
  */
 export async function GET(props) {
     console.log(">>> GET");
     try {
-        let response = await fetch(props.endpoint,
+        let response = await fetch(props.servicio,
             {
             method: 'GET',
             mode: 'cors',

@@ -15,12 +15,12 @@ const Coordinador = () => {
         <Route exact path={"/coordinador/perfil"} component={Perfil} />
         <Route
           exact
-          path="/coordinador/Registrar_Tutores"
+          path="/coordinador/registrarTutores"
           component={RegistrarTutor}
         />
         <Route
           exact
-          path="/coordinador/Registrar_Alumnos"
+          path="/coordinador/registrarAlumnos"
           component={RegistrarAlumno}
         />
       </BarraNavegacion>
