@@ -1,121 +1,125 @@
 import React, { useState } from "react";
 import { Paper, Grid, TextField, Button, makeStyles } from "@material-ui/core";
 
-import * as Controller from "./../../Conexion/Controller";
+import * as Controller from "./../../../Conexion/Controller.js";
+import errorObj from "./errorObj.js";
+import validateName from "./validateName.js";
+import validateLastNames from "./validateLastNames.js";
+import validatePhoneNumber from "./validatePhoneNumber.js";
+import validateAddress from "./validateAddress.js";
+import validateCode from "./validateCode.js";
+import validateEmail from "./validateEmail.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
     padding: theme.spacing(5),
     width: theme.spacing(150),
-    height: theme.spacing(50),
+    height: theme.spacing(55),
   },
 }));
 
 const handleName = (e, datos, setDatos, errors, setErrors) => {
+  const auxName = e.target.value;
+
   setDatos({
     ...datos,
-    name: e.target.value,
+    name: auxName,
   });
-  if (datos.name.length >= 100) {
-    setErrors({
-      ...errors,
-      name: {
-        error: true,
-        mesage: "El nombre no debe sobrepasar los 100 caracteres",
-      },
-    });
-  } else {
-    setErrors({
-      ...errors,
-      name: { error: false, mesage: "" },
-    });
-  }
+
+  const res = validateName(auxName);
+  setErrors({ ...errors, name: res });
 };
 
 const handleLastName = (e, datos, setDatos, errors, setErrors) => {
+  const auxLastNames = e.target.value;
+
   setDatos({
     ...datos,
-    lastnames: e.target.value,
+    lastnames: auxLastNames,
   });
+
+  const res = validateLastNames(auxLastNames);
+  setErrors({ ...errors, lastnames: res });
 };
 
 const handleEmail = (e, datos, setDatos, errors, setErrors) => {
+  const auxEmail = e.target.value;
+
   setDatos({
     ...datos,
-    email: e.target.value,
+    email: auxEmail,
+    username: auxEmail,
   });
+
+  const res = validateEmail(auxEmail);
+  setErrors({ ...errors, email: res });
 };
 
 const handlePhoneNumber = (e, datos, setDatos, errors, setErrors) => {
+  const auxPhone = e.target.value;
+
   setDatos({
     ...datos,
-    phoneNumber: e.target.value,
+    phoneNumber: auxPhone,
   });
+
+  const res = validatePhoneNumber(auxPhone);
+  setErrors({ ...errors, phoneNumber: res });
 };
 
 const handleAddress = (e, datos, setDatos, errors, setErrors) => {
+  const auxAddress = e.target.value;
+
   setDatos({
     ...datos,
-    address: e.target.value,
-    username: e.target.value,
+    address: auxAddress,
   });
+
+  const res = validateAddress(auxAddress);
+  setErrors({ ...errors, address: res });
 };
 
 const handleCode = (e, datos, setDatos, errors, setErrors) => {
+  const auxCode = e.target.value;
+
   setDatos({
     ...datos,
-    code: e.target.value,
+    code: auxCode,
   });
-};
 
-const errorObj = {
-  name: {
-    error: false,
-    mesage: "",
-  },
-  lastnames: {
-    error: false,
-    mesage: "",
-  },
-  email: {
-    error: false,
-    mesage: "",
-  },
-  phoneNumber: {
-    error: false,
-    mesage: "",
-  },
-  direction: {
-    error: false,
-    mesage: "",
-  },
-  code: {
-    error: false,
-    mesage: "",
-  },
+  const res = validateCode(auxCode);
+  setErrors({ ...errors, code: res });
 };
 
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
   const { datos, setDatos } = props;
   const [errors, setErrors] = useState(errorObj);
-  // const [age, setAge] = React.useState("");
 
   const handleClick = async (e, datos, setDatos) => {
-    setDatos({
-      ...datos,
-      password: datos.name + datos.lastnames,
-    });
+    if (
+      errors.name.error ||
+      errors.lastnames.error ||
+      errors.email.error ||
+      errors.phoneNumber.error ||
+      errors.address.error ||
+      errors.code.error
+    ) {
+      alert("Hay errores en los campos");
+      return;
+    } else {
+      setDatos({
+        ...datos,
+        password: datos.name + datos.lastnames,
+      });
 
-    const props = { servicio: "/api/tutor", request: { tutor: datos } };
-    console.log("saving new tutor in DB:", datos);
-    let nuevoTutor = await Controller.POST(props);
-    console.log("got updated alumno from back:", nuevoTutor);
+      const sendData = { servicio: "/api/tutor", request: { tutor: datos } };
+      console.log("Saving new tutor in DB:", datos);
+      let nuevoTutor = await Controller.POST(sendData);
+      console.log("Got updated alumno from back:", nuevoTutor);
+      alert("Se creó correctamente el tutor");
+    }
   };
-
-  // const handleChange = (event) => {
-  //   setAge(event.target.value);
-  // };
 
   return (
     <Paper className={classes.caja}>
@@ -145,6 +149,8 @@ const FormRegistroTutor = (props) => {
           </Grid>
           <Grid item xs={6}>
             <TextField
+              required
+              error={errors.lastnames.error}
               margin="dense"
               id="apellidos"
               label="Apellidos"
@@ -153,12 +159,15 @@ const FormRegistroTutor = (props) => {
               onChange={(e) =>
                 handleLastName(e, datos, setDatos, errors, setErrors)
               }
+              helperText={errors.lastnames.mesage}
             />
           </Grid>
         </Grid>
         <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
+              required
+              error={errors.email.error}
               margin="dense"
               id="email"
               label="Correo"
@@ -167,10 +176,12 @@ const FormRegistroTutor = (props) => {
               onChange={(e) =>
                 handleEmail(e, datos, setDatos, errors, setErrors)
               }
+              helperText={errors.email.mesage}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
+              error={errors.phoneNumber.error}
               margin="dense"
               id="telefono"
               label="Teléfono"
@@ -179,12 +190,14 @@ const FormRegistroTutor = (props) => {
               onChange={(e) =>
                 handlePhoneNumber(e, datos, setDatos, errors, setErrors)
               }
+              helperText={errors.phoneNumber.mesage}
             />
           </Grid>
         </Grid>
         <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
+              error={errors.address.error}
               margin="dense"
               id="direccion"
               label="Dirección"
@@ -193,10 +206,13 @@ const FormRegistroTutor = (props) => {
               onChange={(e) =>
                 handleAddress(e, datos, setDatos, errors, setErrors)
               }
+              helperText={errors.address.mesage}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
+              required
+              error={errors.code.error}
               margin="dense"
               id="codigo"
               label="Código"
@@ -205,27 +221,10 @@ const FormRegistroTutor = (props) => {
               onChange={(e) =>
                 handleCode(e, datos, setDatos, errors, setErrors)
               }
+              helperText={errors.code.mesage}
             />
           </Grid>
         </Grid>
-        {/* <Grid item xs={12} container spacing={10}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel id="programa">Programa</InputLabel>
-              <Select
-                labelId="programa"
-                id="programa"
-                value={age}
-                onChange={handleChange}
-                fullWidth
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid> */}
         <Grid
           item
           xs={12}
