@@ -7,8 +7,6 @@ import {
   TextField,
   Tab,
   Button,
-  Select,
-  MenuItem,
   FormHelperText,
 } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
@@ -153,13 +151,13 @@ class FormularioRegistrarAlumno extends Component {
 
       return;
     }
-    if (this.state.validacion[e.target.name].regex !== undefined) {
+/*    if (this.state.validacion[e.target.name].regex !== undefined) {
       const str = e.target.value;
       var result = str.match(this.state.validacion[e.target.name].regex);
       console.log("result", result);
       return;
     }
-
+*/
     let mensajes = Object.assign({}, this.state.mensaje);
     mensajes[e.target.name] = this.state.validacion[e.target.name].mssgOk;
     alumno[e.target.name] = e.target.value;
@@ -173,6 +171,8 @@ class FormularioRegistrarAlumno extends Component {
     console.log("proograma:", programa);
     this.state.alumno.programa = programa;
     console.log("proograma:", this.state.alumno.programa);
+  }
+  componentDidMount(){
   }
   render() {
     return (
