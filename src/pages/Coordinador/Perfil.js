@@ -14,7 +14,7 @@ const Perfil = () => {
   const classes = useStyles();
   return (
     <div>
-      <Cabecera />
+      <Cabecera titulo="Coordinador" nombre="Luis Rios Mendoza"/>
       <Grid
         container
         xs={12}
