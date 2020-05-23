@@ -1,8 +1,11 @@
 import React from "react";
 
 import Datos from "../../components/Coordinador/Datos";
-import Cabecera from "../../components/Coordinador/Cabecera.js";
+//import Cabecera from "../../components/Coordinador/Cabecera.js";
+import CabeceraShared from "../../components/Shared/CabeceraShared.js";
 import { Grid, makeStyles } from "@material-ui/core";
+
+import LuisR from "../../components/Coordinador/luisRios.png";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -14,7 +17,11 @@ const Perfil = () => {
   const classes = useStyles();
   return (
     <div>
-      <Cabecera titulo="Coordinador" nombre="Luis Rios Mendoza"/>
+      {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
+      <CabeceraShared titulo="Coordinador" 
+                      nombre="RIOS ALEJOS, Luis Esteban"
+                      imagen={LuisR}
+      />
       <Grid
         container
         xs={12}

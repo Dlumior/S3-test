@@ -24,7 +24,7 @@ import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRo
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import { Link as LinkRouter } from "react-router-dom";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -155,7 +155,7 @@ const BarraNavegacion = (props) => {
               key={text}
               component={LinkRouter}
               //to={"/coordinador/" + text.toLowerCase()}
-              to={"/coordinador/" + text.split(' ').join('')}
+              to={"/coordinador/" + text.split(' ').join('').toLowerCase()}
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 

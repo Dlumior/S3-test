@@ -71,7 +71,7 @@ class FormularioRegistrarAlumno extends Component {
         codigo: {
           lim: 12,
           mssgOk: "",
-          mssgError: "Codigo deben ser maximo de 12 caracteres",
+          mssgError: "Codigo debe ser maximo de 12 caracteres",
         },
         nombres: {
           lim: 100,
@@ -81,27 +81,27 @@ class FormularioRegistrarAlumno extends Component {
         apellidos: {
           lim: 100,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 100 caracteres",
+          mssgError: "Apellidos deben ser maximo de 100 caracteres",
         },
         correo: {
-          lim: 5,
+          lim: 100,
           regex: "/[@]/g",
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 45 caracteres",
+          mssgError: "Correo debe ser maximo de 100 caracteres",
         },
         programa: {
           mssgOk: "",
-          mssgError: "Debes seleccionar el programa del alumno",
+          mssgError: "Debe seleccionar el programa del alumno",
         },
         telefono: {
           lim: 45,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 45 caracteres",
+          mssgError: "Telefono debe ser maximo de 45 caracteres",
         },
         direccion: {
           lim: 100,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 100 caracteres",
+          mssgError: "Direccion debe ser maximo de 100 caracteres",
         },
       },
     };
@@ -248,7 +248,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="telefono"
                     fullWidth
-                    label="Telefono"
+                    label="Teléfono"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>
@@ -259,7 +259,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="direccion"
                     fullWidth
-                    label="Direccion"
+                    label="Dirección"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>
@@ -270,7 +270,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="codigo"
                     fullWidth
-                    label="Codigo"
+                    label="Código"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>
