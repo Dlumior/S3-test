@@ -135,7 +135,12 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-          {["Perfil", "Institución", "Facultades", "Coordinadores"].map(
+          {["Perfil", 
+            "Institución",
+            "Facultades",
+            "Coordinadores",
+            "Cerrar Sesión"
+           ].map(
             (text, index) => (
               // <LinkRouter to={}>
               <ListItem
