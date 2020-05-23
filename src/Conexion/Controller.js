@@ -1,6 +1,4 @@
-/**
- * Each method connects to the backend in the specific HTTP request
- */
+
 
 /**
  *  @param props objeto que contiene url y request
@@ -9,7 +7,6 @@
  *  @returns metodo GET/ un objeto json que el endpoint en el backend devuelve 
  */
 export async function GET(props) {
-    console.log(">>> GET");
     try {
         let response = await fetch(props.servicio,
             {
@@ -37,9 +34,6 @@ export async function GET(props) {
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve 
  */
 export async function POST(props) {
-    console.log(">>> POST", props);
-    console.log(">>> POST", props.request);
-    console.log(">>> POST", props.servicio);
     try {
         let response = await fetch(props.servicio,
         {
@@ -52,7 +46,6 @@ export async function POST(props) {
             body: JSON.stringify( props.request )
         });
         let responseJson = await response.json();
-        console.log(">>> YEEEE");
         return responseJson;  
     } catch (error) {
         console.log("dead:", error.message);

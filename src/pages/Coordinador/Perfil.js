@@ -2,10 +2,10 @@ import React from "react";
 
 import Datos from "../../components/Coordinador/Datos";
 //import Cabecera from "../../components/Coordinador/Cabecera.js";
-import CabeceraShared from "../../components/Shared/CabeceraShared.js";
 import { Grid, makeStyles } from "@material-ui/core";
 
 import LuisR from "../../components/Coordinador/luisRios.png";
+import CabeceraPerfil from "../../components/Shared/CabeceraPerfil.js";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -18,7 +18,7 @@ const Perfil = () => {
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
-      <CabeceraShared titulo="Coordinador" 
+      <CabeceraPerfil titulo="Coordinador" 
                       nombre="RIOS ALEJOS, Luis Esteban"
                       imagen={LuisR}
       />

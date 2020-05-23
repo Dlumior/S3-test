@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CabeceraShared = (props) => {
+const CabeceraPerfil = (props) => {
   const classes = useStyles();
 
   return (
@@ -53,4 +53,4 @@ const CabeceraShared = (props) => {
   );
 };
 
-export default CabeceraShared;
+export default CabeceraPerfil;

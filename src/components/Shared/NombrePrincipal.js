@@ -3,9 +3,9 @@ import { makeStyles, Grid, Typography, Container } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
-    padding: theme.spacing(5),
     backgroundColor: "#ffffff",
     marginBottom: theme.spacing(5),
+    marginLeft: theme.spacing(3),
   },
 }));
 
@@ -15,20 +15,9 @@ const NombrePrincipal = (props) => {
 
   return (
     <div>
-      <Container maxWidth="xl" className={classes.customContainer}>
-        <Grid container>
-          <Grid
-            item
-            xs={10}
-            container
-            direction="column"
-            alignItems="flex-start"
-            justify="center"
-          >
-            <Typography variant="h4">{props.titulo}</Typography>
-          </Grid>
-        </Grid>
-      </Container>
+      <Typography component="h1" variant="h5"  className={classes.customContainer}>
+        <h2>{props.titulo}</h2>
+      </Typography>
     </div>
   );
 };

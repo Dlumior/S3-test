@@ -1,17 +1,15 @@
 import React from "react";
 import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
-import CabeceraRegistrarAlumno from "../../components/Coordinador/CabeceraRegistrarAlumno";
-import { Container } from "@material-ui/core";
+import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 
 
 const titulo = "Registrar Alumno";
 const RegistrarAlumno = () => {
   return (
-
-    <Container fullWidth disableGutters maxWidth={"xl"}>
-      <CabeceraRegistrarAlumno titulo={titulo} />
+    <div>
+      <NombrePrincipal titulo={titulo} />
       <FormularioRegistrarAlumno />
-    </Container>
+    </div>
   );
 };
 

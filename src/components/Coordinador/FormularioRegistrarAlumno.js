@@ -12,7 +12,7 @@ import {
 import ListaProgramas from "./ListaProgramas";
 const style = {
   paper: {
-    marginTop: "4%",
+    marginTop: "3%",
     marginLeft: "3%",
     display: "flex",
     flexDirection: "column",
@@ -108,8 +108,7 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   async handleOnClick(e) {
-    /** Registar propiamente */
-    e.preventDefault(); //prevenir que se refresque la pantalla
+    e.preventDefault();
     console.log("alumno: ", this.state.alumno);
     let {
       nombres,
@@ -177,7 +176,7 @@ class FormularioRegistrarAlumno extends Component {
   render() {
     return (
       <div>
-        <Paper square style={style.paper}>
+        <Paper elevation={0} style={style.paper}>
           <Tabs
             value={0}
             indicatorColor="primary"
@@ -185,8 +184,8 @@ class FormularioRegistrarAlumno extends Component {
             onChange={this.handleTabOnChange}
             aria-label="disabled tabs example"
           >
-            <Tab label="Ingresar Alumnos">vadvawedv</Tab>
-            <Tab label="Importar Alumnos" disabled />
+            <Tab label="Ingresar Alumnos"/>
+            <Tab label="Importar Alumnos"  />
           </Tabs>
         </Paper>
         <div style={style.envoltorioFormulario}>
