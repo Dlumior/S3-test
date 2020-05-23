@@ -143,20 +143,16 @@ const BarraNavegacion = (props) => {
         <List>
           {[
             "Perfil",
-            "Programas",
-            "Registrar Procesos de Tutoria",
-            "Registrar Alumnos",
-            "Registrar Tutores",
-            "Asignacion de Tutor",
-            "Reportes",
-            "Cerrar Sesión"
+            "Mis Alumnos",
+            "Mi Disponibilidad",
+            "Calendario",
+            "Cerrar Sesion"
           ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
-              //to={"/coordinador/" + text.toLowerCase()}
-              to={"/coordinador/" + text.split(' ').join('').toLowerCase()}
+              to={"/tutor/" + text.split(' ').join('').toLowerCase()}
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
