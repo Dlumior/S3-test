@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Cabecera = () => {
+const Cabecera = (props) => {
   const classes = useStyles();
 
   return (
@@ -44,8 +44,8 @@ const Cabecera = () => {
             alignItems="flex-start"
             justify="center"
           >
-            <Typography variant="h4">SANTIESTEBAN, Luis Rios</Typography>
-            <Typography variant="h6">Coordinador</Typography>
+            <Typography variant="h4">{props.nombre}</Typography>
+            <Typography variant="h6">{props.titulo}</Typography>
           </Grid>
         </Grid>
       </Container>
