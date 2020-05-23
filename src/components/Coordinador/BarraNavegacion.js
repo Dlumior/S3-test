@@ -17,6 +17,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
 import { Link as LinkRouter } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -138,10 +143,12 @@ const BarraNavegacion = (props) => {
         <List>
           {[
             "Perfil",
+            "Programas",
+            "Registrar Procesos de Tutoria",
             "Registrar Alumnos",
             "Registrar Tutores",
-            "Send email",
-            "Drafts",
+            "Asignacion de Tutor",
+            "Reportes"
           ].map((text, index) => (
             <ListItem
               button
@@ -151,7 +158,11 @@ const BarraNavegacion = (props) => {
               to={"/coordinador/" + text.split(' ').join('')}
             >
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index === 0 ? <AccountCircleRoundedIcon /> : 
+                 index === 1 ? <AccountBalanceRoundedIcon /> : 
+                 index === 5 ? <SupervisorAccountRoundedIcon/> :
+                 index === 6 ? <AssessmentRoundedIcon/> :
+                 <NoteAddRoundedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
