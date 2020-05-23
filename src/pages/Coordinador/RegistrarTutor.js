@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
-import FormRegistroTutor from "../../components/Coordinador/FormRegistroTutor";
+import FormRegistroTutor from "../../components/Coordinador/FormRegistroTutor/FormRegistroTutor.js";
 
 const RegistrarTutor = () => {
   const [datosForm, setDatosForm] = useState({
