@@ -55,9 +55,9 @@ class FormNuevaTutoria extends Component {
           { titulo: "Fijo Permanente", valor: "Fijo Permanente" },
         ],
         tipoAgrupacion: [
-            { titulo: "Grupal", valor: "Grupal" },
-            { titulo: "Individual", valor: "Individual" },
-          ],
+          { titulo: "Grupal", valor: "Grupal" },
+          { titulo: "Individual", valor: "Individual" },
+        ],
       },
     };
     this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
@@ -148,36 +148,50 @@ class FormNuevaTutoria extends Component {
               </FormHelperText>
             </Grid>
             <Grid item md={12} xs={12}>
-            <GrupoRadioButton
+              <GrupoRadioButton
                 titulo="Naturaleza de la Tutoría"
                 radios={this.state.radios.naturaleza}
                 obtenerSeleccion={this.obtenerSeleccion}
               />
-              
             </Grid>
-            <Grid item md={12} xs={12}>
-            <GrupoRadioButton
+
+            <Grid item md={4} xs={4}>
+              <GrupoRadioButton
                 titulo="Tipo de Asignacion Tutor"
                 radios={this.state.radios.tipoAsignacion}
                 obtenerSeleccion={this.obtenerSeleccion}
               />
-              
             </Grid>
             <Grid item md={12} xs={12}>
-            <GrupoRadioButton
+              <GrupoRadioButton
                 titulo="Tipo de Tutor"
                 radios={this.state.radios.tipoTutor}
                 obtenerSeleccion={this.obtenerSeleccion}
               />
-              
             </Grid>
             <Grid item md={12} xs={12}>
-            <GrupoRadioButton
+              <GrupoRadioButton
                 titulo="Tipo de Agrupacion de Alumnos"
                 radios={this.state.radios.tipoAgrupacion}
                 obtenerSeleccion={this.obtenerSeleccion}
               />
-              
+            </Grid>
+            <Grid container spacing={5}>
+              <Grid item md={8} xs={8}></Grid>
+              <Grid item md={4} xs={4}>
+                <Grid item md={12} xs={10}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleOnClick}
+                  >
+                    Guardar
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
           <Grid item md={1} xs={12}></Grid>
