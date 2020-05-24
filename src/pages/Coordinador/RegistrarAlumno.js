@@ -1,6 +1,6 @@
 import React from "react";
-import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
+import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
 
 
 const titulo = "Registrar Alumno";

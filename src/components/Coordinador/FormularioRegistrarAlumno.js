@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Controller from "./../../Conexion/Controller";
+import * as Controller from "../../Conexion/Controller";
 import {
   Paper,
   Tabs,
@@ -207,6 +207,7 @@ class FormularioRegistrarAlumno extends Component {
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
+                    
                     fullWidth
                     name="apellidos"
                     label="Apellidos"
