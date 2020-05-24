@@ -5,11 +5,10 @@ import ListaProgramas from "./ListaProgramas";
 
 //import Paso from "./paso";
 const style = {
-  caja: {
+  paper: {
     marginTop: "3%",
     marginLeft: "3%",
     marginRight: "3%",
-    marginBottom: "5%",
     flexDirection: "column",
     backgroundImage: ""
   },
@@ -39,80 +38,73 @@ class FrmAsignacionTutor extends Component {
   }
   render (){
     return(
-      <Grid container spacing={12}>
-        <Paper  style={style.caja}>
-        <Grid item xs={12} container spacing={5}>
-          <Grid item
-            xs={6}
+      
+      <Paper elevate={0} style={style.paper}>
+        <Grid container spacing={10}>
+          <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
             <Typography variant="h5">1. Seleccionar Programa </Typography>
           </Grid>
-          <Grid item xs={3}>
-            <br />
-              <ListaProgramas
-                titulo={"Programas"}
-                escogerPrograma={this.handleOnChangePrograma}
-                enlace={"/api/programa"}
-              />
-            <br />
+          <Grid item md={3}>
+            <ListaProgramas
+              titulo={"Programas"}
+              escogerPrograma={this.handleOnChangePrograma}
+              enlace={"/api/programa"}
+            />
           </Grid>
-          <Grid item
-            xs={6}
+          <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
             <Typography variant="h5">2. Seleccionar Proceso de Tutoría </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item md={3}>
             <ListaProgramas
                 titulo={"Proceso de Tutoría"}
                 escogerPrograma={this.handleOnChangePrograma}
                 enlace={"/api/programa"}
             />
           </Grid>
-          <Grid item
-            xs={6}
+          <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
             <Typography variant="h5">3. Seleccionar Tutor </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={5}>
             <Button 
             variant="outlined"
             color="primary">
             Ver Tutores
             </Button>
           </Grid>
-          <Grid item
-            xs={6}
+          <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
             <Typography variant="h5">4. Seleccionar Alumno(s) </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={6}>
           <Button 
             variant="outlined"
             color="primary">
             Ver Alumnos
             </Button>
           </Grid>
-          <Grid item
-            xs={6}
+          <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
             <Typography variant="h5">5. Asignación Completa </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item md={5}>
           <Button 
             variant="contained"
             color="primary">
@@ -120,8 +112,7 @@ class FrmAsignacionTutor extends Component {
             </Button>
           </Grid>
         </Grid>
-        </Paper>
-      </Grid>
+      </Paper>
     
     )
   }
