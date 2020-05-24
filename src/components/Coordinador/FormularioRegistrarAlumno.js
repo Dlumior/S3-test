@@ -150,7 +150,7 @@ class FormularioRegistrarAlumno extends Component {
 
       return;
     }
-/*    if (this.state.validacion[e.target.name].regex !== undefined) {
+    /*    if (this.state.validacion[e.target.name].regex !== undefined) {
       const str = e.target.value;
       var result = str.match(this.state.validacion[e.target.name].regex);
       console.log("result", result);
@@ -171,8 +171,7 @@ class FormularioRegistrarAlumno extends Component {
     this.state.alumno.programa = programa;
     console.log("proograma:", this.state.alumno.programa);
   }
-  componentDidMount(){
-  }
+  componentDidMount() {}
   render() {
     return (
       <div>
@@ -184,8 +183,8 @@ class FormularioRegistrarAlumno extends Component {
             onChange={this.handleTabOnChange}
             aria-label="disabled tabs example"
           >
-            <Tab label="Ingresar Alumnos"/>
-            <Tab label="Importar Alumnos"  />
+            <Tab label="Ingresar Alumnos" />
+            <Tab label="Importar Alumnos" />
           </Tabs>
         </Paper>
         <div style={style.envoltorioFormulario}>
@@ -207,7 +206,6 @@ class FormularioRegistrarAlumno extends Component {
                 </Grid>
                 <Grid item md={12} xs={12}>
                   <TextField
-                    
                     fullWidth
                     name="apellidos"
                     label="Apellidos"

@@ -50,6 +50,7 @@ class TabProceso extends Component {
     return (
       <div>
         <Tabs
+          centered
           value={this.state.tabActivada}
           indicatorColor="primary"
           textColor="primary"

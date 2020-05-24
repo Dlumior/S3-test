@@ -116,6 +116,7 @@ class FrmSolicitarTutorTipoII extends Component {
             <div>
                 <Paper elevation={0} style={style.paper}>
                     <Tabs
+                    centered
                         value={0}
                         indicatorColor="primary"
                         textColor="primary"
