@@ -1,12 +1,14 @@
 import React from "react";
 import MaterialTable from "material-table";
+import { Grid } from "@material-ui/core";
 //import { Button } from "@material-ui/core";
 
 function Tabla(props) {
     //const [state, setState] = React.useState(data);  //ya no uso el state de material
     //ahora usamos props
-    return (      
-      <MaterialTable
+    return (   
+      <Grid md={15} contained>
+        <MaterialTable
         //title={props.titulo}
         //title=""
         //columns={state.columns}
@@ -17,6 +19,9 @@ function Tabla(props) {
         data={props.tutores.data}
        
       />
+
+      </Grid>   
+      
     );
   }
 export default Tabla;

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import TablaTutores from "../Alumno/FrmSolicitarTutorTipoII"
 //import useFetchData from "../../Conexion/useFetchData";
 
 //import Paso from "./paso";
@@ -24,8 +29,25 @@ class FrmAsignacionTutor extends Component {
         alumno:[]
       }
     }
+    this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleCloseDialog = this.handleCloseDialog.bind(this);
+  }
+  async handleOnClick(e) {
+
+  }
+  handleOpenDialog() {
+    this.setState({
+      openDialog: true
+    });
+  }
+
+  handleCloseDialog() {
+    this.setState({
+      openDialog: false
+    });
   }
   handleOnChange = (e) => {
     let asignacion = Object.assign({}, this.state.asignacion);
@@ -79,9 +101,38 @@ class FrmAsignacionTutor extends Component {
           <Grid item md={5}>
             <Button 
             variant="outlined"
-            color="primary">
+            color="primary"
+            onClick={this.handleOpenDialog}>  
             Ver Tutores
             </Button>
+          </Grid>
+          <Grid item md={50}>
+            <Dialog open={this.state.openDialog} onCancel={this.handleCloseDialog}>
+              <DialogContent>
+                <p>
+                  <Grid md={25} container
+                    direction="column"
+                    alignItems="flex-start"
+                    justify="center"> 
+                    <TablaTutores/>
+                  </Grid>
+                </p>
+              </DialogContent>
+              <DialogActions>
+                <Button 
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.handleCloseDialog}>
+                  Cancelar
+                </Button>
+                <Button 
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleCloseDialog}>
+                  Aceptar
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
           <Grid item md={5}
             container
@@ -93,9 +144,36 @@ class FrmAsignacionTutor extends Component {
           <Grid item md={6}>
           <Button 
             variant="outlined"
-            color="primary">
+            color="primary"
+            onClick={this.handleOpenDialog}>
             Ver Alumnos
             </Button>
+            <Dialog >
+              <DialogContent>
+                <p>
+                  <Grid md={25} container
+                    direction="column"
+                    alignItems="flex-start"
+                    justify="center"> 
+                    <TablaTutores/>
+                  </Grid>
+                </p>
+              </DialogContent>
+              <DialogActions>
+                <Button 
+                  variant="outlined"
+                  color="primary"
+                  onClick={this.handleCloseDialog}>
+                  Cancelar
+                </Button>
+                <Button 
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleCloseDialog}>
+                  Aceptar
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
           <Grid item md={5}
             container

@@ -73,7 +73,7 @@ class FormNuevaTutoria extends Component {
   render() {
     return (
       <Paper elevation={0} style={style.paper}>
-        <Grid container spacing={12}>
+        <Grid container spacing={6}>
           <Grid item md={4} xs={12}>
             <Grid item md={12} xs={12}>
               <TextField
