@@ -1,8 +1,8 @@
 import React from "react";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
-import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
-import FormularioImportarAlumnos from "../../components/Coordinador/FormularioImportarAlumnos";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
+import FormularioRegistrarAlumno from "../../components/Coordinador/FormRegistroAlumno/FormularioRegistrarAlumno";
+import FormularioImportarAlumnos from "../../components/Coordinador/FormRegistroAlumno/FormularioImportarAlumnos";
 
 
 const titulo = "Registrar Alumno";

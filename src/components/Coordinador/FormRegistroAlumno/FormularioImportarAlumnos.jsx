@@ -10,7 +10,7 @@ const style = {
     backgroundImage: "",
   },
 };
-class ListaTutorias extends Component {
+class FormularioImportarAlumnos extends Component {
   render() {
     /**
      * Please do not touch my code
@@ -19,7 +19,7 @@ class ListaTutorias extends Component {
      */
     return (
       <Paper elevation={5} style={style.paper}>
-        Lista de Tutorias TO-DO
+        Cargar Alumnos Masivamente TO-DO
         <h3>* Please do not touch my code * * I'm in construction</h3>
         <h1>:P </h1>
         <h1>ATTE: Jin SSJ3</h1>
@@ -28,4 +28,4 @@ class ListaTutorias extends Component {
   }
 }
 
-export default ListaTutorias;
+export default FormularioImportarAlumnos;

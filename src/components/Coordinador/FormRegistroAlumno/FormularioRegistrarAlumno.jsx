@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Controller from "../../Conexion/Controller";
+import * as Controller from "../../../Conexion/Controller";
 import {
   Paper,
   Tabs,

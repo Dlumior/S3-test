@@ -10,7 +10,7 @@ import {
   RadioGroup,
   FormLabel,
 } from "@material-ui/core";
-import ListaProgramas from "../ListaProgramas";
+import ListaProgramas from "../FormRegistroAlumno/ListaProgramas";
 import GrupoRadioButton from "./GrupoRadioButton";
 const style = {
   paper: {
