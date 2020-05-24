@@ -1,15 +1,21 @@
-import React from "react";
-import { Container } from "@material-ui/core";
+import React, { useState } from "react";
+import { Grid } from "@material-ui/core";
+import NombrePrincipal from "../../components/Shared/NombrePrincipal";
+import FrmAsignacionTutor from "../../components/Coordinador/FrmAsignacionTutor";
 
 
 const AsignarTutor = () => {
-  return (
+    return (
 
-    <Container fullWidth disableGutters maxWidth={"xl"}>
-      <Cabecera titulo="Asignar Tutor" />
-      <FormularioAsignarTutor/>
-    </Container>
-  );
+        <div>
+            <NombrePrincipal titulo="Asignación de Tutor"/>
+            <Grid container xs={12} spacing={5} justify="center" alignItems="center">
+                <Grid item>
+                    <FrmAsignacionTutor/>
+                </Grid>
+            </Grid>
+        </div>
+    );
 };
 
 export default AsignarTutor;

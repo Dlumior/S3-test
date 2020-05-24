@@ -4,7 +4,7 @@ import { Route } from "react-router-dom";
 import BarraNavegacion from "../../components/Coordinador/BarraNavegacion.js";
 import RegistrarTutor from "./RegistrarTutor.js";
 import RegistrarAlumno from "./RegistrarAlumno.js";
-import AsignarTutor from "./RegistrarAlumno.js";
+import AsignarTutor from "./AsignarTutor.js";
 import Tutorias from "./Tutorias.js";
 
 import Perfil from "./Perfil.js";
@@ -28,7 +28,7 @@ const Coordinador = () => {
         />
         <Route
           exact
-          path="/coordinador/asignarTutor"
+          path="/coordinador/asignaciondeTutor"
           component={AsignarTutor}
         />
         <Route
