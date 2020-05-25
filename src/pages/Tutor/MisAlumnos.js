@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
-import Buscador from "../../components/Tutor/Buscador";
-import ComboBoxProcesoTutoria from "../../components/Tutor/ComboBoxProcesoTutoria";
-import ListaAlumnos from "./ListaAlumnos";
+import Buscador from "../../components/Tutor/ListarAlumnos/Buscador";
+import ComboBoxProcesoTutoria from "../../components/Tutor/ListarAlumnos/ComboBoxProcesoTutoria";
+import ListaAlumnos from "../../components/Tutor/ListarAlumnos/ListaAlumnos";
 import { Grid } from "@material-ui/core";
 import { GET } from "../../Conexion/Controller";
-import ComboBoxPrograma from "../../components/Tutor/ComboBoxPrograma";
+import ComboBoxPrograma from "../../components/Tutor/ListarAlumnos/ComboBoxPrograma";
 
 const MisAlumnos = () => {
   const idTutor = "50";
