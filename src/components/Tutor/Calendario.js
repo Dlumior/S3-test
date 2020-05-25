@@ -4,10 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from "@material-ui/core";
 import Paper from '@material-ui/core/Paper';
 import ImgTutor from "../../components/Tutor/tutor.png";
-import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
+import CabeceraPerfil from "../Shared/CabeceraPerfil";
 import ArrowBackIosRoundedIcon from '@material-ui/icons/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@material-ui/icons/ArrowForwardIosRounded';
-
 const useStyles = makeStyles((theme) => ({
     diasclase: {
       height: 400,
@@ -22,10 +21,6 @@ const Calendario = () => {
 
     return (
         <div>
-            <CabeceraPerfil titulo="Tutor" 
-                            nombre="TORRES VERDES, Carlos Tomás"
-                            imagen={ImgTutor}
-            />
             <div>
                 <Grid container xs={12} spacing={5} justify="center" alignItems="center">
                     <Grid item>
