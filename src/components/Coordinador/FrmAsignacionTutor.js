@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
+import ListaProcesoTut from "./ListaProcesoTut";
+
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -25,12 +27,13 @@ class FrmAsignacionTutor extends Component {
       asignacion: {
         programa:'',
         tutor:0,
-        procesodetutoria:0,
+        tutoria:0,
         alumno:[]
       }
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
+    this.handleOnChangeTutoria = this.handleOnChangeTutoria.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
@@ -54,9 +57,16 @@ class FrmAsignacionTutor extends Component {
     this.setState({ asignacion: asignacion });
   };
   handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
+    console.log("programa:", programa);
     this.state.asignacion.programa = programa;
+    //var idPrograma=programa.ID;
     console.log("proograma:", this.state.asignacion.programa);
+  }
+  handleOnChangeTutoria(tutoria) {
+    console.log("tutoria:", tutoria);
+    //tutoria.programa.idPrograma
+    this.state.asignacion.tutoria = tutoria;
+    console.log("tutoria:", this.state.asignacion.tutoria);
   }
   render (){
     return(
@@ -85,10 +95,10 @@ class FrmAsignacionTutor extends Component {
             <Typography variant="h5">2. Seleccionar Proceso de Tutoría </Typography>
           </Grid>
           <Grid item md={3}>
-            <ListaProgramas
-                titulo={"Proceso de Tutoría"}
-                escogerPrograma={this.handleOnChangePrograma}
-                enlace={"/api/programa"}
+            <ListaProcesoTut
+              titulo={"Proceso de Tutoría"}
+              escogerTutoria={this.handleOnChangeTutoria}
+              enlace={"/api/tutoria"}
             />
           </Grid>
           <Grid item md={5}
