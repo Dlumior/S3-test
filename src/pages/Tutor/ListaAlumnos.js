@@ -16,18 +16,27 @@ const Alumnos = [
   { id: 3, fullname: "Gerardo Perez", faculty: "EEGGLL", image: "" },
 ];
 
-const ListaAlumnos = () => {
+const ListaAlumnos = (props) => {
   const classes = useStyles();
+  const { alumnos } = props;
+  // console.log(alumnos);
+  // alumnos.map((item) => {
+  //   console.log(item.ID_ALUMNO);
+  //   console.log(item.ALUMNO.USUARIO.NOMBRE + " "+item.ALUMNO.USUARIO.APELLIDOS);
+  //   console.log(item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE);
+  // });
 
   return (
     <Paper className={classes.caja}>
       <Grid container spacing={5}>
-        {Alumnos.map((item) => (
+        {alumnos.map((item) => (
           <ItemAlumno
-            key={item.id}
-            fullname={item.fullname}
-            faculty={item.faculty}
-            image={item.image}
+            key={item.ID_ALUMNO}
+            fullname={
+              item.ALUMNO.USUARIO.NOMBRE + " " + item.ALUMNO.USUARIO.APELLIDOS
+            }
+            faculty={item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE}
+            image={item.ALUMNO.USUARIO.IMAGEN}
           />
         ))}
       </Grid>
