@@ -8,7 +8,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles,Typography } from "@material-ui/core";
 
 
 const RegistrarSesion = () => {
@@ -44,7 +44,6 @@ const RegistrarSesion = () => {
         variant="contained"
         color="primary"
         onClick={handleClickOpen}>
-
         Registrar Sesión
       </Button>
       <Dialog
@@ -53,49 +52,27 @@ const RegistrarSesion = () => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-            Registrar Sesión
+          <Typography variant="h5">Registar Sesion</Typography>
         </DialogTitle>
         <DialogContent>
-          <Grid container xs={12}>
-            <Grid item xs={8}>
-                Alumno: Ignacio Barraza Gonzales
-            <Grid/>
-            <Grid item xs={4}>
+          <Grid container spacing={3}>
+            <Grid item md
+              container
+              direction="column"
+              alignItems="flex-start"
+              justify="center" >
+              <Typography variant="subtitle1">Alumno:Mauricio Gonzales </Typography>
+              <Typography variant="subtitle1">Fecha: Viernes 27 de Julio del 2020 </Typography>
+              <Typography variant="subtitle1">Hora:13:00 - 14:00</Typography>            
+            {/*
+            <Grid item md={4}>
                 <Button 
                 variant="outlined"
                 color="primary">
                 Derivar
                 </Button>
-            </Grid>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="NOMBRE"
-                label="Nombre"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="APELLIDOS"
-                label="Apellidos"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="CORREO"
-                label="Correo electrónico"
-                type="email"
-                fullWidth
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="TELEFONO"
-                label="Teléfono"
-                fullWidth
-              />
+            </Grid>*/}
+             
             </Grid>
           </Grid>
         </DialogContent>

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
+import ListaProcesoTut from "./ListaProcesoTut";
+import ListaTutores from "./ListaTutores";
+import DialogListaTut from "./DialogListaTut";
+
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -25,12 +29,14 @@ class FrmAsignacionTutor extends Component {
       asignacion: {
         programa:'',
         tutor:0,
-        procesodetutoria:0,
+        tutoria:0,
         alumno:[]
       }
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
+    this.handleOnChangeTutoria = this.handleOnChangeTutoria.bind(this);
+    this.handleOnChangeTutor = this.handleOnChangeTutor.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
@@ -54,9 +60,30 @@ class FrmAsignacionTutor extends Component {
     this.setState({ asignacion: asignacion });
   };
   handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
+    console.log("programa:", programa);
     this.state.asignacion.programa = programa;
+    const idPrograma=this.state.asignacion.programa[0];
+    console.log("id:", idPrograma);
     console.log("proograma:", this.state.asignacion.programa);
+  }
+  shouldComponentUpdate(nextState,nextProps){
+    if (nextState.asignacion != this.state.asginacion) {
+      return true;
+    }
+    return false;
+  }
+
+  handleOnChangeTutoria(tutoria) {
+    console.log("tutoria:", tutoria);
+    //tutoria.programa.idPrograma
+    this.state.asignacion.tutoria = tutoria;
+    console.log("tutoria:", this.state.asignacion.tutoria);
+  }
+  handleOnChangeTutor(tutor) {
+    console.log("tutor:", tutor);
+    //tutoria.programa.idPrograma
+    this.state.asignacion.tutor = tutor;
+    console.log("tutor:", this.state.asignacion.tutor);
   }
   render (){
     return(
@@ -85,55 +112,26 @@ class FrmAsignacionTutor extends Component {
             <Typography variant="h5">2. Seleccionar Proceso de Tutoría </Typography>
           </Grid>
           <Grid item md={3}>
-            <ListaProgramas
-                titulo={"Proceso de Tutoría"}
-                escogerPrograma={this.handleOnChangePrograma}
-                enlace={"/api/programa"}
+            <ListaProcesoTut
+              titulo={"Proceso de Tutoría"}
+              escogerTutoria={this.handleOnChangeTutoria}
+              enlace={"/api/tutoria"}
             />
-          </Grid>
-          <Grid item md={5}
-            container
-            direction="column"
-            alignItems="flex-start"
-            justify="center" >
-            <Typography variant="h5">3. Seleccionar Tutor </Typography>
-          </Grid>
-          <Grid item md={5}>
-            <Button 
-            variant="outlined"
-            color="primary"
-            onClick={this.handleOpenDialog}>  
-            Ver Tutores
-            </Button>
-          </Grid>
-          <Grid item md={50}>
-            <Dialog open={this.state.openDialog} onCancel={this.handleCloseDialog}>
-              <DialogContent>
-                <p>
-                  <Grid md={25} container
-                    direction="column"
-                    alignItems="flex-start"
-                    justify="center"> 
-                    <TablaTutores/>
-                  </Grid>
-                </p>
-              </DialogContent>
-              <DialogActions>
-                <Button 
-                  variant="outlined"
-                  color="primary"
-                  onClick={this.handleCloseDialog}>
-                  Cancelar
-                </Button>
-                <Button 
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleCloseDialog}>
-                  Aceptar
-                </Button>
-              </DialogActions>
-            </Dialog>
-          </Grid>
+            </Grid>
+            <Grid item md={5}
+              container
+              direction="column"
+              alignItems="flex-start"
+              justify="center" >
+              <Typography variant="h5">3. Seleccionar Tutor </Typography>
+            </Grid>
+            <Grid item md={3}>
+              <ListaTutores
+                titulo={"Tutor"}
+                escogerTutor={this.handleOnChangeTutor}
+                enlace={"/api/tutor"}
+              />
+            </Grid>
           <Grid item md={5}
             container
             direction="column"
