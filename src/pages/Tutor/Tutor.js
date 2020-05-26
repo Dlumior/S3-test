@@ -4,6 +4,7 @@ import BarraNavegacion from "../../components/Tutor/BarraNavegacion.js";
 import Perfil from "./Perfil.js";
 import Calendario from "./Calendario.js";
 import MisAlumnos from "./MisAlumnos.js";
+import MiDisponibilidad from "./MiDisponibilidad.js";
 
 const Tutor = () => {
   return (
@@ -16,6 +17,11 @@ const Tutor = () => {
         <Route exact path={"/tutor/perfil4"} component={Perfil} />
         {/*...*/}
         <Route exact path={"/tutor/misalumnos"} component={MisAlumnos} />
+        <Route
+          exact
+          path={"/tutor/midisponibilidad"}
+          component={MiDisponibilidad}
+        />
       </BarraNavegacion>
     </div>
   );
