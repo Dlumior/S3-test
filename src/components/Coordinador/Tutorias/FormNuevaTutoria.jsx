@@ -5,14 +5,17 @@ import {
   TextField,
   Button,
   FormHelperText,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  FormLabel,
 } from "@material-ui/core";
-import ListaProgramas from "../FormRegistroAlumno/ListaProgramas";
+import ListaProgramas from "../ListaProgramas";
 import GrupoRadioButton from "./GrupoRadioButton";
-import ListaEtiquetas from "./ListaEtiquetas";
 const style = {
   paper: {
     marginTop: "3%",
-    marginLeft: "5%",
+    marginLeft: "3%",
     marginRight: "3%",
     flexDirection: "column",
     backgroundImage: "",
@@ -26,7 +29,6 @@ class FormNuevaTutoria extends Component {
         nombre: "",
         descripcion: "",
         programa: "",
-        etiquetas:[]
       },
       mensaje: {
         nombre: "",
@@ -48,6 +50,7 @@ class FormNuevaTutoria extends Component {
         ],
         tipoTutor: [
           { titulo: "Variable", valor: "Variable" },
+          { titulo: "Fijo", valor: "Fijo" },
           { titulo: "Fijo Semestral", valor: "Fijo Semestral" },
           { titulo: "Fijo Permanente", valor: "Fijo Permanente" },
         ],
@@ -67,18 +70,11 @@ class FormNuevaTutoria extends Component {
     this.state.tutoria.programa = programa;
     console.log("proograma:", this.state.alumno.programa);
   }
-  handleOnChangeEtiquetas(etiqueta){
-    //primero que llegue
-    //luego que se guarde en un state
-    console.log("LLegue: ",etiqueta);
-    
-  }
   render() {
     return (
       <Paper elevation={0} style={style.paper}>
         <Grid container spacing={6}>
-          
-          <Grid item md={5} xs={12}>
+          <Grid item md={4} xs={12}>
             <Grid item md={12} xs={12}>
               <TextField
                 autoFocus={true}
@@ -139,13 +135,13 @@ class FormNuevaTutoria extends Component {
             </Grid>
           </Grid>
           <Grid item md={1} xs={12}></Grid>
-          <Grid item md={5} xs={12}>
+          <Grid item md={6} xs={12}>
             <Grid item md={12} xs={12}>
               <br />
-              <ListaEtiquetas
-              titulo={"Etiquetas(opcional):"}
-              obtenerEtiquetas={this.handleOnChangeEtiquetas}
-              enlace={"/api/etiqueta"}
+              <ListaProgramas
+                titulo={"Etiquetas"}
+                escogerPrograma={this.handleOnChangePrograma}
+                enlace={"/api/programa"}
               />
               <FormHelperText error>
                 {this.state.mensaje.programas}
@@ -198,7 +194,7 @@ class FormNuevaTutoria extends Component {
               </Grid>
             </Grid>
           </Grid>
-          
+          <Grid item md={1} xs={12}></Grid>
         </Grid>
       </Paper>
     );

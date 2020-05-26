@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Controller from "../../../Conexion/Controller";
+import * as Controller from "../../Conexion/Controller";
 import {
   Paper,
   Tabs,
@@ -174,7 +174,22 @@ class FormularioRegistrarAlumno extends Component {
   componentDidMount() {}
   render() {
     return (
+      <div>
         <Paper elevation={0} style={style.paper}>
+          <Tabs
+            value={0}
+            indicatorColor="primary"
+            textColor="primary"
+            onChange={this.handleTabOnChange}
+            aria-label="disabled tabs example"
+          >
+            <Tab label="Ingresar Alumnos" />
+            <Tab label="Importar Alumnos" />
+          </Tabs>
+        </Paper>
+        <div style={style.envoltorioFormulario}>
+          <br />
+          <div style={style.formRegistrarAlumno}>
             <Grid container spacing={5}>
               <Grid item md={1} xs={1} style={style.paper} />
               <Grid item md={3} xs={4} style={style.paper}>
@@ -278,7 +293,10 @@ class FormularioRegistrarAlumno extends Component {
               </Grid>
               <Grid item md={1} xs={1} style={style.paper} />
             </Grid>
-            </Paper>
+          </div>
+          <br /> <br /> <br /> <br />
+        </div>
+      </div>
     );
   }
 }
