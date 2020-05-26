@@ -5,49 +5,49 @@ import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText } from "@material-ui/core";
 import * as Conexion from "../../Conexion/Controller";
 
-class ListaProgramas extends React.Component {
+class ListaTutores extends React.Component {
   constructor() {
     super();
     this.state = {
-      programas: [
+      tutores: [
         
       ],
-      programa: [],
+      tutor: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.renderProgramas = this.renderProgramas.bind(this);
+    this.renderTutores = this.renderTutores.bind(this);
   }
   async handleOnChange(e) {
-      let programa = e.target.value;
-      let programas = [];
-      programas.push(programa.ID_PROGRAMA);
-    await this.props.escogerPrograma(programas);
-    this.setState({ programa: e.target.value });
-    e.target.value=this.state.programa;
+      let tutor = e.target.value;
+      let tutores = [];
+      tutores.push(tutor.ID_TUTOR);
+    await this.props.escogerTutor(tutores);
+    this.setState({ tutor: e.target.value });
+    e.target.value=this.state.tutor;
   }
-  renderProgramas = () => {
+  renderTutores = () => {
     return (
       <div>
-        {this.state.programas.map((programa) => (
-          <MenuItem key={programa.ID} value={programa.NOMBRE}>
+        {this.state.tutores.map((tutor) => (
+          <MenuItem key={tutor.ID_TUTOR} value={tutor.USUARIO.NOMBRE}>
             {" "}
-            {programa.NOMBRE}
+            {tutor.USUARIO.NOMBRE}
           </MenuItem>
         ))}
       </div>
     );
   };
   async componentDidMount() {
-    let listaProgramas = await Conexion.GET({servicio:this.props.enlace});
-    console.log("programas",listaProgramas);
-    this.setState({programas:listaProgramas.programa});
-    console.log("programas del state",this.state.programas);    
+    let listaTutor = await Conexion.GET({servicio:this.props.enlace});
+    console.log("TUTORES",listaTutor);
+    this.setState({tutores:listaTutor.tutores});    
+    console.log("TUTORES del state",this.state.tutores);
   }
   shouldComponentUpdate(nextState, nextProps) {
-    if (nextState.programas != this.state.programas) {
+    if (nextState.tutores != this.state.tutores) {
       return true;
     }
-    if (nextState.programa != this.state.programa) {
+    if (nextState.tutor != this.state.tutor) {
       return true;
     }
     return false;
@@ -61,20 +61,20 @@ class ListaProgramas extends React.Component {
         <Select
           labelId="demo-simple-select-placeholder-label-label"
           id="demo-simple-select-placeholder-label"
-          value={this.state.programa}
+          value={this.state.tutor}
           onChange={this.handleOnChange}
           displayEmpty
         >
-          {this.state.programas.map((programa) => (
-            <MenuItem key={programa.ID_PROGRAMA} value={programa}>
+          {this.state.tutores.map((tutor) => (
+            <MenuItem key={tutor.ID_TUTOR} value={tutor}>
               {" "}
-              {programa.NOMBRE}
+              {tutor.USUARIO.NOMBRE}
             </MenuItem>
           ))}
         </Select>
-        <FormHelperText>Escoja el programa</FormHelperText>
+        <FormHelperText>Escoja el Tutor</FormHelperText>
       </FormControl>
     );
   }
 }
-export default ListaProgramas;
+export default ListaTutores;

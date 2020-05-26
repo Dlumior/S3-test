@@ -29,7 +29,7 @@ class ListaProcesoTut extends React.Component {
     return (
       <div>
         {this.state.tutorias.map((tutoria) => (
-          <MenuItem key={tutoria.ID} value={tutoria.NOMBRE}>
+          <MenuItem key={tutoria.ID_PROCESO_TUTORIA} value={tutoria.NOMBRE}>
             {" "}
             {tutoria.NOMBRE}
           </MenuItem>
@@ -51,6 +51,9 @@ class ListaProcesoTut extends React.Component {
     if (nextState.tutoria != this.state.tutoria) {
       return true;
     }
+    if (nextProps.enlace != this.props.enlace){
+      return true;
+    } 
     return false;
   }
   render() {
