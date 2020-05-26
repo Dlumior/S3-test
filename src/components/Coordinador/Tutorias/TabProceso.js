@@ -31,38 +31,47 @@ class TabProceso extends Component {
     super();
     this.state = {
       tabActivada: 0,
-      fomularioNuevaTutoria: FormNuevaTutoria,
-      listaDeTutorias: ListaTutorias
+      procesoActivo: {},
+      procesos: [],
     };
     this.activarTab = this.activarTab.bind(this);
   }
   activarTab(tab) {
     this.setState({ tabActivada: tab });
+    this.setState({ procesoActivo: this.state.procesos[tab].proceso });
   }
-  mostrarTab = (tab) =>{
-    console.log("Render");
-    switch(tab){
-      case 0:  return(<this.state.fomularioNuevaTutoria/>);
-      case 1:  return(<this.state.listaDeTutorias/>);
+
+  mostrarTab = (props) => {
+    console.log("Render", props);
+    this.setState({ procesoActivo: this.state.procesos[props.tab].proceso });
+    return <this.state.procesoActivo />;
+  };
+  componentWillMount() {
+    if (this.props.procesos) {
+      this.setState({ procesos: this.props.procesos });
+      this.setState({ procesoActivo: this.props.procesos[0].proceso });
     }
   }
   render() {
     return (
       <div>
         <Tabs
-          centered
           value={this.state.tabActivada}
           indicatorColor="primary"
           textColor="primary"
           onChange={this.handleTabOnChange}
           aria-label="disabled tabs example"
         >
-          <Tab onClick={() =>this.activarTab(0)} label="Nueva Tutoría" />
-          <Tab onClick={()=>this.activarTab(1)} label="Lista Tutorías" />
+          {this.props.procesos.map((proceso) => (
+            <Tab
+              onClick={() => this.activarTab(proceso.index)}
+              label={proceso.titulo}
+            />
+          ))}
         </Tabs>
         <div style={style.envoltorioFormulario}>
           <Paper elevation={5} style={style.paper}>
-            {this.mostrarTab(this.state.tabActivada)}
+            <this.state.procesoActivo />
           </Paper>
         </div>
       </div>
