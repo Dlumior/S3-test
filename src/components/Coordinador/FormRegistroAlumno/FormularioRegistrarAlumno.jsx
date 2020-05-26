@@ -108,41 +108,50 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   async handleOnClick(e) {
-    e.preventDefault();
-    console.log("alumno: ", this.state.alumno);
-    let {
-      nombres,
-      apellidos,
-      codigo,
-      correo,
-      programa,
-      telefono,
-      direccion,
-    } = this.state.alumno;
-    const nuevoEstudiante = {
-      alumno: {
-        APELLIDOS: apellidos,
-        CODIGO: codigo,
-        CONTRASENHA: "sudo tys",
-        CORREO: correo,
-        DIRECCION: direccion,
-        NOMBRE: nombres,
-        PROGRAMA: programa,
-        TELEFONO: telefono,
-        USUARIO: "UsuarioPruebaRegistrar",
-      },
-    };
-    const props = { servicio: "/api/alumno", request: nuevoEstudiante };
-    console.log("saving new student in DB:", nuevoEstudiante);
-    let nuevoAlumno = await Controller.POST(props);
-    if (nuevoAlumno) {
-      alert("Alumno registrado Satisfactoriamente");
+    if(this.state.alumno.programa=[]){
+      this.state.mensaje.programa = this.state.validacion.programa.mssgError;
+      this.state.validacion.ok=false;
     }
-    console.log("got updated alumno from back:", nuevoAlumno);
+    if (this.state.validacion.ok) {
+      e.preventDefault();
+      console.log("alumno: ", this.state.alumno);
+      let {
+        nombres,
+        apellidos,
+        codigo,
+        correo,
+        programa,
+        telefono,
+        direccion,
+      } = this.state.alumno;
+      const nuevoEstudiante = {
+        alumno: {
+          APELLIDOS: apellidos,
+          CODIGO: codigo,
+          CONTRASENHA: "sudo tys",
+          CORREO: correo,
+          DIRECCION: direccion,
+          NOMBRE: nombres,
+          PROGRAMA: programa,
+          TELEFONO: telefono,
+          USUARIO: "UsuarioPruebaRegistrar",
+        },
+      };
+      const props = { servicio: "/api/alumno", request: nuevoEstudiante };
+      console.log("saving new student in DB:", nuevoEstudiante);
+      let nuevoAlumno = await Controller.POST(props);
+      if (nuevoAlumno) {
+        alert("Alumno registrado Satisfactoriamente");
+      }
+      console.log("got updated alumno from back:", nuevoAlumno);
+    } else {
+      //mostrar warning
+    }
   }
   handleOnChange = (e) => {
     let alumno = Object.assign({}, this.state.alumno);
     if (e.target.value.length > this.state.validacion[e.target.name].lim) {
+      this.state.validacion.ok = false;
       let mensajes = Object.assign({}, this.state.mensaje);
       mensajes[e.target.name] = this.state.validacion[e.target.name].mssgError;
       this.setState({ mensaje: mensajes });
@@ -157,6 +166,9 @@ class FormularioRegistrarAlumno extends Component {
       return;
     }
 */
+    if (this.state.validacion.ok === false) {
+      this.state.validacion.ok = true;
+    }
     let mensajes = Object.assign({}, this.state.mensaje);
     mensajes[e.target.name] = this.state.validacion[e.target.name].mssgOk;
     alumno[e.target.name] = e.target.value;
@@ -174,111 +186,107 @@ class FormularioRegistrarAlumno extends Component {
   componentDidMount() {}
   render() {
     return (
-        <Paper elevation={0} style={style.paper}>
-            <Grid container spacing={5}>
-              <Grid item md={1} xs={1} style={style.paper} />
-              <Grid item md={3} xs={4} style={style.paper}>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    fullWidth
-                    name="nombres"
-                    label="Nombres"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.nombres}
-                  </FormHelperText>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    fullWidth
-                    name="apellidos"
-                    label="Apellidos"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.apellidos}
-                  </FormHelperText>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    fullWidth
-                    name="correo"
-                    type="email"
-                    label="Correo"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.correo}
-                  </FormHelperText>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <br />
-                  <ListaProgramas
-                    titulo={"Programas"}
-                    escogerPrograma={this.handleOnChangePrograma}
-                    enlace={"/api/programa"}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.programas}
-                  </FormHelperText>
-                  <br />
-                </Grid>
-              </Grid>
-
-              <Grid item md={3} xs={4} style={style.paper}>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    name="telefono"
-                    fullWidth
-                    label="Teléfono"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.telefono}
-                  </FormHelperText>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    name="direccion"
-                    fullWidth
-                    label="Dirección"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.direccion}
-                  </FormHelperText>
-                </Grid>
-                <Grid item md={12} xs={12}>
-                  <TextField
-                    name="codigo"
-                    fullWidth
-                    label="Código"
-                    onChange={this.handleOnChange}
-                  />
-                  <FormHelperText error>
-                    {this.state.mensaje.codigo}
-                  </FormHelperText>
-                </Grid>
-              </Grid>
-
-              <Grid item md={3} xs={4} style={style.paper}>
-                <Grid item md={6} xs={10}>
-                  <Button
-                    type="submit"
-                    fullWidth
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleOnClick}
-                  >
-                    Guardar
-                  </Button>
-                </Grid>
-              </Grid>
-              <Grid item md={1} xs={1} style={style.paper} />
+      <Paper elevation={0} style={style.paper}>
+        <Grid container spacing={5}>
+          <Grid item md={1} xs={1} style={style.paper} />
+          <Grid item md={3} xs={4} style={style.paper}>
+            <Grid item md={12} xs={12}>
+              <TextField
+                fullWidth
+                name="nombres"
+                label="Nombres"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>
+                {this.state.mensaje.nombres}
+              </FormHelperText>
             </Grid>
-            </Paper>
+            <Grid item md={12} xs={12}>
+              <TextField
+                fullWidth
+                name="apellidos"
+                label="Apellidos"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>
+                {this.state.mensaje.apellidos}
+              </FormHelperText>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                fullWidth
+                name="correo"
+                type="email"
+                label="Correo"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>{this.state.mensaje.correo}</FormHelperText>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <br />
+              <ListaProgramas
+                titulo={"Programas"}
+                escogerPrograma={this.handleOnChangePrograma}
+                enlace={"/api/programa"}
+              />
+              <FormHelperText error>
+                {this.state.mensaje.programas}
+              </FormHelperText>
+              <br />
+            </Grid>
+          </Grid>
+
+          <Grid item md={3} xs={4} style={style.paper}>
+            <Grid item md={12} xs={12}>
+              <TextField
+                name="telefono"
+                fullWidth
+                label="Teléfono"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>
+                {this.state.mensaje.telefono}
+              </FormHelperText>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                name="direccion"
+                fullWidth
+                label="Dirección"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>
+                {this.state.mensaje.direccion}
+              </FormHelperText>
+            </Grid>
+            <Grid item md={12} xs={12}>
+              <TextField
+                name="codigo"
+                fullWidth
+                label="Código"
+                onChange={this.handleOnChange}
+              />
+              <FormHelperText error>{this.state.mensaje.codigo}</FormHelperText>
+            </Grid>
+          </Grid>
+
+          <Grid item md={3} xs={4} style={style.paper}>
+            <Grid item md={6} xs={10}>
+              <Button
+                type="submit"
+                fullWidth
+                size="large"
+                variant="contained"
+                color="primary"
+                onClick={this.handleOnClick}
+              >
+                Guardar
+              </Button>
+            </Grid>
+          </Grid>
+          <Grid item md={1} xs={1} style={style.paper} />
+        </Grid>
+      </Paper>
     );
   }
 }

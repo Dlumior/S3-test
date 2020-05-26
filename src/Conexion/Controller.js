@@ -28,7 +28,7 @@ export async function GET(props) {
 }
 /**
  *  @param props objeto que contiene url y request
- *  @param props.endpoint URL del endpoint al cual se conectara
+ *  @param props.servicio URL del endpoint al cual se conectara
  *  @param props.request el objeto que requiere el endpoint 
  * 
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve 

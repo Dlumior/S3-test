@@ -13,7 +13,6 @@ class ListaProgramas extends React.Component {
       programa: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.renderProgramas = this.renderProgramas.bind(this);
   }
   async handleOnChange(e) {
     let programa = e.target.value;
@@ -23,18 +22,7 @@ class ListaProgramas extends React.Component {
     this.setState({ programa: e.target.value });
     e.target.value = this.state.programa;
   }
-  renderProgramas = () => {
-    return (
-      <div>
-        {this.state.programas.map((programa) => (
-          <MenuItem key={programa.ID} value={programa.NOMBRE}>
-            {" "}
-            {programa.NOMBRE}
-          </MenuItem>
-        ))}
-      </div>
-    );
-  };
+ 
   async componentDidMount() {
     let listaProgramas = await Conexion.GET({ servicio: this.props.enlace });
     console.log("programas", listaProgramas);

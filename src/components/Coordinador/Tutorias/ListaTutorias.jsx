@@ -18,11 +18,9 @@ class ListaTutorias extends Component {
      * I'm in construction
      */
     return (
-      <Paper elevation={5} style={style.paper}>
+      <Paper elevation={0} style={style.paper}>
         Lista de Tutorias TO-DO
-        <h3>* Please do not touch my code * * I'm in construction</h3>
-        <h1>:P </h1>
-        <h1>ATTE: Jin SSJ3</h1>
+        <img src="https://ututor-recursos.s3.amazonaws.com/KND_construccion.png"/>
       </Paper>
     );
   }
