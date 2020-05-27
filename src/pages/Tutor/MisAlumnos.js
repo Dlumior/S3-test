@@ -44,7 +44,7 @@ const MisAlumnos = () => {
     // fetchData();
   }, [programa]);
 
-  //Funcion para obtener los alumnos
+  //Funcion para obtener los alumnos por el buscador
   useEffect(() => {
     async function fetchData() {
       const endpoint =
@@ -59,16 +59,30 @@ const MisAlumnos = () => {
     if (procesoTutoria !== "" && texto !== "") {
       fetchData();
     }
-  }, [procesoTutoria, texto]);
+  }, [texto]);
+
+  //Obtener a los alumnos una vez seleccionado el programa y el procesos de tutoria
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/alumno/lista/" + idTutor + "/" + procesoTutoria;
+      console.log(endpoint);
+      const params = { servicio: endpoint };
+      const res = await GET(params);
+      // console.log(res.alumnos);
+      if (res !== []) {
+        setAlumnos(res.alumnos);
+      }
+    }
+    if (procesoTutoria !== "") {
+      fetchData();
+    }
+  }, [procesoTutoria]);
 
   return (
     <div>
       <NombrePrincipal titulo="Alumnos por Proceso de Tutorìa de un Programa" />
       <Grid container direction="column" justify="center" alignItems="center">
         <Grid item container justify="center" alignItems="center" spacing={2}>
-          <Grid item>
-            <Buscador texto={texto} setTexto={setTexto} />
-          </Grid>
           <Grid item>
             <ComboBoxPrograma
               setPDisabled={setPDisabled}
@@ -84,6 +98,9 @@ const MisAlumnos = () => {
               procesoTutoria={procesoTutoria}
               setProcesoTutoria={setProcesoTutoria}
             />
+          </Grid>
+          <Grid item>
+            <Buscador texto={texto} setTexto={setTexto} />
           </Grid>
         </Grid>
         <Grid item xs={12}>

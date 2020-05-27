@@ -5,22 +5,23 @@ import FormRegistroTutor from "../../components/Coordinador/FormRegistroTutor/Fo
 
 const RegistrarTutor = () => {
   const [datosForm, setDatosForm] = useState({
-    name: "",
-    lastnames: "",
-    code: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    username: "",
-    password: "",
-    imagen: "",
+    NOMBRE: "",
+    APELLIDOS: "",
+    CODIGO: "",
+    CORREO: "",
+    TELEFONO: "",
+    DIRECCION: "",
+    USUARIO: "",
+    CONTRASENHA: "",
+    IMAGEN: "",
+    PROGRAMA: [],
   });
 
   return (
     <div>
       <NombrePrincipal titulo="Registro de nuevos Tutores" />
 
-      <Grid container xs={12} spacing={5} justify="center" alignItems="center">
+      <Grid container spacing={5} justify="center" alignItems="center">
         <Grid item>
           <FormRegistroTutor datos={datosForm} setDatos={setDatosForm} />
         </Grid>

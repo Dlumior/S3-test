@@ -5,11 +5,16 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  IconButton,
 } from "@material-ui/core";
+import { LooksTwo } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginTop: theme.spacing(1),
+  },
   formControl: {
-    margin: theme.spacing(1),
+    // margin: theme.spacing(1),
     minWidth: theme.spacing(30),
   },
   selectEmpty: {
@@ -38,25 +43,32 @@ const ComboBoxProcesoTutoria = (props) => {
   };
 
   return (
-    <FormControl className={classes.formControl} disabled={pDisabled}>
-      <InputLabel id="demo-simple-select-label">Procesos de tutoria</InputLabel>
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        value={procesoTutoria}
-        onChange={handleChange}
-      >
-        {!pDisabled &&
-          procesosTutoria.map((item) => (
-            <MenuItem
-              key={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
-              value={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
-            >
-              {item.PROCESO_TUTORIA.NOMBRE}
-            </MenuItem>
-          ))}
-      </Select>
-    </FormControl>
+    <>
+      <IconButton color="primary" className={classes.icon}>
+        <LooksTwo />
+      </IconButton>
+      <FormControl className={classes.formControl} disabled={pDisabled}>
+        <InputLabel id="demo-simple-select-label">
+          Procesos de tutoria
+        </InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={procesoTutoria}
+          onChange={handleChange}
+        >
+          {!pDisabled &&
+            procesosTutoria.map((item) => (
+              <MenuItem
+                key={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
+                value={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
+              >
+                {item.PROCESO_TUTORIA.NOMBRE}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+    </>
   );
 };
 
