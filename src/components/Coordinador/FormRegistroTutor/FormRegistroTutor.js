@@ -23,7 +23,7 @@ const handleName = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    name: auxName,
+    NOMBRE: auxName,
   });
 
   const res = validateName(auxName);
@@ -35,7 +35,7 @@ const handleLastName = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    lastnames: auxLastNames,
+    APELLIDOS: auxLastNames,
   });
 
   const res = validateLastNames(auxLastNames);
@@ -47,8 +47,8 @@ const handleEmail = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    email: auxEmail,
-    username: auxEmail,
+    CORREO: auxEmail,
+    USUARIO: auxEmail,
   });
 
   const res = validateEmail(auxEmail);
@@ -60,7 +60,7 @@ const handlePhoneNumber = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    phoneNumber: auxPhone,
+    TELEFONO: auxPhone,
   });
 
   const res = validatePhoneNumber(auxPhone);
@@ -72,7 +72,7 @@ const handleAddress = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    address: auxAddress,
+    DIRECCION: auxAddress,
   });
 
   const res = validateAddress(auxAddress);
@@ -84,7 +84,7 @@ const handleCode = (e, datos, setDatos, errors, setErrors) => {
 
   setDatos({
     ...datos,
-    code: auxCode,
+    CODIGO: auxCode,
   });
 
   const res = validateCode(auxCode);
@@ -110,8 +110,9 @@ const FormRegistroTutor = (props) => {
     } else {
       setDatos({
         ...datos,
-        password: datos.name + datos.lastnames,
+        CONTRASENHA: datos.name + datos.lastnames,
       });
+      console.log(datos);
 
       const sendData = { servicio: "/api/tutor", request: { tutor: datos } };
       console.log("Saving new tutor in DB:", datos);
@@ -125,7 +126,6 @@ const FormRegistroTutor = (props) => {
     <Paper className={classes.caja}>
       <Grid
         container
-        xs={12}
         direction="column"
         spacing={4}
         justify="center"
