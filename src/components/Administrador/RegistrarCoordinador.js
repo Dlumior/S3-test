@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, useEffect,useState } from "react";
 import * as Conexion from "./../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
-
+import ListaProgramas from "../Coordinador/ListaProgramas";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,6 +9,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { GET } from "../../Conexion/Controller";
+import ComboBoxPrograma from "./ComboBoxPrograma";
+import errorObj from "../Coordinador/FormRegistroTutor/errorObj.js";
+import validateName from "../Coordinador/FormRegistroTutor/validateName.js";
+import validateLastNames from "../Coordinador/FormRegistroTutor/validateLastNames.js";
+import validatePhoneNumber from "../Coordinador/FormRegistroTutor/validatePhoneNumber.js";
+import validateAddress from "../Coordinador/FormRegistroTutor/validateAddress.js";
+import validateCode from "../Coordinador/FormRegistroTutor/validateCode.js";
+import validateEmail from "../Coordinador/FormRegistroTutor/validateEmail.js";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -27,6 +36,7 @@ const handleCodigo = (e, datosForm, setDatosForm) => {
       ...datosForm,
       CODIGO: e.target.value,
     });
+    /*Busco por codigo, no debe repetirse, en caso devuelve datos del coord */
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
@@ -55,9 +65,9 @@ const handleTelefono = (e, datosForm, setDatosForm) => {
       TELEFONO: e.target.value,
     });
 };
-
 const RegistrarCoordinador = () => {
   const [datosForm, setDatosForm] = React.useState({
+    ID_ROL:"2",
     CODIGO: "",
     NOMBRE: "",
     APELLIDOS: "",
@@ -67,8 +77,11 @@ const RegistrarCoordinador = () => {
     CONTRASENHA: "",
     DIRECCION: "",
     IMAGEN: null,
+    PROGRAMA:"",
   });
-  
+  const [programas, setProgramas] = useState([]);
+  const [programa, setPrograma] = useState("");
+  const [pDisabled, setPDisabled] = useState(true);
 
   /*
   const [res, apiMethod] = useFetchData({
@@ -76,7 +89,18 @@ const RegistrarCoordinador = () => {
     payload: datosForm,
   });
   */
-  
+ useEffect(() => {
+  async function fetchData() {
+    const endpoint = "/api/programa";
+    const params = { servicio: endpoint };
+    const res = await GET(params);    
+    console.log("proogramasss:", res);
+    setProgramas(res.programa);
+    console.log("proograma:", programa);
+  }
+   fetchData();
+}, {});
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -93,13 +117,13 @@ const RegistrarCoordinador = () => {
       ...datosForm,
       CONTRASENHA: datosForm.nombre + datosForm.APELLIDOS,
     });
-    if (datosForm.NOMBRE==''){      
+    if (datosForm.NOMBRE===''){      
       alert("Debe colocar un nombre");
-    } else if (datosForm.APELLIDOS==''){      
+    } else if (datosForm.APELLIDOS===''){      
       alert("Debe colocar un apellido");
-    } else if (datosForm.CORREO==''){      
+    } else if (datosForm.CORREO===''){      
       alert("Debe colocar un correo");
-    }else if (datosForm.CODIGO==''){      
+    }else if (datosForm.CODIGO===''){      
       alert("Debe colocar un codigo");
     }else{
       const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
@@ -181,6 +205,12 @@ const RegistrarCoordinador = () => {
                 label="Teléfono"
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm)}
                 fullWidth
+              />
+              <ComboBoxPrograma
+                setPDisabled={setPDisabled}
+                programas={programas}
+                programa={programa}
+                setPrograma={setPrograma}
               />
             </Grid>
           </Grid>

@@ -3,13 +3,16 @@ import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material
 import ListaProgramas from "./ListaProgramas";
 import ListaProcesoTut from "./ListaProcesoTut";
 import ListaTutores from "./ListaTutores";
+import ListaAlumnos from "./ListaAlumnos";
+
 import DialogListaTut from "./DialogListaTut";
+import * as Controller from "../../Conexion/Controller";
 
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import TablaTutores from "../Alumno/FrmSolicitarTutorTipoII"
+import TablaAlumnos from "./TablaAlumnos";
 //import useFetchData from "../../Conexion/useFetchData";
 
 //import Paso from "./paso";
@@ -30,8 +33,8 @@ class FrmAsignacionTutor extends Component {
         programa:'',
         tutor:0,
         tutoria:0,
-        alumno:[]
-      }
+        alumnos:[]
+      }    
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
@@ -40,21 +43,53 @@ class FrmAsignacionTutor extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleCloseDialog = this.handleCloseDialog.bind(this);
+    this.handleOnChangeAlumnos = this.handleOnChangeAlumnos.bind(this);    
   }
   async handleOnClick(e) {
-
+    e.preventDefault();
+    let {
+      programa,
+      tutoria,
+      tutor,
+      alumnos
+    } = this.state.asignacion;
+    const nuevaAsignacion = {
+      asignacion: {
+        ID_TUTOR: tutor,
+        ID_PROCESO_TUTORIA: tutoria,
+        ALUMNOS: alumnos,
+      },
+    };
+    const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
+    console.log("saving new asignacion in DB:", nuevaAsignacion);
+    let asignado = await Controller.POST(props);
+    if (asignado) {
+      alert("Alumno asignado Satisfactoriamente");
+    }
+    console.log("got updated alumno from back:", asignado);
   }
+
   handleOpenDialog() {
+    console.log("abrir");
     this.setState({
       openDialog: true
     });
+    console.log("abierto");
   }
 
   handleCloseDialog() {
+    console.log("cerrar");
     this.setState({
       openDialog: false
     });
   }
+  handleOnChangeAlumnos(alumnosSeleccionados) {
+    console.log("ALUMNOS:", alumnosSeleccionados);
+    this.state.asignacion.alumnos=alumnosSeleccionados;
+    //this.state.asignacion.alumnos = alumnos;
+    console.log("ALUMNOS:", this.state.asignacion.alumnos);
+  }
+
   handleOnChange = (e) => {
     let asignacion = Object.assign({}, this.state.asignacion);
     this.setState({ asignacion: asignacion });
@@ -66,13 +101,6 @@ class FrmAsignacionTutor extends Component {
     console.log("id:", idPrograma);
     console.log("proograma:", this.state.asignacion.programa);
   }
-  shouldComponentUpdate(nextState,nextProps){
-    if (nextState.asignacion != this.state.asginacion) {
-      return true;
-    }
-    return false;
-  }
-
   handleOnChangeTutoria(tutoria) {
     console.log("tutoria:", tutoria);
     //tutoria.programa.idPrograma
@@ -86,8 +114,10 @@ class FrmAsignacionTutor extends Component {
     console.log("tutor:", this.state.asignacion.tutor);
   }
   render (){
+    //let idPrograma=this.state.asignacion.programa[0];
+
     return(
-      
+      <div>
       <Paper elevate={0} style={style.paper}>
         <Grid container spacing={10}>
           <Grid item md={5}
@@ -143,19 +173,21 @@ class FrmAsignacionTutor extends Component {
           <Button 
             variant="outlined"
             color="primary"
-            onClick={this.handleOpenDialog}>
+            onClick={this.handleOpenDialog} >
             Ver Alumnos
-            </Button>
-            <Dialog >
+          </Button>
+            <Dialog open={this.state.openDialog} close={this.state.handleCloseDialog}>
+              <DialogTitle>Alumnos</DialogTitle>
               <DialogContent>
-                <p>
                   <Grid md={25} container
                     direction="column"
                     alignItems="flex-start"
                     justify="center"> 
-                    <TablaTutores/>
                   </Grid>
-                </p>
+                  <ListaAlumnos
+                    idPrograma={"3"}
+                    escogerAlumnos={this.handleOnChangeAlumnos}
+                  />
               </DialogContent>
               <DialogActions>
                 <Button 
@@ -167,7 +199,7 @@ class FrmAsignacionTutor extends Component {
                 <Button 
                   variant="contained"
                   color="primary"
-                  onClick={this.handleCloseDialog}>
+                  onClick={this.handleOnClick}>
                   Aceptar
                 </Button>
               </DialogActions>
@@ -189,7 +221,7 @@ class FrmAsignacionTutor extends Component {
           </Grid>
         </Grid>
       </Paper>
-    
+      </div>
     )
   }
 } 

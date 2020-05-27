@@ -23,14 +23,7 @@ class FrmSolicitarTutorTipoII extends Component {
                 title: "Nombre",
                 field: "nombre", }],
                 data:[{nombre:"TySEsMiPastor"}]  }
-        };    
-        
-        {/* 
-        this.handleOnClick = this.handleOnClick.bind(this);
-        this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        */}
-        
+        };            
     };
     
     async componentDidMount(){

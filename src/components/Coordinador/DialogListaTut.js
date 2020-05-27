@@ -30,7 +30,7 @@ class DialogListaTut extends Component {
         let arregloDeTutores=await Controller.GET({servicio:this.props.enlace});
         console.log("arreglo: ",arregloDeTutores);
         
-        this.setState({tutores:arregloDeTutores.tutor});    
+        this.setState({tutores:arregloDeTutores.tutores});    
         console.log("TUTORES del state",this.state.tutores);
     }
     shouldComponentUpdate(nextState, nextProps) {
