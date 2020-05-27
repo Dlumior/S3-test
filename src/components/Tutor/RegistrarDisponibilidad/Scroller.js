@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Chip, makeStyles, Paper, IconButton } from "@material-ui/core";
+import { Grid, Chip, makeStyles, IconButton } from "@material-ui/core";
 import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
 
