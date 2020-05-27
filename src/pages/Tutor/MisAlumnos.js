@@ -63,7 +63,7 @@ const MisAlumnos = () => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Mis Alumnos" />
+      <NombrePrincipal titulo="Alumnos por Proceso de Tutorìa de un Programa" />
       <Grid container direction="column" justify="center" alignItems="center">
         <Grid item container justify="center" alignItems="center" spacing={2}>
           <Grid item>

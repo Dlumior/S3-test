@@ -11,7 +11,7 @@ class Tutorias extends React.Component {
     super();
     this.state = {
       procesos: [
-        { index:0,titulo: "Nueva Tutoría", proceso:FormNuevaTutoria },
+        { index:0,titulo: "Registrar Nueva Tutoría", proceso:FormNuevaTutoria },
         { index:1,titulo: "Lista Tutorías", proceso: ListaTutorias },
       ],
     };

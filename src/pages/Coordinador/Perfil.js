@@ -18,9 +18,9 @@ const Perfil = () => {
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
-      <CabeceraPerfil titulo="Coordinador" 
-                      nombre="RIOS ALEJOS, Luis Esteban"
-                      imagen={LuisR}
+      <CabeceraPerfil titulo="Coordinador"
+        nombre="RIOS ALEJOS, Luis Esteban"
+        imagen={LuisR}
       />
       <Grid
         container

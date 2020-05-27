@@ -5,7 +5,7 @@ import FormularioRegistrarAlumno from "../../components/Coordinador/FormRegistro
 import FormularioImportarAlumnos from "../../components/Coordinador/FormRegistroAlumno/FormularioImportarAlumnos";
 
 
-const titulo = "Registrar Alumno";
+const titulo = "Registro de nuevos Alumnos";
 class RegistrarAlumno extends React.Component {
   constructor() {
     super();

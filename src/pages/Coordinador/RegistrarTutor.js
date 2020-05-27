@@ -18,7 +18,7 @@ const RegistrarTutor = () => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Registro de tutores" />
+      <NombrePrincipal titulo="Registro de nuevos Tutores" />
 
       <Grid container xs={12} spacing={5} justify="center" alignItems="center">
         <Grid item>

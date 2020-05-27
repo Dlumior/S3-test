@@ -6,7 +6,7 @@ import VistaMes from "../../components/Tutor/RegistrarDisponibilidad/VistaMes";
 const MiDisponibilidad = () => {
   return (
     <div>
-      <NombrePrincipal titulo="Registrar Disponibilidad" />
+      <NombrePrincipal titulo="Registro de mi Disponibilidad" />
       <Scroller />
       <VistaMes />
     </div>
