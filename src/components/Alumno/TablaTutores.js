@@ -1,6 +1,5 @@
 import React from "react";
 import MaterialTable from "material-table";
-//import { Button } from "@material-ui/core";
 
 function Tabla(props) {
     //const [state, setState] = React.useState(data);  //ya no uso el state de material

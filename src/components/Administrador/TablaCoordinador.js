@@ -10,7 +10,7 @@ const data = {
     },
     
     {
-      title: "Botón ver Coordinador",
+      title: "",
       render: (rowData) => (
         <Button 
           variant="contained"

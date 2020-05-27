@@ -11,13 +11,19 @@ const style = {
     },
 }
 class ListaTutorias extends Component {
-    render() {
-        return (
-            <Paper elevation={5} style={style.paper}>
-            Lista de Tutorias TO-DO
-          </Paper>
-        );
-    }
+  render() {
+    /**
+     * Please do not touch my code
+     *
+     * I'm in construction
+     */
+    return (
+      <Paper elevation={0} style={style.paper}>
+        Lista de Tutorias TO-DO
+        <img src="https://ututor-recursos.s3.amazonaws.com/KND_construccion.png"/>
+      </Paper>
+    );
+  }
 }
 
 export default ListaTutorias;

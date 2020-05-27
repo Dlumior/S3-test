@@ -1,8 +1,6 @@
 import React from "react";
-
 import Datos from "../../components/Tutor/Datos";
 import { Grid, makeStyles } from "@material-ui/core";
-
 import ImgTutor from "../../components/Tutor/tutor.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
 
@@ -15,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 const Perfil = () => {
   const classes = useStyles();
   return (
-    <div>
+    <div>      
       <CabeceraPerfil titulo="Tutor" 
                       nombre="TORRES VERDES, Carlos Tomás"
                       imagen={ImgTutor}

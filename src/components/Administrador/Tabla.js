@@ -10,7 +10,7 @@ const data = {
     },
    
     {
-      title: "Botón ver facultad",
+      title: "",
       render: (rowData) => (
         <Button color="primary" variant="outlined">
           Ver Facultad

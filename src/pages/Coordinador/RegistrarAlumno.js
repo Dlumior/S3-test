@@ -3,15 +3,26 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FormularioRegistrarAlumno from "../../components/Coordinador/FormularioRegistrarAlumno";
 
 
-const titulo = "Registrar Alumno";
-const RegistrarAlumno = () => {
-  return (
-    <div>
-      <NombrePrincipal titulo={titulo} />
-      <FormularioRegistrarAlumno />
-    </div>
-  );
-};
+const titulo = "Registro de nuevos Alumnos";
+class RegistrarAlumno extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      procesos: [
+        { index:0,titulo: "Ingresar Alumnos", proceso:FormularioRegistrarAlumno },
+        { index:1,titulo: "Importar Alumnos", proceso: FormularioImportarAlumnos },
+      ],
+    };
+  }
+  render() {
+    return (
+      <div>
+        <NombrePrincipal titulo={titulo} />
+        <TabProceso procesos={this.state.procesos} />
+      </div>
+    );
+  }
+}
 
 export default RegistrarAlumno;
 

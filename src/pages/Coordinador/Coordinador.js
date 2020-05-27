@@ -12,6 +12,7 @@ import Perfil from "./Perfil.js";
 const Coordinador = () => {
   return (
     <div>
+      <br></br><br></br><br></br>
       <Route  exact path={"/coordinador/"} component={Perfil} />      
       <BarraNavegacion>
         {/*perfil...*/}
@@ -33,7 +34,7 @@ const Coordinador = () => {
         />
         <Route
           exact
-          path="/coordinador/registrarprocesosdetutoria"
+          path="/coordinador/procesosdetutoria"
           component={Tutorias}
         />
       </BarraNavegacion>
