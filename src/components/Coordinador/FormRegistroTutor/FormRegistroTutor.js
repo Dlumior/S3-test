@@ -110,7 +110,7 @@ const FormRegistroTutor = (props) => {
     } else {
       setDatos({
         ...datos,
-        CONTRASENHA: datos.name + datos.lastnames,
+        CONTRASENHA: datos.NOMBRE,
       });
       console.log(datos);
 
