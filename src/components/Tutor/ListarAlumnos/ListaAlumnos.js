@@ -35,7 +35,9 @@ const ListaAlumnos = (props) => {
             fullname={
               item.ALUMNO.USUARIO.NOMBRE + " " + item.ALUMNO.USUARIO.APELLIDOS
             }
-            faculty={item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE}
+            faculty={item.ALUMNO.USUARIO.PROGRAMAs.map(
+              (programa) => programa.NOMBRE + "/"
+            )}
             image={item.ALUMNO.USUARIO.IMAGEN}
           />
         ))}

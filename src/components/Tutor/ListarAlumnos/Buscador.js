@@ -1,16 +1,18 @@
 import React from "react";
 import SearchIcon from "@material-ui/icons/Search";
-import { makeStyles, Paper, Grid } from "@material-ui/core";
+import { makeStyles, Paper, Grid, IconButton } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  icono: {
-    paddingTop: "10px",
-  },
+  // icono: {
+  //   paddingTop: "10px",
+  // },
   texto: {
-    width: "90%",
+    width: "95%",
+    alignItems: "center",
+    marginLeft: "5%",
   },
   caja: {
-    width: theme.spacing(80),
+    width: theme.spacing(100),
   },
 }));
 
@@ -23,9 +25,14 @@ const Buscador = (props) => {
   };
   return (
     <Paper className={classes.caja}>
-      <Grid container justify="center" alignItems="center" spacing={2}>
-        <Grid item xs={12}>
-          <SearchIcon className={classes.icono} />
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        spacing={1}
+      >
+        <Grid item xs={11}>
           <input
             type="text"
             className={classes.texto}
@@ -33,6 +40,11 @@ const Buscador = (props) => {
             value={texto}
             onChange={handleChange}
           />
+        </Grid>
+        <Grid item xs={1}>
+          <IconButton color="primary" disabled>
+            <SearchIcon className={classes.icono} />
+          </IconButton>
         </Grid>
       </Grid>
     </Paper>
