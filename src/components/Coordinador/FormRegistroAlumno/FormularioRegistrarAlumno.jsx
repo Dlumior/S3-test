@@ -10,7 +10,7 @@ import {
   FormHelperText,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import ListaProgramas from "./ListaProgramas";
+import ListaProgramas from "./../ListaProgramas";
 import ListaEtiquetas from "../Tutorias/ListaEtiquetas";
 import Alertas from "../Alertas";
 const style = {
@@ -85,7 +85,7 @@ class FormularioRegistrarAlumno extends Component {
         },
         correo: {
           lim: 100,
-          regex: "/[@]/g",
+          regex: /[@]/g,
           mssgOk: "",
           mssgError: "Correo debe ser maximo de 100 caracteres",
         },
