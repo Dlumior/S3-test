@@ -15,11 +15,11 @@ const NombrePrincipal = (props) => {
   return (
     <div>
       <Typography
-        component="h4"
-        variant="h4"
+        component="h1"
+        variant="h5"
         className={classes.customContainer}
       >
-        {props.titulo}
+        <h2>{props.titulo}</h2>
       </Typography>
     </div>
   );
