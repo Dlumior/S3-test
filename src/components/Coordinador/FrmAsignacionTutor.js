@@ -31,8 +31,8 @@ class FrmAsignacionTutor extends Component {
     this.state = {
       asignacion: {
         programa:'',
-        tutor:0,
-        tutoria:0,
+        tutor:'',
+        tutoria:'',
         alumnos:[]
       }    
     }
@@ -86,7 +86,6 @@ class FrmAsignacionTutor extends Component {
   handleOnChangeAlumnos(alumnosSeleccionados) {
     console.log("ALUMNOS:", alumnosSeleccionados);
     this.state.asignacion.alumnos=alumnosSeleccionados;
-    //this.state.asignacion.alumnos = alumnos;
     console.log("ALUMNOS:", this.state.asignacion.alumnos);
   }
 
@@ -103,14 +102,16 @@ class FrmAsignacionTutor extends Component {
   }
   handleOnChangeTutoria(tutoria) {
     console.log("tutoria:", tutoria);
-    //tutoria.programa.idPrograma
     this.state.asignacion.tutoria = tutoria;
+    const idTutoria=this.state.asignacion.tutoria[0];
+    console.log("id:", idTutoria);
     console.log("tutoria:", this.state.asignacion.tutoria);
   }
   handleOnChangeTutor(tutor) {
     console.log("tutor:", tutor);
-    //tutoria.programa.idPrograma
     this.state.asignacion.tutor = tutor;
+    const idTutor=this.state.asignacion.tutor[0];
+    console.log("id:", idTutor);
     console.log("tutor:", this.state.asignacion.tutor);
   }
   render (){
@@ -173,10 +174,10 @@ class FrmAsignacionTutor extends Component {
           <Button 
             variant="outlined"
             color="primary"
-            onClick={this.handleOpenDialog} >
+            onClick={this.handleOpenDialog}>
             Ver Alumnos
           </Button>
-            <Dialog open={this.state.openDialog} close={this.state.handleCloseDialog}>
+            <Dialog open={this.state.openDialog} close={this.handleCloseDialog}>
               <DialogTitle>Alumnos</DialogTitle>
               <DialogContent>
                   <Grid md={25} container
@@ -185,7 +186,6 @@ class FrmAsignacionTutor extends Component {
                     justify="center"> 
                   </Grid>
                   <ListaAlumnos
-                    idPrograma={"3"}
                     escogerAlumnos={this.handleOnChangeAlumnos}
                   />
               </DialogContent>

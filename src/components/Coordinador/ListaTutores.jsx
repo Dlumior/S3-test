@@ -15,7 +15,6 @@ class ListaTutores extends React.Component {
       tutor: [],
     };
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.renderTutores = this.renderTutores.bind(this);
   }
   async handleOnChange(e) {
       let tutor = e.target.value;
@@ -25,18 +24,6 @@ class ListaTutores extends React.Component {
     this.setState({ tutor: e.target.value });
     e.target.value=this.state.tutor;
   }
-  renderTutores = () => {
-    return (
-      <div>
-        {this.state.tutores.map((tutor) => (
-          <MenuItem key={tutor.ID_TUTOR} value={tutor.USUARIO.NOMBRE}>
-            {" "}
-            {tutor.USUARIO.NOMBRE}
-          </MenuItem>
-        ))}
-      </div>
-    );
-  };
   async componentDidMount() {
     let listaTutor = await Conexion.GET({servicio:this.props.enlace});
     console.log("TUTORES",listaTutor);

@@ -28,6 +28,8 @@ class ListaAlumnos extends React.Component {
             data:[{nombre:"TySEsMiPastor"}]  },
         alumnosSeleccionados:[{id:"1"}]
     };
+    //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+
   }
   async componentDidMount(){
     let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/"});
@@ -40,12 +42,14 @@ class ListaAlumnos extends React.Component {
         arreglillo.push({
                         nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
                         correo:element.USUARIO.CORREO,
-                        checkbox:<div>
-                                    <input 
+                        checkbox:<div> 
+                                    <input                                       
                                       type="checkbox" 
                                       id={element.ID_USUARIO} 
-                                      name="alumno" 
-                                      value={element.ID_USUARIO}>                                       
+                                      name="alumnos" 
+                                      value={element.ID_USUARIO}
+                                      onClick={handleOnChangeChecked(element.ID_USUARIO)}>
+                                      {/*onClick={this.escogerAlumnos(element.ID_USUARIO)}*/}                                                                           
                                     </input>
                                </div>
                         });  
@@ -65,18 +69,27 @@ class ListaAlumnos extends React.Component {
         ],
         data: arreglillo
       };
-
       this.setState({alumnos:data});
 
+      function handleOnChangeChecked(idAlumno) {
+        if (document.getElementById(idAlumno))
+        if (document.getElementById(idAlumno).checked){
+          this.state.alumnosSeleccionados.push({id:idAlumno}) 
+        }
+      }
 }
-escogerAlumnos() {
-  let alumnosSeleccionados=[]
-  for (let element of this.state.alumnos){
-    if (element.data.checkbox.checked===true){
-      alumnosSeleccionados.push({id:element.ID_USUARIO});  
-    }
+
+
+/*
+escogerAlumnos(idAlumno) {
+  
+  console.log("idAlumo",idAlumno);
+  var idA=checkbox.getElementById(idAlumno);
+  if (idA.checked===true){
+    this.state.alumnosSeleccionados.push({id:idAlumno});  
   }
 }
+*/
 render(){
     return (
         <div>
