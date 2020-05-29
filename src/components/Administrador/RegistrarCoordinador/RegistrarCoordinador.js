@@ -1,7 +1,7 @@
 import React, { Component, useEffect,useState } from "react";
-import * as Conexion from "./../../Conexion/Controller";
+import * as Conexion from "../../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
-import ListaProgramas from "../Coordinador/ListaProgramas";
+import ListaProgramas from "../../Coordinador/ListaProgramas";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,15 +9,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
-import { GET } from "../../Conexion/Controller";
+import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
-import errorObj from "../Coordinador/FormRegistroTutor/errorObj.js";
-import validateName from "../Coordinador/FormRegistroTutor/validateName.js";
-import validateLastNames from "../Coordinador/FormRegistroTutor/validateLastNames.js";
-import validatePhoneNumber from "../Coordinador/FormRegistroTutor/validatePhoneNumber.js";
-import validateAddress from "../Coordinador/FormRegistroTutor/validateAddress.js";
-import validateCode from "../Coordinador/FormRegistroTutor/validateCode.js";
-import validateEmail from "../Coordinador/FormRegistroTutor/validateEmail.js";
+
+import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
+import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
+import validateLastNames from "../../Coordinador/FormRegistroTutor/validateLastNames.js";
+import validatePhoneNumber from "../../Coordinador/FormRegistroTutor/validatePhoneNumber.js";
+import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress.js";
+import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
+import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -31,39 +32,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleCodigo = (e, datosForm, setDatosForm) => {
+const handleCodigo = (e, datosForm, setDatosForm, errors, setErrors) => {
     setDatosForm({
       ...datosForm,
       CODIGO: e.target.value,
     });
     /*Busco por codigo, no debe repetirse, en caso devuelve datos del coord */
+    const res = validateCode(e.target.value);
+    setErrors({ ...errors, code: res });
 };
 
-const handleName = (e, datosForm, setDatosForm) => {
+const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
     setDatosForm({
       ...datosForm,
       NOMBRE: e.target.value,
     });
+    const res = validateName(e.target.value);
+    setErrors({ ...errors, name: res });
 };
 
-const handleApellidos = (e, datosForm, setDatosForm) => {
+const handleApellidos = (e, datosForm, setDatosForm, errors, setErrors) => {
     setDatosForm({
       ...datosForm,
       APELLIDOS: e.target.value,
     });
+    const res = validateLastNames(e.target.value);
+    setErrors({ ...errors, lastnames: res });
 };
 
-const handleCorreo = (e, datosForm, setDatosForm) => {
+const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors) => {
     setDatosForm({
       ...datosForm,
       CORREO: e.target.value,
     });
+    const res = validateEmail(e.target.value);
+    setErrors({ ...errors, email: res });
 };
-const handleTelefono = (e, datosForm, setDatosForm) => {
+const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
     setDatosForm({
       ...datosForm,
       TELEFONO: e.target.value,
     });
+  const res = validatePhoneNumber(e.target.value);
+  setErrors({ ...errors, phoneNumber: res });
 };
 const RegistrarCoordinador = () => {
   const [datosForm, setDatosForm] = React.useState({
@@ -82,6 +93,7 @@ const RegistrarCoordinador = () => {
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState("");
   const [pDisabled, setPDisabled] = useState(true);
+  const [errors, setErrors] = useState(errorObj);
 
   /*
   const [res, apiMethod] = useFetchData({
@@ -113,10 +125,34 @@ const RegistrarCoordinador = () => {
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
-    setDatosForm({
-      ...datosForm,
-      CONTRASENHA: datosForm.nombre + datosForm.APELLIDOS,
-    });
+    if (
+      errors.name.error ||
+      errors.lastnames.error ||
+      errors.email.error ||
+      errors.phoneNumber.error ||
+      errors.address.error ||
+      errors.code.error
+    ) {
+      alert("Hay errores en los campos");
+      return;
+    } else {
+      setDatosForm({
+        ...datosForm,
+        CONTRASENHA: datosForm.nombre + datosForm.APELLIDOS,
+      });
+      console.log(datosForm);
+
+      const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
+      console.log("saving new coord in DB:", datosForm);
+      let nuevoCoord = await Conexion.POST(props);
+      console.log("got updated coord from back:", nuevoCoord);
+
+      if (nuevoCoord){      
+        alert("Se registro coordinador Correctamente");
+      }
+
+    }  
+    /*
     if (datosForm.NOMBRE===''){      
       alert("Debe colocar un nombre");
     } else if (datosForm.APELLIDOS===''){      
@@ -148,8 +184,7 @@ const RegistrarCoordinador = () => {
         variant="contained"
         color="primary"
         onClick={handleClickOpen}>
-
-        Registrar coordinador
+        Registrar
       </Button>
       <Dialog
         open={open}
@@ -166,44 +201,51 @@ const RegistrarCoordinador = () => {
             </Grid>
             <Grid item xs={8}>
               <TextField
-                autoFocus
+                required
+                error={errors.code.error}
                 margin="dense"
                 id="CODIGO"
                 label="Codigo"
-                onChange={(e) => handleCodigo(e, datosForm, setDatosForm)}
+                onChange={(e) => handleCodigo(e, datosForm, setDatosForm, errors, setErrors)}
+                helperText={errors.code.mesage}
                 fullWidth
               />
               <TextField
-                autoFocus
+                required
+                error={errors.name.error}
                 margin="dense"
                 id="NOMBRE"
                 label="Nombre"
-                onChange={(e) => handleName(e, datosForm, setDatosForm)}
+                onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
+                helperText={errors.name.mesage}
                 fullWidth
               />
               <TextField
-                autoFocus
+                required
+                error={errors.lastnames.error}
                 margin="dense"
                 id="APELLIDOS"
                 label="Apellidos"
-                onChange={(e) => handleApellidos(e, datosForm, setDatosForm)}
+                onChange={(e) => handleApellidos(e, datosForm, setDatosForm, errors, setErrors)}
+                helperText={errors.lastnames.mesage}
                 fullWidth
               />
               <TextField
-                autoFocus
+                required
+                error={errors.email.error}
                 margin="dense"
                 id="CORREO"
                 label="Correo electrónico"
                 type="email"
-                onChange={(e) => handleCorreo(e, datosForm, setDatosForm)}
+                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               />
               <TextField
-                autoFocus
+                error={errors.phoneNumber.error}
                 margin="dense"
                 id="TELEFONO"
                 label="Teléfono"
-                onChange={(e) => handleTelefono(e, datosForm, setDatosForm)}
+                onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               />
               <ComboBoxPrograma
