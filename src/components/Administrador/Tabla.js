@@ -19,10 +19,7 @@ const data = {
     },
     // { title: "Coordinador", field: "coordinador" },
   ],
-  data: [
-    { facultad: "Facultad de Ciencias e Ingeniería" },
-    { facultad: "Estudios Generales Ciencias" },
-  ],
+  data: []
 };
 
 export default function Tabla() {
