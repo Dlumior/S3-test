@@ -5,7 +5,7 @@ import TablaTutores from "./TablaTutores.js";
 
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+//import DialogTitle from "@material-ui/core/DialogTitle";
 
 const style = {
     paper: {
@@ -18,8 +18,7 @@ const style = {
     }
 };
 
-
-class FrmSolicitarTutorTipoII extends Component {
+class FrmMisCitas extends Component {
     constructor() {
         super();
         this.state = {
@@ -31,25 +30,32 @@ class FrmSolicitarTutorTipoII extends Component {
                 data: [{ nombre: "" }]
             }, //aqui va el nombre de la tablilla
             open: false,
+            open2:false,
 
         };
 
-        {/* 
-        this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        */}
         this.handleOnClick = this.handleOnClick.bind(this);
+        this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
+        this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
     };
 
+    handleOnClickPosponer() {
+        this.setState({ open2: true });
+    }
+    handleOnClosePosponer() {
+        //console.log("ctm",this.state.open);
+        this.setState({ open2: false });
+    }
 
+    //de cancelar
     handleOnClick() {
-        this.setState( {open : true});
+        this.setState({ open: true });
     }
 
     handleOnClose() {
-        console.log("ctm",this.state.open);
-        this.setState( {open : false});
+        //console.log("ctm",this.state.open);
+        this.setState({ open: false });
     }
 
     async componentDidMount() {
@@ -59,72 +65,75 @@ class FrmSolicitarTutorTipoII extends Component {
 
         let arreglillo = [];
         let cont = 0;
+        let max=29;
+        let fex=0;
+        let letras =['I','II'];
         for (let element of arregloDeTutores.tutores) {
             cont++;
+            fex= max-(cont+1);
             arreglillo.push({
-                numeroOrden: cont,
-                nombre: element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS,
-                correo: element.USUARIO.CORREO,
-                /*rboton:<Radio value={element.ID_TUTOR}
-                              color="primary"
-                              checkedIcon={true} />}*/
-                rboton: <div>
-                    <input
-                        type="radio"
-                        id="age1"
-                        name="tutor"
-                        value={element.ID_TUTOR}>
-                    </input>
-                </div>,
                 imagen: <div>
                     <img
                         style={estilo.imagen}
-                        src="https://pps.whatsapp.net/v/t61.24694-24/55964047_2032319883736562_5981219942295404544_n.jpg?oe=5ED5DB3A&oh=c40703ba85e558779f6103a79710f43b">
+                        src="https://pps.whatsapp.net/v/t61.24694-24/75298228_1320194918175512_303757943840000548_n.jpg?oe=5ED2DA2D&oh=da66ae2d5f833a5ebaf683d642d35405">
 
                     </img>
-                </div>
+                </div>,
+                nombre: element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS,
+                fecha: fex + " " + "de Mayo del 2020",
+                tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
+                btnCancelar:
+                    <Button
+                        size="large"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={this.handleOnClick}
+                    >
+                        CANCELAR
+                    </Button>,
+                btnPosponer:
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleOnClickPosponer}
+                    >
+                        POSPONER
+                    </Button>,
+
             });
         }
-
-        /*arregloDeTutores.forEach(element => {
-            arreglillo.push({nombre:element.USUARIO.NOMBRE+" "+element.USUARIO.APELLIDOS,
-                            correo:element.USUARIO.CORREO});       
-
-        }); */
 
         const data = {
             columns: [
                 {
-                    title: "N°",
-                    field: "numeroOrden"
+                    title: "",
+                    field: "imagen"
                 },
                 {
-                    title: "Nombre",
+                    title: "TUTOR",
                     field: "nombre",
                 },
                 {
-                    title: "Correo Electrónico",
-                    field: "correo"
+                    title: "FECHA",
+                    field: "fecha"
                 },
                 {
-                    title: "",
-                    field: "rboton"
+                    title: "TIPO TUTORIA",
+                    field: "tipoTutoria"
                 },
                 {
-                    title: "Imagen",
-                    field: "imagen",
+                    title: "CANCELAR CITA",
+                    field: "btnCancelar"
+                },
+                {
+                    title: "POSPONER CITA",
+                    field: "btnPosponer",
                 },
                 /*  {},{},{}.... para mas columnas  */
             ],
             data: arreglillo
-            /*
-            [       
-              { nombre: "Alva Nuñez",correo :"ing informatica" },
-              { nombre: "Pedro Arce" ,correo :"ing informatica2"},
-              { nombre: "Alfredo Gomez",correo :"ing informatica3" },
-              { nombre: "Bill Grace",correo :"ing informatica4" },
-              { nombre: "Camilo Echeverry" ,correo :"ing informatica5"},
-            ],*/
+
 
         };
 
@@ -143,17 +152,25 @@ class FrmSolicitarTutorTipoII extends Component {
                     <DialogContent>
                         <Grid container xs={12}>
                             <Paper style={style.paper}>
-                                Espere a que el tutor acepte su solicitud.  Por favor, revise su bandeja.
+                                ¿Está seguro de cancelar esta cita?
                             </Paper>
                         </Grid>
                     </DialogContent>
+
                     <DialogActions>
-                        <Button                            
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="primary"
+                            onClick={this.handleOnClose}                        >
+                            No
+                        </Button>
+                        <Button
                             size="large"
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnClose}                        >
-                            ACEPTAR
+                            Aceptar
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -167,34 +184,43 @@ class FrmSolicitarTutorTipoII extends Component {
                         //onChange={this.handleTabOnChange}
                         aria-label="disabled tabs example"
                     >
-                        <Tab label="Tutores" />
+                        <Tab label="" />
 
                     </Tabs>
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                     <TablaTutores tutores={this.state.tutores} />
-                    <Grid container spacing={6}>
-                        <Grid item >
-                        <Button
-                            type="submit"
-                            fullWidth
-                            size="large"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleOnClick}
-                        >
-                            AGENDAR CITA
-                        </Button>
-                        </Grid>
-                    </Grid>
-
                 </Paper>
 
+                <Dialog
+                    open={this.state.open2}
+                    onClose={this.handleOnClosePosponer}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogContent>
+                        <Grid container xs={12}>
+                            <Paper style={style.paper}>
+                                Horarios Disponibles ... <br></br> Martes 1 : 11AM - 12 PM
+                            </Paper>
+                        </Grid>
+                    </DialogContent>
+
+                    <DialogActions>
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="primary"
+                            onClick={this.handleOnClosePosponer}                        >
+                            Enviar Solicitud de Postergación
+                        </Button>
+                        
+                    </DialogActions>
+                </Dialog>
             </div>
         );
     }
 }
 
-export default FrmSolicitarTutorTipoII;
+export default FrmMisCitas;
 
 const estilo = {
     imagen: {
@@ -202,19 +228,3 @@ const estilo = {
         "border-radius": "100%",
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
