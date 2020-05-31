@@ -79,7 +79,7 @@ class FrmSolicitarTutorTipoII extends Component {
                 imagen: <div>
                     <img
                         style={estilo.imagen}
-                        src="https://pps.whatsapp.net/v/t61.24694-24/98003721_693453491457223_8818237039614975326_n.jpg?oe=5ED1A659&oh=58b150c6ad46eaa6df8b3a83a6b0a283">
+                        src="https://pps.whatsapp.net/v/t61.24694-24/55964047_2032319883736562_5981219942295404544_n.jpg?oe=5ED5DB3A&oh=c40703ba85e558779f6103a79710f43b">
 
                     </img>
                 </div>
@@ -198,7 +198,8 @@ export default FrmSolicitarTutorTipoII;
 
 const estilo = {
     imagen: {
-        width: "25%"
+        width: "45%",
+        "border-radius": "100%",
     }
 }
 

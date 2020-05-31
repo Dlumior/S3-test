@@ -2,15 +2,17 @@ import React from "react";
 import { Route } from "react-router-dom";
 import BarraNavegacion from "../../components/Tutor/BarraNavegacion.js";
 import Perfil from "./Perfil.js";
-import Calendario from "./Calendario.js";
 import MisAlumnos from "./MisAlumnos.js";
 import MiDisponibilidad from "./MiDisponibilidad.js";
+
+//import Calendario from "./Calendario.js";
+import Sesiones from "./Sesiones.js";
 
 const Tutor = () => {
   return (
     <div>
       <br></br><br></br><br></br>
-      <Route exact path={"/tutor/"} component={Perfil} />
+      <Route exact path={"/tutor/"} component={MisAlumnos} />
       <BarraNavegacion>
         <Route exact path={"/tutor/perfil"} component={Perfil} />
         {/*
@@ -25,7 +27,8 @@ const Tutor = () => {
           path={"/tutor/midisponibilidad"}
           component={MiDisponibilidad}
         />
-        <Route exact path={"/tutor/calendario"} component={Calendario} />
+        {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
+        <Route exact path={"/tutor/sesiones"} component={Sesiones} />
       </BarraNavegacion>
     </div>
   );

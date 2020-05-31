@@ -9,14 +9,13 @@ class MisCitas extends Component {
     constructor() {
         super();
         this.state = {
-
         };
 
         /* 
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-    
+
+        this.handleOnChange = this.handleOnChange.bind(this);    
         }
         this.handleOnClick = this.handleOnClick.bind(this);
         */
@@ -29,13 +28,9 @@ class MisCitas extends Component {
             <div>
                 <NombrePrincipal titulo={titulo} />
                 {/*Aca vendria a mostrar las citas de este alumno...   */}
-
                 <FrmMisCitas />
-              
-
             </div>
         );
     }
-
 }
 export default MisCitas;

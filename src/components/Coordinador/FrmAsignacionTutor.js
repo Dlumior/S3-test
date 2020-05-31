@@ -67,6 +67,7 @@ class FrmAsignacionTutor extends Component {
       alert("Alumno asignado Satisfactoriamente");
     }
     console.log("got updated alumno from back:", asignado);
+    this.handleCloseDialog();
   }
 
   handleOpenDialog() {
@@ -199,7 +200,7 @@ class FrmAsignacionTutor extends Component {
                 <Button 
                   variant="contained"
                   color="primary"
-                  onClick={this.handleOnClick}>
+                  onClick={this.handleCloseDialog}>
                   Aceptar
                 </Button>
               </DialogActions>
@@ -215,9 +216,10 @@ class FrmAsignacionTutor extends Component {
           <Grid item md={5}>
           <Button 
             variant="contained"
-            color="primary">
+            color="primary"
+            onClick={this.handleOnClick}>
             Guardar
-            </Button>
+           </Button>
           </Grid>
         </Grid>
       </Paper>

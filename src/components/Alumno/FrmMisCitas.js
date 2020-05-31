@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import * as Controller from "../../Conexion/Controller";
+import * as Controller from "./../../Conexion/Controller";
+
 import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
 import TablaTutores from "./TablaTutores.js";
 
@@ -18,7 +19,6 @@ const style = {
     }
 };
 
-
 class FrmMisCitas extends Component {
     constructor() {
         super();
@@ -35,10 +35,6 @@ class FrmMisCitas extends Component {
 
         };
 
-        {/* 
-        this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        */}
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
@@ -195,7 +191,6 @@ class FrmMisCitas extends Component {
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                     <TablaTutores tutores={this.state.tutores} />
 
-
                 </Paper>
 
                 <Dialog
@@ -231,7 +226,7 @@ export default FrmMisCitas;
 
 const estilo = {
     imagen: {
-        width: "25%",
+        width: "45%",
         "border-radius": "100%",
     }
 }
