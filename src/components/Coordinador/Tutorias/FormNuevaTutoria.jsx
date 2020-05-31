@@ -5,10 +5,6 @@ import {
   TextField,
   Button,
   FormHelperText,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  FormLabel,
 } from "@material-ui/core";
 import ListaProgramas from "../ListaProgramas";
 import GrupoRadioButton from "./GrupoRadioButton";
@@ -39,11 +35,6 @@ class FormNuevaTutoria extends Component {
         permanente: 0,
         programa: "",
         duracion: 0,
-      },
-      mensaje: {
-        nombre: "",
-        descripcion: "",
-        programa: "",
       },
       radios: {
         vigencia: [
@@ -109,25 +100,50 @@ class FormNuevaTutoria extends Component {
     this.handleOnChangeEtiquetas = this.handleOnChangeEtiquetas.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
+    this.superSetState = this.superSetState.bind(this);
+  }
+  superSetState(estado,llave,valor){
+    let nuevoEstado = Object.assign({}, estado);
+    estado[llave] = valor;
+    this.setState({[estado]:nuevoEstado});
   }
   obtenerSeleccion(seleccion) {
     console.log("seleccion", seleccion);
   }
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
-    this.state.tutoria.programa = programa[0];
-
-    this.state.mensaje.programa = "";
-    this.state.validacion.ok = true;
+    this.superSetState(this.state.tutoria,"programa",programa[0]);
+    //let tutoria = Object.assign({}, this.state.tutoria);
+    let mensaje = Object.assign({}, this.state.mensaje);
+    let validacion = Object.assign({}, this.state.validacion);
+    //tutoria.programa = programa[0];
+    mensaje.programa = "";
+    validacion.ok = true;
+    //this.setState({tutoria:tutoria});
+    this.setState({mensaje:mensaje});
+    this.setState({validacion:validacion});
     console.log("proograma:", this.state.tutoria.programa);
   }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
-    this.state.tutoria.duracion = duracion[0];
-
-    this.state.mensaje.duracion = "";
-    this.state.validacion.ok = true;
+    let tutoria = Object.assign({}, this.state.tutoria);
+    tutoria.duracion = duracion[0];
+    this.setState({tutoria:tutoria});
+    let mensaje = Object.assign({}, this.state.mensaje);
+    let validacion = Object.assign({}, this.state.validacion);
+    mensaje.duracion = "";
+    validacion.ok = true;
+    this.setState({mensaje:mensaje});
+    this.setState({validacion:validacion});
     console.log("duracion:", this.state.tutoria.duracion);
+  }
+  shouldComponentUpdate(nextState,nextProps){
+    if(this.state.etiqueta != nextState.etiqueta){
+      console.log("no renderizras xddd");
+      return false;
+    }
+    console.log("se renderizo");
+    return true;
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
@@ -143,11 +159,15 @@ class FormNuevaTutoria extends Component {
     //this.setState({tutoria:tutoria});
     //console.log("Seteado: ", this.state.etiqueta);
   };
+
   handleOnChange = (e) => {
     let tutoria = Object.assign({}, this.state.tutoria);
     console.log(e.target.value);
     if (e.target.value.length > this.state.validacion[e.target.name].lim) {
-      this.state.validacion.ok = false;
+      let validacion = Object.assign({}, this.state.validacion);
+      validacion.ok = false;
+      this.setState({validacion:validacion});
+
       let mensajes = Object.assign({}, this.state.mensaje);
       mensajes[e.target.name] = this.state.validacion[e.target.name].mssgError;
       this.setState({ mensaje: mensajes });

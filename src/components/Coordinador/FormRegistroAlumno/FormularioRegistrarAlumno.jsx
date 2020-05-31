@@ -2,14 +2,11 @@ import React, { Component } from "react";
 import * as Controller from "../../../Conexion/Controller";
 import {
   Paper,
-  Tabs,
   Grid,
   TextField,
-  Tab,
   Button,
   FormHelperText,
 } from "@material-ui/core";
-import { Alert, AlertTitle } from "@material-ui/lab";
 import ListaProgramas from "./../ListaProgramas";
 import ListaEtiquetas from "../Tutorias/ListaEtiquetas";
 import Alertas from "../Alertas";
@@ -178,11 +175,14 @@ class FormularioRegistrarAlumno extends Component {
   handleOnChange = (e) => {
     let alumno = Object.assign({}, this.state.alumno);
     if (e.target.value.length > this.state.validacion[e.target.name].lim) {
-      this.state.validacion.ok = false;
+      let validacion = Object.assign({}, this.state.validacion);
+      validacion.ok = false;
+      this.setState({validacion:validacion});
+
       let mensajes = Object.assign({}, this.state.mensaje);
       mensajes[e.target.name] = this.state.validacion[e.target.name].mssgError;
-
       this.setState({ mensaje: mensajes });
+      
       e.target.value = this.state.alumno[e.target.name];
 
       return;

@@ -5,7 +5,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import * as Conexion from "./../../../Conexion/Controller";
-import { FormControl, InputLabel } from "@material-ui/core";
+import { InputLabel } from "@material-ui/core";
 class ListaEtiquetas extends React.Component {
   constructor() {
     super();
@@ -15,7 +15,7 @@ class ListaEtiquetas extends React.Component {
       icon: <CheckBoxOutlineBlankIcon fontSize="small" color="primary" />,
       checkedIcon: <CheckBoxIcon fontSize="small" color="primary" />,
     };
-    this.handle=this.handle.bind(this);
+    this.handle = this.handle.bind(this);
   }
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
@@ -28,20 +28,25 @@ class ListaEtiquetas extends React.Component {
     let etiquetaSeleccionada = { id: etiqueta, agregar: valor };
     let etiquetas = this.state.etiquetasSeleccionadas;
     let found = false;
-    etiquetas.forEach(element => {
-        //console.log("element",element);
-        if(element.id === etiquetaSeleccionada.id){
-            found=true;
-            element.agregar = etiquetaSeleccionada.agregar;
+    let change = false;
+    etiquetas.forEach((element) => {
+      //console.log("element",element);
+      if (element.id === etiquetaSeleccionada.id) {
+        found = true;
+        if (element.agregar !== etiquetaSeleccionada.agregar) {
+          element.agregar = etiquetaSeleccionada.agregar;
+          change = true;
         }
+      }
     });
-    if(!found){
+    if (!found || change) {
+      if (!found) {
         etiquetas.push(etiquetaSeleccionada);
+      }
+      this.setState({ etiquetasSeleccionadas: etiquetas });
+      this.props.obtenerEtiquetas(this.state.etiquetasSeleccionadas);
     }
-    //const seleccion = etiquetas.filter( etiquetita => etiquetita.agregar ===true);
-    //this.props.obtenerEtiquetas(etiquetas);
-    this.state.etiquetasSeleccionadas=etiquetas;
-    this.props.obtenerEtiquetas(this.state.etiquetasSeleccionadas);
+ 
   };
   render() {
     return (
@@ -56,20 +61,20 @@ class ListaEtiquetas extends React.Component {
           options={this.state.etiquetas}
           disableCloseOnSelect
           getOptionLabel={(etiqueta) => etiqueta.DESCRIPCION}
-          renderOption={(option, { selected }) => 
-              {this.handle(option.ID_ETIQUETA, selected);
-                  return (<React.Fragment>
-              
-              <Checkbox
-                color="primary"
-                checkedIcon={this.state.checkedIcon}
-                style={{ marginRight: 8 }}
-                checked={selected}
-              />
-              {option.DESCRIPCION}
-            </React.Fragment>)}
-            
-          }
+          renderOption={(option, { selected }) => {
+            this.handle(option.ID_ETIQUETA, selected);
+            return (
+              <React.Fragment>
+                <Checkbox
+                  color="primary"
+                  checkedIcon={this.state.checkedIcon}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                {option.DESCRIPCION}
+              </React.Fragment>
+            );
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
