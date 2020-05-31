@@ -6,7 +6,7 @@ import {
   Button,
   FormHelperText,
 } from "@material-ui/core";
-import ListaProgramas from "../ListaProgramas";
+import ListaProgramas from "./../ListaProgramas";
 import GrupoRadioButton from "./GrupoRadioButton";
 import ListaEtiquetas from "./ListaEtiquetas";
 import * as Conexion from "./../../../Conexion/Controller.js";
@@ -14,7 +14,7 @@ import Alertas from "../Alertas";
 const style = {
   paper: {
     marginTop: "3%",
-    marginLeft: "3%",
+    marginLeft: "5%",
     marginRight: "3%",
     flexDirection: "column",
     backgroundImage: "",
@@ -36,6 +36,11 @@ class FormNuevaTutoria extends Component {
         programa: "",
         duracion: 0,
       },
+      mensaje: {
+        nombre: "",
+        descripcion: "",
+        programa: "",
+      },
       radios: {
         vigencia: [
           { titulo: "Permanente", valor: "Permanente" },
@@ -51,7 +56,6 @@ class FormNuevaTutoria extends Component {
         ],
         tipoTutor: [
           { titulo: "Variable", valor: "Variable" },
-          { titulo: "Fijo", valor: "Fijo" },
           { titulo: "Fijo Semestral", valor: "Fijo Semestral" },
           { titulo: "Fijo Permanente", valor: "Fijo Permanente" },
         ],
@@ -100,50 +104,25 @@ class FormNuevaTutoria extends Component {
     this.handleOnChangeEtiquetas = this.handleOnChangeEtiquetas.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
-    this.superSetState = this.superSetState.bind(this);
-  }
-  superSetState(estado, llave, valor) {
-    let nuevoEstado = Object.assign({}, estado);
-    estado[llave] = valor;
-    this.setState({ [estado]: nuevoEstado });
   }
   obtenerSeleccion(seleccion) {
     console.log("seleccion", seleccion);
   }
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
-    this.superSetState(this.state.tutoria, "programa", programa[0]);
-    //let tutoria = Object.assign({}, this.state.tutoria);
-    let mensaje = Object.assign({}, this.state.mensaje);
-    let validacion = Object.assign({}, this.state.validacion);
-    //tutoria.programa = programa[0];
-    mensaje.programa = "";
-    validacion.ok = true;
-    //this.setState({tutoria:tutoria});
-    this.setState({ mensaje: mensaje });
-    this.setState({ validacion: validacion });
+    this.state.tutoria.programa = programa[0];
+
+    this.state.mensaje.programa = "";
+    this.state.validacion.ok = true;
     console.log("proograma:", this.state.tutoria.programa);
   }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
-    let tutoria = Object.assign({}, this.state.tutoria);
-    tutoria.duracion = duracion[0];
-    this.setState({ tutoria: tutoria });
-    let mensaje = Object.assign({}, this.state.mensaje);
-    let validacion = Object.assign({}, this.state.validacion);
-    mensaje.duracion = "";
-    validacion.ok = true;
-    this.setState({ mensaje: mensaje });
-    this.setState({ validacion: validacion });
+    this.state.tutoria.duracion = duracion[0];
+
+    this.state.mensaje.duracion = "";
+    this.state.validacion.ok = true;
     console.log("duracion:", this.state.tutoria.duracion);
-  }
-  shouldComponentUpdate(nextState, nextProps) {
-    if (this.state.etiqueta != nextState.etiqueta) {
-      console.log("no renderizras xddd");
-      return false;
-    }
-    console.log("se renderizo");
-    return true;
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
@@ -159,15 +138,11 @@ class FormNuevaTutoria extends Component {
     //this.setState({tutoria:tutoria});
     //console.log("Seteado: ", this.state.etiqueta);
   };
-
   handleOnChange = (e) => {
     let tutoria = Object.assign({}, this.state.tutoria);
     console.log(e.target.value);
     if (e.target.value.length > this.state.validacion[e.target.name].lim) {
-      let validacion = Object.assign({}, this.state.validacion);
-      validacion.ok = false;
-      this.setState({ validacion: validacion });
-
+      this.state.validacion.ok = false;
       let mensajes = Object.assign({}, this.state.mensaje);
       mensajes[e.target.name] = this.state.validacion[e.target.name].mssgError;
       this.setState({ mensaje: mensajes });
