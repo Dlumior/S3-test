@@ -32,10 +32,10 @@ class ListaProcesoTut extends React.Component {
     
   }
   shouldComponentUpdate(nextState, nextProps) {
-    if (nextState.tutorias != this.state.tutorias) {
+    if (nextState.tutorias !== this.state.tutorias) {
       return true;
     }
-    if (nextState.tutoria != this.state.tutoria) {
+    if (nextState.tutoria !== this.state.tutoria) {
       return true;
     }
     return false;

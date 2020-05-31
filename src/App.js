@@ -25,10 +25,6 @@ function App() {
             <Route path="/coordinador" component={Coordinador} />
             <Route path="/tutor" component={Tutor} />
             <Route path="/alumno" component={Alumno} />
-
-            {/* <Route exact path="/ListarCoordinador" component={Coordinador} />
-            <Route exact path="/RegistrarTutor" component={regTutor} />
-            <Route exact path="/RegistrarAlumno" component={RegistrarAlumno} /> */}
           </div>
         </Router>
       </ThemeProvider>

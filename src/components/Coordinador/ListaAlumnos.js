@@ -1,8 +1,6 @@
 import React from "react";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+
+import { Paper} from "@material-ui/core";
 import * as Controller from "../../Conexion/Controller";
 import TablaAlumnos from "./TablaAlumnos";
 

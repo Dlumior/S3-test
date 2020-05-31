@@ -44,6 +44,7 @@ class TabProceso extends Component {
     switch(tab){
       case 0:  return(<this.state.fomularioNuevaTutoria/>);
       case 1:  return(<this.state.listaDeTutorias/>);
+      default: return(<></>);
     }
   }
   render() {

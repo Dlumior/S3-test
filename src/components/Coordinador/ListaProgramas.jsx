@@ -32,10 +32,10 @@ class ListaProgramas extends React.Component {
     console.log("programas del state",this.state.programas);    
   }
   shouldComponentUpdate(nextState, nextProps) {
-    if (nextState.programas != this.state.programas) {
+    if (nextState.programas !== this.state.programas) {
       return true;
     }
-    if (nextState.programa != this.state.programa) {
+    if (nextState.programa !== this.state.programa) {
       return true;
     }
     return false;

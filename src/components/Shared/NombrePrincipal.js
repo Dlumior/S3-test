@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Grid, Typography, Container } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {

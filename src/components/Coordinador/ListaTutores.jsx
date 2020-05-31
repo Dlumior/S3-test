@@ -31,10 +31,10 @@ class ListaTutores extends React.Component {
     console.log("TUTORES del state",this.state.tutores);
   }
   shouldComponentUpdate(nextState, nextProps) {
-    if (nextState.tutores != this.state.tutores) {
+    if (nextState.tutores !== this.state.tutores) {
       return true;
     }
-    if (nextState.tutor != this.state.tutor) {
+    if (nextState.tutor !== this.state.tutor) {
       return true;
     }
     return false;
