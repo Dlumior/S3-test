@@ -121,6 +121,7 @@ class FrmAsignacionTutor extends Component {
     return(
       <div>
       <Paper elevate={0} style={style.paper}>
+      <Paper elevate={0} style={style.paper}>
         <Grid container spacing={10}>
           <Grid item md={5}
             container
@@ -222,7 +223,7 @@ class FrmAsignacionTutor extends Component {
            </Button>
           </Grid>
         </Grid>
-      </Paper>
+      </Paper></Paper>
       </div>
     )
   }

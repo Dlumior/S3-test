@@ -16,6 +16,9 @@ const style = {
     width: "100%",
     backgroundColor: "#f2f2f2",
   },
+  tabs:{
+    backgroundColor: "#ffffff",
+  }
 };
 class TabProceso extends Component {
   constructor() {
@@ -45,7 +48,7 @@ class TabProceso extends Component {
   }
   render() {
     return (
-      <div>
+      <div style={style.tabs}>
         <Tabs
           value={this.state.tabActivada}
           indicatorColor="primary"

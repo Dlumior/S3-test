@@ -9,11 +9,9 @@ const AsignarTutor = () => {
 
         <div>
             <NombrePrincipal titulo="Asignación de Tutor"/>
-            <Grid container xs={12} spacing={5} justify="center" alignItems="center">
-                <Grid item>
+            
                     <FrmAsignacionTutor/>
-                </Grid>
-            </Grid>
+                
         </div>
     );
 };

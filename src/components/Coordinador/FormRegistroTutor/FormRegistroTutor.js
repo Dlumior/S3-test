@@ -12,6 +12,7 @@ import validateEmail from "./validateEmail.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
+    marginTop: theme.spacing(3),
     padding: theme.spacing(5),
     width: theme.spacing(150),
     height: theme.spacing(55),
