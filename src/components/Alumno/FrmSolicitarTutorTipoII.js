@@ -159,17 +159,7 @@ class FrmSolicitarTutorTipoII extends Component {
                 </Dialog>
 
                 <Paper elevation={0} style={style.paper}>
-                    <Tabs
-                        centered
-                        value={0}
-                        indicatorColor="primary"
-                        textColor="primary"
-                        //onChange={this.handleTabOnChange}
-                        aria-label="disabled tabs example"
-                    >
-                        <Tab label="Tutores" />
-
-                    </Tabs>
+                    
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                     <TablaTutores tutores={this.state.tutores} />
                     <Grid container spacing={6}>

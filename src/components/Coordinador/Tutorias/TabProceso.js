@@ -16,9 +16,9 @@ const style = {
     width: "100%",
     backgroundColor: "#f2f2f2",
   },
-  tabs:{
+  tabs: {
     backgroundColor: "#ffffff",
-  }
+  },
 };
 class TabProceso extends Component {
   constructor() {
@@ -29,6 +29,7 @@ class TabProceso extends Component {
       procesos: [],
     };
     this.activarTab = this.activarTab.bind(this);
+    this.rendertabs = this.rendertabs.bind(this);
   }
   activarTab(tab) {
     this.setState({ tabActivada: tab });
@@ -46,23 +47,35 @@ class TabProceso extends Component {
       this.setState({ procesoActivo: this.props.procesos[0].proceso });
     }
   }
+  rendertabs() {
+    if (
+      this.props.procesos.length === 1 &&
+      this.props.procesos[0].titulo.length === 0
+    ) {
+      return <></>;
+    }
+    return (
+      <Tabs
+        centered
+        value={this.state.tabActivada}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={this.handleTabOnChange}
+        aria-label="disabled tabs example"
+      >
+        {this.props.procesos.map((proceso) => (
+          <Tab
+            onClick={() => this.activarTab(proceso.index)}
+            label={proceso.titulo}
+          />
+        ))}
+      </Tabs>
+    );
+  }
   render() {
     return (
       <div style={style.tabs}>
-        <Tabs
-          value={this.state.tabActivada}
-          indicatorColor="primary"
-          textColor="primary"
-          onChange={this.handleTabOnChange}
-          aria-label="disabled tabs example"
-        >
-          {this.props.procesos.map((proceso) => (
-            <Tab
-              onClick={() => this.activarTab(proceso.index)}
-              label={proceso.titulo}
-            />
-          ))}
-        </Tabs>
+        {this.rendertabs()}
         <div style={style.envoltorioFormulario}>
           <Paper elevation={5} style={style.paper}>
             <this.state.procesoActivo />
