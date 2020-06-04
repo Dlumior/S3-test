@@ -3,6 +3,7 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import FormNuevaTutoria from "../../components/Coordinador/Tutorias/FormNuevaTutoria";
+import CalendarioCitas from "../../components/Alumno/CalendarioCitas";
 
 class AgendarCita extends Component {
   constructor() {
@@ -14,7 +15,9 @@ class AgendarCita extends Component {
           titulo: "Solicitud de Cita",
           procesos: [
             {
-              index: 0, titulo: "Horarios Disponibles", proceso: FormNuevaTutoria,
+              index: 0,
+              titulo: "Horarios Disponibles",
+              proceso: CalendarioCitas,
             },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarTutorTipoII },
           ],
@@ -27,23 +30,31 @@ class AgendarCita extends Component {
           ],
         },
       ],
+      
     };
+    this.renderxTipoProceso=this.renderxTipoProceso.bind(this);
   }
-
-  render() {
+  renderxTipoProceso() {
+    if(this.props.multiProceso){
+      //switch(this.props.multiProceso)
+      console.log("multiProceso: ", this.props.multiProceso);
+    }
     return (
       <div>
         <NombrePrincipal titulo={this.state.procesos[0].titulo} />
         {/*Aca habria una especia de if para ver que formulario abrir
-                de acuerdo al tipo de tutoria 
-                <FormSolicitarTuror tipo = idTipo... +o->
-                */}
+            de acuerdo al tipo de tutoria 
+            <FormSolicitarTuror tipo = idTipo... +o->
+            */}
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs, btw tabbproceso soporta no mostrar tabs XDDD*/}
-        <TabProceso procesos={this.state.procesos[1].procesos} />
+        <TabProceso procesos={this.state.procesos[0].procesos} />
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>
     );
+  }
+  render() {
+    return this.renderxTipoProceso();
   }
 }
 export default AgendarCita;

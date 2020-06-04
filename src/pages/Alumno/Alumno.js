@@ -11,7 +11,7 @@ const Alumno = () => {
       <Route  exact path={"/alumno/"} component={MisCitas} />
       <BarraNavegacion>
         <Route exact path={"/alumno/perfil"} component={Perfil} />
-        <Route exact path={"/alumno/agendarCita"} component={AgendarCita} />
+        <Route exact path={"/alumno/agendarCita"} component={AgendarCita } />
         <Route exact path={"/alumno/misCitas"} component={MisCitas} />
       </BarraNavegacion>
     </div>
