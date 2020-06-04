@@ -11,7 +11,6 @@ import Sesiones from "./Sesiones.js";
 const Tutor = () => {
   return (
     <div>
-      <br></br><br></br><br></br>
       <Route exact path={"/tutor/"} component={MisAlumnos} />
       <BarraNavegacion>
         <Route exact path={"/tutor/perfil"} component={Perfil} />

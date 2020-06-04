@@ -8,7 +8,6 @@ import MisCitas from "./MisCitas.js";
 const Alumno = () => {
   return (
     <div>
-      <br></br> <br></br> <br></br>
       <Route  exact path={"/alumno/"} component={MisCitas} />
       <BarraNavegacion>
         <Route exact path={"/alumno/perfil"} component={Perfil} />
