@@ -21,7 +21,7 @@ class Controles extends Component {
             <IconButton color="primary" aria-label="delete">
               <ArrowBackIosOutlinedIcon />
             </IconButton>
-            Mes
+            {this.props.mes || "Mes Actual"}
             <IconButton color="primary" aria-label="delete">
               <ArrowForwardIosOutlinedIcon />
             </IconButton>
@@ -33,7 +33,7 @@ class Controles extends Component {
             <IconButton color="primary" aria-label="delete">
               <ArrowBackIosOutlinedIcon />
             </IconButton>
-            Semana
+            {"Semana " + this.props.semana || "Semana Actual"}
             <IconButton color="primary" aria-label="delete">
               <ArrowForwardIosOutlinedIcon />
             </IconButton>
