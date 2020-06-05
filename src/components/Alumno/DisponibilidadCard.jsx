@@ -3,7 +3,7 @@ import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, Chip, Paper } from "@material-ui/core";
 const styles = {
   paper: {
-    marginTop: "3%",
+    marginTop: "10%",
     marginLeft: "3%",
     marginRight: "3%",
     flexDirection: "column",

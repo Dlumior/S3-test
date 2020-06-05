@@ -10,14 +10,7 @@ const styles = {
   tituloDia: {
     textAlign: "center",
     marginTop: "3%",
-  },
-  paper: {
-    backgroundColor: "#f2f2f2",
-    marginTop: "3%",
-    flexDirection: "column",
-    backgroundImage: "",
-    height: "400px",
-  },
+  }
 };
 class CalendarioCitas extends Component {
   constructor() {
