@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
 import Controles from "./Controles";
-import { NdiasMes, mesesAnio } from "./Util.ts";
+import { NdiasMes, mesesAnio } from "./Util.js";
 import HorarioDelDia from "./HorarioDelDia";
 const styles = {
   control: {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {  Paper } from "@material-ui/core";
-import {  diasSemana } from "./Util.ts";
+import {  diasSemana } from "./Util.js";
 import DisponibilidadCard from "./DisponibilidadCard";
 const styles = {
   paper: {

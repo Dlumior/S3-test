@@ -3,7 +3,8 @@ import { Grid } from "@material-ui/core";
 const styles = {
   imagen: {
     borderRadius: "50%",
-    height:"50px"
+    objectFit: "cover",
+    width: "100%"
   },
 };
 class ImagenCircular extends Component {
