@@ -14,9 +14,7 @@ class AgendarCita extends Component {
         {
           titulo: "Solicitud de Cita",
           procesos: [
-            {
-              index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas,
-            },
+            { index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarTutorTipoII },
           ],
         },
@@ -44,7 +42,7 @@ class AgendarCita extends Component {
             de acuerdo al tipo de tutoria 
             <FormSolicitarTuror tipo = idTipo... +o->
             */}
-        {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs, btw tabbproceso soporta no mostrar tabs XDDD*/}
+        {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs, btw tabbproceso si soporta no mostrar tabs XDDD*/}
         <TabProceso procesos={this.state.procesos[0].procesos} />
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}

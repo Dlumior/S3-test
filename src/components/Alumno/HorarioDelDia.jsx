@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import {  Paper } from "@material-ui/core";
-import {  diasSemana } from "./Util.js";
+import { Paper } from "@material-ui/core";
+import { diasSemana, fechaEstandar } from "./Util.js";
 import DisponibilidadCard from "./DisponibilidadCard";
+import { GET } from "../../Conexion/Controller.js";
 const styles = {
   paper: {
     backgroundColor: "#ffffff",
@@ -12,7 +13,6 @@ const styles = {
     minHeight: "500px",
     maxHeight: "800px",
     whiteSpace: "nowrap",
-    
   },
   control: {
     textAlign: "center",
@@ -27,33 +27,44 @@ class HorarioDelDia extends Component {
     this.state = {
       diaSemanaStr: "Lunes",
       diaSemanaNum: 1,
-      fecha: new Date(),
+      fecha: "",
     };
-    this.renderHorarios=this.renderHorarios.bind(this);
+    //this.renderHorarios = this.renderHorarios.bind(this);
+    this.renderCabecera = this.renderCabecera.bind(this);
   }
-  componentDidMount(){
-   // GET backend
-   if(this.props.fecha){
 
-     this.setState({fecha: this.props.fecha});
-   }
+  renderCabecera = (fecha) => {
+    
+    const cabecera = new Date(fecha);
+    console.log("horahio: ", cabecera);
+    return (
+      <h2 style={styles.control}>
+        {diasSemana[cabecera.getDay()] +
+          " " +
+          cabecera.getDate()}
+      </h2>
+    );
   }
-  renderHorarios(){
-
+  async componentDidMount() {
+    if (!this.props.fecha) return;
+    const fechaRecibida = new Date(this.props.fecha);
+    console.log(fechaRecibida);
+    this.setState({ fecha: new Date(this.props.fecha) });
+    //const fechaDeHoy = fechaEstandar(this.props.fecha);
+    //let horarios = await GET({servicio: '/citas?fecha='+ fechaDeHoy});
+    //console.log("fecha: ", fechaDeHoy);
   }
   render() {
     return (
-      <><h2 style={styles.control}>
-          {diasSemana[this.props.Ndia] + " " + this.props.diaSemana}
-        </h2>
-      <Paper elevation={5} style={styles.paper}>
-        
-        <DisponibilidadCard
-        />
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/><DisponibilidadCard/>
-      </Paper>
+      <>
+        {this.renderCabecera(this.props.fecha)}
+        <Paper elevation={5} style={styles.paper}>
+          <DisponibilidadCard />
+          <DisponibilidadCard />
+          <DisponibilidadCard />
+          <DisponibilidadCard />
+          <DisponibilidadCard />
+        </Paper>
       </>
     );
   }

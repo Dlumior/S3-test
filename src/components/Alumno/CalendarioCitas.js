@@ -16,74 +16,62 @@ class CalendarioCitas extends Component {
   constructor() {
     super();
     this.state = {
-      semanaDias: [],
-      semanaActual: 1,
-      mesActual: 1,
-      mostrarNdias: 6,
+      Ndias: 6,
       fechaActual: new Date(),
-      inicioSemana: 5,
-      fechaControles: "",
+      lunesActual: "",
+      fechaControles: {},
     };
-    
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
   }
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
    */
-  saltarEnElTiempo(salto) {
+  async saltarEnElTiempo(salto) {
     //funcion generica de viaje en el tiempo
     if (!salto) return;
-    let fechaActual = this.state.fechaActual;
-    console.log("fecha actual: ", fechaActual);
-    fechaActual.setDate(fechaActual.getDate() + salto);
-    this.setState({ fechaActual: fechaActual });
-    console.log("fecha actual: ", fechaActual);
+    let lunesActual = new Date(this.state.lunesActual);
+    this.setState({ lunesActual: await new Date(lunesActual.setDate(lunesActual.getDate()+salto)) });
+    console.log("salto actual: ", this.state.lunesActual);
   }
-  renderDias(semanaDias) {
+  renderDias = (lunesActual) => {
+    console.log("luneeees",lunesActual);
     //const numeracioSemana = this.state.inicioSemana;
-    if (!semanaDias) return;
-    let Ndia = 0;
+    if (!lunesActual) return;
+    let fechaInicial = new Date(lunesActual);
+    console.log("fechaInicial",fechaInicial);
+    let fechasDias = [];
+    for (let i = 0; i < 6; i++) {
+      fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
+      fechaInicial.setDate(fechaInicial.getDate() + 1);
+    }
+    console.log("fechasDias",fechasDias);
     return (
       <>
-        {semanaDias.map((diaSemana) => (
+        {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            <HorarioDelDia
-              fecha={this.state.fechaActual}
-              Ndia={++Ndia}
-              diaSemana={diaSemana}
-            />
+            <HorarioDelDia fecha={diaSemana} />
           </Grid>
         ))}
       </>
     );
   }
-  setFecha(fechaActualizada) {}
-  componentDidMount() {
+  obtenerLunes(fechaActual) {}
+
+  async componentDidMount() {
     const fechaActual = this.state.fechaActual;
-    let regreso =
-      fechaActual.getDay() - (this.state.fechaActual.getUTCDate() - 1);
-    if (regreso <= 0) {
-      regreso = NdiasMes[fechaActual.getMonth() + 1 - 1] + regreso + 1;
-    }
-    //regreso=28;
-    let inicio = regreso;
-    let semanaDias = [];
-    for (let i = 0; i < 6; i++) {
-      if (inicio > NdiasMes[fechaActual.getMonth() + 1 - 1]) {
-        inicio = 1;
-      }
-      semanaDias.push(inicio);
-      inicio++;
-    }
-    this.setState({ semanaDias: semanaDias });
-    this.setState({ inicioSemana: regreso });
-    this.setState({ mesActual: fechaActual.getMonth() + 1 });
+    let offset = 0;
+    const lunes = 1;
+    offset = fechaActual.getDay() - lunes;
+
     this.setState({
-      fechaControles: {
-        mes: mesesAnio[fechaActual.getMonth() + 1],
-        semana: this.state.semanaActual,
-      },
+      fechaControles: { mes: mesesAnio[fechaActual.getMonth() + 1], semana: 1 },
     });
+     this.setState({
+      lunesActual: new Date(
+        await fechaActual.setDate(fechaActual.getDate() - offset)
+      ),
+    });
+    console.log("lunes Actual: ", this.state.lunesActual);
   }
 
   render() {
@@ -94,7 +82,7 @@ class CalendarioCitas extends Component {
           saltoEnElTiempo={this.saltarEnElTiempo}
         />
         <Grid container spacing={4} alignContent="center">
-          {this.renderDias(this.state.semanaDias)}
+          {this.renderDias(this.state.lunesActual)}
         </Grid>
       </div>
     );

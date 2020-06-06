@@ -34,7 +34,9 @@ class Controles extends Component {
               >
                 <ArrowBackIosOutlinedIcon />
               </IconButton>
+              
               {this.props.fecha.mes || "Mes Actual"}
+              
               <IconButton
                 color="primary"
                 aria-label="delete"
