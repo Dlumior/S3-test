@@ -22,19 +22,44 @@ class CalendarioCitas extends Component {
       mostrarNdias: 6,
       fechaActual: new Date(),
       inicioSemana: 5,
+      fechaControles: ""
     };
     this.renderCabioSemana = this.renderCabioSemana.bind(this);
     this.renderCambioMes = this.renderCambioMes.bind(this);
     this.renderDias = this.renderDias.bind(this);
   }
-  renderCabioSemana(semana) {}
-  renderCambioMes(mes) {}
-  renderDias() {
+  /**
+   * podria usar una iteracion y restar fechas 
+   */
+  renderCabioSemana(semana) {
+    // mas o menos 7 dias
+    //manejar si estoy en los limites de un mes
+    //manejar si estoy en los limites de un año
+    if(!semana) return;
+    let fechaActual = this.state.fechaActual;console.log("fecha actual: ",fechaActual);
+    if(semana===-1){
+      //viaje al pasado
+      fechaActual.setDate(fechaActual.getDate()-7);
+    }else{
+      //viaje al futuro
+      fechaActual.setDate(fechaActual.getDate()+7);
+      this.setState({fechaActual:fechaActual});
+    }
+    console.log("fecha cambiada: ",fechaActual);
+
+  }
+  renderCambioMes(mes) {
+    // mas o menos 30 dias
+    //manejar si estoy en los limites de un mes
+    //manejar si estoy en los limites de un año
+  }
+  renderDias(semanaDias) {
     //const numeracioSemana = this.state.inicioSemana;
+    if(!semanaDias)return;
     let Ndia = 0;
     return (
       <>
-        {this.state.semanaDias.map((diaSemana) => (
+        {semanaDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
             <HorarioDelDia
               fecha={this.state.fechaActual}
@@ -45,6 +70,9 @@ class CalendarioCitas extends Component {
         ))}
       </>
     );
+  }
+  setFecha(fechaActualizada){
+
   }
   componentDidMount() {
     const fechaActual = this.state.fechaActual;
@@ -66,18 +94,21 @@ class CalendarioCitas extends Component {
     this.setState({ semanaDias: semanaDias });
     this.setState({ inicioSemana: regreso });
     this.setState({ mesActual: fechaActual.getMonth() + 1 });
+    this.setState({ fechaControles: {mes: mesesAnio[fechaActual.getMonth() + 1], semana:this.state.semanaActual}});
+
   }
+  
+
   render() {
     return (
       <div>
         <Controles
-          mes={mesesAnio[this.state.mesActual]}
-          semana={this.state.semanaActual}
+          fecha={this.state.fechaControles}
           cambiarSemana={this.renderCabioSemana}
           cambiarMes={this.renderCambioMes}
         />
         <Grid container spacing={4} alignContent="center">
-          {this.renderDias()}
+          {this.renderDias(this.state.semanaDias)}
         </Grid>
       </div>
     );

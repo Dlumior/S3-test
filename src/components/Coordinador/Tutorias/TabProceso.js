@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Tab, Tabs, Paper } from "@material-ui/core";
 const style = {
   paper: {
-    marginTop: "3%",
+    marginTop: "2%",
     marginLeft: "3%",
     marginRight: "3%",
     flexDirection: "column",

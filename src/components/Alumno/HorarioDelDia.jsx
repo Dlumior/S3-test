@@ -8,37 +8,56 @@ const styles = {
     marginTop: "3%",
     flexDirection: "column",
     backgroundImage: "",
+    overflow: "auto",
+    minHeight: "300px",
+    maxHeight: "600px",
+    whiteSpace: "nowrap",
+    
   },
   control: {
     textAlign: "center",
   },
 };
+/**
+ * Recibo una fecha (Date) y sobre esta es que me renderizo XD
+ */
 class HorarioDelDia extends Component {
   constructor() {
     super();
     this.state = {
-      
+      diaSemanaStr: "Lunes",
+      diaSemanaNum: 1,
+      fecha: new Date(),
     };
     this.renderHorarios=this.renderHorarios.bind(this);
   }
   componentDidMount(){
    // 
+   if(this.props.fecha){
+
+     this.setState({fecha: this.props.fecha});
+   }
   }
   renderHorarios(){
 
   }
   render() {
     return (
-      <Paper elevation={5} style={styles.paper}>
-        <h3 style={styles.control}>
+      <><h2 style={styles.control}>
           {diasSemana[this.props.Ndia] + " " + this.props.diaSemana}
-        </h3>
+        </h2>
+      <Paper elevation={5} style={styles.paper}>
+        
+        <DisponibilidadCard/>
+        <DisponibilidadCard/>
+        <DisponibilidadCard/>
         <DisponibilidadCard/>
         <DisponibilidadCard/>
         <DisponibilidadCard/>
         <DisponibilidadCard/>
         <DisponibilidadCard/>
       </Paper>
+      </>
     );
   }
 }
