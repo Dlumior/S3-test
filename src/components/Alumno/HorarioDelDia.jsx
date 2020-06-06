@@ -9,8 +9,8 @@ const styles = {
     flexDirection: "column",
     backgroundImage: "",
     overflow: "auto",
-    minHeight: "300px",
-    maxHeight: "600px",
+    minHeight: "500px",
+    maxHeight: "800px",
     whiteSpace: "nowrap",
     
   },
@@ -32,7 +32,7 @@ class HorarioDelDia extends Component {
     this.renderHorarios=this.renderHorarios.bind(this);
   }
   componentDidMount(){
-   // 
+   // GET backend
    if(this.props.fecha){
 
      this.setState({fecha: this.props.fecha});
@@ -48,14 +48,11 @@ class HorarioDelDia extends Component {
         </h2>
       <Paper elevation={5} style={styles.paper}>
         
+        <DisponibilidadCard
+        />
         <DisponibilidadCard/>
         <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
-        <DisponibilidadCard/>
+        <DisponibilidadCard/><DisponibilidadCard/>
       </Paper>
       </>
     );

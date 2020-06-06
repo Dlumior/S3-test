@@ -15,9 +15,7 @@ class AgendarCita extends Component {
           titulo: "Solicitud de Cita",
           procesos: [
             {
-              index: 0,
-              titulo: "Horarios Disponibles",
-              proceso: CalendarioCitas,
+              index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas,
             },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarTutorTipoII },
           ],

@@ -14,31 +14,13 @@ class Controles extends Component {
       atras: -1,
       adelante: 1,
     };
-    this.handleBackSemana = this.handleBackSemana.bind(this);
-    this.handleFordwardSemana = this.handleFordwardSemana.bind(this);
-    this.handleBackMes = this.handleBackMes.bind(this);
-    this.handleFordwardMes = this.handleFordwardMes.bind(this);
+    this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
   }
-  handleBackSemana(e) {
+  saltoEnElTiempoLocal = (saltoEnElTiempo) => {
     //console.log( "1 semana al pasado");
-    this.props.cambiarSemana(this.state.atras);
+    this.props.saltoEnElTiempo(saltoEnElTiempo);
   }
-  handleFordwardSemana(e) {
-    //console.log( "1 semana al futuro");
-    this.props.cambiarSemana(this.state.adelante);
-
-  }
-  handleBackMes(e) {
-    //console.log( "1 mes al pasado");
-    this.props.cambiarMes(this.state.atras);
-
-  }
-  handleFordwardMes(e) {
-    //console.log( "1 mes al futuro");
-
-    this.props.cambiarMes(this.state.adelante);
-
-  }
+  
   render() {
     return (
       <div>
@@ -48,7 +30,7 @@ class Controles extends Component {
               <IconButton
                 color="primary"
                 aria-label="delete"
-                onClick={this.handleBackMes}
+                onClick={()=>this.saltoEnElTiempoLocal(-30)}
               >
                 <ArrowBackIosOutlinedIcon />
               </IconButton>
@@ -56,7 +38,7 @@ class Controles extends Component {
               <IconButton
                 color="primary"
                 aria-label="delete"
-                onClick={this.handleFordwardMes}
+                onClick={()=>this.saltoEnElTiempoLocal(30)}
               >
                 <ArrowForwardIosOutlinedIcon />
               </IconButton>
@@ -68,7 +50,7 @@ class Controles extends Component {
               <IconButton
                 color="primary"
                 aria-label="delete"
-                onClick={this.handleBackSemana}
+                onClick={()=>this.saltoEnElTiempoLocal(-7)}
               >
                 <ArrowBackIosOutlinedIcon />
               </IconButton>
@@ -76,7 +58,7 @@ class Controles extends Component {
               <IconButton
                 color="primary"
                 aria-label="delete"
-                onClick={this.handleFordwardSemana}
+                onClick={()=>this.saltoEnElTiempoLocal(7)}
               >
                 <ArrowForwardIosOutlinedIcon />
               </IconButton>

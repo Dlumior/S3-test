@@ -10,7 +10,7 @@ const styles = {
   tituloDia: {
     textAlign: "center",
     marginTop: "3%",
-  }
+  },
 };
 class CalendarioCitas extends Component {
   constructor() {
@@ -22,40 +22,26 @@ class CalendarioCitas extends Component {
       mostrarNdias: 6,
       fechaActual: new Date(),
       inicioSemana: 5,
-      fechaControles: ""
+      fechaControles: "",
     };
-    this.renderCabioSemana = this.renderCabioSemana.bind(this);
-    this.renderCambioMes = this.renderCambioMes.bind(this);
-    this.renderDias = this.renderDias.bind(this);
+    
+    this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
   }
   /**
-   * podria usar una iteracion y restar fechas 
+   * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
    */
-  renderCabioSemana(semana) {
-    // mas o menos 7 dias
-    //manejar si estoy en los limites de un mes
-    //manejar si estoy en los limites de un año
-    if(!semana) return;
-    let fechaActual = this.state.fechaActual;console.log("fecha actual: ",fechaActual);
-    if(semana===-1){
-      //viaje al pasado
-      fechaActual.setDate(fechaActual.getDate()-7);
-    }else{
-      //viaje al futuro
-      fechaActual.setDate(fechaActual.getDate()+7);
-      this.setState({fechaActual:fechaActual});
-    }
-    console.log("fecha cambiada: ",fechaActual);
-
-  }
-  renderCambioMes(mes) {
-    // mas o menos 30 dias
-    //manejar si estoy en los limites de un mes
-    //manejar si estoy en los limites de un año
+  saltarEnElTiempo(salto) {
+    //funcion generica de viaje en el tiempo
+    if (!salto) return;
+    let fechaActual = this.state.fechaActual;
+    console.log("fecha actual: ", fechaActual);
+    fechaActual.setDate(fechaActual.getDate() + salto);
+    this.setState({ fechaActual: fechaActual });
+    console.log("fecha actual: ", fechaActual);
   }
   renderDias(semanaDias) {
     //const numeracioSemana = this.state.inicioSemana;
-    if(!semanaDias)return;
+    if (!semanaDias) return;
     let Ndia = 0;
     return (
       <>
@@ -71,9 +57,7 @@ class CalendarioCitas extends Component {
       </>
     );
   }
-  setFecha(fechaActualizada){
-
-  }
+  setFecha(fechaActualizada) {}
   componentDidMount() {
     const fechaActual = this.state.fechaActual;
     let regreso =
@@ -94,18 +78,20 @@ class CalendarioCitas extends Component {
     this.setState({ semanaDias: semanaDias });
     this.setState({ inicioSemana: regreso });
     this.setState({ mesActual: fechaActual.getMonth() + 1 });
-    this.setState({ fechaControles: {mes: mesesAnio[fechaActual.getMonth() + 1], semana:this.state.semanaActual}});
-
+    this.setState({
+      fechaControles: {
+        mes: mesesAnio[fechaActual.getMonth() + 1],
+        semana: this.state.semanaActual,
+      },
+    });
   }
-  
 
   render() {
     return (
       <div>
         <Controles
           fecha={this.state.fechaControles}
-          cambiarSemana={this.renderCabioSemana}
-          cambiarMes={this.renderCambioMes}
+          saltoEnElTiempo={this.saltarEnElTiempo}
         />
         <Grid container spacing={4} alignContent="center">
           {this.renderDias(this.state.semanaDias)}
