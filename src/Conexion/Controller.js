@@ -47,9 +47,11 @@ export async function POST(props) {
             body: JSON.stringify( props.request )
         });
         let responseJson = await response.json();
+        console.log(">>> POST succesful");
         return responseJson;  
     } catch (error) {
-        console.log("dead:", error.message);
+        console.log(">>> POST failed");
+        console.log(">>> ", error.message);
         return null;
     }
 }
