@@ -18,7 +18,7 @@ import TablaAlumnos from "./TablaAlumnos";
 //import Paso from "./paso";
 const style = {
   paper: {
-    marginTop: "3%",
+    marginTop: "5%",
     marginLeft: "3%",
     marginRight: "3%",
     flexDirection: "column",

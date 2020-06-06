@@ -36,11 +36,6 @@ class FormNuevaTutoria extends Component {
         programa: "",
         duracion: 0,
       },
-      mensaje: {
-        nombre: "",
-        descripcion: "",
-        programa: "",
-      },
       radios: {
         vigencia: [
           { titulo: "Permanente", valor: "Permanente" },
@@ -102,7 +97,7 @@ class FormNuevaTutoria extends Component {
     this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangeEtiquetas = this.handleOnChangeEtiquetas.bind(this);
-    this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
+    this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this); 
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
   }
   obtenerSeleccion(seleccion) {

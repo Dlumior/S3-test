@@ -1,10 +1,9 @@
 
 
 /**
- *  @param props objeto que contiene url y request
- *  @param props.servicio URL del endpoint al cual se conectara
- * 
- *  @returns metodo GET/ un objeto json que el endpoint en el backend devuelve 
+ * Como llamar a GET: "...... GET ( {servicio: "/servico?query=valorQuery"} )"
+ * @param {string} props.servicio ruta del endpoint en el backend
+ * @param {Object} props 
  */
 export async function GET(props) {
     try {
@@ -27,9 +26,11 @@ export async function GET(props) {
     }
 }
 /**
+ * Como llamar a POST: ".... POST( {servicio: "/servico?query=valorQuery" , request: {objeto} } )"
+ * 
  *  @param props objeto que contiene url y request
- *  @param props.servicio URL del endpoint al cual se conectara
- *  @param props.request el objeto que requiere el endpoint 
+ *  @param {string} props.servicio URL del endpoint al cual se conectara
+ *  @param {JSON} props.request el objeto que requiere el endpoint 
  * 
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve 
  */
