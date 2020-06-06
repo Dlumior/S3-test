@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
-import FormNuevaTutoria from "../../components/Coordinador/Tutorias/FormNuevaTutoria";
 import CalendarioCitas from "../../components/Alumno/CalendarioCitas";
 
 class AgendarCita extends Component {
@@ -14,7 +13,8 @@ class AgendarCita extends Component {
         {
           titulo: "Solicitud de Cita",
           procesos: [
-            { index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas },
+            { index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas,
+            },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarTutorTipoII },
           ],
         },
@@ -26,12 +26,11 @@ class AgendarCita extends Component {
           ],
         },
       ],
-      
     };
-    this.renderxTipoProceso=this.renderxTipoProceso.bind(this);
+    this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
   }
   renderxTipoProceso() {
-    if(this.props.multiProceso){
+    if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
       console.log("multiProceso: ", this.props.multiProceso);
     }

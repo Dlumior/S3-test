@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Paper } from '@material-ui/core';
+import EnConstruccion from '../../Shared/EnConstruccion';
 const style = {
     paper: {
       marginTop: "3%",
@@ -20,7 +21,7 @@ class ListaTutorias extends Component {
     return (
       <Paper elevation={0} style={style.paper}>
         Lista de Tutorias TO-DO
-        <img src="https://ututor-recursos.s3.amazonaws.com/KND_construccion.png"/>
+        <EnConstruccion/>
       </Paper>
     );
   }
