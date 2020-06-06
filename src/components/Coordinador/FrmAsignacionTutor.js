@@ -54,10 +54,11 @@ class FrmAsignacionTutor extends Component {
       alumnos
     } = this.state.asignacion;
     const nuevaAsignacion = {
-      asignacion: {
-        ID_TUTOR: tutor,
-        ID_PROCESO_TUTORIA: tutoria,
+      asignacionTutoria: {
+        PROCESO_TUTORIA: tutoria,
+        TUTOR: tutor,
         ALUMNOS: alumnos,
+        FECHA_ASIGNACION: new Date(),
       },
     };
     const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
