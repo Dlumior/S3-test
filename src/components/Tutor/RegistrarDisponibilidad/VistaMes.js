@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import CuadroDia from "./CuadroDia";
+import EventsCalendar from "./EventsCalendar";
 
 const diaArray = [
   { dia: "Lunes" },
@@ -12,8 +13,13 @@ const diaArray = [
 ];
 
 const VistaMes = () => {
+  const [datosForm, setDatosForm] = useState({
+    OPEN: false
+  });
   return (
-    <Grid container spacing={2} justify="center" alignItems="center">
+    <EventsCalendar />
+    //<iframe src={"https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%233aafa9&amp;ctz=America%2FLima&amp;showTitle=1&amp;title=Nombre"} borderWidth={0} width={800} height={600} frameborder={0}scrolling={"no"}> </iframe>
+    /*<Grid container spacing={2} justify="center" alignItems="center">
       {diaArray.map((item) => (
         <Grid item md={2} key={item.dia}>
           <Typography variant="subtitle1" align="center">
@@ -24,80 +30,81 @@ const VistaMes = () => {
       <Grid item md={12}>
         <Grid container justify="center" alignItems="center" spacing={2}>
           <Grid item md={2}>
-            <CuadroDia />
+          
+             <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
           </Grid>
           <Grid item md={2}>
-            <CuadroDia />
-          </Grid>
+            <CuadroDia datos={datosForm} setDatos={setDatosForm}/>
+          </Grid> 
         </Grid>
-      </Grid>
-    </Grid>
+      </Grid
+    </Grid>>*/
   );
 };
 

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Paper, makeStyles, Grid, Typography, Fab } from "@material-ui/core";
-
+import Dialogo from "./Dialogo.js";
 import { AddCircle } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -10,7 +10,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CuadroDia = () => {
+
+
+const handleClickOpen = (e,datos, setDatos) => {
+  setDatos({
+    ...datos,
+      OPEN: true,
+    });
+};
+
+const CuadroDia = (props) => {
+  const { datos, setDatos } = props
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -22,7 +32,8 @@ const CuadroDia = () => {
             </Grid>
             <Grid item xs={2}>
               <Fab aria-label="add" size="small">
-                <AddCircle />
+                <AddCircle onClick= {(e) => handleClickOpen(e, datos, setDatos)}/>
+                <Dialogo datos={datos} setDatos={setDatos}/>
               </Fab>
             </Grid>
           </Grid>
