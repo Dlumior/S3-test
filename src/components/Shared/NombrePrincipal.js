@@ -4,8 +4,8 @@ import { makeStyles, Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   customContainer: {
     backgroundColor: "#ffffff",
-    paddingBottom: theme.spacing(5),
-    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(),
     paddingLeft: theme.spacing(5), 
   },
 }));

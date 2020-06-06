@@ -177,6 +177,8 @@ class FrmMisCitas extends Component {
                 </Dialog>
 
                 <Paper elevation={0} style={style.paper}>
+                    {
+                    /* por aora no es necesario que el formulario tenga su propio tab ya que el comp. padre te lo dara tranqui xd
                     <Tabs
                         centered
                         value={0}
@@ -187,7 +189,7 @@ class FrmMisCitas extends Component {
                     >
                         <Tab label="" />
 
-                    </Tabs>
+                    </Tabs>*/}
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                     <TablaTutores tutores={this.state.tutores} />
 
