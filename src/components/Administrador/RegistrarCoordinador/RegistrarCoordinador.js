@@ -95,12 +95,7 @@ const RegistrarCoordinador = () => {
   const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);
 
-  /*
-  const [res, apiMethod] = useFetchData({
-    url: "/api/coordinador",
-    payload: datosForm,
-  });
-  */
+
  useEffect(() => {
   async function fetchData() {
     const endpoint = "/api/programa";
@@ -131,7 +126,10 @@ const RegistrarCoordinador = () => {
       errors.email.error ||
       errors.phoneNumber.error ||
       errors.address.error ||
-      errors.code.error
+      errors.code.error ||
+      datosForm.NOMBRE==='' || datosForm.APELLIDOS==='' ||
+      datosForm.CORREO==='' || datosForm.CODIGO===''
+
     ) {
       alert("Hay errores en los campos");
       return;

@@ -41,7 +41,7 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 const RegistrarFacultad = () => {
   const [datosForm, setDatosForm] = React.useState({
-    ID_FACULTAD:"",
+    ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null
