@@ -10,6 +10,29 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, Paper, makeStyles,Typography } from "@material-ui/core";
 
+const style = {
+  paper: {
+    marginTop: "4%",
+    marginLeft: "4%",
+    marginRight: "4%",
+    marginBottom: "5%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundImage: "",
+  },
+  paperitem: {
+      marginTop: "2%",
+      marginLeft: "4%",
+    },
+    foto: {
+      marginTop: "2%",
+      marginLeft: "4%",
+      marginTop: "4%",
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundImage: "",
+    }
+};
 
 const RegistrarSesion = () => {
   const [datosForm, setDatosForm] = React.useState({
@@ -55,26 +78,82 @@ const RegistrarSesion = () => {
           <Typography variant="h5">Registar Sesion</Typography>
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={3}>
-            <Grid item md
+          <Paper elevation={0} style={style.paper}>
+          <Grid container md={12} spacing={3}>
+            <Grid item md={12}
               container
-              direction="column"
-              alignItems="flex-start"
               justify="center" >
-              <Typography variant="subtitle1">Alumno:Mauricio Gonzales </Typography>
-              <Typography variant="subtitle1">Fecha: Viernes 27 de Julio del 2020 </Typography>
-              <Typography variant="subtitle1">Hora:13:00 - 14:00</Typography>            
-            {/*
-            <Grid item md={4}>
-                <Button 
-                variant="outlined"
-                color="primary">
-                Derivar
-                </Button>
-            </Grid>*/}
-             
+              <TextField
+                  required
+                  margin="dense"
+                  id="alumno"
+                  label="Alumno"
+                  fullWidth   
+              />
+            </Grid>
+            <Grid item md={12}
+              container
+              justify="center" >
+              <TextField
+                  required
+                  margin="dense"
+                  id="Fecha"
+                  label="Fecha"
+                  fullWidth   
+              />
+            </Grid>
+            <Grid item md={12}
+              container
+              justify="center" >
+              <TextField
+                  required
+                  margin="dense"
+                  id="Hora"
+                  label="Hora"
+                  fullWidth   
+              />
+            </Grid>
+            <Grid item md={12} justify="center" >
+                <Paper elevation={0} style={style.paperitem}>
+                    <Typography variant="h6">
+                        Plan de Acción
+                    </Typography>
+                </Paper>
+            </Grid>
+            <Grid item md={12}
+              container
+              justify="center" >
+              <TextField
+                  multiline
+                  rows={5}
+                  id="plan"
+                  label="Descripción"
+                  variant="outlined"
+                  fullWidth   
+              />
+            </Grid>
+            <Grid item md={12} justify="center" >
+                <Paper elevation={0} style={style.paperitem}>
+                    <Typography variant="h6">
+                        Resultados
+                    </Typography>
+                </Paper>
+            </Grid>
+            <Grid item md={12}
+              container
+              justify="center" >
+              <TextField
+                  multiline
+                  rows={5}
+                  id="res"
+                  label="Descripción"
+                  variant="outlined"
+                  fullWidth   
+              />
             </Grid>
           </Grid>
+          </Paper>
+          
         </DialogContent>
         <DialogActions>
           <Button 
