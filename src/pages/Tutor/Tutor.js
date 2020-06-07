@@ -7,6 +7,7 @@ import MiDisponibilidad from "./MiDisponibilidad.js";
 
 //import Calendario from "./Calendario.js";
 import Sesiones from "./Sesiones.js";
+import Solicitudes from "./Solicitudes.js";
 
 const Tutor = () => {
   return (
@@ -28,6 +29,7 @@ const Tutor = () => {
         />
         {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
         <Route exact path={"/tutor/sesiones"} component={Sesiones} />
+        <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
       </BarraNavegacion>
     </div>
   );
