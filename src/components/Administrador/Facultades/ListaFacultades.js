@@ -41,9 +41,9 @@ class ListaFacultades extends React.Component {
 
     let arreglillo = [];
     for (let element of arregloFac.facultad){
-      if (element.ID_FACULTAD!==null){
+      if (element.ID_PROGRAMA!==null){
         arreglillo.push({
-          codigo:element.ID_FACULTAD,
+          codigo:element.ID_PROGRAMA,
           nombre:element.NOMBRE,
           boton:<div> 
                       <Button 

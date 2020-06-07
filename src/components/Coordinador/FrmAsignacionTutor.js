@@ -5,7 +5,6 @@ import ListaProcesoTut from "./ListaProcesoTut";
 import ListaTutores from "./ListaTutores";
 import ListaAlumnos from "./ListaAlumnos";
 
-import DialogListaTut from "./DialogListaTut";
 import * as Controller from "../../Conexion/Controller";
 
 import DialogTitle from '@material-ui/core/DialogTitle';
