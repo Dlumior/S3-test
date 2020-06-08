@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Tab, Tabs, Paper } from "@material-ui/core";
 const style = {
   paper: {
-    marginTop: "2%",
+    marginTop: "1%",
     marginLeft: "3%",
     marginRight: "3%",
     flexDirection: "column",
     alignItems: "left",
     backgroundImage: "",
+    minHeight: 400
   },
   envoltorioFormulario: {
     alignItems: "center",
