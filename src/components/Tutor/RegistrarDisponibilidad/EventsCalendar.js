@@ -54,7 +54,7 @@ class EventsCalendar extends Component {
         end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
         id: disp.ID_DISPONIBILIDAD,
         repeticion: 2,
-        lugar: "V207"
+        lugar: disp.LUGAR
       }      
       listaEventos.push(evento);
     }
@@ -84,7 +84,7 @@ class EventsCalendar extends Component {
           end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
           id: disp.ID_DISPONIBILIDAD,
           repeticion: 2,
-          lugar: "V207"
+          lugar: disp.LUGAR
         }      
         listaEventos.push(evento);
       }
