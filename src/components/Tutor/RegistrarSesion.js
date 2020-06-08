@@ -38,8 +38,8 @@ const RegistrarSesion = () => {
   const [datosForm, setDatosForm] = React.useState({
     proceso:0,
     alumno:0,
-    fecha:0,
-    horaini:0,
+    fecha: new Date(),
+    horaini:'',
     horafin:0,
     resultado:0
   });
@@ -97,8 +97,12 @@ const RegistrarSesion = () => {
               <TextField
                   required
                   margin="dense"
+                  type="date"
                   id="Fecha"
                   label="Fecha"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                   fullWidth   
               />
             </Grid>
@@ -108,8 +112,30 @@ const RegistrarSesion = () => {
               <TextField
                   required
                   margin="dense"
+                  type="time"
                   id="Hora"
-                  label="Hora"
+                  width={5}
+                  label="Hora Inicio"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300, // 5 min
+                  }}
+                  fullWidth   
+              />
+              <TextField
+                  required
+                  margin="dense"
+                  type="time"
+                  id="Hora fin"
+                  label="Hora Fin"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    step: 300, // 5 min
+                  }}
                   fullWidth   
               />
             </Grid>
@@ -123,6 +149,7 @@ const RegistrarSesion = () => {
             <Grid item md={12}
               container
               justify="center" >
+                {/*
               <TextField
                   multiline
                   rows={5}
@@ -130,7 +157,7 @@ const RegistrarSesion = () => {
                   label="Descripción"
                   variant="outlined"
                   fullWidth   
-              />
+              />*/}
             </Grid>
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>

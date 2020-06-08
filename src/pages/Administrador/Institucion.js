@@ -5,16 +5,16 @@ import { Grid, Paper, makeStyles } from "@material-ui/core";
 import ConfigurarInstitucion from "../../components/Administrador/Institucion/ConfigurarInstitucion";
 
 const Institucion = () => {
-  /*
-  const [institucion, setInstitucion] = useState("");
+/*  
+  const [institucion, setInstitucion] = useState();
 
   useEffect(() => {
     async function fetchData() {
       const endpoint = "/api/institucion";
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("institu:", res);
-      setInstitucion(res.Institucion);
+      console.log("institu:", res.institucion);
+      setInstitucion(res.institucion);
       console.log("institu:", institucion);
     }
      fetchData();
@@ -24,6 +24,7 @@ const Institucion = () => {
     <div>
       <NombrePrincipal titulo="Configuracion de la Institución" />
       <ConfigurarInstitucion />
+      {/*<ConfigurarInstitucion institucion={institucion}/>*/}
     </div>
   );
 };

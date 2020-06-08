@@ -6,6 +6,7 @@ import RegistrarTutor from "./RegistrarTutor.js";
 import RegistrarAlumno from "./RegistrarAlumno.js";
 import AsignarTutor from "./AsignarTutor.js";
 import Tutorias from "./Tutorias.js";
+import Programas from "./Programas";
 
 import Perfil from "./Perfil.js";
 
@@ -35,6 +36,11 @@ const Coordinador = () => {
           exact
           path="/coordinador/procesosdetutoria"
           component={Tutorias}
+        />
+        <Route
+          exact
+          path="/coordinador/programas"
+          component={Programas}
         />
       </BarraNavegacion>
     </div>

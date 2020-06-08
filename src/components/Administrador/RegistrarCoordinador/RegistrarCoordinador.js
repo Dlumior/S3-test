@@ -11,7 +11,10 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
+import CheckBoxListPrograma from "./CheckBoxListPrograma";
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 
+import IconButton from '@material-ui/core/IconButton';
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
 import validateLastNames from "../../Coordinador/FormRegistroTutor/validateLastNames.js";
@@ -19,6 +22,7 @@ import validatePhoneNumber from "../../Coordinador/FormRegistroTutor/validatePho
 import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress.js";
 import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
 import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
+import CheckboxList from "./CheckBoxListPrograma";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -88,12 +92,13 @@ const RegistrarCoordinador = () => {
     CONTRASENHA: "",
     DIRECCION: "",
     IMAGEN: null,
-    PROGRAMA:"",
+    PROGRAMA:[],
   });
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState("");
   const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);
+  const [cantProgramas, setCantPrograma]=useState(1);
 
 
  useEffect(() => {
@@ -119,6 +124,10 @@ const RegistrarCoordinador = () => {
     setOpen(false);
   };
 
+  const handleCantPrograma = () => {
+    setCantPrograma(cantProgramas => cantProgramas + 1);
+  };
+
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
       errors.name.error ||
@@ -134,16 +143,25 @@ const RegistrarCoordinador = () => {
       alert("Hay errores en los campos");
       return;
     } else {
+      console.log("programa ha actualizar: ",programas);
+      /*
+      let arregloProg=[];
+      for (let element of programas){
+        //arregloProg.push(element.ID_PROGRAMA)
+        datosForm.PROGRAMA.push(element.ID_PROGRAMA)        
+      }
+      console.log("arreglo ha actualizar: ",arregloProg);
+      */
+      datosForm.PROGRAMA.push(programa)  
       setDatosForm({
         ...datosForm,
-        CONTRASENHA: datosForm.nombre + datosForm.APELLIDOS,
       });
-      console.log(datosForm);
-
-      const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
+      console.log(datosForm);      
+      const props = { servicio: "/api/coordinador/", request: {coordinador: datosForm} };
       console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);
+
 
       if (nuevoCoord){      
         alert("Se registro coordinador Correctamente");
@@ -176,6 +194,32 @@ const RegistrarCoordinador = () => {
 */
   };
 
+  const renderPrograma = (cantProgramas) => {
+    
+    let n=cantProgramas;
+    let arregloProg=[];
+    for (let i=0;i<n;i++){
+      arregloProg.push(i);
+    }
+      return(
+        <div>
+          {arregloProg.map((item) => (
+          <Grid container spacing={1} alignContent="center" alignItems="baseline">
+          <Grid item alignContent="center" alignItems="baseline">
+            <ComboBoxPrograma
+              setPDisabled={setPDisabled}
+              programas={programas}
+              programa={programa}
+              setPrograma={setPrograma}
+            />                
+          </Grid>                
+        </Grid>
+        ))}
+
+        </div> 
+    );    
+}
+
   return (
     <div>
       <Button 
@@ -193,7 +237,7 @@ const RegistrarCoordinador = () => {
           Formulario de registro de coordinador
         </DialogTitle>
         <DialogContent>
-          <Grid container xs={12}>
+          <Grid container xs={12} spacing={4}> 
             <Grid item xs={4}>
               <Paper className={classes.foto}>Foto</Paper>
             </Grid>
@@ -246,12 +290,35 @@ const RegistrarCoordinador = () => {
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               />
-              <ComboBoxPrograma
-                setPDisabled={setPDisabled}
+              {/*<Button
+                color="primary"
+                variant="outlined">
+                Asignar Facultades
+              </Button>*/}
+              <Grid container spacing={1} alignContent="center" alignItems="baseline">
+                <Grid item alignContent="center" alignItems="baseline">
+                <Grid container spacing={1} alignContent="center" alignItems="baseline">
+                    <Grid item alignContent="center" alignItems="baseline">
+                      <ComboBoxPrograma
+                        setPDisabled={setPDisabled}
+                        programas={programas}
+                        programa={programa}
+                        setPrograma={setPrograma}
+                      />                
+                    </Grid>                
+                  </Grid>
+                  <IconButton color="primary" onClick={(cantProgramas)=> handleCantPrograma(cantProgramas)}>
+                    <AddBoxRoundedIcon
+                    color="primary"
+                    fontsize="large" />
+                  </IconButton>
+                </Grid>                
+              </Grid>
+              {/*<CheckBoxListPrograma
                 programas={programas}
                 programa={programa}
                 setPrograma={setPrograma}
-              />
+              />*/}
             </Grid>
           </Grid>
         </DialogContent>
