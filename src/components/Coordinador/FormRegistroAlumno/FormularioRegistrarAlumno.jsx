@@ -66,7 +66,7 @@ class FormularioRegistrarAlumno extends Component {
         telefono: "",
         direccion: "",
       },
-     
+
       alert: {
         mensajeStrong: "",
         mensajeStrongError: "porfavor revisalos!",
@@ -76,8 +76,8 @@ class FormularioRegistrarAlumno extends Component {
         mensaje: "",
       },
       severidad: "warning",
-      validacionOk:false,
-      errores:[],
+      validacionOk: false,
+      errores: [],
     };
     this.handleOnChangeEtiquetas = this.handleOnChangeEtiquetas.bind(this);
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -85,38 +85,48 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
   }
-  validarEntrada(error){
-    let errores = this.state.errores;
-    let newErrores = [];
-    let nuevo=true;
-    let eliminar = false;
-    errores.forEach((err) => {
-      // si encuentro que ya puse el error
-      if (err.llave === error.llave) {
-        nuevo = false;
-        //pregunto si lo que mando es lo que ya estaba, el error
-        if(err.error !== error.error){
-          //estoy viniendo a eliminarlo
-          eliminar=true;
-        }
-
-      }
-      if(!eliminar){
-        newErrores.push(err);
+  validarEntrada(error) {
+    console.log("errores:", error);
+    let encontrado = undefined;
+    let nuevo = false;
+    let eliminar = 
+    this.state.errores.forEach((element) => {
+      if (element.llave === error.llave) {
+        encontrado = element;
       }
     });
-    if(nuevo &&  error!=''){
-      newErrores.push({llave:error.name,error:error.error});
-      this.setState({errores:errores});
+    if(encontrado){
+      if(error.error.length===0) {
+        //lo borro
+        eliminar=true;
+      }
+    }else{
+      if(error.error.length!==0){
+        nuevo=true;
+
+      }
+    }
+    console.log("nuevo: ", nuevo);
+    if (nuevo) {
+      let newErrores = this.state.errores;
+      newErrores.push(error);
+      this.setState({ errores: newErrores });
       return;
     }
-    errores.push({llave:error.name,error:error.error});
-    console.log("errores:",this.state.errores);
-    this.setState({errores:errores});
+    if(eliminar){
+      let newErrores = [];
+      this.state.errores.forEach(element => {
+        if(element.llave !== error.llave){
+          newErrores.push(element);
+        }
+      });
+      this.setState({ errores: newErrores });
+    }
+    
   }
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
-    if (false) {
+    if (this.state.errores.length===0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
       let {
