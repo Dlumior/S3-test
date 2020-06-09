@@ -94,20 +94,21 @@ const RegistrarCoordinador = () => {
     IMAGEN: null,
     PROGRAMA:[],
   });
+  const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState("");
+  const [programa, setPrograma] = useState([]);
   const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);
-  const [cantProgramas, setCantPrograma]=useState(1);
+  const [cantProgramas, setCantPrograma]=useState(0);
 
 
  useEffect(() => {
   async function fetchData() {
-    const endpoint = "/api/programa";
+    const endpoint = "/api/facultad";
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("proogramasss:", res);
-    setProgramas(res.programa);
+    setProgramas(res.facultad);
     console.log("proograma:", programa);
   }
    fetchData();
@@ -126,6 +127,9 @@ const RegistrarCoordinador = () => {
 
   const handleCantPrograma = () => {
     setCantPrograma(cantProgramas => cantProgramas + 1);
+    console.log("programa",programa)
+    programasSeleccionados.push(programa);
+    console.log("programasSelecc",programasSeleccionados)
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -143,19 +147,24 @@ const RegistrarCoordinador = () => {
       alert("Hay errores en los campos");
       return;
     } else {
-      console.log("programa ha actualizar: ",programas);
+      console.log("programa ha actualizar: ",programasSeleccionados);
       /*
       let arregloProg=[];
-      for (let element of programas){
+      for (let element of programasSeleccionados){
         //arregloProg.push(element.ID_PROGRAMA)
-        datosForm.PROGRAMA.push(element.ID_PROGRAMA)        
+        datosForm.PROGRAMA.push(element)        
       }
       console.log("arreglo ha actualizar: ",arregloProg);
       */
-      datosForm.PROGRAMA.push(programa)  
+      console.log("programa",programa)
+      programasSeleccionados.push(programa);
+      console.log("programasSelecc",programasSeleccionados)
+
+      datosForm.PROGRAMA=programasSeleccionados;
       setDatosForm({
         ...datosForm,
       });
+
       console.log(datosForm);      
       const props = { servicio: "/api/coordinador/", request: {coordinador: datosForm} };
       console.log("saving new coord in DB:", datosForm);
@@ -165,6 +174,7 @@ const RegistrarCoordinador = () => {
 
       if (nuevoCoord){      
         alert("Se registro coordinador Correctamente");
+        setOpen(false);
       }
 
     }  
@@ -195,25 +205,23 @@ const RegistrarCoordinador = () => {
   };
 
   const renderPrograma = (cantProgramas) => {
-    
+    console.log("cant=",cantProgramas);
     let n=cantProgramas;
     let arregloProg=[];
     for (let i=0;i<n;i++){
       arregloProg.push(i);
+      //programasSeleccionados.push(programa);
     }
       return(
         <div>
-          {arregloProg.map((item) => (
-          <Grid container spacing={1} alignContent="center" alignItems="baseline">
-          <Grid item alignContent="center" alignItems="baseline">
+          {arregloProg.map((item) => (            
             <ComboBoxPrograma
+              cantProgramas={cantProgramas}
               setPDisabled={setPDisabled}
               programas={programas}
-              programa={programa}
+              programa={programa[item]}
               setPrograma={setPrograma}
-            />                
-          </Grid>                
-        </Grid>
+            />      
         ))}
 
         </div> 
@@ -295,25 +303,21 @@ const RegistrarCoordinador = () => {
                 variant="outlined">
                 Asignar Facultades
               </Button>*/}
-              <Grid container spacing={1} alignContent="center" alignItems="baseline">
-                <Grid item alignContent="center" alignItems="baseline">
-                <Grid container spacing={1} alignContent="center" alignItems="baseline">
-                    <Grid item alignContent="center" alignItems="baseline">
-                      <ComboBoxPrograma
-                        setPDisabled={setPDisabled}
-                        programas={programas}
-                        programa={programa}
-                        setPrograma={setPrograma}
-                      />                
-                    </Grid>                
-                  </Grid>
-                  <IconButton color="primary" onClick={(cantProgramas)=> handleCantPrograma(cantProgramas)}>
+              <Grid container md={5} spacing={1} alignContent="center" alignItems="baseline">
+                    <ComboBoxPrograma
+                      cantProgramas={cantProgramas}
+                      setPDisabled={setPDisabled}
+                      programas={programas}
+                      programa={programa[0]}
+                      setPrograma={setPrograma}
+                    />         
+                    <IconButton color="primary" onClick={()=> handleCantPrograma(cantProgramas+1)}>
                     <AddBoxRoundedIcon
                     color="primary"
                     fontsize="large" />
-                  </IconButton>
-                </Grid>                
-              </Grid>
+                  </IconButton> 
+                  {cantProgramas>0 ? renderPrograma(cantProgramas): null}              
+                </Grid>       
               {/*<CheckBoxListPrograma
                 programas={programas}
                 programa={programa}
