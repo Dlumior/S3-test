@@ -3,12 +3,12 @@ import { Tab, Tabs, Paper } from "@material-ui/core";
 const style = {
   paper: {
     marginTop: "1%",
-    marginLeft: "3%",
-    marginRight: "3%",
+    marginLeft: "7%",
+    marginRight: "7%",
     flexDirection: "column",
     alignItems: "left",
     backgroundImage: "",
-    minHeight: 400
+    minHeight: 400,
   },
   envoltorioFormulario: {
     alignItems: "center",
@@ -78,9 +78,13 @@ class TabProceso extends Component {
       <div style={style.tabs}>
         {this.rendertabs()}
         <div style={style.envoltorioFormulario}>
-          <Paper elevation={5} style={style.paper}>
+          {this.props.paper && this.props.paper===true ? (
+            <Paper elevation={5} style={style.paper}>
+              <this.state.procesoActivo />
+            </Paper>
+          ) : (
             <this.state.procesoActivo />
-          </Paper>
+          )}
         </div>
       </div>
     );

@@ -42,7 +42,7 @@ class AgendarCita extends Component {
             <FormSolicitarTuror tipo = idTipo... +o->
             */}
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs, btw tabbproceso si soporta no mostrar tabs XDDD*/}
-        <TabProceso procesos={this.state.procesos[0].procesos} />
+        <TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>

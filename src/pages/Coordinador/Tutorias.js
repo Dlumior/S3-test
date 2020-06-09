@@ -26,7 +26,7 @@ class Tutorias extends React.Component {
     return (
       <div>
         <NombrePrincipal titulo={titulo} />
-        <TabProceso procesos={this.state.procesos} />
+        <TabProceso procesos={this.state.procesos} paper={true} />
       </div>
     );
   }

@@ -3,11 +3,12 @@ import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, Chip, Paper } from "@material-ui/core";
 const styles = {
   paper: {
-    marginTop: "10%",
-    marginLeft: "3%",
-    marginRight: "3%",
+    marginTop: "2%",
     flexDirection: "column",
     backgroundImage: "",
+    borderTop: "2px solid #3AAFA9",
+    backgroundColor: "#ffffff"
+    
   },
   chip: {
     textAlign: "center"
@@ -15,10 +16,12 @@ const styles = {
 };
 class DisponibilidadCard extends Component {
   render() {
+    const disponibilidad = this.props.disponibilidad;
     return (
-      <div >
-        <Paper elevation={3} style={styles.paper}>
-          <Grid container spacing={2} alignContent="center" style={styles.chip}>
+      <>
+      <Paper style={styles.paper}>
+          <Grid container spacing={2} style={styles.chip}>
+            
             <Grid item md={4} xs={4}>
               <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
             </Grid>
@@ -27,15 +30,16 @@ class DisponibilidadCard extends Component {
             </Grid>
             
               <Grid item md={6} textAling="center" style={styles.chip}>
-                <Chip label="Hora inicio" color="primary" clickable />
+                <Chip label={disponibilidad.HORA_INICIO} color="primary" clickable />
               </Grid>
               <Grid item md={6} style={styles.chip}>
-                <Chip label="Hora fin" color="primary" clickable />
+                <Chip label={disponibilidad.HORA_FIN} color="primary" clickable />
               </Grid>
             
           </Grid>
-        </Paper>
-      </div>
+      </Paper>
+      <br/>
+      </>
     );
   }
 }

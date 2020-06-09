@@ -89,21 +89,19 @@ class FormularioRegistrarAlumno extends Component {
     console.log("errores:", error);
     let encontrado = undefined;
     let nuevo = false;
-    let eliminar = 
-    this.state.errores.forEach((element) => {
+    let eliminar = this.state.errores.forEach((element) => {
       if (element.llave === error.llave) {
         encontrado = element;
       }
     });
-    if(encontrado){
-      if(error.error.length===0) {
+    if (encontrado) {
+      if (error.error.length === 0) {
         //lo borro
-        eliminar=true;
+        eliminar = true;
       }
-    }else{
-      if(error.error.length!==0){
-        nuevo=true;
-
+    } else {
+      if (error.error.length !== 0) {
+        nuevo = true;
       }
     }
     console.log("nuevo: ", nuevo);
@@ -113,20 +111,19 @@ class FormularioRegistrarAlumno extends Component {
       this.setState({ errores: newErrores });
       return;
     }
-    if(eliminar){
+    if (eliminar) {
       let newErrores = [];
-      this.state.errores.forEach(element => {
-        if(element.llave !== error.llave){
+      this.state.errores.forEach((element) => {
+        if (element.llave !== error.llave) {
           newErrores.push(element);
         }
       });
       this.setState({ errores: newErrores });
     }
-    
   }
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
-    if (this.state.errores.length===0) {
+    if (this.state.errores.length === 0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
       let {
@@ -163,8 +160,11 @@ class FormularioRegistrarAlumno extends Component {
         this.setState({ severidad: "success" });
         this.state.alert.mensaje = this.state.alert.mensajeExito;
         //alert("Alumno registrado Satisfactoriamente");
+        //entonces viajo al tab de listado de alumnos
+
       }
       console.log("got updated alumno from back:", nuevoAlumno);
+      
     } else {
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
@@ -221,15 +221,18 @@ class FormularioRegistrarAlumno extends Component {
           <Grid item md={4} xs={12}>
             {/* Npmbres */}
             <CampoDeTexto
+              requerido={true}
               autoFocus={true}
               name="nombres"
               label="Nombres"
+              inicial="Jin SSJ"
               validacion={{ lim: 25 }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
             {/* Apellidos */}
             <CampoDeTexto
+              requerido={true}
               autoFocus={true}
               name="apellidos"
               label="Apellidos"
@@ -239,11 +242,12 @@ class FormularioRegistrarAlumno extends Component {
             />
             {/* Correo */}
             <CampoDeTexto
+              requerido={true}
               autoFocus={true}
               name="correo"
               type="email"
-              label="Correo*"
-              validacion={{ lim: 25, email: true }}
+              label="Correo"
+              validacion={{ lim: 25, tipo: "email" }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
@@ -252,27 +256,31 @@ class FormularioRegistrarAlumno extends Component {
               autoFocus={true}
               name="telefono"
               label="Teléfono"
-              validacion={{ lim: 45 }}
+              validacion={{ lim: 45, tipo: "telefono" }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
             {/* Direccion */}
             <CampoDeTexto
+              requerido={true}
               autoFocus={true}
               name="direccion"
               label="Dirección"
-              validacion={{ lim: 50 }}
+              validacion={{ lim: 50, tipo: "direccion" }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
+            <br />
+            <br />
           </Grid>
           <Grid item md={4} xs={12}>
             {/* Codigo */}
             <CampoDeTexto
+              requerido={true}
               autoFocus={true}
               name="codigo"
               label="Código"
-              validacion={{ lim: 10 }}
+              validacion={{ lim: 10, tipo: "codigo" }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />

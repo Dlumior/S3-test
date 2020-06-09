@@ -67,6 +67,7 @@ class FormularioNuevaTutoria extends Component {
       },
 
       validacionOk: false,
+      errores: [],
       duracion: [
         { ID: 1, NOMBRE: "30 min" },
         { ID: 2, NOMBRE: "60 min" },
@@ -88,10 +89,40 @@ class FormularioNuevaTutoria extends Component {
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
   }
-  validarEntrada(validacion){
-    if(validacion !==this.state.validacionOk){
-        console.log("Cambiazo: ", validacion);
-        this.setState({validacionOk:validacion});
+  validarEntrada(error){
+    console.log("errores:", error);
+    let encontrado = undefined;
+    let nuevo = false;
+    let eliminar = this.state.errores.forEach((element) => {
+      if (element.llave === error.llave) {
+        encontrado = element;
+      }
+    });
+    if (encontrado) {
+      if (error.error.length === 0) {
+        //lo borro
+        eliminar = true;
+      }
+    } else {
+      if (error.error.length !== 0) {
+        nuevo = true;
+      }
+    }
+    console.log("nuevo: ", nuevo);
+    if (nuevo) {
+      let newErrores = this.state.errores;
+      newErrores.push(error);
+      this.setState({ errores: newErrores });
+      return;
+    }
+    if (eliminar) {
+      let newErrores = [];
+      this.state.errores.forEach((element) => {
+        if (element.llave !== error.llave) {
+          newErrores.push(element);
+        }
+      });
+      this.setState({ errores: newErrores });
     }
   }
   obtenerSeleccionRadio(e) {
@@ -141,9 +172,9 @@ class FormularioNuevaTutoria extends Component {
   };
   async handleOnClick(e) {
     console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-
-    if (this.state.validacionOk) {
-      console.log("NOOOOO_________________________________OOOOO");
+    console.log("NOOOOOOOOOO: ",this.state.errores);
+    if (this.state.errores.length === 0) {
+      e.preventDefault();
       const {
         nombre,
         descripcion,
@@ -206,9 +237,11 @@ class FormularioNuevaTutoria extends Component {
           <Grid item md={6} xs={12}>
             {/* Nombre tutoria */}
             <CampoDeTexto
-              autoFocus={true}
               name="nombre"
               label="Nombre de la Tutoria"
+              requerido={true}
+              autoFocus={true}
+              inicial=""
               validacion={{ lim: 25 }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
@@ -222,6 +255,8 @@ class FormularioNuevaTutoria extends Component {
               variant={"outlined"}
               rows={4}
               multiline={true}
+              requerido={true}
+              inicial="gaaa"
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
