@@ -128,10 +128,17 @@ class CampoDeTexto extends Component {
     if (this.props.inicial) {
       this.setState({ texto: this.props.inicial });
     }
-    this.props.validarEntrada({
-      llave: this.props.name,
-      error: this.props.name,
-    });
+    if (this.props.inicial) {
+      this.props.validarEntrada({
+        llave: this.props.name,
+        error: "",
+      });
+    } else {
+      this.props.validarEntrada({
+        llave: this.props.name,
+        error: this.props.name,
+      });
+    }
   }
   render() {
     return (
