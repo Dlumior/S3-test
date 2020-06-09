@@ -49,16 +49,10 @@ class ListaComboBox extends Component {
       local: false,
     };
     this.handleOnChange = this.handleOnChange.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
   }
   async handleOnChange(e) {
       //if lcal
-    if (this.state.item.length === 0) {
-      if (this.state.mensajeError.length === 0) {
-        this.setState({
-          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
-        });
-      }
-    }
     if (this.state.mensajeError.length > 0) {
       this.setState({
         mensajeError: "",
@@ -90,11 +84,22 @@ class ListaComboBox extends Component {
     }
     return false;
   }
+  handleOnClick(e){
+    console.log("CLLIIIIIIICK");
+    if (this.state.item.length === 0) {
+      if (this.state.mensajeError.length === 0) {
+        this.setState({
+          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
+        });
+      }
+    }
+  }
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
         <br />
-        <FormControl fullWidth>
+        <FormControl fullWidth onClick={this.handleOnClick}>
+
           <InputLabel >
             {this.props.titulo}
           </InputLabel>
@@ -103,6 +108,7 @@ class ListaComboBox extends Component {
             value={this.state.item}
             onChange={this.handleOnChange}
             displayEmpty
+            
           >
             {this.state.listaItems.map((item) => (
               <MenuItem key={item[this.props.id]} value={item}>

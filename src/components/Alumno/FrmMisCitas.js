@@ -238,6 +238,6 @@ export default FrmMisCitas;
 const estilo = {
     imagen: {
         width: "45%",
-        "border-radius": "100%",
+        borderRadius: "100%",
     }
 }
