@@ -4,8 +4,11 @@ import ListaProgramas from "./ListaProgramas";
 import ListaProcesoTut from "./ListaProcesoTut";
 import ListaTutores from "./ListaTutores";
 import ListaAlumnos from "./ListaAlumnos";
-
-import DialogListaTut from "./DialogListaTut";
+import LooksOneRoundedIcon from '@material-ui/icons/LooksOneRounded';
+import LooksTwoRoundedIcon from '@material-ui/icons/LooksTwoRounded';
+import Looks3RoundedIcon from '@material-ui/icons/Looks3Rounded';
+import Looks4RoundedIcon from '@material-ui/icons/Looks4Rounded';
+import Looks5RoundedIcon from '@material-ui/icons/Looks5Rounded';
 import * as Controller from "../../Conexion/Controller";
 
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -25,6 +28,7 @@ const style = {
     backgroundImage: ""
   },
 };
+const idCoordinador="105"
 class FrmAsignacionTutor extends Component {
   constructor() {
     super();
@@ -121,15 +125,23 @@ class FrmAsignacionTutor extends Component {
 
     return(
       <div>
-      <Paper elevate={0} style={style.paper}>
-      <Paper elevate={0} style={style.paper}>
-        <Grid container spacing={10}>
+      <Paper elevation={2} style={style.paper}>
+      <Paper elevation={0} style={style.paper}>
+        <Grid container spacing={10}>          
           <Grid item md={5}
             container
             direction="column"
             alignItems="flex-start"
             justify="center" >
-            <Typography variant="h5">1. Seleccionar Programa </Typography>
+            <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            <Typography variant="h5" align="center">
+                <LooksOneRoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Seleccionar Programa
+            </Typography>
+            </Paper> 
           </Grid>
           <Grid item md={3}>
             <ListaProgramas
@@ -143,7 +155,15 @@ class FrmAsignacionTutor extends Component {
             direction="column"
             alignItems="flex-start"
             justify="center" >
-            <Typography variant="h5">2. Seleccionar Proceso de Tutoría </Typography>
+            <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            <Typography variant="h5" align="center">
+                <LooksTwoRoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Seleccionar Proceso de Tutoría
+            </Typography>
+            </Paper> 
           </Grid>
           <Grid item md={3}>
             <ListaProcesoTut
@@ -157,7 +177,15 @@ class FrmAsignacionTutor extends Component {
               direction="column"
               alignItems="flex-start"
               justify="center" >
-              <Typography variant="h5">3. Seleccionar Tutor </Typography>
+                <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            <Typography variant="h5" align="center">
+                <Looks3RoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Seleccionar Tutor
+            </Typography>
+            </Paper>
             </Grid>
             <Grid item md={3}>
               <ListaTutores
@@ -171,7 +199,15 @@ class FrmAsignacionTutor extends Component {
             direction="column"
             alignItems="flex-start"
             justify="center" >
-            <Typography variant="h5">4. Seleccionar Alumno(s) </Typography>
+              <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            <Typography variant="h5" align="center">
+                <Looks4RoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Seleccionar Alumno(s)
+            </Typography>
+            </Paper>
           </Grid>
           <Grid item md={6}>
           <Button 
@@ -213,7 +249,15 @@ class FrmAsignacionTutor extends Component {
             direction="column"
             alignItems="flex-start"
             justify="center" >
-            <Typography variant="h5">5. Asignación Completa </Typography>
+              <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            <Typography variant="h5" align="center">
+                <Looks5RoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Asignación Completa
+            </Typography>
+            </Paper>
           </Grid>
           <Grid item md={5}>
           <Button 

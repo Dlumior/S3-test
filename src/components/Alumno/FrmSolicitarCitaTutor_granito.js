@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
 import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
 import TablaTutores from "./TablaTutores.js";
-
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-//import DialogTitle from "@material-ui/core/DialogTitle";
+import FrmDialogoSolicitarTutor from "./FrmDialogoSolicitarTutor";
 
 const style = {
     paper: {
@@ -19,7 +18,7 @@ const style = {
 };
 
 
-class FrmSolicitarTutorTipoII extends Component {
+class FrmSolicitarCitaTutor_granito extends Component {
     constructor() {
         super();
         this.state = {
@@ -30,31 +29,16 @@ class FrmSolicitarTutorTipoII extends Component {
                 }],
                 data: [{ nombre: "" }]
             }, //aqui va el nombre de la tablilla
-            openSolicitarTutor: false,
             openVerDispo: false,
 
         };
 
-        {/* 
-        this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
-        this.handleOnChange = this.handleOnChange.bind(this);
-        */}
-        this.handleOnClickSolicitarTutor = this.handleOnClickSolicitarTutor.bind(this);
-        this.handleOnCloseSolicitarTutor = this.handleOnCloseSolicitarTutor.bind(this);
         this.handleOnClickVerDispo = this.handleOnClickVerDispo.bind(this);
         this.handleOnCloseVerDispo = this.handleOnCloseVerDispo.bind(this);
     };
 
 
-    handleOnClickSolicitarTutor() {
-        this.setState( {openSolicitarTutor : true});
-        //this.props.regreso(0);
-    }
-
-    handleOnCloseSolicitarTutor() {
-        //console.log("ctm",this.state.openSolicitarTutor);
-        this.setState( {openSolicitarTutor : false});
-    }
+ 
 
     //=============================================================
     handleOnClickVerDispo() {
@@ -102,15 +86,6 @@ class FrmSolicitarTutorTipoII extends Component {
                 >
                     Ver Disponibilidad
                 </Button>,
-                btnSolicitarTutor:
-                <Button
-                    size="large"
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleOnClickSolicitarTutor}
-                >
-                    SOLICITAR TUTOR
-                </Button>,
             });
         }
 
@@ -144,10 +119,7 @@ class FrmSolicitarTutorTipoII extends Component {
                 title: "",
                 field: "btnVerDisponibilidad",
                 },
-                {
-                title: "",
-                field: "btnSolicitarTutor",
-                },
+             
                 /*  {},{},{}.... para mas columnas  */
             ],
             data: arreglillo
@@ -167,59 +139,31 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     render() {
-        console.log("propsFormTipoII:", this.props);
+        //console.log("propsFormTipoII:", this.props);
+  
         return (
-            <div>
-                <Dialog
-                    open={this.state.openSolicitarTutor}
-                    onClose={this.handleOnCloseSolicitarTutor}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                Espere a que el tutor acepte su solicitud.  Por favor, revise su bandeja.
-                            </Paper>
-                        </Grid>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button                            
-                            size="large"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.handleOnCloseSolicitarTutor}                        >
-                            ACEPTAR
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-
-                <Paper elevation={0} style={style.paper}>
-                    
+            <div>                
+                <Paper elevation={0} style={style.paper}>                    
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                    <TablaTutores tutores={this.state.tutores} />
-                    
-
+                    <TablaTutores tutores={this.state.tutores} />    
                 </Paper>
-
+                
                 <Dialog
                     open={this.state.openVerDispo}
                     onClose={this.handleOnCloseVerDispo}
                     aria-labelledby="form-dialog-title"
-                >
-                    <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                >> Redireccionando al calendario de disponibilidades de tutores...
-                            </Paper>
-                        </Grid>
+                >                  
+                    <DialogContent>                     
+                        <FrmDialogoSolicitarTutor/> 
                     </DialogContent>
+           
                     <DialogActions>
                         <Button                            
                             size="large"
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnCloseVerDispo}                        >
-                            OK
+                            Solicitar Cita
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -228,7 +172,7 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 }
 
-export default FrmSolicitarTutorTipoII;
+export default FrmSolicitarCitaTutor_granito;
 
 const estilo = {
     imagen: {
