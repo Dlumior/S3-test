@@ -5,6 +5,8 @@ import Select from "@material-ui/core/Select";
 import { Paper,Grid,FormControl, FormHelperText, TextField, Typography } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import Button from "@material-ui/core/Button";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import IconButton from '@material-ui/core/IconButton';
 import axios from 'axios';
 
 const style = {
@@ -36,14 +38,14 @@ class ConfigurarInstitucion extends React.Component {
     super(props);
     this.state = {
         institucion:{
-            ID_INSTITUCION:'',
+            ID:'1',
             NOMBRE:'Pontificia Universidad Católica del Perú',
             INICIALES:'PUCP',
             IMAGEN:'',
             TELEFONO:'5256000',
             PAGINA_WEB:'www.pucp.edu.pe',
             DOMINIO:'@pucp.edu.pe',
-            UBICACION:'Av. Universitaria',
+            UBICACION:'',
             EXTENSION:'',  
         }
     };
@@ -107,14 +109,14 @@ class ConfigurarInstitucion extends React.Component {
     } = this.state.institucion;
     const nuevaInstitucion = {
       institucion: {
-        ID_INSTITUCION:'1',
+        ID:'1',
         NOMBRE: NOMBRE,
         INICIALES: INICIALES,
         IMAGEN:"",
-        DOMINIO: DOMINIO,
         TELEFONO: TELEFONO,
         PAGINA_WEB: PAGINA_WEB,
         UBICACION: UBICACION,
+        DOMINIO: DOMINIO,        
         EXTENSION:"",
       },
     };
@@ -130,10 +132,12 @@ class ConfigurarInstitucion extends React.Component {
 
 async componentDidMount() {
     let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
-    console.log("got institucion from back:", getInsitucion);
-    this.setState({institucion:getInsitucion});
+    console.log("got institucion from back:", getInsitucion.institucion);
+    this.setState({institucion:getInsitucion.institucion});
     console.log("state:", this.state.institucion);   
     console.log("state:", getInsitucion.institucion.NOMBRE); 
+
+    
 }
 
 render(){
@@ -141,7 +145,7 @@ render(){
         <div>
             <Paper elevation={2} style={style.paper}>
                 <Grid container spacing={3}
-                    md={10}
+                    md={12}
                     justify="center"
                 >
                 <Grid item md={12} justify="center" >
@@ -151,99 +155,86 @@ render(){
                         </Typography>
                     </Paper>
                 </Grid>
-                <Paper elevation={0} style={style.foto}>
-                    <Grid container spacing={3} md={4} justify="center">
-                        <Grid item md={10}>
-                            <div>
-                                <img
-                                    style={estilo.imagen}
-                                    src="https://images.app.goo.gl/baPrAmhutyknBpsK6">
-                                </img>
-                                <input type="file"
-                                    onChange={this.handleOnChangeImg}>
-                                </input>
-                            </div>                            
-                        </Grid>
-                    </Grid>
-                </Paper>
-                <Paper elevation={0} style={style.paperitem}>
-                    <Grid container spacing={2} md={10} justify="center">    
-                        <Grid item md={10}>
-                            <TextField
-                                required
-                                margin="dense"
-                                id="NOMBRE"
-                                label="Nombre"
-                                defaultValue={this.state.institucion.NOMBRE}
-                                onChange={this.handleOnChangeNombre}
-                                fullWidth   
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
+                <Grid item md={4} >
+                    <div>
+                        <img
+                            style={estilo.imagen}
+                            src="https://www.w3schools.com/howto/img_avatar.png">
+                        </img>
+                    </div>
+                    <div>
+                        <Button
+                            variant="outlined"
+                            component="label"
+                            color="primary"
+                            >
+                            Importar
+                            <input
+                                type="file"
+                                onChange={this.handleOnChangeImg}
+                                style={{ display: "none" }}
                             />
-                        </Grid>                           
-                        <Grid item md={10}>
-                            <TextField
-                                required
-                                margin="dense"
-                                id="iniciales"
-                                label="Iniciales"
-                                defaultValue={this.state.institucion.INICIALES}
-                                onChange={this.handleOnChangeInicial}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item md={10}>
-                            <TextField
-                                required
-                                margin="dense"
-                                id="DOMINIO"
-                                label="Dominio"
-                                defaultValue={this.state.institucion.DOMINIO}
-                                onChange={this.handleOnChangeDominio}
-                                fullWidth
-                            />
-                        </Grid>  
-                                                                  
-                    </Grid>
-                </Paper>
-                <Paper elevation={0} style={style.paperitem}>
-                    <Grid container spacing={3} md={10} justify="center">    
-                        <Grid item md={10}>
-                            <TextField
-                                margin="dense"
-                                id="telefono"
-                                label="Telefono"
-                                defaultValue={this.state.institucion.TELEFONO}
-                                onChange={this.handleOnChangeTelefono}
-                                fullWidth
-                            />
-                        </Grid>                           
-                        <Grid item md={10}>
-                            <TextField
-                                margin="dense"
-                                id="ubicacion"
-                                label="Ubicación"
-                                defaultValue={this.state.institucion.UBICACION}
-                                onChange={this.handleOnChangeUbicacion}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item md={10}>
-                            <TextField
+                        </Button>
+                    </div>                            
+                </Grid>
+                <Grid item md={6}> 
+                        <TextField
+                            required
+                            margin="dense"
+                            id="NOMBRE"
+                            label="Nombre"
+                            defaultValue={this.state.institucion.NOMBRE}
+                            onChange={this.handleOnChangeNombre}
+                            fullWidth   
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />        
+                        <TextField
+                            required
+                            margin="dense"
+                            id="iniciales"
+                            label="Iniciales"
+                            defaultValue={this.state.institucion.INICIALES}
+                            onChange={this.handleOnChangeInicial}
+                            fullWidth
+                        />
+                        <TextField
+                            required
+                            margin="dense"
+                            id="DOMINIO"
+                            label="Dominio"
+                            defaultValue={this.state.institucion.DOMINIO}
+                            onChange={this.handleOnChangeDominio}
+                            fullWidth
+                        />
+                        <TextField
+                            margin="dense"
+                            id="telefono"
+                            label="Telefono"
+                            defaultValue={this.state.institucion.TELEFONO}
+                            onChange={this.handleOnChangeTelefono}
+                            fullWidth
+                        />          
+                        <TextField
+                            margin="dense"
+                            id="ubicacion"
+                            label="Ubicación"
+                            defaultValue={this.state.institucion.UBICACION}
+                            onChange={this.handleOnChangeUbicacion}
+                            fullWidth
+                        />
+                        <TextField
                                 margin="dense"
                                 id="sitioweb"
                                 label="Sitio Web"
                                 defaultValue={this.state.institucion.PAGINA_WEB}
                                 onChange={this.handleOnChangePagina}
                                 fullWidth
-                            />
-                        </Grid>                                            
+                        />                       
                     </Grid>
-                </Paper>
                 </Grid>
-                <Paper elevation={0} style={style.paper}>
-                    <Grid container spacing={2} md={5} justify="flex-end">
+                    <Grid container spacing={2} md={5} justify="center">
                         <Grid item>
                             <Button 
                                 variant="contained"
@@ -261,7 +252,6 @@ render(){
                             </Button>
                         </Grid>                        
                     </Grid>
-                </Paper>
             </Paper>
         </div>
     );
@@ -272,7 +262,7 @@ export default ConfigurarInstitucion;
 
 const estilo = {
     imagen: {
-        width: "50%",
+        width: "70%",
         "border-radius": "100%",
     }
 }

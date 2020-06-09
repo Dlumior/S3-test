@@ -17,6 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link as LinkRouter } from "react-router-dom";
 
 const drawerWidth = 250;
@@ -149,7 +155,12 @@ const BarraNavegacion = (props) => {
                 to={"/administrador/" + text.toLowerCase()}
               >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index === 0 ? <AccountCircleRoundedIcon /> : 
+                  index === 1 ? <AccountBalanceRoundedIcon /> : 
+                  index === 2 ? <AccountBalanceRoundedIcon /> : 
+                  index === 3 ? <SupervisorAccountRoundedIcon/> :
+                  index === 4 ? <ExitToAppIcon/> :
+                  <NoteAddRoundedIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>

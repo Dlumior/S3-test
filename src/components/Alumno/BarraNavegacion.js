@@ -22,6 +22,9 @@ import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded'
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
 import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import TodayRoundedIcon from '@material-ui/icons/TodayRounded';
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
 import { Link as LinkRouter } from "react-router-dom";
 
 const drawerWidth = 250;
@@ -155,9 +158,9 @@ const BarraNavegacion = (props) => {
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
-                 index === 1 ? <AccountBalanceRoundedIcon /> : 
-                 index === 5 ? <SupervisorAccountRoundedIcon/> :
-                 index === 6 ? <AssessmentRoundedIcon/> :
+                 index === 2 ? <DateRangeRoundedIcon /> : 
+                 index === 1 ? <TodayRoundedIcon/> :
+                 index === 3 ? <ExitToAppRoundedIcon/> :
                  <NoteAddRoundedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
