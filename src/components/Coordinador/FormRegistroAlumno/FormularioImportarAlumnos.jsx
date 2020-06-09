@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Paper } from "@material-ui/core";
 import EnConstruccion from "../../Shared/EnConstruccion";
+import TituloFormulario from "../Tutorias/TituloFormulario";
 const style = {
   paper: {
     marginTop: "3%",
@@ -19,10 +20,10 @@ class FormularioImportarAlumnos extends Component {
      * I'm in construction
      */
     return (
-      <Paper elevation={5} style={style.paper}>
-        Cargar Alumnos Masivamente TO-DO
+      <>
+        <TituloFormulario titulo="Importar Alumnos" />
         <EnConstruccion/>
-      </Paper>
+      </>
     );
   }
 }

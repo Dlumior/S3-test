@@ -39,7 +39,9 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
     setErrors({ ...errors, name: res });
 };
 
-const RegistrarFacultad = () => {
+
+
+const RegistrarProgramas = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
@@ -48,7 +50,7 @@ const RegistrarFacultad = () => {
   });
   const [errors, setErrors] = useState(errorObj);
 
-
+  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
@@ -77,13 +79,19 @@ const RegistrarFacultad = () => {
       });
       console.log(datosForm);
 
-      const props = { servicio: "/api/facultad", request: {facultad: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
-      let nuevaFacu = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevaFacu);
-
-      if (nuevaFacu){      
-        alert("Se registro Facultad",nuevaFacu.NOMBRE);
+      const props = { servicio: "/api/programa", request: {programa: datosForm} };
+      console.log("saving new prog in DB:", datosForm);
+      let nuevoProg = await Conexion.POST(props);
+      console.log("got updated prog from back:", nuevoProg);
+      /*
+      //para relacionarlo con el coordinador:
+      const props = { servicio: "/api/programa", request: {programa: datosForm} };
+      console.log("saving new prog in DB:", datosForm);
+      let nuevoProg = await Conexion.POST(props);
+      console.log("got updated prog from back:", nuevoProg);
+      */
+      if (nuevoProg){      
+        alert("Se registro Programas",nuevoProg.NOMBRE);
       }
 
     }  
@@ -103,7 +111,7 @@ const RegistrarFacultad = () => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Formulario de registro de Facultad
+          Formulario de registro de Programa
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>
@@ -121,15 +129,6 @@ const RegistrarFacultad = () => {
                   helperText={errors.name.mesage}
                 />
               </Grid>
-            <Grid item>
-              <RadioGroup row aria-label="position" name="position" defaultValue="top">
-                <FormControlLabel 
-                  value="end" 
-                  control={<Radio color="primary" />} 
-                  label="Facultad Independiente" 
-                  onChange={handleChangeSelected}/>
-              </RadioGroup>
-            </Grid>
             </Grid>
             </Grid>
           </Grid>
@@ -153,4 +152,4 @@ const RegistrarFacultad = () => {
     </div>
   );
 };
-export default RegistrarFacultad;
+export default RegistrarProgramas;

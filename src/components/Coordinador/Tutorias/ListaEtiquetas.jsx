@@ -5,7 +5,17 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import * as Conexion from "./../../../Conexion/Controller";
-import { InputLabel } from "@material-ui/core";
+import { InputLabel, Paper } from "@material-ui/core";
+const estilos = {
+  paper: {
+    marginTop: "1%",
+    marginRight: "10%",
+    marginLeft: "10%",
+    flexDirection: "column",
+    backgroundImage: "",
+  },
+};
+
 class ListaEtiquetas extends React.Component {
   constructor() {
     super();
@@ -46,11 +56,11 @@ class ListaEtiquetas extends React.Component {
       this.setState({ etiquetasSeleccionadas: etiquetas });
       this.props.obtenerEtiquetas(this.state.etiquetasSeleccionadas);
     }
- 
   };
   render() {
     return (
-      <div>
+      <Paper elevation={0} style={estilos.paper}>
+        <br />
         <InputLabel id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
@@ -84,7 +94,7 @@ class ListaEtiquetas extends React.Component {
             />
           )}
         />
-      </div>
+      </Paper>
     );
   }
 }

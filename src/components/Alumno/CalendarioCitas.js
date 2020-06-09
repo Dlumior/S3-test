@@ -11,6 +11,10 @@ const styles = {
     textAlign: "center",
     marginTop: "3%",
   },
+  container: {
+    marginLeft: "2%",
+    marginRight: "2%",
+  },
 };
 class CalendarioCitas extends Component {
   constructor() {
@@ -49,7 +53,7 @@ class CalendarioCitas extends Component {
       <>
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            <HorarioDelDia fecha={diaSemana} />
+            <HorarioDelDia fecha={diaSemana} servicio={"/api/disponibilidad/listarDia/"}/>
           </Grid>
         ))}
       </>
@@ -64,7 +68,7 @@ class CalendarioCitas extends Component {
     offset = fechaActual.getDay() - lunes;
 
     this.setState({
-      fechaControles: { mes: mesesAnio[fechaActual.getMonth() + 1], semana: 1 },
+      fechaControles: { mes: mesesAnio[fechaActual.getMonth() + 1], semana: 1, fecha: fechaActual },
     });
      this.setState({
       lunesActual: new Date(
@@ -76,7 +80,7 @@ class CalendarioCitas extends Component {
 
   render() {
     return (
-      <div>
+      <div style={styles.container}>
         <Controles
           fecha={this.state.fechaControles}
           saltoEnElTiempo={this.saltarEnElTiempo}

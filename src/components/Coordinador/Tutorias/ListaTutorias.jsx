@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Paper } from '@material-ui/core';
 import EnConstruccion from '../../Shared/EnConstruccion';
+import TituloFormulario from './TituloFormulario';
 const style = {
     paper: {
       marginTop: "3%",
@@ -19,10 +20,10 @@ class ListaTutorias extends Component {
      * I'm in construction
      */
     return (
-      <Paper elevation={0} style={style.paper}>
-        Lista de Tutorias TO-DO
+      <>
+        <TituloFormulario titulo="Lista de Tutorias TO-DO" />
         <EnConstruccion/>
-      </Paper>
+      </>
     );
   }
 }

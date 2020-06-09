@@ -11,8 +11,6 @@ import TablaAlumnos from "./TablaAlumnos";
 
 const style = {
     paper: {
-      marginTop: "3%",
-      marginLeft: "3%",
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
@@ -72,7 +70,7 @@ class ListaAlumnos extends React.Component {
           { title:"Correo Electrónico",
             field:"correo"},
            {
-            title:"",
+            title:"Seleccionar",
             field:"checkbox"
            }
         ],
@@ -151,6 +149,7 @@ render(){
             <Paper elevation={0} style={style.paper}>
                 {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                 <TablaAlumnos 
+      
                   alumnos={this.state.alumnos}
                 />
             </Paper>

@@ -32,22 +32,25 @@ const style = {
   };
 
 class ConfigurarInstitucion extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
         institucion:{
-            nombre:'Pontificia Universidad Católica del Perú',
-            iniciales:'PUCP',
-            correo:'@pucp.edu.pe',
-            telefono:'5256000',
-            ubicacion:'Av. Universitaria',
-            pagina:'www.pucp.edu.pe',
+            ID_INSTITUCION:'',
+            NOMBRE:'Pontificia Universidad Católica del Perú',
+            INICIALES:'PUCP',
+            IMAGEN:'',
+            TELEFONO:'5256000',
+            PAGINA_WEB:'www.pucp.edu.pe',
+            DOMINIO:'@pucp.edu.pe',
+            UBICACION:'Av. Universitaria',
+            EXTENSION:'',  
         }
     };
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangeNombre = this.handleOnChangeNombre.bind(this);
     this.handleOnChangeInicial = this.handleOnChangeInicial.bind(this);
-    this.handleOnChangeCorreo = this.handleOnChangeCorreo.bind(this);
+    this.handleOnChangeDominio = this.handleOnChangeDominio.bind(this);
     this.handleOnChangeTelefono = this.handleOnChangeTelefono   .bind(this);
     this.handleOnChangeUbicacion = this.handleOnChangeUbicacion.bind(this);
     this.handleOnChangePagina = this.handleOnChangePagina.bind(this);
@@ -58,33 +61,33 @@ class ConfigurarInstitucion extends React.Component {
   
   handleOnChangeNombre = (event) => {
     console.log("nombre:", event.target.value);
-    this.state.institucion.nombre = event.target.value;
-    console.log("nombre:", this.state.institucion.nombre);
+    this.state.institucion.NOMBRE = event.target.value;
+    console.log("nombre:", this.state.institucion.NOMBRE);
   }
   handleOnChangeInicial = (event) => {
     console.log("inicial:", event.target.value);
-    this.state.institucion.iniciales = event.target.value;
-    console.log("inicial:", this.state.institucion.iniciales);
+    this.state.institucion.INICIALES = event.target.value;
+    console.log("inicial:", this.state.institucion.INICIALES);
   }
-  handleOnChangeCorreo = (event) => {
-    console.log("correo:", event.target.value);
-    this.state.institucion.correo = event.target.value;
-    console.log("correo:", this.state.institucion.correo);
+  handleOnChangeDominio = (event) => {
+    console.log("Dominio:", event.target.value);
+    this.state.institucion.DOMINIO = event.target.value;
+    console.log("dominio:", this.state.institucion.DOMINIO);
   }
   handleOnChangeTelefono = (event) => {
     console.log("telefono:", event.target.value);
-    this.state.institucion.telefono = event.target.value;
-    console.log("telefono:", this.state.institucion.telefono);
+    this.state.institucion.TELEFONO = event.target.value;
+    console.log("telefono:", this.state.institucion.TELEFONO);
   }
   handleOnChangeUbicacion = (event) => {
     console.log("ubicacion:", event.target.value);
-    this.state.institucion.ubicacion = event.target.value;
-    console.log("ubicacion:", this.state.institucion.ubicacion);
+    this.state.institucion.UBICACION = event.target.value;
+    console.log("ubicacion:", this.state.institucion.UBICACION);
   }
   handleOnChangePagina = (event) => {
     console.log("pagina:", event.target.value);
-    this.state.institucion.pagina = event.target.value;
-    console.log("pagina:", this.state.institucion.pagina);
+    this.state.institucion.PAGINA_WEB = event.target.value;
+    console.log("pagina:", this.state.institucion.PAGINA_WEB);
   }
   handleOnChangeImg = (event) => {    
     this.setState({
@@ -95,22 +98,24 @@ class ConfigurarInstitucion extends React.Component {
     e.preventDefault();
     console.log("institucion: ", this.state.institucion);
     let {
-      nombre,
-      iniciales,
-      correo,
-      telefono,
-      ubicacion,
-      pagina
+      NOMBRE,
+      INICIALES,
+      DOMINIO,
+      TELEFONO,
+      UBICACION,
+      PAGINA_WEB
     } = this.state.institucion;
     const nuevaInstitucion = {
       institucion: {
-        ID:'1',
-        NOMBRE: nombre,
-        INICIALES: iniciales,
-        CORREO: correo,
-        TELEFONO: telefono,
-        PAGINA_WEB: pagina,
-        UBICACION: ubicacion,
+        ID_INSTITUCION:'1',
+        NOMBRE: NOMBRE,
+        INICIALES: INICIALES,
+        IMAGEN:"",
+        DOMINIO: DOMINIO,
+        TELEFONO: TELEFONO,
+        PAGINA_WEB: PAGINA_WEB,
+        UBICACION: UBICACION,
+        EXTENSION:"",
       },
     };
     const props = { servicio: "/api/institucion/modificar", request: nuevaInstitucion };
@@ -122,14 +127,15 @@ class ConfigurarInstitucion extends React.Component {
     }
     console.log("got updated institucion from back:", nuevaUni);
   }
+
 async componentDidMount() {
     let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
     console.log("got institucion from back:", getInsitucion);
     this.setState({institucion:getInsitucion});
-    console.log("state:", this.state.institucion); 
-    this.state.institucion.nombre=getInsitucion.institucion.NOMBRE;   
+    console.log("state:", this.state.institucion);   
     console.log("state:", getInsitucion.institucion.NOMBRE); 
 }
+
 render(){
     return (
         <div>
@@ -161,16 +167,19 @@ render(){
                     </Grid>
                 </Paper>
                 <Paper elevation={0} style={style.paperitem}>
-                    <Grid container spacing={3} md={8} justify="center">    
+                    <Grid container spacing={2} md={10} justify="center">    
                         <Grid item md={10}>
                             <TextField
                                 required
                                 margin="dense"
                                 id="NOMBRE"
                                 label="Nombre"
-                                defaultValue={this.state.institucion.nombre}
+                                defaultValue={this.state.institucion.NOMBRE}
                                 onChange={this.handleOnChangeNombre}
                                 fullWidth   
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
                             />
                         </Grid>                           
                         <Grid item md={10}>
@@ -179,7 +188,7 @@ render(){
                                 margin="dense"
                                 id="iniciales"
                                 label="Iniciales"
-                                defaultValue={this.state.institucion.iniciales}
+                                defaultValue={this.state.institucion.INICIALES}
                                 onChange={this.handleOnChangeInicial}
                                 fullWidth
                             />
@@ -188,10 +197,10 @@ render(){
                             <TextField
                                 required
                                 margin="dense"
-                                id="correo"
-                                label="Correo"
-                                defaultValue={this.state.institucion.correo}
-                                onChange={this.handleOnChangeCorreo}
+                                id="DOMINIO"
+                                label="Dominio"
+                                defaultValue={this.state.institucion.DOMINIO}
+                                onChange={this.handleOnChangeDominio}
                                 fullWidth
                             />
                         </Grid>  
@@ -205,7 +214,7 @@ render(){
                                 margin="dense"
                                 id="telefono"
                                 label="Telefono"
-                                defaultValue={this.state.institucion.telefono}
+                                defaultValue={this.state.institucion.TELEFONO}
                                 onChange={this.handleOnChangeTelefono}
                                 fullWidth
                             />
@@ -215,7 +224,7 @@ render(){
                                 margin="dense"
                                 id="ubicacion"
                                 label="Ubicación"
-                                defaultValue={this.state.institucion.ubicacion}
+                                defaultValue={this.state.institucion.UBICACION}
                                 onChange={this.handleOnChangeUbicacion}
                                 fullWidth
                             />
@@ -225,7 +234,7 @@ render(){
                                 margin="dense"
                                 id="sitioweb"
                                 label="Sitio Web"
-                                defaultValue={this.state.institucion.pagina}
+                                defaultValue={this.state.institucion.PAGINA_WEB}
                                 onChange={this.handleOnChangePagina}
                                 fullWidth
                             />
@@ -263,7 +272,7 @@ export default ConfigurarInstitucion;
 
 const estilo = {
     imagen: {
-        width: "150%",
+        width: "50%",
         "border-radius": "100%",
     }
 }

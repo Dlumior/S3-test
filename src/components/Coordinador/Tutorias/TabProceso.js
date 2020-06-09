@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Tab, Tabs, Paper } from "@material-ui/core";
 const style = {
   paper: {
-    marginTop: "2%",
-    marginLeft: "3%",
-    marginRight: "3%",
+    marginTop: "1%",
+    marginLeft: "7%",
+    marginRight: "7%",
     flexDirection: "column",
     alignItems: "left",
     backgroundImage: "",
+    minHeight: 400,
   },
   envoltorioFormulario: {
     alignItems: "center",
@@ -32,6 +33,7 @@ class TabProceso extends Component {
     this.rendertabs = this.rendertabs.bind(this);
   }
   activarTab(tab) {
+    console.log("lo que seaCTM!!!!");
     this.setState({ tabActivada: tab });
     this.setState({ procesoActivo: this.state.procesos[tab].proceso });
   }
@@ -39,8 +41,9 @@ class TabProceso extends Component {
   mostrarTab = (props) => {
     console.log("Render", props);
     this.setState({ procesoActivo: this.state.procesos[props.tab].proceso });
-    return <this.state.procesoActivo />;
+    return <this.state.procesoActivo regreso={this.activarTab}/>;
   };
+
   componentWillMount() {
     if (this.props.procesos) {
       this.setState({ procesos: this.props.procesos });
@@ -72,14 +75,18 @@ class TabProceso extends Component {
       </Tabs>
     );
   }
-  render() {
+  render() {    
     return (
       <div style={style.tabs}>
         {this.rendertabs()}
         <div style={style.envoltorioFormulario}>
-          <Paper elevation={5} style={style.paper}>
+          {this.props.paper && this.props.paper===true ? (
+            <Paper elevation={5} style={style.paper}>
+              <this.state.procesoActivo />
+            </Paper>
+          ) : (
             <this.state.procesoActivo />
-          </Paper>
+          )}
         </div>
       </div>
     );

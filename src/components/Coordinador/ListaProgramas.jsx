@@ -2,9 +2,19 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { FormControl, FormHelperText } from "@material-ui/core";
+import { FormControl, FormHelperText, Paper } from "@material-ui/core";
 import * as Conexion from "../../Conexion/Controller";
-
+const estilos = {
+  paper: {
+    marginLeft: "10%",
+    marginRight: "10%",
+    marginTop: "5%",
+    flexDirection: "column",
+  },
+};
+/**
+ * @deprecated Clase deprecada, ahora la clase generica de cualquier item es ListaComboBox.jsx
+ */
 class ListaProgramas extends React.Component {
   constructor() {
     super();
@@ -42,6 +52,8 @@ class ListaProgramas extends React.Component {
   }
   render() {
     return (
+      <Paper elevation={0} style={estilos.paper}>
+      <br />
       <FormControl fullWidth>
         <InputLabel  id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
@@ -62,6 +74,7 @@ class ListaProgramas extends React.Component {
         </Select>
         <FormHelperText>Escoja el programa</FormHelperText>
       </FormControl>
+      </Paper>
     );
   }
 }
