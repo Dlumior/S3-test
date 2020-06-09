@@ -94,12 +94,12 @@ async handleOnChangeChecked(e) {
         this.state.alumnosSeleccionados.splice(i,1);
       }      
     }else{
-      this.state.alumnosSeleccionados.push({idA});
+      this.state.alumnosSeleccionados.push(idA);
     }
     //this.setState({alumnosSeleccionados:listaSeleccionados});
     //listaSeleccionados=this.state.alumnosSeleccionados;
   }else if (cb.checked===true){
-    this.state.alumnosSeleccionados.push({idA});
+    this.state.alumnosSeleccionados.push(idA);
   }
   console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 

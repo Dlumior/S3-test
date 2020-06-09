@@ -76,7 +76,7 @@ class FrmMisCitas extends Component {
                 imagen: <div>
                     <img
                         style={estilo.imagen}
-                        src="https://pps.whatsapp.net/v/t61.24694-24/75298228_1320194918175512_303757943840000548_n.jpg?oe=5ED2DA2D&oh=da66ae2d5f833a5ebaf683d642d35405">
+                        src="https://pps.whatsapp.net/v/t61.24694-24/85530587_916267998890014_8807625453394128069_n.jpg?oe=5EE0423A&oh=2151884f16df676da1f07d40d392a3c4">
 
                     </img>
                 </div>,

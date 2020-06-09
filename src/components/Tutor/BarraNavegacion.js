@@ -15,14 +15,14 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import ScheduleRoundedIcon from '@material-ui/icons/ScheduleRounded';
-import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import ScheduleRoundedIcon from "@material-ui/icons/ScheduleRounded";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { Link as LinkRouter } from "react-router-dom";
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
-
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
+import InboxIcon from "@material-ui/icons/Inbox";
 
 const drawerWidth = 250;
 
@@ -87,7 +87,6 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -143,24 +142,34 @@ const BarraNavegacion = (props) => {
         <List>
           {[
             "Perfil",
+            "Solicitudes",
             "Mis Alumnos",
             "Mi Disponibilidad",
             "Sesiones",
-            "Cerrar Sesion"
+            "Cerrar Sesion",
           ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
-              to={"/tutor/" + text.split(' ').join('').toLowerCase()}
+              to={"/tutor/" + text.split(" ").join("").toLowerCase()}
             >
               <ListItemIcon>
-                {index === 0 ? <AccountCircleRoundedIcon /> : 
-                 index === 1 ? <SupervisorAccountRoundedIcon /> : 
-                 index === 2 ? <ScheduleRoundedIcon/> :
-                 index === 3 ? <CalendarTodayIcon/> :
-                 index === 4 ? <ExitToAppRoundedIcon/> :
-                 <NoteAddRoundedIcon />}
+                {index === 0 ? (
+                  <AccountCircleRoundedIcon />
+                ) : index === 1 ? (
+                  <InboxIcon />
+                ) : index === 2 ? (
+                  <SupervisorAccountRoundedIcon />
+                ) : index === 3 ? (
+                  <ScheduleRoundedIcon />
+                ) : index === 4 ? (
+                  <CalendarTodayIcon />
+                ) : index === 5 ? (
+                  <ExitToAppRoundedIcon />
+                ) : (
+                  <NoteAddRoundedIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

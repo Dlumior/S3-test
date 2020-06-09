@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Paper,FormControl, FormHelperText } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
-import TablaFacultad from "./TablaFacultad";
+import TablaProgramas from "./TablaProgramas";
 import Button from "@material-ui/core/Button";
 
 
@@ -20,27 +20,27 @@ const style = {
   };
 
 
-class ListaFacultades extends React.Component {
+class ListaProgramas extends React.Component {
   constructor() {
     super();
     this.state = {
-        facultades: {columns: [{
+        programas: {columns: [{
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        facultad:[{id:"1"}]
+        programa:[{id:"1"}]
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
 
   }
   async componentDidMount(){
-    let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+    let arregloProg=await Controller.GET({servicio:"/api/programa/"});
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
     
-    console.log("arreglo: ",arregloFac);
+    console.log("arreglo: ",arregloProg);
 
     let arreglillo = [];
-    for (let element of arregloFac.facultad){
+    for (let element of arregloProg.programa){
       if (element.ID_PROGRAMA!==null){
         arreglillo.push({
           codigo:element.ID_PROGRAMA,
@@ -49,7 +49,7 @@ class ListaFacultades extends React.Component {
                       <Button 
                           variant="outlined"
                           color="primary">
-                          Ver Facultad
+                          Ver Programa
                       </Button>
                   </div>
           });  
@@ -73,7 +73,7 @@ class ListaFacultades extends React.Component {
         ],
         data: arreglillo
       };
-      this.setState({facultades:data});
+      this.setState({programas:data});
 }
 
 
@@ -81,8 +81,7 @@ render(){
     return (
         <div>
             <Paper elevation={0} style={style.paper}>
-                {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                <TablaFacultad facultades={this.state.facultades}  />
+                <TablaProgramas programas={this.state.programas}  />
             </Paper>
         </div>
     );
@@ -90,7 +89,7 @@ render(){
 
 }
 
-export default ListaFacultades;
+export default ListaProgramas;
 
 const estilo={
 imagen:{
