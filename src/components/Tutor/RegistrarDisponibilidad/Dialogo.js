@@ -39,8 +39,9 @@ import Confirmacion from './Confirmacion';
         mensajeModificar: "Disponibilidad modificada exitosamente",
         mensajeRegistrar: "Disponibilidad registrada exitosamente",
         abrirConfirmacion: false,
+        errorLugar: false,
         alerta:{
-          mensaje: "La hora de fin debe de ser mayor que la hora de inicio",
+          mensaje: "",
           mostrar: false
         }        
       }
@@ -60,6 +61,12 @@ import Confirmacion from './Confirmacion';
 
     handleOnChangeLugar = e =>{  
       this.setState({lugar:e.target.value})
+      if(e.target.value.length > 100){
+        this.setState({errorLugar: true});
+      }
+      else{
+        this.setState({errorLugar: false});
+      }
     }
 
     handleFocusOutHoraIni = async e =>{ 
@@ -122,50 +129,65 @@ import Confirmacion from './Confirmacion';
 
     handleSave = async e => { 
       if (this.state.horaInicio < this.state.horaFin){
-        let horaInicio = this.state.horaInicio;
-      let horaFin = this.state.horaFin;
-      let repeticion = this.state.repeticion;
-      let lugar = this.state.lugar; 
-      let fecha = this.props.datos.fecha 
-      if(!this.props.datos.modificar){ // registro de nueva disponibilidad
-        const nuevaDisponibilidad = {
-          disponibilidad : {
-            HORA_INICIO: horaInicio,
-            HORA_FIN: horaFin,
-            FECHA: fecha,
-            ID_TUTOR: 51,
-            REPETICION: repeticion,
-            LUGAR: lugar
-          }
-        } 
-        
-        const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };      
-        let nuevo = await Conexion.POST(props); 
-        this.props.actualizarMensaje(this.state.mensajeRegistrar);         
-      } else{ // actualizar disponibilidad
-        let id = this.props.datos.idDisponibilidad
-        const disponibilidadModificada = {
-          disponibilidad : {
-            ID_DISPONIBILIDAD: id,
-            HORA_INICIO: horaInicio,
-            HORA_FIN: horaFin,
-            FECHA: fecha,
-            ID_TUTOR: 51,
-            REPETICION: repeticion,
-            LUGAR: lugar
-          }
+        if(!this.state.errorLugar){
+          let horaInicio = this.state.horaInicio;
+          let horaFin = this.state.horaFin;
+          let repeticion = this.state.repeticion;
+          let lugar = this.state.lugar; 
+          let fecha = this.props.datos.fecha 
+          if(!this.props.datos.modificar){ // registro de nueva disponibilidad
+            const nuevaDisponibilidad = {
+              disponibilidad : {
+                HORA_INICIO: horaInicio,
+                HORA_FIN: horaFin,
+                FECHA: fecha,
+                ID_TUTOR: 51,
+                REPETICION: repeticion,
+                LUGAR: lugar
+              }
+            } 
+            
+            const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };      
+            let nuevo = await Conexion.POST(props); 
+            this.props.actualizarMensaje(this.state.mensajeRegistrar);         
+          } else{ // actualizar disponibilidad
+            let id = this.props.datos.idDisponibilidad
+            const disponibilidadModificada = {
+              disponibilidad : {
+                ID_DISPONIBILIDAD: id,
+                HORA_INICIO: horaInicio,
+                HORA_FIN: horaFin,
+                FECHA: fecha,
+                ID_TUTOR: 51,
+                REPETICION: repeticion,
+                LUGAR: lugar
+              }
+            }
+            const props = { servicio: "/api/disponibilidad/modificar", request: disponibilidadModificada };      
+            let nuevo = await Conexion.POST(props); 
+            this.props.actualizarMensaje(this.state.mensajeModificar);
+          } 
+          this.props.actualizarBandera();     
+          this.props.closeDialog();
+          this.props.empezarCarga();
+        }else{
+          let alerta = {...this.state.alerta};
+          alerta.mostrar = true
+          alerta.mensaje = "El campo lugar no puede tener más de 100 caracteres"
+          this.setState({alerta});
         }
-        const props = { servicio: "/api/disponibilidad/modificar", request: disponibilidadModificada };      
-        let nuevo = await Conexion.POST(props); 
-        this.props.actualizarMensaje(this.state.mensajeModificar);
-      } 
-      this.props.actualizarBandera();     
-      this.props.closeDialog();
-      this.props.empezarCarga();
       }else{
-        let alerta = {...this.state.alerta};
-        alerta.mostrar = true
-        this.setState({alerta});
+        if(!this.state.errorLugar){
+          let alerta = {...this.state.alerta};
+          alerta.mensaje = "La hora de fin debe de ser mayor que la hora de inicio"
+          alerta.mostrar = true          
+          this.setState({alerta});
+        }else{
+          let alerta = {...this.state.alerta};
+          alerta.mensaje = "Existen errores al completar el formulario"
+          alerta.mostrar = true          
+          this.setState({alerta});
+        }
       }
                   
     }; 
@@ -269,6 +291,7 @@ import Confirmacion from './Confirmacion';
           defaultValue= {this.props.datos.lugar}
           disabled={!this.props.datos.visible}
         />  
+        { this.state.errorLugar && <FormHelperText error> El lugar debe ser de máximo 100 caracteres</FormHelperText>}
       </Grid>
         </Grid>
       </Grid>       
