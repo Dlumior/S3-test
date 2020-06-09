@@ -92,6 +92,7 @@ class FrmMisCitas extends Component {
                     >
                         CANCELAR
                     </Button>,
+                /*
                 btnPosponer:
                     <Button
                         size="large"
@@ -101,7 +102,7 @@ class FrmMisCitas extends Component {
                     >
                         POSPONER
                     </Button>,
-
+                */
             });
         }
 
@@ -127,10 +128,13 @@ class FrmMisCitas extends Component {
                     title: "CANCELAR CITA",
                     field: "btnCancelar"
                 },
+                /*
                 {
                     title: "POSPONER CITA",
                     field: "btnPosponer",
                 },
+                */
+               
                 /*  {},{},{}.... para mas columnas  */
             ],
             data: arreglillo
@@ -153,7 +157,9 @@ class FrmMisCitas extends Component {
                     <DialogContent>
                         <Grid container xs={12}>
                             <Paper style={style.paper}>
-                                ¿Está seguro de cancelar esta cita?
+                                ¿ESTÁ SEGURO DE CANCELAR ESTA CITA?
+                                <br/>
+                                SE LE REDIRECCIONARÁ AL CORREO GMail...
                             </Paper>
                         </Grid>
                     </DialogContent>
@@ -194,8 +200,9 @@ class FrmMisCitas extends Component {
                     <TablaTutores tutores={this.state.tutores} />
 
                 </Paper>
-
-                <Dialog
+                {/**
+                 * 
+                 <Dialog
                     open={this.state.open2}
                     onClose={this.handleOnClosePosponer}
                     aria-labelledby="form-dialog-title"
@@ -219,6 +226,8 @@ class FrmMisCitas extends Component {
                         
                     </DialogActions>
                 </Dialog>
+                 */}    
+                
             </div>
         );
     }

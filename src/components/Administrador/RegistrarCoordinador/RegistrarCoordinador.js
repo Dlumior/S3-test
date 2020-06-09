@@ -11,7 +11,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
-import CheckBoxListPrograma from "./CheckBoxListPrograma";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 
 import IconButton from '@material-ui/core/IconButton';
@@ -22,7 +21,7 @@ import validatePhoneNumber from "../../Coordinador/FormRegistroTutor/validatePho
 import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress.js";
 import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
 import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
-import CheckboxList from "./CheckBoxListPrograma";
+
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -142,7 +141,6 @@ const RegistrarCoordinador = () => {
       errors.code.error ||
       datosForm.NOMBRE==='' || datosForm.APELLIDOS==='' ||
       datosForm.CORREO==='' || datosForm.CODIGO===''
-
     ) {
       alert("Hay errores en los campos");
       return;
@@ -317,12 +315,7 @@ const RegistrarCoordinador = () => {
                     fontsize="large" />
                   </IconButton> 
                   {cantProgramas>0 ? renderPrograma(cantProgramas): null}              
-                </Grid>       
-              {/*<CheckBoxListPrograma
-                programas={programas}
-                programa={programa}
-                setPrograma={setPrograma}
-              />*/}
+                </Grid>      
             </Grid>
           </Grid>
         </DialogContent>
