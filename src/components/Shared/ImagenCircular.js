@@ -4,7 +4,7 @@ const styles = {
   imagen: {
     borderRadius: "50%",
     objectFit: "cover",
-    width: "100%"
+    width: "100%",
   },
 };
 class ImagenCircular extends Component {

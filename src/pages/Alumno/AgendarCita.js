@@ -3,7 +3,6 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarCitaTutor_granito.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
-import FormNuevaTutoria from "../../components/Coordinador/Tutorias/FormNuevaTutoria";
 import CalendarioCitas from "../../components/Alumno/CalendarioCitas";
 
 class AgendarCita extends Component {
@@ -29,12 +28,11 @@ class AgendarCita extends Component {
           ],
         },
       ],
-      
     };
-    this.renderxTipoProceso=this.renderxTipoProceso.bind(this);
+    this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
   }
   renderxTipoProceso() {
-    if(this.props.multiProceso){
+    if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
       console.log("multiProceso: ", this.props.multiProceso);
     }
@@ -46,8 +44,8 @@ class AgendarCita extends Component {
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
         
         <NombrePrincipal titulo={this.state.procesos[0].titulo} />
-        <TabProceso procesos={this.state.procesos[0].procesos} />
-        
+        <TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>
+
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>
