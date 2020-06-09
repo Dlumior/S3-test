@@ -38,22 +38,22 @@ class CalendarioCitas extends Component {
     console.log("salto actual: ", this.state.lunesActual);
   }
   renderDias = (lunesActual) => {
-    console.log("luneeees",lunesActual);
+    //console.log("luneeees",lunesActual);
     //const numeracioSemana = this.state.inicioSemana;
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
-    console.log("fechaInicial",fechaInicial);
+    //console.log("fechaInicial",fechaInicial);
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
-    console.log("fechasDias",fechasDias);
+    //console.log("fechasDias",fechasDias);
     return (
       <>
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            <HorarioDelDia fecha={diaSemana} servicio={"/api/disponibilidad/listarDia/"}/>
+            <HorarioDelDia fecha={diaSemana} servicio={"/api/disponibilidad/listarDia/" + diaSemana.toISOString().split("T")[0]}/>
           </Grid>
         ))}
       </>
@@ -75,7 +75,7 @@ class CalendarioCitas extends Component {
         await fechaActual.setDate(fechaActual.getDate() - offset)
       ),
     });
-    console.log("lunes Actual: ", this.state.lunesActual);
+    //console.log("lunes Actual: ", this.state.lunesActual);
   }
 
   render() {

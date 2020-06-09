@@ -26,7 +26,11 @@ class DisponibilidadCard extends Component {
             <Grid item md={8} xs={8}>
               <p>
                 {disponibilidad.TUTOR.USUARIO.NOMBRE +
-                  " " +
+                  " " }
+                  </p>
+                  
+                  <p>
+                  {
                   disponibilidad.TUTOR.USUARIO.APELLIDOS}
               </p>
             </Grid>

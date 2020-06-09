@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
 const styles = {
   imagen: {
+    marginTop: "3%",
+    marginLeft: "3%",
     borderRadius: "50%",
     objectFit: "cover",
     width: "100%",

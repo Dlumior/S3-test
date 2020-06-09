@@ -40,9 +40,9 @@ class HorarioDelDia extends Component {
 
   renderCabecera = (fecha) => {
     const cabecera = new Date(fecha);
+   
     console.log("horahio: ", cabecera);
     return (
-      <>
       <div style={styles.titutloDia}>
         <Typography
           variant="button"
@@ -55,54 +55,37 @@ class HorarioDelDia extends Component {
             {diasSemana[cabecera.getDay()] + " " + cabecera.getDate()}
           </strong>
         </Typography>
+        
       </div>
-      <div className="tituloDia" elevation={5} style={styles.paper}>
-      {this.renderHorarios(this.state.horarios)}
-    </div>
-    </>
     );
   };
 
   async componentDidMount() {
-    if (!this.props.fecha) return;
-    const fechaRecibida = new Date(this.props.fecha);
-    //console.log(fechaRecibida);
-    this.setState({ fecha: new Date(this.props.fecha) });
+    
     const servicio =
-      this.props.servicio + fechaRecibida.toISOString().split("T")[0];
+    this.props.servicio ;//+ fechaRecibida.toISOString().split("T")[0];
     let horarios = await GET({ servicio: servicio });
     this.setState({ horarios: horarios });
     console.log("horariooos: ", this.state.horarios);
     //console.log("fecha: ", fechaRecibida.toISOString().split('T')[0]);
   }
-  renderHorarios = (horarios) => {
-    if (horarios.data) {
-      return (
-        <div>
-          {horarios.data.map((element) => (
-            <DisponibilidadCard disponibilidad={element} />
-          ))}
-        </div>
-      );
+  renderHorarios = (horarios) =>{
+    if(horarios.data){
+      return <div>{horarios.data.map((element)=>(
+        <DisponibilidadCard disponibilidad={element}/>
+      ))}</div>
     }
-    console.log("long mayor a cero", horarios.data);
-
-    //return <div>{horarios.map((element)=>(<h1>HAAAA</h1>))}</div>
-  };
-  shouldComponentUpdate(nextState, nextProps) {
-    if (nextState.disponibilidades !== this.state.disponibilidades) {
-      return true;
-    }
-    if (nextProps.fecha !== this.props.fecha) {
-      return true;
-    }
-    return false;
+      //console.log("long mayor a cero",horarios.data);
+    
   }
+  
   render() {
     return (
       <div>
         {this.renderCabecera(this.props.fecha)}
-        
+        <div className="tituloDia" elevation={5} style={styles.paper}>
+          {this.renderHorarios(this.state.horarios)}
+        </div>
       </div>
     );
   }
