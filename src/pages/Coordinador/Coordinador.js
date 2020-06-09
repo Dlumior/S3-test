@@ -13,6 +13,7 @@ import Perfil from "./Perfil.js";
 const Coordinador = () => {
   return (
     <div>
+      <br/><br/>
       <Route  exact path={"/coordinador/"} component={Perfil} />      
       <BarraNavegacion>
         {/*perfil...*/}
