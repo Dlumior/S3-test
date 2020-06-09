@@ -22,7 +22,6 @@ const styles = {
     backgroundColor: "#ffffff",
   },
 };
-
 /**
  * Recibo una fecha (Date) y sobre esta es que me renderizo XD
  */
