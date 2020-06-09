@@ -37,36 +37,34 @@ class CalendarioCitas extends Component {
     this.setState({ lunesActual: await new Date(lunesActual.setDate(lunesActual.getDate()+salto)) });
     console.log("salto actual: ", this.state.lunesActual);
   }
+  /**
+   * 
+   * @param {Date} lunesActual el lunes de la semana actual
+   */
   renderDias = (lunesActual) => {
-    //console.log("luneeees",lunesActual);
-    //const numeracioSemana = this.state.inicioSemana;
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
-    //console.log("fechaInicial",fechaInicial);
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
-    //console.log("fechasDias",fechasDias);
     return (
       <>
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            <HorarioDelDia fecha={diaSemana} servicio={"/api/disponibilidad/listarDia/" + diaSemana.toISOString().split("T")[0]}/>
+            <HorarioDelDia fecha={{fecha: diaSemana, servicio:"/api/disponibilidad/listarDia/" + diaSemana.toISOString().split("T")[0]} }/>
           </Grid>
         ))}
       </>
     );
   }
-  obtenerLunes(fechaActual) {}
 
   async componentDidMount() {
     const fechaActual = this.state.fechaActual;
     let offset = 0;
     const lunes = 1;
     offset = fechaActual.getDay() - lunes;
-
     this.setState({
       fechaControles: { mes: mesesAnio[fechaActual.getMonth() + 1], semana: 1, fecha: fechaActual },
     });
@@ -75,7 +73,6 @@ class CalendarioCitas extends Component {
         await fechaActual.setDate(fechaActual.getDate() - offset)
       ),
     });
-    //console.log("lunes Actual: ", this.state.lunesActual);
   }
 
   render() {

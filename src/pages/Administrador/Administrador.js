@@ -6,12 +6,12 @@ import Perfil from "./Perfil.js";
 import Facultades from "./Facultades.js";
 import Coordinador from "./Coordinador";
 import Institucion from "./Institucion"
+import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 
 const Administrador = () => {
   return (
     <div>
-      <br/><br/>
-      <Route exact path={"/administrador/"} component={Perfil} />
+      <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route

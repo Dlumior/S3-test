@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Paper, Typography } from "@material-ui/core";
 import { diasSemana, fechaEstandar } from "./Util.js";
 import DisponibilidadCard from "./DisponibilidadCard";
-import { GET } from "../../Conexion/Controller.js";
+import { GET } from "../../../Conexion/Controller.js";
 import "./Horario.css";
+import ArregloHorarios from "./ArregloHorarios.jsx";
 const styles = {
   paper: {
     marginTop: "1%",
@@ -34,14 +35,12 @@ class HorarioDelDia extends Component {
       horarios: [],
       disponibilidades: "",
     };
-    this.renderHorarios = this.renderHorarios.bind(this);
+    //this.renderHorarios = this.renderHorarios.bind(this);
     this.renderCabecera = this.renderCabecera.bind(this);
   }
 
   renderCabecera = (fecha) => {
     const cabecera = new Date(fecha);
-   
-    console.log("horahio: ", cabecera);
     return (
       <div style={styles.titutloDia}>
         <Typography
@@ -59,32 +58,12 @@ class HorarioDelDia extends Component {
       </div>
     );
   };
-
-  async componentDidMount() {
-    
-    const servicio =
-    this.props.servicio ;//+ fechaRecibida.toISOString().split("T")[0];
-    let horarios = await GET({ servicio: servicio });
-    this.setState({ horarios: horarios });
-    console.log("horariooos: ", this.state.horarios);
-    //console.log("fecha: ", fechaRecibida.toISOString().split('T')[0]);
-  }
-  renderHorarios = (horarios) =>{
-    if(horarios.data){
-      return <div>{horarios.data.map((element)=>(
-        <DisponibilidadCard disponibilidad={element}/>
-      ))}</div>
-    }
-      //console.log("long mayor a cero",horarios.data);
-    
-  }
-  
   render() {
     return (
       <div>
-        {this.renderCabecera(this.props.fecha)}
+        {this.renderCabecera(this.props.fecha.fecha)}
         <div className="tituloDia" elevation={5} style={styles.paper}>
-          {this.renderHorarios(this.state.horarios)}
+          <ArregloHorarios servicio={this.props.fecha.servicio}/>
         </div>
       </div>
     );

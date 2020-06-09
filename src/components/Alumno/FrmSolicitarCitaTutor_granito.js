@@ -177,7 +177,7 @@ export default FrmSolicitarCitaTutor_granito;
 const estilo = {
     imagen: {
         width: "45%",
-        "border-radius": "100%",
+        borderRadius: "100%",
     }
 }
 

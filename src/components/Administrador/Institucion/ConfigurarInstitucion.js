@@ -273,6 +273,6 @@ export default ConfigurarInstitucion;
 const estilo = {
     imagen: {
         width: "50%",
-        "border-radius": "100%",
+        borderRadius: "100%",
     }
 }

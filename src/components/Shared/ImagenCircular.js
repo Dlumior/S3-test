@@ -4,6 +4,7 @@ const styles = {
   imagen: {
     marginTop: "3%",
     marginLeft: "3%",
+    marginRight: "3%",
     borderRadius: "50%",
     objectFit: "cover",
     width: "100%",
