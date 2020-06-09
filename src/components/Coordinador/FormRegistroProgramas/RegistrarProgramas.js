@@ -13,6 +13,7 @@ import { GET } from "../../../Conexion/Controller";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Programas from "../../../pages/Coordinador/Programas";
 
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
@@ -43,14 +44,13 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 const RegistrarProgramas = () => {
   const [datosForm, setDatosForm] = React.useState({
+    ID_FACULTAD:"13",
     ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null
   });
-  const [errors, setErrors] = useState(errorObj);
-
-  
+  const [errors, setErrors] = useState(errorObj);  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
@@ -80,7 +80,7 @@ const RegistrarProgramas = () => {
       console.log(datosForm);
 
       const props = { servicio: "/api/programa", request: {programa: datosForm} };
-      console.log("saving new prog in DB:", datosForm);
+      console.log("saving new prog in DB:",   );
       let nuevoProg = await Conexion.POST(props);
       console.log("got updated prog from back:", nuevoProg);
       /*
@@ -91,7 +91,13 @@ const RegistrarProgramas = () => {
       console.log("got updated prog from back:", nuevoProg);
       */
       if (nuevoProg){      
-        alert("Se registro Programas",nuevoProg.NOMBRE);
+        alert("Se registro Programa",nuevoProg.NOMBRE);
+        setOpen(false);
+        return(
+          <div>
+            <Programas/>
+          </div>
+        );
       }
 
     }  

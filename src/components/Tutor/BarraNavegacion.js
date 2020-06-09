@@ -23,6 +23,7 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { Link as LinkRouter } from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import InboxIcon from "@material-ui/icons/Inbox";
+import HowToRegRoundedIcon from '@material-ui/icons/HowToRegRounded';
 
 const drawerWidth = 250;
 
@@ -158,7 +159,7 @@ const BarraNavegacion = (props) => {
                 {index === 0 ? (
                   <AccountCircleRoundedIcon />
                 ) : index === 1 ? (
-                  <InboxIcon />
+                  <HowToRegRoundedIcon />
                 ) : index === 2 ? (
                   <SupervisorAccountRoundedIcon />
                 ) : index === 3 ? (
