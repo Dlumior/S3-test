@@ -42,6 +42,7 @@ class HorarioDelDia extends Component {
     const cabecera = new Date(fecha);
     console.log("horahio: ", cabecera);
     return (
+      <>
       <div style={styles.titutloDia}>
         <Typography
           variant="button"
@@ -55,6 +56,10 @@ class HorarioDelDia extends Component {
           </strong>
         </Typography>
       </div>
+      <div className="tituloDia" elevation={5} style={styles.paper}>
+      {this.renderHorarios(this.state.horarios)}
+    </div>
+    </>
     );
   };
 
@@ -97,9 +102,7 @@ class HorarioDelDia extends Component {
     return (
       <div>
         {this.renderCabecera(this.props.fecha)}
-        <div className="tituloDia" elevation={5} style={styles.paper}>
-          {this.renderHorarios(this.state.horarios)}
-        </div>
+        
       </div>
     );
   }
