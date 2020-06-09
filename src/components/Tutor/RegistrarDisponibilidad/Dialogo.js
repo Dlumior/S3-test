@@ -148,7 +148,14 @@ import Confirmacion from './Confirmacion';
             } 
             
             const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };      
-            let nuevo = await Conexion.POST(props); 
+            let nuevo = await Conexion.POST(props);
+            if(await nuevo.hasOwnProperty('error')){
+              let alerta = {...this.state.alerta};
+              alerta.mostrar = true;
+              alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+              this.setState({alerta});
+              return;
+            } 
             this.props.actualizarMensaje(this.state.mensajeRegistrar);         
           } else{ // actualizar disponibilidad
             let id = this.props.datos.idDisponibilidad
@@ -165,6 +172,13 @@ import Confirmacion from './Confirmacion';
             }
             const props = { servicio: "/api/disponibilidad/modificar", request: disponibilidadModificada };      
             let nuevo = await Conexion.POST(props); 
+            if(await nuevo.hasOwnProperty('error')){
+              let alerta = {...this.state.alerta};
+              alerta.mostrar = true;
+              alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+              this.setState({alerta});
+              return;
+            }
             this.props.actualizarMensaje(this.state.mensajeModificar);
           } 
           this.props.actualizarBandera();     

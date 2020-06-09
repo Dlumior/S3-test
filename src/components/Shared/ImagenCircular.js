@@ -7,7 +7,7 @@ const styles = {
     marginRight: "3%",
     borderRadius: "50%",
     objectFit: "cover",
-    width: "100%",
+    width: "80%",
   },
 };
 class ImagenCircular extends Component {

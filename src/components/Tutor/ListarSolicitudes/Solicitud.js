@@ -61,7 +61,7 @@ const Solicitud = (props) => {
     console.log("Accepting alumno:", datos);
     let modificacion = await POST(sendData);
     console.log("Got updated alumno from back:", modificacion);
-    alert("Se creó correctamente el tutor");
+    alert("Se actualizó correctamente el estado de la solicitud");
     window.location.reload();
   };
 
