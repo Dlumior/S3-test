@@ -10,7 +10,7 @@ import Institucion from "./Institucion"
 const Administrador = () => {
   return (
     <div>
-
+      <br/><br/>
       <Route exact path={"/administrador/"} component={Perfil} />
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />

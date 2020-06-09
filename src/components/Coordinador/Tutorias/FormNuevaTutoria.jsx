@@ -69,7 +69,7 @@ class FormNuevaTutoria extends Component {
         ok: false,
         nombre: {
           lim: 20,
-          mssgOk: "",
+          mssgOk: "", 
           mssgError: "Nombre debe ser maximo de 20 caracteres",
         },
         descripcion: {
@@ -246,7 +246,7 @@ class FormNuevaTutoria extends Component {
                   id="outlined-multiline-static"
                   name="descripcion"
                   label="Descripción"
-                  multiline
+                  multiline={false}
                   fullWidth
                   rows={4}
                   variant="outlined"
@@ -257,7 +257,7 @@ class FormNuevaTutoria extends Component {
                 </FormHelperText>
               </Grid>
               <Grid item md={12} xs={12}>
-                <br />
+                
                 <ListaProgramas
                   titulo={"Programas"}
                   escogerPrograma={this.handleOnChangePrograma}
@@ -266,7 +266,7 @@ class FormNuevaTutoria extends Component {
                 <FormHelperText error>
                   {this.state.mensaje.programa}
                 </FormHelperText>
-                <br />
+                
               </Grid>
               <Grid item md={12} xs={12}>
                 <GrupoRadioButton

@@ -3,6 +3,7 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FormularioRegistrarAlumno from "../../components/Coordinador/FormRegistroAlumno/FormularioRegistrarAlumno";
 import FormularioImportarAlumnos from "../../components/Coordinador/FormRegistroAlumno/FormularioImportarAlumnos";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
+import ListadoDeAlumnos from "../../components/Coordinador/FormRegistroAlumno/ListadoDeAlumnos";
 
 
 
@@ -12,8 +13,9 @@ class RegistrarAlumno extends React.Component {
     super();
     this.state = {
       procesos: [
-        { index:0,titulo: "Ingresar Alumnos", proceso: FormularioRegistrarAlumno },
+        { index:0,titulo: "Registrar Alumno", proceso: FormularioRegistrarAlumno },
         { index:1,titulo: "Importar Alumnos", proceso: FormularioImportarAlumnos },
+        { index:2, titulo: "Listado de Alumnos", proceso: ListadoDeAlumnos}
       ],
     };
   }
@@ -21,7 +23,7 @@ class RegistrarAlumno extends React.Component {
     return (
       <div>
         <NombrePrincipal titulo={titulo} />
-        <TabProceso procesos={this.state.procesos} />
+        <TabProceso procesos={this.state.procesos} paper={true} />
       </div>
     );
   }
