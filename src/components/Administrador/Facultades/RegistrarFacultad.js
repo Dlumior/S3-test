@@ -8,11 +8,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Alertas from "../../Coordinador/Alertas"
 
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
@@ -41,36 +41,80 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 const RegistrarFacultad = () => {
   const [datosForm, setDatosForm] = React.useState({
-    ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null
   });
+  const [datosPrograma, setDatosPrograma] = React.useState({
+    ID_FACULTAD:"",
+    ID_INSTITUCION:"1",
+    NOMBRE: "",
+    IMAGEN: null
+  });
+
+  const [alerta, setAlerta]=useState({
+    mensajeStrong: "",
+    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongExito: "satisfactoriamente!",
+    mensajeError: "Existen errores al completar el formulario",
+    mensajeExito: "Facultad registrada",
+    mensaje: "",
+  });
+  const [severidad, setSeveridad] = useState({
+    severidad:"",
+    severW:"warning",
+    severE:"error",
+    severS:"success"
+  });
+
   const [errors, setErrors] = useState(errorObj);
-
-
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
   const [selectedValue, setSelectedValue] = React.useState();
+  const [checked, setChecked] = React.useState(false);
+
+  const handleChangeChecked = (event) => {
+    setChecked(event.target.checked);
+    //agregar condicion para que cree una programa unico asignado a esa facultad
+  };
+
 
   const handleClickOpen = () => {
     setOpen(true);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
+    setChecked(false);
   };
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleChangeSelected = (event) => {
-    setSelectedValue(event.target.value);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
+    setChecked(false);
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
-      errors.name.error 
+      errors.name.error || datosForm.NOMBRE===''
     ) {
-      alert("El nombre es inválido, ingrese nuevamente");
-      return;
+      setSeveridad({
+        severidad:severidad.severE,
+      });     
+      setAlerta({
+        mensaje:alerta.mensajeError,
+      });      
+      console.log("severidad= ",severidad.severidad);
+
+      //return;
     } else {
       setDatosForm({
         ...datosForm
@@ -82,8 +126,43 @@ const RegistrarFacultad = () => {
       let nuevaFacu = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevaFacu);
 
-      if (nuevaFacu){      
-        alert("Se registro Facultad",nuevaFacu.NOMBRE);
+      console.log("esta checkk:", checked);
+      console.log("esta checkk:", nuevaFacu.facultad.ID_PROGRAMA);
+
+      var idProg=nuevaFacu.facultad.ID_PROGRAMA;
+      if (checked){
+        datosPrograma.ID_FACULTAD=idProg;
+        datosPrograma.NOMBRE=nuevaFacu.facultad.NOMBRE;
+        setDatosPrograma({
+          ...datosPrograma,
+          //ID_FACULTAD:idProg,
+          //NOMBRE:nuevaFacu.facultad.NOMBRE,          
+        });
+        console.log(datosPrograma);
+
+        const props2 = { servicio: "/api/programa", request: {programa: datosPrograma} };
+        console.log("saving new prog in DB:",   );
+        let nuevoProg = await Conexion.POST(props2)
+        console.log("got updated prog from back:", nuevoProg);
+        if (nuevoProg){      
+          setSeveridad({
+            severidad:severidad.severS,
+          });     
+          setAlerta({
+            mensaje:alerta.mensajeExito,
+          });      
+          console.log("severidad= ",severidad.severidad);
+        }
+      }
+      console.log(checked);
+      if (nuevaFacu & checked===false){      
+        setSeveridad({
+          severidad:severidad.severS,
+        });     
+        setAlerta({
+          mensaje:alerta.mensajeExito,
+        });      
+        console.log("severidad= ",severidad.severidad);
       }
 
     }  
@@ -102,6 +181,11 @@ const RegistrarFacultad = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
+      <Alertas
+        severity={severidad.severidad}
+        titulo={"Observacion:"}
+        alerta={alerta}
+      />
         <DialogTitle id="form-dialog-title">
           Formulario de registro de Facultad
         </DialogTitle>
@@ -122,13 +206,15 @@ const RegistrarFacultad = () => {
                 />
               </Grid>
             <Grid item>
-              <RadioGroup row aria-label="position" name="position" defaultValue="top">
-                <FormControlLabel 
-                  value="end" 
-                  control={<Radio color="primary" />} 
-                  label="Facultad Independiente" 
-                  onChange={handleChangeSelected}/>
-              </RadioGroup>
+            <Checkbox
+              checked={checked}
+              onChange={handleChangeChecked}
+              color="primary"
+              label="Facultad Independiente"
+            />
+            <Typography variant="h7" align="center">
+                {" "}Facultad Independiente
+            </Typography>
             </Grid>
             </Grid>
             </Grid>
