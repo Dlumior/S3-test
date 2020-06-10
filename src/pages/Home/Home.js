@@ -37,7 +37,8 @@ function Home() {
         <Grid item xs={12} container className={classes.image}>
           <Grid
             item
-            xs={6}
+            md={6}
+            xs={0}
             container
             justify="flex-start"
             alignItems="center"
@@ -49,8 +50,9 @@ function Home() {
               </Typography>
             </Grid>
           </Grid>
-          <Grid item xs={6} container justify="center" alignItems="center">
+          <Grid item md={6} xs={12} container justify="center" alignItems="center">
             {/*<Login />*/}
+
             <IniciarSesion/>
           </Grid>
         </Grid>

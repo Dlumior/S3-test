@@ -5,6 +5,7 @@ import {
   TextField,
   Button,
   FormHelperText,
+  Typography,
 } from "@material-ui/core";
 import { POST } from "../../Conexion/Controller";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
@@ -89,52 +90,73 @@ class IniciarSesion extends Component {
   };
   render() {
     return (
-      <Paper elevation={5} style={estilos.paper}>
-        <Grid container spacing={0}>
-          <Grid item md={12} xs={12}>
-            {/* Usuario */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="Usuario"
-              label="Usuario"
-              inicial=""
-              validacion={{ lim: 25 }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            {/* Contraseña */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="Contraseña"
-              label="Contraseña"
-              validacion={{ lim: 50 }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-              tipo={"password"}
-            />
-            {/* Guardar */}
-            <br />
+      <Grid container spacing={0}>
+        <Grid item md={4} xs={4} />
+        {/** automargen */}
+        <Grid item md={6} xs={6}>
+          <Paper elevation={5} style={estilos.paper}>
             <Grid container spacing={0}>
-              <Grid item md={1} xs={2}></Grid>
-              <Grid item md={10} xs={10}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleOnClick}
-                >
-                  Iniciar Sesión
-                </Button>
+              <Grid item md={2} xs={2}></Grid>
+              <Grid item md={8} xs={8}>
+                <img
+                  style={estilos.logo}
+                  src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
+                  alt="logo-ututor"
+                />
+                <Typography variant="h6">Iniciar Sesión en ututor</Typography>
               </Grid>
-              <Grid item md={1} xs={1}></Grid>
+              <Grid item md={2} xs={2} />
             </Grid>
-          </Grid>
+            {/** formulario */}
+            <Grid container spacing={0}>
+              <Grid item md={12} xs={12}>
+                {/* Usuario */}
+                <CampoDeTexto
+                  requerido={true}
+                  autoFocus={true}
+                  name="Usuario"
+                  label="Usuario"
+                  inicial=""
+                  validacion={{ lim: 25 }}
+                  onChange={this.handleOnChange}
+                  validarEntrada={this.validarEntrada}
+                />
+                {/* Contraseña */}
+                <CampoDeTexto
+                  requerido={true}
+                  autoFocus={true}
+                  name="Contraseña"
+                  label="Contraseña"
+                  validacion={{ lim: 50 }}
+                  onChange={this.handleOnChange}
+                  validarEntrada={this.validarEntrada}
+                  tipo={"password"}
+                />
+                {/* Guardar */}
+                <br />
+                <Grid container spacing={0}>
+                  <Grid item md={1} xs={2}></Grid>
+                  <Grid item md={10} xs={10}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleOnClick}
+                    >
+                      Iniciar Sesión
+                    </Button>
+                  </Grid>
+                  <Grid item md={1} xs={1}></Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
-      </Paper>
+        {/** automargen */}
+        <Grid item md={4} xs={4} />
+      </Grid>
     );
   }
 }
@@ -142,14 +164,19 @@ class IniciarSesion extends Component {
 export default IniciarSesion;
 const estilos = {
   paper: {
-    minHeight: "500px",
-    "min-width": "400px",
     backgroundColor: "#ffffff",
     opacity: 0.84,
     marginTop: "1%",
     flexDirection: "column",
     alignItems: "left",
     backgroundImage: "",
-    minHeight: 400,
+    display: "flex",
+    heigh: "100%",
+    padding: "4%",
+  },
+  logo: {
+    borderRadius: "50%",
+    objectFit: "cover",
+    width: "100%",
   },
 };
