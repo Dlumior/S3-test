@@ -72,6 +72,7 @@ class FrmAsignacionTutor extends Component {
       const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
       console.log("saving new asignacion in DB:", nuevaAsignacion);
       let asignado = await Controller.POST(props);
+      console.log("asignado",asignado);
       if (asignado) {
         alert("Alumno asignado Satisfactoriamente");
       }
