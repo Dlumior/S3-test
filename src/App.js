@@ -12,15 +12,24 @@ import Administrador from "./pages/Administrador/Administrador.js";
 import Coordinador from "./pages/Coordinador/Coordinador.js";
 import Tutor from "./pages/Tutor/Tutor.js";
 import Alumno from "./pages/Alumno/Alumno.js";
+import IniciarSesion from "./components/Home/IniciarSesion";
 
 
 function App() {
+    let retrievedJson = sessionStorage.getItem("usuario_logueado");
+   
+  if(!retrievedJson){
+    console.log("No habia nada boton CTM porque te triguereas?");
+
+  }else{
+    console.log("retrievedJson", JSON.parse(retrievedJson));
+  }
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <Router>
           <div className="App-header">
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={IniciarSesion} />
             <Route path="/administrador" component={Administrador} />
             <Route path="/coordinador" component={Coordinador} />
             <Route path="/tutor" component={Tutor} />

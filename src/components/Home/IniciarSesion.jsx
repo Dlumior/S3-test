@@ -96,16 +96,18 @@ class IniciarSesion extends Component {
   onFailure(error) {
     console.log(error);
   }
-  onSignIn (googleUser)  {
+  onSignIn(googleUser) {
     console.log("HAAAAAAAA");
     var profile = googleUser.getBasicProfile();
     console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log("Name: " + profile.getName());
     console.log("Image URL: " + profile.getImageUrl());
     console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-  };
+  }
 
   render() {
+    
+
     return (
       <Grid container spacing={0}>
         <Grid item md={4} xs={4} />
@@ -178,8 +180,11 @@ class IniciarSesion extends Component {
                 <Grid container spacing={0}>
                   <Grid item md={1} xs={1}></Grid>
                   <Grid item md={10} xs={10}>
-                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
+                    <div
+                      class="g-signin2"
+                      data-onsuccess="onSignIn"
+                      align="center"
+                    ></div>
                   </Grid>
                   <Grid item md={1} xs={1}></Grid>
                 </Grid>
