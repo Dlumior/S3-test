@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
-import ListaProgramas from "./ListaProgramas";
+import ListaProgramas from "../ListaProgramas";
 import ListaProcesoTut from "./ListaProcesoTut";
-import ListaTutores from "./ListaTutores";
-import ListaAlumnos from "./ListaAlumnos";
+import ListaTutores from "../ListaTutores";
+import ListaAlumnos from "./ListaAlumnosPorPrograma";
 import LooksOneRoundedIcon from '@material-ui/icons/LooksOneRounded';
 import LooksTwoRoundedIcon from '@material-ui/icons/LooksTwoRounded';
 import Looks3RoundedIcon from '@material-ui/icons/Looks3Rounded';
 import Looks4RoundedIcon from '@material-ui/icons/Looks4Rounded';
 import Looks5RoundedIcon from '@material-ui/icons/Looks5Rounded';
-import * as Controller from "../../Conexion/Controller";
-import Alertas from "./Alertas";
+import * as Controller from "../../../Conexion/Controller";
+import Alertas from "../Alertas";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import TablaAlumnos from "./TablaAlumnos";
+import TablaAlumnos from "../TablaAlumnos";
 //import useFetchData from "../../Conexion/useFetchData";
 
 //import Paso from "./paso";
@@ -48,6 +48,7 @@ class FrmAsignacionTutor extends Component {
         mensaje: "",
       },
       severidad: "warning",
+      coordinador:'202',
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
@@ -134,7 +135,9 @@ class FrmAsignacionTutor extends Component {
   handleOnChangePrograma(programa) {
     console.log("programa:", programa);
     this.state.asignacion.programa = programa;
+    let asig=this.state.asignacion;
     const idPrograma=this.state.asignacion.programa[0];
+    //this.setState({asignacion:asig});
     console.log("id:", idPrograma);
     console.log("proograma:", this.state.asignacion.programa);
   }
@@ -207,7 +210,7 @@ class FrmAsignacionTutor extends Component {
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
               escogerTutoria={this.handleOnChangeTutoria}
-              enlace={"/api/tutoria/"}
+              enlace={"/api/tutoria/lista/3"}
             />
             </Grid>
             <Grid item md={5}
@@ -264,6 +267,7 @@ class FrmAsignacionTutor extends Component {
                   </Grid>
                   <ListaAlumnos
                     escogerAlumnos={this.handleOnChangeAlumnos}
+                    enlace={"/api/alumno/lista/"+this.state.asignacion.programa}
                   />
               </DialogContent>
               <DialogActions>
