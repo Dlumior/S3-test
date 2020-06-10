@@ -14,7 +14,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Programas from "../../../pages/Coordinador/Programas";
-import ComboBoxPrograma from "../../Administrador/RegistrarCoordinador/ComboBoxPrograma"
+
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
 
@@ -45,30 +45,15 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 const RegistrarProgramas = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_FACULTAD:"13",
+    ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null
   });
-  const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
-  const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState([]);
-
-  useEffect(() => {
-    async function fetchData() {
-      const endpoint = "/api/facultad";
-      const params = { servicio: endpoint };
-      const res = await GET(params);    
-      console.log("proogramasss:", res);
-      setProgramas(res.facultad);
-      console.log("proograma:", programa);
-    }
-     fetchData();
-  }, {});
-
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -76,7 +61,6 @@ const RegistrarProgramas = () => {
 
   const handleClose = () => {
     setOpen(false);
-    
   };
 
   const handleChangeSelected = (event) => {
@@ -90,10 +74,8 @@ const RegistrarProgramas = () => {
       alert("El nombre es inválido, ingrese nuevamente");
       return;
     } else {
-      console.log("id_facu",programa);
-      datosForm.ID_FACULTAD=programa;
       setDatosForm({
-        ...datosForm,
+        ...datosForm
       });
       console.log(datosForm);
 
@@ -152,12 +134,6 @@ const RegistrarProgramas = () => {
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
                 />
-                <ComboBoxPrograma
-                  setPDisabled={setPDisabled}
-                  programas={programas}
-                  programa={programa}
-                  setPrograma={setPrograma}
-                />   
               </Grid>
             </Grid>
             </Grid>

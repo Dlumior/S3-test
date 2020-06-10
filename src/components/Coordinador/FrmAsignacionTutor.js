@@ -10,7 +10,7 @@ import Looks3RoundedIcon from '@material-ui/icons/Looks3Rounded';
 import Looks4RoundedIcon from '@material-ui/icons/Looks4Rounded';
 import Looks5RoundedIcon from '@material-ui/icons/Looks5Rounded';
 import * as Controller from "../../Conexion/Controller";
-import Alertas from "./Alertas";
+
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -38,16 +38,7 @@ class FrmAsignacionTutor extends Component {
         tutor:'',
         tutoria:'',
         alumnos:[]
-      },
-      alert: {
-        mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
-        mensajeStrongExito: "satisfactoriamente!",
-        mensajeError: "Existen errores al completar el formulario",
-        mensajeExito: "Alumno registrado",
-        mensaje: "",
-      },
-      severidad: "warning",
+      }    
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
@@ -75,13 +66,7 @@ class FrmAsignacionTutor extends Component {
       },
     };
     if (programa==='' || tutoria==='' || tutor===''){
-      let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong = alert.mensajeStrongError;
-      this.setState({ alert: alert });
-      this.setState({ severidad: "error" });
-
-      this.state.alert.mensaje = this.state.alert.mensajeError;
+      alert("Faltan Completar campos");
 
     }else{
       const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
@@ -89,18 +74,9 @@ class FrmAsignacionTutor extends Component {
       let asignado = await Controller.POST(props);
       console.log("asignado",asignado);
       if (asignado) {
-        let alert = Object.assign({}, this.state.alert);
-        alert.mensaje = alert.mensajeExito;
-        alert.mensajeStrong = alert.mensajeStrongExito;
-        this.setState({ alert: alert });
-        this.setState({ severidad: "success" });
-        this.state.alert.mensaje = this.state.alert.mensajeExito;
-
-        //alert("Alumno asignado Satisfactoriamente");
+        alert("Alumno asignado Satisfactoriamente");
       }
       console.log("got updated alumno from back:", asignado);
-      
-
       this.handleCloseDialog();
 
     }
@@ -158,11 +134,6 @@ class FrmAsignacionTutor extends Component {
     return(
       <div>
       <Paper elevation={2} style={style.paper}>
-      <Alertas
-          severity={this.state.severidad}
-          titulo={"Observacion:"}
-          alerta={this.state.alert}
-        />
       <Paper elevation={0} style={style.paper}>
         <Grid container spacing={10}>          
           <Grid item md={5}
@@ -172,7 +143,6 @@ class FrmAsignacionTutor extends Component {
             justify="center" >
             <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
               align="center">
-            
             <Typography variant="h5" align="center">
                 <LooksOneRoundedIcon
                   fontSize="large"
@@ -207,7 +177,7 @@ class FrmAsignacionTutor extends Component {
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
               escogerTutoria={this.handleOnChangeTutoria}
-              enlace={"/api/tutoria/"}
+              enlace={"/api/tutoria"}
             />
             </Grid>
             <Grid item md={5}
