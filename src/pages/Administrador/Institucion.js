@@ -6,40 +6,51 @@ import ConfigurarInstitucion from "../../components/Administrador/Institucion/Co
 
 const Institucion = () => {
 
-  const [institucion, setInstitucion] = useState({});
-/*
-  useEffect(() => {
-    async function fetchData() {
-      const endpoint = "/api/institucion";
-      const params = { servicio: endpoint };
-      const res = await GET(params);    
-      console.log("institu:", res.institucion);
-      setInstitucion(res.institucion);
-      console.log("institu:", institucion);
-    }
-     fetchData();
-  }, {});
-  */
+  const [institucion, setInstitucion] = useState({
+    "institucion": {
+      ID_INSTITUCION:"1",
+      NOMBRE: "Pontificia Universidad Catolica del Peru",
+      INICIALES: "PUCP",
+      IMAGEN: "",
+      TELEFONO: "200100",
+      PAGINA_WEB: "www.pucp.edu.pe",
+      DOMINIO: "",
+      UBICACION: "",
+      EXTENSION: "png"
+  }
+  });
+
   useEffect(() => {
     async function fetchData() {
       const endpoint = "/api/institucion/";
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
-      console.log(res.institucion);
-      setInstitucion(res.institucion);
+      institucion.institucion.NOMBRE=res.institucion.NOMBRE;
+      institucion.institucion.INICIALES=res.institucion.INICIALES;
+      institucion.institucion.IMAGEN=res.institucion.IMAGEN;
+      institucion.institucion.PAGINA_WEB=res.institucion.PAGINA_WEB;
+      institucion.institucion.DOMINIO=res.institucion.DOMINIO;
+      institucion.institucion.UBICACION=res.institucion.NOMBRE;
+      institucion.institucion.EXTENSION=res.institucion.EXTENSION;
+
+      console.log("res.inst",res.institucion);
+      setInstitucion({
+        ...institucion,
+      });
       console.log(institucion);
     }
+    console.log("inst",institucion);
     if (institucion !== "") {
       fetchData();
     }
   }, []);
   
-  return (
+  return (  
     <div>
       <NombrePrincipal titulo="Configuracion de la Institución" />
-      <ConfigurarInstitucion />
-      {/*<ConfigurarInstitucion institucion={institucion}/>*/}
+      
+      <ConfigurarInstitucion institucion={institucion}/>}
     </div>
   );
 };
