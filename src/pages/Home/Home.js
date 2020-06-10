@@ -10,6 +10,7 @@ import { Grid } from "@material-ui/core";
 
 import Login from "../../components/Home/Login.js";
 import useStyles from "./useStyles.js";
+import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
 
 function Home() {
   const classes = useStyles();
@@ -49,7 +50,8 @@ function Home() {
             </Grid>
           </Grid>
           <Grid item xs={6} container justify="center" alignItems="center">
-            <Login />
+            {/*<Login />*/}
+            <IniciarSesion/>
           </Grid>
         </Grid>
       </Grid>
