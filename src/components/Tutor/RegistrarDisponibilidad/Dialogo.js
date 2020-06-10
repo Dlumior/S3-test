@@ -140,8 +140,8 @@ import Confirmacion from './Confirmacion';
           let repeticion = this.state.repeticion;
           let lugar = this.state.lugar; 
           let fecha = this.props.datos.fecha 
-          this.props.empezarCarga();     
-          this.props.closeDialog();
+          // this.props.empezarCarga();     
+          // this.props.closeDialog();
           console.log(fecha);
           if(!this.props.datos.modificar){ // registro de nueva disponibilidad
             const nuevaDisponibilidad = {
@@ -196,8 +196,8 @@ import Confirmacion from './Confirmacion';
             }
           } 
           this.props.actualizarBandera();     
-          // this.props.closeDialog();
-          //this.props.empezarCarga();
+          this.props.closeDialog();
+          this.props.empezarCarga();
         }else{
           let alerta = {...this.state.alerta};
           alerta.mostrar = true
