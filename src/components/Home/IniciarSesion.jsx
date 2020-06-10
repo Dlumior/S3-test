@@ -6,9 +6,11 @@ import {
   Button,
   FormHelperText,
   Typography,
+  Divider,
 } from "@material-ui/core";
 import { POST } from "../../Conexion/Controller";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
+import SaltoDeLinea from "../Shared/SaltoDeLinea";
 
 class IniciarSesion extends Component {
   constructor() {
@@ -22,6 +24,8 @@ class IniciarSesion extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
+    this.onFailure = this.onFailure.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
@@ -88,6 +92,19 @@ class IniciarSesion extends Component {
     this.setState({ usuario: usuario });
     console.log("Show ", usuario);
   };
+
+  onFailure(error) {
+    console.log(error);
+  }
+  onSignIn (googleUser)  {
+    console.log("HAAAAAAAA");
+    var profile = googleUser.getBasicProfile();
+    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    console.log("Name: " + profile.getName());
+    console.log("Image URL: " + profile.getImageUrl());
+    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
+  };
+
   render() {
     return (
       <Grid container spacing={0}>
@@ -103,7 +120,9 @@ class IniciarSesion extends Component {
                   src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
                   alt="logo-ututor"
                 />
-                <Typography variant="h6">Iniciar Sesión en ututor</Typography>
+                <Typography variant="h6" align="center">
+                  Iniciar Sesión en uTutor
+                </Typography>
               </Grid>
               <Grid item md={2} xs={2} />
             </Grid>
@@ -135,7 +154,7 @@ class IniciarSesion extends Component {
                 {/* Guardar */}
                 <br />
                 <Grid container spacing={0}>
-                  <Grid item md={1} xs={2}></Grid>
+                  <Grid item md={1} xs={1}></Grid>
                   <Grid item md={10} xs={10}>
                     <Button
                       type="submit"
@@ -150,6 +169,21 @@ class IniciarSesion extends Component {
                   </Grid>
                   <Grid item md={1} xs={1}></Grid>
                 </Grid>
+                <SaltoDeLinea N={2} />
+                <Divider variant="middle" light />
+                <Typography align="center">
+                  <p>o Inicia Sesión con Gmail</p>
+                </Typography>
+                {/** google */}
+                <Grid container spacing={0}>
+                  <Grid item md={1} xs={1}></Grid>
+                  <Grid item md={10} xs={10}>
+                  <div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+                  </Grid>
+                  <Grid item md={1} xs={1}></Grid>
+                </Grid>
+                <SaltoDeLinea N={2} />
               </Grid>
             </Grid>
           </Paper>

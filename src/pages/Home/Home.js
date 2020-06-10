@@ -52,7 +52,6 @@ function Home() {
           </Grid>
           <Grid item md={6} xs={12} container justify="center" alignItems="center">
             {/*<Login />*/}
-
             <IniciarSesion/>
           </Grid>
         </Grid>
