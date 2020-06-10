@@ -65,14 +65,22 @@ class FrmAsignacionTutor extends Component {
         FECHA_ASIGNACION: new Date(),
       },
     };
-    const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
-    console.log("saving new asignacion in DB:", nuevaAsignacion);
-    let asignado = await Controller.POST(props);
-    if (asignado) {
-      alert("Alumno asignado Satisfactoriamente");
+    if (programa==='' || tutoria==='' || tutor===''){
+      alert("Faltan Completar campos");
+
+    }else{
+      const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
+      console.log("saving new asignacion in DB:", nuevaAsignacion);
+      let asignado = await Controller.POST(props);
+      console.log("asignado",asignado);
+      if (asignado) {
+        alert("Alumno asignado Satisfactoriamente");
+      }
+      console.log("got updated alumno from back:", asignado);
+      this.handleCloseDialog();
+
     }
-    console.log("got updated alumno from back:", asignado);
-    this.handleCloseDialog();
+    
   }
 
   handleOpenDialog() {

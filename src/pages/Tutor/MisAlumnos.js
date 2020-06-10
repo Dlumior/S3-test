@@ -68,7 +68,7 @@ const MisAlumnos = () => {
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
-      // console.log(res.alumnos);
+      console.log(res.alumnos);
       if (res !== []) {
         setAlumnos(res.alumnos);
       }

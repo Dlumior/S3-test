@@ -3,7 +3,7 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarCitaTutor_granito.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
-import CalendarioCitas from "../../components/Alumno/CalendarioCitas";
+import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas";
 
 class AgendarCita extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class AgendarCita extends Component {
         {
           titulo: "Solicite una cita según las disponibilidades disponibles",
           procesos: [
-            { index: 0, titulo: "Horarios Disponibles", proceso: CalendarioCitas },
+            { index: 0, titulo: "Horarios Disponibles", proceso: ()=><CalendarioCitas servicio="/api/disponibilidad/listarDia/" tipo="disponibilidad"/> },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarCitaTutor_granito },
           ],
         },

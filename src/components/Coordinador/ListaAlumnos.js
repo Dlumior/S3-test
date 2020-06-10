@@ -11,6 +11,8 @@ import TablaAlumnos from "./TablaAlumnos";
 
 const style = {
     paper: {
+      marginTop: "3%",
+      marginLeft: "3%",
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
@@ -70,7 +72,7 @@ class ListaAlumnos extends React.Component {
           { title:"Correo Electrónico",
             field:"correo"},
            {
-            title:"Seleccionar",
+            title:"",
             field:"checkbox"
            }
         ],
@@ -88,7 +90,7 @@ async handleOnChangeChecked(e) {
 
   if (this.state.alumnosSeleccionados.length!==0){     
     if (cb.checked===false){
-      var i = this.state.alumnosSeleccionados.findIndex(v => v.idA === idA)
+      var i = this.state.alumnosSeleccionados.findIndex(v => v === idA)
       console.log("i=",i);
       if ( i !== -1 ) {
         this.state.alumnosSeleccionados.splice(i,1);
@@ -149,7 +151,6 @@ render(){
             <Paper elevation={0} style={style.paper}>
                 {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                 <TablaAlumnos 
-      
                   alumnos={this.state.alumnos}
                 />
             </Paper>

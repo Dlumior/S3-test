@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import FrmDialogoSolicitarTutor from "./FrmDialogoSolicitarTutor";
 
+
 const style = {
     paper: {
         marginTop: "3%",
@@ -154,7 +155,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
                     aria-labelledby="form-dialog-title"
                 >                  
                     <DialogContent>                     
-                        <FrmDialogoSolicitarTutor/> 
+                        <FrmDialogoSolicitarTutor /> 
                     </DialogContent>
            
                     <DialogActions>
@@ -177,7 +178,7 @@ export default FrmSolicitarCitaTutor_granito;
 const estilo = {
     imagen: {
         width: "45%",
-        "border-radius": "100%",
+        borderRadius: "100%",
     }
 }
 

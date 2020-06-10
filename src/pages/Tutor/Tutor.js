@@ -8,12 +8,12 @@ import MiDisponibilidad from "./MiDisponibilidad.js";
 //import Calendario from "./Calendario.js";
 import Sesiones from "./Sesiones.js";
 import Solicitudes from "./Solicitudes.js";
+import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 
 const Tutor = () => {
   return (
     <div>
-      <br/><br/>
-      <Route exact path={"/tutor/"} component={MisAlumnos} />
+      <Route exact path={"/tutor/"} component={()=><><SaltoDeLinea N={3}/><MisAlumnos/></>} />
       <BarraNavegacion>
         <Route exact path={"/tutor/perfil"} component={Perfil} />     
         <Route exact path={"/tutor/misalumnos"} component={MisAlumnos} />

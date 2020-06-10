@@ -3,7 +3,8 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText, Paper } from "@material-ui/core";
-import * as Conexion from "../../../Conexion/Controller";
+//import * as Conexion from "../../../Conexion/Controller";
+
 const estilos = {
   paper: {
     marginLeft: "10%",
@@ -12,6 +13,7 @@ const estilos = {
     flexDirection: "column",
   },
 };
+
 /**
  * Ejemplo de invocacion con datos fijos(se le debe entragar el array con los datos)
  * el prop "datos" es opcional,pero si se manda ya no hara llamado al backend
@@ -39,7 +41,7 @@ const estilos = {
     />
  * 
  */
-class ListaComboBox extends Component {
+class ListaCombobMotivoSoli extends Component {
   constructor() {
     super();
     this.state = {
@@ -48,11 +50,19 @@ class ListaComboBox extends Component {
       mensajeError: "",
       local: false,
     };
-    this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleOnClick = this.handleOnClick.bind(this);
-  }
-  async handleOnChange(e) {
+    {/*this.handleOnChange = this.handleOnChange.bind(this);*/}
+  
+    }
+    /*
+    async handleOnChange(e) {
       //if lcal
+    if (this.state.item.length === 0) {
+      if (this.state.mensajeError.length === 0) {
+        this.setState({
+          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
+        });
+      }
+    }
     if (this.state.mensajeError.length > 0) {
       this.setState({
         mensajeError: "",
@@ -84,22 +94,16 @@ class ListaComboBox extends Component {
     }
     return false;
   }
-  handleOnClick(e){
-    console.log("CLLIIIIIIICK");
-    if (this.state.item.length === 0) {
-      if (this.state.mensajeError.length === 0) {
-        this.setState({
-          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
-        });
-      }
-    }
-  }
+
+
+  */
+ 
+
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
         <br />
-        <FormControl fullWidth onClick={this.handleOnClick}>
-
+        <FormControl fullWidth>
           <InputLabel >
             {this.props.titulo}
           </InputLabel>
@@ -107,16 +111,25 @@ class ListaComboBox extends Component {
           <Select
             value={this.state.item}
             onChange={this.handleOnChange}
-            displayEmpty
+            //displayEmpty
           >
-            {this.state.listaItems.map((item) => (
+              {/**
+               {this.state.listaItems.map((item) => (
               <MenuItem key={item[this.props.id]} value={item}>
                 {" "}
                 {item[this.props.nombre]}
               </MenuItem>
             ))}
+               */}
+
+          <MenuItem value={1}>Académico</MenuItem>
+          <MenuItem value={2}>Académico Administrativo</MenuItem>
+          <MenuItem value={3}>Vocacional</MenuItem>
+          <MenuItem value={4}>Personal</MenuItem>
+          <MenuItem value={5}>Otro</MenuItem>
+        
           </Select>
-          <FormHelperText>Escoja el programa</FormHelperText>
+          <FormHelperText>Escoja el motivo</FormHelperText>
         </FormControl>
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>
       </Paper>
@@ -124,4 +137,4 @@ class ListaComboBox extends Component {
   }
 }
 
-export default ListaComboBox;
+export default ListaCombobMotivoSoli;
