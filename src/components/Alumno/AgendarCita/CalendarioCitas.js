@@ -53,7 +53,7 @@ class CalendarioCitas extends Component {
       <>
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            <HorarioDelDia fecha={{fecha: diaSemana, servicio:"/api/disponibilidad/listarDia/" + diaSemana.toISOString().split("T")[0]} }/>
+            <HorarioDelDia fecha={{fecha: diaSemana, servicio:this.props.servicio + diaSemana.toISOString().split("T")[0],tipo:this.props.tipo} }/>
           </Grid>
         ))}
       </>

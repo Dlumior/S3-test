@@ -108,7 +108,6 @@ class ListaComboBox extends Component {
             value={this.state.item}
             onChange={this.handleOnChange}
             displayEmpty
-            
           >
             {this.state.listaItems.map((item) => (
               <MenuItem key={item[this.props.id]} value={item}>
