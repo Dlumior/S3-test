@@ -7,4 +7,4 @@ export const UserProvider = ({reducer, initialState, children})=>(
         {children}
     </UserContext.Provider>
 )
-export const useUserValue = () => useContext(UserContext);
+export const useUserValue = () => {return useContext(UserContext)};

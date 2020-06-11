@@ -39,7 +39,7 @@ function Home() {
           <Grid
             item
             md={6}
-            xs={0}
+            xs={false}
             container
             justify="flex-start"
             alignItems="center"

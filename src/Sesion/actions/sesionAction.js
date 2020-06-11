@@ -7,7 +7,6 @@ import { POST } from "../../Conexion/Controller";
  */
 export const iniciarSesion = async (dispatch, usuario, password) => {
   return new Promise((resolve, reject) => {
-    
     try {
       //llamo al back aqui
       //await POST({servicio:"/api/login",request:usuario});

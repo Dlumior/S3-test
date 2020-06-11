@@ -117,6 +117,7 @@ class IniciarSesion extends Component {
     console.log("Show ", usuario);
   };
   render() {
+    console.log("Login");
     return (
       <Grid container spacing={0}>
         <Grid item md={4} xs={4} />
