@@ -1,3 +1,4 @@
+
 async function onSignIn(googleUser) {
   console.log("HAAAAAA ");
   var profile = googleUser.getBasicProfile();
@@ -12,10 +13,8 @@ async function onSignIn(googleUser) {
       image: profile.getImageUrl(),
       correo: profile.getEmail(),
     };
-
     var auth2 = gapi.auth2.getAuthInstance();
     await auth2.signOut();
-
     if (!sessionStorage.getItem("usuario_logueado")) {
       sessionStorage.setItem("usuario_logueado", JSON.stringify(JinSSJHAAA));
       window.location.replace("./");

@@ -11,8 +11,13 @@ import {
 import { POST } from "../../Conexion/Controller";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import SaltoDeLinea from "../Shared/SaltoDeLinea";
+import { UserContext, useUserValue } from "../../Sesion/Sesion";
+import { iniciarSesion } from "../../Sesion/actions/sesionAction";
+
 
 class IniciarSesion extends Component {
+  static contextType = UserContext;
+  static valor = useUserValue;
   constructor() {
     super();
     this.state = {
@@ -20,19 +25,38 @@ class IniciarSesion extends Component {
         Usuario: "",
         Contraseña: "",
       },
+      errores:[]
     };
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
-    this.onSignIn = this.onSignIn.bind(this);
-    this.onFailure = this.onFailure.bind(this);
+    // this.onSignIn = this.onSignIn.bind(this);
+    // this.onFailure = this.onFailure.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
   }
-  async handleOnClick(e) {
+  handleOnClick= async (e)=> {
+    e.preventDefault();
+    //console.log("------: ", me);
     console.log("validacion al click: ", this.state.errores);
-    /*if (this.state.errores.length === 0) {
+    let [{sesion},dispatch] = this.context;
+    
+
+    console.log("this.context ", this.context);
+    let status = await iniciarSesion(dispatch,"jinSS","SSj3");
+    //const  [{sesion},dispatch] = this.context;
+    if(status.status){
+      console.log("Parece que ok",status);
+      //const me = useUserValue();
+    console.log("-###: ", sesion);
+
+    }else {
+      console.log("waaaaa",status);
+    }
+    
+    /*
+    if (this.state.errores.length === 0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
       let {
@@ -92,22 +116,7 @@ class IniciarSesion extends Component {
     this.setState({ usuario: usuario });
     console.log("Show ", usuario);
   };
-
-  onFailure(error) {
-    console.log(error);
-  }
-  onSignIn(googleUser) {
-    console.log("HAAAAAAAA");
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail()); // This is null if the 'email' scope is not present.
-  }
-
   render() {
-    
-
     return (
       <Grid container spacing={0}>
         <Grid item md={4} xs={4} />
@@ -171,17 +180,16 @@ class IniciarSesion extends Component {
                   </Grid>
                   <Grid item md={1} xs={1}></Grid>
                 </Grid>
-                <SaltoDeLinea N={2} />
-                <Divider variant="middle" light />
-                <Typography align="center">
-                  <p>o Inicia Sesión con Gmail</p>
-                </Typography>
+                <SaltoDeLinea N={1} />
+                <Divider variant="middle"  />
+                
+                  <h5 align="center">o Inicia Sesión con Gmail</h5>
                 {/** google */}
                 <Grid container spacing={0}>
                   <Grid item md={1} xs={1}></Grid>
                   <Grid item md={10} xs={10}>
                     <div
-                      class="g-signin2"
+                      className="g-signin2"
                       data-onsuccess="onSignIn"
                       align="center"
                     ></div>

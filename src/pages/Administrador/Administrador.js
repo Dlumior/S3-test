@@ -7,11 +7,14 @@ import Facultades from "./Facultades.js";
 import Coordinador from "./Coordinador";
 import Institucion from "./Institucion"
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
+import { useUserValue } from "../../Sesion/Sesion.js";
 
 const Administrador = () => {
+  const usuario = useUserValue();
+  const datos= usuario;
   return (
     <div>
-      <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
+      <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil user={usuario}/></>} />
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route

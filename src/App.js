@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import './index.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -13,14 +13,15 @@ import Coordinador from "./pages/Coordinador/Coordinador.js";
 import Tutor from "./pages/Tutor/Tutor.js";
 import Alumno from "./pages/Alumno/Alumno.js";
 import IniciarSesion from "./components/Home/IniciarSesion";
+import { useUserValue } from "./Sesion/Sesion";
 
 
 function App() {
-    let retrievedJson = sessionStorage.getItem("usuario_logueado");
-   
+  const me = useUserValue();
+  console.log("------: ", me);
+  let retrievedJson = sessionStorage.getItem("usuario_logueado"); 
   if(!retrievedJson){
     console.log("No habia nada boton CTM porque te triguereas?");
-
   }else{
     console.log("retrievedJson", JSON.parse(retrievedJson));
   }
@@ -29,9 +30,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <div className="App-header">
-            <Route exact path="/" component={IniciarSesion} />
+            <Route exact path="/" component={Home} />
             <Route path="/administrador" component={Administrador} />
-            <Route path="/coordinador" component={Coordinador} />
+            <Route path="/coordinador" component={(me)=><Coordinador usuario={me}/>} />
             <Route path="/tutor" component={Tutor} />
             <Route path="/alumno" component={Alumno} />
           </div>

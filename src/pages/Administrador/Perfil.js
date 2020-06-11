@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Perfil = () => {
+const Perfil = (props) => {
   const classes = useStyles();
-
+console.log("Perfiiiiiil",props);
   return (
     <div>
       {/*<Cabecera />*/}

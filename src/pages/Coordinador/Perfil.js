@@ -13,8 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Perfil = () => {
+const Perfil = (props) => {
   const classes = useStyles();
+  console.log(props);
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}

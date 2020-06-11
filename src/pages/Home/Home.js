@@ -11,6 +11,7 @@ import { Grid } from "@material-ui/core";
 import Login from "../../components/Home/Login.js";
 import useStyles from "./useStyles.js";
 import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
+import { useUserValue } from "../../Sesion/Sesion.js";
 
 function Home() {
   const classes = useStyles();
