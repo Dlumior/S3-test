@@ -13,6 +13,8 @@ import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import SaltoDeLinea from "../Shared/SaltoDeLinea";
 import { UserContext, useUserValue } from "../../Sesion/Sesion";
 import { iniciarSesion } from "../../Sesion/actions/sesionAction";
+import { withRouter } from "react-router-dom";
+import { compose } from "recompose";
 
 
 class IniciarSesion extends Component {
@@ -48,6 +50,7 @@ class IniciarSesion extends Component {
     //const  [{sesion},dispatch] = this.context;
     if(status.status){
       console.log("Parece que ok",status);
+      this.props.history.push('/administrador/institucion');
       //const me = useUserValue();
     console.log("-###: ", sesion);
 
@@ -209,7 +212,7 @@ class IniciarSesion extends Component {
   }
 }
 
-export default IniciarSesion;
+export default compose(withRouter)(IniciarSesion);
 const estilos = {
   paper: {
     backgroundColor: "#ffffff",

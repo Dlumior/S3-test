@@ -5,6 +5,7 @@ import { Grid, makeStyles } from "@material-ui/core";
 
 import CarolinaH from "../../components/Administrador/carolinaHerrera.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil.js";
+import {  useUserValue } from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -12,9 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Perfil = (props) => {
+const Perfil = () => {
+  const user = useUserValue();
+  console.log("--",user);
   const classes = useStyles();
-console.log("Perfiiiiiil",props);
   return (
     <div>
       {/*<Cabecera />*/}

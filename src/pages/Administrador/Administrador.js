@@ -10,16 +10,15 @@ import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue } from "../../Sesion/Sesion.js";
 
 const Administrador = () => {
-  const usuario = useUserValue();
-  const datos= usuario;
+  
   return (
     <div>
-      <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil user={usuario}/></>} />
+      <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route
           exact
-          path={"/administrador/institución"}
+          path={"/administrador/institucion"}
           component={Institucion}
         />
         <Route

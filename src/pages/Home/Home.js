@@ -13,7 +13,7 @@ import useStyles from "./useStyles.js";
 import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
 import { useUserValue } from "../../Sesion/Sesion.js";
 
-function Home() {
+function Home(props) {
   const classes = useStyles();
 
   return (
@@ -53,7 +53,7 @@ function Home() {
           </Grid>
           <Grid item md={6} xs={12} container justify="center" alignItems="center">
             {/*<Login />*/}
-            <IniciarSesion/>
+            <IniciarSesion />
           </Grid>
         </Grid>
       </Grid>

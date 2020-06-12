@@ -3,8 +3,10 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import { GET } from "../../Conexion/Controller";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import ConfigurarInstitucion from "../../components/Administrador/Institucion/ConfigurarInstitucion";
+import { compose } from "recompose";
+import { withRouter } from "react-router-dom";
 
-const Institucion = () => {
+const Institucion = (props) => {
 
   const [institucion, setInstitucion] = useState({});
 /*
@@ -26,6 +28,7 @@ const Institucion = () => {
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
+      props.history.push('/administrador');
       console.log(res.institucion);
       setInstitucion(res.institucion);
       console.log(institucion);
@@ -44,4 +47,4 @@ const Institucion = () => {
   );
 };
 
-export default Institucion;
+export default compose(withRouter)(Institucion);
