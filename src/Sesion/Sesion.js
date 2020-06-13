@@ -1,10 +1,39 @@
-import React, {createContext, useContext, useReducer} from 'react';
+import React, { createContext, useContext, useReducer } from "react";
 
 export const UserContext = createContext();
 
-export const UserProvider = ({reducer, initialState, children})=>(
-    <UserContext.Provider value={useReducer(reducer, initialState)}>
-        {children}
-    </UserContext.Provider>
-)
-export const useUserValue = () => {return useContext(UserContext)};
+export const UserProvider = ({ reducer, initialState, children }) => (
+  <UserContext.Provider value={useReducer(reducer, initialState)}>
+    {children}
+  </UserContext.Provider>
+);
+export const useUserValue = () => useContext( UserContext);
+
+export const localLogin = (usuario) => {
+  console.log("guardando: ", usuario);
+  sessionStorage.clear();
+  sessionStorage.Sesion = JSON.stringify(
+    usuario
+  );
+  console.log("se guardo: ", sessionStorage.Sesion);
+};
+
+export const localLogOut = () => {
+    sessionStorage.clear();
+};
+export const localInitLogUser = localLogOut;
+
+export const getUser = () => {
+    let retrievedObject = sessionStorage.Sesion;
+    console.log("Consultando el Storage", retrievedObject);
+    if(!retrievedObject) return retrievedObject;
+    let retrievedJson = JSON.parse(retrievedObject);
+    return retrievedJson;
+};
+
+export const reinitialize = () => {
+    let retrievedObject = sessionStorage.Sesion;
+    if(!retrievedObject) return retrievedObject;
+    let retrievedJson = JSON.parse(retrievedObject);
+    return retrievedJson;
+};

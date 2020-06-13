@@ -16,13 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Perfil = (props) => {
-  const [{sesion},dispatch] = useUserValue();
-  console.log("--",sesion);
   const classes = useStyles();
-  if(sesion){
-    console.log("Perfil de usuario", sesion.usuario);
-    props.history.push('/');
-  }
   
   return (
     <div>

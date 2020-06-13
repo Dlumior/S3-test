@@ -26,6 +26,8 @@ import TodayRoundedIcon from '@material-ui/icons/TodayRounded';
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
 import { Link as LinkRouter } from "react-router-dom";
+import { logOut } from "../../Sesion/actions/sesionAction";
+import { useUserValue } from "../../Sesion/Sesion";
 
 const drawerWidth = 250;
 
@@ -91,7 +93,12 @@ const BarraNavegacion = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   
-
+  const [{},dispatch] = useUserValue();
+  const handleClick = () => {
+    //te odio hooks
+    console.log("Alumno LOG OUTTTTT",props);
+    logOut(dispatch);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -148,24 +155,36 @@ const BarraNavegacion = (props) => {
             "Perfil",
             "Agendar Cita",
             "Mis Citas",
-            "Cerrar Sesion"
           ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
               to={"/alumno/" + text.split(' ').join('').toLowerCase()}
+              
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
                  index === 2 ? <DateRangeRoundedIcon /> : 
                  index === 1 ? <TodayRoundedIcon/> :
-                 index === 3 ? <ExitToAppRoundedIcon/> :
                  <NoteAddRoundedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
+
+          <ListItem
+              button
+              key={"Cerrar Sesion"}
+              component={LinkRouter}
+              to={"/"}
+              onClick={handleClick}
+            >
+              <ListItemIcon>
+                  <ExitToAppRoundedIcon/>
+              </ListItemIcon>
+              <ListItemText primary={"Cerrar Sesion"} />
+            </ListItem>
         </List>
       </Drawer>
       <main

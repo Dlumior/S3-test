@@ -125,8 +125,11 @@ class CampoDeTexto extends Component {
     if (this.props.validacion) {
       this.setState({ validacion: this.props.validacion });
     }
-    if (this.props.inicial) {
+    if (this.props.inicial) { 
+      console.log("inicial: ",this.props.inicial);
+      this.props.onChange({ name: this.props.name, value: this.props.inicial });
       this.setState({ texto: this.props.inicial });
+     
     }
     if (this.props.inicial) {
       this.props.validarEntrada({

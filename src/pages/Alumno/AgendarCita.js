@@ -4,8 +4,13 @@ import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTi
 import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarCitaTutor_granito.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
+import { UserContext, getUser } from "../../Sesion/Sesion";
+import { inicializarSesion } from "../../Sesion/actions/sesionAction";
 
 class AgendarCita extends Component {
+  static contextType = UserContext;
   constructor() {
     super();
     this.state = {
@@ -31,6 +36,7 @@ class AgendarCita extends Component {
     };
     this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
   }
+  
   renderxTipoProceso() {
     if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
@@ -52,7 +58,10 @@ class AgendarCita extends Component {
     );
   }
   render() {
+  let yo =getUser(); 
+  console.log("AGEN CITA> Alguien esta logueado",yo);
+  console.log("AGEN CITA> Alguien esta rol",yo.usuario.ROLs[0].DESCRIPCION.toLowerCase());
     return this.renderxTipoProceso();
   }
 }
-export default AgendarCita;
+export default compose(withRouter)(AgendarCita);

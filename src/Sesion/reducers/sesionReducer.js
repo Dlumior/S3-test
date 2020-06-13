@@ -1,20 +1,40 @@
 export const estadoInicial = {
-    usuario: {
-        nombre: "",
-        apellido: "",
-        foto: "",
-        email: "",
-    },
-    auth: false
-}
+  //sesion: {
+  usuario: {},
+  auth: false,
+};
 const sesionReducer = (state = estadoInicial, action) => {
   switch (action.type) {
     case "LOG_IN":
-      return { ...state, usuario: action.sesion, auth: action.auth };
+      console.log("LOG_IN, action", action);
+      return {
+        ...state,
+        usuario: action.usuario,
+        auth: action.auth,
+      };
     case "CHANGE_SESION":
-      return { ...state, usuario: action.nuevoUsuario, auth: action.auth };
+      console.log("CHANGE_SESION, action", action);
+      return {
+        ...state,
+        usuario: action.usuario,
+        auth: action.auth,
+      };
     case "FINISH_SESION":
-      return { ...state, usuario: action.nuevoUsuario, auth: action.auth };
+      console.log("FINISH_SESION, action", action);
+      return {
+        ...state,
+        usuario: action.usuario,
+        auth: action.auth,
+      };
+
+    case "INITIALIZE_SESION":
+      console.log("INITIALIZE_SESION, action", action);
+      return {
+        ...state,
+        usuario: action.usuario,
+        auth: action.auth,
+      };
+
     default:
       return state;
   }

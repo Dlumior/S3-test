@@ -28,7 +28,6 @@ const Institucion = (props) => {
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
-      props.history.push('/administrador');
       console.log(res.institucion);
       setInstitucion(res.institucion);
       console.log(institucion);

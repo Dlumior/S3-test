@@ -6,12 +6,13 @@ import * as serviceWorker from "./serviceWorker";
 import { UserProvider } from "./Sesion/Sesion";
 import { mainReducer } from "./Sesion/reducers";
 import { EstadoInicial } from "./Sesion/estadoInicial";
+import sesionReducer from "./Sesion/reducers/sesionReducer";
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserProvider initialState={EstadoInicial} reducer={mainReducer}>
-      <App />
+    <UserProvider initialState={EstadoInicial} reducer={sesionReducer}>
+      <App/>
     </UserProvider>
   </React.StrictMode>,
   document.getElementById("root")

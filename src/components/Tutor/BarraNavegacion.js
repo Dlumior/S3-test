@@ -24,6 +24,8 @@ import { Link as LinkRouter } from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import InboxIcon from "@material-ui/icons/Inbox";
 import HowToRegRoundedIcon from '@material-ui/icons/HowToRegRounded';
+import { logOut } from "../../Sesion/actions/sesionAction";
+import { useUserValue } from "../../Sesion/Sesion";
 
 const drawerWidth = 250;
 
@@ -87,8 +89,15 @@ const useStyles = makeStyles((theme) => ({
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const [{ }, dispatch] = useUserValue();
   const [open, setOpen] = React.useState(false);
+  
+  const handleClick = () => {
+    //te odio hooks
+    console.log("Tutor LOG OUTTTTT",props);
 
+    logOut(dispatch);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -153,7 +162,8 @@ const BarraNavegacion = (props) => {
               button
               key={text}
               component={LinkRouter}
-              to={"/tutor/" + text.split(" ").join("").toLowerCase()}
+              to={index===5?"/":"/tutor/" + text.split(' ').join('').toLowerCase()}
+              onClick={handleClick}
             >
               <ListItemIcon>
                 {index === 0 ? (
