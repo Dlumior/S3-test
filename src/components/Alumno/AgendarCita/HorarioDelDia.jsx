@@ -59,11 +59,12 @@ class HorarioDelDia extends Component {
     );
   };
   render() {
+    console.log("this.props",this.props);
     return (
       <div>
         {this.renderCabecera(this.props.fecha.fecha)}
         <div className="tituloDia" elevation={5} style={styles.paper}>
-          <ArregloHorarios servicio={this.props.fecha.servicio}/>
+          <ArregloHorarios servicio={this.props.fecha.servicio} tipo={this.props.fecha.tipo}/>
         </div>
       </div>
     );

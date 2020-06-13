@@ -21,7 +21,11 @@ import Confirmacion from './Confirmacion';
 
   dialog:{
     width: 475,
-    margin: "0 auto",
+    margin: "0 auto"
+  },
+
+  titulo:{
+    textTransform : "capitalize"
   }
  }
 
@@ -35,9 +39,10 @@ import Confirmacion from './Confirmacion';
         horaFin: (this.props.datos.horaFin)>"08:30"?(this.props.datos.horaFin):"08:30",
         lugar: "",
         idDisponibilidad: this.props.datos.idDisponibilidad,        
-        mensajeEliminar: "Disponibilidad eliminada exitosamente",
-        mensajeModificar: "Disponibilidad modificada exitosamente",
-        mensajeRegistrar: "Disponibilidad registrada exitosamente",
+        mensajeEliminar: "Disponibilidad eliminada",
+        mensajeModificar: "Disponibilidad modificada",
+        mensajeRegistrar: "Disponibilidad registrada",
+        mensajeStrong: "exitosamente",
         abrirConfirmacion: false,
         errorLugar: false,
         alerta:{
@@ -135,6 +140,9 @@ import Confirmacion from './Confirmacion';
           let repeticion = this.state.repeticion;
           let lugar = this.state.lugar; 
           let fecha = this.props.datos.fecha 
+          // this.props.empezarCarga();     
+          // this.props.closeDialog();
+          console.log(fecha);
           if(!this.props.datos.modificar){ // registro de nueva disponibilidad
             const nuevaDisponibilidad = {
               disponibilidad : {
@@ -149,14 +157,18 @@ import Confirmacion from './Confirmacion';
             
             const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };      
             let nuevo = await Conexion.POST(props);
-            if(await nuevo.hasOwnProperty('error')){
-              let alerta = {...this.state.alerta};
-              alerta.mostrar = true;
-              alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
-              this.setState({alerta});
-              return;
-            } 
-            this.props.actualizarMensaje(this.state.mensajeRegistrar);         
+            if(nuevo){
+              if(await nuevo.hasOwnProperty('error')){
+                let alerta = {...this.state.alerta};
+                alerta.mostrar = true;
+                alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+                this.setState({alerta});
+                return;
+              } 
+              console.log("Mando al back: ", nuevaDisponibilidad);
+              console.log("Respuesta del back: ",nuevo);
+              this.props.actualizarMensaje(this.state.mensajeRegistrar, this.state.mensajeStrong);   
+            }      
           } else{ // actualizar disponibilidad
             let id = this.props.datos.idDisponibilidad
             const disponibilidadModificada = {
@@ -172,14 +184,16 @@ import Confirmacion from './Confirmacion';
             }
             const props = { servicio: "/api/disponibilidad/modificar", request: disponibilidadModificada };      
             let nuevo = await Conexion.POST(props); 
-            if(await nuevo.hasOwnProperty('error')){
-              let alerta = {...this.state.alerta};
-              alerta.mostrar = true;
-              alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
-              this.setState({alerta});
-              return;
+            if(nuevo){
+              if(await nuevo.hasOwnProperty('error')){
+                let alerta = {...this.state.alerta};
+                alerta.mostrar = true;
+                alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+                this.setState({alerta});
+                return;
+              }
+              this.props.actualizarMensaje(this.state.mensajeModificar, this.state.mensajeStrong);
             }
-            this.props.actualizarMensaje(this.state.mensajeModificar);
           } 
           this.props.actualizarBandera();     
           this.props.closeDialog();
@@ -212,7 +226,8 @@ import Confirmacion from './Confirmacion';
         <div>
           <Confirmacion datos = {this.state} cerrarConfirmacion = {this.cerrarConfirmacion} 
           actualizarBandera = {this.props.actualizarBandera} closeDialog = {this.props.closeDialog}
-          actualizarMensaje = {() => this.props.actualizarMensaje(this.state.mensajeEliminar)} />
+          actualizarMensaje = {() => this.props.actualizarMensaje(this.state.mensajeEliminar, this.state.mensajeStrong)}
+          empezarCarga = {this.props.empezarCarga} />
         </div>
       );    
     }
@@ -225,7 +240,7 @@ import Confirmacion from './Confirmacion';
           <form id= "formulario" noValidate = {false}>
           <Grid container spacing = {0.01} >            
               <Grid item md={9} xs={9}>
-                <DialogTitle id="form-dialog-title">{this.props.datos.fechaMostrar} </DialogTitle>
+                <DialogTitle style ={style.titulo} id="form-dialog-title">{this.props.datos.fechaMostrar} </DialogTitle>
               </Grid>
               <Grid item md={3} xs={3}>
                 {/* <div style={style.icono} display= {this.props.datos.modificar}> */}
@@ -289,8 +304,7 @@ import Confirmacion from './Confirmacion';
           disabled={!this.props.datos.visible}
         >
           <MenuItem value={1}> No repetir</MenuItem>
-          <MenuItem value={2}> Todos los dias</MenuItem>
-          <MenuItem value={3}> Todas las semanas</MenuItem>
+          <MenuItem value={2}> Todos los {this.props.datos.fechaMostrar.split(" ")[0]} de este mes</MenuItem>
         </Select>
         <FormHelperText>Escoja la opcion</FormHelperText>
       </FormControl>

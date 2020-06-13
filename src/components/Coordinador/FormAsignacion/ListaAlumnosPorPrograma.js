@@ -6,8 +6,8 @@ import Select from "@material-ui/core/Select";
 import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
 
-import * as Controller from "../../Conexion/Controller";
-import TablaAlumnos from "./TablaAlumnos";
+import * as Controller from "../../../Conexion/Controller";
+import TablaAlumnos from "../TablaAlumnos";
 
 const style = {
     paper: {
@@ -37,7 +37,7 @@ class ListaAlumnos extends React.Component {
   
 
   async componentDidMount(){
-    let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/"});
+    let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});    
     console.log("arreglo: ",arregloDeAlumnos);
 

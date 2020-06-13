@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
-import ListaProgramas from "./ListaProgramas";
+import ListaProgramas from "../ListaProgramas";
 import ListaProcesoTut from "./ListaProcesoTut";
-import ListaTutores from "./ListaTutores";
-import ListaAlumnos from "./ListaAlumnos";
+import ListaTutores from "../ListaTutores";
+import ListaAlumnos from "./ListaAlumnosPorPrograma";
 import LooksOneRoundedIcon from '@material-ui/icons/LooksOneRounded';
 import LooksTwoRoundedIcon from '@material-ui/icons/LooksTwoRounded';
 import Looks3RoundedIcon from '@material-ui/icons/Looks3Rounded';
 import Looks4RoundedIcon from '@material-ui/icons/Looks4Rounded';
 import Looks5RoundedIcon from '@material-ui/icons/Looks5Rounded';
-import * as Controller from "../../Conexion/Controller";
-
+import * as Controller from "../../../Conexion/Controller";
+import Alertas from "../Alertas";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import TablaAlumnos from "./TablaAlumnos";
+import TablaAlumnos from "../TablaAlumnos";
 //import useFetchData from "../../Conexion/useFetchData";
 
 //import Paso from "./paso";
@@ -38,7 +38,17 @@ class FrmAsignacionTutor extends Component {
         tutor:'',
         tutoria:'',
         alumnos:[]
-      }    
+      },
+      alert: {
+        mensajeStrong: "",
+        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongExito: "satisfactoriamente!",
+        mensajeError: "Existen errores al completar el formulario",
+        mensajeExito: "Asignación registrada",
+        mensaje: "",
+      },
+      severidad: "warning",
+      coordinador:'202',
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
@@ -66,16 +76,32 @@ class FrmAsignacionTutor extends Component {
       },
     };
     if (programa==='' || tutoria==='' || tutor===''){
-      alert("Faltan Completar campos");
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = alert.mensajeError;
+      alert.mensajeStrong = alert.mensajeStrongError;
+      this.setState({ alert: alert });
+      this.setState({ severidad: "error" });
+
+      this.state.alert.mensaje = this.state.alert.mensajeError;
 
     }else{
       const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
       console.log("saving new asignacion in DB:", nuevaAsignacion);
       let asignado = await Controller.POST(props);
+      console.log("asignado",asignado);
       if (asignado) {
-        alert("Alumno asignado Satisfactoriamente");
+        let alert = Object.assign({}, this.state.alert);
+        alert.mensaje = alert.mensajeExito;
+        alert.mensajeStrong = alert.mensajeStrongExito;
+        this.setState({ alert: alert });
+        this.setState({ severidad: "success" });
+        this.state.alert.mensaje = this.state.alert.mensajeExito;
+
+        //alert("Alumno asignado Satisfactoriamente");
       }
       console.log("got updated alumno from back:", asignado);
+      
+
       this.handleCloseDialog();
 
     }
@@ -109,7 +135,9 @@ class FrmAsignacionTutor extends Component {
   handleOnChangePrograma(programa) {
     console.log("programa:", programa);
     this.state.asignacion.programa = programa;
+    let asig=this.state.asignacion;
     const idPrograma=this.state.asignacion.programa[0];
+    //this.setState({asignacion:asig});
     console.log("id:", idPrograma);
     console.log("proograma:", this.state.asignacion.programa);
   }
@@ -133,6 +161,11 @@ class FrmAsignacionTutor extends Component {
     return(
       <div>
       <Paper elevation={2} style={style.paper}>
+      <Alertas
+          severity={this.state.severidad}
+          titulo={"Observacion:"}
+          alerta={this.state.alert}
+        />
       <Paper elevation={0} style={style.paper}>
         <Grid container spacing={10}>          
           <Grid item md={5}
@@ -142,6 +175,7 @@ class FrmAsignacionTutor extends Component {
             justify="center" >
             <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
               align="center">
+            
             <Typography variant="h5" align="center">
                 <LooksOneRoundedIcon
                   fontSize="large"
@@ -176,7 +210,7 @@ class FrmAsignacionTutor extends Component {
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
               escogerTutoria={this.handleOnChangeTutoria}
-              enlace={"/api/tutoria"}
+              enlace={"/api/tutoria/lista/3"}
             />
             </Grid>
             <Grid item md={5}
@@ -233,6 +267,7 @@ class FrmAsignacionTutor extends Component {
                   </Grid>
                   <ListaAlumnos
                     escogerAlumnos={this.handleOnChangeAlumnos}
+                    enlace={"/api/alumno/lista/"+this.state.asignacion.programa}
                   />
               </DialogContent>
               <DialogActions>

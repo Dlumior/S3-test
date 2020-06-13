@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Paper, Grid, TextField, Button, makeStyles } from "@material-ui/core";
 
 import * as Controller from "./../../../Conexion/Controller.js";
@@ -9,13 +9,18 @@ import validatePhoneNumber from "./validatePhoneNumber.js";
 import validateAddress from "./validateAddress.js";
 import validateCode from "./validateCode.js";
 import validateEmail from "./validateEmail.js";
+import ComboBoxPrograma from "./comboBoxProgramas.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
     marginTop: theme.spacing(3),
     padding: theme.spacing(5),
     width: theme.spacing(150),
-    height: theme.spacing(55),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(1),
+      width: theme.spacing(40),
+    },
+    // height: theme.spacing(55),
   },
 }));
 
@@ -94,8 +99,25 @@ const handleCode = (e, datos, setDatos, errors, setErrors) => {
 
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
+  const idCoordinador = "202";
   const { datos, setDatos } = props;
   const [errors, setErrors] = useState(errorObj);
+  const [coordinador, setCoordinador] = useState({});
+  const [programas, setProgramas] = useState([]);
+  const [programa, setPrograma] = useState({});
+
+  //Funcion auxiliar para obtener el coordinador y sus programas
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/coordinador/" + idCoordinador;
+      const params = { servicio: endpoint };
+      const res = await Controller.GET(params);
+      console.log(res);
+      setCoordinador(res.coordinador);
+      setProgramas(res.coordinador.PROGRAMAs);
+    }
+    fetchData();
+  }, []);
 
   const handleClick = async (e, datos, setDatos) => {
     if (
@@ -112,6 +134,7 @@ const FormRegistroTutor = (props) => {
       setDatos({
         ...datos,
         CONTRASENHA: datos.NOMBRE,
+        PROGRAMA: datos.PROGRAMA.push(programa),
       });
       console.log(datos);
 
@@ -133,7 +156,7 @@ const FormRegistroTutor = (props) => {
         alignItems="center"
       >
         <Grid item xs={12} container spacing={10}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               required
               error={errors.name.error}
@@ -148,7 +171,7 @@ const FormRegistroTutor = (props) => {
               helperText={errors.name.mesage}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               required
               error={errors.lastnames.error}
@@ -165,7 +188,7 @@ const FormRegistroTutor = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12} container spacing={10}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               required
               error={errors.email.error}
@@ -180,7 +203,7 @@ const FormRegistroTutor = (props) => {
               helperText={errors.email.mesage}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               error={errors.phoneNumber.error}
               margin="dense"
@@ -196,7 +219,7 @@ const FormRegistroTutor = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12} container spacing={10}>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               error={errors.address.error}
               margin="dense"
@@ -210,7 +233,7 @@ const FormRegistroTutor = (props) => {
               helperText={errors.address.mesage}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={6}>
             <TextField
               required
               error={errors.code.error}
@@ -223,6 +246,15 @@ const FormRegistroTutor = (props) => {
                 handleCode(e, datos, setDatos, errors, setErrors)
               }
               helperText={errors.code.mesage}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={12} container spacing={10}>
+          <Grid item xs={12} md={6}>
+            <ComboBoxPrograma
+              programas={programas}
+              programa={programa}
+              setPrograma={setPrograma}
             />
           </Grid>
         </Grid>

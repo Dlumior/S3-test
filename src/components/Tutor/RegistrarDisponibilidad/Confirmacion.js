@@ -10,9 +10,7 @@ import * as Conexion from "../../../Conexion/Controller";
 class Confirmacion extends Component{
     constructor(props){
         super(props);
-        this.state = {
-
-        }
+        
     }
    
     
@@ -21,13 +19,18 @@ class Confirmacion extends Component{
     }; 
 
     eliminarDisponibiliad = async () => {
+      this.props.empezarCarga();    
+      this.props.closeDialog();
       const props = { servicio: "/api/disponibilidad/eliminar/" + this.props.datos.idDisponibilidad, request: {} };      
       let nuevo = await Conexion.POST(props);
-      console.log("DISP", this.props.datos.idDisponibilidad)
-      console.log("Respuesta", nuevo);
-      this.props.actualizarBandera();     
-      this.props.closeDialog();
-      this.props.actualizarMensaje();
+      if(nuevo){
+        if(!nuevo.hasOwnProperty('error')){
+          console.log("DISP", this.props.datos.idDisponibilidad)
+          console.log("Respuesta", nuevo);  
+          this.props.actualizarBandera(); 
+          this.props.actualizarMensaje();
+        }
+      }
     }
       
     render(){
