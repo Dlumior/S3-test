@@ -4,7 +4,7 @@ async function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   if (!profile) return;
 
-  const usuarioCorreo = "alum77@pucp.edu.pe";//profile.getEmail();
+  const usuarioCorreo = "correeo@pucp.edu.pe";//profile.getEmail();
   var auth2 = gapi.auth2.getAuthInstance();
   await auth2.signOut();
   // Si aun no estoy logueado
