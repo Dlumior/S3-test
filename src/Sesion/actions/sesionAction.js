@@ -12,7 +12,7 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
       const datosUsuario = {
         usuario: {
           USUARIO: nombreUsuario,
-          CONTRASENHA: "sudo tys",
+          CONTRASENHA: contrasenha,
         },
       };
       console.log("LOGUEANDOOO...", datosUsuario);
@@ -20,9 +20,8 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
         servicio: "/api/usuario/login",
         request: datosUsuario,
       });
-      
-      if (usuarioLogueado) {
-        
+      console.log("consegui...", usuarioLogueado);
+      if (usuarioLogueado.usuario!== null) {
         dispatch({
           type: "LOG_IN",
           usuario: usuarioLogueado,
