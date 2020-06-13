@@ -6,6 +6,7 @@ import { UserContext, getUser } from "../../Sesion/Sesion";
 import { iniciarSesion } from "../../Sesion/actions/sesionAction";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
+import Alertas from "../Coordinador/Alertas";
 
 class IniciarSesion extends Component {
   static contextType = UserContext;
@@ -17,6 +18,15 @@ class IniciarSesion extends Component {
         Contrasenia: "",
       },
       errores: [],
+      alert: {
+        mensajeStrong: "",
+        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongExito: "satisfactoriamente!",
+        mensajeError: "Existen errores al completar el formulario",
+        mensajeExito: "Proceso de Tutoria registrado",
+        mensaje: "",
+      },
+      severidad: "warning",
     };
 
     this.handleOnChange = this.handleOnChange.bind(this);
@@ -36,10 +46,13 @@ class IniciarSesion extends Component {
     //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 
     let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
-    if (status?.status) {
+    if (status.status) { 
       console.log("Parece que login", status);
       const move_to = status.data.usuario;
       this.props.history.push("./" + move_to.ROLs[0].DESCRIPCION.toLowerCase());
+    }else{
+      console.log("Parece NO que login", status);
+
     }
 
     //const  [{sesion},dispatch] = this.context;
@@ -70,6 +83,11 @@ class IniciarSesion extends Component {
     }
     return (
       <Grid container spacing={0}>
+        <Alertas
+          severity={this.state.severidad}
+          titulo={"Observacion"}
+          alerta={this.state.alert}
+        />
         <Grid item md={4} xs={4} />
         {/** automargen */}
         <Grid item md={6} xs={6}>
