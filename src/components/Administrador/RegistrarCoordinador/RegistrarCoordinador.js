@@ -12,6 +12,7 @@ import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
+import Alertas from "../../Coordinador/Alertas";
 
 import IconButton from '@material-ui/core/IconButton';
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
@@ -21,6 +22,7 @@ import validatePhoneNumber from "../../Coordinador/FormRegistroTutor/validatePho
 import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress.js";
 import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
 import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
+import { wait } from "@testing-library/react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -79,6 +81,14 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
   const res = validatePhoneNumber(e.target.value);
   setErrors({ ...errors, phoneNumber: res });
 };
+/*
+const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
+  setAlertas({
+    ...datosForm,
+    TELEFONO: e.target.value,
+  });
+*/
+
 const RegistrarCoordinador = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_ROL:"2",
@@ -99,7 +109,20 @@ const RegistrarCoordinador = () => {
   const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);
   const [cantProgramas, setCantPrograma]=useState(0);
-
+  const [alerta, setAlerta]=useState({
+    mensajeStrong: "",
+    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongExito: "satisfactoriamente!",
+    mensajeError: "Existen errores al completar el formulario",
+    mensajeExito: "Coordinador registrado",
+    mensaje: "",
+  });
+  const [severidad, setSeveridad] = useState({
+    severidad:"",
+    severW:"warning",
+    severE:"error",
+    severS:"success"
+  });
 
  useEffect(() => {
   async function fetchData() {
@@ -122,6 +145,12 @@ const RegistrarCoordinador = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    });   
   };
 
   const handleCantPrograma = () => {
@@ -142,8 +171,19 @@ const RegistrarCoordinador = () => {
       datosForm.NOMBRE==='' || datosForm.APELLIDOS==='' ||
       datosForm.CORREO==='' || datosForm.CODIGO===''
     ) {
-      alert("Hay errores en los campos");
-      return;
+
+      //let alerta = Object.assign({}, alert);
+      //console.log("alerta",alerta);
+      //alerta.mensaje = alerta.mensajeError;
+      //severidad="error";
+      setSeveridad({
+        severidad:severidad.severE,
+      });     
+      setAlerta({
+        mensaje:alerta.mensajeError,
+      });      
+      console.log("severidad= ",severidad.severidad);
+
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
       /*
@@ -169,10 +209,15 @@ const RegistrarCoordinador = () => {
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);
 
-
       if (nuevoCoord){      
-        alert("Se registro coordinador Correctamente");
-        setOpen(false);
+        setSeveridad({
+          severidad:severidad.severS,
+        });     
+        setAlerta({
+          mensaje:alerta.mensajeExito,
+        });      
+        console.log("severidad= ",severidad.severidad);
+        //setOpen(false);
       }
 
     }  
@@ -239,6 +284,11 @@ const RegistrarCoordinador = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
+      <Alertas
+        severity={severidad.severidad}
+        titulo={"Observacion:"}
+        alerta={alerta}
+      />
         <DialogTitle id="form-dialog-title">
           Formulario de registro de coordinador
         </DialogTitle>

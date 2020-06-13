@@ -259,7 +259,8 @@ button.rbc-input::-moz-focus-inner {
   flex-direction: row;
   flex: 1 0 0;
   overflow: hidden;
-  cursor: pointer }
+  cursor: pointer; 
+  background: white}
 
 .rbc-day-bg {
   flex: 1 0 0%; }
@@ -332,7 +333,8 @@ button.rbc-input::-moz-focus-inner {
 .rbc-time-column {
   display: flex;
   flex-direction: column;
-  min-height: 100%; }
+  min-height: 100%;
+  background: white; }
   .rbc-time-column .rbc-timeslot-group {
     flex: 1; }
 
@@ -422,7 +424,8 @@ button.rbc-input::-moz-focus-inner {
     font-weight: bold; }
 
 .rbc-day-header {
-  text-align: center; }
+  text-align: center;
+  background: white; }
 
 .rbc-slot-selection {
   z-index: 10;

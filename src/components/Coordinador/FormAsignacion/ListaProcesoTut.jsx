@@ -3,7 +3,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText } from "@material-ui/core";
-import * as Conexion from "../../Conexion/Controller";
+import * as Conexion from "../../../Conexion/Controller";
 
 class ListaProcesoTut extends React.Component {
   constructor() {

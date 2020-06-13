@@ -14,9 +14,10 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Programas from "../../../pages/Coordinador/Programas";
-
+import ComboBoxPrograma from "../../Administrador/RegistrarCoordinador/ComboBoxPrograma"
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
+import Alertas from "../Alertas";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -45,15 +46,45 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 const RegistrarProgramas = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_FACULTAD:"13",
-    ID_PROGRAMA:"",
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null
   });
+  const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);  
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
+  const [programas, setProgramas] = useState([]);
+  const [programa, setPrograma] = useState([]);
+  const [alerta, setAlerta]=useState({
+    mensajeStrong: "",
+    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongExito: "satisfactoriamente!",
+    mensajeError: "Existen errores al completar el formulario",
+    mensajeExito: "Programa registrado",
+    mensaje: "",
+  });
+  const [severidad, setSeveridad] = useState({
+    severidad:"",
+    severW:"warning",
+    severE:"error",
+    severS:"success"
+  });
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/facultad";
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("proogramasss:", res);
+      setProgramas(res.facultad);
+      console.log("proograma:", programa);
+    }
+     fetchData();
+  }, {});
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -61,6 +92,15 @@ const RegistrarProgramas = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    });      
+    console.log("severidad= ",severidad.severidad);
+    //setOpen(false);
+    
   };
 
   const handleChangeSelected = (event) => {
@@ -69,13 +109,22 @@ const RegistrarProgramas = () => {
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
-      errors.name.error 
+      errors.name.error || datosForm.NOMBRE===''
     ) {
-      alert("El nombre es inválido, ingrese nuevamente");
+      setSeveridad({
+        severidad:severidad.severE,
+      });     
+      setAlerta({
+        mensaje:alerta.mensajeError,
+      });      
+      console.log("severidad= ",severidad.severidad);
+
       return;
     } else {
+      console.log("id_facu",programa);
+      datosForm.ID_FACULTAD=programa;
       setDatosForm({
-        ...datosForm
+        ...datosForm,
       });
       console.log(datosForm);
 
@@ -91,8 +140,16 @@ const RegistrarProgramas = () => {
       console.log("got updated prog from back:", nuevoProg);
       */
       if (nuevoProg){      
-        alert("Se registro Programa",nuevoProg.NOMBRE);
-        setOpen(false);
+        setSeveridad({
+          severidad:severidad.severS,
+        });     
+        setAlerta({
+          mensaje:alerta.mensajeExito,
+        });      
+        console.log("severidad= ",severidad.severidad);
+        //setOpen(false);
+
+        
         return(
           <div>
             <Programas/>
@@ -116,6 +173,11 @@ const RegistrarProgramas = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
+      <Alertas
+        severity={severidad.severidad}
+        titulo={"Observacion:"}
+        alerta={alerta}
+      />
         <DialogTitle id="form-dialog-title">
           Formulario de registro de Programa
         </DialogTitle>
@@ -134,6 +196,12 @@ const RegistrarProgramas = () => {
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
                 />
+                <ComboBoxPrograma
+                  setPDisabled={setPDisabled}
+                  programas={programas}
+                  programa={programa}
+                  setPrograma={setPrograma}
+                />   
               </Grid>
             </Grid>
             </Grid>

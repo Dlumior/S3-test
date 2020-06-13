@@ -32,10 +32,11 @@ class EventsCalendar extends Component {
       bandera: 0,
       modificar: 0, 
       visible: 1,
+      problemaBack: false,
       loading: true,
       alerta: {
         mensaje: "",
-        severidad: "",
+        mensajeStrong: "",
         mostrar: false
       }
     }
@@ -44,19 +45,37 @@ class EventsCalendar extends Component {
   
    async componentDidMount() {
     let listaEventos = []
-    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace });
-    await this.setState({loading: false})
+    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace });    
     console.log("disponibilidad", listaDisponibilidad);
-    for (let disp of listaDisponibilidad.data){
-      let evento = {
-        title: disp.HORA_INICIO.substring(0,5) + "-" + disp.HORA_FIN.substring(0,5),
-        start: new Date(disp.FECHA + " " +  disp.HORA_INICIO),
-        end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
-        id: disp.ID_DISPONIBILIDAD,
-        repeticion: 2,
-        lugar: disp.LUGAR
-      }      
-      listaEventos.push(evento);
+    if(listaDisponibilidad){
+      if(!listaDisponibilidad.hasOwnProperty('error')){
+        for (let disp of listaDisponibilidad.data){
+          await this.setState({loading: false})
+          let evento = {
+            title: disp.HORA_INICIO.substring(0,5) + "-" + disp.HORA_FIN.substring(0,5),
+            start: new Date(disp.FECHA + " " +  disp.HORA_INICIO),
+            end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
+            id: disp.ID_DISPONIBILIDAD,
+            repeticion: 1,
+            lugar: disp.LUGAR
+          }      
+          listaEventos.push(evento);
+          this.setState({problemaBack:false})
+        }      
+      }else{
+        this.setState({problemaBack: true});
+        let alerta = {...this.state.alerta};
+        alerta.mensaje = "Parece que algo anda mal"
+        alerta.mensajeStrong = "actualice la página"
+        this.setState({alerta: alerta})
+      }
+    }
+    else{
+      this.setState({problemaBack:true});
+      let alerta = {...this.state.alerta};
+      alerta.mensaje = "Ocurrió un problema"
+      alerta.mensajeStrong = "actualice la página"
+      this.setState({alerta: alerta})
     }
     this.setState({eventos: listaEventos});    
   }
@@ -74,19 +93,36 @@ class EventsCalendar extends Component {
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.bandera !== prevState.bandera) {
       let listaEventos = []
-      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace }); 
-      await this.setState({loading: false})     
+      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace });            
       console.log("disponibilidad", listaDisponibilidad);
-      for (let disp of listaDisponibilidad.data){
-        let evento = {
-          title: disp.HORA_INICIO.substring(0,5) + "-" + disp.HORA_FIN.substring(0,5),
-          start: new Date(disp.FECHA + " " +  disp.HORA_INICIO),
-          end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
-          id: disp.ID_DISPONIBILIDAD,
-          repeticion: 2,
-          lugar: disp.LUGAR
-        }      
-        listaEventos.push(evento);
+      if(listaDisponibilidad){
+        if(!listaDisponibilidad.hasOwnProperty('error')){
+          await this.setState({loading: false})
+          for (let disp of listaDisponibilidad.data){
+              let evento = {
+                title: disp.HORA_INICIO.substring(0,5) + "-" + disp.HORA_FIN.substring(0,5),
+                start: new Date(disp.FECHA + " " +  disp.HORA_INICIO),
+                end: new Date(disp.FECHA + " " +  disp.HORA_FIN),
+                id: disp.ID_DISPONIBILIDAD,
+                repeticion: 1,
+                lugar: disp.LUGAR
+              }      
+              listaEventos.push(evento);
+              this.setState({problemaBack: false});
+            }
+          }else{
+            this.setState({problemaBack: true});
+            let alerta = {...this.state.alerta};
+            alerta.mensaje = "Parece que algo anda mal"
+            alerta.mensajeStrong = "actualice la página"
+            this.setState({alerta: alerta})
+          }
+      }else{
+        this.setState({problemaBack: true});
+        let alerta = {...this.state.alerta};
+        alerta.mensaje = "Parece que algo anda mal"
+        alerta.mensajeStrong = "actualice la página"
+        this.setState({alerta: alerta})
       }
       this.setState({eventos: listaEventos});   
     }
@@ -95,6 +131,8 @@ class EventsCalendar extends Component {
   
   handleSelectSlot = (slotInfo) => {
     //set model to true
+    let alerta = {...this.state.alerta}
+    alerta.mostrar = false;
     this.setState({
       modalIsOpen: true,
       fechaMostrar: moment(slotInfo.start).format("dddd Do MMMM YYYY"),
@@ -105,14 +143,14 @@ class EventsCalendar extends Component {
       lugar: "",
       modificar: 0,
       visible: 1,
-      alerta: {
-        mostrar: false
-      }
+      alerta: alerta
     });
   }
 
   handleSelectEvent = (event) => {
     //set model to true
+    let alerta = {...this.state.alerta}
+    alerta.mostrar = false;
     this.setState({
       modalIsOpen: true,
       fechaMostrar: moment(event.start).format("dddd Do MMMM YYYY"),
@@ -124,9 +162,7 @@ class EventsCalendar extends Component {
       repeticion: event.repeticion,
       modificar: 1,
       visible:0,
-      alerta: {
-        mostrar: false
-      }
+      alerta: alerta
     });
   }
 
@@ -144,9 +180,9 @@ class EventsCalendar extends Component {
     this.setState({loading:true});
   }
 
-  actualizarMensaje (mensaje) {
+  actualizarMensaje (mensaje, mensajeStrong) {
     console.log(mensaje);
-    this.setState({alerta: {mensaje:mensaje, mostrar: true}});
+    this.setState({alerta: {mensaje:mensaje, mensajeStrong:mensajeStrong, mostrar: true}});
   }
 
   activarVisibilidad = () =>{
@@ -159,7 +195,7 @@ class EventsCalendar extends Component {
       <div>
         <Dialogo datos = {this.state} closeDialog = {this.closeDialog} actualizarBandera = {this.actualizarBandera} 
         activarVisibilidad = {this.activarVisibilidad} empezarCarga = {this.empezarCarga} 
-        actualizarMensaje = {(mensaje) => this.actualizarMensaje(mensaje)} closeOnDocumentClick/>
+        actualizarMensaje = {(mensaje, mensajeStrong) => this.actualizarMensaje(mensaje, mensajeStrong)} closeOnDocumentClick/>
       </div>
     );    
   }
@@ -167,6 +203,7 @@ class EventsCalendar extends Component {
   return (
   <div style={{height:`${400}px`}} className="Big-calendar-container">
     {this.state.alerta.mostrar && <Alertas severity={"success"} titulo={"Observacion"} alerta={this.state.alerta} />}
+    {this.state.problemaBack && <Alertas severity={"warning"} titulo={"Observacion"} alerta={this.state.alerta} />}
     {this.state.loading && <CircularProgress color="primary" style = {style.carga}  /> }
     <Calendar
       popup = {true}
