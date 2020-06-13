@@ -155,6 +155,7 @@ class CampoDeTexto extends Component {
           rows={this.props.rows}
           multiline={this.props.multiline || false}
           value={this.state.texto}
+          type={this.props.tipo || "text"}
         />
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>
       </Paper>

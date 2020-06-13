@@ -5,6 +5,9 @@ import { Grid, makeStyles } from "@material-ui/core";
 
 import CarolinaH from "../../components/Administrador/carolinaHerrera.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil.js";
+import {useUserValue} from "../../Sesion/Sesion";
+import { compose } from "redux";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -12,9 +15,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Perfil = () => {
+const Perfil = (props) => {
+  const [{sesion},dispatch] = useUserValue();
+  console.log("--",sesion);
   const classes = useStyles();
-
+  if(sesion){
+    console.log("Perfil de usuario", sesion.usuario);
+    props.history.push('/');
+  }
+  
   return (
     <div>
       {/*<Cabecera />*/}
@@ -39,4 +48,4 @@ const Perfil = () => {
   );
 };
 
-export default Perfil;
+export default compose(withRouter)(Perfil);

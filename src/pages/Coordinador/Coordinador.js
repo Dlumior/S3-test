@@ -11,10 +11,11 @@ import Programas from "./Programas";
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 
-const Coordinador = () => {
+const Coordinador = (props) => {
+  console.log("props",props);
   return (
     <div>
-      <Route  exact path={"/coordinador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />      
+      <Route  exact path={"/coordinador/"} component={()=><><SaltoDeLinea N={3}/><Perfil data={props}/></>} />      
       <BarraNavegacion>
         {/*perfil...*/}
         <Route exact path={"/coordinador/perfil"} component={Perfil} />

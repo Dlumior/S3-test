@@ -7,8 +7,10 @@ import Facultades from "./Facultades.js";
 import Coordinador from "./Coordinador";
 import Institucion from "./Institucion"
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
+import { useUserValue } from "../../Sesion/Sesion.js";
 
 const Administrador = () => {
+  
   return (
     <div>
       <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
@@ -16,7 +18,7 @@ const Administrador = () => {
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route
           exact
-          path={"/administrador/institución"}
+          path={"/administrador/institucion"}
           component={Institucion}
         />
         <Route
