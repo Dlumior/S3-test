@@ -52,8 +52,8 @@ class ConfigurarInstitucion extends React.Component {
         deshabilitar:true,
         alert: {
           mensajeStrong: "",
-          mensajeStrongError: "porfavor revisalos!",
-          mensajeStrongExito: "satisfactoriamente!",
+          mensajeStrongError: "Por favor revísalos",
+          mensajeStrongExito: "Satisfactoriamente",
           mensajeError: "Existen errores al completar el formulario",
           mensajeExito: "Se modificaron los datos de la institucion",
           mensaje: "",
@@ -69,7 +69,7 @@ class ConfigurarInstitucion extends React.Component {
     this.handleOnChangePagina = this.handleOnChangePagina.bind(this);
     this.handleOnChangeImg = this.handleOnChangeImg .bind(this);
     this.handleHabilitar=this.handleHabilitar.bind(this);
-
+    this.handleOnClickImportar=this.handleOnClickImportar.bind(this);
 
   } 
   
@@ -110,9 +110,59 @@ class ConfigurarInstitucion extends React.Component {
     console.log("pagina:", this.state.institucion.PAGINA_WEB);
   }
   handleOnChangeImg = (event) => {    
-    this.setState({
-        imagen:event.target.files[0]
-    })
+    console.log(event.target.files[0]);
+    let ext=event.target.files[0].name;
+    let extens=ext.slice(-3);
+
+    let alert = Object.assign({}, this.state.alert);
+    alert.mensaje = "";
+    alert.mensajeStrong = "";
+    this.setState({ alert: alert });
+    this.setState({ severidad: "" });
+
+    console.log("name: ",extens);
+    if (extens==='jpg'){
+      extens='jpeg';
+    }else if (extens==='png'){
+      extens='png'
+    }else{
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = "El logo debe tener extensión .jpg o .png";
+      alert.mensajeStrong = alert.mensajeStrongError;
+      this.setState({ alert: alert });
+      this.setState({ severidad: "error" });
+      this.state.alert.mensaje = this.state.alert.mensajeError;      
+    }
+
+    let reader=new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload=(event)=>{
+      let base=event.target.result.slice(23);
+      console.warn("img data",event.target.result);
+      let inst = Object.assign({}, this.state.institucion);
+
+      var base1;
+      console.log("name: ",extens);
+      if (extens==='jpeg'){
+        inst.EXTENSION='jpeg';
+        base1=event.target.result.slice(23);
+      }else{
+        inst.EXTENSION='png';
+        base1=event.target.result.slice(22);
+      }
+      console.log("base1",base1);
+      inst.IMAGEN=base1;
+      
+      this.setState({
+          institucion:inst,
+      })
+      console.log(this.state.institucion.IMAGEN);
+    }  
+
+  }
+  handleOnClickImportar = (event) =>{
+
+    
   }
   handleHabilitar = (event) => {    
     this.setState({
@@ -125,22 +175,24 @@ class ConfigurarInstitucion extends React.Component {
     let {
       NOMBRE,
       INICIALES,
+      IMAGEN,
       DOMINIO,
       TELEFONO,
       UBICACION,
-      PAGINA_WEB
+      PAGINA_WEB,
+      EXTENSION
     } = this.state.institucion;
     const nuevaInstitucion = {
       institucion: {
         ID:'1',
         NOMBRE: NOMBRE,
         INICIALES: INICIALES,
-        IMAGEN:"",
+        IMAGEN:IMAGEN,
         TELEFONO: TELEFONO,
         PAGINA_WEB: PAGINA_WEB,
         UBICACION: UBICACION,
         DOMINIO: DOMINIO,        
-        EXTENSION:"",
+        EXTENSION:EXTENSION,
       },
     };
     if (this.state.institucion.NOMBRE==='' || this.state.institucion.INICIALES==='' ||
@@ -189,7 +241,7 @@ render(){
             <Paper elevation={2} style={style.paper}>
             <Alertas
               severity={this.state.severidad}
-              titulo={"Observacion:"}
+              titulo={"Observación:"}
               alerta={this.state.alert}
             />
                 <Grid container spacing={3}
@@ -215,7 +267,7 @@ render(){
                     <div>
                         <img
                             style={estilo.imagen}
-                            src="https://www.w3schools.com/howto/img_avatar.png">
+                            src= {"data:image/"+this.state.institucion.EXTENSION+";base64,"+this.state.institucion.IMAGEN}>
                         </img>
                     </div>
                     <div>
@@ -339,7 +391,7 @@ export default ConfigurarInstitucion;
 
 const estilo = {
     imagen: {
-        width: "50%",
+        width: "70%",
         borderRadius: "100%",
     }
 }

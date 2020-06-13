@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Paper, Grid, TextField, Button, makeStyles,Typography } from "@material-ui/core";
-import ListaProgramas from "../ListaProgramas";
+import ListaFacultades from "./ListaFacultades";
+import ListaProgramas from "./ListaProgramas";
 import ListaProcesoTut from "./ListaProcesoTut";
 import ListaTutores from "../ListaTutores";
 import ListaAlumnos from "./ListaAlumnosPorPrograma";
@@ -34,21 +35,22 @@ class FrmAsignacionTutor extends Component {
     super();
     this.state = {
       asignacion: {
-        programa:'',
+        facultad:'',
+        programa:'3',
         tutor:'',
         tutoria:'',
         alumnos:[]
       },
       alert: {
         mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
-        mensajeStrongExito: "satisfactoriamente!",
+        mensajeStrongError: "¡Todos los datos deben completarse!",
+        mensajeStrongExito: "¡Satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
         mensajeExito: "Asignación registrada",
         mensaje: "",
       },
       severidad: "warning",
-      coordinador:'202',
+      coordinador:"199",
     }
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
@@ -62,7 +64,6 @@ class FrmAsignacionTutor extends Component {
   async handleOnClick(e) {
     e.preventDefault();
     let {
-      programa,
       tutoria,
       tutor,
       alumnos
@@ -75,7 +76,7 @@ class FrmAsignacionTutor extends Component {
         FECHA_ASIGNACION: new Date(),
       },
     };
-    if (programa==='' || tutoria==='' || tutor===''){
+    if (tutoria==='' || tutor===''){
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
       alert.mensajeStrong = alert.mensajeStrongError;
@@ -131,28 +132,40 @@ class FrmAsignacionTutor extends Component {
   handleOnChange = (e) => {
     let asignacion = Object.assign({}, this.state.asignacion);
     this.setState({ asignacion: asignacion });
+    console.log("prog",this.state.asignacion.programa);
+    console.log("facu",this.state.asignacion.facultad);
+    console.log("tutoria",this.state.asignacion.tutoria);
+    console.log("tutor",this.state.asignacion.tutuor);
+
+
+
   };
+  handleOnChangeFacultad(facultad) {
+    console.log("facultad:", facultad);
+    this.state.asignacion.facultad = facultad[0];
+    let asig=this.state.asignacion;
+    this.setState({asignacion:asig});
+    console.log("facultad:", this.state.asignacion.facultad);
+  }
   handleOnChangePrograma(programa) {
     console.log("programa:", programa);
-    this.state.asignacion.programa = programa;
+    this.state.asignacion.programa = programa[0];
     let asig=this.state.asignacion;
-    const idPrograma=this.state.asignacion.programa[0];
-    //this.setState({asignacion:asig});
-    console.log("id:", idPrograma);
+    this.setState({asignacion:asig});
     console.log("proograma:", this.state.asignacion.programa);
   }
   handleOnChangeTutoria(tutoria) {
     console.log("tutoria:", tutoria);
-    this.state.asignacion.tutoria = tutoria;
-    const idTutoria=this.state.asignacion.tutoria[0];
-    console.log("id:", idTutoria);
+    this.state.asignacion.tutoria = tutoria[0];
+    let asig=this.state.asignacion;
+    this.setState({asignacion:asig});
     console.log("tutoria:", this.state.asignacion.tutoria);
   }
   handleOnChangeTutor(tutor) {
     console.log("tutor:", tutor);
-    this.state.asignacion.tutor = tutor;
-    const idTutor=this.state.asignacion.tutor[0];
-    console.log("id:", idTutor);
+    this.state.asignacion.tutor = tutor[0];
+    let asig=this.state.asignacion;
+    this.setState({asignacion:asig});
     console.log("tutor:", this.state.asignacion.tutor);
   }
   render (){
@@ -163,11 +176,35 @@ class FrmAsignacionTutor extends Component {
       <Paper elevation={2} style={style.paper}>
       <Alertas
           severity={this.state.severidad}
-          titulo={"Observacion:"}
+          titulo={"Observación:"}
           alerta={this.state.alert}
         />
       <Paper elevation={0} style={style.paper}>
-        <Grid container spacing={10}>          
+      <Grid container spacing={10}>
+        <Grid item md={5}
+            container
+            direction="column"
+            alignItems="flex-start"
+            justify="center" >
+            <Paper elevation={0} marginLeft="2%" marginRight="2%" marginTop="5%" 
+              align="center">
+            
+            <Typography variant="h5" align="center">
+                <LooksOneRoundedIcon
+                  fontSize="large"
+                  color="primary" />
+                {" "}Seleccionar Facultad
+            </Typography>
+            </Paper> 
+          </Grid>
+          <Grid item md={3}>
+            <ListaFacultades
+              titulo={"Facultades"}
+              escogerFacultad={this.handleOnChange}
+              enlace={"/api/facultad"}
+            />
+          </Grid>
+
           <Grid item md={5}
             container
             direction="column"
@@ -183,14 +220,15 @@ class FrmAsignacionTutor extends Component {
                 {" "}Seleccionar Programa
             </Typography>
             </Paper> 
-          </Grid>
+          </Grid>          
           <Grid item md={3}>
             <ListaProgramas
               titulo={"Programas"}
               escogerPrograma={this.handleOnChangePrograma}
-              enlace={"/api/programa"}
+              enlace={"/api/programa/coordinador/"+this.state.coordinador}
             />
           </Grid>
+
           <Grid item md={5}
             container
             direction="column"
@@ -209,8 +247,8 @@ class FrmAsignacionTutor extends Component {
           <Grid item md={3}>
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
-              escogerTutoria={this.handleOnChangeTutoria}
-              enlace={"/api/tutoria/lista/3"}
+              escogerTutoria={this.handleOnChange}
+              enlace={"/api/tutoria/lista/"+this.state.asignacion.programa}
             />
             </Grid>
             <Grid item md={5}
@@ -231,8 +269,8 @@ class FrmAsignacionTutor extends Component {
             <Grid item md={3}>
               <ListaTutores
                 titulo={"Tutor"}
-                escogerTutor={this.handleOnChangeTutor}
-                enlace={"/api/tutor"}
+                escogerTutor={this.handleOnChange}
+                enlace={"/api/tutor/lista/"+this.state.asignacion.programa}
               />
             </Grid>
           <Grid item md={5}
