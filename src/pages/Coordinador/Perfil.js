@@ -13,8 +13,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Perfil = () => {
+const Perfil = (props) => {
   const classes = useStyles();
+  console.log("props",props);
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
@@ -24,7 +25,6 @@ const Perfil = () => {
       />
       <Grid
         container
-        xs={12}
         spacing={5}
         justify="center"
         alignItems="center"

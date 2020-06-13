@@ -125,8 +125,11 @@ class CampoDeTexto extends Component {
     if (this.props.validacion) {
       this.setState({ validacion: this.props.validacion });
     }
-    if (this.props.inicial) {
+    if (this.props.inicial) { 
+      console.log("inicial: ",this.props.inicial);
+      this.props.onChange({ name: this.props.name, value: this.props.inicial });
       this.setState({ texto: this.props.inicial });
+     
     }
     if (this.props.inicial) {
       this.props.validarEntrada({
@@ -155,6 +158,7 @@ class CampoDeTexto extends Component {
           rows={this.props.rows}
           multiline={this.props.multiline || false}
           value={this.state.texto}
+          type={this.props.tipo || "text"}
         />
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>
       </Paper>

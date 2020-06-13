@@ -3,8 +3,10 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import { GET } from "../../Conexion/Controller";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import ConfigurarInstitucion from "../../components/Administrador/Institucion/ConfigurarInstitucion";
+import { compose } from "recompose";
+import { withRouter } from "react-router-dom";
 
-const Institucion = () => {
+const Institucion = (props) => {
 
   const [institucion, setInstitucion] = useState({
     "institucion": {
@@ -26,6 +28,7 @@ const Institucion = () => {
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
+
       institucion.institucion.NOMBRE=res.institucion.NOMBRE;
       institucion.institucion.INICIALES=res.institucion.INICIALES;
       institucion.institucion.IMAGEN=res.institucion.IMAGEN;
@@ -38,6 +41,7 @@ const Institucion = () => {
       setInstitucion({
         ...institucion,
       });
+      
       console.log(institucion);
     }
     console.log("inst",institucion);
@@ -55,4 +59,4 @@ const Institucion = () => {
   );
 };
 
-export default Institucion;
+export default compose(withRouter)(Institucion);
