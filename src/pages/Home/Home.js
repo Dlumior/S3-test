@@ -15,7 +15,8 @@ import { useUserValue } from "../../Sesion/Sesion.js";
 
 function Home(props) {
   const classes = useStyles();
-
+  const [{ usuario }, dispatch] = useUserValue();
+  console.log("Home encontro: ", usuario );
   return (
     <div className={classes.root}>
       <AppBar position="static">

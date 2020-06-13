@@ -9,8 +9,19 @@ import Institucion from "./Institucion"
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue } from "../../Sesion/Sesion.js";
 
-const Administrador = () => {
-  
+const Administrador = (props) => {
+  console.log("Administrador", props.history.location.pathname);
+  const [{ usuario, auth }, dispatch] = useUserValue();
+  if (!auth) {
+    props.history.push("/");
+  } else {
+    const move_to = usuario.usuario.ROLs[0].DESCRIPCION.toLowerCase();
+    console.log("Ruta", move_to);
+
+    if (move_to !== "administrador") {
+      props.history.push("./" + move_to);
+    }
+  }
   return (
     <div>
       <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />

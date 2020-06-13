@@ -1,65 +1,58 @@
 import React, { Component } from "react";
-import {
-  Paper,
-  Grid,
-  TextField,
-  Button,
-  FormHelperText,
-  Typography,
-  Divider,
-} from "@material-ui/core";
-import { POST } from "../../Conexion/Controller";
+import { Paper, Grid, Button, Typography, Divider } from "@material-ui/core";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import SaltoDeLinea from "../Shared/SaltoDeLinea";
-import { UserContext, useUserValue } from "../../Sesion/Sesion";
+import { UserContext, getUser } from "../../Sesion/Sesion";
 import { iniciarSesion } from "../../Sesion/actions/sesionAction";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 
-
 class IniciarSesion extends Component {
   static contextType = UserContext;
-  static valor = useUserValue;
   constructor() {
     super();
     this.state = {
       usuario: {
         Usuario: "",
-        Contraseña: "",
+        Contrasenia: "",
       },
-      errores:[]
+      errores: [],
     };
-    this.handleOnClick = this.handleOnClick.bind(this);
+
     this.handleOnChange = this.handleOnChange.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
-    // this.onSignIn = this.onSignIn.bind(this);
+    this.onSignInNormal = this.onSignInNormal.bind(this);
     // this.onFailure = this.onFailure.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
   }
-  handleOnClick= async (e)=> {
+  onSignInNormal = async (e) => {
     e.preventDefault();
-    //console.log("------: ", me);
-    console.log("validacion al click: ", this.state.errores);
-    let [{sesion},dispatch] = this.context;
-    
+    //console.log("validacion al click: ", this.state.errores);
+    let [{ usuario }, dispatch] = this.context;
+    //console.log("this.context ", usuario);
+    const { Usuario, Contrasenia } = this.state.usuario;
+    //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 
-    console.log("this.context ", this.context);
-    let status = await iniciarSesion(dispatch,"jinSS","SSj3");
-    //const  [{sesion},dispatch] = this.context;
-    if(status.status){
-      console.log("Parece que ok",status);
-      this.props.history.push('/administrador/institucion');
-      //const me = useUserValue();
-    console.log("-###: ", sesion);
-
-    }else {
-      console.log("waaaaa",status);
+    let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
+    if (status?.status) {
+      console.log("Parece que login", status);
+      const move_to = status.data.usuario;
+      this.props.history.push("./" + move_to.ROLs[0].DESCRIPCION.toLowerCase());
     }
-    
-    
-  }
+
+    //const  [{sesion},dispatch] = this.context;
+    // if(status.status){
+    //   console.log("Parece que ok",status);
+    //   this.props.history.push('/administrador/institucion');
+    // console.log("-###: ", sesion);
+
+    // }else {
+    //   console.log("waaaaa",status);
+    // }
+  };
+
   handleOnChange = (e) => {
     // nombre y descripcion
     let usuario = Object.assign({}, this.state.usuario);
@@ -69,8 +62,12 @@ class IniciarSesion extends Component {
     console.log("Show ", usuario);
   };
   render() {
-    let [{sesion},dispatch] = this.context;
-    console.log("this.context sesion login ", sesion);
+    let yo = getUser();
+    if (yo) {
+      this.props.history.push(
+        "./" + yo.usuario.ROLs[0].DESCRIPCION.toLowerCase()
+      );
+    }
     return (
       <Grid container spacing={0}>
         <Grid item md={4} xs={4} />
@@ -100,7 +97,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
-                  inicial=""
+                  inicial="usuarioAlumno"
                   validacion={{ lim: 25 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
@@ -109,8 +106,9 @@ class IniciarSesion extends Component {
                 <CampoDeTexto
                   requerido={true}
                   autoFocus={true}
-                  name="Contraseña"
+                  name="Contrasenia"
                   label="Contraseña"
+                  inicial="sudo tys"
                   validacion={{ lim: 50 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
@@ -127,7 +125,7 @@ class IniciarSesion extends Component {
                       size="large"
                       variant="contained"
                       color="primary"
-                      onClick={this.handleOnClick}
+                      onClick={this.onSignInNormal}
                     >
                       Iniciar Sesión
                     </Button>
@@ -135,9 +133,9 @@ class IniciarSesion extends Component {
                   <Grid item md={1} xs={1}></Grid>
                 </Grid>
                 <SaltoDeLinea N={1} />
-                <Divider variant="middle"  />
-                
-                  <h5 align="center">o Inicia Sesión con Gmail</h5>
+                <Divider variant="middle" />
+
+                <h5 align="center">o Inicia Sesión con Gmail</h5>
                 {/** google */}
                 <Grid container spacing={0}>
                   <Grid item md={1} xs={1}></Grid>
