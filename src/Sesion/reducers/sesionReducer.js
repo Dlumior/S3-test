@@ -15,7 +15,7 @@ const sesionReducer = (state = estadoInicial, action) => {
     case "CHANGE_SESION":
       console.log("CHANGE_SESION, action", action);
       return {
-        ...state,
+        ...state, 
         usuario: action.usuario,
         auth: action.auth,
       };

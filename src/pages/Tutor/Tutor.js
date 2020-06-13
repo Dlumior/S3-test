@@ -19,7 +19,6 @@ const Tutor = (props) => {
   } else {
     const move_to = usuario.usuario.ROLs[0].DESCRIPCION.toLowerCase();
     console.log("Ruta", move_to);
-
     if (move_to !== "tutor") {
       props.history.push("./" + move_to);
     }
