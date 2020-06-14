@@ -4,6 +4,7 @@ import { Grid, Chip, Paper,TextField } from "@material-ui/core";
 import FerCarrillo from "./tutor2.png";
 
 import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
+import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 
 const styles = {
     paper: {
@@ -19,7 +20,14 @@ const styles = {
 };
 
 class FrmDialogoSolicitarTutor extends Component {
+
     render() {
+
+        const _disponibilidad = this.props.dispo;
+        console.log("XXX ",_disponibilidad);
+
+        const _fexilla = new Date(this.props.fexaForm);
+
         return (
             <div >
                 <Paper elevation={3} style={styles.paper}>
@@ -29,21 +37,21 @@ class FrmDialogoSolicitarTutor extends Component {
                             <ImagenCircular src= {FerCarrillo}/>
                         </Grid>
                         <Grid item md={8} xs={8} >
-                            <h1>Fernando Carrillo</h1>
+                            <h1>{_disponibilidad.TUTOR.USUARIO.NOMBRE +" "+_disponibilidad.TUTOR.USUARIO.APELLIDOS }</h1>
                             <p>Tutor</p>
-                            <p>Lunes 28 de Junio del 2020</p>
+                            <p>{diasSemana[_fexilla.getDay()]  + " "+ _fexilla.getDate() + " de " +mesesAnio[_fexilla.getMonth()]+ " del 2020"}</p>
                         </Grid>
                     </Grid>
                 </Paper>
                 <Paper elevation={3} style={styles.paper}>
                     <Grid container spacing={2} alignContent="center" style={styles.chip}>    
                         <Grid item md={6}  style={styles.chip}>
-                            <p>Inicio: </p>
-                            <Chip label="Hora inicio" color="primary"  />
+                            <p>INICIO : </p>
+                            <Chip label={_disponibilidad.HORA_INICIO} color="primary"  />
                         </Grid>
                         <Grid item md={6} style={styles.chip}>
-                            <p>Fin: </p>
-                            <Chip label="Hora fin" color="primary"  />
+                            <p>FIN : </p>
+                            <Chip label={_disponibilidad.HORA_FIN}color="primary"  />
                         </Grid>
                         <Grid item md={8} xs={8} >
                             {/*<h1>Motivo: </h1>*/}

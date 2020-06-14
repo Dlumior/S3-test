@@ -13,14 +13,14 @@ export const mesesAnio = [
   "Enero",
   "Febrero",
   "Marzo",
-  "Abri",
+  "Abril",
   "Mayo",
   "Junio",
   "Julio",
   "Agosto",
   "Setiembre",
   "Octubre",
-  "Nombiembre",
+  "Noviembre",
   "Diciembre",
 ];
 export const NdiasMes = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];

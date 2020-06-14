@@ -68,8 +68,8 @@ class FrmSolicitarCitaTutor_granito extends Component {
                 </img>
                 </div>,
                 //numeroOrden: cont,
-                nombre: element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS,
-                correo: element.USUARIO.CORREO,
+                nombre: element.USUARIO?element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS:"Manuel",
+                correo: element.USUARIO?element.USUARIO.CORREO:"m.tupia@pucp.edu.pe",
                 /*rboton: <div>
                     <input
                         type="radio"

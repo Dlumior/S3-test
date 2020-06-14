@@ -20,6 +20,15 @@ class AgendarCita extends Component {
           titulo: "Solicite una cita según las disponibilidades disponibles",
           procesos: [
             { index: 0, titulo: "Horarios Disponibles", 
+
+            
+            //AQUI VENDRIA : ..."api/disponibildiad/...."
+            //se tendria q dar la disponibildiades de los tutores que pertenecen
+            //.. a los tipos de tutoria del programa del alumno
+            //..
+            //...(cabe resaltar que en la vista habra una especie de combobox
+            //.... para que el alumno eliga el tipo de tutoria que quiera ver)
+
             proceso: ()=><CalendarioCitas servicio="/api/disponibilidad/listarDia/" tipo="disponibilidad"/> },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarCitaTutor_granito },
           ],
