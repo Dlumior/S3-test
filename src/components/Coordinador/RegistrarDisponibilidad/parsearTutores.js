@@ -1,9 +1,18 @@
+import React from "react";
+
+import DialogoCalendario from "./DialogoCalendario.js";
+
 const parsearTutores = (data) => {
   const aux = data.map((item) => ({
     id: item.USUARIO.ID_USUARIO,
     codigo: item.USUARIO.CODIGO,
     nombre: item.USUARIO.NOMBRE + " " + item.USUARIO.APELLIDOS,
     correo: item.USUARIO.CORREO,
+    calendar: (
+      <>
+        <DialogoCalendario />
+      </>
+    ),
   }));
 
   return {
@@ -17,6 +26,7 @@ const parsearTutores = (data) => {
         field: "nombre",
       },
       { title: "Correo Electrónico", field: "correo" },
+      { title: "", field: "calendar" },
     ],
     data: aux,
   };

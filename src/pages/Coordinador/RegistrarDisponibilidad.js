@@ -5,9 +5,23 @@ import ComboBoxPrograma from "../../components/Coordinador/FormRegistroTutor/com
 import { GET } from "../../Conexion/Controller";
 import parsearTutores from "../../components/Coordinador/RegistrarDisponibilidad/parsearTutores";
 import TablaTutores from "../../components/Coordinador/RegistrarDisponibilidad/TablaTutores";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  caja: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(2),
+    // width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(1),
+      width: theme.spacing(40),
+    },
+  },
+}));
 
 const RegistrarDisponibilidad = () => {
+  const classes = useStyles();
+
   const idCoordinador = "240";
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState(-1);
@@ -22,6 +36,7 @@ const RegistrarDisponibilidad = () => {
         field: "nombre",
       },
       { title: "Correo Electrónico", field: "correo" },
+      { title: "", field: "calendar" },
     ],
     data: [],
   });
@@ -58,8 +73,8 @@ const RegistrarDisponibilidad = () => {
     <>
       <NombrePrincipal titulo="Registrar disponibilidad" />
       <Grid container justify="center" alignItems="center" spacing={4}>
-        <Grid item md={6}>
-          <Paper>
+        <Grid item xs={12} md={6}>
+          <Paper className={classes.caja}>
             <ComboBoxPrograma
               programas={programas}
               programa={programa}
@@ -67,7 +82,7 @@ const RegistrarDisponibilidad = () => {
             />
           </Paper>
         </Grid>
-        <Grid item md={11}>
+        <Grid item xs={12} md={11}>
           <TablaTutores columnas={tutores.columns} datos={tutores.data} />
         </Grid>
       </Grid>
