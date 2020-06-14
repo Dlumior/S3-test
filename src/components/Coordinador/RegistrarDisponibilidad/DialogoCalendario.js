@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import EventsCalendar from "./CalendarioPopup/EventsCalendar";
 
 export default function DialogoCalendario() {
   const [open, setOpen] = React.useState(false);
@@ -30,7 +31,7 @@ export default function DialogoCalendario() {
       >
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText>
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
@@ -41,7 +42,8 @@ export default function DialogoCalendario() {
             label="Email Address"
             type="email"
             fullWidth
-          />
+          /> */}
+          <EventsCalendar IDTutor={"240"} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
