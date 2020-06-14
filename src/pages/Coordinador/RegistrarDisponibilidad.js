@@ -1,14 +1,30 @@
 import React, { useEffect, useState } from "react";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import ComboBoxPrograma from "../../components/Coordinador/FormRegistroTutor/comboBoxProgramas";
+// import ComboBoxPrograma from "../../components/Tutor/ListarAlumnos/ComboBoxPrograma";
 import { GET } from "../../Conexion/Controller";
 import parsearTutores from "../../components/Coordinador/RegistrarDisponibilidad/parsearTutores";
+import TablaTutores from "../../components/Coordinador/RegistrarDisponibilidad/TablaTutores";
+import { Grid, Paper } from "@material-ui/core";
 
 const RegistrarDisponibilidad = () => {
-  const idCoordinador = "202";
+  const idCoordinador = "240";
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState(-1);
-  const [tutores, setTutores] = useState([]);
+  const [tutores, setTutores] = useState({
+    columns: [
+      {
+        title: "Código",
+        field: "codigo",
+      },
+      {
+        title: "Nombre",
+        field: "nombre",
+      },
+      { title: "Correo Electrónico", field: "correo" },
+    ],
+    data: [],
+  });
 
   //Funcion auxiliar para obtener el coordinador y sus programas
   useEffect(() => {
@@ -30,7 +46,7 @@ const RegistrarDisponibilidad = () => {
       const res = await GET(params);
       const auxTutores = parsearTutores(res.tutores);
       console.log(auxTutores);
-
+      setTutores({ ...tutores, data: auxTutores.data });
       //setTutores(res.tutores);
     }
     if (programa !== -1) {
@@ -41,11 +57,20 @@ const RegistrarDisponibilidad = () => {
   return (
     <>
       <NombrePrincipal titulo="Registrar disponibilidad" />
-      <ComboBoxPrograma
-        programas={programas}
-        programa={programa}
-        setPrograma={setPrograma}
-      />
+      <Grid container justify="center" alignItems="center" spacing={4}>
+        <Grid item md={6}>
+          <Paper>
+            <ComboBoxPrograma
+              programas={programas}
+              programa={programa}
+              setPrograma={setPrograma}
+            />
+          </Paper>
+        </Grid>
+        <Grid item md={11}>
+          <TablaTutores columnas={tutores.columns} datos={tutores.data} />
+        </Grid>
+      </Grid>
     </>
   );
 };
