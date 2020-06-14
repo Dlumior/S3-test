@@ -50,11 +50,13 @@ const ComboBoxPrograma = (props) => {
           value={programa}
           onChange={handleChangePrograma}
         >
-          {programas.map((item) => (
+          {programas?
+          programas.map((item) => (
             <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-              {item.PROGRAMA.NOMBRE}
+              {item.PROGRAMA.NOMBRE
+              }
             </MenuItem>
-          ))}
+          )):<></>}
         </Select>
       </FormControl>
     </>
