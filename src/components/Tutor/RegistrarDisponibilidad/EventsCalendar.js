@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import {Calendar, momentLocalizer} from "react-big-calendar";
 import moment from 'moment';
 import Dialogo from "./Dialogo";
 import * as Conexion from "../../../Conexion/Controller";
 import { CircularProgress } from "@material-ui/core";
 import Alertas from "../../Coordinador/Alertas";
+import { getUser } from "../../../Sesion/Sesion";
+import {usuario} from "../../../App"
 require("./calendario.css")
 require('moment/locale/es.js');
   
@@ -20,12 +22,13 @@ class EventsCalendar extends Component {
   constructor(){
     super();
     this.state = {
+      tutor:(getUser()).usuario,
       modalIsOpen: false,
       fecha: "",
       fechaMostrar: "",
       horaInicio: "",
       idDisponibilidad: 0,
-      enlace: "/api/disponibilidad/51",
+      enlace: "/api/disponibilidad/",
       eventos: [],
       repeticion: 1,
       lugar: "",
@@ -39,18 +42,19 @@ class EventsCalendar extends Component {
         mensajeStrong: "",
         mostrar: false
       }
-    }
+    } 
     this.actualizarMensaje = this.actualizarMensaje.bind(this);
   }
   
    async componentDidMount() {
+    console.log(this.state.tutor)
     let listaEventos = []
-    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace });    
+    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO });    
     console.log("disponibilidad", listaDisponibilidad);
     if(listaDisponibilidad){
       if(!listaDisponibilidad.hasOwnProperty('error')){
-        for (let disp of listaDisponibilidad.data){
-          await this.setState({loading: false})
+        await this.setState({loading: false})
+        for (let disp of listaDisponibilidad.data){          
           let evento = {
             title: disp.HORA_INICIO.substring(0,5) + "-" + disp.HORA_FIN.substring(0,5),
             start: new Date(disp.FECHA + " " +  disp.HORA_INICIO),
@@ -93,7 +97,7 @@ class EventsCalendar extends Component {
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.bandera !== prevState.bandera) {
       let listaEventos = []
-      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace });            
+      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace + this.state.tutor.ID_USUARIO });            
       console.log("disponibilidad", listaDisponibilidad);
       if(listaDisponibilidad){
         if(!listaDisponibilidad.hasOwnProperty('error')){
