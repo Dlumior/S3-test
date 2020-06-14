@@ -149,13 +149,14 @@ import Confirmacion from './Confirmacion';
                 HORA_INICIO: horaInicio,
                 HORA_FIN: horaFin,
                 FECHA: fecha,
-                ID_TUTOR: 51,
+                ID_TUTOR: this.props.datos.tutor.ID_USUARIO,
                 REPETICION: repeticion,
                 LUGAR: lugar
               }
             } 
             
-            const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };      
+            const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };
+            console.log(nuevaDisponibilidad)      
             let nuevo = await Conexion.POST(props);
             if(nuevo){
               if(await nuevo.hasOwnProperty('error')){
@@ -177,7 +178,7 @@ import Confirmacion from './Confirmacion';
                 HORA_INICIO: horaInicio,
                 HORA_FIN: horaFin,
                 FECHA: fecha,
-                ID_TUTOR: 51,
+                ID_TUTOR: this.props.datos.tutor.ID_USUARIO,
                 REPETICION: repeticion,
                 LUGAR: lugar
               }

@@ -26,11 +26,12 @@ class ListaProgramas extends React.Component {
     };
     this.handleOnChange = this.handleOnChange.bind(this);
   }
-  async handleOnChange(e) {
+  async handleOnChange(e) {      
       let programa = e.target.value;
       let programas = [];
-      programas.push(programa.ID_PROGRAMA);
-    await this.props.escogerPrograma(programas);
+      programas.push(programas);
+    //cambio para que envie string y no array
+    await this.props.escogerPrograma(programa.ID_PROGRAMA);
     this.setState({ programa: e.target.value });
     e.target.value=this.state.programa;
   }
@@ -52,9 +53,7 @@ class ListaProgramas extends React.Component {
   }
   render() {
     return (
-      <Paper elevation={0} style={estilos.paper}>
-      <br />
-      <FormControl fullWidth>
+      <FormControl width={"5"}>
         <InputLabel  id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
@@ -63,7 +62,6 @@ class ListaProgramas extends React.Component {
           id="demo-simple-select-placeholder-label"
           value={this.state.programa}
           onChange={this.handleOnChange}
-          displayEmpty
         >
           {this.state.programas.map((programa) => (
             <MenuItem key={programa.ID_PROGRAMA} value={programa}>
@@ -74,7 +72,6 @@ class ListaProgramas extends React.Component {
         </Select>
         <FormHelperText>Escoja el programa</FormHelperText>
       </FormControl>
-      </Paper>
     );
   }
 }
