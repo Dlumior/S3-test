@@ -23,7 +23,7 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { Link as LinkRouter } from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import InboxIcon from "@material-ui/icons/Inbox";
-import HowToRegRoundedIcon from '@material-ui/icons/HowToRegRounded';
+import HowToRegRoundedIcon from "@material-ui/icons/HowToRegRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
 import { useUserValue } from "../../Sesion/Sesion";
 
@@ -89,15 +89,15 @@ const useStyles = makeStyles((theme) => ({
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [{ }, dispatch] = useUserValue();
+  const [{}, dispatch] = useUserValue();
   const [open, setOpen] = React.useState(false);
-  
+
   const handleClick = () => {
     //te odio hooks
-    console.log("Tutor LOG OUTTTTT",props);
+    console.log("Tutor LOG OUTTTTT", props);
 
     logOut(dispatch);
-  }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -156,14 +156,12 @@ const BarraNavegacion = (props) => {
             "Mis Alumnos",
             "Mi Disponibilidad",
             "Sesiones",
-            "Cerrar Sesion",
           ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
-              to={index===5?"/":"/tutor/" + text.split(' ').join('').toLowerCase()}
-              onClick={handleClick}
+              to={"/tutor/" + text.split(' ').join('').toLowerCase()}
             >
               <ListItemIcon>
                 {index === 0 ? (
@@ -176,15 +174,25 @@ const BarraNavegacion = (props) => {
                   <ScheduleRoundedIcon />
                 ) : index === 4 ? (
                   <CalendarTodayIcon />
-                ) : index === 5 ? (
-                  <ExitToAppRoundedIcon />
-                ) : (
+                ) :  (
                   <NoteAddRoundedIcon />
                 )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
+          <ListItem
+            button
+            key={"Cerrar Sesion"}
+            component={LinkRouter}
+            to={"/"}
+            onClick={handleClick}
+          >
+            <ListItemIcon>
+              <ExitToAppRoundedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Cerrar Sesion"} />
+          </ListItem>
         </List>
       </Drawer>
       <main

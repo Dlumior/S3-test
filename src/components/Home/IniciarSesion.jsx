@@ -49,7 +49,8 @@ class IniciarSesion extends Component {
     if (status.status) { 
       console.log("Parece que login", status);
       const move_to = status.data.usuario;
-      this.props.history.push("./" + move_to.ROLs[0].DESCRIPCION.toLowerCase());
+      //console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
+      this.props.history.push("./" + move_to.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase());
     }else{
       console.log("Parece NO que login", status);
 
@@ -78,7 +79,7 @@ class IniciarSesion extends Component {
     let yo = getUser();
     if (yo) {
       this.props.history.push(
-        "./" + yo.usuario.ROLs[0].DESCRIPCION.toLowerCase()
+        "./" + yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase()
       );
     }
     return (
@@ -115,7 +116,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
-                  inicial="usuarioAlumno"
+                  inicial="itsame@pucp.pe"
                   validacion={{ lim: 25 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
@@ -126,7 +127,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Contrasenia"
                   label="Contraseña"
-                  inicial="sudo tys"
+                  inicial="tystys"
                   validacion={{ lim: 50 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
