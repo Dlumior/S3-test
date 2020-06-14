@@ -20,7 +20,7 @@ class ListaTutores extends React.Component {
       let tutor = e.target.value;
       let tutores = [];
       tutores.push(tutor.ID_TUTOR);
-    await this.props.escogerTutor(tutores);
+    await this.props.escogerTutor(tutor.ID_TUTOR);
     this.setState({ tutor: e.target.value });
     e.target.value=this.state.tutor;
   }
@@ -41,7 +41,7 @@ class ListaTutores extends React.Component {
   }
   render() {
     return (
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel  id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
