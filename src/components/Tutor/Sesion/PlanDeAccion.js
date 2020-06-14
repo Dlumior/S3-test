@@ -37,29 +37,39 @@ const style = {
         backgroundImage: "",
       }
   };
-  const handleCompromiso = (e, cantCompromiso,compromiso, setCompromiso) => {
-    console.log("comp",e.target.value);
-    setCompromiso({
-      ...compromiso,
-      campo: e.target.value,
-      id:cantCompromiso,
-    });
-  };    
+    
 const PlanDeAccion = (props) => {
-    //const { programas, programa, setPrograma } = props;
+    const { plan, setPlan } = props;
     const [cantCompromisos, setCantCompromisos]=useState(0);
-    const [plan,setPlan]=useState([]);
+    //const [plan,setPlan]=useState([]);
     const [compromiso,setCompromiso]=useState({
         id:'',
         campo:'',
         check:false, 
     });
-
+    const handleCompromiso = (e) => {
+      console.log("comp",e.target.value);
+      setCompromiso({
+        ...compromiso,
+        campo: e.target.value,
+        id:cantCompromisos,
+      });
+  
+    }; 
     const handleCantCompromisos = (func) => {
       console.log("func: ",func)
       
       if (func>0){
-        setCantCompromisos(cantCompromisos => func);
+        if (func>cantCompromisos){
+          setCantCompromisos(cantCompromisos => func);
+          plan.push(compromiso);
+          console.log("plan",plan);
+        }else{
+          setCantCompromisos(cantCompromisos => func);
+          plan.splice(-1);
+          console.log("plan",plan);
+        }
+        
       }else{
         setCantCompromisos(cantCompromisos => 0);
       }
@@ -81,7 +91,7 @@ const PlanDeAccion = (props) => {
                     </Checkbox>
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}
-                    onChange={(e) => handleCompromiso(e, cantCompromisos,compromiso, setCompromiso)}>
+                    onChange={(e) => handleCompromiso(e)}>
                   </TextField> 
     
                 </Grid>          
@@ -109,7 +119,7 @@ const PlanDeAccion = (props) => {
             </Checkbox>
             <TextField margin="dense" style={{ width: 300 }}
             id={cantCompromisos}
-            onChange={(e) => handleCompromiso(e,cantCompromisos, compromiso, setCompromiso)}>
+            onChange={(e) => handleCompromiso(e)}>
             </TextField> 
             <IconButton color="primary" onClick={()=> handleCantCompromisos(cantCompromisos+1)}>
             <AddBoxRoundedIcon

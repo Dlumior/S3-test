@@ -116,6 +116,7 @@ const RegistrarSesion = () => {
     descripcion:"",
   });
   const [open, setOpen] = React.useState(false);
+  const [plan,setPlan]=useState([]);
 
 
   const handleClickOpen = () => {
@@ -138,7 +139,7 @@ const RegistrarSesion = () => {
         HORA_INICIO: datosForm.horaini,
         HORA_FIN: datosForm.horafin,
         RESULTADO: datosForm.resultado,
-        COMPROMISOS: ["Study: yes", "Sleep: no"],
+        COMPROMISOS: plan,
         AREAS_APOYO: ["1"],
         ALUMNOS:datosForm.alumnos,
       },
@@ -254,7 +255,10 @@ const RegistrarSesion = () => {
                   fullWidth   
               />
             </Grid>
-            <PlanDeAccion/>
+            <PlanDeAccion
+              plan={plan}
+              setPlan={setPlan}
+            />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
                     <Typography variant="h6">
