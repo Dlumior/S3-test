@@ -17,12 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link as LinkRouter } from "react-router-dom";
 
 const drawerWidth = 250;
@@ -87,7 +87,6 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -147,24 +146,32 @@ const BarraNavegacion = (props) => {
             "Procesos de Tutoria",
             "Registrar Alumnos",
             "Registrar Tutores",
+            "Registrar disponibilidades",
             "Asignacion de Tutor",
             "Reportes",
-            "Cerrar Sesión"
+            "Cerrar Sesión",
           ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
               //to={"/coordinador/" + text.toLowerCase()}
-              to={"/coordinador/" + text.split(' ').join('').toLowerCase()}
+              to={"/coordinador/" + text.split(" ").join("").toLowerCase()}
             >
               <ListItemIcon>
-                {index === 0 ? <AccountCircleRoundedIcon /> : 
-                 index === 1 ? <AccountBalanceRoundedIcon /> : 
-                 index === 5 ? <SupervisorAccountRoundedIcon/> :
-                 index === 6 ? <AssessmentRoundedIcon/> :
-                 index === 7 ? <ExitToAppIcon/> :
-                 <NoteAddRoundedIcon />}
+                {index === 0 ? (
+                  <AccountCircleRoundedIcon />
+                ) : index === 1 ? (
+                  <AccountBalanceRoundedIcon />
+                ) : index === 5 ? (
+                  <SupervisorAccountRoundedIcon />
+                ) : index === 6 ? (
+                  <AssessmentRoundedIcon />
+                ) : index === 7 ? (
+                  <ExitToAppIcon />
+                ) : (
+                  <NoteAddRoundedIcon />
+                )}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>

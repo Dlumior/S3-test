@@ -10,11 +10,21 @@ import Programas from "./Programas";
 
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
+import RegistrarDisponibilidad from "./RegistrarDisponibilidad.js";
 
 const Coordinador = () => {
   return (
     <div>
-      <Route  exact path={"/coordinador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />      
+      <Route
+        exact
+        path={"/coordinador/"}
+        component={() => (
+          <>
+            <SaltoDeLinea N={3} />
+            <Perfil />
+          </>
+        )}
+      />
       <BarraNavegacion>
         {/*perfil...*/}
         <Route exact path={"/coordinador/perfil"} component={Perfil} />
@@ -38,10 +48,11 @@ const Coordinador = () => {
           path="/coordinador/procesosdetutoria"
           component={Tutorias}
         />
+        <Route exact path="/coordinador/programas" component={Programas} />
         <Route
           exact
-          path="/coordinador/programas"
-          component={Programas}
+          path="/coordinador/registrardisponibilidades"
+          component={RegistrarDisponibilidad}
         />
       </BarraNavegacion>
     </div>
