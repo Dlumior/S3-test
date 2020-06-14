@@ -33,7 +33,7 @@ class TabProceso extends Component {
     this.rendertabs = this.rendertabs.bind(this);
   }
   activarTab(tab) {
-    console.log("lo que seaCTM!!!!");
+    //console.log("lo que seaCTM!!!!");
     this.setState({ tabActivada: tab });
     this.setState({ procesoActivo: this.state.procesos[tab].proceso });
   }

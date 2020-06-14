@@ -19,7 +19,8 @@ class ArregloHorarios extends Component {
         <div>
           {horarios.data.map((element) => (
             this.props.tipo==="disponibilidad"?
-            <DisponibilidadCard disponibilidad={element} />
+            <DisponibilidadCard disponibilidad={element} 
+            fexaForm = {this.props.fexaForm}/>
             : 
             <SesionesCard cita={element}/>
           ))}

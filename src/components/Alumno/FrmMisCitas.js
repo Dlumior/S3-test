@@ -80,7 +80,9 @@ class FrmMisCitas extends Component {
 
                     </img>
                 </div>,
-                nombre: element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS,
+
+
+                nombre: element.USUARIO?element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS:"teamoBB",
                 fecha: fex + " " + "de Mayo del 2020",
                 tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
                 btnCancelar:

@@ -15,6 +15,7 @@ const styles = {
   },
 };
 class DisponibilidadCard extends Component {
+  //static contextType = UserContext;
 
   constructor() {
     super();
@@ -46,8 +47,6 @@ class DisponibilidadCard extends Component {
   }
 
 
-
-
   render() {
     const disponibilidad = this.props.disponibilidad;
     return (
@@ -56,8 +55,6 @@ class DisponibilidadCard extends Component {
           onClick={this.handleOnClick}
 
         >
-
-
           <Paper style={styles.paper}>
             {/** Encabezado Imagen y nombre */}
             <Grid container spacing={2} style={styles.chip}>
@@ -138,7 +135,8 @@ class DisponibilidadCard extends Component {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent>
-            <FrmDialogoSolicitarTutor />
+            <FrmDialogoSolicitarTutor     dispo={this.props.disponibilidad} 
+            fexaForm ={this.props.fexaForm}   />
           </DialogContent>
 
           <DialogActions>
