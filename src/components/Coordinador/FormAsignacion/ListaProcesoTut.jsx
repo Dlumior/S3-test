@@ -20,15 +20,15 @@ class ListaProcesoTut extends React.Component {
       let tutoria = e.target.value;
       let tutorias = [];
       tutorias.push(tutoria.ID_PROCESO_TUTORIA);
-    await this.props.escogerTutoria(tutorias);
+    await this.props.escogerTutoria(tutoria.ID_PROCESO_TUTORIA);
     this.setState({ tutoria: e.target.value });
     e.target.value=this.state.tutoria;
   }
   async componentDidMount() {
     let listaTutorias = await Conexion.GET({servicio:this.props.enlace});
-    console.log("programas",listaTutorias);
+    console.log("tutorias",listaTutorias);
     this.setState({tutorias:listaTutorias.tutoria});    
-    console.log("programas del state",this.state.tutorias);
+    console.log("tutoria del state",this.state.tutorias);
     
   }
   shouldComponentUpdate(nextState, nextProps) {
@@ -42,7 +42,7 @@ class ListaProcesoTut extends React.Component {
   }
   render() {
     return (
-      <FormControl fullWidth>
+      <FormControl>
         <InputLabel  id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
