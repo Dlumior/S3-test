@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
-import RegistrarSesion from "../../components/Tutor/RegistrarSesion";
+import RegistrarSesion from "../../components/Tutor/Sesion/RegistrarSesion";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarCitaTutor_granito.js";

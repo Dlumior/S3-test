@@ -41,13 +41,13 @@ class ListaTutores extends React.Component {
   }
   render() {
     return (
-      <FormControl>
-        <InputLabel  id="demo-simple-select-placeholder-label-label">
+      <FormControl >
+        <InputLabel  id="demo--select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
         <Select
-          labelId="demo-simple-select-placeholder-label-label"
-          id="demo-simple-select-placeholder-label"
+          labelId="demo--select-placeholder-label-label"
+          id="demo--select-placeholder-label"
           value={this.state.tutores}
           onChange={this.handleOnChange}
           displayEmpty
