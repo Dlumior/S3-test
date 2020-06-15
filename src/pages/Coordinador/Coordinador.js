@@ -7,6 +7,7 @@ import RegistrarAlumno from "./RegistrarAlumno.js";
 import AsignarTutor from "./AsignarTutor.js";
 import Tutorias from "./Tutorias.js";
 import Programas from "./Programas";
+import RegistrarDisponibilidad from "./RegistrarDisponibilidad.js";
 
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
@@ -28,7 +29,16 @@ const Coordinador = (props) => {
 
   return (
     <div>
-      <Route  exact path={"/coordinador/"} component={()=><><SaltoDeLinea N={3}/><Perfil data={props}/></>} />      
+      <Route
+        exact
+        path={"/coordinador/"}
+        component={() => (
+          <>
+            <SaltoDeLinea N={3} />
+            <Perfil data={props} />
+          </>
+        )}
+      />
       <BarraNavegacion>
         {/*perfil...*/}
         <Route exact path={"/coordinador/perfil"} component={Perfil} />
@@ -52,10 +62,11 @@ const Coordinador = (props) => {
           path="/coordinador/procesosdetutoria"
           component={Tutorias}
         />
+        <Route exact path="/coordinador/programas" component={Programas} />
         <Route
           exact
-          path="/coordinador/programas"
-          component={Programas}
+          path="/coordinador/registrardisponibilidades"
+          component={RegistrarDisponibilidad}
         />
       </BarraNavegacion>
     </div>

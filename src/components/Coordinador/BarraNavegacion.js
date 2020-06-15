@@ -17,12 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link as LinkRouter } from "react-router-dom";
 import { useUserValue } from "../../Sesion/Sesion";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
@@ -154,6 +154,7 @@ const BarraNavegacion = (props) => {
             "Procesos de Tutoria",
             "Registrar Alumnos",
             "Registrar Tutores",
+            "Registrar disponibilidades",
             "Asignacion de Tutor",
             "Reportes",
           ].map((text, index) => (
