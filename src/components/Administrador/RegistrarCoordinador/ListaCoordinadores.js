@@ -42,9 +42,9 @@ class ListaCoordinadores extends React.Component {
     let arreglillo = [];
     for (let element of aregloCoord.coordinadores){
         arreglillo.push({
-                        codigo:element.USUARIO.CODIGO,
-                        nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
-                        correo:element.USUARIO.CORREO,
+                        codigo:element.CODIGO,
+                        nombre:element.NOMBRE+ " "+ element.APELLIDOS,
+                        correo:element.CORREO,
                         boton:<div> 
                                     <Button 
                                         variant="outlined"

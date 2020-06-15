@@ -13,6 +13,9 @@ import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Alertas from "../../Coordinador/Alertas";
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
+
 
 import IconButton from '@material-ui/core/IconButton';
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
@@ -23,6 +26,7 @@ import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress
 import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
 import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
 import { wait } from "@testing-library/react";
+import Facultades from "./Facultades";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -89,9 +93,9 @@ const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
   });
 */
 
-const RegistrarCoordinador = () => {
+const RegistrarCoordinador = (props) => {
+  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
-    ID_ROL:"2",
     CODIGO: "",
     NOMBRE: "",
     APELLIDOS: "",
@@ -106,9 +110,7 @@ const RegistrarCoordinador = () => {
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState([]);
-  const [pDisabled, setPDisabled] = useState(true);
   const [errors, setErrors] = useState(errorObj);
-  const [cantProgramas, setCantPrograma]=useState(0);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
     mensajeStrongError: "porfavor revisalos!",
@@ -153,12 +155,7 @@ const RegistrarCoordinador = () => {
     });   
   };
 
-  const handleCantPrograma = () => {
-    setCantPrograma(cantProgramas => cantProgramas + 1);
-    console.log("programa",programa)
-    programasSeleccionados.push(programa);
-    console.log("programasSelecc",programasSeleccionados)
-  };
+ 
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
@@ -199,6 +196,7 @@ const RegistrarCoordinador = () => {
       console.log("programasSelecc",programasSeleccionados)
 
       datosForm.PROGRAMA=programasSeleccionados;
+      datosForm.CONTRASENHA="contra";
       setDatosForm({
         ...datosForm,
       });
@@ -214,9 +212,11 @@ const RegistrarCoordinador = () => {
           severidad:severidad.severS,
         });     
         setAlerta({
-          mensaje:alerta.mensajeExito,
+          mensaje:"Se registro al coordinador satisfactoriamente",
         });      
         console.log("severidad= ",severidad.severidad);
+        setFlag(flag=>flag+1);
+        console.log("flag: ",flag);
         //setOpen(false);
       }
 
@@ -247,29 +247,6 @@ const RegistrarCoordinador = () => {
 */
   };
 
-  const renderPrograma = (cantProgramas) => {
-    console.log("cant=",cantProgramas);
-    let n=cantProgramas;
-    let arregloProg=[];
-    for (let i=0;i<n;i++){
-      arregloProg.push(i);
-      //programasSeleccionados.push(programa);
-    }
-      return(
-        <div>
-          {arregloProg.map((item) => (            
-            <ComboBoxPrograma
-              cantProgramas={cantProgramas}
-              setPDisabled={setPDisabled}
-              programas={programas}
-              programa={programa[item]}
-              setPrograma={setPrograma}
-            />      
-        ))}
-
-        </div> 
-    );    
-}
 
   return (
     <div>
@@ -290,14 +267,21 @@ const RegistrarCoordinador = () => {
         alerta={alerta}
       />
         <DialogTitle id="form-dialog-title">
-          Formulario de registro de coordinador
+          <Grid container md={12}>
+            <Grid item md={11} >
+              Formulario de registro de coordinador
+            </Grid>
+            <Grid item md={1} alignItems="flex-end">
+              <CloseRoundedIcon onClick={handleClose}/>
+            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent>
-          <Grid container xs={12} spacing={4}> 
-            <Grid item xs={4}>
+          <Grid container md={12} spacing={2}> 
+            <Grid item md={4}>
               <Paper className={classes.foto}>Foto</Paper>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item md={8}>
               <TextField
                 required
                 error={errors.code.error}
@@ -345,27 +329,19 @@ const RegistrarCoordinador = () => {
                 label="Teléfono"
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
-              />
+              /> 
               {/*<Button
                 color="primary"
                 variant="outlined">
                 Asignar Facultades
               </Button>*/}
-              <Grid container md={5} spacing={1} alignContent="center" alignItems="baseline">
-                    <ComboBoxPrograma
-                      cantProgramas={cantProgramas}
-                      setPDisabled={setPDisabled}
-                      programas={programas}
-                      programa={programa[0]}
-                      setPrograma={setPrograma}
-                    />         
-                    <IconButton color="primary" onClick={()=> handleCantPrograma(cantProgramas+1)}>
-                    <AddBoxRoundedIcon
-                    color="primary"
-                    fontsize="large" />
-                  </IconButton> 
-                  {cantProgramas>0 ? renderPrograma(cantProgramas): null}              
-                </Grid>      
+              <Facultades 
+                programasSeleccionados={programasSeleccionados}
+                setProgramasSeleccionados={setProgramasSeleccionados}
+                programa={programa}
+                setPrograma={setPrograma}
+                programas={programas}
+                setProgramas={setProgramas}/>     
             </Grid>
           </Grid>
         </DialogContent>

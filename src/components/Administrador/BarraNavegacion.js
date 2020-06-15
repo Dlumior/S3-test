@@ -90,7 +90,7 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [{},dispatch] = useUserValue();
+  const [{usuario},dispatch] = useUserValue();
   const handleClick = () => {
     //te odio hooks
     console.log("Admin LOG OUTTTTT",props);
@@ -149,7 +149,7 @@ const BarraNavegacion = (props) => {
         <Divider />
         <List>
           {["Perfil", 
-            "Institución",
+            "Institucion",
             "Facultades",
             "Coordinadores",
            ].map(
@@ -160,7 +160,7 @@ const BarraNavegacion = (props) => {
                 key={text}
                 component={LinkRouter}
                 to={index===4?"/":"/administrador/" + text.split(' ').join('').toLowerCase()}
-              onClick={handleClick}
+              //onClick={handleClick}
               >
                 <ListItemIcon>
                   {index === 0 ? <AccountCircleRoundedIcon /> : 

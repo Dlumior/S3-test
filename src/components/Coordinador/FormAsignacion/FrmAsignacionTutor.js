@@ -14,6 +14,9 @@ import ListaTutores from "./ListaTutores";
 import ListaAlumnos from "./ListaAlumnosPorPrograma";
 import { GET } from "../../../Conexion/Controller";
 import * as Controller from "../../../Conexion/Controller";
+import Alertas from "../../Coordinador/Alertas";
+import {getUser} from "../../../Sesion/Sesion"
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +57,21 @@ const VerticalLinearStepper= () =>  {
   const [programa, setPrograma] = useState([]);
   const [programas, setProgramas] = useState([]);
   const [pDisabled, setPDisabled] = useState(true);
+  const [alerta, setAlerta]=useState({
+    mensajeStrong: "",
+    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongExito: "satisfactoriamente!",
+    mensajeError: "Existen errores al completar el formulario",
+    mensajeExito: "Coordinador registrado",
+    mensaje: "",
+  });
+  const [severidad, setSeveridad] = useState({
+    severidad:"",
+    severW:"warning",
+    severE:"error",
+    severS:"success"
+  });
+
   const steps = getSteps();
 
 
@@ -71,10 +89,38 @@ const VerticalLinearStepper= () =>  {
 
   
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if ((programa.length!==0 && activeStep===0) ||
+        (subprograma.length!==0 && activeStep===1) ||
+        (tutoria.length!==0 && activeStep===2) ||
+        (tutor.length!==0 && activeStep===3) ||
+        (alumnos.length!==0 && activeStep===4)
+      ){
+        console.log("activestep",activeStep);
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setSeveridad({
+        severidad:"",
+      });     
+      setAlerta({
+        mensaje:"",
+      });  
+    }else{
+      setSeveridad({
+        severidad:"error",
+      });     
+      setAlerta({
+        mensaje:"Debe completar todos los campos",
+      });      
+    }
+
   };
 
   const handleBack = () => {
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -113,7 +159,13 @@ const VerticalLinearStepper= () =>  {
       let asignado = await Controller.POST(props);
       console.log("asignado",asignado);
       if (asignado) {
-        alert("Alumno asignado Satisfactoriamente");
+        setSeveridad({
+          severidad:severidad.severS,
+        });     
+        setAlerta({
+          mensaje:"Asignación realizada satisfactoriamente",
+        });   
+        //alert("Alumno asignado Satisfactoriamente");
       }
       console.log("got updated alumno from back:", asignado);
     
@@ -124,7 +176,6 @@ const VerticalLinearStepper= () =>  {
         return(
           <div>
             <ListaFacultades
-              setPDisabled={setPDisabled}
               programas={programas}
               programa={programa[0]}
               setPrograma={setPrograma}
@@ -143,6 +194,7 @@ const VerticalLinearStepper= () =>  {
             />
           </div>
         );
+        
       case 2:
         console.log("subprog: ",subprograma);
         return(
@@ -190,7 +242,13 @@ const VerticalLinearStepper= () =>  {
   }
   
   return (
+    
     <div className={classes.root}>
+      <Alertas
+        severity={severidad.severidad}
+        titulo={"Observación:"}
+        alerta={alerta}
+      />
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
