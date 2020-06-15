@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
-import { IconButton, Grid, Typography } from "@material-ui/core";
+import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
+import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 const styles = {
   control: {
     textAlign: "center",
@@ -20,57 +21,38 @@ class Controles extends Component {
     //console.log( "1 semana al pasado");
     this.props.saltoEnElTiempo(saltoEnElTiempo);
   };
-
+  handleOnChangeProceso(proceso) {
+    console.log("proceso seleccionado: ", proceso);
+  }
   render() {
     return (
       <div>
-        <Grid container spacing={3} alignContent="center">
-          <Grid item md={3} xs={5}>
-            <h1 style={styles.control}>
-              <IconButton
-                color="primary"
-                aria-label="delete"
-                onClick={() => this.saltoEnElTiempoLocal(-30)}
-              >
-                <ArrowBackIosOutlinedIcon />
-              </IconButton>
-
-              {this.props.fecha.mes || "Mes Actual"}
-
-              <IconButton
-                color="primary"
-                aria-label="delete"
-                onClick={() => this.saltoEnElTiempoLocal(30)}
-              >
-                <ArrowForwardIosOutlinedIcon />
-              </IconButton>
-            </h1>
+        <Paper>
+          <Grid container spacing={0} alignContent="center">
+          <Grid item md={2} xs={2}>
+            
           </Grid>
-          <Grid item md={6} xs={5}>
-            <Typography variant="h4" style={styles.control}>
-              {"Hoy: "+ (new Date(this.props.fecha.fecha)).toDateString()}{" "}
-            </Typography>
+          
+          <Grid item md={2} xs={2}>
+            
           </Grid>
-          <Grid item md={3} xs={5}>
-            <h1 style={styles.control}>
-              <IconButton
-                color="primary"
-                aria-label="delete"
-                onClick={() => this.saltoEnElTiempoLocal(-7)}
-              >
-                <ArrowBackIosOutlinedIcon />
-              </IconButton>
-              {"Semana " + this.props.fecha.semana || "Semana Actual"}
-              <IconButton
-                color="primary"
-                aria-label="delete"
-                onClick={() => this.saltoEnElTiempoLocal(7)}
-              >
-                <ArrowForwardIosOutlinedIcon />
-              </IconButton>
-            </h1>
+          <Grid item md={3} xs={4}>
+            <h4 style={styles.control}>
+              {"Hoy: " + new Date(this.props.fecha.fecha).toDateString()}{" "}
+            </h4>
+          </Grid>
+
+          
+          <Grid item md={2} xs={2}>
+            
+          </Grid>
+          
+          <Grid item md={2} xs={2}>
+            
           </Grid>
         </Grid>
+        </Paper>
+        
       </div>
     );
   }
