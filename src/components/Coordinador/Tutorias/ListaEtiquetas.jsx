@@ -8,7 +8,6 @@ import * as Conexion from "./../../../Conexion/Controller";
 import { InputLabel, Paper } from "@material-ui/core";
 const estilos = {
   paper: {
-    marginTop: "1%",
     marginRight: "10%",
     marginLeft: "10%",
     flexDirection: "column",
@@ -60,15 +59,17 @@ class ListaEtiquetas extends React.Component {
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
-        <br />
-        <InputLabel id="demo-simple-select-placeholder-label-label">
+        <br/>
+        {this.props.titulo?<InputLabel id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
-        </InputLabel>
-        <br />
+        </InputLabel>:<></>
+        }
+        
+        {this.props.small?<></>:<br />}
         <Autocomplete
           color="primary"
           multiple
-          options={this.state.etiquetas}
+          options={this.state.etiquetas || []}
           disableCloseOnSelect
           getOptionLabel={(etiqueta) => etiqueta.DESCRIPCION}
           renderOption={(option, { selected }) => {
@@ -89,7 +90,7 @@ class ListaEtiquetas extends React.Component {
             <TextField
               {...params}
               variant="outlined"
-              label="Etiquetas"
+              label={this.props.label || "Etiquetas"}
               color="primary"
             />
           )}

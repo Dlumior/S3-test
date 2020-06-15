@@ -8,7 +8,7 @@ const estilos = {
   paper: {
     marginLeft: "10%",
     marginRight: "10%",
-    marginTop: "5%",
+    marginTop: "3%",
     flexDirection: "column",
   },
 };
@@ -72,6 +72,7 @@ class ListaComboBox extends Component {
       this.setState({local:true});
       return;
     }
+    
     let listaItems = await Conexion.GET({ servicio: this.props.enlace });
     this.setState({ listaItems: listaItems[this.props.keyServicio] });
   }
@@ -97,7 +98,7 @@ class ListaComboBox extends Component {
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
-        <br />
+        {this.props.small?<></>:<br />}
         <FormControl fullWidth onClick={this.handleOnClick}>
 
           <InputLabel >
@@ -116,7 +117,7 @@ class ListaComboBox extends Component {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>Escoja el programa</FormHelperText>
+            <FormHelperText>{this.props.placeholder?this.props.placeholder:"placeholder sin definir"}</FormHelperText>
         </FormControl>
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>
       </Paper>
