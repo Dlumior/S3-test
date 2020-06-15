@@ -43,7 +43,6 @@ const PlanDeAccion = (props) => {
     const [cantCompromisos, setCantCompromisos]=useState(0);
     //const [plan,setPlan]=useState([]);
     const [compromiso,setCompromiso]=useState({
-        id:'',
         campo:'',
         check:false, 
     });
@@ -52,7 +51,6 @@ const PlanDeAccion = (props) => {
       setCompromiso({
         ...compromiso,
         campo: e.target.value,
-        id:cantCompromisos,
       });
   
     }; 
@@ -86,8 +84,7 @@ const PlanDeAccion = (props) => {
             <div>
               {arregloPlan.map((item) => (  
                 <Grid>
-                  <Checkbox color="primary" id={cantCompromisos}>
-                    
+                  <Checkbox color="primary" id={cantCompromisos}>                     
                     </Checkbox>
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}

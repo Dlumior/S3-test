@@ -4,7 +4,7 @@ async function onSignIn(googleUser) {
   var profile = googleUser.getBasicProfile();
   if (!profile) return;
 
-  const usuarioCorreo = "lsaf@pucp.edu.pe";//profile.getEmail();
+  const usuarioCorreo = "alumno@pucp.edu.pe";//profile.getEmail();
   var auth2 = gapi.auth2.getAuthInstance();
   await auth2.signOut();
   // Si aun no estoy logueado
@@ -22,5 +22,5 @@ async function onSignIn(googleUser) {
   sessionStorage.setItem("Sesion",JSON.stringify(
     responseJson
   ));
-  window.location.replace("./"+ responseJson.usuario.ROLs[0].DESCRIPCION.toLowerCase());
+  window.location.replace("./"+ responseJson.usuario.ROL[0].DESCRIPCION.toLowerCase());
 }

@@ -37,6 +37,8 @@ const ComboBoxPrograma = (props) => {
     setPDisabled(false);
   };
 
+  console.log(programas);
+
   return (
     <>
       <IconButton color="primary" className={classes.icon}>
@@ -50,13 +52,15 @@ const ComboBoxPrograma = (props) => {
           value={programa}
           onChange={handleChangePrograma}
         >
-          {programas?
-          programas.map((item) => (
-            <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-              {item.PROGRAMA.NOMBRE
-              }
-            </MenuItem>
-          )):<></>}
+          {programas ? (
+            programas.map((item) => (
+              <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
+                {item.PROGRAMA.NOMBRE}
+              </MenuItem>
+            ))
+          ) : (
+            <></>
+          )}
         </Select>
       </FormControl>
     </>

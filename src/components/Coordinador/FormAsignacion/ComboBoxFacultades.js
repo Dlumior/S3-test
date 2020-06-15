@@ -30,11 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 const ComboBoxPrograma = (props) => {
   const classes = useStyles();
-  const { setPDisabled, programas, programa, setPrograma } = props;
+  const {programas, programa, setPrograma } = props;
 
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
-    setPDisabled(false);
   };
 
   return (
@@ -43,9 +42,11 @@ const ComboBoxPrograma = (props) => {
         <InputLabel id="demo-simple-select-label">Facultad</InputLabel>
         <Select
           labelId="demo-simple-select-label"
+          label={programa}
           id="demo-simple-select"
           value={programa}
           onChange={handleChangePrograma}
+          
         >
           {programas.map((item) => (
             <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>

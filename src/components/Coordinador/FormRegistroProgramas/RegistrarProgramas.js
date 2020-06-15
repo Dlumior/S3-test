@@ -18,6 +18,8 @@ import ComboBoxPrograma from "../../Administrador/RegistrarCoordinador/ComboBoxP
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
 import Alertas from "../Alertas";
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -179,7 +181,14 @@ const RegistrarProgramas = () => {
         alerta={alerta}
       />
         <DialogTitle id="form-dialog-title">
-          Formulario de registro de Programa
+        <Grid container md={12} spacing={1}>
+            <Grid item md={11} >
+              Formulario de Registro de Programa
+            </Grid>
+            <Grid item md={1} alignContent="flex-end">
+              <CloseRoundedIcon onClick={handleClose}/>
+            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={2}>

@@ -2,10 +2,13 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, Grid } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaFacultad from "./TablaFacultad";
 import Button from "@material-ui/core/Button";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import IconButton from "@material-ui/core/IconButton";
 
 
 const style = {
@@ -46,12 +49,24 @@ class ListaFacultades extends React.Component {
           codigo:element.ID_PROGRAMA,
           nombre:element.NOMBRE,
           boton:<div> 
-                      <Button 
+                <Grid item md={4}> 
+                  <IconButton color="primary">
+                      <EditRoundedIcon
+                      color="secondary"
+                      fontsize="large" />
+                  </IconButton>
+                  <IconButton color="primary">
+                      <DeleteRoundedIcon
+                      color="error"
+                      fontsize="large" />
+                  </IconButton> 
+                </Grid>  
+                      {/*<Button 
                           variant="outlined"
                           color="primary">
                           Ver Facultad
-                      </Button>
-                  </div>
+                      </Button>*/}
+                </div>
           });  
 
       }
@@ -67,7 +82,7 @@ class ListaFacultades extends React.Component {
             field: "nombre",
           },
           {
-            title:"",
+            title:"Acciones",
             field:"boton"
            }
         ],

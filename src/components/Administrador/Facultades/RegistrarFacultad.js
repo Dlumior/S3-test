@@ -13,6 +13,8 @@ import { GET } from "../../../Conexion/Controller";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Alertas from "../../Coordinador/Alertas"
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+
 
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
@@ -194,10 +196,17 @@ const RegistrarFacultad = () => {
         alerta={alerta}
       />
         <DialogTitle id="form-dialog-title">
-          Formulario de registro de Facultad
+        <Grid container md={12} spacing={1}>
+            <Grid item md={11} >
+              Formulario de Registro de Facultad
+            </Grid>
+            <Grid item md={1} alignContent="flex-end">
+              <CloseRoundedIcon onClick={handleClose}/>
+            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={2}>
+          <Grid container spacing={12}>
             <Grid item md={12} sm container>
             <Grid item xs container direction="column" justify={"center"} spacing={2}>
               <Grid item xs>

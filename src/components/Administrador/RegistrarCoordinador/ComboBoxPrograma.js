@@ -10,7 +10,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: theme.spacing(35),
+    width: theme.spacing(35),
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -19,21 +19,21 @@ const useStyles = makeStyles((theme) => ({
 
 const ComboBoxPrograma = (props) => {
   const classes = useStyles();
-  const { setPDisabled, programas, programa, setPrograma, cantProgramas } = props;
+  const { programas, programa, setPrograma, cantProgramas } = props;
 
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
-    setPDisabled(false);
   };
 
   return (
-    <FormControl className={classes.formControl}>
+    <FormControl style={{width:230 }}>
       <InputLabel id={cantProgramas}>Facultades</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id={cantProgramas}
         value={programa}
         onChange={handleChangePrograma}
+        fullWidth
       >
         {programas.map((item) => (
           <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>

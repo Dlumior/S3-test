@@ -91,6 +91,12 @@ class ConfigurarInstitucion extends React.Component {
     this.setState(this.state.institucion);
     console.log("dominio:", this.state.institucion.DOMINIO);
   }
+  handleOnChangeDominio2 = (event) => {
+    console.log("Dominio2:", event.target.value);
+    this.state.institucion.DOMINIO2 = event.target.value;
+    this.setState(this.state.institucion);
+    console.log("dominio2:", this.state.institucion.DOMINIO2);
+  }
   handleOnChangeTelefono = (event) => {
     console.log("telefono:", event.target.value);
     this.state.institucion.TELEFONO = event.target.value;
@@ -177,6 +183,7 @@ class ConfigurarInstitucion extends React.Component {
       INICIALES,
       IMAGEN,
       DOMINIO,
+      DOMINIO2,
       TELEFONO,
       UBICACION,
       PAGINA_WEB,
@@ -191,7 +198,8 @@ class ConfigurarInstitucion extends React.Component {
         TELEFONO: TELEFONO,
         PAGINA_WEB: PAGINA_WEB,
         UBICACION: UBICACION,
-        DOMINIO: DOMINIO,        
+        DOMINIO: DOMINIO,
+        DOMINIO2:DOMINIO2,        
         EXTENSION:EXTENSION,
       },
     };
@@ -230,9 +238,7 @@ async componentDidMount() {
     console.log("got institucion from back:", getInsitucion.institucion);
     this.setState({institucion:getInsitucion.institucion});
     console.log("state:", this.state.institucion);   
-    console.log("state:", getInsitucion.institucion.NOMBRE); 
-
-    
+    console.log("state:", getInsitucion.institucion.NOMBRE);     
 }
 
 render(){
@@ -320,6 +326,18 @@ render(){
                             label="Dominio"
                             value={this.state.institucion.DOMINIO}
                             onChange={this.handleOnChangeDominio}
+                            fullWidth
+                            InputLabelProps={{
+                              shrink: true,
+                          }}
+                        />
+                        <TextField
+                            disabled={this.state.deshabilitar}
+                            margin="dense"
+                            id="DOMINIO"
+                            label="Dominio Opcional"
+                            value={this.state.institucion.DOMINIO2}
+                            onChange={this.handleOnChangeDominio2}
                             fullWidth
                             InputLabelProps={{
                               shrink: true,

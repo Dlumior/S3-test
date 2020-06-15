@@ -14,6 +14,7 @@ import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCh
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import PlanDeAccion from './PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
+import { getUser } from "../../../Sesion/Sesion";
 
 const style = {
   paper: {
@@ -126,11 +127,11 @@ const RegistrarSesion = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
+  
   const handleClick = async (e, datosForm, setDatosForm) => {
     const nuevaSesion = {
       sesion: {
-        ID_TUTOR: "53",
+        ID_TUTOR: (getUser()).usuario.ID_USUARIO,
         ID_PROCESO_TUTORIA: "11",
         LUGAR: datosForm.lugar,
         MOTIVO: "PUCP",
