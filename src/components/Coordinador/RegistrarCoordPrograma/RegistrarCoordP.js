@@ -217,7 +217,7 @@ const RegistrarCoordinador = (props) => {
           mensaje:"Se registro al coordinador satisfactoriamente",
         });      
         console.log("severidad= ",severidad.severidad);
-        setFlag(flag=>flag+1);
+        //setFlag(flag=>flag+1);
         console.log("flag: ",flag);
         //setOpen(false);
       }

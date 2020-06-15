@@ -105,7 +105,7 @@ const RegistrarCoordinador = (props) => {
     CONTRASENHA: "",
     DIRECCION: "",
     IMAGEN: null,
-    PROGRAMA:[],
+    FACULTAD:[],
   });
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
@@ -195,14 +195,14 @@ const RegistrarCoordinador = (props) => {
       programasSeleccionados.push(programa);
       console.log("programasSelecc",programasSeleccionados)
 
-      datosForm.PROGRAMA=programasSeleccionados;
+      datosForm.FACULTAD=programasSeleccionados;
       datosForm.CONTRASENHA="contra";
       setDatosForm({
         ...datosForm,
       });
 
       console.log(datosForm);      
-      const props = { servicio: "/api/coordinador/", request: {coordinador: datosForm} };
+      const props = { servicio: "/api/coordinadorfacultad", request: {coordinador: datosForm} };
       console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);
@@ -215,7 +215,7 @@ const RegistrarCoordinador = (props) => {
           mensaje:"Se registro al coordinador satisfactoriamente",
         });      
         console.log("severidad= ",severidad.severidad);
-        setFlag(flag=>flag+1);
+        //setFlag(flag=>flag+1);
         console.log("flag: ",flag);
         //setOpen(false);
       }

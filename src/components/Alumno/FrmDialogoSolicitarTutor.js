@@ -76,7 +76,7 @@ class FrmDialogoSolicitarTutor extends Component {
         const nuevaSolicitud = {
             sesion: {
                 ID_TUTOR: this.props.dispo.ID_TUTOR, 
-                ID_PROCESO_TUTORIA: 1,
+                ID_PROCESO_TUTORIA: 41,
                 LUGAR: this.props.dispo.LUGAR,
                 MOTIVO: this.state._motivoSelecc,
                 DESCRIPCION:      this.state.descripcion,

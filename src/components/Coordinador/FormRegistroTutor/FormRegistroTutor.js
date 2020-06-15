@@ -99,7 +99,7 @@ const handleCode = (e, datos, setDatos, errors, setErrors) => {
 
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
-  const idCoordinador = "202";
+  const idCoordinador = "264";
   const { datos, setDatos } = props;
   const [errors, setErrors] = useState(errorObj);
   const [coordinador, setCoordinador] = useState({});

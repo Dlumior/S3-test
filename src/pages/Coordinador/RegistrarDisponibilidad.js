@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const RegistrarDisponibilidad = () => {
   const classes = useStyles();
 
-  const idCoordinador = "240";
+  const idCoordinador = "264";
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState(-1);
   const [tutores, setTutores] = useState({

@@ -141,22 +141,25 @@ const RegistrarProgramas = () => {
       let nuevoProg = await Conexion.POST(props);
       console.log("got updated prog from back:", nuevoProg);
       */
-      if (nuevoProg){      
-        setSeveridad({
-          severidad:severidad.severS,
-        });     
-        setAlerta({
-          mensaje:alerta.mensajeExito,
-        });      
-        console.log("severidad= ",severidad.severidad);
-        //setOpen(false);
-
+      if (nuevoProg.registro.ok===1){
+        if (nuevoProg){      
+          setSeveridad({
+            severidad:severidad.severS,
+          });     
+          setAlerta({
+            mensaje:alerta.mensajeExito,
+          });      
+          console.log("severidad= ",severidad.severidad);
+          //setOpen(false);
+  
+          
+          return(
+            <div>
+              <Programas/>
+            </div>
+          );
         
-        return(
-          <div>
-            <Programas/>
-          </div>
-        );
+      }
       }
 
     }  
