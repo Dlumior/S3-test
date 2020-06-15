@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import DisponibilidadCard from "./DisponibilidadCard";
 import { GET } from "../../../Conexion/Controller";
 import { Paper, Typography } from "@material-ui/core";
-import SesionesCard from "../../Tutor/Sesiones/SesionesCard"
-
+import SesionesCard from "../../Tutor/Sesiones/SesionesCard";
+const estilos = {
+  centerizable: {
+    textAlign: "center",
+  },
+};
 class ArregloHorarios extends Component {
   constructor() {
     super();
@@ -13,24 +17,27 @@ class ArregloHorarios extends Component {
     this.renderHorarios = this.renderHorarios.bind(this);
   }
   renderHorarios = (horarios) => {
-    console.log("this.props",this.props);
+    console.log("this.props", this.props);
     if (horarios.data) {
       return (
         <div>
-          {horarios.data.map((element) => (
-            this.props.tipo==="disponibilidad"?
-            <DisponibilidadCard disponibilidad={element} 
-            fexaForm = {this.props.fexaForm}/>
-            : 
-            <SesionesCard cita={element}/>
-          ))}
-          {horarios.data.length===0?
-          <Paper>
-            <Typography variant="h6">
-            Aun no hay horarios disponibles
-            </Typography>
-
-          </Paper>:<></>}
+          {horarios.data.map((element) =>
+            this.props.tipo === "disponibilidad" ? (
+              <DisponibilidadCard
+                disponibilidad={element}
+                fexaForm={this.props.fexaForm}
+              />
+            ) : (
+              <SesionesCard cita={element} />
+            )
+          )}
+          {horarios.data.length === 0 ? (
+            <Paper>
+              <p style={estilos.centerizable}>Aun no hay horarios</p>
+            </Paper>
+          ) : (
+            <></>
+          )}
         </div>
       );
     }
