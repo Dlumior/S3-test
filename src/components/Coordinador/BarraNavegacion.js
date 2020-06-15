@@ -24,7 +24,7 @@ import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRo
 import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link as LinkRouter } from "react-router-dom";
-import { useUserValue } from "../../Sesion/Sesion";
+import { useUserValue, getUser } from "../../Sesion/Sesion";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
 
@@ -86,11 +86,35 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [{},dispatch] = useUserValue();
+  const dataCoordF=[
+    "Perfil",
+    "Programas",
+    "Registrar Coordinadores",
+    "Procesos de Tutoria",
+    "Registrar Alumnos",
+    "Registrar Tutores",
+    "Registrar disponibilidades",
+    "Asignacion de Tutor",
+    "Reportes",
+  ]
+  const dataCoordP=[
+    "Perfil",
+    "Programas",
+    "Procesos de Tutoria",
+    "Registrar Alumnos",
+    "Registrar Tutores",
+    "Registrar disponibilidades",
+    "Asignacion de Tutor",
+    "Reportes",
+  ]
+  //if (getUser().usuario)
+
   const handleClick = () => {
     //te odio hooks
     console.log("Admin LOG OUTTTTT",props);
@@ -148,29 +172,29 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-          {[
-            "Perfil",
-            "Programas",
-            "Procesos de Tutoria",
-            "Registrar Alumnos",
-            "Registrar Tutores",
-            "Registrar disponibilidades",
-            "Asignacion de Tutor",
-            "Reportes",
-          ].map((text, index) => (
+            {[
+              "Perfil",
+              "Programas",
+              "Registrar Coordinadores",
+              "Procesos de Tutoria",
+              "Registrar Alumnos",
+              "Registrar Tutores",
+              "Registrar disponibilidades",
+              "Asignacion de Tutor",
+              "Reportes",
+            ].map((text, index) => (
             <ListItem
               button
               key={text}
               component={LinkRouter}
               //to={"/coordinador/" + text.toLowerCase()}
-              to={index===7?"/":"/coordinador/" + text.split(' ').join('').toLowerCase()}
-              
+              to={index===8?"/":"/coordinador/" + text.split(' ').join('').toLowerCase()}              
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
                  index === 1 ? <AccountBalanceRoundedIcon /> : 
-                 index === 5 ? <SupervisorAccountRoundedIcon/> :
-                 index === 6 ? <AssessmentRoundedIcon/> :
+                 index === 7 ? <SupervisorAccountRoundedIcon/> :
+                 index === 8 ? <AssessmentRoundedIcon/> :
                  <NoteAddRoundedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />

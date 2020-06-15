@@ -123,36 +123,35 @@ const RegistrarFacultad = () => {
       console.log("got updated coord from back:", nuevaFacu);
 
       console.log("esta checkk:", checked);
-      console.log("esta checkk:", nuevaFacu.facultad.ID_PROGRAMA);
+      //si se registro bien ok==1, duplicado ok===0, otro error=-1
+      if(nuevaFacu.registro.ok===1){
+          console.log("esta checkk:", nuevaFacu.registro.facultad.ID_PROGRAMA);
 
-      var idProg=nuevaFacu.facultad.ID_PROGRAMA;
-      if (checked){
-        if (
-          errors.name.error || datosForm.NOMBRE===''
-        ) {
-          setSeveridad({
-            severidad:severidad.severE,
-          });     
-          setAlerta({
-            mensaje:alerta.mensajeError,
-          });      
-          console.log("severidad= ",severidad.severidad);
+        var idProg=nuevaFacu.registro.facultad.ID_PROGRAMA;
+        if (checked){
+          datosPrograma.ID_FACULTAD=idProg;
+          datosPrograma.NOMBRE=nuevaFacu.registro.facultad.NOMBRE;
+          setDatosPrograma({
+            ...datosPrograma,         
+          });
+          console.log(datosPrograma);
+
+          const props2 = { servicio: "/api/programa", request: {programa: datosPrograma} };
+          console.log("saving new prog in DB:",   );
+          let nuevoProg = await Conexion.POST(props2)
+          console.log("got updated prog from back:", nuevoProg);
+          if (nuevoProg){      
+            setSeveridad({
+              severidad:severidad.severS,
+            });     
+            setAlerta({
+              mensaje:"Se ha registrado la facultad satisfactoriamente"
+            });      
+            console.log("severidad= ",severidad.severidad);
+          }
           return;
         }
-        datosPrograma.ID_FACULTAD=idProg;
-        datosPrograma.NOMBRE=nuevaFacu.facultad.NOMBRE;
-        setDatosPrograma({
-          ...datosPrograma,
-          //ID_FACULTAD:idProg,
-          //NOMBRE:nuevaFacu.facultad.NOMBRE,          
-        });
-        console.log(datosPrograma);
-
-        const props2 = { servicio: "/api/programa", request: {programa: datosPrograma} };
-        console.log("saving new prog in DB:",   );
-        let nuevoProg = await Conexion.POST(props2)
-        console.log("got updated prog from back:", nuevoProg);
-        if (nuevoProg){      
+        if (nuevaFacu ||checked===false){      
           setSeveridad({
             severidad:severidad.severS,
           });     
@@ -160,19 +159,26 @@ const RegistrarFacultad = () => {
             mensaje:alerta.mensajeExito,
           });      
           console.log("severidad= ",severidad.severidad);
+          datosForm.NOMBRE="";
         }
-        return;
-      }
-      if (nuevaFacu ||checked===false){      
+
+      }else if(nuevaFacu.registro.ok===0){
         setSeveridad({
-          severidad:severidad.severS,
+          severidad:"error",
         });     
         setAlerta({
-          mensaje:alerta.mensajeExito,
+          mensaje:"La Facultad ya ha sido registrada",
         });      
-        console.log("severidad= ",severidad.severidad);
-        datosForm.NOMBRE="";
+
+      }else{
+        setSeveridad({
+          severidad:severidad.severE,
+        });     
+        setAlerta({
+          mensaje:alerta.mensajeError,
+        });      
       }
+      
 
     }  
   };
