@@ -13,10 +13,10 @@ class IniciarSesion extends Component {
   constructor() {
     super();
     this.state = {
-      usuario: {
+      
         Usuario: "",
         Contrasenia: "",
-      },
+      
       errores: [],
       alert: {
         mensajeStrong: "",
@@ -42,7 +42,7 @@ class IniciarSesion extends Component {
     //console.log("validacion al click: ", this.state.errores);
     let [{ usuario }, dispatch] = this.context;
     //console.log("this.context ", usuario);
-    const { Usuario, Contrasenia } = this.state.usuario;
+    const { Usuario, Contrasenia } = this.state;
     //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 
     let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
@@ -50,36 +50,22 @@ class IniciarSesion extends Component {
       console.log("Parece que login", status);
       const move_to = status.data.usuario;
       //console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
-      this.props.history.push("./" + move_to.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase());
+      this.props.history.push("./" + move_to.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0]);
     }else{
       console.log("Parece NO que login", status);
-
     }
-
-    //const  [{sesion},dispatch] = this.context;
-    // if(status.status){
-    //   console.log("Parece que ok",status);
-    //   this.props.history.push('/administrador/institucion');
-    // console.log("-###: ", sesion);
-
-    // }else {
-    //   console.log("waaaaa",status);
-    // }
   };
 
-  handleOnChange = (e) => {
-    // nombre y descripcion
-    let usuario = Object.assign({}, this.state.usuario);
-    console.log(e);
-    usuario[e.name] = e.value;
-    this.setState({ usuario: usuario });
-    console.log("Show ", usuario);
+  handleOnChange =(e) => {
+    this.setState({[e.name]: e.value});
   };
   render() {
     let yo = getUser();
     if (yo) {
+      //en caso ya este logueado
+      const DESTINO = yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0].split(" ")[0];
       this.props.history.push(
-        "./" + yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase()
+        "./" + DESTINO
       );
     }
     return (
@@ -116,7 +102,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
-                  inicial="lsaf@pucp.pe"
+                  inicial="tupia@pucp.pe"
                   validacion={{ lim: 25 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
@@ -127,7 +113,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Contrasenia"
                   label="Contraseña"
-                  inicial="contrasenha"
+                  inicial="tys"
                   validacion={{ lim: 50 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}

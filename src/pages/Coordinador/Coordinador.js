@@ -18,7 +18,7 @@ const Coordinador = (props) => {
   if (!auth) {
     props.history.push("/");
   } else {
-    const move_to = usuario.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase();
+    const move_to = usuario.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0];
     console.log("Ruta", move_to);
 
     if (move_to !== "coordinador") {

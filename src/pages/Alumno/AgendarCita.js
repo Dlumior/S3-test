@@ -70,7 +70,7 @@ class AgendarCita extends Component {
   render() {
   let yo =getUser(); 
   console.log("AGENDAR CITA> Alguien esta logueado",yo);
-  console.log("AGENDAR CITA> Alguien esta rol",yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase());
+  console.log("AGENDAR CITA> Alguien esta rol",yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0]);
     return this.renderxTipoProceso();
   }
 }
