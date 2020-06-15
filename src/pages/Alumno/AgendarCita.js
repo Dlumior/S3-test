@@ -10,9 +10,10 @@ import { UserContext, getUser } from "../../Sesion/Sesion";
 import { inicializarSesion } from "../../Sesion/actions/sesionAction";
 
 class AgendarCita extends Component {
-  static contextType = UserContext;
+ 
   constructor() {
     super();
+
     this.state = {
       procesos: [
         //regularTipo1: [0] <- (Tutor Individual - VARIABLE - Solicitado)
@@ -28,8 +29,9 @@ class AgendarCita extends Component {
             //..
             //...(cabe resaltar que en la vista habra una especie de combobox
             //.... para que el alumno eliga el tipo de tutoria que quiera ver)
-
-            proceso: ()=><CalendarioCitas servicio="/api/disponibilidad/listarDia/" tipo="disponibilidad"/> },
+            
+            //proceso: ()=><CalendarioCitas servicio={"/api/disponibilidad/listarDia/" +getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA } tipo="disponibilidad"/> },
+            proceso: ()=><CalendarioCitas servicio={"/api/disponibilidad/listarDia/" +  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA } tipo="disponibilidad"/> },
             { index: 1, titulo: "Tutores", proceso: FrmSolicitarCitaTutor_granito },
           ],
         },
@@ -47,7 +49,7 @@ class AgendarCita extends Component {
     this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
   }
   
-  renderxTipoProceso() {
+  renderxTipoProceso(yo) {
     if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
       console.log("multiProceso: ", this.props.multiProceso);
@@ -60,18 +62,34 @@ class AgendarCita extends Component {
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
         
         <NombrePrincipal titulo={this.state.procesos[0].titulo} />
-        <TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>
+        {/*<TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>*/}
 
+        <TabProceso 
+        procesos={
+         [
+            { index: 0, titulo: "Horarios Disponibles",             
+            
+            proceso: ()=><CalendarioCitas servicio={"/api/disponibilidad/listarPrograma/" 
+            +  yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA + "/" } tipo="disponibilidad"/> },
+            { index: 1, titulo: "Tutores", proceso: FrmSolicitarCitaTutor_granito },
+          ]        
+        } 
+        paper={false}/>
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>
     );
   }
   render() {
+    console.log("AGENDAR_CITA XXXXXXXX",this.props)
   let yo =getUser(); 
   console.log("AGENDAR CITA> Alguien esta logueado",yo);
-  console.log("AGENDAR CITA> Alguien esta rol",yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0]);
-    return this.renderxTipoProceso();
+  console.log("AGENDAR CITA> Alguien esta rol",yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase());
+    return this.renderxTipoProceso(yo);
   }
 }
 export default compose(withRouter)(AgendarCita);
+
+
+
+

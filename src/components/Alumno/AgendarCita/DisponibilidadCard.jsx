@@ -33,6 +33,8 @@ class DisponibilidadCard extends Component {
 
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+
+   
   };
 
 
@@ -45,6 +47,8 @@ class DisponibilidadCard extends Component {
     //console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
   }
+
+  
 
 
   render() {
@@ -69,7 +73,7 @@ class DisponibilidadCard extends Component {
                   display="block"
                   gutterBottom
                 >
-                  {disponibilidad.TUTOR.USUARIO.NOMBRE + " "}
+                  {disponibilidad.TUTOR.USUARIO?.NOMBRE + " "}
                 </Typography>
                 <Typography
                   variant="button"
@@ -78,7 +82,7 @@ class DisponibilidadCard extends Component {
                   display="block"
                   gutterBottom
                 >
-                  {disponibilidad.TUTOR.USUARIO.APELLIDOS}
+                  {disponibilidad.TUTOR.USUARIO?.APELLIDOS}
                 </Typography>
               </Grid>
             </Grid>
@@ -97,7 +101,7 @@ class DisponibilidadCard extends Component {
               </Grid>
               <Grid item md={6} xs={6}>
                 <Chip
-                  label={disponibilidad.HORA_INICIO}
+                  label={disponibilidad?.HORA_INICIO}
                   color="primary"
                   size="small"
                   variant="outlined"
@@ -117,7 +121,7 @@ class DisponibilidadCard extends Component {
               </Grid>
               <Grid item md={6} xs={6}>
                 <Chip
-                  label={disponibilidad.HORA_FIN}
+                  label={disponibilidad?.HORA_FIN}
                   color="primary"
                   size="small"
                   variant="outlined"
@@ -135,18 +139,14 @@ class DisponibilidadCard extends Component {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent>
-            <FrmDialogoSolicitarTutor     dispo={this.props.disponibilidad} 
-            fexaForm ={this.props.fexaForm}   />
+
+            <FrmDialogoSolicitarTutor dispo={this.props.disponibilidad}
+              fexaForm={this.props.fexaForm}   />
+
           </DialogContent>
 
           <DialogActions>
-            <Button
-              size="large"
-              variant="contained"
-              color="primary"
-              onClick={this.handleOnClose}                        >
-              Solicitar Cita
-                        </Button>
+            
           </DialogActions>
         </Dialog>
 
