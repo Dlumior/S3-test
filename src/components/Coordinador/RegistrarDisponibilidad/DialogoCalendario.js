@@ -8,8 +8,11 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import EventsCalendar from "./CalendarioPopup/EventsCalendar";
 
-export default function DialogoCalendario() {
+export default function DialogoCalendario(props) {
   const [open, setOpen] = React.useState(false);
+  const auxTutor = {
+    ID_USUARIO: props.ID,
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,7 +32,9 @@ export default function DialogoCalendario() {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          Disponibildad de {props.titulo}
+        </DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             To subscribe to this website, please enter your email address here.
@@ -43,15 +48,15 @@ export default function DialogoCalendario() {
             type="email"
             fullWidth
           /> */}
-          <EventsCalendar IDTutor={"240"} />
+          <EventsCalendar Tutor={auxTutor} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
+          {/* <Button onClick={handleClose} color="primary">
             Subscribe
-          </Button>
+          </Button> */}
         </DialogActions>
       </Dialog>
     </div>

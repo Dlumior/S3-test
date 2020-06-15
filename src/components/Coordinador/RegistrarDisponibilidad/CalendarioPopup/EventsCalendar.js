@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import Dialogo from "../../../Tutor/RegistrarDisponibilidad/Dialogo";
@@ -17,9 +17,10 @@ const style = {
 };
 
 class EventsCalendar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
+      tutor: this.props.Tutor,
       modalIsOpen: false,
       fecha: "",
       fechaMostrar: "",
@@ -44,15 +45,16 @@ class EventsCalendar extends Component {
   }
 
   async componentDidMount() {
+    console.log(this.state.tutor);
     let listaEventos = [];
     let listaDisponibilidad = await Conexion.GET({
-      servicio: this.state.enlace + this.props.IDTutor,
+      servicio: this.state.enlace + this.state.tutor.ID_USUARIO,
     });
     console.log("disponibilidad", listaDisponibilidad);
     if (listaDisponibilidad) {
       if (!listaDisponibilidad.hasOwnProperty("error")) {
+        await this.setState({ loading: false });
         for (let disp of listaDisponibilidad.data) {
-          await this.setState({ loading: false });
           let evento = {
             title:
               disp.HORA_INICIO.substring(0, 5) +
@@ -98,7 +100,7 @@ class EventsCalendar extends Component {
     if (this.state.bandera !== prevState.bandera) {
       let listaEventos = [];
       let listaDisponibilidad = await Conexion.GET({
-        servicio: this.state.enlace,
+        servicio: this.state.enlace + this.state.tutor.ID_USUARIO,
       });
       console.log("disponibilidad", listaDisponibilidad);
       if (listaDisponibilidad) {

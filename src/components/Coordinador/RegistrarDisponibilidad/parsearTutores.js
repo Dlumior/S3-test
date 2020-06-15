@@ -10,7 +10,10 @@ const parsearTutores = (data) => {
     correo: item.USUARIO.CORREO,
     calendar: (
       <>
-        <DialogoCalendario />
+        <DialogoCalendario
+          ID={item.USUARIO.ID_USUARIO}
+          titulo={item.USUARIO.NOMBRE}
+        />
       </>
     ),
   }));
