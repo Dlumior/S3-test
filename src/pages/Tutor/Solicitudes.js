@@ -6,6 +6,7 @@ import CBoxProcesoTutoria from "../../components/Tutor/ListarSolicitudes/CBoxPro
 import { GET } from "../../Conexion/Controller";
 import ComboBoxPrograma from "../../components/Tutor/ListarAlumnos/ComboBoxPrograma";
 import ComboBoxProcesoTutoria from "../../components/Tutor/ListarAlumnos/ComboBoxProcesoTutoria";
+import { getUser } from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -22,9 +23,11 @@ const useStyles = makeStyles((theme) => ({
 const Solicitudes = () => {
   const classes = useStyles();
 
-  const idTutor = "51";
+  const idTutor = getUser().usuario.ID_USUARIO;
   const [tutor, setTutor] = useState({});
-  const [programas, setProgramas] = useState([]);
+  const [programas, setProgramas] = useState(
+    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
+  );
   const [programa, setPrograma] = useState("");
   const [pDisabled, setPDisabled] = useState(true);
   const [procesosTutoria, setProcesosTutoria] = useState([]);
@@ -32,16 +35,16 @@ const Solicitudes = () => {
   const [solicitudes, setSolicitudes] = useState([]);
 
   //Funcion auxiliar para obtener al tutor y los programas
-  useEffect(() => {
-    async function fetchData() {
-      const endpoint = "/api/tutor/" + idTutor;
-      const params = { servicio: endpoint };
-      const res = await GET(params);
-      setTutor(res.data);
-      setProgramas(res.data.USUARIO_X_PROGRAMAs);
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const endpoint = "/api/tutor/" + idTutor;
+  //     const params = { servicio: endpoint };
+  //     const res = await GET(params);
+  //     setTutor(res.data);
+  //     setProgramas(res.data.USUARIO_X_PROGRAMAs);
+  //   }
+  //   fetchData();
+  // }, []);
 
   //Funcion para obtener los procesos de tutoria
   useEffect(() => {
