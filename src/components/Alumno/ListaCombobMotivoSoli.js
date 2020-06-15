@@ -3,7 +3,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText, Paper } from "@material-ui/core";
-//import * as Conexion from "../../../Conexion/Controller";
+import { GET } from "../../Conexion/Controller";
 
 const estilos = {
   paper: {
@@ -50,10 +50,10 @@ class ListaCombobMotivoSoli extends Component {
       mensajeError: "",
       local: false,
     };
-    {/*this.handleOnChange = this.handleOnChange.bind(this);*/}
+    this.handleOnChange = this.handleOnChange.bind(this);
   
     }
-    /*
+    
     async handleOnChange(e) {
       //if lcal
     if (this.state.item.length === 0) {
@@ -70,7 +70,7 @@ class ListaCombobMotivoSoli extends Component {
     }
     let item = e.target.value;
     let listaItems = [];
-    listaItems.push(item[this.props.id]);
+    listaItems.push(item);
     await this.props.escogerItem(listaItems);
     this.setState({ item: e.target.value });
     e.target.value = this.state.item;
@@ -82,7 +82,7 @@ class ListaCombobMotivoSoli extends Component {
       this.setState({local:true});
       return;
     }
-    let listaItems = await Conexion.GET({ servicio: this.props.enlace });
+    let listaItems = await  GET({ servicio: this.props.enlace });
     this.setState({ listaItems: listaItems[this.props.keyServicio] });
   }
   shouldComponentUpdate(nextState, nextProps) {
@@ -95,15 +95,24 @@ class ListaCombobMotivoSoli extends Component {
     return false;
   }
 
-
-  */
+  handleOnClick(e){
+    console.log("CLLIIIIIIICK");
+    if (this.state.item.length === 0) {
+      if (this.state.mensajeError.length === 0) {
+        this.setState({
+          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
+        });
+      }
+    }
+  }
+  
  
 
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
         <br />
-        <FormControl fullWidth>
+        <FormControl fullWidth onclick={this.handleOnClick}>
           <InputLabel >
             {this.props.titulo}
           </InputLabel>
@@ -113,21 +122,23 @@ class ListaCombobMotivoSoli extends Component {
             onChange={this.handleOnChange}
             //displayEmpty
           >
-              {/**
+             
                {this.state.listaItems.map((item) => (
               <MenuItem key={item[this.props.id]} value={item}>
                 {" "}
                 {item[this.props.nombre]}
               </MenuItem>
             ))}
-               */}
+               
 
+          {/*
           <MenuItem value={1}>Académico</MenuItem>
           <MenuItem value={2}>Académico Administrativo</MenuItem>
           <MenuItem value={3}>Vocacional</MenuItem>
           <MenuItem value={4}>Personal</MenuItem>
           <MenuItem value={5}>Otro</MenuItem>
-        
+          */}
+
           </Select>
           <FormHelperText>Escoja el motivo</FormHelperText>
         </FormControl>

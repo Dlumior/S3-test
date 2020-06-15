@@ -68,6 +68,9 @@ class CalendarioCitas extends Component {
     this.setState({
       fechaControles: { mes: mesesAnio[fechaActual.getMonth() + 1], semana: 1, fecha: fechaActual },
     });
+    
+    console.log("CALENDARIO_CITAS>>> XXXXX ",this.props.servicio);
+
      this.setState({
       lunesActual: new Date(
         await fechaActual.setDate(fechaActual.getDate() - offset)
