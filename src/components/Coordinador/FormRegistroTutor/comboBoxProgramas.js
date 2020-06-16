@@ -40,7 +40,7 @@ const ComboBoxPrograma = (props) => {
         >
           {programas.map((item) => (
             <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-              {item.NOMBRE}
+              {item.PROGRAMA.NOMBRE}
             </MenuItem>
           ))}
         </Select>
