@@ -1,7 +1,7 @@
 import React from "react";
 import Datos from "../../components/Alumno/Datos";
 import { Grid, makeStyles } from "@material-ui/core";
-
+import {getUser} from "../../Sesion/Sesion";
 import ImgAlumno from "../../components/Alumno/alumno.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
 
@@ -16,7 +16,7 @@ const Perfil = () => {
   return (
     <div>
       <CabeceraPerfil titulo="Alumno" 
-                      nombre="RODRIGUEZ GUTIERREZ, Stéfano André"
+                      nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
                       imagen={ImgAlumno}
       />
       <Grid

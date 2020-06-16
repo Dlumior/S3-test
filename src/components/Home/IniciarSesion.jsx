@@ -102,8 +102,8 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
-                  inicial="tupia@pucp.pe"
                   validacion={{ lim: 30 }}
+                  inicial="tupia@pucp.pe"
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
                 />
@@ -113,7 +113,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Contrasenia"
                   label="Contraseña"
-                  inicial="tys"
+                  inicial="sudo tys"
                   validacion={{ lim: 50 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}

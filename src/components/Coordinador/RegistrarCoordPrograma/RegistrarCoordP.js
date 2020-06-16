@@ -114,7 +114,7 @@ const RegistrarCoordinador = (props) => {
   const [errors, setErrors] = useState(errorObj);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
-    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongError: "por favor revisalos!",
     mensajeStrongExito: "satisfactoriamente!",
     mensajeError: "Existen errores al completar el formulario",
     mensajeExito: "Coordinador registrado",

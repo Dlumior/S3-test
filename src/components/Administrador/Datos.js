@@ -1,5 +1,6 @@
 import React from "react";
 import { Paper, TextField, Grid, Button, makeStyles } from "@material-ui/core";
+import {getUser} from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -24,6 +25,7 @@ const Datos = () => {
               label="Codigo"
               type="text"
               fullWidth
+              defaultValue = {getUser().usuario.CODIGO}
             />
           </Grid>
           <Grid item xs={6}>
@@ -34,6 +36,7 @@ const Datos = () => {
               label="Correo"
               type="email"
               fullWidth
+              defaultValue = {getUser().usuario.CORREO}
             />
           </Grid>
         </Grid>

@@ -61,7 +61,7 @@ const RegistrarProgramas = () => {
   const [programa, setPrograma] = useState([]);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
-    mensajeStrongError: "porfavor revisalos!",
+    mensajeStrongError: "por favor revisalos!",
     mensajeStrongExito: "satisfactoriamente!",
     mensajeError: "Existen errores al completar el formulario",
     mensajeExito: "Programa registrado",
