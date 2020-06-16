@@ -6,6 +6,7 @@ import { GET } from "../../Conexion/Controller";
 import parsearTutores from "../../components/Coordinador/RegistrarDisponibilidad/parsearTutores";
 import TablaTutores from "../../components/Coordinador/RegistrarDisponibilidad/TablaTutores";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { getUser } from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -22,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
 const RegistrarDisponibilidad = () => {
   const classes = useStyles();
 
-  const idCoordinador = "264";
-  const [programas, setProgramas] = useState([]);
+  const idCoordinador = getUser().usuario.ID_USUARIO;
+  const [programas, setProgramas] = useState(
+    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
+  );
   const [programa, setPrograma] = useState(-1);
   const [tutores, setTutores] = useState({
     columns: [
@@ -42,16 +45,16 @@ const RegistrarDisponibilidad = () => {
   });
 
   //Funcion auxiliar para obtener el coordinador y sus programas
-  useEffect(() => {
-    async function fetchProgramas() {
-      const endpoint = "/api/coordinador/" + idCoordinador;
-      const params = { servicio: endpoint };
-      const res = await GET(params);
-      console.log(res.coordinador.PROGRAMAs);
-      setProgramas(res.coordinador.PROGRAMAs);
-    }
-    fetchProgramas();
-  }, [idCoordinador]);
+  // useEffect(() => {
+  //   async function fetchProgramas() {
+  //     const endpoint = "/api/coordinador/" + idCoordinador;
+  //     const params = { servicio: endpoint };
+  //     const res = await GET(params);
+  //     console.log(res.coordinador.PROGRAMAs);
+  //     setProgramas(res.coordinador.PROGRAMAs);
+  //   }
+  //   fetchProgramas();
+  // }, [idCoordinador]);
 
   //FUncion para obtener a los tutores de un programa
   useEffect(() => {

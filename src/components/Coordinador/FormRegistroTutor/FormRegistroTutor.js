@@ -10,6 +10,7 @@ import validateAddress from "./validateAddress.js";
 import validateCode from "./validateCode.js";
 import validateEmail from "./validateEmail.js";
 import ComboBoxPrograma from "./comboBoxProgramas.js";
+import { getUser } from "../../../Sesion/Sesion.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -99,25 +100,29 @@ const handleCode = (e, datos, setDatos, errors, setErrors) => {
 
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
-  const idCoordinador = "264";
+  const idCoordinador = getUser().usuario.ID_USUARIO;
   const { datos, setDatos } = props;
   const [errors, setErrors] = useState(errorObj);
-  const [coordinador, setCoordinador] = useState({});
-  const [programas, setProgramas] = useState([]);
+  // const [coordinador, setCoordinador] = useState({});
+  const [programas, setProgramas] = useState(
+    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
+  );
+  console.log(getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs);
+
   const [programa, setPrograma] = useState({});
 
   //Funcion auxiliar para obtener el coordinador y sus programas
-  useEffect(() => {
-    async function fetchData() {
-      const endpoint = "/api/coordinador/" + idCoordinador;
-      const params = { servicio: endpoint };
-      const res = await Controller.GET(params);
-      console.log(res);
-      setCoordinador(res.coordinador);
-      setProgramas(res.coordinador.PROGRAMAs);
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const endpoint = "/api/coordinador/" + idCoordinador;
+  //     const params = { servicio: endpoint };
+  //     const res = await Controller.GET(params);
+  //     console.log(res);
+  //     setCoordinador(res.coordinador);
+  //     setProgramas(res.coordinador.PROGRAMAs);
+  //   }
+  //   fetchData();
+  // }, []);
 
   const handleClick = async (e, datos, setDatos) => {
     if (
@@ -133,7 +138,7 @@ const FormRegistroTutor = (props) => {
     } else {
       setDatos({
         ...datos,
-        CONTRASENHA: datos.NOMBRE,
+        // CONTRASENHA: "contra",
         PROGRAMA: datos.PROGRAMA.push(programa),
       });
       console.log(datos);
