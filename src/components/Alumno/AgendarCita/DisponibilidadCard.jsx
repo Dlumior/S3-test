@@ -16,7 +16,6 @@ const styles = {
 };
 class DisponibilidadCard extends Component {
   //static contextType = UserContext;
-
   constructor() {
     super();
     this.state = {
