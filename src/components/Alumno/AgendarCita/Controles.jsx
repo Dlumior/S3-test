@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
+import ViewListIcon from "@material-ui/icons/ViewList";
+import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
@@ -19,18 +21,34 @@ class Controles extends Component {
     this.state = {
       atras: -1,
       adelante: 1,
+      colorActivo: "primary",
+      colorInactivo: "secondary",
+      colorLista: "secondary",
+      colorBatallador: "primary",
+      modoBatallador: true,
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
+    this.ModoBatallador = this.ModoBatallador.bind(this);
+    this.ModoLista = this.ModoLista.bind(this);
   }
-  handleOnChangeEtiquetas(){
-
-  }
+  handleOnChangeEtiquetas() {}
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
     //console.log( "1 semana al pasado");
     this.props.saltoEnElTiempo(saltoEnElTiempo);
   };
   handleOnChangeProceso(proceso) {
     console.log("proceso seleccionado: ", proceso);
+    //aqui se o mando al componente padre
+  }
+  ModoBatallador() {
+    this.props.modoBatallador(true);
+    this.setState({colorBatallador: this.state.colorActivo});
+    this.setState({colorLista: this.state.colorInactivo});
+  }
+  ModoLista() {
+    this.props.modoBatallador(false);
+    this.setState({colorBatallador: this.state.colorInactivo});
+    this.setState({colorLista: this.state.colorActivo});
   }
   render() {
     return (
@@ -60,33 +78,47 @@ class Controles extends Component {
           </Grid>
           {/** filtro de programa*/}
           <Grid item md={3} xs={3}>
-            <ListaComboBox
-              mensaje="proceso"
-              titulo={"Proceso"}
-              enlace={"/api/tutoria"}
-              id={"ID_PROCESO_TUTORIA"}
-              nombre={"NOMBRE"}
-              keyServicio={"tutoria"}
-              escogerItem={this.handleOnChangeProceso}
-              small={true}
-              inicial={true}
-              placeholder={"Escoja el proceso de tutoria"}
-            />
+            {this.props.filtroProceso ? (
+              <ListaComboBox
+                mensaje="proceso"
+                titulo={"Proceso"}
+                enlace={"/api/tutoria"}
+                id={"ID_PROCESO_TUTORIA"}
+                nombre={"NOMBRE"}
+                keyServicio={"tutoria"}
+                escogerItem={this.handleOnChangeProceso}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja el proceso de tutoria"}
+              />
+            ) : (
+              <></>
+            )}
           </Grid>
           {/** fecha actual*/}
           <Grid item md={2} xs={3}>
             <h2 style={styles.control}>
               {"Hoy: " + new Date(this.props.fecha.fecha).toDateString()}{" "}
+              <IconButton sizeSmall onClick={() => this.ModoBatallador()}>
+                <ViewColumnIcon color={this.state.colorBatallador} />
+              </IconButton>
+              <IconButton sizeSmall onClick={() => this.ModoLista()}>
+                <ViewListIcon color={this.state.colorLista}></ViewListIcon>
+              </IconButton>
             </h2>
           </Grid>
           {/** tutor filtro */}
           <Grid item md={3} xs={3}>
-          <ListaEtiquetas
-              obtenerEtiquetas={this.handleOnChangeEtiquetas}
-              enlace={"/api/tutor"}
-              small={true}
-              label={"Tutores"}
-            />
+            {this.props.filtroTutores ? (
+              <ListaEtiquetas
+                obtenerEtiquetas={this.handleOnChangeEtiquetas}
+                enlace={"/api/tutor"}
+                small={true}
+                label={"Tutores"}
+              />
+            ) : (
+              <></>
+            )}
           </Grid>
           {/** semana control*/}
           <Grid item md={2} xs={1}>

@@ -52,7 +52,7 @@ class ListaComboBox extends Component {
     this.handleOnClick = this.handleOnClick.bind(this);
   }
   async handleOnChange(e) {
-      //if lcal
+    //if lcal
     if (this.state.mensajeError.length > 0) {
       this.setState({
         mensajeError: "",
@@ -63,18 +63,27 @@ class ListaComboBox extends Component {
     listaItems.push(item[this.props.id]);
     await this.props.escogerItem(listaItems);
     this.setState({ item: e.target.value });
-    e.target.value = this.state.item;
+    //e.target.value = this.state.item;
   }
 
   async componentDidMount() {
     if (this.props.datos) {
       this.setState({ listaItems: this.props.datos });
-      this.setState({local:true});
+      this.setState({ local: true });
       return;
     }
-    
+
     let listaItems = await Conexion.GET({ servicio: this.props.enlace });
-    this.setState({ listaItems: listaItems[this.props.keyServicio] });
+    if (!listaItems) {
+      this.setState({ listaItems: [] });
+    } else {
+      if (this.props.inicial) {
+        console.log("item---->: ", listaItems);
+        this.setState({ item: listaItems[this.props.keyServicio][0] });
+        await this.setState({ listaItems: listaItems[this.props.keyServicio] });
+        await this.props.escogerItem([this.state.item[this.props.id]]);
+      }
+    }
   }
   shouldComponentUpdate(nextState, nextProps) {
     if (nextState.listaItems !== this.state.listaItems) {
@@ -85,12 +94,12 @@ class ListaComboBox extends Component {
     }
     return false;
   }
-  handleOnClick(e){
+  handleOnClick(e) {
     console.log("CLLIIIIIIICK");
     if (this.state.item.length === 0) {
       if (this.state.mensajeError.length === 0) {
         this.setState({
-          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
+          mensajeError: "Debe escoger al menos un " + this.props.mensaje,
         });
       }
     }
@@ -98,18 +107,11 @@ class ListaComboBox extends Component {
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
-        {this.props.small?<></>:<br />}
+        {this.props.small ? <></> : <br />}
         <FormControl fullWidth onClick={this.handleOnClick}>
-
-          <InputLabel >
-            {this.props.titulo}
-          </InputLabel>
+          <InputLabel>{this.props.titulo}</InputLabel>
           {/* combo box propiamente */}
-          <Select
-            value={this.state.item}
-            onChange={this.handleOnChange}
-            displayEmpty
-          >
+          <Select value={this.state.item} onChange={this.handleOnChange}>
             {this.state.listaItems.map((item) => (
               <MenuItem key={item[this.props.id]} value={item}>
                 {" "}
@@ -117,7 +119,11 @@ class ListaComboBox extends Component {
               </MenuItem>
             ))}
           </Select>
-            <FormHelperText>{this.props.placeholder?this.props.placeholder:"placeholder sin definir"}</FormHelperText>
+          <FormHelperText>
+            {this.props.placeholder
+              ? this.props.placeholder
+              : "placeholder sin definir"}
+          </FormHelperText>
         </FormControl>
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>
       </Paper>

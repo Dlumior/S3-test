@@ -20,7 +20,7 @@ class IniciarSesion extends Component {
       errores: [],
       alert: {
         mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongError: "por favor revisalos!",
         mensajeStrongExito: "satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
         mensajeExito: "Proceso de Tutoria registrado",
@@ -102,8 +102,8 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
-                  inicial="tupia@pucp.pe"
-                  validacion={{ lim: 25 }}
+                  inicial="josefeliciano@pucp.edu.pe"
+                  validacion={{ lim: 30 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
                 />
@@ -113,7 +113,7 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Contrasenia"
                   label="Contraseña"
-                  inicial="tys"
+                  inicial="sudo tys"
                   validacion={{ lim: 50 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
