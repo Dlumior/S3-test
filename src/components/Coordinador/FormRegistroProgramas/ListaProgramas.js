@@ -6,6 +6,7 @@ import { Paper,FormControl, FormHelperText } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaProgramas from "./TablaProgramas";
 import Button from "@material-ui/core/Button";
+import { getUser } from "../../../Sesion/Sesion";
 
 
 const style = {
@@ -21,8 +22,8 @@ const style = {
 
 
 class ListaProgramas extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
         programas: {columns: [{
             title: "Nombre",
@@ -30,15 +31,10 @@ class ListaProgramas extends React.Component {
             data:[{nombre:""}]  },
         programa:[{id:"1"}]
     };
-    //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
-
+    this.establecerData = this.establecerData.bind(this);
   }
-  async componentDidMount(){
-    let arregloProg=await Controller.GET({servicio:"/api/programa/"});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+  establecerData(arregloProg){
     
-    console.log("arreglo: ",arregloProg);
-
     let arreglillo = [];
     for (let element of arregloProg.programa){
       if (element.ID_PROGRAMA!==null){
@@ -46,12 +42,12 @@ class ListaProgramas extends React.Component {
           codigo:element.ID_PROGRAMA,
           nombre:element.NOMBRE,
           boton:<div> 
-                      <Button 
-                          variant="outlined"
-                          color="primary">
-                          Ver Programa
-                      </Button>
-                  </div>
+                    <Button 
+                        variant="outlined"
+                        color="primary">
+                        Ver Programa
+                    </Button>
+                </div>
           });  
 
       }
@@ -74,6 +70,28 @@ class ListaProgramas extends React.Component {
         data: arreglillo
       };
       this.setState({programas:data});
+
+  }
+  async componentDidUpdate(prevProps){
+    if (this.props.idFacu!==prevProps.idFacu){
+      console.log("idFacu: ",this.props.idFacu);
+      //let arregloProg=await Controller.GET({servicio:"/api/programa"});
+      let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
+      //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+      console.log("arreglo: ",arregloProg);
+      this.establecerData(arregloProg);
+
+    }
+  }
+  async componentDidMount(){
+    let idCoord=getUser().usuario.ID_USUARIO;
+    console.log("idFacu: ",this.props.idFacu);
+    let arregloProg=await Controller.GET({servicio:"/api/programa/coordinador/"+idCoord});
+    //let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
+    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+    console.log("arreglo: ",arregloProg);
+    this.establecerData(arregloProg);
+  
 }
 
 

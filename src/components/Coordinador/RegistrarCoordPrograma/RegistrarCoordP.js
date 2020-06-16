@@ -28,6 +28,7 @@ import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js"
 import { wait } from "@testing-library/react";
 import Programas from "./Programas";
 import { getUser } from "../../../Sesion/Sesion";
+import ComboBoxFacus from "../FormRegistroProgramas/ComboBoxFacus";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -95,7 +96,6 @@ const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
 */
 
 const RegistrarCoordinador = (props) => {
-  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     CODIGO: "",
     NOMBRE: "",
@@ -111,6 +111,8 @@ const RegistrarCoordinador = (props) => {
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState([]);
+  const [facultades, setFacultades] = useState([]);
+  const [facultad, setFacultad] = useState([]);
   const [errors, setErrors] = useState(errorObj);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
@@ -126,16 +128,31 @@ const RegistrarCoordinador = (props) => {
     severE:"error",
     severS:"success"
   });
-
+//programas a partir de un coordinador de Facultad
  useEffect(() => {
   async function fetchData() {
-    console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
-    const endpoint = "/api/programa/coordinador/"+getUser().usuario.ID_USUARIO;
+    const endpoint = "/api/programa/lista/"+facultad;
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("proogramasss:", res);
     setProgramas(res.programa);
     console.log("proograma:", programa);
+  }
+  if (facultad!=""){
+    fetchData();
+  }
+},[facultad]);
+
+//faultades por coordinador
+useEffect(() => {
+  async function fetchData() {
+    console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+    const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+    const params = { servicio: endpoint };
+    const res = await GET(params);    
+    console.log("facultades:", res);
+    setFacultades(res.facultades);
+    console.log("facultad:", facultad);
   }
    fetchData();
 }, {});
@@ -217,36 +234,9 @@ const RegistrarCoordinador = (props) => {
           mensaje:"Se registro al coordinador satisfactoriamente",
         });      
         console.log("severidad= ",severidad.severidad);
-        //setFlag(flag=>flag+1);
-        console.log("flag: ",flag);
-        //setOpen(false);
       }
 
     }  
-    /*
-    if (datosForm.NOMBRE===''){      
-      alert("Debe colocar un nombre");
-    } else if (datosForm.APELLIDOS===''){      
-      alert("Debe colocar un apellido");
-    } else if (datosForm.CORREO===''){      
-      alert("Debe colocar un correo");
-    }else if (datosForm.CODIGO===''){      
-      alert("Debe colocar un codigo");
-    }else{
-      const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
-      let nuevoCoord = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevoCoord);
-
-      if (nuevoCoord){      
-        alert("Se registro coordinador Correctamente");
-      }
-
-    }
-/*
-    apiMethod();
-    console.log(datosForm);
-*/
   };
 
 
@@ -332,18 +322,18 @@ const RegistrarCoordinador = (props) => {
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               /> 
-              {/*<Button
-                color="primary"
-                variant="outlined">
-                Asignar Facultades
-              </Button>*/}
+              <ComboBoxFacus
+                facultades={facultades}
+                facultad={facultad}
+                setFacultad={setFacultad}
+              /> 
               <Programas 
                 programasSeleccionados={programasSeleccionados}
                 setProgramasSeleccionados={setProgramasSeleccionados}
                 programa={programa}
                 setPrograma={setPrograma}
                 programas={programas}
-                setProgramas={setProgramas}/>  
+              setProgramas={setProgramas}/>
             </Grid>
           </Grid>
         </DialogContent>

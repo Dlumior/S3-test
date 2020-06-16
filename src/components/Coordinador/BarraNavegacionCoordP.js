@@ -92,7 +92,7 @@ const BarraNavegacion = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [{},dispatch] = useUserValue();
-
+  
 
   const handleClick = () => {
     //te odio hooks
@@ -154,7 +154,6 @@ const BarraNavegacion = (props) => {
             {[
               "Perfil",
               "Programas",
-              "Registrar Coordinadores",
               "Procesos de Tutoria",
               "Registrar Alumnos",
               "Registrar Tutores",
