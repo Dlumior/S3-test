@@ -44,10 +44,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
         //handles...
         this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
-
-        this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);
-
-        
+        this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);        
         this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
     }
 
@@ -55,17 +52,14 @@ class FrmDialogoSolicitarTutor extends Component {
     handleOnChangeMotivo(_motivoSeleccionado) {
         console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
         this.setState({ _motivoSelecc: _motivoSeleccionado[0].NOMBRE });
-
     }
 
     handleOnChangeCT=(e) =>{
-      // nombre y descripcion
-   
+      // nombre y descripcion   
       console.log(e);
       this.setState({[e.name]: e.value });
 
     }
-
 
 
     async handleOnClickSolicitarCita() {
@@ -91,9 +85,7 @@ class FrmDialogoSolicitarTutor extends Component {
            //se llama al back
 
         const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
-
         let sesionTyS = await POST(props);
-
         console.log("SESIONtYS XXX ",sesionTyS);
 
     }
@@ -144,9 +136,6 @@ class FrmDialogoSolicitarTutor extends Component {
 
         const _fexilla = new Date(this.props.fexaForm);
 
-
-
-
         return (
             <div >
                 <Paper elevation={3} style={styles.paper}>
@@ -165,12 +154,12 @@ class FrmDialogoSolicitarTutor extends Component {
                 <Paper elevation={3} style={styles.paper}>
                     <Grid container spacing={2} alignContent="center" style={styles.chip}>
                         <Grid item md={6} style={styles.chip}>
-                            <p>DISPONIBILIDAD INICIO : </p>
-                            <Chip label={_disponibilidad?.HORA_INICIO} color="primary" />
+                            <p>Disponibilidad Inicio : </p>
+                            <Chip label={_disponibilidad?.HORA_INICIO} color="primary" size= "medium"/>
                         </Grid>
                         <Grid item md={6} style={styles.chip}>
-                            <p>DISPONIBILIDAD FIN : </p>
-                            <Chip label={_disponibilidad?.HORA_FIN} color="primary" />
+                            <p>Disponibilidad Fin : </p>
+                            <Chip label={_disponibilidad?.HORA_FIN} color="primary" size= "medium" />
                         </Grid>
                         <Grid item md={8} xs={8} >
                             {/*<h1>Motivo: </h1>*/}
@@ -238,7 +227,6 @@ class FrmDialogoSolicitarTutor extends Component {
                                     onChange={this.handleOnChangeCT}
                                     validarEntrada={this.validarEntradaCT}
                                 />
-
 
                             </Paper>
 

@@ -17,7 +17,7 @@ function Tabla(props) {
        
         options={{
           rowStyle: {
-             backgroundColor: '#FFF',
+             backgroundColor: '#E0E0E0FF',
            },
            headerStyle: {
             backgroundColor: '#3AAFA9',

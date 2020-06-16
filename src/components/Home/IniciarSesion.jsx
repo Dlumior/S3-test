@@ -20,10 +20,10 @@ class IniciarSesion extends Component {
       errores: [],
       alert: {
         mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongError: "por favor revísalos!",
         mensajeStrongExito: "satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
-        mensajeExito: "Proceso de Tutoria registrado",
+        mensajeExito: "Proceso de Tutoría registrado",
         mensaje: "",
       },
       severidad: "warning",
@@ -103,7 +103,7 @@ class IniciarSesion extends Component {
                   name="Usuario"
                   label="Usuario"
                   inicial="tupia@pucp.pe"
-                  validacion={{ lim: 25 }}
+                  validacion={{ lim: 30 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
                 />

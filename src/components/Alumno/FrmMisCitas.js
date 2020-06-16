@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
 
 import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
-import TablaTutores from "./TablaTutores.js";
+import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -199,7 +199,7 @@ class FrmMisCitas extends Component {
 
                     </Tabs>*/}
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                    <TablaTutores tutores={this.state.tutores} />
+                    <TablaTutoresMisCitas tutores={this.state.tutores} />
 
                 </Paper>
                 {/**
