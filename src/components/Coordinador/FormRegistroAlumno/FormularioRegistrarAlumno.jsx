@@ -69,7 +69,7 @@ class FormularioRegistrarAlumno extends Component {
 
       alert: {
         mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongError: "por favor revisalos!",
         mensajeStrongExito: "satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
         mensajeExito: "Alumno registrado",

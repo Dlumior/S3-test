@@ -3,6 +3,7 @@ import Datos from "../../components/Tutor/Datos";
 import { Grid, makeStyles } from "@material-ui/core";
 import ImgTutor from "../../components/Tutor/tutor.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
+import {getUser} from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -15,7 +16,7 @@ const Perfil = () => {
   return (
     <div>      
       <CabeceraPerfil titulo="Tutor" 
-                      nombre="TORRES VERDES, Carlos Tomás"
+                      nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
                       imagen={ImgTutor}
       />
       <Grid

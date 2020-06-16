@@ -20,7 +20,7 @@ class IniciarSesion extends Component {
       errores: [],
       alert: {
         mensajeStrong: "",
-        mensajeStrongError: "porfavor revisalos!",
+        mensajeStrongError: "por favor revisalos!",
         mensajeStrongExito: "satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
         mensajeExito: "Proceso de Tutoria registrado",

@@ -90,7 +90,7 @@ class ListaComboBox extends Component {
     if (this.state.item.length === 0) {
       if (this.state.mensajeError.length === 0) {
         this.setState({
-          mensajeError: "Debe escojer al menos un " + this.props.mensaje,
+          mensajeError: "Debe escoger al menos un " + this.props.mensaje,
         });
       }
     }

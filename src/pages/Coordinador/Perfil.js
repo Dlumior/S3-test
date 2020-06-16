@@ -1,5 +1,5 @@
 import React from "react";
-
+import {getUser} from "../../Sesion/Sesion";
 import Datos from "../../components/Coordinador/Datos";
 //import Cabecera from "../../components/Coordinador/Cabecera.js";
 import { Grid, makeStyles } from "@material-ui/core";
@@ -20,7 +20,7 @@ const Perfil = (props) => {
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
       <CabeceraPerfil titulo="Coordinador"
-        nombre="RIOS ALEJOS, Luis Esteban"
+        nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
         imagen={LuisR}
       />
       <Grid
