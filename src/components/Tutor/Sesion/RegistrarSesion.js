@@ -144,14 +144,14 @@ const RegistrarSesion = () => {
     const res = await GET(params);
   
     if (res.alumno == null) {  
+      setSeveridad({
+        severidad:"error",
+      }); 
       setAlerta({
         mensaje:"No existe ningún alumno con ese código",
       }); 
       console.log("severidad= ",severidad.severidad);
     } else {
-      setAlerta({
-        mensaje:"",
-      }); 
       console.log("alumnocod",res.alumno);
       datosForm.alumnos.push(res.alumno.ID_ALUMNO);
       setDatosForm({
@@ -173,35 +173,56 @@ const RegistrarSesion = () => {
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
-    const nuevaSesion = {
-      sesion: {
-        ID_TUTOR: (getUser()).usuario.ID_USUARIO,
-        ID_PROCESO_TUTORIA: "43",
-        LUGAR: datosForm.lugar,
-        MOTIVO: "PUCP",
-        DESCRIPCION: datosForm.descripcion,
-        FECHA: datosForm.fecha,
-        HORA_INICIO: datosForm.horaini,
-        HORA_FIN: datosForm.horafin,
-        RESULTADO: datosForm.resultado,
-        COMPROMISOS: plan,
-        AREAS_APOYO: ["1"],
-        ALUMNOS:datosForm.alumnos,
-      },
+    if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || datosForm.resultado == "" ||datosForm.alumnos == []) {
+      setSeveridad({
+        severidad:"error",
+      }); 
+      setAlerta({
+        mensaje:"Complete los campos obligatorios (*)",
+      }); 
+    } else {
+      setSeveridad({
+        severidad:"success",
+      }); 
+      setAlerta({
+        mensaje:"chevere causita",
+      }); 
+      const nuevaSesion = {
+        sesion: {
+          ID_TUTOR: (getUser()).usuario.ID_USUARIO,
+          ID_PROCESO_TUTORIA: "43",
+          LUGAR: datosForm.lugar,
+          MOTIVO: "PUCP",
+          DESCRIPCION: datosForm.descripcion,
+          FECHA: datosForm.fecha,
+          HORA_INICIO: datosForm.horaini,
+          HORA_FIN: datosForm.horafin,
+          RESULTADO: datosForm.resultado,
+          COMPROMISOS: plan,
+          AREAS_APOYO: ["1"],
+          ALUMNOS:datosForm.alumnos,
+        },
+      }
+      const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
+      console.log("saving new sesion in DB:", nuevaSesion);
+      let sesion = await Controller.POST(props);
+      console.log("sesion",sesion);
+      if (sesion) {
+        alert("Sesion registrada Satisfactoriamente");
+      }
+      console.log("got updated sesion from back:", sesion);
+        
+  
+      setDatosForm({
+        ...datosForm,
+      });
+      setSeveridad({
+        severidad:"success",
+      }); 
+      setAlerta({
+        mensaje:"",
+      }); 
     }
-    const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
-    console.log("saving new sesion in DB:", nuevaSesion);
-    let sesion = await Controller.POST(props);
-    console.log("sesion",sesion);
-    if (sesion) {
-      alert("Sesion registrada Satisfactoriamente");
-    }
-    console.log("got updated sesion from back:", sesion);
-      
-
-    setDatosForm({
-      ...datosForm,
-    });
 };
 
   

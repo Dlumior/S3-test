@@ -110,7 +110,7 @@ handleOnClose() {
         >
           <DialogContent>
 
-            <RevisarSesion dispo={this.props.cita}
+            <RevisarSesion cita={this.props.cita}
               fexaForm={this.props.fexaForm}   />
 
           </DialogContent>
