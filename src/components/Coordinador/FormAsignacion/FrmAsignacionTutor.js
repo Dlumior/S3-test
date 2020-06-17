@@ -77,12 +77,21 @@ const VerticalLinearStepper= () =>  {
 
   useEffect(() => {
     async function fetchData() {
-      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
-      const params = { servicio: endpoint };
-      const res = await GET(params);    
-      console.log("facultades:", res);
-      setProgramas(res.facultades);
-      console.log("facultad:", programa);
+      if(getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION == "Coordinador Facultad"){
+        const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+        const params = { servicio: endpoint };
+        const res = await GET(params);    
+        console.log("facultades:", res);
+        setProgramas(res.facultades);
+        console.log("facultad:", programa);
+      }else{
+        const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
+        const params = { servicio: endpoint };
+        const res = await GET(params);    
+        console.log("ENTREE:", res);
+        setProgramas(res.facultades);
+        console.log("facultad:", programa);
+      }
     }
      fetchData();
   }, {});
@@ -190,7 +199,7 @@ const VerticalLinearStepper= () =>  {
             <ListaProgramas
               titulo={"Programas"}
               escogerPrograma={handleOnChangePrograma}
-              enlace={"/api/programa/lista/"+programa}
+              enlace={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION ==="Coordinador Programa"?("/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+programa):("/api/programa/lista/"+programa)}
             />
           </div>
         );
