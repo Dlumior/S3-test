@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import PlanDeAccion from './PlanDeAccion';
+//import PlanDeAccion from './PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
@@ -138,32 +138,6 @@ const RegistrarSesion = () => {
   const [open, setOpen] = React.useState(false);
   const [plan,setPlan]=useState([]);
 
-  async function fetchData(cod, datosForm, setDatosForm) {
-    const endpoint = "/api/alumno/buscar/" + cod;
-    const params = { servicio: endpoint };
-    const res = await GET(params);
-  
-    if (res.alumno == null) {  
-      setAlerta({
-        mensaje:"No existe ningún alumno con ese código",
-      }); 
-      console.log("severidad= ",severidad.severidad);
-    } else {
-      setAlerta({
-        mensaje:"",
-      }); 
-      console.log("alumnocod",res.alumno);
-      datosForm.alumnos.push(res.alumno.ID_ALUMNO);
-      setDatosForm({
-        ...datosForm,
-        alumnoNombre: res.alumno.USUARIO.NOMBRE,
-      }); 
-      console.log("alumnos: ",datosForm.alumnos);
-    }
-  
-    
-  }
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -241,11 +215,6 @@ const RegistrarSesion = () => {
               />
             </Grid>
             <Grid item md={1} justify="flex-start">
-              <IconButton color="primary" onClick={()=> fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
-                <SearchRoundedIcon
-                color="primary"
-                fontsize="large" />
-              </IconButton> 
             </Grid>
             <Grid item md={12}>
               <TextField
@@ -305,10 +274,6 @@ const RegistrarSesion = () => {
                   fullWidth   
               />
             </Grid>
-            <PlanDeAccion
-              plan={plan}
-              setPlan={setPlan}
-            />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
                     <Typography variant="h6">
