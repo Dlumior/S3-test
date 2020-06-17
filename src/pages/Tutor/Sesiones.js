@@ -7,8 +7,7 @@ import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarC
 import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas";
 import { UserContext, getUser } from "../../Sesion/Sesion";
 
-let yo = getUser();
-console.log(yo.usuario.ID_USUARIO);
+
 class Sesiones extends Component {
     constructor() {
       super();
@@ -18,7 +17,7 @@ class Sesiones extends Component {
             titulo: "Solicite una cita según las disponibilidades disponibles",
             procesos: [
               { index: 0, titulo: "Horarios Disponibles", proceso: ()=><CalendarioCitas servicio={"/api/listaSesiones/"+
-              yo.usuario.ID_USUARIO +"/"} tipo="cita"/> },
+                getUser().usuario.ID_USUARIO +"/"} tipo="cita"/> },
             ],
           },
         ],
