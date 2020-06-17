@@ -15,6 +15,7 @@ import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import PlanDeAccion from './PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
+import Alertas from "../../Coordinador/Alertas"
 
 const style = {
   paper: {
@@ -39,18 +40,7 @@ const style = {
       backgroundImage: "",
     }
 };
-async function fetchData(cod, datosForm, setDatosForm) {
-  const endpoint = "/api/alumno/buscar/" + cod;
-  const params = { servicio: endpoint };
-  const res = await GET(params);
-  console.log("alumnocod",res.alumno);
-  datosForm.alumnos.push(res.alumno.ID_ALUMNO);
-  setDatosForm({
-    ...datosForm,
-    alumnoNombre: res.alumno.USUARIO.NOMBRE,
-  }); 
-  console.log("alumnos: ",datosForm.alumnos);
-}
+
 const handleName = (e, datosForm, setDatosForm) => {
   console.log("cod",e.target.value);
   //fetchData(e.target.value);
@@ -69,21 +59,30 @@ const handleFecha = (e, datosForm, setDatosForm) => {
 };
 const handleHoraIni = (e, datosForm, setDatosForm) => {
   console.log("horaini",e.target.value);
-  setDatosForm({
-    ...datosForm,
-    horaini: e.target.value,
-  });
-  console.log("horaini",datosForm.horaini);
+  if (e.target.value < "08:00" || e.target.value > '19:30') {
+    document.getElementById("Hora").value = "08:00"; 
+  } else {
+    setDatosForm({
+      ...datosForm,
+      horaini: e.target.value,
+    });
+    console.log("horaini",datosForm.horaini);
+  }
+  
 
 };
 const handleHoraFin = (e, datosForm, setDatosForm) => {
   console.log("horafin",e.target.value);
-  setDatosForm({
-    ...datosForm,
-    horafin: e.target.value,
-  });
-  console.log("horafin",datosForm.horafin);
 
+  if (e.target.value > '20:00' || e.target.value < "08:30") {
+    document.getElementById("Hora fin").value = "20:00"; 
+  } else {
+    setDatosForm({
+      ...datosForm,
+      horafin: e.target.value,
+    });
+    console.log("horafin",datosForm.horafin);
+  }
 };
 const handleLugar = (e, datosForm, setDatosForm) => {
   console.log("lugar",e.target.value);
@@ -116,9 +115,48 @@ const RegistrarSesion = () => {
     lugar:'',
     descripcion:"",
   });
+  const [alerta, setAlerta]= useState({
+    mensajeStrong: "",
+    mensajeStrongError: "por favor revisalos!",
+    mensajeStrongExito: "satisfactoriamente!",
+    mensajeError: "Existen errores al completar el formulario",
+    mensajeExito: "Facultad registrada",
+    mensaje: "",
+  });
+  const [severidad, setSeveridad] = useState({
+    severidad:"error",
+    severW:"warning",
+    severE:"error",
+    severS:"success"
+  });
   const [open, setOpen] = React.useState(false);
   const [plan,setPlan]=useState([]);
 
+  async function fetchData(cod, datosForm, setDatosForm) {
+    const endpoint = "/api/alumno/buscar/" + cod;
+    const params = { servicio: endpoint };
+    const res = await GET(params);
+  
+    if (res.alumno == null) {  
+      setAlerta({
+        mensaje:"No existe ningún payaso con ese código, infeliz!",
+      }); 
+      console.log("severidad= ",severidad.severidad);
+    } else {
+      setAlerta({
+        mensaje:"",
+      }); 
+      console.log("alumnocod",res.alumno);
+      datosForm.alumnos.push(res.alumno.ID_ALUMNO);
+      setDatosForm({
+        ...datosForm,
+        alumnoNombre: res.alumno.USUARIO.NOMBRE,
+      }); 
+      console.log("alumnos: ",datosForm.alumnos);
+    }
+  
+    
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -175,6 +213,11 @@ const RegistrarSesion = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
+        <Alertas
+          severity={severidad.severidad}
+          titulo={"Observacion:"}
+          alerta={alerta}
+        />
         <DialogTitle id="form-dialog-title">
           <Typography variant="h5">Registar Sesion</Typography>
         </DialogTitle>
