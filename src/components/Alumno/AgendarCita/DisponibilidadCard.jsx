@@ -68,7 +68,7 @@ class DisponibilidadCard extends Component {
                   </Grid>
                   <Grid item md={12} xs={12}>
                     <Typography component="paragraph">
-                      {+disponibilidad.TUTOR.USUARIO?.APELLIDOS}
+                      {disponibilidad.TUTOR.USUARIO?.APELLIDOS}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -130,10 +130,13 @@ class DisponibilidadCard extends Component {
             <FrmDialogoSolicitarTutor
               dispo={this.props.disponibilidad}
               fexaForm={this.props.fexaForm}
+              onCloseFrm ={this.handleOnClose}
             />
           </DialogContent>
 
-          <DialogActions></DialogActions>
+          <DialogActions>
+
+          </DialogActions>
         </Dialog>
 
         <br />
