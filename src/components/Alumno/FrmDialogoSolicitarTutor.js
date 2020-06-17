@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ImagenCircular from "../Shared/ImagenCircular";
-import { Grid, Chip, Paper, TextField, Button } from "@material-ui/core";
+import { Grid, Chip, Paper, TextField, Button,Dialog } from "@material-ui/core";
 import FerCarrillo from "./tutor2.png";
 
 import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
@@ -11,6 +11,22 @@ import CampoDeTexto from "./../Coordinador/Tutorias/CampoDeTexto.jsx";
 //../Coordinador/Tutorias/CampoDeTexto.js";
 import { getUser } from "../../Sesion/Sesion";
 import { POST } from "../../Conexion/Controller";
+
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+
+
+const style = {
+    paper: {
+        marginTop: "3%",
+        marginLeft: "3%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "left",
+        backgroundImage: "",
+    }
+};
+
 
 const styles = {
     paper: {
@@ -39,6 +55,7 @@ class FrmDialogoSolicitarTutor extends Component {
             ],
             _motivoSelecc: "",
             descripcion: "",
+            open:false,
 
         };
 
@@ -46,6 +63,21 @@ class FrmDialogoSolicitarTutor extends Component {
         this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
         this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);        
         this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
+
+        this.handleOnClick = this.handleOnClick.bind(this);   
+        this.handleOnClose = this.handleOnClose.bind(this);   
+    }
+
+
+      //menaje de satisfaccion
+
+    //de cancelar
+    handleOnClick() {
+        this.setState({ open: true });
+    }
+
+    handleOnClose() {
+        this.setState({ open: false });
     }
 
 
@@ -62,8 +94,7 @@ class FrmDialogoSolicitarTutor extends Component {
     }
 
 
-    async handleOnClickSolicitarCita() {
-     
+    async handleOnClickSolicitarCita() {     
 
         let yo = getUser();
 
@@ -74,7 +105,7 @@ class FrmDialogoSolicitarTutor extends Component {
                 LUGAR: this.props.dispo.LUGAR,
                 MOTIVO: this.state._motivoSelecc,
                 DESCRIPCION:      this.state.descripcion,
-                FECHA: new Date (this.props.dispo.FECHA),
+                FECHA: this.props.dispo.FECHA,
                 HORA_INICIO: this.props.dispo.HORA_INICIO,
                 HORA_FIN: this.props.dispo.HORA_FIN,
                 ALUMNOS: [yo.usuario.ID_USUARIO],
@@ -87,6 +118,10 @@ class FrmDialogoSolicitarTutor extends Component {
         const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
         let sesionTyS = await POST(props);
         console.log("SESIONtYS XXX ",sesionTyS);
+
+        if(!sesionTyS.message){
+            this.setState({open:true})
+        }
 
     }
 
@@ -234,7 +269,7 @@ class FrmDialogoSolicitarTutor extends Component {
                                 size="large"
                                 variant="contained"
                                 color="primary"
-                                onClick={this.handleOnClickSolicitarCita}                        >
+                                onClick={this.handleOnClickSolicitarCita  }                        >
                                 Solicitar Cita
                         </Button>
 
@@ -242,6 +277,33 @@ class FrmDialogoSolicitarTutor extends Component {
                         </Grid>
                     </Grid>
                 </Paper>
+            
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleOnClose}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogContent>
+                        <Grid container xs={12}>
+                            <Paper style={style.paper}>
+                                Sesión registrada satisfactoriamente.
+                            </Paper>
+                        </Grid>
+                    </DialogContent>
+
+                    <DialogActions>
+                        
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnClose}                        >
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                
+
             </div>
         );
     }

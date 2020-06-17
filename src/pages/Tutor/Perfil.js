@@ -16,7 +16,7 @@ const Perfil = () => {
   return (
     <div>      
       <CabeceraPerfil titulo="Tutor" 
-                      nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
+                      nombre={getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE}
                       imagen={ImgTutor}
       />
       <Grid

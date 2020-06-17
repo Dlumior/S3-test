@@ -53,6 +53,9 @@ class CalendarioCitas extends Component {
   renderDias = (lunesActual) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
+
+    console.log("CAlendarGAAAAbyy xxx ",lunesActual);
+
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
@@ -60,8 +63,10 @@ class CalendarioCitas extends Component {
     }
     return (
       <>
+      {console.log("ANTES DIA SEMANA xxx ",fechasDias)}
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
+            {console.log("DIA_SEMANA xxx ",diaSemana)}
             <HorarioDelDia
               fecha={{
                 fecha: diaSemana,
