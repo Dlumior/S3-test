@@ -55,7 +55,7 @@ class ListaTutores extends React.Component {
           {this.state.tutores.map((tutor) => (
             <MenuItem key={tutor.ID_TUTOR} value={tutor}>
               {" "}
-              {tutor.USUARIO.NOMBRE}
+              {tutor.USUARIO.NOMBRE + " " + tutor.USUARIO.APELLIDOS}
             </MenuItem>
           ))}
         </Select>

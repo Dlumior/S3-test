@@ -1,4 +1,5 @@
 import React from "react";
+import {getUser} from "../../../Sesion/Sesion"
 import {
   makeStyles,
   FormControl,
@@ -49,8 +50,9 @@ const ComboBoxPrograma = (props) => {
           
         >
           {programas.map((item) => (
-            <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-              {item.NOMBRE}
+            <MenuItem key={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}
+            value={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}>
+              {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.NOMBRE:item.NOMBRE}
             </MenuItem>
           ))}
         </Select>
