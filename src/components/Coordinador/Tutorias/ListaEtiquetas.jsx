@@ -6,12 +6,17 @@ import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import * as Conexion from "./../../../Conexion/Controller";
 import { InputLabel, Paper } from "@material-ui/core";
+import "./ListaEtiquetas.css";
 const estilos = {
   paper: {
-    marginRight: "10%",
-    marginLeft: "10%",
+    marginTop: "1%",
     flexDirection: "column",
-    backgroundImage: "",
+  },
+  paperStrecht: {
+    marginTop: "1%",
+    marginRight: "1%",
+    marginLeft: "1%",
+    flexDirection: "column",
   },
 };
 
@@ -25,11 +30,16 @@ class ListaEtiquetas extends React.Component {
       checkedIcon: <CheckBoxIcon fontSize="small" color="primary" />,
     };
     this.handle = this.handle.bind(this);
+    this.getValueEnSubNivel = this.getValueEnSubNivel.bind(this);
   }
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
-    console.log("Etiquetas", listaEtiquetas);
-    this.setState({ etiquetas: listaEtiquetas.etiquetas });
+    console.log("Tutores", listaEtiquetas);
+    this.setState({
+      etiquetas: this.props.keyServicio
+        ? listaEtiquetas[this.props.keyServicio]
+        : listaEtiquetas.etiquetas,
+    });
 
     console.log("etiquetas del state", this.state.etiquetas);
   }
@@ -56,24 +66,45 @@ class ListaEtiquetas extends React.Component {
       this.props.obtenerEtiquetas(this.state.etiquetasSeleccionadas);
     }
   };
+  getValueEnSubNivel(item) {
+    let value = item;
+    const keys = this.props.keySubNivel;
+    keys.forEach((key) => {
+      value = value[key];
+    });
+    const values = this.props.valueSubNivel;
+    let valor = "";
+    values.forEach((valeria) => {
+      valor = valor + " " + value[valeria];
+    });
+    return valor;
+  }
   render() {
     return (
-      <Paper elevation={0} style={estilos.paper}>
-        <br/>
-        {this.props.titulo?<InputLabel id="demo-simple-select-placeholder-label-label">
-          {this.props.titulo}
-        </InputLabel>:<></>
-        }
+        <Paper elevation={0} style={this.props.strecht?estilos.paperStrecht:estilos.paper} >
         
-        {this.props.small?<></>:<br />}
+        {this.props.titulo ? (
+          <InputLabel id="demo-simple-select-placeholder-label-label">
+            {this.props.titulo}
+          </InputLabel>
+        ) : (
+          <></>
+        )}
+
+        {this.props.small ? <></> : <br />}
         <Autocomplete
           color="primary"
           multiple
           options={this.state.etiquetas || []}
           disableCloseOnSelect
-          getOptionLabel={(etiqueta) => etiqueta.DESCRIPCION}
+          getOptionLabel={(etiqueta) =>
+            this.props.keySubNivel
+              ? this.getValueEnSubNivel(etiqueta)
+              : etiqueta.DESCRIPCION
+          }
           renderOption={(option, { selected }) => {
-            this.handle(option.ID_ETIQUETA, selected);
+            this.handle(this.props.ID?option[this.props.ID]:
+              option.ID_ETIQUETA, selected);
             return (
               <React.Fragment>
                 <Checkbox
@@ -82,7 +113,9 @@ class ListaEtiquetas extends React.Component {
                   style={{ marginRight: 8 }}
                   checked={selected}
                 />
-                {option.DESCRIPCION}
+                {this.props.keySubNivel
+                  ? this.getValueEnSubNivel(option)
+                  : option.DESCRIPCION}
               </React.Fragment>
             );
           }}
@@ -96,6 +129,7 @@ class ListaEtiquetas extends React.Component {
           )}
         />
       </Paper>
+      
     );
   }
 }
