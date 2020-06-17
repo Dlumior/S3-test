@@ -82,7 +82,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
 
     handleOnChangeMotivo(_motivoSeleccionado) {
-        console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
+        //console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
         this.setState({ _motivoSelecc: _motivoSeleccionado[0].NOMBRE });
     }
 
