@@ -30,7 +30,7 @@ const ComboBoxFacus = (props) => {
 
   return (
     <FormControl style={{width:230 }}>
-      <InputLabel id="demo-simple-select-label">Facultades</InputLabel>
+      <InputLabel id="demo-simple-select-label">Facultad</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select-label"

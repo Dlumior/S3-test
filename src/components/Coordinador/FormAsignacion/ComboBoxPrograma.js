@@ -41,7 +41,7 @@ const ComboBoxPrograma = (props) => {
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel id="demo-simple-select">Facultades</InputLabel>
+      <InputLabel id="demo-simple-select">Facultad</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"

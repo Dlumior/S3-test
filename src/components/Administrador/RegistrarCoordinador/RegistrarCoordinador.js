@@ -221,30 +221,7 @@ const RegistrarCoordinador = (props) => {
       }
 
     }  
-    /*
-    if (datosForm.NOMBRE===''){      
-      alert("Debe colocar un nombre");
-    } else if (datosForm.APELLIDOS===''){      
-      alert("Debe colocar un apellido");
-    } else if (datosForm.CORREO===''){      
-      alert("Debe colocar un correo");
-    }else if (datosForm.CODIGO===''){      
-      alert("Debe colocar un codigo");
-    }else{
-      const props = { servicio: "/api/coordinador", request: {coordinador: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
-      let nuevoCoord = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevoCoord);
-
-      if (nuevoCoord){      
-        alert("Se registro coordinador Correctamente");
-      }
-
-    }
-/*
-    apiMethod();
-    console.log(datosForm);
-*/
+    
   };
 
 
@@ -330,11 +307,6 @@ const RegistrarCoordinador = (props) => {
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               /> 
-              {/*<Button
-                color="primary"
-                variant="outlined">
-                Asignar Facultades
-              </Button>*/}
               <Facultades 
                 programasSeleccionados={programasSeleccionados}
                 setProgramasSeleccionados={setProgramasSeleccionados}
