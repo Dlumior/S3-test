@@ -8,7 +8,6 @@ import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas
 import { UserContext, getUser } from "../../Sesion/Sesion";
 
 let yo = getUser();
-console.log(yo.usuario.ID_USUARIO);
 class Sesiones extends Component {
     constructor() {
       super();
