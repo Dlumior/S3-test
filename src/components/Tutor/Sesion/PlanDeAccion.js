@@ -47,6 +47,13 @@ const PlanDeAccion = (props) => {
         check:false, 
     });
     const handleCompromiso = (e) => {
+      for (let i=0; i<100; i++) {
+        console.log("BABA: ", document.getElementById(i));
+        if (document.getElementById(i) == null) {
+          break;
+        }
+        document.getElementById(i).value = e.target.value.substring(0,50);
+      }
       console.log("comp",e.target.value);
       setCompromiso({
         ...compromiso,

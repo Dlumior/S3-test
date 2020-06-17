@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-import PlanDeAccion from './PlanDeAccion';
+//import PlanDeAccion from './PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
@@ -109,7 +109,8 @@ const handleResultados = (e, datosForm, setDatosForm) => {
 
 };
 
-const RegistrarSesion = () => {
+const RevisarSesion = (cita) => {
+  console.log("DEBUG NOW NOW NOW ", cita)
   const [datosForm, setDatosForm] = React.useState({
     alumnoCodigo:0,
     alumnoNombre:'',
@@ -135,34 +136,8 @@ const RegistrarSesion = () => {
     severE:"error",
     severS:"success"
   });
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [plan,setPlan]=useState([]);
-
-  async function fetchData(cod, datosForm, setDatosForm) {
-    const endpoint = "/api/alumno/buscar/" + cod;
-    const params = { servicio: endpoint };
-    const res = await GET(params);
-  
-    if (res.alumno == null) {  
-      setSeveridad({
-        severidad:"error",
-      }); 
-      setAlerta({
-        mensaje:"No existe ningún alumno con ese código",
-      }); 
-      console.log("severidad= ",severidad.severidad);
-    } else {
-      console.log("alumnocod",res.alumno);
-      datosForm.alumnos.push(res.alumno.ID_ALUMNO);
-      setDatosForm({
-        ...datosForm,
-        alumnoNombre: res.alumno.USUARIO.NOMBRE,
-      }); 
-      console.log("alumnos: ",datosForm.alumnos);
-    }
-  
-    
-  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -173,68 +148,41 @@ const RegistrarSesion = () => {
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
-    if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || datosForm.resultado == "" ||datosForm.alumnos == []) {
-      setSeveridad({
-        severidad:"error",
-      }); 
-      setAlerta({
-        mensaje:"Complete los campos obligatorios (*)",
-      }); 
-    } else {
-      setSeveridad({
-        severidad:"success",
-      }); 
-      setAlerta({
-        mensaje:"chevere causita",
-      }); 
-      const nuevaSesion = {
-        sesion: {
-          ID_TUTOR: (getUser()).usuario.ID_USUARIO,
-          ID_PROCESO_TUTORIA: "43",
-          LUGAR: datosForm.lugar,
-          MOTIVO: "PUCP",
-          DESCRIPCION: datosForm.descripcion,
-          FECHA: datosForm.fecha,
-          HORA_INICIO: datosForm.horaini,
-          HORA_FIN: datosForm.horafin,
-          RESULTADO: datosForm.resultado,
-          COMPROMISOS: plan,
-          AREAS_APOYO: ["1"],
-          ALUMNOS:datosForm.alumnos,
-        },
-      }
-      const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
-      console.log("saving new sesion in DB:", nuevaSesion);
-      let sesion = await Controller.POST(props);
-      console.log("sesion",sesion);
-      if (sesion) {
-        alert("Sesion registrada Satisfactoriamente");
-      }
-      console.log("got updated sesion from back:", sesion);
-        
-  
-      setDatosForm({
-        ...datosForm,
-      });
-      setSeveridad({
-        severidad:"success",
-      }); 
-      setAlerta({
-        mensaje:"",
-      }); 
+    const resultadosSesion = {
+      sesion: {
+        ID_SESION: cita.cita.ID_SESION,
+        RESULTADO: datosForm.resultado,
+        COMPROMISOS: [],
+        AREAS_APOYO: ["1"],
+        ALUMNOS:cita.cita.ALUMNOs[0].ID_ALUMNO,
+        ASISTENCIA:[1]
+      },
     }
+    const props = { servicio: "/api/registrarResultadoCita", request: resultadosSesion };
+    console.log("saving new sesion in DB:", resultadosSesion);
+    let sesion = await Controller.POST(props);
+    console.log("sesion",sesion);
+    if (sesion) {
+      alert("Sesion registrada Satisfactoriamente");
+    }
+    console.log("got updated sesion from back:", sesion);
+      
+
+    setDatosForm({
+      ...datosForm,
+    });
 };
 
   
 
   return (
     <div>
-      <Button 
+      {/* <Button 
         variant="contained"
         color="primary"
         onClick={handleClickOpen}>
         Registrar Sesión
-      </Button>
+      </Button> */}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -246,43 +194,42 @@ const RegistrarSesion = () => {
           alerta={alerta}
         />
         <DialogTitle id="form-dialog-title">
-          <Typography variant="h5">Registar Sesion</Typography>
+          <Typography variant="h5">Datos Sesión</Typography>
         </DialogTitle>
         <DialogContent>
           <Paper elevation={0} style={style.paper}>
           <Grid container md={12} spacing={3}>
-            <Grid item md={6}>
+            {/* <Grid item md={6}>
               <TextField
                   required
                   id="codigo  "
                   label="Código"
                   variant="outlined"
                   onChange={(e) => handleName(e, datosForm, setDatosForm)}
+                  value = {cita.ALUMNOS[0].USUARIO.}
                   fullWidth   
               />
-            </Grid>
+            </Grid> */}
             <Grid item md={1} justify="flex-start">
-              <IconButton color="primary" onClick={()=> fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
-                <SearchRoundedIcon
-                color="primary"
-                fontsize="large" />
-              </IconButton> 
             </Grid>
             <Grid item md={12}>
               <TextField
+                  disabled
                   id="alumno"
                   label="Alumno"
-                  value={datosForm.alumnoNombre}
+                  value={cita.cita.ALUMNOs[0].USUARIO.NOMBRE + cita.cita.ALUMNOs[0].USUARIO.APELLIDOS}
                   fullWidth   
               />
             </Grid>
             <Grid item md={4}>
               <TextField
+                  disabled
                   required
                   margin="dense"
                   type="date"
                   id="Fecha"
                   label="Fecha"
+                  value={cita.cita.FECHA}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -292,10 +239,12 @@ const RegistrarSesion = () => {
             </Grid>
             <Grid item md={4} >
               <TextField
+                  disabled
                   required
                   margin="dense"
                   type="time"
                   id="Hora"
+                  value={cita.cita.HORA_INICIO}
                   label="Hora Inicio"
                   InputLabelProps={{
                     shrink: true,
@@ -306,11 +255,13 @@ const RegistrarSesion = () => {
             </Grid>
             <Grid item md={4} >
               <TextField
+                  disabled
                   required
                   margin="dense"
                   type="time"
                   id="Hora fin"
                   label="Hora Fin"
+                  value={cita.cita.HORA_FIN}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -320,16 +271,14 @@ const RegistrarSesion = () => {
             </Grid>
             <Grid item md={12}>
               <TextField
+                  disabled
                   id="lugar"
                   label="Lugar"
+                  value={cita.cita.LUGAR}
                   onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
                   fullWidth   
               />
             </Grid>
-            <PlanDeAccion
-              plan={plan}
-              setPlan={setPlan}
-            />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
                     <Typography variant="h6">
@@ -345,6 +294,7 @@ const RegistrarSesion = () => {
                   rows={4}
                   id="res"
                   variant="outlined"
+                  defaultValue={cita.cita.RESULTADO}
                   onChange={(e) => handleResultados(e, datosForm, setDatosForm)}
                   fullWidth   
               />
@@ -372,4 +322,4 @@ const RegistrarSesion = () => {
     </div>
   );
 };
-export default RegistrarSesion;
+export default RevisarSesion;
