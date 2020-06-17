@@ -45,13 +45,8 @@ const RegistrarFacultad = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_INSTITUCION:"1",
     NOMBRE: "",
-    IMAGEN: null
-  });
-  const [datosPrograma, setDatosPrograma] = React.useState({
-    ID_FACULTAD:"",
-    ID_INSTITUCION:"1",
-    NOMBRE: "",
-    IMAGEN: null
+    IMAGEN: null,
+    INDEPENDIENTE:0,
   });
 
   const [alerta, setAlerta]=useState({
@@ -107,11 +102,16 @@ const RegistrarFacultad = () => {
         severidad:severidad.severE,
       });     
       setAlerta({
-        mensaje:alerta.mensajeError,
+        mensaje:"Existen errores al completar el formulario",
       });      
       console.log("severidad= ",severidad.severidad);
       return;
     } else {
+      if (checked){
+        datosForm.INDEPENDIENTE=1;
+      }else{
+        datosForm.INDEPENDIENTE=0;
+      }
       setDatosForm({
         ...datosForm
       });
@@ -122,64 +122,36 @@ const RegistrarFacultad = () => {
       let nuevaFacu = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevaFacu);
 
-      console.log("esta checkk:", checked);
       //si se registro bien ok==1, duplicado ok===0, otro error=-1
-      if(nuevaFacu.registro.ok===1){
-          console.log("esta checkk:", nuevaFacu.registro.facultad.ID_PROGRAMA);
-
-        var idProg=nuevaFacu.registro.facultad.ID_PROGRAMA;
-        if (checked){
-          datosPrograma.ID_FACULTAD=idProg;
-          datosPrograma.NOMBRE=nuevaFacu.registro.facultad.NOMBRE;
-          setDatosPrograma({
-            ...datosPrograma,         
-          });
-          console.log(datosPrograma);
-
-          const props2 = { servicio: "/api/programa", request: {programa: datosPrograma} };
-          console.log("saving new prog in DB:",   );
-          let nuevoProg = await Conexion.POST(props2)
-          console.log("got updated prog from back:", nuevoProg);
-          if (nuevoProg){      
-            setSeveridad({
-              severidad:severidad.severS,
-            });     
-            setAlerta({
-              mensaje:"Se ha registrado la facultad satisfactoriamente"
-            });      
-            console.log("severidad= ",severidad.severidad);
-          }
-          return;
-        }
-        if (nuevaFacu ||checked===false){      
+      if (nuevaFacu){
+        if(nuevaFacu.registro.ok===1){
+          var idProg=nuevaFacu.registro.facultad.ID_PROGRAMA; 
           setSeveridad({
-            severidad:severidad.severS,
+            severidad:"success",
           });     
           setAlerta({
-            mensaje:alerta.mensajeExito,
+            mensaje:"Facultad registrada",
           });      
           console.log("severidad= ",severidad.severidad);
-          datosForm.NOMBRE="";
+  
+        }else if(nuevaFacu.registro.ok===0){
+          setSeveridad({
+            severidad:"error",
+          });     
+          setAlerta({
+            mensaje:"La Facultad ya ha sido registrada",
+          });      
+  
+        }else{
+          setSeveridad({
+            severidad:"error",
+          });     
+          setAlerta({
+            mensaje:"Existen errores al completar el formulario",
+          });      
         }
-
-      }else if(nuevaFacu.registro.ok===0){
-        setSeveridad({
-          severidad:"error",
-        });     
-        setAlerta({
-          mensaje:"La Facultad ya ha sido registrada",
-        });      
-
-      }else{
-        setSeveridad({
-          severidad:severidad.severE,
-        });     
-        setAlerta({
-          mensaje:alerta.mensajeError,
-        });      
       }
       
-
     }  
   };
 

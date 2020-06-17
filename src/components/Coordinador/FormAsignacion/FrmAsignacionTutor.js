@@ -77,11 +77,11 @@ const VerticalLinearStepper= () =>  {
 
   useEffect(() => {
     async function fetchData() {
-      const endpoint = "/api/facultad";
+      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("facultades:", res);
-      setProgramas(res.facultad);
+      setProgramas(res.facultades);
       console.log("facultad:", programa);
     }
      fetchData();

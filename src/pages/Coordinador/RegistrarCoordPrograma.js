@@ -3,12 +3,30 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import TablaCoordinador from "../../components/Coordinador/RegistrarCoordPrograma/TablaCoordinador";
 import RegistrarCoordinador from "../../components/Coordinador/RegistrarCoordPrograma/RegistrarCoordP";
 import ListaCoordinadores from "../../components/Coordinador/RegistrarCoordPrograma/ListaCoordinadores";
+import ComboBoxFacus from "../../components/Coordinador/RegistrarCoordPrograma/ComboBoxFacus";
+
 import { GET } from "../../Conexion/Controller";
 import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { getUser } from "../../Sesion/Sesion";
 
 const Coordinador = () => {
   const [coordinadores, setCoordinadores] = useState([]);
-  const [flag, setFlag] = useState(0);
+  const [facultades, setFacultades] = useState([]);
+  const [facultad, setFacultad] = useState([]);
+
+  
+  useEffect(() => {
+    async function fetchData() {
+      console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("facultades:", res);
+      setFacultades(res.facultades);
+      console.log("facultades:", facultades);
+    }
+    fetchData();
+  }, {});
 
   useEffect(() => {
     async function fetchData() {
@@ -19,24 +37,23 @@ const Coordinador = () => {
     }
     fetchData();
   }, {});
-  async function fetchData() {
-    const endpoint = "/api/coordinador";
-    const params = { servicio: endpoint };
-    const res = await GET(params);
-    console.log(res.coordinadores);
-    console.log(flag);
-
-    setCoordinadores(res.coordinadores);
-  }
   
   return (
     <div>
       <NombrePrincipal titulo="Coordinadores" />
-      <Grid container justify="flex-end" spacing={1}>
-        <RegistrarCoordinador flag={flag} setFlag={setFlag}/>
-        {flag>0? fetchData():null}
+      <Grid container md={12} alignItems="flex-end" alignContent="center" justify="center">
+        <Grid item md={9} >
+          <ComboBoxFacus
+            facultades={facultades}
+            facultad={facultad}
+            setFacultad={setFacultad}
+          /> 
+        </Grid> 
+        <Grid item md={2}>
+          <RegistrarCoordinador/>
+        </Grid>
       </Grid>
-      <ListaCoordinadores coordinadores={coordinadores} />   
+      <ListaCoordinadores idFacu={facultad}/>   
     </div>
   );
 };

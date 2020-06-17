@@ -102,8 +102,8 @@ class IniciarSesion extends Component {
                   autoFocus={true}
                   name="Usuario"
                   label="Usuario"
+                  inicial="josefeliciano@pucp.edu.pe"
                   validacion={{ lim: 30 }}
-                  inicial="tupia@pucp.pe"
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
                 />

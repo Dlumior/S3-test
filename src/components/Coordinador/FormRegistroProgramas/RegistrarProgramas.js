@@ -14,11 +14,12 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Programas from "../../../pages/Coordinador/Programas";
-import ComboBoxPrograma from "../../Administrador/RegistrarCoordinador/ComboBoxPrograma"
+import ComboBoxFacu from "./ComboBoxFacus"
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
 import Alertas from "../Alertas";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
+import { getUser } from "../../../Sesion/Sesion";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,8 +58,8 @@ const RegistrarProgramas = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [selectedValue, setSelectedValue] = React.useState();
-  const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState([]);
+  const [facultades, setFacultades] = useState([]);
+  const [facultad, setFacultad] = useState([]);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -74,15 +75,16 @@ const RegistrarProgramas = () => {
     severS:"success"
   });
 
-
+  //facultades por coordinador
   useEffect(() => {
     async function fetchData() {
-      const endpoint = "/api/facultad";
+      console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("proogramasss:", res);
-      setProgramas(res.facultad);
-      console.log("proograma:", programa);
+      console.log("facultades:", res);
+      setFacultades(res.facultades);
+      console.log("facultades:", facultades);
     }
      fetchData();
   }, {});
@@ -123,8 +125,8 @@ const RegistrarProgramas = () => {
 
       return;
     } else {
-      console.log("id_facu",programa);
-      datosForm.ID_FACULTAD=programa;
+      console.log("id_facu",facultad);
+      datosForm.ID_FACULTAD=facultad;
       setDatosForm({
         ...datosForm,
       });
@@ -134,33 +136,30 @@ const RegistrarProgramas = () => {
       console.log("saving new prog in DB:",   );
       let nuevoProg = await Conexion.POST(props);
       console.log("got updated prog from back:", nuevoProg);
-      /*
-      //para relacionarlo con el coordinador:
-      const props = { servicio: "/api/programa", request: {programa: datosForm} };
-      console.log("saving new prog in DB:", datosForm);
-      let nuevoProg = await Conexion.POST(props);
-      console.log("got updated prog from back:", nuevoProg);
-      */
+     if (nuevoProg){
       if (nuevoProg.registro.ok===1){
         if (nuevoProg){      
           setSeveridad({
-            severidad:severidad.severS,
+            severidad:"success",
           });     
           setAlerta({
-            mensaje:alerta.mensajeExito,
+            mensaje:"Programa Registrado Satisfactoriamente",
           });      
           console.log("severidad= ",severidad.severidad);
-          //setOpen(false);
-  
-          
-          return(
-            <div>
-              <Programas/>
-            </div>
-          );
-        
+          //setOpen(false);        
       }
-      }
+    }else if(nuevoProg.registro.ok===0){
+      setSeveridad({
+        severidad:"error",
+      });     
+      setAlerta({
+        mensaje:"El programa ya existe",
+      });      
+      console.log("severidad= ",severidad.severidad);
+      
+    }
+
+     }
 
     }  
   };
@@ -208,11 +207,10 @@ const RegistrarProgramas = () => {
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
                 />
-                <ComboBoxPrograma
-                  setPDisabled={setPDisabled}
-                  programas={programas}
-                  programa={programa}
-                  setPrograma={setPrograma}
+                <ComboBoxFacu
+                  facultades={facultades}
+                  facultad={facultad}
+                  setFacultad={setFacultad}
                 />   
               </Grid>
             </Grid>

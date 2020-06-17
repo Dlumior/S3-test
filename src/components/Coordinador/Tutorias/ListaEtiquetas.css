@@ -1,0 +1,6 @@
+.listaEtiquetasJinSSJ {
+    overflow: hidden;
+}
+div.listaEtiquetasJinSSJ:hover {
+    overflow: auto;
+}

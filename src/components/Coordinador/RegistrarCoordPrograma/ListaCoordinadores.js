@@ -21,8 +21,8 @@ const style = {
 
 
 class ListaCoordinadores extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
         coordinadores: {columns: [{
             title: "Nombre",
@@ -30,17 +30,12 @@ class ListaCoordinadores extends React.Component {
             data:[{nombre:""}]  },
         coordinadores:[{id:"1"}]
     };
-    //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+    this.establecerData = this.establecerData.bind(this);
 
   }
-  async componentDidMount(){
-    let aregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    
-    console.log("arreglo: ",aregloCoord);
-
+  establecerData(arregloCoord){
     let arreglillo = [];
-    for (let element of aregloCoord.coordinadores){
+    for (let element of arregloCoord.coordinadores){
         arreglillo.push({
                         codigo:element.CODIGO,
                         nombre:element.NOMBRE+ " "+ element.APELLIDOS,
@@ -74,6 +69,22 @@ class ListaCoordinadores extends React.Component {
         data: arreglillo
       };
       this.setState({coordinadores:data});
+
+  }
+  async componentDidUpdate(prevProps){
+    if (this.props.idFacu!==prevProps.idFacu){
+      console.log("idFacu: ",this.props.idFacu);
+      let arregloCoord=await Controller.GET({servicio:"/api/coordinadorprograma/"+this.props.idFacu});
+      //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+      console.log("arreglo: ",arregloCoord);
+      this.establecerData(arregloCoord);
+
+    }
+  }
+  async componentDidMount(){
+    let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});    
+    console.log("arreglo: ",arregloCoord);
+    //this.establecerData(arregloCoord);
 }
 
 

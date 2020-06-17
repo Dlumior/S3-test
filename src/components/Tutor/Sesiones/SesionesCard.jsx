@@ -15,6 +15,7 @@ const styles = {
 class SesionesCard extends Component {
   render() {
     const cita = this.props.cita;
+    console.log(cita);
     return (
       <>
         <Paper style={styles.paper}>
@@ -35,7 +36,7 @@ class SesionesCard extends Component {
                 display="block"
                 gutterBottom
               >
-                {"PAYASO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+                {"ALUMNO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
               </Typography>
             </Grid>
 

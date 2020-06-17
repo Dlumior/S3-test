@@ -132,7 +132,7 @@ const RegistrarSesion = () => {
     const nuevaSesion = {
       sesion: {
         ID_TUTOR: (getUser()).usuario.ID_USUARIO,
-        ID_PROCESO_TUTORIA: "11",
+        ID_PROCESO_TUTORIA: "43",
         LUGAR: datosForm.lugar,
         MOTIVO: "PUCP",
         DESCRIPCION: datosForm.descripcion,

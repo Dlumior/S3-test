@@ -5,6 +5,7 @@ import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import FrmSolicitarTutorTipoII from "../../components/Alumno/FrmSolicitarTutorTipoII.js";
 import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarCitaTutor_granito.js";
 import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas";
+import { UserContext, getUser } from "../../Sesion/Sesion";
 
 
 class Sesiones extends Component {
@@ -15,7 +16,8 @@ class Sesiones extends Component {
           {
             titulo: "Solicite una cita según las disponibilidades disponibles",
             procesos: [
-              { index: 0, titulo: "Horarios Disponibles", proceso: ()=><CalendarioCitas servicio="/api/listaSesiones/53/" tipo="cita"/> },
+              { index: 0, titulo: "Horarios Disponibles", proceso: ()=><CalendarioCitas servicio={"/api/listaSesiones/"+
+                getUser().usuario.ID_USUARIO +"/"} tipo="cita"/> },
             ],
           },
         ],

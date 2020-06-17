@@ -8,10 +8,6 @@ const styles = {
   control: {
     textAlign: "center",
   },
-  tituloDia: {
-    textAlign: "center",
-    marginTop: "3%",
-  },
   container: {
     marginLeft: "2%",
     marginRight: "2%",
@@ -28,8 +24,8 @@ class CalendarioCitas extends Component {
       modoBatallador: true,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
-    this.handleFiltroPrograma = this.handleFiltroPrograma.bind(this);
-    this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
+    this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
+    this.handleFiltroTutores = this.handleFiltroTutores.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
   }
   /**
@@ -102,10 +98,14 @@ class CalendarioCitas extends Component {
       ),
     });
   }
-  handleFiltroPrograma(idProceso) {}
-  handleFiltroTutor(idTutor) {}
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
+  }
+  handleFiltroProceso(idProceso){
+    console.log("idProceso seleccionado: ", idProceso);
+  }
+  handleFiltroTutores(idTutores){
+    console.log("idTutores seleccionado: ", idTutores);
   }
   render() {
     return (
@@ -118,6 +118,7 @@ class CalendarioCitas extends Component {
           handleFiltroProceso={this.handleFiltroProceso}
           handleFiltroTutores={this.handleFiltroTutores}
           modoBatallador={this.handleModoBatallador}
+          tipo= {this.props.tipo}
         />
         {this.state.modoBatallador ? (
           <Grid container spacing={4} alignContent="center">
