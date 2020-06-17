@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, TextField, Grid, Button, makeStyles } from "@material-ui/core";
-import {getUser} from "../../Sesion/Sesion";
+import { getUser } from "../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -10,8 +10,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Datos = () => {
+const Datos = (props) => {
   const classes = useStyles();
+
+  const { isEdit } = props;
+  // const isEdit = true;
 
   return (
     <Paper className={classes.caja}>
@@ -19,53 +22,72 @@ const Datos = () => {
         <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
-              autoFocus
+              disabled
               margin="dense"
               id="name"
               label="Codigo"
               type="text"
               fullWidth
-              defaultValue = {getUser().usuario.CODIGO}
+              defaultValue={props.codigo}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
-              autoFocus
+              disabled
               margin="dense"
               id="name"
               label="Correo"
               type="email"
               fullWidth
-              defaultValue = {getUser().usuario.CORREO}
+              defaultValue={props.correo}
             />
           </Grid>
         </Grid>
         <Grid item xs={12} container spacing={10}>
           <Grid item xs={6}>
             <TextField
-              autoFocus
+              disabled={!isEdit}
               margin="dense"
               id="name"
-              label="Facultad"
+              label="Dirección"
               type="text"
               fullWidth
+              defaultValue={props.direccion}
+              inputRef={props.refs.dir}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
-              autoFocus
+              disabled={!isEdit}
               margin="dense"
               id="name"
-              label="Especialidad"
+              label="Teléfono"
               type="text"
               fullWidth
+              defaultValue={props.telefono}
+              inputRef={props.refs.tel}
             />
           </Grid>
         </Grid>
         <Grid item xs={12} container justify="flex-start" alignItems="center">
-          <Button color="primary" variant="outlined">
-            Editar
-          </Button>
+          {isEdit && (
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={props.handleGuardar}
+            >
+              Guardar
+            </Button>
+          )}
+          {!isEdit && (
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={props.handleEdit}
+            >
+              Editar
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Paper>
