@@ -86,6 +86,9 @@ const handleHoraFin = (e, datosForm, setDatosForm) => {
 };
 const handleLugar = (e, datosForm, setDatosForm) => {
   console.log("lugar",e.target.value);
+  if (e.target.value.length > 45) {
+    document.getElementById("lugar").value = e.target.value.substring(0,45);
+  }
   setDatosForm({
     ...datosForm,
     lugar: e.target.value,
@@ -95,6 +98,9 @@ const handleLugar = (e, datosForm, setDatosForm) => {
 };
 const handleResultados = (e, datosForm, setDatosForm) => {
   console.log("resu",e.target.value);
+  if (e.target.value.length > 45) {
+    document.getElementById("res").value = e.target.value.substring(0,250);
+  }
   setDatosForm({
     ...datosForm,
     resultado: e.target.value,
