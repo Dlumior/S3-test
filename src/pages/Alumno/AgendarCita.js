@@ -17,7 +17,7 @@ class AgendarCita extends Component {
       procesos: [
         //regularTipo1: [0] <- (Tutor Individual - VARIABLE - Solicitado)
         {
-          titulo: "Solicite una cita según las disponibilidades disponibles",
+          titulo: "Solicite una cita según las siguientes disponibilidades ",
           procesos: [
             {
               index: 0,
