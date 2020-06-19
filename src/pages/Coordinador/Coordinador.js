@@ -71,7 +71,7 @@ const Coordinador = (props) => {
         />
         <Route
           exact
-          path="/coordinador/registrarcoordinadores"
+          path="/coordinador/registrarcoordinadoresdeprograma"
           component={RegistrarCoordPrograma}
         />
       </BarraNavegacion>
