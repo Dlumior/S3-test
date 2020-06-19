@@ -154,7 +154,7 @@ const BarraNavegacion = (props) => {
             {[
               "Perfil",
               "Programas",
-              "Registrar Coordinadores",
+              "Registrar Coordinadores de Programa",
               "Procesos de Tutoria",
               "Registrar Alumnos",
               "Registrar Tutores",

@@ -15,6 +15,7 @@ const style = {
     paper: {
       marginTop: "3%",
       marginLeft: "3%",
+      marginRight:"3%",
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
@@ -24,7 +25,7 @@ const style = {
 
 
 class ListaFacultades extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
         facultades: {columns: [{
@@ -34,13 +35,11 @@ class ListaFacultades extends React.Component {
         facultad:[{id:"1"}]
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+    this.establecerData = this.establecerData.bind(this);
 
   }
-  async componentDidMount(){
-    let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    
-    console.log("arreglo: ",arregloFac);
+
+  establecerData(arregloFac){
 
     let arreglillo = [];
     for (let element of arregloFac.facultad){
@@ -89,6 +88,24 @@ class ListaFacultades extends React.Component {
         data: arreglillo
       };
       this.setState({facultades:data});
+
+  }
+  async componentDidUpdate(prevProps){
+    if (this.props.facultades!==prevProps.facultades){
+      console.log("fac",this.props.facultades);
+      let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+      
+      this.establecerData(arregloFac);
+    }    
+  }
+
+  async componentDidMount(){
+    let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+    
+    console.log("arreglo: ",arregloFac);
+    this.establecerData(arregloFac);
+
 }
 
 

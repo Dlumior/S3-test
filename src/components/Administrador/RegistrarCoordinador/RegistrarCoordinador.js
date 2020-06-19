@@ -94,7 +94,6 @@ const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
 */
 
 const RegistrarCoordinador = (props) => {
-  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     CODIGO: "",
     NOMBRE: "",
@@ -169,10 +168,6 @@ const RegistrarCoordinador = (props) => {
       datosForm.CORREO==='' || datosForm.CODIGO===''
     ) {
 
-      //let alerta = Object.assign({}, alert);
-      //console.log("alerta",alerta);
-      //alerta.mensaje = alerta.mensajeError;
-      //severidad="error";
       setSeveridad({
         severidad:severidad.severE,
       });     
@@ -206,19 +201,28 @@ const RegistrarCoordinador = (props) => {
       console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);
-
-      if (nuevoCoord){      
+      if (nuevoCoord.error){
         setSeveridad({
-          severidad:severidad.severS,
+          severidad:"error",
         });     
         setAlerta({
-          mensaje:"Se registro al coordinador satisfactoriamente",
+          mensaje:nuevoCoord.error,
         });      
-        console.log("severidad= ",severidad.severidad);
-        //setFlag(flag=>flag+1);
-        console.log("flag: ",flag);
-        //setOpen(false);
+
+      }else{
+        if (nuevoCoord){    
+
+          setSeveridad({
+            severidad:severidad.severS,
+          });     
+          setAlerta({
+            mensaje:"Se registro al coordinador satisfactoriamente",
+          });      
+          console.log("severidad= ",severidad.severidad);
+        }
+
       }
+      
 
     }  
     

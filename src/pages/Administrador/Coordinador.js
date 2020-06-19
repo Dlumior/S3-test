@@ -4,11 +4,11 @@ import TablaCoordinador from "../../components/Administrador/RegistrarCoordinado
 import RegistrarCoordinador from "../../components/Administrador/RegistrarCoordinador/RegistrarCoordinador";
 import ListaCoordinadores from "../../components/Administrador/RegistrarCoordinador/ListaCoordinadores";
 import { GET } from "../../Conexion/Controller";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, IconButton } from "@material-ui/core";
+import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 
 const Coordinador = () => {
   const [coordinadores, setCoordinadores] = useState([]);
-  const [flag, setFlag] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -24,17 +24,24 @@ const Coordinador = () => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log(res.coordinadores);
-    console.log(flag);
-
     setCoordinadores(res.coordinadores);
   }
+  const forceUpdate = React.useCallback(() => setCoordinadores({}), []);
   
   return (
     <div>
       <NombrePrincipal titulo="Coordinadores" />
-      <Grid container justify="flex-end" spacing={1}>
-        <RegistrarCoordinador flag={flag} setFlag={setFlag}/>
-        {flag>0? fetchData():null}
+      <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
+        <Grid item>
+        <RegistrarCoordinador/>
+        </Grid>
+        <Grid item>
+        <IconButton color="primary" onClick={forceUpdate}>
+        <RefreshRoundedIcon
+          color="primary">
+        </RefreshRoundedIcon>
+        </IconButton>
+        </Grid>        
       </Grid>
       <ListaCoordinadores coordinadores={coordinadores} />   
     </div>
