@@ -5,6 +5,7 @@ import TablaTutores from "./TablaTutores.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import FrmDialogoSolicitarTutor from "./FrmDialogoSolicitarTutor";
+import { getUser } from "../../Sesion/Sesion";
 
 
 const style = {
@@ -52,7 +53,8 @@ class FrmSolicitarCitaTutor_granito extends Component {
     }
 
     async componentDidMount() {
-        let arregloDeTutores = await Controller.GET({ servicio: "/api/tutor" });
+        let arregloDeTutores = 
+        await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
         console.log("arreglo: ", arregloDeTutores);
 
@@ -107,7 +109,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
                     field: "nombre",
                 },
                 {
-                    title: "Correo Electrónico",
+                    title: "CORREO ELECTRÓNICO",
                     field: "correo"
                 },
                 /*
@@ -155,7 +157,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
                     aria-labelledby="form-dialog-title"
                 >                  
                     <DialogContent>                     
-                        <FrmDialogoSolicitarTutor /> 
+                        <h3>Regresar al filtro x este tutor</h3>
                     </DialogContent>
            
                     <DialogActions>
@@ -164,7 +166,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnCloseVerDispo}                        >
-                            Solicitar Cita
+                            Oki Doki 
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -177,7 +179,7 @@ export default FrmSolicitarCitaTutor_granito;
 
 const estilo = {
     imagen: {
-        width: "45%",
+        width: "30%",
         borderRadius: "100%",
     }
 }
