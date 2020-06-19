@@ -15,6 +15,7 @@ import Alertas from "../Alertas";
 import CampoDeTexto from "./CampoDeTexto";
 import TituloFormulario from "./TituloFormulario";
 import ListaComboBox from "./ListaComboBox";
+import { getUser } from "../../../Sesion/Sesion";
 const estilos = {
   paper: {
     marginTop: "1%",

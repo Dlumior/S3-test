@@ -185,7 +185,7 @@ const RegistrarSesion = () => {
         severidad:"success",
       }); 
       setAlerta({
-        mensaje:"chevere causita",
+        mensaje:"La sesión se ha registrado satisfactoriamente",
       }); 
       const nuevaSesion = {
         sesion: {

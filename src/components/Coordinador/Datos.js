@@ -49,7 +49,6 @@ const Datos = () => {
               label="Facultad"
               type="text"
               fullWidth
-              defaultValue = {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.FACULTAD.NOMBRE}
             />
           </Grid>
           <Grid item xs={6}>
