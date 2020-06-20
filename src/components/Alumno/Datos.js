@@ -21,7 +21,7 @@ const Datos = () => {
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="codigo"
               label="Código"
               type="text"
               fullWidth
@@ -32,7 +32,7 @@ const Datos = () => {
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="correo"
               label="Correo"
               type="email"
               fullWidth
@@ -45,20 +45,22 @@ const Datos = () => {
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="facultad"
               label="Facultad"
               type="text"
               fullWidth
+              defaultValue = {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.FACULTAD.NOMBRE}
             />
           </Grid>
           <Grid item xs={6}>
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="programa"
               label="Especialidad"
               type="text"
               fullWidth
+              defaultValue = {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.NOMBRE}
             />
           </Grid>
         </Grid>

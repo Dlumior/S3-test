@@ -1,5 +1,6 @@
 import React from "react";
 import MaterialTable from "material-table";
+//import { Button } from "@material-ui/core";
 
 function Tabla(props) {
     //const [state, setState] = React.useState(data);  //ya no uso el state de material
@@ -12,9 +13,9 @@ function Tabla(props) {
         //data={state.data}
 
         title=""
-        columns={props.tutores.columns}
-        data={props.tutores.data}
-       
+        columns={props.alumnos.columns}
+        data={props.alumnos.data}
+        
         options={{
           rowStyle: {
              backgroundColor: '#FFF',
@@ -22,9 +23,10 @@ function Tabla(props) {
            headerStyle: {
             backgroundColor: '#3AAFA9',
             color: '#FFF',
-            fontSize: 20
+            fontSize: 14
           },
         }}
+       
       />
     );
   }

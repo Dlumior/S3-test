@@ -7,7 +7,7 @@ import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
 
 import * as Controller from "../../../Conexion/Controller";
-import TablaAlumnos from "../TablaAlumnos";
+import TablaAlumnos from "./TablaAlumnos";
 
 const style = {
     paper: {
@@ -108,52 +108,12 @@ async handleOnChangeChecked(e) {
 
 }
 
-
-/*
-async handleOnChangeChecked(e) {
-  let programa = e.target.value;
-      let programas = [];
-      programas.push(programa.ID_PROGRAMA);
-    await this.props.escogerPrograma(programas);
-    this.setState({ programa: e.target.value });
-    e.target.value=this.state.programa;
-}
-
-handleOnChangeChecked() {
-  
-  var checksAlumnos = document.getElementsByClassName("alumnos");
-  for(var id in checksAlumnos){
-    //bind event to each checkbox
-    checksAlumnos[id].onchange = escogerAlumnos;
-  }
-  function escogerAlumnos(){
-    var selec = this.value; 
-    if (this.checked){
-      this.state.alumnosSeleccionados.push({id:id}) 
-    }
-
-  }
-}
-
-/*
-escogerAlumnos(idAlumno) {
-  
-  console.log("idAlumo",idAlumno);
-  var idA=checkbox.getElementById(idAlumno);
-  if (idA.checked===true){
-    this.state.alumnosSeleccionados.push({id:idAlumno});  
-  }
-}
-*/
 render(){
     return (
         <div>
-            <Paper elevation={0} style={style.paper}>
-                {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                <TablaAlumnos 
-                  alumnos={this.state.alumnos}
-                />
-            </Paper>
+            <TablaAlumnos 
+              alumnos={this.state.alumnos}
+            />
         </div>
     );
 }

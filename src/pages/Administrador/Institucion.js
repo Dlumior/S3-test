@@ -11,11 +11,11 @@ const Institucion = (props) => {
   const [institucion, setInstitucion] = useState({
     "institucion": {
       ID_INSTITUCION:"1",
-      NOMBRE: "Pontificia Universidad Catolica del Peru",
-      INICIALES: "PUCP",
+      NOMBRE: "",
+      INICIALES: "",
       IMAGEN: "",
-      TELEFONO: "200100",
-      PAGINA_WEB: "www.pucp.edu.pe",
+      TELEFONO: "",
+      PAGINA_WEB: "",
       DOMINIO: "",
       UBICACION: "",
       EXTENSION: "png"

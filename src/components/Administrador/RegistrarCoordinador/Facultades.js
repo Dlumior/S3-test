@@ -64,6 +64,14 @@ const Facultades = (props) => {
             console.log("programas ",programas);
             //var i=programas.indexof(programa);
             console.log("programa ",programa);
+            /*
+            let arr=programas.filter(function(e){
+              return e.ID_PROGRAMA!==programa;
+            });
+            console.log("arr",arr);
+            //setProgramas(arr);
+            console.log("prog",programas);
+            */
 
           }else{
             setCantPrograma(cantProgramas => func);
@@ -94,6 +102,7 @@ const Facultades = (props) => {
                       programas={programas}
                       programa={programa[item]}
                       setPrograma={setPrograma}
+                      setProgramas={setProgramas}
                     />      
                 ))}
               </Grid>
@@ -110,6 +119,7 @@ const Facultades = (props) => {
                 programas={programas}
                 programa={programa[0]}
                 setPrograma={setPrograma}
+                setProgramas={setProgramas}
                 />
             </Grid>                           
                 <Grid item md={4}> 

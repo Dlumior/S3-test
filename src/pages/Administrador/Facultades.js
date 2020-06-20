@@ -3,10 +3,12 @@ import RegistrarFacultad from "../../components/Administrador/Facultades/Registr
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import ListaFacultades from "../../components/Administrador/Facultades/ListaFacultades";
 import { GET } from "../../Conexion/Controller";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles, IconButton } from "@material-ui/core";
+import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 
 const Facultades = () => {
   const [facultades, setFacultades] = useState([]);
+  //const [update,setUpdate]=useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -18,12 +20,23 @@ const Facultades = () => {
     fetchData();
   }, {});
 
+  //const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => setFacultades({}), []);
 
   return (
     <div>
       <NombrePrincipal titulo="Facultades" />
-      <Grid container justify="flex-end" spacing={1}>
+      <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
+        <Grid item>
         <RegistrarFacultad/>
+        </Grid>
+        <Grid item>
+        <IconButton color="primary" onClick={forceUpdate}>
+        <RefreshRoundedIcon
+          color="primary">
+        </RefreshRoundedIcon>
+        </IconButton>
+        </Grid>        
       </Grid>
       <ListaFacultades facultades={facultades} />   
     </div>

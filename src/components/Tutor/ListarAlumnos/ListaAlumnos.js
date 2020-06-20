@@ -31,14 +31,14 @@ const ListaAlumnos = (props) => {
       <Grid container spacing={5}>
         {alumnos.map((item) => (
           <ItemAlumno
-            key={item.ID_ALUMNO}
+            key={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ID_ALUMNO}
             fullname={
-              item.ALUMNO.USUARIO.NOMBRE + " " + item.ALUMNO.USUARIO.APELLIDOS
+              item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.NOMBRE + " " + item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.APELLIDOS
             }
-            faculty={item.ALUMNO.USUARIO.PROGRAMAs.map(
+            faculty={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.PROGRAMAs.map(
               (programa) => programa.NOMBRE + "/"
             )}
-            image={item.ALUMNO.USUARIO.IMAGEN}
+            image={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.IMAGEN}
           />
         ))}
       </Grid>

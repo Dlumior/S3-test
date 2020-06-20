@@ -4,6 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { FormControl, FormHelperText, Paper } from "@material-ui/core";
 import * as Conexion from "../../../Conexion/Controller";
+import {getUser} from "../../../Sesion/Sesion"
 const estilos = {
   paper: {
     marginLeft: "10%",
@@ -39,7 +40,11 @@ class ListaProgramas extends React.Component {
   async componentDidMount() {
     let listaProgramas = await Conexion.GET({servicio:this.props.enlace});
     console.log("programas",listaProgramas);
-    this.setState({programas:listaProgramas.programa});
+    if(getUser().rol === "Coordinador Programa"){
+      this.setState({programas:listaProgramas.programas});
+    }else{
+      this.setState({programas:listaProgramas.programa});
+    }    
     console.log("programas del state",this.state.programas);    
   }
   shouldComponentUpdate(nextState, nextProps) {

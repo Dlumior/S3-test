@@ -12,6 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const handleClick = () =>{
+  let usuario={...JSON.parse(sessionStorage.Sesion)}
+  usuario.rol = "Alumno";
+  sessionStorage.Sesion = JSON.stringify(
+    usuario
+  );
+  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol)
+}
+
 const Perfil = () => {
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);

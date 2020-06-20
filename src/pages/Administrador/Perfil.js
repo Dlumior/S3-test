@@ -22,7 +22,7 @@ const Perfil = (props) => {
     <div>
       {/*<Cabecera />*/}
       <CabeceraPerfil titulo="Administrador"
-        nombre= {getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE} 
+        nombre= {getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE} 
         imagen={CarolinaH}
       //imagen="https://pps.whatsapp.net/v/t61.24694-24/76633458_696724491134649_6543062526296892872_n.jpg?oe=5ECCD65C&oh=c0e140eec24c477fbfdc4ee4254c54c6" />
       />

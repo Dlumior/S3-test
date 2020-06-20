@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
 
 import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
-import TablaTutores from "./TablaTutores.js";
+import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import { getUser } from "../../Sesion/Sesion";
 //import DialogTitle from "@material-ui/core/DialogTitle";
 
 const style = {
@@ -60,7 +61,8 @@ class FrmMisCitas extends Component {
     }
 
     async componentDidMount() {
-        let arregloDeTutores = await Controller.GET({ servicio: "/api/tutor" });
+        let arregloDeTutores = 
+        await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
         console.log("arreglo: ", arregloDeTutores);
 
@@ -76,7 +78,7 @@ class FrmMisCitas extends Component {
                 imagen: <div>
                     <img
                         style={estilo.imagen}
-                        src="https://pps.whatsapp.net/v/t61.24694-24/85530587_916267998890014_8807625453394128069_n.jpg?oe=5EE0423A&oh=2151884f16df676da1f07d40d392a3c4">
+                        src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
 
                     </img>
                 </div>,
@@ -94,6 +96,7 @@ class FrmMisCitas extends Component {
                     >
                         CANCELAR
                     </Button>,
+                sheckEstado : "Done!"
                 /*
                 btnPosponer:
                     <Button
@@ -129,6 +132,10 @@ class FrmMisCitas extends Component {
                 {
                     title: "CANCELAR CITA",
                     field: "btnCancelar"
+                },
+                {
+                    title: "ESTADO",
+                    field: "sheckEstado"
                 },
                 /*
                 {
@@ -199,7 +206,7 @@ class FrmMisCitas extends Component {
 
                     </Tabs>*/}
                     {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                    <TablaTutores tutores={this.state.tutores} />
+                    <TablaTutoresMisCitas tutores={this.state.tutores} />
 
                 </Paper>
                 {/**
@@ -239,7 +246,7 @@ export default FrmMisCitas;
 
 const estilo = {
     imagen: {
-        width: "45%",
+        width: "30%",
         borderRadius: "100%",
     }
 }

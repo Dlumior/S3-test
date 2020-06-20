@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Grid, Chip, Paper, Typography, Button, Dialog } from "@material-ui/core";
+import {
+  Grid,
+  Chip,
+  Paper,
+  Typography,
+  Button,
+  Dialog,
+} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import ImagenCircular from "../../Shared/ImagenCircular";
@@ -20,115 +27,97 @@ class DisponibilidadCard extends Component {
     super();
     this.state = {
       tutores: {
-        columns: [{
-          title: "Nombre",
-          field: "nombre",
-        }],
-        data: [{ nombre: "" }]
+        columns: [
+          {
+            title: "Nombre",
+            field: "nombre",
+          },
+        ],
+        data: [{ nombre: "" }],
       }, //aqui va el nombre de la tablilla
       open: false,
-
     };
-
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
-
-   
-  };
-
-
+  }
   //=============================================================
   handleOnClick() {
     this.setState({ open: true });
   }
-
   handleOnClose() {
     //console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
   }
-
-  
-
-
   render() {
     const disponibilidad = this.props.disponibilidad;
     return (
       <>
-        <Button
-          onClick={this.handleOnClick}
-
-        >
+        <Button onClick={this.handleOnClick}>
           <Paper style={styles.paper}>
             {/** Encabezado Imagen y nombre */}
-            <Grid container spacing={2} style={styles.chip}>
-              <Grid item md={3} xs={3}>
-                <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+            <Grid container spacing={0}>
+              <Grid container spacing={0}>
+                <Grid item md={3} xs={3}>
+                  <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                </Grid>
+                <Grid item md={9} xs={9}>
+                  <Grid item md={12} xs={12}>
+                    <Typography component="paragraph">
+                      {disponibilidad.TUTOR.USUARIO?.NOMBRE + " "}
+                    </Typography>
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <Typography component="paragraph">
+                      {disponibilidad.TUTOR.USUARIO?.APELLIDOS}
+                    </Typography>
+                  </Grid>
+                </Grid>
               </Grid>
-              <Grid item md={9} xs={9}>
-                <Typography
-                  variant="button"
-                  component="h4"
-                  style={styles.control}
-                  display="block"
-                  gutterBottom
-                >
-                  {disponibilidad.TUTOR.USUARIO?.NOMBRE + " "}
-                </Typography>
-                <Typography
-                  variant="button"
-                  component="h3"
-                  style={styles.control}
-                  display="block"
-                  gutterBottom
-                >
-                  {disponibilidad.TUTOR.USUARIO?.APELLIDOS}
-                </Typography>
+              {/** horas */}
+              <Grid container spacing={0}>
+                <Grid item md={1} xs={1} />
+                <Grid item md={1} xs={1}>
+                  <Typography
+                    variant="button"
+                    component="h4"
+                    style={styles.chip}
+                    display="block"
+                    gutterBottom
+                  >
+                    <strong style={styles.chip}>De:</strong>
+                  </Typography>
+                </Grid>
+                <Grid item md={4} xs={4}>
+                  <Chip
+                    label={disponibilidad?.HORA_INICIO}
+                    color="primary"
+                    size="small"
+                    variant="outlined"
+                  />
+                </Grid>
+
+                <Grid item md={1} xs={1}>
+                  <Typography
+                    variant="button"
+                    component="h4"
+                    style={styles.chip}
+                    display="block"
+                    gutterBottom
+                  >
+                    <strong>A:</strong>
+                  </Typography>
+                </Grid>
+                <Grid item md={4} xs={4}>
+                  <Chip
+                    label={disponibilidad?.HORA_FIN}
+                    color="primary"
+                    size="small"
+                    variant="outlined"
+                  />
+                  <Grid item md={1} xs={1} />
+                </Grid>
               </Grid>
             </Grid>
-            {/* Las horas */}
-            <Grid container spacing={0} alignContent='stretch'>
-              <Grid item md={6} xs={6}>
-                <Typography
-                  variant="button"
-                  component="h2"
-                  style={styles.chip}
-                  display="block"
-                  gutterBottom
-                >
-                  <strong>Hora Inicio</strong>
-                </Typography>
-              </Grid>
-              <Grid item md={6} xs={6}>
-                <Chip
-                  label={disponibilidad?.HORA_INICIO}
-                  color="primary"
-                  size="small"
-                  variant="outlined"
-                />
-              </Grid>
-
-              <Grid item md={6} xs={6}>
-                <Typography
-                  variant="button"
-                  component="h2"
-                  style={styles.chip}
-                  display="block"
-                  gutterBottom
-                >
-                  <strong>Hora Fin</strong>
-                </Typography>
-              </Grid>
-              <Grid item md={6} xs={6}>
-                <Chip
-                  label={disponibilidad?.HORA_FIN}
-                  color="primary"
-                  size="small"
-                  variant="outlined"
-                />
-              </Grid>
-              {/**fin minicontainer */}
-            </Grid>
-
           </Paper>
         </Button>
 
@@ -138,14 +127,15 @@ class DisponibilidadCard extends Component {
           aria-labelledby="form-dialog-title"
         >
           <DialogContent>
-
-            <FrmDialogoSolicitarTutor dispo={this.props.disponibilidad}
-              fexaForm={this.props.fexaForm}   />
-
+            <FrmDialogoSolicitarTutor
+              dispo={this.props.disponibilidad}
+              fexaForm={this.props.fexaForm}
+              onCloseFrm ={this.handleOnClose}
+            />
           </DialogContent>
 
           <DialogActions>
-            
+
           </DialogActions>
         </Dialog>
 

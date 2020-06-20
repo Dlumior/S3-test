@@ -19,15 +19,25 @@ const useStyles = makeStyles((theme) => ({
 
 const ComboBoxPrograma = (props) => {
   const classes = useStyles();
-  const { programas, programa, setPrograma, cantProgramas } = props;
+  const { programas, programa, setPrograma, setProgramas,cantProgramas } = props;
 
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
+    //quitamos ese valor del combobox
+    console.log("programassss",programas);
+    /*
+    let arr=programas.filter(function(e){
+      return e.ID_PROGRAMA!==event.target.value;
+    });
+    console.log("arr",arr);
+    setProgramas(arr);
+    console.log("prog",programas);
+    */
   };
 
   return (
     <FormControl style={{width:230 }}>
-      <InputLabel id={cantProgramas}>Facultades</InputLabel>
+      <InputLabel id={cantProgramas}>Facultad</InputLabel>
       <Select
         labelId="demo-simple-select-label"
         id={cantProgramas}

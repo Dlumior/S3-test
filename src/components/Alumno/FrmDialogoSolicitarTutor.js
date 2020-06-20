@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ImagenCircular from "../Shared/ImagenCircular";
-import { Grid, Chip, Paper, TextField, Button } from "@material-ui/core";
+import { Grid, Chip, Paper, TextField, Button,Dialog } from "@material-ui/core";
 import FerCarrillo from "./tutor2.png";
 
 import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
@@ -11,6 +11,23 @@ import CampoDeTexto from "./../Coordinador/Tutorias/CampoDeTexto.jsx";
 //../Coordinador/Tutorias/CampoDeTexto.js";
 import { getUser } from "../../Sesion/Sesion";
 import { POST } from "../../Conexion/Controller";
+
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+
+
+const style = {
+    paper: {
+        marginTop: "3%",
+        marginLeft: "3%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "left",
+        backgroundImage: "",
+    }
+};
+
 
 const styles = {
     paper: {
@@ -39,37 +56,50 @@ class FrmDialogoSolicitarTutor extends Component {
             ],
             _motivoSelecc: "",
             descripcion: "",
+            open:false,
+            mensajillo:""
 
         };
 
         //handles...
         this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
-
-        this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);
-
-        
+        this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);        
         this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
+
+        this.handleOnClick = this.handleOnClick.bind(this);   
+        this.handleOnClose = this.handleOnClose.bind(this);   
+    }
+
+
+      //menaje de satisfaccion
+
+    handleOnClick() {
+        this.setState({ open: true });
+    }
+
+       //menaje de satisfaccion
+    handleOnClose() {
+        this.setState({ open: false });
+        this.props.onCloseFrm();
+
+
     }
 
 
     handleOnChangeMotivo(_motivoSeleccionado) {
-        console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
+        //console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
         this.setState({ _motivoSelecc: _motivoSeleccionado[0].NOMBRE });
-
     }
 
     handleOnChangeCT=(e) =>{
-      // nombre y descripcion
-   
+      // nombre y descripcion   
       console.log(e);
       this.setState({[e.name]: e.value });
 
     }
 
 
-
-    async handleOnClickSolicitarCita() {
-     
+    async handleOnClickSolicitarCita() {     
 
         let yo = getUser();
 
@@ -80,7 +110,7 @@ class FrmDialogoSolicitarTutor extends Component {
                 LUGAR: this.props.dispo.LUGAR,
                 MOTIVO: this.state._motivoSelecc,
                 DESCRIPCION:      this.state.descripcion,
-                FECHA: new Date (this.props.dispo.FECHA),
+                FECHA: this.props.dispo.FECHA,
                 HORA_INICIO: this.props.dispo.HORA_INICIO,
                 HORA_FIN: this.props.dispo.HORA_FIN,
                 ALUMNOS: [yo.usuario.ID_USUARIO],
@@ -91,11 +121,21 @@ class FrmDialogoSolicitarTutor extends Component {
            //se llama al back
 
         const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
-
         let sesionTyS = await POST(props);
-
         console.log("SESIONtYS XXX ",sesionTyS);
 
+        if(!sesionTyS.message){
+            if(!sesionTyS.error){
+                this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+            }else{
+                this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
+
+            }
+        }
+        else{
+            this.setState({mensajillo:sesionTyS.message});
+        }
+        this.setState({open:true })
     }
 
     validarEntradaCT(error) {
@@ -144,9 +184,6 @@ class FrmDialogoSolicitarTutor extends Component {
 
         const _fexilla = new Date(this.props.fexaForm);
 
-
-
-
         return (
             <div >
                 <Paper elevation={3} style={styles.paper}>
@@ -165,12 +202,12 @@ class FrmDialogoSolicitarTutor extends Component {
                 <Paper elevation={3} style={styles.paper}>
                     <Grid container spacing={2} alignContent="center" style={styles.chip}>
                         <Grid item md={6} style={styles.chip}>
-                            <p>DISPONIBILIDAD INICIO : </p>
-                            <Chip label={_disponibilidad?.HORA_INICIO} color="primary" />
+                            <p>Disponibilidad Inicio : </p>
+                            <Chip label={_disponibilidad?.HORA_INICIO} color="primary" size= "medium"/>
                         </Grid>
                         <Grid item md={6} style={styles.chip}>
-                            <p>DISPONIBILIDAD FIN : </p>
-                            <Chip label={_disponibilidad?.HORA_FIN} color="primary" />
+                            <p>Disponibilidad Fin : </p>
+                            <Chip label={_disponibilidad?.HORA_FIN} color="primary" size= "medium" />
                         </Grid>
                         <Grid item md={8} xs={8} >
                             {/*<h1>Motivo: </h1>*/}
@@ -196,10 +233,6 @@ class FrmDialogoSolicitarTutor extends Component {
                                 datos={this.state.lstMotivos}
                                 id={"ID"}
                                 nombre={"NOMBRE"}
-                                //enlace={"/api/programa"}
-                                //id={"ID_PROGRAMA"}
-                                //nombre={"NOMBRE"}
-                                //keyServicio={"programa"}
                                 escogerItem={this.handleOnChangeMotivo}
                             >
 
@@ -239,14 +272,13 @@ class FrmDialogoSolicitarTutor extends Component {
                                     validarEntrada={this.validarEntradaCT}
                                 />
 
-
                             </Paper>
 
                             <Button
                                 size="large"
                                 variant="contained"
                                 color="primary"
-                                onClick={this.handleOnClickSolicitarCita}                        >
+                                onClick={this.handleOnClickSolicitarCita  }                        >
                                 Solicitar Cita
                         </Button>
 
@@ -254,6 +286,32 @@ class FrmDialogoSolicitarTutor extends Component {
                         </Grid>
                     </Grid>
                 </Paper>
+            
+                <Dialog
+                    open={this.state.open}
+                    onClose={this.handleOnClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description" 
+                >
+                 <DialogTitle >
+                     <h3 >Resultado </h3>
+                      
+                     </DialogTitle>
+                 <DialogContent>
+                 {this.state.mensajillo}
+                 </DialogContent>
+                    <DialogActions>
+                        
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnClose}                        >
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                
+
             </div>
         );
     }

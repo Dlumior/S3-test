@@ -42,20 +42,20 @@ class ListaTutores extends React.Component {
   render() {
     return (
       <FormControl >
-        <InputLabel  id="demo--select-placeholder-label-label">
+        <InputLabel  id="demo-simple-select-placeholder-label-label">
           {this.props.titulo}
         </InputLabel>
         <Select
-          labelId="demo--select-placeholder-label-label"
-          id="demo--select-placeholder-label"
-          value={this.state.tutores}
+          labelId="demo-simple-select-placeholder-label-label"
+          id="demo-simple-select-placeholder-label-label"
+          value={this.state.tutor}
           onChange={this.handleOnChange}
           displayEmpty
         >
           {this.state.tutores.map((tutor) => (
             <MenuItem key={tutor.ID_TUTOR} value={tutor}>
               {" "}
-              {tutor.USUARIO.NOMBRE}
+              {tutor.USUARIO.NOMBRE + " " + tutor.USUARIO.APELLIDOS}
             </MenuItem>
           ))}
         </Select>

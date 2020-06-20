@@ -47,7 +47,10 @@ class ArregloHorarios extends Component {
       console.log("no habia servico");
       return;
     }
-    const servicio = this.props.servicio;
+    const servicio = this.props.servicio; 
+    
+    console.log("gabyyyy XXX ",servicio); 
+
     let horarios = await GET({ servicio: servicio });
     this.setState({ horarios: horarios });
   }

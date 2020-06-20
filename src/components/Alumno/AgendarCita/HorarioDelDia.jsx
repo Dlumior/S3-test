@@ -62,8 +62,13 @@ class HorarioDelDia extends Component {
     console.log("this.props",this.props);
     return (
       <div>
+        
         {this.renderCabecera(this.props.fecha.fecha)}
         <div className="tituloDia" elevation={5} style={styles.paper}>
+
+        {console.log("ANTES_ARR fecha XXX",this.props.fecha.fecha)}
+        {console.log("antes_arr servicio XXX",this.props.fecha.servicio)}
+
           <ArregloHorarios servicio={this.props.fecha.servicio} tipo={this.props.fecha.tipo}
           fexaForm={this.props.fecha.fecha}/>
         </div>

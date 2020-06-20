@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Grid, Chip, Paper, Typography, Button } from "@material-ui/core";
+import { Grid, Chip, Paper, Typography, Button, Dialog } from "@material-ui/core";
 import ImagenCircular from "../../Shared/ImagenCircular";
+import RevisarSesion from "./RevisarSesion";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
 
 const styles = {
   paper: {
@@ -13,10 +16,46 @@ const styles = {
 };
 
 class SesionesCard extends Component {
+
+  
+  constructor() {
+    super();
+    this.state = {
+      tutores: {
+        columns: [{
+          title: "Nombre",
+          field: "nombre",
+        }],
+        data: [{ nombre: "" }]
+      }, //aqui va el nombre de la tablilla
+      open: false,
+
+    };
+
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
+
+   
+  };
+
+//=============================================================
+handleOnClick() {
+  this.setState({ open: true });
+}
+
+handleOnClose() {
+  //console.log("ctm",this.state.openSolicitarTutor);
+  this.setState({ open: false });
+}
+
   render() {
     const cita = this.props.cita;
+    console.log(cita);
     return (
       <>
+        <Button
+          onClick={this.handleOnClick}
+        >
         <Paper style={styles.paper}>
 
           {/** Encabezado Imagen y nombre */}
@@ -35,7 +74,7 @@ class SesionesCard extends Component {
                 display="block"
                 gutterBottom
               >
-                {"PAYASO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+                {"ALUMNO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
               </Typography>
             </Grid>
 
@@ -62,7 +101,26 @@ class SesionesCard extends Component {
             {/**fin minicontainer */}
           </Grid>
           
-        </Paper><br/>
+        </Paper>
+        </Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleOnClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogContent>
+
+            <RevisarSesion cita={this.props.cita}
+              fexaForm={this.props.fexaForm}   />
+
+          </DialogContent>
+
+          <DialogActions>
+            
+          </DialogActions>
+        </Dialog>
+
+        <br/>
       </>
     );
   }
