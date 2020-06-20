@@ -18,12 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   large: {
     width: theme.spacing(20),
-<<<<<<< HEAD
-    height: theme.spacing(20),
-    fontSize: "500%",
-=======
     height: theme.spacing(20),  
->>>>>>> Yeri
   },
   customContainer: {
     padding: theme.spacing(5),
