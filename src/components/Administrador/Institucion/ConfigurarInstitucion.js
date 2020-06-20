@@ -166,10 +166,6 @@ class ConfigurarInstitucion extends React.Component {
     }  
 
   }
-  handleOnClickImportar = (event) =>{
-
-    
-  }
   handleHabilitar = (event) => {    
     this.setState({
         deshabilitar:false,
