@@ -69,7 +69,6 @@ class ConfigurarInstitucion extends React.Component {
     this.handleOnChangePagina = this.handleOnChangePagina.bind(this);
     this.handleOnChangeImg = this.handleOnChangeImg .bind(this);
     this.handleHabilitar=this.handleHabilitar.bind(this);
-    this.handleOnClickImportar=this.handleOnClickImportar.bind(this);
 
   } 
   
