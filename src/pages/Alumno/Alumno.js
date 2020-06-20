@@ -6,12 +6,14 @@ import AgendarCita from "./AgendarCita.js";
 import MisCitas from "./MisCitas.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
+import Home from "../Home/Home.js";
 
 const Alumno = (props) => {
   console.log("Alumno", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
+    return (Home)
   } else {
     const move_to = getUser().rol.toLowerCase().split(" ")[0];
     console.log("Ruta", move_to);
@@ -19,7 +21,7 @@ const Alumno = (props) => {
     if (move_to !== "alumno") {
       props.history.push("/"+move_to); 
     }   
-  }
+  
 
   return (
     <div>
@@ -40,5 +42,5 @@ const Alumno = (props) => {
       </BarraNavegacion>
     </div>
   );
-};
+}};
 export default Alumno;

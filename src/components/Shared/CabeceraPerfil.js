@@ -73,7 +73,7 @@ const CabeceraPerfil = (props) => {
           defaultValue={getUser().idRol}
           onChange={handleOnChangeRol}
         >
-          {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs.map((item) => (
+          {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs.map((item) => (            
             <MenuItem value = {item.ROL.ID_ROL}> {item.ROL.DESCRIPCION}</MenuItem>
           ))}
         </Select>
