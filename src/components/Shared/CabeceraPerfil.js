@@ -10,8 +10,6 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
-import { inicializarSesion, iniciarSesion } from "../../Sesion/actions/sesionAction";
-import App from "../../App";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -20,14 +18,33 @@ const useStyles = makeStyles((theme) => ({
   },
   large: {
     width: theme.spacing(20),
+<<<<<<< HEAD
     height: theme.spacing(20),
     fontSize: "500%",
+=======
+    height: theme.spacing(20),  
+>>>>>>> Yeri
   },
   customContainer: {
     padding: theme.spacing(5),
     backgroundColor: "#ffffff",
   },
 }));
+
+const items = ()=>{
+  let arreglo = [];
+  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs.map((item) => (            
+    arreglo.push([item.ROL.ID_ROL,item.ROL.DESCRIPCION])
+  ))
+  let roles = []
+  for(let item of arreglo){
+    if(!roles.find(e => e[0]===item[0])){
+      roles.push(item)
+    }
+  }
+  console.log("roles: ",roles)
+  return Array.from(new Set(roles));
+}
 
 const handleOnChangeRol =async (e) =>{
   let usuarioLogueado={...JSON.parse(sessionStorage.Sesion)} 
@@ -76,8 +93,8 @@ const CabeceraPerfil = (props) => {
           defaultValue={getUser().idRol}
           onChange={handleOnChangeRol}
         >
-          {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs.map((item) => (            
-            <MenuItem value = {item.ROL.ID_ROL}> {item.ROL.DESCRIPCION}</MenuItem>
+          {items().map((item) => (            
+            <MenuItem value = {item[0]}> {item[1]}</MenuItem>
           ))}
         </Select>
           </Grid>
