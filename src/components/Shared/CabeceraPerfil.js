@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
   },
   large: {
     width: theme.spacing(20),
-    height: theme.spacing(20),  
+    height: theme.spacing(20),
+    fontSize: "500%",
   },
   customContainer: {
     padding: theme.spacing(5),
