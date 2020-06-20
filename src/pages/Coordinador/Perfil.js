@@ -8,7 +8,7 @@ import { POST } from "../../Conexion/Controller";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
-    margin: theme.spacing(5),
+    marginTop: theme.spacing(5),
   },
 }));
 
@@ -53,7 +53,6 @@ const Perfil = (props) => {
       />
       <Grid
         container
-        spacing={5}
         justify="center"
         alignItems="center"
         className={classes.customContainer}
