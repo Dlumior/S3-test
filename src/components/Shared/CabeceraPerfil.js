@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(20),
     height: theme.spacing(20),
+    fontSize: "500%",
   },
   customContainer: {
     padding: theme.spacing(5),
@@ -31,10 +32,12 @@ const CabeceraPerfil = (props) => {
         <Grid container>
           <Grid item xs={2} container justify="center" alignItems="center">
             <Avatar
-              alt="Imagen"
+              alt={props.nombre}
               src={props.imagen}
               className={classes.large}
-            />
+            >
+              {props.nombre[0]}
+            </Avatar>
           </Grid>
           <Grid
             item
