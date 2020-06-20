@@ -16,7 +16,8 @@ const styles = {
     backgroundColor: "#ffffff",
   },
 };
-class Controles extends Component {
+
+class ControlesTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -125,7 +126,7 @@ class Controles extends Component {
             ) : this.props.filtroProceso ? (
               <ListaComboBox
                 mensaje="proceso"
-                titulo={"Proceso"}
+                titulo={"Procesos de tutorías Fijas"}
                 //enlace={"/api/tutoria"}
                 enlace={"/api/tutoria/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 id={"ID_PROCESO_TUTORIA"}
@@ -222,4 +223,4 @@ class Controles extends Component {
   }
 }
 
-export default Controles;
+export default ControlesTutoriaFija;

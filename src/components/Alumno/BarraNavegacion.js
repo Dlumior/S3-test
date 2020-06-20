@@ -150,8 +150,11 @@ const BarraNavegacion = (props) => {
           </IconButton>
         </div>
         <Divider />
+
+        {/*mostrar tutorias fijas para 1era semana */}
         <List>
           {[
+            "Solicitar Tutor Fijo",
             "Perfil",
             "Agendar Cita",
             "Mis Citas",

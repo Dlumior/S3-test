@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import Controles from "./Controles";
+import ControlesTutoriaFija from "./ControlesTutoriaFija.js";
 import { NdiasMes, mesesAnio } from "./Util.js";
-import HorarioDelDia from "./HorarioDelDia";
-import FrmSolicitarCitaTutor_granito from "../FrmSolicitarCitaTutor_granito";
+import HorarioDelDiaTutoriaFija from "./HorarioDelDiaTutoriaFija.js";
+import FrmSolicitarTutorTipoII from "../FrmSolicitarTutorTipoII";
 
 const styles = {
   control: {
@@ -14,7 +14,8 @@ const styles = {
     marginRight: "2%",
   },
 };
-class CalendarioCitas extends Component {
+
+class CalendarioCitasTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -69,13 +70,14 @@ class CalendarioCitas extends Component {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
+    
     return (
       <>
       {console.log("ANTES DIA SEMANA xxx ",fechasDias)}
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
             {console.log("DIA_SEMANA xxx ",diaSemana)}
-            <HorarioDelDia
+            <HorarioDelDiaTutoriaFija
               fecha={{
                 fecha: diaSemana,
                 servicio:
@@ -113,6 +115,11 @@ class CalendarioCitas extends Component {
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
   }
+
+
+
+  // >>>>>>>>>>>>>>>> ACA SE DEBE FILTAR SOLO X PROCESOS DE TIPOS DE TUTORES FIJOS <<<<<<<<<<<
+
   handleFiltroProceso(idProceso){
     console.log("idProceso seleccionado: ", idProceso);
 
@@ -130,7 +137,7 @@ class CalendarioCitas extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <Controles
+        <ControlesTutoriaFija
           fecha={this.state.fechaControles}
           saltoEnElTiempo={this.saltarEnElTiempo}
           filtroProceso={true}
@@ -152,7 +159,8 @@ class CalendarioCitas extends Component {
             {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-          <FrmSolicitarCitaTutor_granito />
+          <FrmSolicitarTutorTipoII/>
+          
         )}
 
 
@@ -162,4 +170,4 @@ class CalendarioCitas extends Component {
   }
 }
 
-export default CalendarioCitas;
+export default CalendarioCitasTutoriaFija;
