@@ -54,9 +54,10 @@ const ComboBoxPrograma = (props) => {
         >
           {programas ? (
             programas.map((item) => (
+              item.ROL.DESCRIPCION === "Tutor"?
               <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
                 {item.PROGRAMA.NOMBRE}
-              </MenuItem>
+              </MenuItem>:<></>
             ))
           ) : (
             <></>
