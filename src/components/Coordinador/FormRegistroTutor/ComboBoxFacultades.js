@@ -50,9 +50,9 @@ const ComboBoxPrograma = (props) => {
           
         >
           {programas.map((item) => (
-            <MenuItem key={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}
-            value={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}>
-              {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION === "Coordinador Programa"?item.FACULTAD.NOMBRE:item.NOMBRE}
+            <MenuItem key={getUser().rol === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}
+            value={getUser().rol === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}>
+              {getUser().rol === "Coordinador Programa"?item.FACULTAD.NOMBRE:item.NOMBRE}
             </MenuItem>
           ))}
         </Select>
