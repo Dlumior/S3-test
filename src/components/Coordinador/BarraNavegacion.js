@@ -154,15 +154,15 @@ const BarraNavegacion = (props) => {
             {[
               "Perfil",
               "Programas",
-              "Registrar Coordinadores de Programa",
+              "Registrar Coordinadores",
               "Procesos de Tutoria",
               "Registrar Alumnos",
               "Registrar Tutores",
               "Registrar disponibilidades",
               "Asignacion de Tutor",
               "Reportes",
-            ].map((text, index) => (
-            <ListItem
+            ].filter(e=>getUser().rol==="Coordinador Programa"?e!=="Registrar Coordinadores":e===e).map((text, index) => (
+            <ListItem 
               button
               key={text}
               component={LinkRouter}

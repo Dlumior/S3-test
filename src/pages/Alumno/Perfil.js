@@ -11,11 +11,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const handleClick = () =>{
+  let usuario={...JSON.parse(sessionStorage.Sesion)}
+  usuario.rol = "Alumno";
+  sessionStorage.Sesion = JSON.stringify(
+    usuario
+  );
+  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol)
+}
+
 const Perfil = () => {
   const classes = useStyles();
   return (
     <div>
-      <CabeceraPerfil titulo="Alumno" 
+      <CabeceraPerfil titulo={getUser().rol} 
                       nombre={getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE}
                       imagen={ImgAlumno}
       />

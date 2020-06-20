@@ -15,7 +15,7 @@ const Perfil = () => {
   const classes = useStyles();
   return (
     <div>      
-      <CabeceraPerfil titulo="Tutor" 
+      <CabeceraPerfil titulo={getUser().rol} 
                       nombre={getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE}
                       imagen={ImgTutor}
       />

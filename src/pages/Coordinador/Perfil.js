@@ -19,7 +19,7 @@ const Perfil = (props) => {
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
-      <CabeceraPerfil titulo="Coordinador"
+      <CabeceraPerfil titulo={getUser().rol}
         nombre={getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE}
         imagen={LuisR}
       />

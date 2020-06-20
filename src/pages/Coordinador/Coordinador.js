@@ -12,7 +12,7 @@ import RegistrarCoordPrograma from "./RegistrarCoordPrograma";
 
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
-import { useUserValue } from "../../Sesion/Sesion.js";
+import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 
 const Coordinador = (props) => {
   console.log("Coordinador", props.history.location.pathname);
@@ -20,7 +20,7 @@ const Coordinador = (props) => {
   if (!auth) {
     props.history.push("/");
   } else {
-    const move_to = usuario.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0];
+    const move_to = getUser().rol.toLowerCase().split(" ")[0];
     console.log("Ruta", move_to);
 
     if (move_to !== "coordinador") {
@@ -71,7 +71,7 @@ const Coordinador = (props) => {
         />
         <Route
           exact
-          path="/coordinador/registrarcoordinadoresdeprograma"
+          path="/coordinador/registrarcoordinadores"
           component={RegistrarCoordPrograma}
         />
       </BarraNavegacion>

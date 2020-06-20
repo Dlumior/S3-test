@@ -77,7 +77,7 @@ const VerticalLinearStepper= () =>  {
 
   useEffect(() => {
     async function fetchData() {
-      if(getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION == "Coordinador Facultad"){
+      if(getUser().rol == "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
@@ -199,7 +199,7 @@ const VerticalLinearStepper= () =>  {
             <ListaProgramas
               titulo={"Programas"}
               escogerPrograma={handleOnChangePrograma}
-              enlace={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION ==="Coordinador Programa"?("/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+programa):("/api/programa/lista/"+programa)}
+              enlace={getUser().rol ==="Coordinador Programa"?("/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+programa):("/api/programa/lista/"+programa)}
             />
           </div>
         );
