@@ -48,9 +48,9 @@ class IniciarSesion extends Component {
     let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
     if (status.status) { 
       console.log("Parece que login", status);
-      const move_to = status.data.usuario;
+      const move_to = status.data;
       //console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
-      this.props.history.push("./" + move_to.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0]);
+      this.props.history.push("./" + move_to.rol.toLowerCase().split(" ")[0]);
     }else{
       console.log("Parece NO que login", status);
     }
@@ -63,7 +63,7 @@ class IniciarSesion extends Component {
     let yo = getUser();
     if (yo) {
       //en caso ya este logueado
-      const DESTINO = yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0].split(" ")[0];
+      const DESTINO = yo.rol.toLowerCase().split(" ")[0];
       this.props.history.push(
         "./" + DESTINO
       );
