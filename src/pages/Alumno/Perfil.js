@@ -1,9 +1,10 @@
-import React from "react";
-import Datos from "../../components/Alumno/Datos";
+import React, { useState, useRef } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
-import {getUser} from "../../Sesion/Sesion";
+import { getUser } from "../../Sesion/Sesion";
 import ImgAlumno from "../../components/Alumno/alumno.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
+import { POST } from "../../Conexion/Controller";
+import Datos from "../../components/Coordinador/Datos";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -11,24 +12,72 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const handleClick = () =>{
+  let usuario={...JSON.parse(sessionStorage.Sesion)}
+  usuario.rol = "Alumno";
+  sessionStorage.Sesion = JSON.stringify(
+    usuario
+  );
+  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol)
+}
+
 const Perfil = () => {
   const classes = useStyles();
+  const [isEdit, setIsEdit] = useState(false);
+  const dir = useRef(null);
+  const tel = useRef(null);
+
+  const handleEdit = (e) => {
+    setIsEdit(true);
+  };
+
+  const handleGuardar = async () => {
+    setIsEdit(false);
+
+    const datos = {
+      ID_USUARIO: getUser().usuario.ID_USUARIO,
+      TELEFONO: tel.current.value,
+      DIRECCION: dir.current.value,
+    };
+    const sendData = {
+      servicio: "api/usuario/actualizarperfil",
+      request: { usuario: datos },
+    };
+
+    console.log("Saving new info in DB:", datos);
+    let edited = await POST(sendData);
+    if (edited !== null) {
+      console.log("Got updated user from back:", edited);
+      alert("Se guardaron los cambios correctamente");
+    } else {
+      console.log("Hubo un error");
+    }
+  };
+
   return (
     <div>
-      <CabeceraPerfil titulo="Alumno" 
-                      nombre={getUser().usuario.APELLIDOS.toUpperCase() + ", " + getUser().usuario.NOMBRE}
-                      imagen={ImgAlumno}
+      <CabeceraPerfil
+        titulo="Alumno"
+        nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
       />
       <Grid
         container
-        xs={12}
         spacing={5}
         justify="center"
         alignItems="center"
         className={classes.customContainer}
       >
         <Grid item>
-          <Datos />
+          <Datos
+            isEdit={isEdit}
+            codigo={getUser().usuario.CODIGO}
+            correo={getUser().usuario.CORREO}
+            direccion={getUser().usuario.DIRECCION}
+            telefono={getUser().usuario.TELEFONO}
+            refs={{ dir: dir, tel: tel }}
+            handleEdit={handleEdit}
+            handleGuardar={handleGuardar}
+          />
         </Grid>
       </Grid>
     </div>

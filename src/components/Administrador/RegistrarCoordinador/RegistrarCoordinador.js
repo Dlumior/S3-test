@@ -106,6 +106,9 @@ const RegistrarCoordinador = (props) => {
     IMAGEN: null,
     FACULTAD:[],
   });
+  const [datos, setDatos] = React.useState({
+    EXTENSION: ""
+  });
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState([]);
@@ -153,7 +156,61 @@ const RegistrarCoordinador = (props) => {
       mensaje:"",
     });   
   };
+  const handleOnChangeImg = (event) => {    
+    console.log(event.target.files[0]);
+    let ext=event.target.files[0].name;
+    let extens=ext.slice(-3);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    });    
 
+    console.log("name: ",extens);
+    if (extens==='jpg'){
+      extens='jpeg';
+    }else if (extens==='png'){
+      extens='png'
+    }else{
+      setSeveridad({
+        severidad:"error",
+      });     
+      setAlerta({
+        mensaje:"El logo debe tener extensión .jpg o .png",
+      });      
+    }
+
+    let reader=new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload=(event)=>{
+      let base=event.target.result.slice(23);
+      console.warn("img data",event.target.result);
+
+      var base1;
+      console.log("name: ",extens);
+      if (extens==='jpeg'){
+        datos.EXTENSION='jpeg';
+        base1=event.target.result.slice(23);
+      }else{
+        datos.EXTENSION='png';
+        base1=event.target.result.slice(22);
+      }
+      console.log("base1",base1);
+      datosForm.IMAGEN=base1;
+      
+      setDatosForm({
+        ...
+        datosForm,
+      });
+      setDatos({
+        ...
+        datos,
+      });
+      console.log(datosForm.IMAGEN);
+    }  
+
+  }
  
 
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -169,12 +226,11 @@ const RegistrarCoordinador = (props) => {
     ) {
 
       setSeveridad({
-        severidad:severidad.severE,
+        severidad:"error",
       });     
       setAlerta({
-        mensaje:alerta.mensajeError,
+        mensaje:"Hay errores en el formulario",
       });      
-      console.log("severidad= ",severidad.severidad);
 
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
@@ -260,7 +316,22 @@ const RegistrarCoordinador = (props) => {
         <DialogContent>
           <Grid container md={12} spacing={2}> 
             <Grid item md={4}>
-              <Paper className={classes.foto}>Foto</Paper>
+                <img
+                    style={estilo.imagen}
+                    src= {"data:image/"+datos.EXTENSION+";base64,"+datosForm.IMAGEN}>
+                </img>
+              <Button
+                  variant="outlined"
+                  component="label"
+                  color="primary"
+                  >
+                  EDITAR
+                  <input
+                      type="file"
+                      onChange={handleOnChangeImg}
+                      style={{ display: "none" }}
+                  />
+              </Button>
             </Grid>
             <Grid item md={8}>
               <TextField
@@ -341,3 +412,10 @@ const RegistrarCoordinador = (props) => {
   );
 };
 export default RegistrarCoordinador;
+
+const estilo = {
+  imagen: {
+      width: "90%",
+      borderRadius: "100%",
+  }
+}

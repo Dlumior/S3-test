@@ -22,6 +22,7 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
       });
       console.log("consegui...", usuarioLogueado);
       if (usuarioLogueado.usuario!== null) {
+        if(!usuarioLogueado.error){
         dispatch({
           type: "LOG_IN",
           usuario: usuarioLogueado,
@@ -30,6 +31,7 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
         localLogin(usuarioLogueado);
         resolve({ status: true, data: usuarioLogueado });
       }
+    }
       reject({ status: false, data: "MALDICIOOOOOOOON" });
     } catch (error) {
       reject({ status: false, data: "MALDICIOOOOOOOON" });
@@ -92,7 +94,7 @@ export const inicializarSesion = (dispatch, usuario) => {
     //chequeo al el storage
     let usuarioLogueado = getUser();
     console.log("Revisando Storage", usuarioLogueado);
-    if (usuarioLogueado) {
+    if (usuarioLogueado.usuario) {
       console.log("Storage Data inicial", usuarioLogueado);
       dispatch({
         type: "INITIALIZE_SESION",

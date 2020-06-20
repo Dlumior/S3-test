@@ -7,21 +7,23 @@ import SolicitarTutoriaFija from "./SolicitarTutoriaFija.js";
 
 import MisCitas from "./MisCitas.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
-import { useUserValue } from "../../Sesion/Sesion.js";
+import { useUserValue, getUser } from "../../Sesion/Sesion.js";
+import Home from "../Home/Home.js";
 
 const Alumno = (props) => {
   console.log("Alumno", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
+    return (Home)
   } else {
-    const move_to = usuario.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase().split(" ")[0];
+    const move_to = getUser().rol.toLowerCase().split(" ")[0];
     console.log("Ruta", move_to);
 
     if (move_to !== "alumno") {
-      props.history.push("./" + move_to);
-    }
-  }
+      props.history.push("/"+move_to); 
+    }   
+  
 
   return (
     <div>
@@ -55,5 +57,5 @@ const Alumno = (props) => {
       </BarraNavegacion>
     </div>
   );
-};
+}};
 export default Alumno;

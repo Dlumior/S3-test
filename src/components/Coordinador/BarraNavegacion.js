@@ -161,8 +161,8 @@ const BarraNavegacion = (props) => {
               "Registrar disponibilidades",
               "Asignacion de Tutor",
               "Reportes",
-            ].map((text, index) => (
-            <ListItem
+            ].filter(e=>getUser().rol==="Coordinador Programa"?e!=="Registrar Coordinadores de Programa":e===e).map((text, index) => (
+            <ListItem 
               button
               key={text}
               component={LinkRouter}
@@ -172,7 +172,8 @@ const BarraNavegacion = (props) => {
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
                  index === 1 ? <AccountBalanceRoundedIcon /> : 
-                 index === 7 ? <SupervisorAccountRoundedIcon/> :
+                 index === 6 ? getUser().rol==="Coordinador Facultad"?<NoteAddRoundedIcon />:<SupervisorAccountRoundedIcon /> : 
+                 index === 7 ? getUser().rol==="Coordinador Facultad"?<SupervisorAccountRoundedIcon/>:<AssessmentRoundedIcon />:
                  index === 8 ? <AssessmentRoundedIcon/> :
                  <NoteAddRoundedIcon />}
               </ListItemIcon>

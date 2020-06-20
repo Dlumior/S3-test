@@ -56,7 +56,7 @@ const Datos = () => {
               autoFocus
               margin="dense"
               id="name"
-              label="Especialidad"
+              label="Programa"
               type="text"
               fullWidth
             />

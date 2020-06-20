@@ -57,7 +57,7 @@ const Datos = () => {
               autoFocus
               margin="dense"
               id="name"
-              label="Especialidad"
+              label="Programa"
               type="text"
               fullWidth
               defaultValue = {getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.NOMBRE}
