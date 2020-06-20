@@ -94,7 +94,7 @@ export const inicializarSesion = (dispatch, usuario) => {
     //chequeo al el storage
     let usuarioLogueado = getUser();
     console.log("Revisando Storage", usuarioLogueado);
-    if (usuario) {
+    if (usuarioLogueado.usuario) {
       console.log("Storage Data inicial", usuarioLogueado);
       dispatch({
         type: "INITIALIZE_SESION",
@@ -103,7 +103,7 @@ export const inicializarSesion = (dispatch, usuario) => {
       });
       return { status: true, data: usuarioLogueado };
     }
-    console.log("Storage vacio", usuario);
+    console.log("Storage vacio", usuarioLogueado);
 
     dispatch({
       type: "INITIALIZE_SESION",
