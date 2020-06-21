@@ -34,7 +34,9 @@ class FrmMisCitas extends Component {
                 data: [{ nombre: "" }]
             }, //aqui va el nombre de la tablilla
             open: false,
-            open2: false,
+            //open2: false,
+            open3:false,
+            mensajillo:""
 
         };
 
@@ -45,6 +47,10 @@ class FrmMisCitas extends Component {
         //this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
 
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
+
+
+        
+        this.handleOnCloseAceptarCancelacion = this.handleOnCloseAceptarCancelacion.bind(this);
 
     };
 
@@ -62,6 +68,12 @@ class FrmMisCitas extends Component {
         this.setState({ open: true });
     }
 
+    handleOnCloseAceptarCancelacion() {
+        //console.log("ctm",this.state.open);
+        this.setState({ open3: false });
+    }
+
+
     handleOnClose() {
         //console.log("ctm",this.state.open);
         this.setState({ open: false });
@@ -70,10 +82,37 @@ class FrmMisCitas extends Component {
     
 
     async handleOnclickAceptarCancelacion() {
-        //console.log("ctm",this.state.open);
         this.setState({ open: false });
 
 
+        // let yo = getUser();
+
+        // const nuevaSolicitud = {
+        //     solicitud: {
+        //     ID_PROCESO_TUTORIA: "",
+        //     ID_TUTOR:"",
+        //     ID_ALUMNO:"",
+        //     },
+        // };
+
+        //    //se llama al back
+
+        // const props = { servicio: "/api/solicitud/enviar", request: nuevaSolicitud };
+        // let solicitudTyS = await Controller.POST(props);
+
+        // if(!solicitudTyS.message){
+        //     if(!solicitudTyS.error){
+        //         this.setState({mensajillo:"SOLICITUD REGISTRADA SASTISFACTORIAMENTE !"});    
+        //     }else{
+        //         this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
+        //     }
+        // }
+        // else{
+        //     this.setState({mensajillo:solicitudTyS.message});
+        // }
+        
+        
+        // this.setState({open3:true })
 
 
     }
@@ -283,6 +322,31 @@ class FrmMisCitas extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog>
+
+                <Dialog
+                    open={this.state.open3}
+                    onClose={this.handleOnCloseAceptarCancelacion}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description" 
+                >
+                 <DialogTitle >
+                     <h3 >Resultado </h3>
+                      
+                     </DialogTitle>
+                 <DialogContent>
+                 {this.state.mensajillo}
+                 </DialogContent>
+                    <DialogActions>
+                        
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnCloseAceptarCancelacion}                        >
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
 
                 <TabProceso procesos={[
                     {
