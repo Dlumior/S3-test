@@ -11,6 +11,7 @@ import validateCode from "./validateCode.js";
 import validateEmail from "./validateEmail.js";
 import ComboBoxPrograma from "./comboBoxProgramas.js";
 import { getUser } from "../../../Sesion/Sesion.js";
+import ComboBoxFacultades from "./ComboBoxFacultades.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -101,28 +102,72 @@ const handleCode = (e, datos, setDatos, errors, setErrors) => {
 const FormRegistroTutor = (props) => {
   const classes = useStyles();
   const idCoordinador = getUser().usuario.ID_USUARIO;
+  const rolCoordinador = getUser().idRol;
+
+  const [disabled, setDisabled] = useState(true);
+
   const { datos, setDatos } = props;
   const [errors, setErrors] = useState(errorObj);
-  // const [coordinador, setCoordinador] = useState({});
-  const [programas, setProgramas] = useState(
-    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
-  );
-  console.log(getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs);
 
-  const [programa, setPrograma] = useState({});
+  const [facultades, setFacultades] = useState([]);
+  const [facultad, setFacultad] = useState("");
 
-  //Funcion auxiliar para obtener el coordinador y sus programas
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const endpoint = "/api/coordinador/" + idCoordinador;
-  //     const params = { servicio: endpoint };
-  //     const res = await Controller.GET(params);
-  //     console.log(res);
-  //     setCoordinador(res.coordinador);
-  //     setProgramas(res.coordinador.PROGRAMAs);
-  //   }
-  //   fetchData();
-  // }, []);
+  const [programas, setProgramas] = useState([]);
+  const [programa, setPrograma] = useState("");
+
+  //Funcion auxiliar para obtener las facultades del coordinador
+  useEffect(() => {
+    async function fetchFacultades() {
+      let endpoint;
+      if (rolCoordinador === 6) {
+        endpoint = "/api/facultad/coordinador/" + idCoordinador;
+      } else if (rolCoordinador === 2) {
+        endpoint = "/api/facultad/lista/" + idCoordinador;
+      }
+      console.log("endpoint: " + endpoint);
+
+      const params = { servicio: endpoint };
+      const res = await Controller.GET(params);
+      console.log(res);
+      setFacultades(res.facultades);
+    }
+    fetchFacultades();
+  }, [rolCoordinador, idCoordinador]);
+
+  //Funcion para obtener los programas de una facultad
+  useEffect(() => {
+    async function fetchProgramas() {
+      let endpoint;
+      if (rolCoordinador === 6) {
+        endpoint = "/api/programa/lista/" + facultad;
+      } else if (rolCoordinador === 2) {
+        endpoint = "/api/programa/lista/" + idCoordinador + "/" + facultad;
+      }
+      const params = { servicio: endpoint };
+      const res = await Controller.GET(params);
+
+      console.log("enpoint programa: " + endpoint);
+      console.log("res de programas: ");
+      console.log("=========");
+      console.log(res);
+      console.log("=========");
+
+      if (res !== null) {
+        if (rolCoordinador === 6) {
+          console.log("asignando programa");
+          console.log(res);
+          setProgramas(res.programa);
+        } else if (rolCoordinador === 2) {
+          console.log("asignando programas");
+          console.log(res);
+          setProgramas(res.programas);
+        }
+      }
+    }
+    if (facultad !== "") {
+      fetchProgramas();
+    }
+  }, [facultad]);
 
   const handleClick = async (e, datos, setDatos) => {
     if (
@@ -256,7 +301,16 @@ const FormRegistroTutor = (props) => {
         </Grid>
         <Grid item xs={12} container spacing={10}>
           <Grid item xs={12} md={6}>
+            <ComboBoxFacultades
+              programas={facultades}
+              programa={facultad}
+              setPrograma={setFacultad}
+              setDisabled={setDisabled}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
             <ComboBoxPrograma
+              disabled={disabled}
               programas={programas}
               programa={programa}
               setPrograma={setPrograma}
@@ -267,7 +321,7 @@ const FormRegistroTutor = (props) => {
           item
           xs={12}
           container
-          justify="flex-start"
+          justify="flex-end"
           alignItems="center"
           spacing={10}
         >

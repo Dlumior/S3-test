@@ -1,5 +1,5 @@
 import React from "react";
-import {getUser} from "../../../Sesion/Sesion"
+import { getUser } from "../../../Sesion/Sesion";
 import {
   makeStyles,
   FormControl,
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     // margin: theme.spacing(1),
-    minWidth: theme.spacing(30),
+    minWidth: "100%",
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -29,12 +29,13 @@ const useStyles = makeStyles((theme) => ({
 //   { id: 3, nombre: "Programa Tipo3" },
 // ];
 
-const ComboBoxPrograma = (props) => {
+const ComboBoxFacultades = (props) => {
   const classes = useStyles();
-  const {programas, programa, setPrograma } = props;
+  const { programas, programa, setPrograma, setDisabled } = props;
 
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
+    setDisabled(false);
   };
 
   return (
@@ -47,12 +48,23 @@ const ComboBoxPrograma = (props) => {
           id="demo-simple-select"
           value={programa}
           onChange={handleChangePrograma}
-          
         >
           {programas.map((item) => (
-            <MenuItem key={getUser().rol === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}
-            value={getUser().rol === "Coordinador Programa"?item.FACULTAD.ID_PROGRAMA:item.ID_PROGRAMA}>
-              {getUser().rol === "Coordinador Programa"?item.FACULTAD.NOMBRE:item.NOMBRE}
+            <MenuItem
+              key={
+                getUser().rol === "Coordinador Programa"
+                  ? item.FACULTAD.ID_PROGRAMA
+                  : item.ID_PROGRAMA
+              }
+              value={
+                getUser().rol === "Coordinador Programa"
+                  ? item.FACULTAD.ID_PROGRAMA
+                  : item.ID_PROGRAMA
+              }
+            >
+              {getUser().rol === "Coordinador Programa"
+                ? item.FACULTAD.NOMBRE
+                : item.NOMBRE}
             </MenuItem>
           ))}
         </Select>
@@ -61,4 +73,4 @@ const ComboBoxPrograma = (props) => {
   );
 };
 
-export default ComboBoxPrograma;
+export default ComboBoxFacultades;
