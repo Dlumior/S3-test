@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ComboBoxPrograma = (props) => {
   const classes = useStyles();
-  const { programas, programa, setPrograma } = props;
+  const { disabled, programas, programa, setPrograma } = props;
 
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
@@ -30,7 +30,7 @@ const ComboBoxPrograma = (props) => {
 
   return (
     <>
-      <FormControl className={classes.formControl}>
+      <FormControl className={classes.formControl} disabled={disabled}>
         <InputLabel id="demo-simple-select-label">Programa</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -40,7 +40,7 @@ const ComboBoxPrograma = (props) => {
         >
           {programas.map((item) => (
             <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-              {item.PROGRAMA.NOMBRE}
+              {item.NOMBRE}
             </MenuItem>
           ))}
         </Select>
