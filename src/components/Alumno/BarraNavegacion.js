@@ -97,6 +97,7 @@ const BarraNavegacion = (props) => {
   const handleClick = () => {
     //te odio hooks
     console.log("Alumno LOG OUTTTTT",props);
+    
     logOut(dispatch);
   }
   const handleDrawerOpen = () => {

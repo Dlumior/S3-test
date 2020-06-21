@@ -15,6 +15,7 @@ import Alertas from "../Alertas";
 import CampoDeTexto from "./CampoDeTexto";
 import TituloFormulario from "./TituloFormulario";
 import ListaComboBox from "./ListaComboBox";
+import { getUser } from "../../../Sesion/Sesion";
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -88,8 +89,9 @@ class FormularioNuevaTutoria extends Component {
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
+    this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
   }
-  validarEntrada(error){
+  validarEntrada(error) {
     console.log("errores:", error);
     let encontrado = undefined;
     let nuevo = false;
@@ -144,8 +146,11 @@ class FormularioNuevaTutoria extends Component {
     tutoria.programa = programa[0];
     this.setState({ tutoria: tutoria });
     console.log("proograma:", this.state.tutoria.programa);
+    this.setState({filtroFacultad:programa[0]});
   }
-
+  handleOnChangeFacultad(facultad){
+    console.log("proograma:", facultad);
+  }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
   }
@@ -172,7 +177,7 @@ class FormularioNuevaTutoria extends Component {
   };
   async handleOnClick(e) {
     console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-    console.log("NOOOOOOOOOO: ",this.state.errores);
+    console.log("NOOOOOOOOOO: ", this.state.errores);
     if (this.state.errores.length === 0) {
       e.preventDefault();
       const {
@@ -260,18 +265,36 @@ class FormularioNuevaTutoria extends Component {
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
-            {/* Lista  programas */}
+
+            {/* Lista  facultades */}
+            <ListaComboBox
+              mensaje="facultad"
+              titulo={"Facultad"}
+              enlace={
+                "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
+                //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
+              }
+              id={"ID_FACULTAD"}
+              nombre={"NOMBRE"}
+              keyServicio={"facultades"}
+              escogerItem={this.handleOnChangeFacultad}
+              small={true}
+              inicial={true}
+              placeholder={"Escoja la facultad"}
+            />
 
             <ListaComboBox
               mensaje="programa"
-              titulo={"Programas"}
-              enlace={"/api/programa"}
+              titulo={"Programa"}
+              enlace={"/api/programa/lista/" + getUser().usuario.ID_USUARIO+ "/" + this.state.filtroFacultad}
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
               keyServicio={"programa"}
-              escogerItem={this.handleOnChangePrograma}
+              escogerItem={this.handleOnChangeProceso}
+              small={true}
+              inicial={true}
+              placeholder={"Escoja el programa"}
             />
-
             {/* Vigencia */}
             <GrupoRadioButton
               name={"permanente"}

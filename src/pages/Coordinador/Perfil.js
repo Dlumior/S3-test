@@ -16,11 +16,13 @@ const useStyles = makeStyles((theme) => ({
 const Perfil = (props) => {
   const classes = useStyles();
   console.log("props",props);
+  const usuarioLogueado = getUser();
+
   return (
     <div>
       {/*<Cabecera titulo="Coordinador" nombre="RIOS ALEJOS, Luis Esteban"/> */}
       <CabeceraPerfil titulo="Coordinador"
-        nombre={getUser().usuario.APELLIDOS.toUpperCAse() + ", " + getUser().usuario.NOMBRE}
+        nombre={(usuarioLogueado.usuario.APELLIDOS).toUpperCase() + ", " + usuarioLogueado.usuario.NOMBRE}
         imagen={LuisR}
       />
       <Grid

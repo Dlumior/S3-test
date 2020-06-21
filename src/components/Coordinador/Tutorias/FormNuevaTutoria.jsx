@@ -294,6 +294,7 @@ class FormNuevaTutoria extends Component {
               <Grid item md={12} xs={12}>
                 <br />
                 <ListaEtiquetas
+                strecht={false}
                   titulo={"Etiquetas(opcional):"}
                   obtenerEtiquetas={this.handleOnChangeEtiquetas}
                   enlace={"/api/etiqueta"}

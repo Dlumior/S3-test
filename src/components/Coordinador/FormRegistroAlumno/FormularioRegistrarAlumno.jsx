@@ -161,10 +161,8 @@ class FormularioRegistrarAlumno extends Component {
         this.state.alert.mensaje = this.state.alert.mensajeExito;
         //alert("Alumno registrado Satisfactoriamente");
         //entonces viajo al tab de listado de alumnos
-
       }
       console.log("got updated alumno from back:", nuevoAlumno);
-      
     } else {
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
@@ -295,6 +293,7 @@ class FormularioRegistrarAlumno extends Component {
               escogerItem={this.handleOnChangePrograma}
             />
             <ListaEtiquetas
+              strecht={false}
               titulo={"Etiquetas(opcional):"}
               obtenerEtiquetas={this.handleOnChangeEtiquetas}
               enlace={"/api/etiqueta"}

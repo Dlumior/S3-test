@@ -6,6 +6,7 @@ import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
+import { getUser } from "../../../Sesion/Sesion";
 const styles = {
   control: {
     textAlign: "center",
@@ -35,6 +36,10 @@ class Controles extends Component {
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
+  }
+  async componentDidMount(){
+    const myid = getUser().usuario.ID_USUARIO;
+    console.log("USSSSSEEERRRR: ", myid);
   }
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
     //console.log( "1 semana al pasado");
@@ -83,6 +88,7 @@ class Controles extends Component {
     this.setState({ vistaLista: "Lista" });
   }
   render() {
+
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
@@ -122,6 +128,7 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroProceso ? (
+              <>
               <ListaComboBox
                 mensaje="proceso"
                 titulo={"Proceso"}
@@ -134,6 +141,7 @@ class Controles extends Component {
                 inicial={true}
                 placeholder={"Escoja el proceso de tutoria"}
               />
+             </>
             ) : (
               <></>
             )}

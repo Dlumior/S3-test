@@ -53,6 +53,7 @@ class ListaComboBox extends Component {
   }
   async handleOnChange(e) {
     //if lcal
+    if (this.state.listaItems.length === 0) return;
     if (this.state.mensajeError.length > 0) {
       this.setState({
         mensajeError: "",
@@ -74,14 +75,20 @@ class ListaComboBox extends Component {
     }
 
     let listaItems = await Conexion.GET({ servicio: this.props.enlace });
-    if (!listaItems) {
+    if (!listaItems || listaItems.length===[]) {
       this.setState({ listaItems: [] });
     } else {
       if (this.props.inicial) {
         console.log("item---->: ", listaItems);
-        this.setState({ item: listaItems[this.props.keyServicio][0] });
-        await this.setState({ listaItems: listaItems[this.props.keyServicio] });
-        await this.props.escogerItem([this.state.item[this.props.id]]);
+
+        if (this.state.item && listaItems.length>0) {
+          
+          this.setState({ item: listaItems[this.props.keyServicio][0] });
+          await this.setState({
+            listaItems: listaItems[this.props.keyServicio],
+          });
+          await this.props.escogerItem([this.state.item[this.props.id]]);
+        }
       }
     }
   }
@@ -96,6 +103,8 @@ class ListaComboBox extends Component {
   }
   handleOnClick(e) {
     console.log("CLLIIIIIIICK");
+    if (this.state.listaItems.length === 0) return;
+
     if (this.state.item.length === 0) {
       if (this.state.mensajeError.length === 0) {
         this.setState({
@@ -105,6 +114,7 @@ class ListaComboBox extends Component {
     }
   }
   render() {
+    console.log("COMBOOO:", this.props.enlace);
     return (
       <Paper elevation={0} style={estilos.paper}>
         {this.props.small ? <></> : <br />}

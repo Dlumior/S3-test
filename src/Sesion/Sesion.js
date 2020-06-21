@@ -20,6 +20,7 @@ export const localLogin = (usuario) => {
 
 export const localLogOut = () => {
     sessionStorage.clear();
+    window.location.replace("./");
 };
 export const localInitLogUser = localLogOut;
 
