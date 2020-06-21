@@ -327,7 +327,7 @@ const RevisarSesion = (cita) => {
             </Grid>
             <p>
               <Typography variant="h6">
-                  ¿Asistió o no asistió el perro?
+                  ¿Asistió a la cita?
               </Typography><br></br>
               <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>
               <label for="asistio">Sí</label>
