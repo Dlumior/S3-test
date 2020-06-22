@@ -35,22 +35,19 @@ class FrmMisCitas extends Component {
             }, //aqui va el nombre de la tablilla
             open: false,
             //open2: false,
+
             open3:false,
             mensajillo:""
+
 
         };
 
         this.handleOnClick = this.handleOnClick.bind(this);
-
-        //this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
-        //this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
-
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
 
-
-        
-        this.handleOnCloseAceptarCancelacion = this.handleOnCloseAceptarCancelacion.bind(this);
+        //this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
+        //this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
 
     };
 
@@ -78,11 +75,52 @@ class FrmMisCitas extends Component {
         //console.log("ctm",this.state.open);
         this.setState({ open: false });
     }
+  
 
-    
+    handleOnCloseCitaCancelada() {
+        //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
+        this.setState({ open3: false });
+    }
 
     async handleOnclickAceptarCancelacion() {
-        this.setState({ open: false });
+
+        //console.log("ctm",this.state.open);
+        //this.setState({ open: false });
+
+        //let yo = getUser();
+
+        // const nuevaSolicitud = {
+        //     sesion: {
+        //         ID_SESION:yo.us
+        //     },
+        // };
+
+        //console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
+           //se llama al back
+
+        // const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
+        // let sesionTyS = await POST(props);
+        // //console.log("SESIONtYS XXX ",sesionTyS);
+
+        //DOING...
+        this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
+        
+
+        // if(!sesionTyS.message){
+        //     if(!sesionTyS.error){
+        //         this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+        //     }else{
+        //         this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
+
+        //     }
+        // }
+        // else{
+        //     this.setState({mensajillo:sesionTyS.message});
+        // }
+
+
+        this.setState({open3:true })
+
 
 
         // let yo = getUser();
@@ -168,7 +206,7 @@ class FrmMisCitas extends Component {
     async componentDidMount() {
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
-        /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
+
         //console.log("arreglo: ", arregloDeSesiones);
 
         let arreglillo = [];
@@ -194,7 +232,8 @@ class FrmMisCitas extends Component {
 
                 nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
                 //fecha: fex + " " + "de Mayo del 2020",
-                fecha: element.FECHA,
+                fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                lugar: element.LUGAR,
                 //tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
                 tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
                 btnCancelar:
@@ -206,7 +245,7 @@ class FrmMisCitas extends Component {
                     >
                         CANCELAR
                     </Button>,
-                campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : "Realizada"),
+                campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
                 campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*
                 btnPosponer:
@@ -238,8 +277,12 @@ class FrmMisCitas extends Component {
                     field: "nombre",
                 },
                 {
-                    title: "FECHA",
+                    title: "FECHA / HORA",
                     field: "fecha"
+                },
+                {
+                    title: "LUGAR",
+                    field: "lugar"
                 },
                 {
                     title: "TIPO TUTORIA",
@@ -323,30 +366,32 @@ class FrmMisCitas extends Component {
                     </DialogActions>
                 </Dialog>
 
+
+
                 <Dialog
                     open={this.state.open3}
-                    onClose={this.handleOnCloseAceptarCancelacion}
+                    onClose={this.handleOnCloseCitaCancelada}
                     aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description" 
+                    aria-describedby="alert-dialog-description"
                 >
-                 <DialogTitle >
-                     <h3 >Resultado </h3>
-                      
-                     </DialogTitle>
-                 <DialogContent>
-                 {this.state.mensajillo}
-                 </DialogContent>
+                    <DialogTitle >
+                        <h3 >Resultado </h3>
+
+                    </DialogTitle>
+                    <DialogContent>
+                        {this.state.mensajillo}
+                    </DialogContent>
                     <DialogActions>
-                        
+
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={this.handleOnCloseAceptarCancelacion}                        >
+                            onClick={this.handleOnCloseCitaCancelada}>
+
                             Aceptar
                         </Button>
                     </DialogActions>
                 </Dialog>
-
 
                 <TabProceso procesos={[
                     {
@@ -355,6 +400,8 @@ class FrmMisCitas extends Component {
                     },
                     { index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
                     { index: 2, titulo: "Realizadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Realizada"} /> },
+                    { index: 3, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
+
                 ]} paper={true} />
 
                 {
