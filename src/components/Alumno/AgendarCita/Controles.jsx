@@ -37,7 +37,7 @@ class Controles extends Component {
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const myid = getUser().usuario.ID_USUARIO;
     console.log("USSSSSEEERRRR: ", myid);
   }
@@ -88,7 +88,6 @@ class Controles extends Component {
     this.setState({ vistaLista: "Lista" });
   }
   render() {
-
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
@@ -129,19 +128,19 @@ class Controles extends Component {
               <></>
             ) : this.props.filtroProceso ? (
               <>
-              <ListaComboBox
-                mensaje="proceso"
-                titulo={"Proceso"}
-                enlace={"/api/tutoria"}
-                id={"ID_PROCESO_TUTORIA"}
-                nombre={"NOMBRE"}
-                keyServicio={"tutoria"}
-                escogerItem={this.handleOnChangeProceso}
-                small={true}
-                inicial={true}
-                placeholder={"Escoja el proceso de tutoria"}
-              />
-             </>
+                <ListaComboBox
+                  mensaje="proceso"
+                  titulo={"Proceso"}
+                  enlace={"/api/tutoria"}
+                  id={"ID_PROCESO_TUTORIA"}
+                  nombre={"NOMBRE"}
+                  keyServicio={"tutoria"}
+                  escogerItem={this.handleOnChangeProceso}
+                  small={true}
+                  inicial={true}
+                  placeholder={"Escoja el proceso de tutoria"}
+                />
+              </>
             ) : (
               <></>
             )}

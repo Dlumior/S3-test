@@ -8,10 +8,7 @@ const styles = {
   control: {
     textAlign: "center",
   },
-  container: {
-    marginLeft: "2%",
-    marginRight: "2%",
-  },
+  container: {},
 };
 class CalendarioCitas extends Component {
   constructor() {
@@ -50,7 +47,7 @@ class CalendarioCitas extends Component {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
-    console.log("CAlendarGAAAAbyy xxx ",lunesActual);
+    console.log("CAlendarGAAAAbyy xxx ", lunesActual);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
@@ -59,20 +56,22 @@ class CalendarioCitas extends Component {
     }
     return (
       <>
-      {console.log("ANTES DIA SEMANA xxx ",fechasDias)}
-        {fechasDias.map((diaSemana) => (
-          <Grid item md={2} xs={2}>
-            {console.log("DIA_SEMANA xxx ",diaSemana)}
-            <HorarioDelDia
-              fecha={{
-                fecha: diaSemana,
-                servicio:
-                  this.props.servicio + diaSemana.toISOString().split("T")[0],
-                tipo: this.props.tipo,
-              }}
-            />
-          </Grid>
-        ))}
+        {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
+        <Grid container spacing={0}>
+          {fechasDias.map((diaSemana) => (
+            <Grid item md={2} xs={12}>
+              {console.log("DIA_SEMANA xxx ", diaSemana)}
+              <HorarioDelDia
+                fecha={{
+                  fecha: diaSemana,
+                  servicio:
+                    this.props.servicio + diaSemana.toISOString().split("T")[0],
+                  tipo: this.props.tipo,
+                }}
+              />
+            </Grid>
+          ))}
+        </Grid>
       </>
     );
   };
@@ -101,10 +100,10 @@ class CalendarioCitas extends Component {
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
   }
-  handleFiltroProceso(idProceso){
+  handleFiltroProceso(idProceso) {
     console.log("idProceso seleccionado: ", idProceso);
   }
-  handleFiltroTutores(idTutores){
+  handleFiltroTutores(idTutores) {
     console.log("idTutores seleccionado: ", idTutores);
   }
   render() {
@@ -118,7 +117,7 @@ class CalendarioCitas extends Component {
           handleFiltroProceso={this.handleFiltroProceso}
           handleFiltroTutores={this.handleFiltroTutores}
           modoBatallador={this.handleModoBatallador}
-          tipo= {this.props.tipo}
+          tipo={this.props.tipo}
         />
         {this.state.modoBatallador ? (
           <Grid container spacing={4} alignContent="center">
