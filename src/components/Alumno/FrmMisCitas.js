@@ -35,8 +35,10 @@ class FrmMisCitas extends Component {
             }, //aqui va el nombre de la tablilla
             open: false,
             //open2: false,
+
             open3:false,
             mensajillo:""
+
 
         };
 
@@ -117,6 +119,19 @@ class FrmMisCitas extends Component {
 
         this.setState({open3:true })
 
+
+
+        // let yo = getUser();
+
+        // const nuevaSolicitud = {
+        //     solicitud: {
+        //     ID_PROCESO_TUTORIA: "",
+        //     ID_TUTOR:"",
+        //     ID_ALUMNO:"",
+        //     },
+        // };
+
+        //    //se llama al back
 
 
 
@@ -329,6 +344,33 @@ class FrmMisCitas extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnclickAceptarCancelacion}                        >
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+
+
+                <Dialog
+                    open={this.state.open3}
+                    onClose={this.handleOnCloseCitaCancelada}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle >
+                        <h3 >Resultado </h3>
+
+                    </DialogTitle>
+                    <DialogContent>
+                        {this.state.mensajillo}
+                    </DialogContent>
+                    <DialogActions>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnCloseCitaCancelada}>
+
                             Aceptar
                         </Button>
                     </DialogActions>
