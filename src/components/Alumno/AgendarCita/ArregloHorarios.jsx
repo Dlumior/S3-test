@@ -21,15 +21,16 @@ class ArregloHorarios extends Component {
     if (horarios.data) {
       return (
         <div>
-          {horarios.data.map((element) =>
-            this.props.tipo === "disponibilidad" ? (
-              <DisponibilidadCard
-                disponibilidad={element}
-                fexaForm={this.props.fexaForm}
-              />
-            ) : (
-              <SesionesCard cita={element} />
-            )
+          {horarios.data.map((element) => {
+              if (this.props.tipo === "disponibilidad") {
+                <DisponibilidadCard
+                  disponibilidad={element}
+                  fexaForm={this.props.fexaForm}
+                />
+              } else {
+                <SesionesCard cita={element} />
+              }
+            }
           )}
           {horarios.data.length === 0 ? (
             <Paper>
