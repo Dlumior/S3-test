@@ -8,6 +8,16 @@ function Tabla(props) {
     //let valeria = props.estado==="Pendiente";
     let valeria = props.estado;
     
+
+    /** ESTADOS DE UNA CITA SEGUN BACK
+     * 00-realizada con cita
+     * 01-realizada sin cita
+     * 02-cancelada
+     * 03-pospuesta (reprogramada)
+     * 04-futura (pendients)
+     */
+
+
     if(valeria ==="Pendiente"){
       props.sesiones.columns.forEach(element => {
         if(element.title!=="ENCUESTA"){titulosColumnas.push(element);}
@@ -19,6 +29,11 @@ function Tabla(props) {
 
         //Para el caso que siendo reprogramada-> sí puede cancelar una cita
         if(element.title!=="ENCUESTA"){titulosColumnas.push(element);}
+      }); 
+    }
+    else if(valeria==="Cancelada"){
+      props.sesiones.columns.forEach(element => {
+        if(element.title!=="CANCELAR CITA"&&element.title!=="ENCUESTA"){titulosColumnas.push(element);}
       }); 
     }
     else{ //Realizadas
