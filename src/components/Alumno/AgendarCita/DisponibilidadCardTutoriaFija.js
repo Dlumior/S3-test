@@ -1,16 +1,9 @@
 import React, { Component } from "react";
-import {
-  Grid,
-  Chip,
-  Paper,
-  Typography,
-  Button,
-  Dialog,
-} from "@material-ui/core";
+import {Grid,Chip,Paper,Typography,Button,Dialog,} from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import ImagenCircular from "../../Shared/ImagenCircular";
-import FrmDialogoSolicitarTutor from "../FrmDialogoSolicitarTutor.js";
+//import FrmDialogoSolicitarTutor from "../FrmDialogoSolicitarTutor.js"; //no lo necesita.. boton disable
 
 const styles = {
   paper: {
@@ -21,7 +14,8 @@ const styles = {
     textAlign: "center",
   },
 };
-class DisponibilidadCard extends Component {
+
+class DisponibilidadCardTutoriaFija extends Component {
   //static contextType = UserContext;
   constructor() {
     super();
@@ -48,11 +42,12 @@ class DisponibilidadCard extends Component {
     //console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
   }
+
   render() {
     const disponibilidad = this.props.disponibilidad;
     return (
       <>
-        <Button onClick={this.handleOnClick}>
+        {/*<Button onClick={this.handleOnClick}>*/}
           <Paper style={styles.paper}>
             {/** Encabezado Imagen y nombre */}
             <Grid container spacing={0}>
@@ -119,9 +114,10 @@ class DisponibilidadCard extends Component {
               </Grid>
             </Grid>
           </Paper>
-        </Button>
+        {/*</Button>*/}
 
-        <Dialog
+        {/**
+         <Dialog
           open={this.state.open}
           onClose={this.handleOnClose}
           aria-labelledby="form-dialog-title"
@@ -136,6 +132,9 @@ class DisponibilidadCard extends Component {
 
           <DialogActions>        </DialogActions>
         </Dialog>
+         */
+
+        }        
 
         <br />
       </>
@@ -143,4 +142,4 @@ class DisponibilidadCard extends Component {
   }
 }
 
-export default DisponibilidadCard;
+export default DisponibilidadCardTutoriaFija;

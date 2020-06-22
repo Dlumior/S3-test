@@ -11,6 +11,8 @@ import GrupoRadioButton from "./GrupoRadioButton";
 import ListaEtiquetas from "./ListaEtiquetas";
 import * as Conexion from "./../../../Conexion/Controller.js";
 import Alertas from "../Alertas";
+import { getUser } from "../../../Sesion/Sesion";
+
 const style = {
   paper: {
     marginTop: "3%",

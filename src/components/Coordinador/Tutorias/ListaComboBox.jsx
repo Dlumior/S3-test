@@ -78,18 +78,10 @@ class ListaComboBox extends Component {
     if (!listaItems || listaItems.length===[]) {
       this.setState({ listaItems: [] });
     } else {
-      if (this.props.inicial) {
         console.log("item---->: ", listaItems);
-
-        if (this.state.item && listaItems.length>0) {
-          
-          this.setState({ item: listaItems[this.props.keyServicio][0] });
-          await this.setState({
-            listaItems: listaItems[this.props.keyServicio],
-          });
-          await this.props.escogerItem([this.state.item[this.props.id]]);
-        }
-      }
+        this.setState({ item: listaItems[this.props.keyServicio][0]   });
+        await this.setState({ listaItems: listaItems[this.props.keyServicio] });
+        await this.props.escogerItem([this.state.item[this.props.id]]);
     }
   }
   shouldComponentUpdate(nextState, nextProps) {

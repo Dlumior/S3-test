@@ -5,6 +5,7 @@ import TablaTutores from "./TablaTutores.js";
 
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import { getUser } from "../../Sesion/Sesion";
 //import DialogTitle from "@material-ui/core/DialogTitle";
 
 const style = {
@@ -67,7 +68,8 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     async componentDidMount() {
-        let arregloDeTutores = await Controller.GET({ servicio: "/api/tutor" });
+        let arregloDeTutores = 
+        await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
         console.log("arreglo: ", arregloDeTutores);
 
@@ -131,7 +133,7 @@ class FrmSolicitarTutorTipoII extends Component {
                     field: "nombre",
                 },
                 {
-                    title: "Correo Electrónico",
+                    title: "CORREO ELECTRÓNICO",
                     field: "correo"
                 },
                 /*
@@ -232,7 +234,7 @@ export default FrmSolicitarTutorTipoII;
 
 const estilo = {
     imagen: {
-        width: "45%",
+        width: "30%",
         borderRadius: "100%",
     }
 }

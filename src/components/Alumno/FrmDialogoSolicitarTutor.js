@@ -2,19 +2,16 @@ import React, { Component } from "react";
 import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, Chip, Paper, TextField, Button,Dialog } from "@material-ui/core";
 import FerCarrillo from "./tutor2.png";
-
 import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
-
 import CampoDeTexto from "./../Coordinador/Tutorias/CampoDeTexto.jsx";
 //../Coordinador/Tutorias/CampoDeTexto.js";
 import { getUser } from "../../Sesion/Sesion";
 import { POST } from "../../Conexion/Controller";
-
 import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-
 
 const style = {
     paper: {
@@ -56,6 +53,7 @@ class FrmDialogoSolicitarTutor extends Component {
             _motivoSelecc: "",
             descripcion: "",
             open:false,
+            mensajillo:""
 
         };
 
@@ -71,13 +69,16 @@ class FrmDialogoSolicitarTutor extends Component {
 
       //menaje de satisfaccion
 
-    //de cancelar
     handleOnClick() {
         this.setState({ open: true });
     }
 
+       //menaje de satisfaccion
     handleOnClose() {
         this.setState({ open: false });
+        this.props.onCloseFrm();
+
+
     }
 
 
@@ -112,17 +113,25 @@ class FrmDialogoSolicitarTutor extends Component {
             },
         };
 
-        console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
+        //console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
            //se llama al back
 
         const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
         let sesionTyS = await POST(props);
-        console.log("SESIONtYS XXX ",sesionTyS);
+        //console.log("SESIONtYS XXX ",sesionTyS);
 
         if(!sesionTyS.message){
-            this.setState({open:true})
-        }
+            if(!sesionTyS.error){
+                this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+            }else{
+                this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
 
+            }
+        }
+        else{
+            this.setState({mensajillo:sesionTyS.message});
+        }
+        this.setState({open:true })
     }
 
     validarEntradaCT(error) {
@@ -220,10 +229,6 @@ class FrmDialogoSolicitarTutor extends Component {
                                 datos={this.state.lstMotivos}
                                 id={"ID"}
                                 nombre={"NOMBRE"}
-                                //enlace={"/api/programa"}
-                                //id={"ID_PROGRAMA"}
-                                //nombre={"NOMBRE"}
-                                //keyServicio={"programa"}
                                 escogerItem={this.handleOnChangeMotivo}
                             >
 
@@ -281,20 +286,19 @@ class FrmDialogoSolicitarTutor extends Component {
                 <Dialog
                     open={this.state.open}
                     onClose={this.handleOnClose}
-                    aria-labelledby="form-dialog-title"
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description" 
                 >
-                    <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                Sesión registrada satisfactoriamente.
-                            </Paper>
-                        </Grid>
-                    </DialogContent>
-
+                 <DialogTitle >
+                     <h3 >Resultado </h3>
+                      
+                     </DialogTitle>
+                 <DialogContent>
+                 {this.state.mensajillo}
+                 </DialogContent>
                     <DialogActions>
                         
                         <Button
-                            size="large"
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnClose}                        >

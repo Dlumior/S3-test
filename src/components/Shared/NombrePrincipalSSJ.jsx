@@ -25,7 +25,7 @@ class NombrePrincipalSSJ extends Component {
             </Typography>
           </Grid>
           <Grid item md={4}>
-            <h1>jajaja</h1>
+            <h1></h1>
           </Grid>
         </Grid>
       </Paper>

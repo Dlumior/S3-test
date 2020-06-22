@@ -16,7 +16,8 @@ const styles = {
     backgroundColor: "#ffffff",
   },
 };
-class Controles extends Component {
+
+class ControlesTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -36,10 +37,6 @@ class Controles extends Component {
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
-  }
-  async componentDidMount() {
-    const myid = getUser().usuario.ID_USUARIO;
-    console.log("USSSSSEEERRRR: ", myid);
   }
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
     //console.log( "1 semana al pasado");
@@ -129,7 +126,7 @@ class Controles extends Component {
             ) : this.props.filtroProceso ? (
               <ListaComboBox
                 mensaje="proceso"
-                titulo={"Proceso"}
+                titulo={"Procesos de tutorías Fijas"}
                 //enlace={"/api/tutoria"}
                 enlace={"/api/tutoria/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 id={"ID_PROCESO_TUTORIA"}
@@ -226,4 +223,4 @@ class Controles extends Component {
   }
 }
 
-export default Controles;
+export default ControlesTutoriaFija;

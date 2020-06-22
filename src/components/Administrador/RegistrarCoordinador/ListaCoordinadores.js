@@ -12,6 +12,7 @@ const style = {
     paper: {
       marginTop: "3%",
       marginLeft: "3%",
+      marginRight:"3%",
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
@@ -31,16 +32,14 @@ class ListaCoordinadores extends React.Component {
         coordinadores:[{id:"1"}]
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+    this.establecerData = this.establecerData.bind(this);
 
   }
-  async componentDidMount(){
-    let aregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    
-    console.log("arreglo: ",aregloCoord);
 
+  establecerData(arregloCoord){
+    
     let arreglillo = [];
-    for (let element of aregloCoord.coordinadores){
+    for (let element of arregloCoord.coordinadores){
         arreglillo.push({
                         codigo:element.CODIGO,
                         nombre:element.NOMBRE+ " "+ element.APELLIDOS,
@@ -74,6 +73,24 @@ class ListaCoordinadores extends React.Component {
         data: arreglillo
       };
       this.setState({coordinadores:data});
+
+  }
+  async componentDidUpdate(prevProps){
+    if (this.props.coordinadores!==prevProps.coordinadores){
+      console.log("fac",this.props.coordinadores);
+      let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
+      
+      this.establecerData(arregloCoord);
+    }    
+  }
+
+
+  async componentDidMount(){
+    let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
+    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+    
+    console.log("arreglo: ",arregloCoord);
+    this.establecerData(arregloCoord);
 }
 
 
