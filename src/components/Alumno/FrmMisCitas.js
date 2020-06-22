@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-
 import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
-
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { getUser } from "../../Sesion/Sesion";
-
 import TabProceso from "../Coordinador/Tutorias/TabProceso.js"
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
@@ -37,13 +34,17 @@ class FrmMisCitas extends Component {
             //open2: false,
 
             open3:false,
-            mensajillo:""
+            mensajillo:"",
+            graciasYops:0,
+            yopsRazon:"",
 
 
         };
 
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
+
+        this.handleOnCloseCitaCancelada = this.handleOnCloseCitaCancelada.bind(this);
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
 
         //this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
@@ -51,17 +52,12 @@ class FrmMisCitas extends Component {
     };
 
 
-    // handleOnClickPosponer() {
-    //     this.setState({ open2: true });
-    // }
-    // handleOnClosePosponer() {
-    //     //console.log("ctm",this.state.open);
-    //     this.setState({ open2: false });
-    // }
-
-    //de cancelar
-    handleOnClick() {
+    //de btn cancelar
+    handleOnClick(e,_idSesion) {
+        console.log("TARGET DEL E ",_idSesion);
+        this.setState({graciasYops:_idSesion});
         this.setState({ open: true });
+
     }
 
     handleOnCloseAceptarCancelacion() {
@@ -79,69 +75,54 @@ class FrmMisCitas extends Component {
     handleOnCloseCitaCancelada() {
         //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
         this.setState({ open3: false });
+        this.setState({open:false});
     }
 
     async handleOnclickAceptarCancelacion() {
         //console.log("ctm",this.state.open);
         //this.setState({ open: false });
 
-        //let yo = getUser();
+        let yo = getUser();
+        let _razon = "";
+         const nuevaSolicitud = {
+             sesion: {
+                 ID_SESION:this.state.graciasYops,
+                 ALUMNOS: [yo.usuario.ID_USUARIO],
+                 RAZON: this.state.yopsRazon,
+             },
+         };
 
-        // const nuevaSolicitud = {
-        //     sesion: {
-        //         ID_SESION:yo.us
-        //     },
-        // };
-
-        //console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
-           //se llama al back
-
-        // const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
-        // let sesionTyS = await POST(props);
-        // //console.log("SESIONtYS XXX ",sesionTyS);
+         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
+         let sesionTyS = await Controller.POST(props);
+         //console.log("YOOOPSSS tYS XXX ",sesionTyS);
 
         //DOING...
-        this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
-        
+        //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
+        if(sesionTyS){
+            this.setState({mensajillo:"CITA CANCELADA SASTISFACTORIAMENTE !"});  
+        }else{
+            this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
+        }
 
-        // if(!sesionTyS.message){
-        //     if(!sesionTyS.error){
-        //         this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
-        //     }else{
-        //         this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
+        //  if(!sesionTyS.message){
+        //      if(!sesionTyS.error){
+        //          this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+        //      }else{
+        //          this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});   
+        //      }
+        //  }
+        //  else{
+        //      this.setState({mensajillo:sesionTyS.message});
+        //  }
 
-        //     }
-        // }
-        // else{
-        //     this.setState({mensajillo:sesionTyS.message});
-        // }
-
-
-        this.setState({open3:true })
-
-
-
-        // let yo = getUser();
-
-        // const nuevaSolicitud = {
-        //     solicitud: {
-        //     ID_PROCESO_TUTORIA: "",
-        //     ID_TUTOR:"",
-        //     ID_ALUMNO:"",
-        //     },
-        // };
-
-        //    //se llama al back
-
-
-
-
+        this.setState({open3:true });
     }
 
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
-        console.log(e);
+        //console.log("XXXXXXXXX RAZON ",e.value);
         this.setState({ [e.name]: e.value });
+        this.setState({yopsRazon:e.value});
 
     }
 
@@ -184,23 +165,19 @@ class FrmMisCitas extends Component {
         */
     }
 
-
-
     async componentDidMount() {
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
         //console.log("arreglo: ", arregloDeSesiones);
-
         let arreglillo = [];
         let cont = 0;
-        //let max=29;
-        //let fex=0;
-        //let letras =['I','II'];
+        //let max=29;     //let fex=0;      //let letras =['I','II'];
         for (let element of arregloDeSesiones.data) {
             cont++;
             //fex= max-(cont+1);
             let estadillo = element.ESTADO.split("-")[0];
+
             arreglillo.push({
                 campoCont: cont,
                 /*
@@ -224,7 +201,7 @@ class FrmMisCitas extends Component {
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={this.handleOnClick}
+                        onClick={e=>this.handleOnClick(e,element.ID_SESION)}
                     >
                         CANCELAR
                     </Button>,
@@ -410,35 +387,6 @@ class FrmMisCitas extends Component {
 
                 {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                 {/*<TablaTutoresMisCitas sesiones={this.state.sesiones} />*/}
-
-
-                {/**
-                 * 
-                 <Dialog
-                    open={this.state.open2}
-                    onClose={this.handleOnClosePosponer}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                Horarios Disponibles ... <br></br> Martes 1 : 11AM - 12 PM
-                            </Paper>
-                        </Grid>
-                    </DialogContent>
-
-                    <DialogActions>
-                        <Button
-                            size="large"
-                            variant="outlined"
-                            color="primary"
-                            onClick={this.handleOnClosePosponer}                        >
-                            Enviar Solicitud de Postergación
-                        </Button>
-                        
-                    </DialogActions>
-                </Dialog>
-                 */}
 
             </div>
         );
