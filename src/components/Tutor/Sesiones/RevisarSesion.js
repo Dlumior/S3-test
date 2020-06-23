@@ -121,7 +121,7 @@ const handleDogsAssistance = (e, datosForm, setDatosForm) => {
 }
 
 const RevisarSesion = (cita) => {
-  console.log("RevisarSesion Debug ", cita.cita.COMPROMISOs);
+  console.log("RevisarSesion Debug ", cita.cita);
   const [datosForm, setDatosForm] = React.useState({
     alumnoCodigo:0,
     alumnoNombre:'',
@@ -168,7 +168,7 @@ const RevisarSesion = (cita) => {
         severidad:severidad.severE,
       });     
       setAlerta({
-        mensaje:"Te falta llenar la asistencia pe cachorro",
+        mensaje:"Falta llenar la asistencia.",
       }); 
       return;
     }
