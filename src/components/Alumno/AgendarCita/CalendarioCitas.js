@@ -64,7 +64,8 @@ class CalendarioCitas extends Component {
     return (
       <>
         {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
-        <Grid container spacing={0}>
+        <Grid container spacing={2}>
+
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
               {console.log("DIA_SEMANA xxx ", this.props.servicio+ this.state.filtroIdProceso+"/"+ diaSemana.toISOString().split("T")[0])}
@@ -142,7 +143,7 @@ class CalendarioCitas extends Component {
          */}
 
         {this.state.modoBatallador ? (
-          <Grid container spacing={4} alignContent="center">
+          <Grid container alignContent="center">
             {this.props.tipo==="cita"?this.renderDias(this.state.lunesActual):
             this.state.filtroIdProceso?
             this.renderDias(this.state.lunesActual):

@@ -3,7 +3,7 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
+import { IconButton, Grid, Typography, Paper, Button } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
@@ -79,7 +79,7 @@ class Controles extends Component {
     this.props.modoBatallador(true);
     this.setState({ colorBatallador: this.state.colorActivo });
     this.setState({ colorLista: this.state.colorInactivo });
-    this.setState({ vistaColumna: "Batallador" });
+    this.setState({ vistaColumna: "Columna" });
     this.setState({ vistaLista: "" });
   }
   ModoLista() {
@@ -101,7 +101,7 @@ class Controles extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(-30)}
+                  onClick={() => this.saltoEnElTiempoLocal(-28)}
                 >
                   <ArrowBackIosOutlinedIcon />
                 </IconButton>
@@ -116,7 +116,7 @@ class Controles extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(30)}
+                  onClick={() => this.saltoEnElTiempoLocal(28)}
                 >
                   <ArrowForwardIosOutlinedIcon />
                 </IconButton>
@@ -124,30 +124,28 @@ class Controles extends Component {
             </Grid>
           </Grid>
 
-          {/** filtro de programa */}
+          {/** filtro de programa
+           * creo q ya no va XD
+           */}
           <Grid item md={3} xs={3}>
             {this.props.tipo !== "disponibilidad" ? (
               <></>
-            ) : this.props.filtroProceso ? (
+            ) : 
               <ListaComboBox
-                mensaje="proceso"
-                titulo={"Proceso"}
-                //enlace={"/api/tutoria"}
-                enlace={
-                  "/api/tutoria/lista/" +
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-                }
-                id={"ID_PROCESO_TUTORIA"}
-                nombre={"NOMBRE"}
-                keyServicio={"tutoria"}
+                mensaje="Programa"
                 escogerItem={this.handleOnChangeProceso}
-                small={true}
-                inicial={true}
-                placeholder={"Escoja el proceso de tutoria"}
+                titulo={"Programa del Alumno"}
+                datos={{
+                  programa: [
+                    { ID_PROGRAMA: 30, NOMBRE:  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.NOMBRE}
+                  ],
+                }}
+                id={"ID_PROGRAMA"}
+                nombre={"NOMBRE"}
+                keyServicio={"programa"}
+                placeholder={"Programa matriculado"}
               />
-            ) : (
-              <></>
-            )}
+            }
           </Grid>
 
           {/** fecha actual */}

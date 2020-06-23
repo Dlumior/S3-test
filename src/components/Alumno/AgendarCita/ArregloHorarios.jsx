@@ -21,7 +21,7 @@ class ArregloHorarios extends Component {
     if (horarios.data) {
       return (
         <div>
-          {horarios.data.map((element) =>
+          {horarios.data.map((element,i) =>
             this.props.tipo === "disponibilidad" ? (
               <DisponibilidadCard
                 disponibilidad={element}
