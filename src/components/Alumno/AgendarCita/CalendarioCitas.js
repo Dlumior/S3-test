@@ -20,6 +20,7 @@ class CalendarioCitas extends Component {
       lunesActual: "",
       fechaControles: {},
       modoBatallador: true,
+      filtroIdProceso:0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
@@ -44,17 +45,11 @@ class CalendarioCitas extends Component {
    *
    * @param {Date} lunesActual el lunes de la semana actual
    */
-
-
-
     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
          linea 61 agregar paramtero para la linea 82
         para manejar el filtro del id del tutor en el servicio 
        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     */
-
-
-
   renderDias = (lunesActual) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
@@ -72,7 +67,7 @@ class CalendarioCitas extends Component {
         <Grid container spacing={0}>
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
-              {console.log("DIA_SEMANA xxx ", diaSemana)}
+              {console.log("DIA_SEMANA xxx ", this.props.servicio+ this.state.filtroIdProceso+"/"+ diaSemana.toISOString().split("T")[0])}
               <HorarioDelDia
                 fecha={{
                   fecha: diaSemana,
@@ -114,7 +109,7 @@ class CalendarioCitas extends Component {
   }
   handleFiltroProceso(idProceso) {
     console.log("idProceso seleccionado: ", idProceso);
-
+    this.setState({filtroIdProceso:idProceso});
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
@@ -148,7 +143,10 @@ class CalendarioCitas extends Component {
 
         {this.state.modoBatallador ? (
           <Grid container spacing={4} alignContent="center">
-            {this.renderDias(this.state.lunesActual)}
+
+            {this.state.filtroIdProceso?
+            this.renderDias(this.state.lunesActual):
+            <></>}
           </Grid>
         ) : (
           <FrmSolicitarCitaTutor_granito />
