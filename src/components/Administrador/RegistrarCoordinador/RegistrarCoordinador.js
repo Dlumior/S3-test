@@ -308,25 +308,7 @@ const RegistrarCoordinador = (props) => {
         </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}> 
-            <Grid item md={4}>
-                <img
-                    style={estilo.imagen}
-                    src= {"data:image/"+datos.EXTENSION+";base64,"+datosForm.IMAGEN}>
-                </img>
-              <Button
-                  variant="outlined"
-                  component="label"
-                  color="primary"
-                  >
-                  EDITAR
-                  <input
-                      type="file"
-                      onChange={handleOnChangeImg}
-                      style={{ display: "none" }}
-                  />
-              </Button>
-            </Grid>
-            <Grid item md={8}>
+            <Grid item md={12}>
               <TextField
                 required
                 error={errors.code.error}

@@ -49,7 +49,7 @@ const Solicitudes = () => {
   //Funcion para obtener los procesos de tutoria
   useEffect(() => {
     async function fetchData() {
-      const endpoint = "/api/tutoria/lista/" + idTutor + "/" + programa;
+      const endpoint = "/api/tutoria/lista/" + programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
       setProcesosTutoria(res.tutoria);
