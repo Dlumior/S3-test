@@ -35,7 +35,8 @@ class FrmMisCitas extends Component {
 
             open3:false,
             mensajillo:"",
-            graciasYops:0,
+            graciasYopsIdSesion:0,
+            graciasYopsIdTutor:[],
             yopsRazon:"",
 
 
@@ -53,9 +54,16 @@ class FrmMisCitas extends Component {
 
 
     //de btn cancelar
-    handleOnClick(e,_idSesion) {
-        console.log("TARGET DEL E ",_idSesion);
-        this.setState({graciasYops:_idSesion});
+    handleOnClick(e,_idSesion,_idTutor) {
+        console.log("TARGET DEL E idSesion/idTutor",_idSesion,_idTutor);
+        this.setState({graciasYopsIdSesion:_idSesion});
+
+        //this.setState({graciasYopsIdTutor:_idTutor});
+        let _arrTutor= [];
+        _arrTutor.push(_idTutor);
+
+        this.setState({graciasYopsIdTutor:_arrTutor});
+
         this.setState({ open: true });
 
     }
@@ -86,15 +94,17 @@ class FrmMisCitas extends Component {
         let _razon = "";
          const nuevaSolicitud = {
              sesion: {
-                 ID_SESION:this.state.graciasYops,
+                 ID_SESION:this.state.graciasYopsIdSesion,
                  ALUMNOS: [yo.usuario.ID_USUARIO],
                  RAZON: this.state.yopsRazon,
+                 EMISOR:yo.usuario.ID_USUARIO.toString(),
+                 RECEPTOR:this.state.graciasYopsIdTutor,
              },
          };
 
          const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
          let sesionTyS = await Controller.POST(props);
-         //console.log("YOOOPSSS tYS XXX ",sesionTyS);
+         console.log("YOOOPSSS tYS XXX ",sesionTyS);
 
         //DOING...
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -201,7 +211,7 @@ class FrmMisCitas extends Component {
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={e=>this.handleOnClick(e,element.ID_SESION)}
+                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                     >
                         CANCELAR
                     </Button>,
