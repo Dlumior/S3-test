@@ -49,7 +49,7 @@ class ListaComboBox extends Component {
       local: false,
     };
     this.handleOnChange = this.handleOnChange.bind(this);
-    this.handleOnClick = this.handleOnClick.bind(this);
+    //this.handleOnClick = this.handleOnClick.bind(this);
   }
   async handleOnChange(e) {
     //if lcal
@@ -68,13 +68,18 @@ class ListaComboBox extends Component {
   }
 
   async componentDidMount() {
+    let listaItems;
     if (this.props.datos) {
-      this.setState({ listaItems: this.props.datos });
-      this.setState({ local: true });
-      return;
+      console.log("this.props.datos---->: ", this.props.datos);
+      listaItems= this.props.datos ;
+      
+    }else{
+     
+      listaItems = await Conexion.GET({ servicio: this.props.enlace }); 
+      console.log("No habian this.props.datos---->: ", listaItems);
     }
 
-    let listaItems = await Conexion.GET({ servicio: this.props.enlace });
+    
     console.log("this.props.enlace", this.props.enlace);
 
     console.log("entreeeee---->: ", listaItems);
@@ -144,25 +149,13 @@ class ListaComboBox extends Component {
     }
   }
 }
-  handleOnClick(e) {
-    console.log("CLLIIIIIIICK");
-    if (this.state.listaItems.length === 0) return;
 
-    if (this.state.item.length === 0) {
-      if (this.state.mensajeError.length === 0) {
-        this.setState({
-          mensajeError: "Debe escoger al menos un " + this.props.mensaje,
-        });
-      }
-    }
-  }
   render() {
-    console.log("COMBOOO:", this.props.enlace);
     return (
       <Paper elevation={0} style={estilos.paper}>
         {this.props.small ? <></> : <br />}
 
-        <FormControl fullWidth onClick={this.handleOnClick}>
+        <FormControl fullWidth >
           <InputLabel>{this.props.titulo}</InputLabel>
 
           {/* combo box propiamente */}

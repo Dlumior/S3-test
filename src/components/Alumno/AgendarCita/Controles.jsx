@@ -124,9 +124,11 @@ class Controles extends Component {
 
           {/** filtro de programa */}
           <Grid item md={3} xs={3}>
+            
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroProceso ? (
+              
               <ListaComboBox
                 mensaje="proceso"
                 titulo={"Proceso"}

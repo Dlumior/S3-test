@@ -188,7 +188,7 @@ const BarraNavegacion = (props) => {
               onClick={handleClick}
             >
               <ListItemIcon>
-                  <ExitToAppRoundedIcon/>
+                  <ExitToAppRoundedIcon color="primary"/>
               </ListItemIcon>
               <ListItemText primary={"Cerrar Sesion"} />
             </ListItem>

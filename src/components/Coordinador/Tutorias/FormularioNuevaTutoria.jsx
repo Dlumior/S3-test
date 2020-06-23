@@ -70,10 +70,13 @@ class FormularioNuevaTutoria extends Component {
 
       validacionOk: false,
       errores: [],
-      duracion: [
-        { ID: 1, NOMBRE: "30 min" },
-        { ID: 2, NOMBRE: "60 min" },
-      ],
+      duracion: {
+        duracion: [
+          { ID: 30, NOMBRE: "30 min" },
+          { ID: 60, NOMBRE: "60 min" },
+          { ID: 90, NOMBRE: "90 min" },
+        ],
+      },
       alert: {
         mensajeStrong: "",
         mensajeStrongError: "por favor revisalos!",
@@ -145,9 +148,10 @@ class FormularioNuevaTutoria extends Component {
   }
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
-    // let tutoria = Object.assign({}, this.state.tutoria);
-    // tutoria.programa = programa[0];
-    // this.setState({ tutoria: tutoria });
+
+    let tutoria = Object.assign({}, this.state.tutoria);
+    tutoria.programa = programa[0];
+    this.setState({ tutoria: tutoria });
     // console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
   }
@@ -161,16 +165,18 @@ class FormularioNuevaTutoria extends Component {
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
-        ?  `/api/programa/lista/${facultad[0]}`
+        ? `/api/programa/lista/${facultad[0]}`
         : subrol === "programa"
         ? `/api/programa/lista/${ID}/${facultad[0]}`
         : ""
       : "";
-
     this.setState({ filtroFacultad: enlace });
   }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
+    let tutoria = Object.assign({}, this.state.tutoria);
+    tutoria.duracion=duracion;
+    this.setState({tutoria:tutoria});
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
@@ -227,6 +233,17 @@ class FormularioNuevaTutoria extends Component {
       console.log("saving new tutoria in DB:", tutoria);
       let nuevaTutoria = await Conexion.POST(props);
       if (nuevaTutoria) {
+        if (nuevaTutoria.error) {
+          //ocurrio un error
+          let alert = Object.assign({}, this.state.alert);
+          alert.mensaje = `${alert.mensajeError}: ${nuevaTutoria.error}`;
+          alert.mensajeStrong = alert.mensajeStrongError;
+          this.setState({ alert: alert });
+          this.setState({ severidad: "error" });
+
+          this.state.alert.mensaje = this.state.alert.mensajeError;
+          return;
+        }
         let alert = Object.assign({}, this.state.alert);
         alert.mensaje = alert.mensajeExito;
         alert.mensajeStrong = alert.mensajeStrongExito;
@@ -239,7 +256,10 @@ class FormularioNuevaTutoria extends Component {
       }
     } else {
       let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
+      alert.mensaje = `${alert.mensajeError}: ${this.state.errores.map(
+        (error) => error.error
+      )}`;
+
       alert.mensajeStrong = alert.mensajeStrongError;
 
       this.setState({ alert: alert });
@@ -326,9 +346,13 @@ class FormularioNuevaTutoria extends Component {
               enlace={this.getEnlace(getUser().usuario)}
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
-              subnombre={this.getSubRol(
-                getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
-              )==="programa"?"FACULTAD":undefined}
+              subnombre={
+                this.getSubRol(
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                ) === "programa"
+                  ? "FACULTAD"
+                  : undefined
+              }
               keyServicio={"facultades"}
               escogerItem={this.handleOnChangeFacultad}
               small={true}
@@ -342,9 +366,14 @@ class FormularioNuevaTutoria extends Component {
                 enlace={this.state.filtroFacultad}
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
-                keyServicio={this.getSubRol(
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
-                )==="programa"?"programas":"programa"}
+                keyServicio={
+                  this.getSubRol(
+                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL
+                      .DESCRIPCION
+                  ) === "programa"
+                    ? "programas"
+                    : "programa"
+                }
                 escogerItem={this.handleOnChangePrograma}
                 small={true}
                 inicial={true}
@@ -364,6 +393,7 @@ class FormularioNuevaTutoria extends Component {
             />
 
             {/* Duracion */}
+
             <ListaComboBox
               mensaje="periodo"
               escogerItem={this.handleOnChangeDuracion}
@@ -371,6 +401,8 @@ class FormularioNuevaTutoria extends Component {
               datos={this.state.duracion}
               id={"ID"}
               nombre={"NOMBRE"}
+              keyServicio={"duracion"}
+              placeholder={"Escoja una duración"}
             />
             <br />
           </Grid>
