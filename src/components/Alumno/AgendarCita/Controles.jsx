@@ -71,7 +71,9 @@ class Controles extends Component {
   handleOnChangeProceso(proceso) {
     console.log("proceso seleccionado: ", proceso);
     //aqui se o mando al componente padre
-    this.props.handleFiltroProceso(proceso[0]);
+    if (this.props.filtroProceso) {
+      this.props.handleFiltroProceso(proceso[0]);
+    }
   }
   ModoBatallador() {
     this.props.modoBatallador(true);
@@ -124,16 +126,17 @@ class Controles extends Component {
 
           {/** filtro de programa */}
           <Grid item md={3} xs={3}>
-            
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroProceso ? (
-              
               <ListaComboBox
                 mensaje="proceso"
                 titulo={"Proceso"}
                 //enlace={"/api/tutoria"}
-                enlace={"/api/tutoria/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                enlace={
+                  "/api/tutoria/lista/" +
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+                }
                 id={"ID_PROCESO_TUTORIA"}
                 nombre={"NOMBRE"}
                 keyServicio={"tutoria"}
@@ -180,7 +183,10 @@ class Controles extends Component {
               <ListaEtiquetas
                 obtenerEtiquetas={this.handleOnChangeTutores}
                 //enlace={"/api/tutor"}
-                enlace={"/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                enlace={
+                  "/api/tutor/lista/" +
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+                }
                 small={true}
                 label={"Tutores"}
                 ID={"ID_TUTOR"}

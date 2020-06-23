@@ -143,10 +143,12 @@ class CalendarioCitas extends Component {
 
         {this.state.modoBatallador ? (
           <Grid container spacing={4} alignContent="center">
-
-            {this.state.filtroIdProceso?
+            {this.props.tipo==="cita"?this.renderDias(this.state.lunesActual):
+            this.state.filtroIdProceso?
             this.renderDias(this.state.lunesActual):
-            <></>}
+            <></>
+            }
+
           </Grid>
         ) : (
           <FrmSolicitarCitaTutor_granito />
