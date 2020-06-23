@@ -97,8 +97,8 @@ class ListaCoordinadores extends React.Component {
 render(){
     return (
         <div>
+            
             <Paper elevation={0} style={style.paper}>
-                {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                 <TablaCoordinador coordinadores={this.state.coordinadores}  />
             </Paper>
         </div>

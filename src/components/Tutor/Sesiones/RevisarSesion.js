@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
-//import PlanDeAccion from './PlanDeAccion';
+import PlanDeAccion from '../Sesion/PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
@@ -98,7 +98,7 @@ const handleLugar = (e, datosForm, setDatosForm) => {
 };
 const handleResultados = (e, datosForm, setDatosForm) => {
   console.log("resu",e.target.value);
-  if (e.target.value.length > 45) {
+  if (e.target.value.length > 250) {
     document.getElementById("res").value = e.target.value.substring(0,250);
   }
   setDatosForm({
@@ -109,8 +109,19 @@ const handleResultados = (e, datosForm, setDatosForm) => {
 
 };
 
+const handleDogsAssistance = (e, datosForm, setDatosForm) => {
+  console.log("asistencia del guau guau PRE",e.target.value);
+  datosForm.asistencia = 0;
+  setDatosForm({
+    ...datosForm,
+    asistencia: e.target.value,
+  });
+
+  console.log("asistencia del guau guau POST",datosForm.asistencia);
+}
+
 const RevisarSesion = (cita) => {
-  console.log("DEBUG NOW NOW NOW ", cita)
+  console.log("RevisarSesion Debug ", cita.cita);
   const [datosForm, setDatosForm] = React.useState({
     alumnoCodigo:0,
     alumnoNombre:'',
@@ -137,7 +148,7 @@ const RevisarSesion = (cita) => {
     severS:"success"
   });
   const [open, setOpen] = React.useState(true);
-  const [plan,setPlan]=useState([]);
+  const [plan,setPlan]=useState(cita.cita.COMPROMISOs);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -148,20 +159,33 @@ const RevisarSesion = (cita) => {
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
+    if (datosForm.asistencia == "yes") {
+      var doggysAssistance = 1;
+    } else if (datosForm.asistencia == "no") {
+      var doggysAssistance = 0;
+    } else {
+      setSeveridad({
+        severidad:severidad.severE,
+      });     
+      setAlerta({
+        mensaje:"Falta llenar la asistencia.",
+      }); 
+      return;
+    }
     const resultadosSesion = {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
         RESULTADO: datosForm.resultado,
-        COMPROMISOS: [],
+        COMPROMISOS: plan,
         AREAS_APOYO: ["1"],
-        ALUMNOS:cita.cita.ALUMNOs[0].ID_ALUMNO,
-        ASISTENCIA:[1]
+        ALUMNOS:[cita.cita.ALUMNOs[0].ID_ALUMNO],
+        ASISTENCIA:[doggysAssistance]
       },
     }
     const props = { servicio: "/api/registrarResultadoCita", request: resultadosSesion };
     console.log("saving new sesion in DB:", resultadosSesion);
     let sesion = await Controller.POST(props);
-    console.log("sesion",sesion);
+    console.log("ASISTENCIA PRUEBA",sesion);
     if (sesion) {
       alert("Sesion registrada Satisfactoriamente");
     }
@@ -171,9 +195,7 @@ const RevisarSesion = (cita) => {
     setDatosForm({
       ...datosForm,
     });
-};
-
-  
+  };
 
   return (
     <div>
@@ -279,6 +301,10 @@ const RevisarSesion = (cita) => {
                   fullWidth   
               />
             </Grid>
+            <PlanDeAccion
+              plan={plan}
+              setPlan={setPlan}
+            />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
                     <Typography variant="h6">
@@ -299,6 +325,17 @@ const RevisarSesion = (cita) => {
                   fullWidth   
               />
             </Grid>
+            <p>
+              <Typography variant="h6">
+                  ¿Asistió a la cita?
+              </Typography><br></br>
+              {/* <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+              {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ? <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)} checked></input> : <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>}
+              <label for="asistio">Sí</label>
+              {/* <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+              {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO==false ? <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)} checked></input>: <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>} 
+              <label for="noasistio">No</label>
+            </p>
           </Grid>
           </Paper>
           

@@ -2,20 +2,16 @@ import React, { Component } from "react";
 import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, Chip, Paper, TextField, Button,Dialog } from "@material-ui/core";
 import FerCarrillo from "./tutor2.png";
-
 import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
-
 import CampoDeTexto from "./../Coordinador/Tutorias/CampoDeTexto.jsx";
 //../Coordinador/Tutorias/CampoDeTexto.js";
 import { getUser } from "../../Sesion/Sesion";
 import { POST } from "../../Conexion/Controller";
-
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-
 
 const style = {
     paper: {
@@ -51,8 +47,11 @@ class FrmDialogoSolicitarTutor extends Component {
                 { ID: 1, NOMBRE: "Académico" },
                 { ID: 2, NOMBRE: "Académico Administrativo" },
                 { ID: 3, NOMBRE: "Vocacional" },
-                { ID: 4, NOMBRE: "Personal" },
-                { ID: 5, NOMBRE: "Otro" },
+                { ID: 4, NOMBRE: "Personal--Familiar" },
+                { ID: 5, NOMBRE: "Personal--Individual" },
+                { ID: 6, NOMBRE: "Personal--Económico" },
+                { ID: 7, NOMBRE: "Personal--Psicológico" },
+                { ID: 8, NOMBRE: "Otro" },
             ],
             _motivoSelecc: "",
             descripcion: "",
@@ -117,12 +116,12 @@ class FrmDialogoSolicitarTutor extends Component {
             },
         };
 
-        console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
+        //console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
            //se llama al back
 
         const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
         let sesionTyS = await POST(props);
-        console.log("SESIONtYS XXX ",sesionTyS);
+        //console.log("SESIONtYS XXX ",sesionTyS);
 
         if(!sesionTyS.message){
             if(!sesionTyS.error){

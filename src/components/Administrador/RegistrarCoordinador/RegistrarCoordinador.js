@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogTitle from "@material-ui/core/DialogTitle";  
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
@@ -85,13 +85,6 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
   const res = validatePhoneNumber(e.target.value);
   setErrors({ ...errors, phoneNumber: res });
 };
-/*
-const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
-  setAlertas({
-    ...datosForm,
-    TELEFONO: e.target.value,
-  });
-*/
 
 const RegistrarCoordinador = (props) => {
   const [datosForm, setDatosForm] = React.useState({
@@ -315,25 +308,7 @@ const RegistrarCoordinador = (props) => {
         </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}> 
-            <Grid item md={4}>
-                <img
-                    style={estilo.imagen}
-                    src= {"data:image/"+datos.EXTENSION+";base64,"+datosForm.IMAGEN}>
-                </img>
-              <Button
-                  variant="outlined"
-                  component="label"
-                  color="primary"
-                  >
-                  EDITAR
-                  <input
-                      type="file"
-                      onChange={handleOnChangeImg}
-                      style={{ display: "none" }}
-                  />
-              </Button>
-            </Grid>
-            <Grid item md={8}>
+            <Grid item md={12}>
               <TextField
                 required
                 error={errors.code.error}

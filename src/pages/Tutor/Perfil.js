@@ -9,7 +9,7 @@ import Datos from "../../components/Coordinador/Datos";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
-    margin: theme.spacing(5),
+    marginTop: theme.spacing(5),
   },
 }));
 

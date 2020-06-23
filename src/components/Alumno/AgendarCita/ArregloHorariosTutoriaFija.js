@@ -1,14 +1,15 @@
 import React, { Component } from "react";
-import DisponibilidadCard from "./DisponibilidadCard";
+import DisponibilidadCardTutoriaFija from "./DisponibilidadCardTutoriaFija.js";
 import { GET } from "../../../Conexion/Controller";
 import { Paper, Typography } from "@material-ui/core";
 import SesionesCard from "../../Tutor/Sesiones/SesionesCard";
+
 const estilos = {
   centerizable: {
     textAlign: "center",
   },
 };
-class ArregloHorarios extends Component {
+class ArregloHorariosTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,9 +22,9 @@ class ArregloHorarios extends Component {
     if (horarios.data) {
       return (
         <div>
-          {horarios.data.map((element,i) =>
+          {horarios.data.map((element) =>
             this.props.tipo === "disponibilidad" ? (
-              <DisponibilidadCard
+              <DisponibilidadCardTutoriaFija
                 disponibilidad={element}
                 fexaForm={this.props.fexaForm}
               />
@@ -44,25 +45,23 @@ class ArregloHorarios extends Component {
   };
   async componentDidMount() {
     if (!this.props.servicio) {
-      console.log("no habia servico");
+      //console.log("no habia servico");
       return;
     }
-    const servicio = this.props.servicio; 
-    
-    console.log("gabyyyy XXX ",servicio); 
-
+    const servicio = this.props.servicio;    
     let horarios = await GET({ servicio: servicio });
     this.setState({ horarios: horarios });
-    console.log("POKEMON GO: ", horarios);
   }
+
   async componentWillReceiveProps(nextProps) {
     if (nextProps.servicio !== this.props.servicio) {
       let horarios = await GET({ servicio: nextProps.servicio });
       this.setState({ horarios: horarios });
     }
   }
+
   render() {
     return <>{this.renderHorarios(this.state.horarios)}</>;
   }
 }
-export default ArregloHorarios;
+export default ArregloHorariosTutoriaFija;

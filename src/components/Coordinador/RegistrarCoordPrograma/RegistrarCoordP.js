@@ -116,7 +116,7 @@ const RegistrarCoordinador = (props) => {
   const [errors, setErrors] = useState(errorObj);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
-    mensajeStrongError: "por favor revisalos!",
+    mensajeStrongError: "Por favor revisarlos",
     mensajeStrongExito: "satisfactoriamente!",
     mensajeError: "Existen errores al completar el formulario",
     mensajeExito: "Coordinador registrado",
@@ -270,10 +270,7 @@ useEffect(() => {
         </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}> 
-            <Grid item md={4}>
-              <Paper className={classes.foto}>Foto</Paper>
-            </Grid>
-            <Grid item md={8}>
+            <Grid item md={12}>
               <TextField
                 required
                 error={errors.code.error}

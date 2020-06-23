@@ -8,18 +8,16 @@ import Datos from "../../components/Coordinador/Datos";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
-    margin: theme.spacing(5),
+    marginTop: theme.spacing(5),
   },
 }));
 
-const handleClick = () =>{
-  let usuario={...JSON.parse(sessionStorage.Sesion)}
+const handleClick = () => {
+  let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
-  sessionStorage.Sesion = JSON.stringify(
-    usuario
-  );
-  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol)
-}
+  sessionStorage.Sesion = JSON.stringify(usuario);
+  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
+};
 
 const Perfil = () => {
   const classes = useStyles();

@@ -16,8 +16,9 @@ class Sesiones extends Component {
           {
             titulo: "Calendario de Citas",
             procesos: [
-              { index: 0, titulo: "Horarios Disponibles", proceso: ()=><CalendarioCitas servicio={"/api/listaSesiones/"+
-                getUser().usuario.ID_USUARIO +"/"} tipo="cita"/> },
+              { index: 0, titulo: "Horarios Disponibles",
+               proceso: ()=><CalendarioCitas servicio={"/api/listaSesiones/"+
+                getUser().usuario.ID_USUARIO +"/"} tipo="cita"/> }, 
             ],
           },
         ],

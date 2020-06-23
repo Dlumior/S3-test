@@ -55,7 +55,7 @@ const Institucion = (props) => {
     <div>
       <NombrePrincipal titulo="Configuracion de la Institución" />
       
-      <ConfigurarInstitucion institucion={institucion}/>}
+      <ConfigurarInstitucion institucion={institucion}/>
     </div>
   );
 };

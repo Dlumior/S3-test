@@ -3,7 +3,7 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { IconButton, Grid, Typography, Paper, Button } from "@material-ui/core";
+import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
@@ -16,7 +16,8 @@ const styles = {
     backgroundColor: "#ffffff",
   },
 };
-class Controles extends Component {
+
+class ControlesTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -36,10 +37,6 @@ class Controles extends Component {
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
-  }
-  async componentDidMount() {
-    const myid = getUser().usuario.ID_USUARIO;
-    console.log("USSSSSEEERRRR: ", myid);
   }
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
     //console.log( "1 semana al pasado");
@@ -71,15 +68,13 @@ class Controles extends Component {
   handleOnChangeProceso(proceso) {
     console.log("proceso seleccionado: ", proceso);
     //aqui se o mando al componente padre
-    if (this.props.filtroProceso) {
-      this.props.handleFiltroProceso(proceso[0]);
-    }
+    this.props.handleFiltroProceso(proceso[0]);
   }
   ModoBatallador() {
     this.props.modoBatallador(true);
     this.setState({ colorBatallador: this.state.colorActivo });
     this.setState({ colorLista: this.state.colorInactivo });
-    this.setState({ vistaColumna: "Columna" });
+    this.setState({ vistaColumna: "Batallador" });
     this.setState({ vistaLista: "" });
   }
   ModoLista() {
@@ -101,7 +96,7 @@ class Controles extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(-28)}
+                  onClick={() => this.saltoEnElTiempoLocal(-30)}
                 >
                   <ArrowBackIosOutlinedIcon />
                 </IconButton>
@@ -116,7 +111,7 @@ class Controles extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(28)}
+                  onClick={() => this.saltoEnElTiempoLocal(30)}
                 >
                   <ArrowForwardIosOutlinedIcon />
                 </IconButton>
@@ -124,28 +119,27 @@ class Controles extends Component {
             </Grid>
           </Grid>
 
-          {/** filtro de programa
-           * creo q ya no va XD
-           */}
+          {/** filtro de programa */}
           <Grid item md={3} xs={3}>
             {this.props.tipo !== "disponibilidad" ? (
               <></>
-            ) : 
+            ) : this.props.filtroProceso ? (
               <ListaComboBox
-                mensaje="Programa"
-                escogerItem={this.handleOnChangeProceso}
-                titulo={"Programa del Alumno"}
-                datos={{
-                  programa: [
-                    { ID_PROGRAMA: 30, NOMBRE:  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.NOMBRE}
-                  ],
-                }}
-                id={"ID_PROGRAMA"}
+                mensaje="proceso"
+                titulo={"Procesos de tutorías Fijas"}
+                //enlace={"/api/tutoria"}
+                enlace={"/api/tutoriafija/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                id={"ID_PROCESO_TUTORIA"}
                 nombre={"NOMBRE"}
-                keyServicio={"programa"}
-                placeholder={"Programa matriculado"}
+                keyServicio={"tutoria"}
+                escogerItem={this.handleOnChangeProceso}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja el proceso de tutoria"}
               />
-            }
+            ) : (
+                  <></>
+                )}
           </Grid>
 
           {/** fecha actual */}
@@ -158,19 +152,21 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Grid container spacing={0} style={styles.control}>
-                <Grid item md={12} xs={12} alignContent="center">
-                  {this.state.vistaColumna}
-                  <IconButton onClick={() => this.ModoBatallador()}>
-                    <ViewColumnIcon color={this.state.colorBatallador} />
-                  </IconButton>
-                  <IconButton onClick={() => this.ModoLista()}>
-                    <ViewListIcon color={this.state.colorLista} />
-                  </IconButton>
-                  {this.state.vistaLista}
+                <Grid container spacing={0} style={styles.control}>
+                  <Grid item md={12} xs={12} alignContent="center">
+                    {this.state.vistaLista}
+                    <IconButton onClick={() => this.ModoLista()}>
+                      <ViewListIcon color={this.state.colorLista} />
+                    </IconButton>
+
+                    <IconButton onClick={() => this.ModoBatallador()}>
+                      <ViewColumnIcon color={this.state.colorBatallador} />
+                    </IconButton>
+                    {this.state.vistaColumna}
+
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
+              )}
           </Grid>
 
           {/** tutor filtro */}
@@ -181,10 +177,7 @@ class Controles extends Component {
               <ListaEtiquetas
                 obtenerEtiquetas={this.handleOnChangeTutores}
                 //enlace={"/api/tutor"}
-                enlace={
-                  "/api/tutor/lista/" +
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-                }
+                enlace={"/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 small={true}
                 label={"Tutores"}
                 ID={"ID_TUTOR"}
@@ -194,8 +187,8 @@ class Controles extends Component {
                 strecht={true}
               />
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
           </Grid>
 
           {/** semana control*/}
@@ -232,4 +225,4 @@ class Controles extends Component {
   }
 }
 
-export default Controles;
+export default ControlesTutoriaFija;

@@ -1,17 +1,21 @@
 import React, { Component } from "react";
 import { Grid } from "@material-ui/core";
-import Controles from "./Controles";
+import ControlesTutoriaFija from "./ControlesTutoriaFija.js";
 import { NdiasMes, mesesAnio } from "./Util.js";
-import HorarioDelDia from "./HorarioDelDia";
-import FrmSolicitarCitaTutor_granito from "../FrmSolicitarCitaTutor_granito";
+import HorarioDelDiaTutoriaFija from "./HorarioDelDiaTutoriaFija.js";
+import FrmSolicitarTutorTipoII from "../FrmSolicitarTutorTipoII";
 
 const styles = {
   control: {
     textAlign: "center",
   },
-  container: {},
+  container: {
+    marginLeft: "2%",
+    marginRight: "2%",
+  },
 };
-class CalendarioCitas extends Component {
+
+class CalendarioCitasTutoriaFija extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,8 +23,8 @@ class CalendarioCitas extends Component {
       fechaActual: new Date(),
       lunesActual: "",
       fechaControles: {},
-      modoBatallador: true,
-      filtroIdProceso:0,
+      modoBatallador: false,
+      _idProceso:0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
@@ -45,41 +49,45 @@ class CalendarioCitas extends Component {
    *
    * @param {Date} lunesActual el lunes de la semana actual
    */
+
+
+
     /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
          linea 61 agregar paramtero para la linea 82
         para manejar el filtro del id del tutor en el servicio 
        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     */
+
+
+
   renderDias = (lunesActual) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
-    console.log("CAlendarGAAAAbyy xxx ", lunesActual);
+    console.log("CAlendarGAAAAbyy xxx ",lunesActual);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
+    
     return (
       <>
-        {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
-        <Grid container spacing={2}>
-
-          {fechasDias.map((diaSemana) => (
-            <Grid item md={2} xs={12}>
-              {console.log("DIA_SEMANA xxx ", this.props.servicio+ this.state.filtroIdProceso+"/"+ diaSemana.toISOString().split("T")[0])}
-              <HorarioDelDia
-                fecha={{
-                  fecha: diaSemana,
-                  servicio:
-                    this.props.servicio + diaSemana.toISOString().split("T")[0],
-                  tipo: this.props.tipo,
-                }}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      {console.log("ANTES DIA SEMANA xxx ",fechasDias)}
+        {fechasDias.map((diaSemana) => (
+          <Grid item md={2} xs={2}>
+            {console.log("DIA_SEMANA xxx ",diaSemana)}
+            <HorarioDelDiaTutoriaFija
+              fecha={{
+                fecha: diaSemana,
+                servicio:
+                  this.props.servicio + diaSemana.toISOString().split("T")[0],
+                tipo: this.props.tipo,
+              }}
+            />
+          </Grid>
+        ))}
       </>
     );
   };
@@ -108,15 +116,26 @@ class CalendarioCitas extends Component {
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
   }
-  handleFiltroProceso(idProceso) {
+
+
+
+  // >>>>>>>>>>>>>>>> ACA SE DEBE FILTAR SOLO X PROCESOS DE TIPOS DE TUTORES FIJOS <<<<<<<<<<<
+
+  handleFiltroProceso(idProceso){
     console.log("idProceso seleccionado: ", idProceso);
-    this.setState({filtroIdProceso:idProceso});
+
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
 
+
+    this.setState({_idProceso:idProceso});
+
+
+
+
   }
-  handleFiltroTutores(idTutores) {
+  handleFiltroTutores(idTutores){
     console.log("idTutores seleccionado: ", idTutores);
       //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
@@ -125,7 +144,7 @@ class CalendarioCitas extends Component {
   render() {
     return (
       <div style={styles.container}>
-        <Controles
+        <ControlesTutoriaFija
           fecha={this.state.fechaControles}
           saltoEnElTiempo={this.saltarEnElTiempo}
           filtroProceso={true}
@@ -133,7 +152,7 @@ class CalendarioCitas extends Component {
           handleFiltroProceso={this.handleFiltroProceso}
           handleFiltroTutores={this.handleFiltroTutores}
           modoBatallador={this.handleModoBatallador}
-          tipo={this.props.tipo}
+          tipo= {this.props.tipo}
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -143,16 +162,13 @@ class CalendarioCitas extends Component {
          */}
 
         {this.state.modoBatallador ? (
-          <Grid container alignContent="center">
-            {this.props.tipo==="cita"?this.renderDias(this.state.lunesActual):
-            this.state.filtroIdProceso?
-            this.renderDias(this.state.lunesActual):
-            <></>
-            }
-
+          <Grid container spacing={4} alignContent="center">
+            {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-          <FrmSolicitarCitaTutor_granito />
+          <FrmSolicitarTutorTipoII  
+            frmIdProceso={this.state._idProceso}  />
+          //standbyCambiosJin
         )}
 
 
@@ -162,4 +178,4 @@ class CalendarioCitas extends Component {
   }
 }
 
-export default CalendarioCitas;
+export default CalendarioCitasTutoriaFija;

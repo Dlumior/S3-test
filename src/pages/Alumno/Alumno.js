@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 import BarraNavegacion from "../../components/Alumno/BarraNavegacion.js";
 import Perfil from "./Perfil.js";
 import AgendarCita from "./AgendarCita.js";
+import SolicitarTutoriaFija from "./SolicitarTutoriaFija.js";
+
 import MisCitas from "./MisCitas.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
@@ -25,6 +27,18 @@ const Alumno = (props) => {
 
   return (
     <div>
+
+      {/*
+        >> meter condicional para caso de solicitar tutores FIJOS!
+        ... pero seria en datos.js
+        analogo a "matricula" de campus virtual
+
+      */}
+
+
+
+
+
       <Route
         exact
         path={"/alumno/"}
@@ -36,6 +50,7 @@ const Alumno = (props) => {
         )}
       />
       <BarraNavegacion>
+        <Route exact path={"/alumno/solicitarTutorFijo"} component={SolicitarTutoriaFija} />
         <Route exact path={"/alumno/perfil"} component={Perfil} />
         <Route exact path={"/alumno/agendarCita"} component={AgendarCita} />
         <Route exact path={"/alumno/misCitas"} component={MisCitas} />

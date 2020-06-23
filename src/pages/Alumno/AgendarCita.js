@@ -8,6 +8,7 @@ import { compose } from "redux";
 import { withRouter } from "react-router-dom";
 import { UserContext, getUser } from "../../Sesion/Sesion";
 import { inicializarSesion } from "../../Sesion/actions/sesionAction";
+import NombrePrincipalSSJ from "../../components/Shared/NombrePrincipalSSJ";
 
 class AgendarCita extends Component {
   constructor() {
@@ -74,7 +75,7 @@ class AgendarCita extends Component {
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs,
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
 
-        <NombrePrincipal titulo={this.state.procesos[0].titulo} />
+        <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} component={()=><p>Descripcion de la tutoria</p>} />
         {/*<TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>*/}
 
         <TabProceso

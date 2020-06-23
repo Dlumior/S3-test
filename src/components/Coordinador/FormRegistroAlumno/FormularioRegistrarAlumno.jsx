@@ -13,6 +13,7 @@ import Alertas from "../Alertas";
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
 import TituloFormulario from "../Tutorias/TituloFormulario";
+import { getUser } from "../../../Sesion/Sesion";
 const style = {
   paper: {
     marginTop: "3%",
@@ -38,6 +39,17 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
+      institucion:{
+        ID:'',
+        NOMBRE:"",
+        INICIALES:"",
+        IMAGEN:"",
+        TELEFONO:"",
+        PAGINA_WEB:"",
+        DOMINIO:"",
+        UBICACION:"",
+        EXTENSION:"",  
+      },
       validacionNombreMensaje: "",
       programas: [
         "",
@@ -84,6 +96,9 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.handleOnChange = this.handleOnChange.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
+    this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
+    this.getSubRol = this.getSubRol.bind(this);
+    this.getEnlace = this.getEnlace.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
@@ -123,6 +138,23 @@ class FormularioRegistrarAlumno extends Component {
   }
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
+    let dominio = this.state.institucion.DOMINIO;
+    let dominio2 = this.state.institucion.DOMINIO2;
+    let email = this.state.alumno.correo;
+    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
+    if (email.substr(-dominio.length)!==dominio && email.substr(-dominio2.length)!==dominio2) { // validación del dominio de la institución
+      console.log("ENTRE AL PUTITO DOMINIO ERROR");
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = alert.mensajeError;
+      alert.mensajeStrong = "El correo debe pertenecer a los dominios de la institución.";
+      this.setState({ alert: alert });
+      this.setState({ severidad: "error" });
+
+      this.state.alert.mensaje = this.state.alert.mensajeError;
+      return;
+    }
+    
+
     if (this.state.errores.length === 0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
@@ -153,6 +185,17 @@ class FormularioRegistrarAlumno extends Component {
       console.log("saving new student in DB:", nuevoEstudiante);
       let nuevoAlumno = await Controller.POST(props);
       if (nuevoAlumno) {
+        if (nuevoAlumno.error) {
+          //ocurrio un error
+          let alert = Object.assign({}, this.state.alert);
+          alert.mensaje = `${alert.mensajeError}: ${nuevoAlumno.error}`;
+          alert.mensajeStrong = alert.mensajeStrongError;
+          this.setState({ alert: alert });
+          this.setState({ severidad: "error" });
+
+          this.state.alert.mensaje = this.state.alert.mensajeError;
+          return;
+        }
         let alert = Object.assign({}, this.state.alert);
         alert.mensaje = alert.mensajeExito;
         alert.mensajeStrong = alert.mensajeStrongExito;
@@ -161,13 +204,11 @@ class FormularioRegistrarAlumno extends Component {
         this.state.alert.mensaje = this.state.alert.mensajeExito;
         //alert("Alumno registrado Satisfactoriamente");
         //entonces viajo al tab de listado de alumnos
-
       }
       console.log("got updated alumno from back:", nuevoAlumno);
-      
     } else {
       let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
+      alert.mensaje = `${alert.mensajeError}: ${this.state.errores.map((error)=>error.error)}`;
       alert.mensajeStrong = alert.mensajeStrongError;
       this.setState({ alert: alert });
       this.setState({ severidad: "error" });
@@ -191,7 +232,29 @@ class FormularioRegistrarAlumno extends Component {
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
     this.state.alumno.programa = programa;
-    console.log("proograma:", this.state.alumno.programa);
+    // let tutoria = Object.assign({}, this.state.tutoria);
+    // tutoria.programa = programa[0];
+    // this.setState({ tutoria: tutoria });
+    // console.log("proograma:", this.state.tutoria.programa);
+    // this.setState({ filtroFacultad: programa[0] });
+  }
+  handleOnChangeFacultad(facultad) {
+    console.log("HAAAAAAAAAA facu:", facultad);
+
+    const usuario = getUser().usuario;
+    const subrol = this.getSubRol(
+      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+    );
+    const ID = usuario.ID_USUARIO;
+    let enlace = usuario
+      ? subrol === "facultad"
+        ? `/api/programa/lista/${facultad[0]}`
+        : subrol === "programa"
+        ? `/api/programa/lista/${ID}/${facultad[0]}`
+        : ""
+      : "";
+
+    this.setState({ filtroFacultad: enlace });
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
@@ -207,7 +270,41 @@ class FormularioRegistrarAlumno extends Component {
     //this.setState({tutoria:tutoria});
     console.log("Seteado: ", this.state.etiqueta);
   };
+
+  /**
+   * Obtiene el subrol, util cuando se trarta de coordinador de programa o facultad
+   * @param {string} fullRol
+   */
+  getSubRol(fullRol) {
+    let subrol = fullRol?.split(" ");
+    return subrol ? subrol[1].toLowerCase() : "";
+  }
+  /**
+   * De acuerto al tipo de coordinador obtiene el enlace apropiado
+   * @param {*} usuario
+   */
+  getEnlace(usuario) {
+    //console.log("HAAAA",usuario);
+    //usuarioLogueado?"/api/facultad//"
+    //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
+    //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
+    const subrol = this.getSubRol(
+      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+    );
+
+    const ID = usuario.ID_USUARIO;
+    let enlace = usuario
+      ? subrol === "facultad"
+        ? "/api/facultad/coordinador/" + ID
+        : subrol === "programa"
+        ? "/api/facultad/lista/" + ID
+        : ""
+      : "";
+
+    return enlace;
+  }
   componentDidMount() {}
+
   render() {
     return (
       <>
@@ -248,6 +345,8 @@ class FormularioRegistrarAlumno extends Component {
               type="email"
               label="Correo"
               validacion={{ lim: 25, tipo: "email" }}
+              dominio = {this.state.institucion.DOMINIO}
+              dominio2 = {this.state.institucion.DOMINIO2}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
@@ -284,17 +383,54 @@ class FormularioRegistrarAlumno extends Component {
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
-            {/* Lista  programas */}
+
+            {/* Lista  facultades */}
             <ListaComboBox
-              mensaje="programa"
-              titulo={"Programas"}
-              enlace={"/api/programa"}
+              mensaje="facultad"
+              titulo={"Facultad"}
+              enlace={this.getEnlace(getUser().usuario)}
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
-              keyServicio={"programa"}
-              escogerItem={this.handleOnChangePrograma}
+              subnombre={
+                this.getSubRol(
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                ) === "programa"
+                  ? "FACULTAD"
+                  : undefined
+              }
+              keyServicio={"facultades"}
+              escogerItem={this.handleOnChangeFacultad}
+              small={true}
+              inicial={true}
+              placeholder={"Escoja la facultad"}
             />
+            {this.state.filtroFacultad ? (
+              <ListaComboBox
+                mensaje="programa"
+                titulo={"Programa"}
+                enlace={this.state.filtroFacultad}
+                id={"ID_PROGRAMA"}
+                nombre={"NOMBRE"}
+                keyServicio={
+                  this.getSubRol(
+                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL
+                      .DESCRIPCION
+                  ) === "programa"
+                    ? "programas"
+                    : "programa"
+                }
+                escogerItem={this.handleOnChangePrograma}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja el programa"}
+              />
+            ) : (
+              <></>
+            )}
+
+            {/**etiquetas */}
             <ListaEtiquetas
+              strecht={false}
               titulo={"Etiquetas(opcional):"}
               obtenerEtiquetas={this.handleOnChangeEtiquetas}
               enlace={"/api/etiqueta"}

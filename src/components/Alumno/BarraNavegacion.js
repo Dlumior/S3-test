@@ -97,6 +97,7 @@ const BarraNavegacion = (props) => {
   const handleClick = () => {
     //te odio hooks
     console.log("Alumno LOG OUTTTTT",props);
+    
     logOut(dispatch);
   }
   const handleDrawerOpen = () => {
@@ -127,7 +128,7 @@ const BarraNavegacion = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Ututor
+            Ututor / Alumnos
           </Typography>
         </Toolbar>
       </AppBar>
@@ -150,8 +151,11 @@ const BarraNavegacion = (props) => {
           </IconButton>
         </div>
         <Divider />
+
+        {/*mostrar tutorias fijas para 1era semana */}
         <List>
           {[
+            "Solicitar Tutor Fijo",
             "Perfil",
             "Agendar Cita",
             "Mis Citas",

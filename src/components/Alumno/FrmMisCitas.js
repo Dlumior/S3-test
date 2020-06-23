@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-
-import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
-
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { getUser } from "../../Sesion/Sesion";
-//import DialogTitle from "@material-ui/core/DialogTitle";
+import TabProceso from "../Coordinador/Tutorias/TabProceso.js";
+import FrmMisCitasPasadas from "./AgendarCita/CitasPasadas/FrmMisCitasPasadas";
+
+import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
 const style = {
     paper: {
         marginTop: "3%",
-        marginLeft: "3%",
+        marginLeft: "10%",
         display: "flex",
         flexDirection: "column",
         alignItems: "left",
@@ -24,7 +25,7 @@ class FrmMisCitas extends Component {
     constructor() {
         super();
         this.state = {
-            tutores: {
+            sesiones: {
                 columns: [{
                     title: "Nombre",
                     field: "nombre",
@@ -32,71 +33,192 @@ class FrmMisCitas extends Component {
                 data: [{ nombre: "" }]
             }, //aqui va el nombre de la tablilla
             open: false,
-            open2:false,
+            //open2: false,
+
+            open3:false,
+            mensajillo:"",
+            graciasYopsIdSesion:0,
+            graciasYopsIdTutor:[],
+            yopsRazon:"",
+
 
         };
 
         this.handleOnClick = this.handleOnClick.bind(this);
-        this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
-        this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
+
+        this.handleOnCloseCitaCancelada = this.handleOnCloseCitaCancelada.bind(this);
+        this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
+
+        //this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
+        //this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
     };
 
-    handleOnClickPosponer() {
-        this.setState({ open2: true });
-    }
-    handleOnClosePosponer() {
-        //console.log("ctm",this.state.open);
-        this.setState({ open2: false });
+
+    //de btn cancelar
+    handleOnClick(e,_idSesion,_idTutor) {
+        console.log("TARGET DEL E idSesion/idTutor",_idSesion,_idTutor);
+        this.setState({graciasYopsIdSesion:_idSesion});
+
+        //this.setState({graciasYopsIdTutor:_idTutor});
+        let _arrTutor= [];
+        _arrTutor.push(_idTutor);
+
+        this.setState({graciasYopsIdTutor:_arrTutor});
+
+        this.setState({ open: true });
+
     }
 
-    //de cancelar
-    handleOnClick() {
-        this.setState({ open: true });
+    handleOnCloseAceptarCancelacion() {
+        //console.log("ctm",this.state.open);
+        this.setState({ open3: false });
     }
+
 
     handleOnClose() {
         //console.log("ctm",this.state.open);
         this.setState({ open: false });
     }
+  
+
+    handleOnCloseCitaCancelada() {
+        //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
+        this.setState({ open3: false });
+        this.setState({open:false});
+    }
+
+    async handleOnclickAceptarCancelacion() {
+        //console.log("ctm",this.state.open);
+        //this.setState({ open: false });
+
+        let yo = getUser();
+        let _razon = "";
+         const nuevaSolicitud = {
+             sesion: {
+                 ID_SESION:this.state.graciasYopsIdSesion,
+                 ALUMNOS: [yo.usuario.ID_USUARIO],
+                 RAZON: this.state.yopsRazon,
+                 EMISOR:yo.usuario.ID_USUARIO.toString(),
+                 RECEPTOR:this.state.graciasYopsIdTutor,
+             },
+         };
+
+         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
+         let sesionTyS = await Controller.POST(props);
+         console.log("YOOOPSSS tYS XXX ",sesionTyS);
+
+        //DOING...
+        //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
+        if(sesionTyS){
+            this.setState({mensajillo:"CITA CANCELADA SASTISFACTORIAMENTE !"});  
+        }else{
+            this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
+        }
+
+        //  if(!sesionTyS.message){
+        //      if(!sesionTyS.error){
+        //          this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+        //      }else{
+        //          this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});   
+        //      }
+        //  }
+        //  else{
+        //      this.setState({mensajillo:sesionTyS.message});
+        //  }
+
+        this.setState({open3:true });
+    }
+
+    handleOnChangeCT = (e) => {
+        // nombre y descripcion   
+        //console.log("XXXXXXXXX RAZON ",e.value);
+        this.setState({ [e.name]: e.value });
+        this.setState({yopsRazon:e.value});
+
+    }
+
+    validarEntradaCT(error) {
+        /*
+        console.log("errores:", error);
+        let encontrado = undefined;
+        let nuevo = false;
+        let eliminar = this.state.errores.forEach((element) => {
+          if (element.llave === error.llave) {
+            encontrado = element;
+          }
+        });
+        if (encontrado) {
+          if (error.error.length === 0) {
+            //lo borro
+            eliminar = true;
+          }
+        } else {
+          if (error.error.length !== 0) {
+            nuevo = true;
+          }
+        }
+        console.log("nuevo: ", nuevo);
+        if (nuevo) {
+          let newErrores = this.state.errores;
+          newErrores.push(error);
+          this.setState({ errores: newErrores });
+          return;
+        }
+        if (eliminar) {
+          let newErrores = [];
+          this.state.errores.forEach((element) => {
+            if (element.llave !== error.llave) {
+              newErrores.push(element);
+            }
+          });
+          this.setState({ errores: newErrores });
+        }
+        */
+    }
 
     async componentDidMount() {
-        let arregloDeTutores = 
-        await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
-        /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-        console.log("arreglo: ", arregloDeTutores);
+        let arregloDeSesiones =
+            await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
+        //console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
-        let max=29;
-        let fex=0;
-        let letras =['I','II'];
-        for (let element of arregloDeTutores.tutores) {
+        //let max=29;     //let fex=0;      //let letras =['I','II'];
+        for (let element of arregloDeSesiones.data) {
             cont++;
-            fex= max-(cont+1);
+            //fex= max-(cont+1);
+            let estadillo = element.ESTADO.split("-")[0];
+
             arreglillo.push({
-                imagen: <div>
-                    <img
-                        style={estilo.imagen}
-                        src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
+                campoCont: cont,
+                /*
+                    imagen: <div>
+                      <img
+                          style={estilo.imagen}
+                          src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
+  
+                      </img>
+                  </div>, 
+                 */
 
-                    </img>
-                </div>,
-
-
-                nombre: element.USUARIO?element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS:"teamoBB",
-                fecha: fex + " " + "de Mayo del 2020",
-                tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
+                nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
+                //fecha: fex + " " + "de Mayo del 2020",
+                fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                lugar: element.LUGAR,
+                //tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
+                tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
                 btnCancelar:
                     <Button
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={this.handleOnClick}
+                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                     >
                         CANCELAR
                     </Button>,
-                sheckEstado : "Done!"
+                campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*
                 btnPosponer:
                     <Button
@@ -113,17 +235,26 @@ class FrmMisCitas extends Component {
 
         const data = {
             columns: [
+                // {
+                //     title: "",
+                //     field: "imagen"
+                // },
                 {
-                    title: "",
-                    field: "imagen"
+                    title: "N°",
+                    field: "campoCont",
+
                 },
                 {
                     title: "TUTOR",
                     field: "nombre",
                 },
                 {
-                    title: "FECHA",
+                    title: "FECHA / HORA",
                     field: "fecha"
+                },
+                {
+                    title: "LUGAR",
+                    field: "lugar"
                 },
                 {
                     title: "TIPO TUTORIA",
@@ -133,9 +264,15 @@ class FrmMisCitas extends Component {
                     title: "CANCELAR CITA",
                     field: "btnCancelar"
                 },
+                /*
                 {
                     title: "ESTADO",
-                    field: "sheckEstado"
+                    field: "campoEstado"
+                },
+                */
+                {
+                    title: "ENCUESTA",
+                    field: "campoEncuesta"
                 },
                 /*
                 {
@@ -143,15 +280,12 @@ class FrmMisCitas extends Component {
                     field: "btnPosponer",
                 },
                 */
-               
-                /*  {},{},{}.... para mas columnas  */
+
             ],
             data: arreglillo
-
-
         };
 
-        this.setState({ tutores: data });
+        this.setState({ sesiones: data });
 
     }
 
@@ -163,14 +297,27 @@ class FrmMisCitas extends Component {
                     onClose={this.handleOnClose}
                     aria-labelledby="form-dialog-title"
                 >
+
+                    <DialogTitle id="alert-dialog-title">
+                        {<h3> ¿ Está seguro de CANCELAR esta cita ? </h3>}</DialogTitle>
+
                     <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                ¿ESTÁ SEGURO DE CANCELAR ESTA CITA?
-                                <br/>
-                                SE LE REDIRECCIONARÁ AL CORREO GMail...
-                            </Paper>
-                        </Grid>
+                        <Paper elevation={0} >
+                            <CampoDeTexto
+                                autoFocus={true}
+                                name="Motivo"
+                                label="Ingrese Motivo de Cancelación"
+                                validacion={{ lim: 300 }}
+                                variant={"outlined"}
+                                rows={10}
+                                multiline={true}
+                                requerido={true}
+                                inicial="..."
+                                onChange={this.handleOnChangeCT}
+                                validarEntrada={this.validarEntradaCT}
+                            />
+                        </Paper>
+
                     </DialogContent>
 
                     <DialogActions>
@@ -185,15 +332,54 @@ class FrmMisCitas extends Component {
                             size="large"
                             variant="contained"
                             color="primary"
-                            onClick={this.handleOnClose}                        >
+                            onClick={this.handleOnclickAceptarCancelacion}                        >
                             Aceptar
                         </Button>
                     </DialogActions>
                 </Dialog>
 
-                <Paper elevation={0} style={style.paper}>
+
+
+                <Dialog
+                    open={this.state.open3}
+                    onClose={this.handleOnCloseCitaCancelada}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle >
+                        <h3 >Resultado </h3>
+
+                    </DialogTitle>
+                    <DialogContent>
+                        {this.state.mensajillo}
+                    </DialogContent>
+                    <DialogActions>
+
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnCloseCitaCancelada}>
+
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+
+                <TabProceso procesos={[
                     {
+                        index: 0, titulo: "Pendientes",
+                        proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Pendiente"} />
+                    },
+                    { index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
+                    { index: 2, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas/> },
+                    { index: 3, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
+
+                ]} paper={true} />
+
+                {
                     /* por aora no es necesario que el formulario tenga su propio tab ya que el comp. padre te lo dara tranqui xd
+                    <Paper elevation={0} style={style.paper}>
+                    
                     <Tabs
                         centered
                         value={0}
@@ -204,39 +390,16 @@ class FrmMisCitas extends Component {
                     >
                         <Tab label="" />
 
-                    </Tabs>*/}
-                    {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-                    <TablaTutoresMisCitas tutores={this.state.tutores} />
+                    </Tabs>
+                    
+                    </Paper>
 
-                </Paper>
-                {/**
-                 * 
-                 <Dialog
-                    open={this.state.open2}
-                    onClose={this.handleOnClosePosponer}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                Horarios Disponibles ... <br></br> Martes 1 : 11AM - 12 PM
-                            </Paper>
-                        </Grid>
-                    </DialogContent>
+                    */
+                }
 
-                    <DialogActions>
-                        <Button
-                            size="large"
-                            variant="outlined"
-                            color="primary"
-                            onClick={this.handleOnClosePosponer}                        >
-                            Enviar Solicitud de Postergación
-                        </Button>
-                        
-                    </DialogActions>
-                </Dialog>
-                 */}    
-                
+                {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
+                {/*<TablaTutoresMisCitas sesiones={this.state.sesiones} />*/}
+
             </div>
         );
     }

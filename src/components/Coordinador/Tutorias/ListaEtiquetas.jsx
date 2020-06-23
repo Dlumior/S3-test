@@ -10,6 +10,8 @@ import "./ListaEtiquetas.css";
 const estilos = {
   paper: {
     marginTop: "1%",
+    marginRight: "10%",
+    marginLeft: "10%",
     flexDirection: "column",
   },
   paperStrecht: {

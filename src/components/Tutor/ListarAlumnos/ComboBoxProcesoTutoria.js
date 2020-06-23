@@ -60,10 +60,10 @@ const ComboBoxProcesoTutoria = (props) => {
           {!pDisabled &&
             procesosTutoria.map((item) => (
               <MenuItem
-                key={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
-                value={item.PROCESO_TUTORIA.ID_PROCESO_TUTORIA}
+                key={item.ID_PROCESO_TUTORIA}
+                value={item.ID_PROCESO_TUTORIA}
               >
-                {item.PROCESO_TUTORIA.NOMBRE}
+                {item.NOMBRE}
               </MenuItem>
             ))}
         </Select>

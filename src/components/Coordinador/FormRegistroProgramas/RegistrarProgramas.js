@@ -166,12 +166,13 @@ const RegistrarProgramas = () => {
 
   return (
     <div>
-      <Button 
+      { getUser().rol==="Coordinador Facultad" &&
+        <Button 
         variant="contained"
         color="primary"
         onClick={handleClickOpen}>
         Registrar
-      </Button>
+      </Button>}
       <Dialog
         open={open}
         onClose={handleClose}
