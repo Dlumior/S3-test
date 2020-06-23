@@ -102,11 +102,8 @@ class ListaComboBox extends Component {
       console.log("Nueva enlace", nextProps.enlace);
       let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
       if (!listaItems || listaItems.length===[]) {
-
         this.setState({ listaItems: [] });
-  
       } else {
-  
           if (listaItems[this.props.keyServicio].length>0) {
             console.log("entreeeee---->: ",listaItems);
             // En item el primero

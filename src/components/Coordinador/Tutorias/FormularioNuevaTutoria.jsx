@@ -258,7 +258,7 @@ class FormularioNuevaTutoria extends Component {
       ? subrol === "facultad"
         ? "/api/facultad/coordinador/" + ID
         : subrol === "programa"
-        ? "/api/facultad/coordinador/" + ID
+        ? "/api/facultad/lista/" + ID
         : ""
       : "";
 
