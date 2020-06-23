@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-import { Paper, Tabs, Tab, Button, Grid, Dialog } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle } from "@material-ui/core";
 import TablaTutores from "./TablaTutores.js";
 
 import DialogActions from "@material-ui/core/DialogActions";
@@ -33,6 +33,8 @@ class FrmSolicitarTutorTipoII extends Component {
             }, //aqui va el nombre de la tablilla
             openSolicitarTutor: false,
             openVerDispo: false,
+            _tutorFijo:0,
+            mensajillo:"",
 
         };
 
@@ -41,20 +43,59 @@ class FrmSolicitarTutorTipoII extends Component {
         this.handleOnChange = this.handleOnChange.bind(this);
         */}
         this.handleOnClickSolicitarTutor = this.handleOnClickSolicitarTutor.bind(this);
-        this.handleOnCloseSolicitarTutor = this.handleOnCloseSolicitarTutor.bind(this);
+        this.handleOnClose = this.handleOnClose.bind(this);
         this.handleOnClickVerDispo = this.handleOnClickVerDispo.bind(this);
         this.handleOnCloseVerDispo = this.handleOnCloseVerDispo.bind(this);
     };
 
 
-    handleOnClickSolicitarTutor() {
-        this.setState( {openSolicitarTutor : true});
-        //this.props.regreso(0);
+    async handleOnClickSolicitarTutor(e,_idTutorFijo) {
+        //this.setState( {openSolicitarTutor : true});
+
+
+        console.log("ZZZ ",_idTutorFijo);
+        await this.setState({_tutorFijo:_idTutorFijo});
+        console.log("ZZZ AFTER ",this.state._tutorFijo);
+
+
+
+        let yo = getUser();
+        const nuevaSolicitud = {
+            solicitud: {
+                ID_PROCESO_TUTORIA:this.props.frmIdProceso,
+                ID_TUTOR:this.state._tutorFijo,
+                ID_ALUMNO:yo.usuario.ID_USUARIO,
+            },
+        };
+
+
+        const props = { servicio: "/api/solicitud/enviar", request: nuevaSolicitud };
+
+        console.log("NUEVA SOLIXXXXX ",nuevaSolicitud);
+
+        let sesionTyS = await Controller.POST(props);
+        console.log("TutoFIJOOO tYS XXX ",sesionTyS);
+
+       
+       if(sesionTyS){
+           this.setState({mensajillo:"SOLICITUD REGISTRADA SASTISFACTORIAMENTE !"});  
+       }else{
+           this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
+       }
+
+       this.setState({openSolicitarTutor:true });
+
     }
 
-    handleOnCloseSolicitarTutor() {
+     handleOnClose() {
         //console.log("ctm",this.state.openSolicitarTutor);
         this.setState( {openSolicitarTutor : false});
+
+
+       
+
+
+
     }
 
     //=============================================================
@@ -109,7 +150,11 @@ class FrmSolicitarTutorTipoII extends Component {
                     size="large"
                     variant="contained"
                     color="primary"
-                    onClick={this.handleOnClickSolicitarTutor}
+                    onClick={e=>this.handleOnClickSolicitarTutor(e,element.ID_TUTOR)}
+
+                    //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                    
+
                 >
                     SOLICITAR TUTOR
                 </Button>,
@@ -174,23 +219,25 @@ class FrmSolicitarTutorTipoII extends Component {
             <div>
                 <Dialog
                     open={this.state.openSolicitarTutor}
-                    onClose={this.handleOnCloseSolicitarTutor}
-                    aria-labelledby="form-dialog-title"
+                    onClose={this.handleOnClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
                 >
+                    <DialogTitle >
+                        <h3 >Resultado </h3>
+
+                    </DialogTitle>
                     <DialogContent>
-                        <Grid container xs={12}>
-                            <Paper style={style.paper}>
-                                Espere a que el tutor acepte su solicitud.  Por favor, revise su bandeja.
-                            </Paper>
-                        </Grid>
+                        {this.state.mensajillo}
                     </DialogContent>
                     <DialogActions>
-                        <Button                            
-                            size="large"
+
+                        <Button
                             variant="contained"
                             color="primary"
-                            onClick={this.handleOnCloseSolicitarTutor}                        >
-                            ACEPTAR
+                            onClick={this.handleOnClose}>
+
+                            Aceptar
                         </Button>
                     </DialogActions>
                 </Dialog>
