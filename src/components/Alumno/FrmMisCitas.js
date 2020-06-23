@@ -5,7 +5,9 @@ import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { getUser } from "../../Sesion/Sesion";
-import TabProceso from "../Coordinador/Tutorias/TabProceso.js"
+import TabProceso from "../Coordinador/Tutorias/TabProceso.js";
+import FrmMisCitasPasadas from "./AgendarCita/CitasPasadas/FrmMisCitasPasadas";
+
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
 const style = {
@@ -369,7 +371,7 @@ class FrmMisCitas extends Component {
                         proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Pendiente"} />
                     },
                     { index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
-                    { index: 2, titulo: "Realizadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Realizada"} /> },
+                    { index: 2, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas/> },
                     { index: 3, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
 
                 ]} paper={true} />
