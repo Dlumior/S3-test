@@ -208,11 +208,11 @@ const RegistrarProgramas = () => {
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
                 />
-                <ComboBoxFacu
+                  <ComboBoxFacu
                   facultades={facultades}
                   facultad={facultad}
                   setFacultad={setFacultad}
-                />   
+                /> 
               </Grid>
             </Grid>
             </Grid>

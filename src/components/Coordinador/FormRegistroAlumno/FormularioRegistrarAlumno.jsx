@@ -47,6 +47,7 @@ class FormularioRegistrarAlumno extends Component {
         TELEFONO:"",
         PAGINA_WEB:"",
         DOMINIO:"",
+        DOMINIO2:"",
         UBICACION:"",
         EXTENSION:"",  
       },
@@ -141,9 +142,8 @@ class FormularioRegistrarAlumno extends Component {
     let dominio = this.state.institucion.DOMINIO;
     let dominio2 = this.state.institucion.DOMINIO2;
     let email = this.state.alumno.correo;
-    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
+    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));/*
     if (email.substr(-dominio.length)!==dominio && email.substr(-dominio2.length)!==dominio2) { // validación del dominio de la institución
-      console.log("ENTRE AL PUTITO DOMINIO ERROR");
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
       alert.mensajeStrong = "El correo debe pertenecer a los dominios de la institución.";
@@ -153,7 +153,7 @@ class FormularioRegistrarAlumno extends Component {
       this.state.alert.mensaje = this.state.alert.mensajeError;
       return;
     }
-    
+    */
 
     if (this.state.errores.length === 0) {
       e.preventDefault();
@@ -322,7 +322,7 @@ class FormularioRegistrarAlumno extends Component {
               autoFocus={true}
               name="nombres"
               label="Nombres"
-              inicial="Jin SSJ"
+              inicial=""
               validacion={{ lim: 25 }}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}

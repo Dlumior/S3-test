@@ -40,11 +40,12 @@ const Programas = () => {
       <NombrePrincipal titulo="Programas" />
       <Grid container md={12} alignItems="flex-end" alignContent="center" justify="center">
         <Grid item md={9} >
+        {getUser().rol==="Coordinador Facultad" &&
           <ComboBoxFacus
             facultades={facultades}
             facultad={facultad}
             setFacultad={setFacultad}
-          /> 
+         /> }
         </Grid> 
         <Grid item md={2}>
           <RegistrarProgramas/>

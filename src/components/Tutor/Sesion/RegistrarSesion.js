@@ -208,7 +208,7 @@ const RegistrarSesion = () => {
       let sesion = await Controller.POST(props);
       console.log("sesion",sesion);
       if (sesion) {
-        alert("Sesion registrada Satisfactoriamente");
+        //alert("Sesion registrada Satisfactoriamente");
       }
       console.log("got updated sesion from back:", sesion);
         
