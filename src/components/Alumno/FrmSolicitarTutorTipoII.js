@@ -35,6 +35,7 @@ class FrmSolicitarTutorTipoII extends Component {
             openVerDispo: false,
             _tutorFijo:0,
             mensajillo:"",
+            botonDisable:false,
 
         };
 
@@ -78,7 +79,7 @@ class FrmSolicitarTutorTipoII extends Component {
 
        
        if(sesionTyS){
-           this.setState({mensajillo:"SOLICITUD REGISTRADA SASTISFACTORIAMENTE !"});  
+           this.setState({mensajillo:<><p>SOLICITUD REGISTRADA SASTISFACTORIAMENTE !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
        }else{
            this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
        }
@@ -90,7 +91,7 @@ class FrmSolicitarTutorTipoII extends Component {
      handleOnClose() {
         //console.log("ctm",this.state.openSolicitarTutor);
         this.setState( {openSolicitarTutor : false});
-
+        this.setState({botonDisable:true});
 
        
 
@@ -235,7 +236,8 @@ class FrmSolicitarTutorTipoII extends Component {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={this.handleOnClose}>
+                            onClick={this.handleOnClose}
+                            disable={this.state.botonDisable}>
 
                             Aceptar
                         </Button>
