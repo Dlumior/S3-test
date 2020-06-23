@@ -39,7 +39,7 @@ const MisAlumnos = () => {
   useEffect(() => {
     async function fetchData() {
       const endpoint =
-        "/api/tutoria/lista/" + getUser().usuario.ID_USUARIO + "/" + programa;
+        "/api/tutoria/lista/"+ programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
       setProcesosTutoria(res.tutoria);

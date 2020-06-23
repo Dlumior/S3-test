@@ -38,6 +38,17 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
+      institucion:{
+        ID:'',
+        NOMBRE:"",
+        INICIALES:"",
+        IMAGEN:"",
+        TELEFONO:"",
+        PAGINA_WEB:"",
+        DOMINIO:"",
+        UBICACION:"",
+        EXTENSION:"",  
+      },
       validacionNombreMensaje: "",
       programas: [
         "",
@@ -123,6 +134,23 @@ class FormularioRegistrarAlumno extends Component {
   }
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
+    let dominio = this.state.institucion.DOMINIO;
+    let dominio2 = this.state.institucion.DOMINIO2;
+    let email = this.state.alumno.correo;
+    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
+    if (email.substr(-dominio.length)!==dominio && email.substr(-dominio2.length)!==dominio2) { // validación del dominio de la institución
+      console.log("ENTRE AL PUTITO DOMINIO ERROR");
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = alert.mensajeError;
+      alert.mensajeStrong = "El correo debe pertenecer a los dominios de la institución.";
+      this.setState({ alert: alert });
+      this.setState({ severidad: "error" });
+
+      this.state.alert.mensaje = this.state.alert.mensajeError;
+      return;
+    }
+    
+
     if (this.state.errores.length === 0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
@@ -205,7 +233,13 @@ class FormularioRegistrarAlumno extends Component {
     //this.setState({tutoria:tutoria});
     console.log("Seteado: ", this.state.etiqueta);
   };
-  componentDidMount() {}
+  async componentDidMount() {
+    let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
+    console.log("got institucion from back:", getInsitucion.institucion);
+    this.setState({institucion:getInsitucion.institucion});
+    console.log("this.state.institucion: ", this.state.institucion);   
+    console.log("this.state.NOMBRE:", this.state.institucion.DOMINIO, this.state.institucion.DOMINIO2);  
+  }
   render() {
     return (
       <>
@@ -246,6 +280,8 @@ class FormularioRegistrarAlumno extends Component {
               type="email"
               label="Correo"
               validacion={{ lim: 25, tipo: "email" }}
+              dominio = {this.state.institucion.DOMINIO}
+              dominio2 = {this.state.institucion.DOMINIO2}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />

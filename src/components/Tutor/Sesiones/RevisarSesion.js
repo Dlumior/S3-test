@@ -121,7 +121,7 @@ const handleDogsAssistance = (e, datosForm, setDatosForm) => {
 }
 
 const RevisarSesion = (cita) => {
-  console.log("DEBUG NOW NOW NOW ", cita)
+  console.log("RevisarSesion Debug ", cita.cita.COMPROMISOs);
   const [datosForm, setDatosForm] = React.useState({
     alumnoCodigo:0,
     alumnoNombre:'',
@@ -148,7 +148,7 @@ const RevisarSesion = (cita) => {
     severS:"success"
   });
   const [open, setOpen] = React.useState(true);
-  const [plan,setPlan]=useState([]);
+  const [plan,setPlan]=useState(cita.cita.COMPROMISOs);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -176,7 +176,7 @@ const RevisarSesion = (cita) => {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
         RESULTADO: datosForm.resultado,
-        COMPROMISOS: [],
+        COMPROMISOS: plan,
         AREAS_APOYO: ["1"],
         ALUMNOS:[cita.cita.ALUMNOs[0].ID_ALUMNO],
         ASISTENCIA:[doggysAssistance]
@@ -329,9 +329,11 @@ const RevisarSesion = (cita) => {
               <Typography variant="h6">
                   ¿Asistió a la cita?
               </Typography><br></br>
-              <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>
+              {/* <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+              {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ? <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)} checked></input> : <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>}
               <label for="asistio">Sí</label>
-              <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>
+              {/* <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+              {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO==false ? <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)} checked></input>: <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input>} 
               <label for="noasistio">No</label>
             </p>
           </Grid>

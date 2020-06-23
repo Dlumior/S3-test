@@ -31,6 +31,7 @@ class FormularioNuevaTutoria extends Component {
   constructor() {
     super();
     this.state = {
+      usuarioLogueado: getUser(),
       etiqueta: [],
       tutoria: {
         nombre: "",
@@ -90,6 +91,8 @@ class FormularioNuevaTutoria extends Component {
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
+    this.getSubRol = this.getSubRol.bind(this);
+    this.getEnlace = this.getEnlace.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
@@ -142,14 +145,29 @@ class FormularioNuevaTutoria extends Component {
   }
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
-    let tutoria = Object.assign({}, this.state.tutoria);
-    tutoria.programa = programa[0];
-    this.setState({ tutoria: tutoria });
-    console.log("proograma:", this.state.tutoria.programa);
-    this.setState({filtroFacultad:programa[0]});
+    // let tutoria = Object.assign({}, this.state.tutoria);
+    // tutoria.programa = programa[0];
+    // this.setState({ tutoria: tutoria });
+    // console.log("proograma:", this.state.tutoria.programa);
+    // this.setState({ filtroFacultad: programa[0] });
   }
-  handleOnChangeFacultad(facultad){
-    console.log("proograma:", facultad);
+  handleOnChangeFacultad(facultad) {
+    console.log("HAAAAAAAAAA facu:", facultad);
+
+    const usuario = getUser().usuario;
+    const subrol = this.getSubRol(
+      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+    );
+    const ID = usuario.ID_USUARIO;
+    let enlace = usuario
+      ? subrol === "facultad"
+        ?  `/api/programa/lista/${facultad[0]}`
+        : subrol === "programa"
+        ? `/api/programa/lista/${ID}/${facultad[0]}`
+        : ""
+      : "";
+
+    this.setState({ filtroFacultad: enlace });
   }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
@@ -229,6 +247,41 @@ class FormularioNuevaTutoria extends Component {
       this.state.alert.mensaje = this.state.alert.mensajeError;
     }
   }
+  /**
+   * Obtiene el subrol, util cuando se trarta de coordinador de programa o facultad
+   * @param {string} fullRol
+   */
+  getSubRol(fullRol) {
+    let subrol = fullRol?.split(" ");
+    return subrol ? subrol[1].toLowerCase() : "";
+  }
+  /**
+   * De acuerto al tipo de coordinador obtiene el enlace apropiado
+   * @param {*} usuario
+   */
+  getEnlace(usuario) {
+    //console.log("HAAAA",usuario);
+    //usuarioLogueado?"/api/facultad//"
+    //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
+    //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
+    const subrol = this.getSubRol(
+      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+    );
+
+    const ID = usuario.ID_USUARIO;
+    let enlace = usuario
+      ? subrol === "facultad"
+        ? "/api/facultad/coordinador/" + ID
+        : subrol === "programa"
+        ? "/api/facultad/lista/" + ID
+        : ""
+      : "";
+
+    return enlace;
+  }
+  async componentDidMount() {
+    console.log("FORMULARIONUEVATURRIA: ", this.state.usuarioLogueado);
+  }
   render() {
     return (
       <>
@@ -261,7 +314,7 @@ class FormularioNuevaTutoria extends Component {
               rows={4}
               multiline={true}
               requerido={true}
-              inicial="gaaa"
+              inicial=""
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
@@ -270,31 +323,37 @@ class FormularioNuevaTutoria extends Component {
             <ListaComboBox
               mensaje="facultad"
               titulo={"Facultad"}
-              enlace={
-                "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
-                //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
-              }
-              id={"ID_FACULTAD"}
+              enlace={this.getEnlace(getUser().usuario)}
+              id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
+              subnombre={this.getSubRol(
+                getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+              )==="programa"?"FACULTAD":undefined}
               keyServicio={"facultades"}
               escogerItem={this.handleOnChangeFacultad}
               small={true}
               inicial={true}
               placeholder={"Escoja la facultad"}
             />
+            {this.state.filtroFacultad ? (
+              <ListaComboBox
+                mensaje="programa"
+                titulo={"Programa"}
+                enlace={this.state.filtroFacultad}
+                id={"ID_PROGRAMA"}
+                nombre={"NOMBRE"}
+                keyServicio={this.getSubRol(
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                )==="programa"?"programas":"programa"}
+                escogerItem={this.handleOnChangePrograma}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja el programa"}
+              />
+            ) : (
+              <></>
+            )}
 
-            <ListaComboBox
-              mensaje="programa"
-              titulo={"Programa"}
-              enlace={"/api/programa/lista/" + getUser().usuario.ID_USUARIO+ "/" + this.state.filtroFacultad}
-              id={"ID_PROGRAMA"}
-              nombre={"NOMBRE"}
-              keyServicio={"programa"}
-              escogerItem={this.handleOnChangeProceso}
-              small={true}
-              inicial={true}
-              placeholder={"Escoja el programa"}
-            />
             {/* Vigencia */}
             <GrupoRadioButton
               name={"permanente"}
