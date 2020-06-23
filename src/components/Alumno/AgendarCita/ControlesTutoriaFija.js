@@ -128,7 +128,7 @@ class ControlesTutoriaFija extends Component {
                 mensaje="proceso"
                 titulo={"Procesos de tutorías Fijas"}
                 //enlace={"/api/tutoria"}
-                enlace={"/api/tutoria/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                enlace={"/api/tutoriafija/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 id={"ID_PROCESO_TUTORIA"}
                 nombre={"NOMBRE"}
                 keyServicio={"tutoria"}
@@ -138,8 +138,8 @@ class ControlesTutoriaFija extends Component {
                 placeholder={"Escoja el proceso de tutoria"}
               />
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
           </Grid>
 
           {/** fecha actual */}
@@ -152,19 +152,21 @@ class ControlesTutoriaFija extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Grid container spacing={0} style={styles.control}>
-                <Grid item md={12} xs={12} alignContent="center">
-                  {this.state.vistaColumna}
-                  <IconButton onClick={() => this.ModoBatallador()}>
-                    <ViewColumnIcon color={this.state.colorBatallador} />
-                  </IconButton>
-                  <IconButton onClick={() => this.ModoLista()}>
-                    <ViewListIcon color={this.state.colorLista} />
-                  </IconButton>
-                  {this.state.vistaLista}
+                <Grid container spacing={0} style={styles.control}>
+                  <Grid item md={12} xs={12} alignContent="center">
+                    {this.state.vistaLista}
+                    <IconButton onClick={() => this.ModoLista()}>
+                      <ViewListIcon color={this.state.colorLista} />
+                    </IconButton>
+
+                    <IconButton onClick={() => this.ModoBatallador()}>
+                      <ViewColumnIcon color={this.state.colorBatallador} />
+                    </IconButton>
+                    {this.state.vistaColumna}
+
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
+              )}
           </Grid>
 
           {/** tutor filtro */}
@@ -175,7 +177,7 @@ class ControlesTutoriaFija extends Component {
               <ListaEtiquetas
                 obtenerEtiquetas={this.handleOnChangeTutores}
                 //enlace={"/api/tutor"}
-                enlace={"/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                enlace={"/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 small={true}
                 label={"Tutores"}
                 ID={"ID_TUTOR"}
@@ -185,8 +187,8 @@ class ControlesTutoriaFija extends Component {
                 strecht={true}
               />
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
           </Grid>
 
           {/** semana control*/}

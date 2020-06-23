@@ -49,10 +49,18 @@ class CampoDeTexto extends Component {
     }
     // validacion en caso sea un email
     if (this.state.validacion.tipo === "email") {
-      if (!this.state.regex.email.test(String(texto))) {
+      if (texto.substr(-this.props.dominio.length)!==this.props.dominio && texto.substr(-this.props.dominio2.length)!==this.props.dominio2) {
+
+        let errorMessageDomain = ''
+        if (this.props.dominio) {
+          errorMessageDomain = errorMessageDomain + this.props.dominio;
+        }
+        if (this.props.dominio2) {
+          errorMessageDomain = errorMessageDomain + ' - ' + this.props.dominio2;
+        }
         this.setState({
           mensajeError:
-            ' Un correo valido debe contener caracteres alfanumericos, un "@" y ser de dominio pucp',
+            ' Un correo valido debe contener caracteres alfanumericos, un "@" y ser del dominio de la institución: ' + errorMessageDomain,
         });
         return true;
       }

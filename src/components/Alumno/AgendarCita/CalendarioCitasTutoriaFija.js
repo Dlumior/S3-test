@@ -23,7 +23,8 @@ class CalendarioCitasTutoriaFija extends Component {
       fechaActual: new Date(),
       lunesActual: "",
       fechaControles: {},
-      modoBatallador: true,
+      modoBatallador: false,
+      _idProceso:0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
@@ -127,6 +128,12 @@ class CalendarioCitasTutoriaFija extends Component {
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
 
+
+    this.setState({_idProceso:idProceso});
+
+
+
+
   }
   handleFiltroTutores(idTutores){
     console.log("idTutores seleccionado: ", idTutores);
@@ -159,8 +166,9 @@ class CalendarioCitasTutoriaFija extends Component {
             {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-          <FrmSolicitarTutorTipoII/>
-          
+          <FrmSolicitarTutorTipoII  
+            frmIdProceso={this.state._idProceso}  />
+          //standbyCambiosJin
         )}
 
 
