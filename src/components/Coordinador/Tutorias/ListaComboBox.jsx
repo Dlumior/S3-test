@@ -75,49 +75,75 @@ class ListaComboBox extends Component {
     }
 
     let listaItems = await Conexion.GET({ servicio: this.props.enlace });
-    console.log("this.props.enlace",this.props.enlace);
-    console.log("entreeeee1---->: ",listaItems);
+    console.log("this.props.enlace", this.props.enlace);
 
-    if (!listaItems || listaItems.length===[]) {
-
+    console.log("entreeeee---->: ", listaItems);
+    if (!listaItems || listaItems.length === []) {
       this.setState({ listaItems: [] });
-
     } else {
+      /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
-        if (listaItems[this.props.keyServicio].length>0) {
-          console.log("entreeeee---->: ",listaItems);
-          // En item el primero
-          this.setState({ item: listaItems[this.props.keyServicio][0] });
-          //En la lista todo
-          await this.setState({
-            listaItems: listaItems[this.props.keyServicio],
-          });
-          //le digo al formulario padre que ya escogi uno
-          await this.props.escogerItem([this.state.item[this.props.id]]);
-        }
+      if (listaItems[this.props.keyServicio].length > 0) {
+        console.log(
+          "entreeeee---->: ",
+          this.props.subnombre
+            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
+            : 
+            listaItems[this.props.keyServicio][0]
+        );
+        // En item el primero
+        this.setState({
+          item:  listaItems[this.props.keyServicio][0]
+        });
+        //En la lista todo
+        await this.setState({
+          listaItems: listaItems[this.props.keyServicio],
+        });
+        //le digo al formulario padre que ya escogi uno
+        await this.props.escogerItem(
+          this.props.subnombre
+            ?[this.state.item[this.props.subnombre][this.props.id]]
+            :[this.state.item[this.props.id]]);
       }
     }
+  }
   async componentWillReceiveProps(nextProps) {
     if (nextProps.enlace !== this.props.enlace) {
       console.log("Nueva enlace", nextProps.enlace);
       let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
-      if (!listaItems || listaItems.length===[]) {
-        this.setState({ listaItems: [] });
-      } else {
-          if (listaItems[this.props.keyServicio].length>0) {
-            console.log("entreeeee---->: ",listaItems);
-            // En item el primero
-            this.setState({ item: listaItems[this.props.keyServicio][0] });
-            //En la lista todo
-            await this.setState({
-              listaItems: listaItems[this.props.keyServicio],
-            });
-            //le digo al formulario padre que ya escogi uno
-            await this.props.escogerItem([this.state.item[this.props.id]]);
-          }
-        }
+      console.log("this.props.enlace", this.props.enlace);
+
+    console.log("entreeeee---->: ", listaItems);
+    if (!listaItems || listaItems.length === []) {
+      this.setState({ listaItems: [] });
+    } else {
+      /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
+
+      if (listaItems[this.props.keyServicio].length > 0) {
+        console.log(
+          "entreeeee---->: ",
+          this.props.subnombre
+            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
+            : 
+            listaItems[this.props.keyServicio][0]
+        );
+        // En item el primero
+        this.setState({
+          item:  listaItems[this.props.keyServicio][0]
+        });
+        //En la lista todo
+        await this.setState({
+          listaItems: listaItems[this.props.keyServicio],
+        });
+        //le digo al formulario padre que ya escogi uno
+        await this.props.escogerItem(
+          this.props.subnombre
+            ?[this.state.item[this.props.subnombre][this.props.id]]
+            :[this.state.item[this.props.id]]);
+      }
     }
   }
+}
   handleOnClick(e) {
     console.log("CLLIIIIIIICK");
     if (this.state.listaItems.length === 0) return;
@@ -136,18 +162,23 @@ class ListaComboBox extends Component {
       <Paper elevation={0} style={estilos.paper}>
         {this.props.small ? <></> : <br />}
 
-
         <FormControl fullWidth onClick={this.handleOnClick}>
-
           <InputLabel>{this.props.titulo}</InputLabel>
 
           {/* combo box propiamente */}
           <Select value={this.state.item} onChange={this.handleOnChange}>
-            
             {this.state.listaItems.map((item) => (
-              <MenuItem key={item[this.props.id]} value={item}>
-                {console.log("MenuItem:",item)}
-                {item[this.props.nombre]}
+              <MenuItem
+                key={
+                  this.props.subnombre
+                    ? item[this.props.subnombre][this.props.id]
+                    : item[this.props.id]
+                }
+                value={item}
+              >
+                {this.props.subnombre
+                  ? item[this.props.subnombre][this.props.nombre]
+                  : item[this.props.nombre]}
               </MenuItem>
             ))}
           </Select>
