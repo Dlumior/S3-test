@@ -21,16 +21,15 @@ class ArregloHorarios extends Component {
     if (horarios.data) {
       return (
         <div>
-          {horarios.data.map((element) => {
-              if (this.props.tipo === "disponibilidad") {
-                <DisponibilidadCard
-                  disponibilidad={element}
-                  fexaForm={this.props.fexaForm}
-                />
-              } else {
-                <SesionesCard cita={element} />
-              }
-            }
+          {horarios.data.map((element) =>
+            this.props.tipo === "disponibilidad" ? (
+              <DisponibilidadCard
+                disponibilidad={element}
+                fexaForm={this.props.fexaForm}
+              />
+            ) : (
+              <SesionesCard cita={element} />
+            )
           )}
           {horarios.data.length === 0 ? (
             <Paper>
@@ -54,6 +53,7 @@ class ArregloHorarios extends Component {
 
     let horarios = await GET({ servicio: servicio });
     this.setState({ horarios: horarios });
+    console.log("POKEMON GO: ", horarios);
   }
   async componentWillReceiveProps(nextProps) {
     if (nextProps.servicio !== this.props.servicio) {
@@ -65,5 +65,4 @@ class ArregloHorarios extends Component {
     return <>{this.renderHorarios(this.state.horarios)}</>;
   }
 }
-
 export default ArregloHorarios;
