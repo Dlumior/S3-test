@@ -53,6 +53,7 @@ class ArregloHorarios extends Component {
 
     let horarios = await GET({ servicio: servicio });
     this.setState({ horarios: horarios });
+    console.log("POKEMON GO: ", horarios);
   }
   async componentWillReceiveProps(nextProps) {
     if (nextProps.servicio !== this.props.servicio) {
@@ -64,5 +65,4 @@ class ArregloHorarios extends Component {
     return <>{this.renderHorarios(this.state.horarios)}</>;
   }
 }
-
 export default ArregloHorarios;

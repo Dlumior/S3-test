@@ -39,8 +39,10 @@ const style = {
   };
     
 const PlanDeAccion = (props) => {
+    console.log("PLAN DE ACCION: ", props);
     const { plan, setPlan } = props;
-    const [cantCompromisos, setCantCompromisos]=useState(0);
+    console.log("CANT COMPROMISOS: ", plan.length);
+    const [cantCompromisos, setCantCompromisos]=useState(plan.length);
     //const [plan,setPlan]=useState([]);
     const [compromiso,setCompromiso]=useState({
         campo:'',
@@ -80,21 +82,22 @@ const PlanDeAccion = (props) => {
       }
     };
     
-    const renderCompromisos = (cantCompromisos) => {
-        console.log("cant=",cantCompromisos);
-        let n=cantCompromisos;
+    const renderCompromisos = (plan) => {
+        console.log("cant=",plan.length);
+        let n=plan.length;
         let arregloPlan=[];
-        for (let i=0;i<n;i++){
-          arregloPlan.push(i);
-        }
+        // for (let i=0;i<n;i++){
+        //   arregloPlan.push(i);
+        // }
           return(
             <div>
-              {arregloPlan.map((item) => (  
+              {plan.map((item) => (  
                 <Grid>
                   <Checkbox color="primary" id={cantCompromisos}>                     
                     </Checkbox>
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}
+                    defaultValue={item.DESCRIPCION}
                     onChange={(e) => handleCompromiso(e)}>
                   </TextField> 
     
@@ -118,13 +121,13 @@ const PlanDeAccion = (props) => {
         <Grid item md={12}
             container
             justify="flex-start" >
-            <Checkbox color="primary" id={cantCompromisos}>
+            {/* <Checkbox color="primary" id={cantCompromisos}>
                     
             </Checkbox>
             <TextField margin="dense" style={{ width: 300 }}
-            id={cantCompromisos}
-            onChange={(e) => handleCompromiso(e)}>
-            </TextField> 
+              id={cantCompromisos}
+              onChange={(e) => handleCompromiso(e)}>
+            </TextField>  */}
             <IconButton color="primary" onClick={()=> handleCantCompromisos(cantCompromisos+1)}>
             <AddBoxRoundedIcon
             color="primary"
@@ -134,8 +137,9 @@ const PlanDeAccion = (props) => {
             <IndeterminateCheckBoxRoundedIcon
             color="primary"
             fontsize="large" />
-            </IconButton>                   
-            {cantCompromisos>0 ? renderCompromisos(cantCompromisos): null} 
+            </IconButton>     
+            <br></br>              
+            {cantCompromisos>0 ? renderCompromisos(plan): null} 
         </Grid>
       </>
     );
