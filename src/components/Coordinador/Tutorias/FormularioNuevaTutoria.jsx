@@ -145,15 +145,29 @@ class FormularioNuevaTutoria extends Component {
   }
   handleOnChangePrograma(programa) {
     console.log("proograma:", programa);
-    let tutoria = Object.assign({}, this.state.tutoria);
-    tutoria.programa = programa[0];
-    this.setState({ tutoria: tutoria });
-    console.log("proograma:", this.state.tutoria.programa);
-    this.setState({ filtroFacultad: programa[0] });
+    // let tutoria = Object.assign({}, this.state.tutoria);
+    // tutoria.programa = programa[0];
+    // this.setState({ tutoria: tutoria });
+    // console.log("proograma:", this.state.tutoria.programa);
+    // this.setState({ filtroFacultad: programa[0] });
   }
   handleOnChangeFacultad(facultad) {
     console.log("HAAAAAAAAAA facu:", facultad);
-    this.setState({ filtroFacultad: facultad[0] });
+
+    const usuario = getUser().usuario;
+    const subrol = this.getSubRol(
+      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+    );
+    const ID = usuario.ID_USUARIO;
+    let enlace = usuario
+      ? subrol === "facultad"
+        ?  `/api/programa/lista/${facultad[0]}`
+        : subrol === "programa"
+        ? `/api/programa/lista/${ID}/${facultad[0]}`
+        : ""
+      : "";
+
+    this.setState({ filtroFacultad: enlace });
   }
   handleOnChangeDuracion(duracion) {
     console.log("duracion:", duracion);
@@ -253,6 +267,7 @@ class FormularioNuevaTutoria extends Component {
     const subrol = this.getSubRol(
       usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
     );
+
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -311,6 +326,9 @@ class FormularioNuevaTutoria extends Component {
               enlace={this.getEnlace(getUser().usuario)}
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
+              subnombre={this.getSubRol(
+                getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+              )==="programa"?"FACULTAD":undefined}
               keyServicio={"facultades"}
               escogerItem={this.handleOnChangeFacultad}
               small={true}
@@ -321,10 +339,12 @@ class FormularioNuevaTutoria extends Component {
               <ListaComboBox
                 mensaje="programa"
                 titulo={"Programa"}
-                enlace={"/api/programa/lista/" + this.state.filtroFacultad}
+                enlace={this.state.filtroFacultad}
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
-                keyServicio={"programa"}
+                keyServicio={this.getSubRol(
+                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                )==="programa"?"programas":"programa"}
                 escogerItem={this.handleOnChangePrograma}
                 small={true}
                 inicial={true}
