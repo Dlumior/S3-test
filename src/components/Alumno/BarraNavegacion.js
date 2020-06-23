@@ -128,7 +128,7 @@ const BarraNavegacion = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Ututor
+            Ututor / Alumnos
           </Typography>
         </Toolbar>
       </AppBar>
