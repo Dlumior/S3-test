@@ -3,6 +3,23 @@ import React from "react";
 import DialogoCalendario from "./DialogoCalendario.js";
 
 const parsearTutores = (data) => {
+  if (data === [] || data === null || data === undefined) {
+    return {
+      columns: [
+        {
+          title: "Código",
+          field: "codigo",
+        },
+        {
+          title: "Nombre",
+          field: "nombre",
+        },
+        { title: "Correo Electrónico", field: "correo" },
+        { title: "", field: "calendar" },
+      ],
+      data: [],
+    };
+  }
   const aux = data.map((item) => ({
     id: item.USUARIO.ID_USUARIO,
     codigo: item.USUARIO.CODIGO,
