@@ -13,7 +13,7 @@ class RegistrarAlumno extends React.Component {
     super();
     this.state = {
       procesos: [
-        { index:0,titulo: "Registrar Alumno", proceso: FormularioRegistrarAlumno },
+        { index:0,titulo: "Registrar Alumno", proceso: FormularioRegistrarAlumno }, 
         { index:1,titulo: "Importar Alumnos", proceso: FormularioImportarAlumnos },
         { index:2, titulo: "Listado de Alumnos", proceso: ListadoDeAlumnos}
       ],

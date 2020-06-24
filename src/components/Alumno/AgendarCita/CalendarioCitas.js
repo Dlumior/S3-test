@@ -76,7 +76,7 @@ class CalendarioCitas extends Component {
                   diaSemana.toISOString().split("T")[0]
               )}
 
-              <HorarioDelDia
+              <HorarioDelDia 
                 fecha={{
                   fecha: diaSemana,
                   servicio:

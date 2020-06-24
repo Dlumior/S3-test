@@ -66,17 +66,18 @@ class ArregloHorarios extends Component {
     }
     if (nextProps.filtroTutores !== this.props.filtroTutores) {
       await this.setState({filtroTutores: nextProps.filtroTutores});
+      console.log("filtro holiiisss.... aha ha ha ha haaa", this.state.filtroTutores);
 
-      if (this.state.filtroTutores.length < 1000) {
+      if (this.state.filtroTutores ===[]) {
       console.log("filtro vacio holiiisss.... aha ha ha ha haaa");
         let horarios = await GET({ servicio: this.props.servicio });
         this.setState({ horarios: horarios });
       } else {
-      console.log("filtro no vacio holiiisss.... aha ha ha ha haaa");
+      console.log("filtro no vacio holiiisss.... aha ha ha ha haaa", this.state.filtroTutores);
 
         let horarios = await POST({
           servicio: this.props.servicio,
-          request: { tutores: this.props.filtroTutores },
+          request: {tutores:{ tutores: this.props.filtroTutores }},
         });
         this.setState({ horarios: horarios });
       }
