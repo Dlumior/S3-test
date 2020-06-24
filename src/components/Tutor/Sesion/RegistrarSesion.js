@@ -16,6 +16,7 @@ import PlanDeAccion from './PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
+import ListaEtiquetas from "./ListaEtiquetas";
 
 const style = {
   paper: {
@@ -120,6 +121,7 @@ const RegistrarSesion = () => {
     resultado:'',
     lugar:'',
     descripcion:"",
+    apoyo:[],
   });
   const [alerta, setAlerta]= useState({
     mensajeStrong: "",
@@ -171,6 +173,18 @@ const RegistrarSesion = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleOnChangeEtiquetas = (etiqueta) => {
+    const listaEtiquetas = [];
+    etiqueta.forEach((element) => {
+      if (element.agregar) {
+        datosForm.apoyo.push(element.id);
+      }
+    });
+    setDatosForm({
+      ...datosForm,
+    });
+    console.log("areas: ",datosForm);
+  };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || datosForm.resultado == "" ||datosForm.alumnos == []) {
@@ -199,7 +213,7 @@ const RegistrarSesion = () => {
           HORA_FIN: datosForm.horafin,
           RESULTADO: datosForm.resultado,
           COMPROMISOS: plan,
-          AREAS_APOYO: ["1"],
+          AREAS_APOYO: datosForm.apoyo,
           ALUMNOS:datosForm.alumnos,
         },
       }
@@ -246,7 +260,13 @@ const RegistrarSesion = () => {
           alerta={alerta}
         />
         <DialogTitle id="form-dialog-title">
-          <Typography variant="h5">Registar Sesion</Typography>
+            <Grid container md={12} justify="space-between" direction="row">
+            <Grid item md={9} >
+                <Typography variant="h5">
+                  Registar Sesión
+                </Typography>
+            </Grid>
+            </Grid>
         </DialogTitle>
         <DialogContent>
           <Paper elevation={0} style={style.paper}>
@@ -324,6 +344,17 @@ const RegistrarSesion = () => {
                   label="Lugar"
                   onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
                   fullWidth   
+              />
+            </Grid>
+            <Grid item md={12} justify="flex-start">
+              <ListaEtiquetas
+                strecht={true}
+                titulo={""}
+                obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e)}
+                enlace={"/api/listaAreasApoyo"}
+                small={true}
+                label={"Unidades de Apoyo"}
+                ID={"ID_AREA_APOYO"}
               />
             </Grid>
             <PlanDeAccion

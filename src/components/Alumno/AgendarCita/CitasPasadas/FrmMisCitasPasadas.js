@@ -40,6 +40,7 @@ class FrmMisCitas extends Component {
                 data: [{ nombre: "" }]
             }, 
             open: false,
+            deshabilitar:[{valor:true}],
             encuesta:{
                 sesion:'',
                 acompana:1,
@@ -66,6 +67,8 @@ class FrmMisCitas extends Component {
         this.handleOnChangeUtilizoRec=this.handleOnChangeUtilizoRec.bind(this);
         this.handleOnChangeSoluciono=this.handleOnChangeSoluciono.bind(this);
         this.handleOnChangeRecomendaria=this.handleOnChangeRecomendaria.bind(this);
+        this.establecerData=this.establecerData.bind(this);
+
         
         
     };
@@ -150,11 +153,19 @@ class FrmMisCitas extends Component {
         console.log("lo que viene del POST:", enc);
         let alert = Object.assign({}, this.state.alert);
         
+        this.state.deshabilitar[this.state.encuesta.sesion]=true;
+        console.log("Se deshabilito?", this.state.deshabilitar[this.state.encuesta.sesion]);
+
         if (enc.encuesta){
             alert.mensaje = "Encuesta Registrada";
             alert.mensajeStrong = "satisfactoriamente";
             this.setState({ alert: alert });
             this.setState({ severidad: "success" });
+        }else if (enc.error){
+            alert.mensaje = "La encuesta ya ha sido registrada previamente";
+            this.setState({ alert: alert });
+            this.setState({ severidad: "error" });
+
         }else{
             alert.mensaje = "Encuesta Invalida, revisar errores";
             this.setState({ alert: alert });
@@ -163,10 +174,7 @@ class FrmMisCitas extends Component {
         }
 
     }
-    async componentDidMount() {
-        let arregloDeSesiones =
-            await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
-
+    establecerData(arregloDeSesiones){
         let arreglillo = [];
         let cont = 0;
         for (let element of arregloDeSesiones.data) {
@@ -185,6 +193,7 @@ class FrmMisCitas extends Component {
                             variant="outlined"
                             color="secondary"                        
                             onClick={() => this.handleOnOpen(element.ID_SESION)}
+                            disabled={this.state.deshabilitar[element.ID_SESION]}
                         >
                             Valorar
                         </Button>
@@ -225,6 +234,23 @@ class FrmMisCitas extends Component {
         };
 
         this.setState({ sesiones: data });
+
+    }
+    /*
+    async componentDidUpdate(prevState){
+        if (this.state.deshabilitar!==prevState.deshabilitar){
+          let arregloDeSesiones =
+            await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
+          //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
+          this.establecerData(arregloDeSesiones);
+    
+        }
+    }*/
+    async componentDidMount() {
+        let arregloDeSesiones =
+            await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
+        
+            this.establecerData(arregloDeSesiones);
 
     }
 
