@@ -47,12 +47,16 @@ class FrmSolicitarTutorTipoII extends Component {
         this.handleOnClose = this.handleOnClose.bind(this);
         this.handleOnClickVerDispo = this.handleOnClickVerDispo.bind(this);
         this.handleOnCloseVerDispo = this.handleOnCloseVerDispo.bind(this);
+
+
+        //this.handleFiltroTutor=this.handleFiltroTutor.bind(this);
     };
 
 
     async handleOnClickSolicitarTutor(e,_idTutorFijo) {
         //this.setState( {openSolicitarTutor : true});
 
+        console.log("puto id ",e.target.id);
 
         console.log("ZZZ ",_idTutorFijo);
         await this.setState({_tutorFijo:_idTutorFijo});
@@ -79,9 +83,10 @@ class FrmSolicitarTutorTipoII extends Component {
 
        
        if(sesionTyS){
-           this.setState({mensajillo:<><p>SOLICITUD REGISTRADA SASTISFACTORIAMENTE !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
-       }else{
-           this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
+           this.setState({mensajillo:<><p>Solicitud Registrada Satisfactoriamente !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
+            this.setState({botonDisable:true});
+        }else{
+           this.setState({mensajillo:"UpS, Error Inesperado!    Por favor, Inténtelo más tarde."});  
        }
 
        this.setState({openSolicitarTutor:true });
@@ -93,15 +98,16 @@ class FrmSolicitarTutorTipoII extends Component {
         this.setState( {openSolicitarTutor : false});
         this.setState({botonDisable:true});
 
-       
-
-
-
     }
 
     //=============================================================
-    handleOnClickVerDispo() {
-        this.setState( {openVerDispo : true});
+    handleOnClickVerDispo(e,_id,_nombre) {
+        //this.setState( {openVerDispo : true});
+        console.log("EEE_handleDispo: ",{id:_id,nombre:_nombre});
+        this.props.handleFiltroTutor({id:_id,nombre:_nombre});
+        this.props.modoBatallador(true);
+
+
     }
 
     handleOnCloseVerDispo() {
@@ -115,11 +121,15 @@ class FrmSolicitarTutorTipoII extends Component {
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
         console.log("arreglo: ", arregloDeTutores);
 
+
+        //id del alumno
+        //id del proceso de tutoria
         let arreglillo = [];
         let cont = 0;
         for (let element of arregloDeTutores.tutores) {
             cont++;
             arreglillo.push({
+                campoCont:cont,
                 imagen: <div>
                 <img
                     style={estilo.imagen}
@@ -142,7 +152,7 @@ class FrmSolicitarTutorTipoII extends Component {
                     size="large"
                     variant="outlined"
                     color="secondary"
-                    onClick={this.handleOnClickVerDispo}
+                    onClick={(e)=>this.handleOnClickVerDispo(e,element.ID_TUTOR,element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS)}
                 >
                     Ver Disponibilidad
                 </Button>,
@@ -152,9 +162,10 @@ class FrmSolicitarTutorTipoII extends Component {
                     variant="contained"
                     color="primary"
                     onClick={e=>this.handleOnClickSolicitarTutor(e,element.ID_TUTOR)}
+                    disabled={this.state.botonDisable}
+                    //id={element.ID_TUTOR}
 
-                    //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
-                    
+                    //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}                    
 
                 >
                     SOLICITAR TUTOR
@@ -162,18 +173,19 @@ class FrmSolicitarTutorTipoII extends Component {
             });
         }
 
-        /*arregloDeTutores.forEach(element => {
-            arreglillo.push({nombre:element.USUARIO.NOMBRE+" "+element.USUARIO.APELLIDOS,
-                            correo:element.USUARIO.CORREO});       
-
-        }); */
-
         const data = {
             columns: [
                 {
+                    title: "N°",
+                    field: "campoCont",
+
+                },
+                
+                /*}
+                {
                     title: "",
                     field: "imagen",
-                },
+                },*/
                 {
                     title: "TUTOR",
                     field: "nombre",
@@ -196,7 +208,7 @@ class FrmSolicitarTutorTipoII extends Component {
                 title: "",
                 field: "btnSolicitarTutor",
                 },
-                /*  {},{},{}.... para mas columnas  */
+ 
             ],
             data: arreglillo
             /*
@@ -237,7 +249,7 @@ class FrmSolicitarTutorTipoII extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnClose}
-                            disable={this.state.botonDisable}>
+                            >
 
                             Aceptar
                         </Button>

@@ -3,10 +3,13 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { IconButton, Grid, Typography, Paper } from "@material-ui/core";
+import { IconButton, Grid, Typography, Paper, FormControlLabel, InputLabel } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
+
+
+
 const styles = {
   control: {
     textAlign: "center",
@@ -14,6 +17,11 @@ const styles = {
   paper: {
     borderTop: "2px solid #3AAFA9",
     backgroundColor: "#ffffff",
+  },
+  paperTitulo: {
+    marginTop: "2%",
+    marginLeft: "7%",
+    marginRight: "7%",
   },
 };
 
@@ -31,6 +39,9 @@ class ControlesTutoriaFija extends Component {
       etiqueta: [],
       vistaColumna: "Columna",
       vistaLista: "",
+
+      tutorSeleccionado:"Nombre del Tutor",
+
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
@@ -167,29 +178,16 @@ class ControlesTutoriaFija extends Component {
                   </Grid>
                 </Grid>
               )}
-          </Grid>
+           </Grid>
 
-          {/** tutor filtro */}
-          <Grid item md={4} xs={4}>
-            {this.props.tipo !== "disponibilidad" ? (
-              <></>
-            ) : this.props.filtroTutores ? (
-              <ListaEtiquetas
-                obtenerEtiquetas={this.handleOnChangeTutores}
-                //enlace={"/api/tutor"}
-                enlace={"/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
-                small={true}
-                label={"Tutores"}
-                ID={"ID_TUTOR"}
-                keyServicio={"tutores"}
-                keySubNivel={["USUARIO"]}
-                valueSubNivel={["NOMBRE", "APELLIDOS"]}
-                strecht={true}
-              />
-            ) : (
-                  <></>
-                )}
-          </Grid>
+          {/** tutor filtro --> ahora solo LABEL*/}
+            <Grid item md={4} xs={4}>           
+              <Paper style={styles.paperTitulo} elevation={0}    >
+                 <InputLabel><strong>Tutor Seleccionado:</strong> </InputLabel>
+                    <h3>{this.props.tutorNombre}</h3>
+              </Paper>         
+
+          </Grid>  
 
           {/** semana control*/}
           <Grid item md={1} xs={1}>

@@ -27,11 +27,9 @@ const style = {
 
 const styles = {
     paper: {
-        marginTop: "10%",
-        marginLeft: "3%",
-        marginRight: "3%",
-        flexDirection: "column",
-        backgroundImage: "",
+        marginTop: "3%",
+        marginLeft: "2%",
+        marginRight: "2%",
     },
     chip: {
         textAlign: "center"
@@ -125,9 +123,9 @@ class FrmDialogoSolicitarTutor extends Component {
 
         if(!sesionTyS.message){
             if(!sesionTyS.error){
-                this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
+                this.setState({mensajillo:"Sesión Registrada Satisfactoriamente!"});    
             }else{
-                this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});    
+                this.setState({mensajillo:"Ups, Error Inesperado.   Por favor, Inténtelo más tarde."});    
 
             }
         }
@@ -187,14 +185,16 @@ class FrmDialogoSolicitarTutor extends Component {
             <div >
                 <Paper elevation={3} style={styles.paper}>
                     <Grid container spacing={2} alignContent="center" style={styles.chip}>
+
                         <Grid item md={4} xs={4}>
-                            {/*<ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />*/}
-                            <ImagenCircular src={FerCarrillo} />
+                            <ImagenCircular src="https://cdn.iconscout.com/icon/premium/png-256-thumb/deadline-calendar-date-schedule-timeline-33430.png" />
+                            {/*<ImagenCircular src={FerCarrillo} />*/}
+                            
                         </Grid>
                         <Grid item md={8} xs={8} >
                             <h1>{_disponibilidad.TUTOR.USUARIO?.NOMBRE + " " + _disponibilidad.TUTOR.USUARIO?.APELLIDOS}</h1>
                             <p>Tutor</p>
-                            <p>{diasSemana[_fexilla.getDay()] + " " + _fexilla.getDate() + " de " + mesesAnio[_fexilla.getMonth() + 1] + " del 2020"}</p>
+                            <p>{diasSemana[_fexilla.getDay()] + ", " + _fexilla.getDate() + " de " + mesesAnio[_fexilla.getMonth() + 1] + " del 2020"}</p>
                         </Grid>
                     </Grid>
                 </Paper>

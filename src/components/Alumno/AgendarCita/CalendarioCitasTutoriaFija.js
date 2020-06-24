@@ -25,15 +25,31 @@ class CalendarioCitasTutoriaFija extends Component {
       fechaControles: {},
       modoBatallador: false,
       _idProceso:0,
+
+      estadoTitulo:"",
+      estadoID:0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
-    this.handleFiltroTutores = this.handleFiltroTutores.bind(this);
+    this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
   }
+
+  //_tutor : es un objeto con id y nombre
+   handleFiltroTutor(_tutor){
+      console.log("R2D2 ",_tutor);
+      this.setState({estadoTitulo:_tutor.nombre});
+        //ahora vamos a seterar id
+      this.setState({estadoID:_tutor.id});
+
+   }
+
+
+
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
    */
+
   async saltarEnElTiempo(salto) {
     //funcion generica de viaje en el tiempo
     if (!salto) return;
@@ -151,6 +167,7 @@ class CalendarioCitasTutoriaFija extends Component {
           filtroTutores={true}
           handleFiltroProceso={this.handleFiltroProceso}
           handleFiltroTutores={this.handleFiltroTutores}
+          tutorNombre={this.state.estadoTitulo}
           modoBatallador={this.handleModoBatallador}
           tipo= {this.props.tipo}
         />
@@ -167,7 +184,9 @@ class CalendarioCitasTutoriaFija extends Component {
           </Grid>
         ) : (
           <FrmSolicitarTutorTipoII  
-            frmIdProceso={this.state._idProceso}  />
+            modoBatallador={this.handleModoBatallador}            
+            frmIdProceso={this.state._idProceso} 
+            handleFiltroTutor ={this.handleFiltroTutor} />
           //standbyCambiosJin
         )}
 
