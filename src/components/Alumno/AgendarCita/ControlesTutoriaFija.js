@@ -33,12 +33,12 @@ class ControlesTutoriaFija extends Component {
       adelante: 1,
       colorActivo: "primary",
       colorInactivo: "secondary",
-      colorLista: "secondary",
-      colorBatallador: "primary",
+      colorLista: "primary",
+      colorBatallador: "secondary",
       modoBatallador: true,
       etiqueta: [],
       vistaColumna: "Columna",
-      vistaLista: "",
+      vistaLista: "Lista",
 
       tutorSeleccionado:"Nombre del Tutor",
 
@@ -85,7 +85,7 @@ class ControlesTutoriaFija extends Component {
     this.props.modoBatallador(true);
     this.setState({ colorBatallador: this.state.colorActivo });
     this.setState({ colorLista: this.state.colorInactivo });
-    this.setState({ vistaColumna: "Batallador" });
+    this.setState({ vistaColumna: "Columna" });
     this.setState({ vistaLista: "" });
   }
   ModoLista() {
@@ -107,7 +107,7 @@ class ControlesTutoriaFija extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(-30)}
+                  onClick={() => this.saltoEnElTiempoLocal(-28)}
                 >
                   <ArrowBackIosOutlinedIcon />
                 </IconButton>
@@ -122,7 +122,7 @@ class ControlesTutoriaFija extends Component {
                   sizeSmall
                   color="primary"
                   aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(30)}
+                  onClick={() => this.saltoEnElTiempoLocal(28)}
                 >
                   <ArrowForwardIosOutlinedIcon />
                 </IconButton>

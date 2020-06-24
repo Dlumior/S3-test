@@ -272,7 +272,7 @@ class FrmSolicitarTutorTipoII extends Component {
                     <DialogContent>
                         <Grid container xs={12}>
                             <Paper style={style.paper}>
-                                >> Redireccionando al calendario de disponibilidades de tutores...
+                                {">> Redireccionando al calendario de disponibilidades de tutores..."}
                             </Paper>
                         </Grid>
                     </DialogContent>

@@ -4,14 +4,15 @@ import ControlesTutoriaFija from "./ControlesTutoriaFija.js";
 import { NdiasMes, mesesAnio } from "./Util.js";
 import HorarioDelDiaTutoriaFija from "./HorarioDelDiaTutoriaFija.js";
 import FrmSolicitarTutorTipoII from "../FrmSolicitarTutorTipoII";
+import { getUser } from "../../../Sesion/Sesion.js";
 
 const styles = {
   control: {
     textAlign: "center",
   },
   container: {
-    marginLeft: "2%",
-    marginRight: "2%",
+    marginLeft: "1%",
+    marginRight: "1%",
   },
 };
 
@@ -97,8 +98,10 @@ class CalendarioCitasTutoriaFija extends Component {
             <HorarioDelDiaTutoriaFija
               fecha={{
                 fecha: diaSemana,
-                servicio:
+                servicio: this.state.estadoID? 
+                (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`):
                   this.props.servicio + diaSemana.toISOString().split("T")[0],
+
                 tipo: this.props.tipo,
               }}
             />
@@ -159,6 +162,7 @@ class CalendarioCitasTutoriaFija extends Component {
   }
   render() {
     return (
+     
       <div style={styles.container}>
         <ControlesTutoriaFija
           fecha={this.state.fechaControles}
