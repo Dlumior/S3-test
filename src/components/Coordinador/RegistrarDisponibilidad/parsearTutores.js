@@ -2,7 +2,7 @@ import React from "react";
 
 import DialogoCalendario from "./DialogoCalendario.js";
 
-const parsearTutores = (data) => {
+const parsearTutores = (data, facultad) => {
   if (data === [] || data === null || data === undefined) {
     return {
       columns: [
@@ -30,6 +30,7 @@ const parsearTutores = (data) => {
         <DialogoCalendario
           ID={item.USUARIO.ID_USUARIO}
           titulo={item.USUARIO.NOMBRE}
+          facultad = {facultad}
         />
       </>
     ),
