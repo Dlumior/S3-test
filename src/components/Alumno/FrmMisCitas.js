@@ -9,6 +9,8 @@ import TabProceso from "../Coordinador/Tutorias/TabProceso.js";
 import FrmMisCitasPasadas from "./AgendarCita/CitasPasadas/FrmMisCitasPasadas";
 
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
+import { compose } from "recompose";
+import { withRouter } from "react-router-dom";
 
 const style = {
     paper: {
@@ -86,6 +88,7 @@ class FrmMisCitas extends Component {
         //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
         this.setState({ open3: false });
         this.setState({open:false});
+        window.location.replace(this.props.location.pathname);
     }
 
     async handleOnclickAceptarCancelacion() {
@@ -290,6 +293,7 @@ class FrmMisCitas extends Component {
     }
 
     render() {
+        
         return (
             <div>
                 <Dialog
@@ -405,7 +409,7 @@ class FrmMisCitas extends Component {
     }
 }
 
-export default FrmMisCitas;
+export default compose(withRouter)(FrmMisCitas);
 
 const estilo = {
     imagen: {

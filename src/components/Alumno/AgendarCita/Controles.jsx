@@ -62,7 +62,7 @@ class Controles extends Component {
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
     console.log("Seteado: ", this.state.etiqueta);
-    this.props.handleFiltroTutores(listaEtiquetas);
+    this.props.handleFiltroTutores(listaEtiquetas); 
   };
   /**
    *
@@ -130,15 +130,19 @@ class Controles extends Component {
           <Grid item md={3} xs={3}>
             {this.props.tipo !== "disponibilidad" ? (
               <></>
-            ) : 
+            ) : (
               <ListaComboBox
-              allObject={true}
+                allObject={true}
                 mensaje="Programa"
                 escogerItem={this.handleOnChangeProceso}
                 titulo={"Programa del Alumno"}
                 datos={{
                   programa: [
-                    { ID_PROGRAMA: 30, NOMBRE:  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].PROGRAMA.NOMBRE}
+                    {
+                      ID_PROGRAMA: 30,
+                      NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                        .PROGRAMA.NOMBRE,
+                    },
                   ],
                 }}
                 id={"ID_PROGRAMA"}
@@ -146,7 +150,7 @@ class Controles extends Component {
                 keyServicio={"programa"}
                 placeholder={"Programa matriculado"}
               />
-            }
+            )}
           </Grid>
 
           {/** fecha actual */}
