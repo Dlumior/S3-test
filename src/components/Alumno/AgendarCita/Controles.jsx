@@ -132,6 +132,7 @@ class Controles extends Component {
               <></>
             ) : 
               <ListaComboBox
+              allObject={true}
                 mensaje="Programa"
                 escogerItem={this.handleOnChangeProceso}
                 titulo={"Programa del Alumno"}

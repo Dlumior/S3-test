@@ -395,6 +395,7 @@ class FormularioNuevaTutoria extends Component {
             {/* Duracion */}
 
             <ListaComboBox
+            //allObject={true}
               mensaje="periodo"
               escogerItem={this.handleOnChangeDuracion}
               titulo={"Duracion Maxima"}

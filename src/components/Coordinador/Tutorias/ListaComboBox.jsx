@@ -61,8 +61,16 @@ class ListaComboBox extends Component {
     }
     let item = e.target.value;
     let listaItems = [];
-    listaItems.push(item[this.props.id]);
-    await this.props.escogerItem(listaItems);
+    // decido si devuelvo Id o el objeto completo
+    if (this.props.allObject) {
+      console.log("All object activated: ", item);
+      await this.props.escogerItem(item);
+    } else {
+      listaItems.push(item[this.props.id]);
+
+      await this.props.escogerItem(listaItems);
+    }
+
     this.setState({ item: e.target.value });
     //e.target.value = this.state.item;
   }
@@ -71,15 +79,12 @@ class ListaComboBox extends Component {
     let listaItems;
     if (this.props.datos) {
       console.log("this.props.datos---->: ", this.props.datos);
-      listaItems= this.props.datos ;
-      
-    }else{
-     
-      listaItems = await Conexion.GET({ servicio: this.props.enlace }); 
+      listaItems = this.props.datos;
+    } else {
+      listaItems = await Conexion.GET({ servicio: this.props.enlace });
       console.log("No habian this.props.datos---->: ", listaItems);
     }
 
-    
     console.log("this.props.enlace", this.props.enlace);
 
     console.log("entreeeee---->: ", listaItems);
@@ -93,12 +98,11 @@ class ListaComboBox extends Component {
           "entreeeee---->: ",
           this.props.subnombre
             ? listaItems[this.props.keyServicio][0][this.props.subnombre]
-            : 
-            listaItems[this.props.keyServicio][0]
+            : listaItems[this.props.keyServicio][0]
         );
         // En item el primero
         this.setState({
-          item:  listaItems[this.props.keyServicio][0]
+          item: listaItems[this.props.keyServicio][0],
         });
         //En la lista todo
         await this.setState({
@@ -107,8 +111,9 @@ class ListaComboBox extends Component {
         //le digo al formulario padre que ya escogi uno
         await this.props.escogerItem(
           this.props.subnombre
-            ?[this.state.item[this.props.subnombre][this.props.id]]
-            :[this.state.item[this.props.id]]);
+            ? [this.state.item[this.props.subnombre][this.props.id]]
+            : [this.state.item[this.props.id]]
+        );
       }
     }
   }
@@ -118,44 +123,44 @@ class ListaComboBox extends Component {
       let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
       console.log("this.props.enlace", this.props.enlace);
 
-    console.log("entreeeee---->: ", listaItems);
-    if (!listaItems || listaItems.length === []) {
-      this.setState({ listaItems: [] });
-    } else {
-      /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
+      console.log("entreeeee---->: ", listaItems);
+      if (!listaItems || listaItems.length === []) {
+        this.setState({ listaItems: [] });
+      } else {
+        /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
-      if (listaItems[this.props.keyServicio].length > 0) {
-        console.log(
-          "entreeeee---->: ",
-          this.props.subnombre
-            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
-            : 
-            listaItems[this.props.keyServicio][0]
-        );
-        // En item el primero
-        this.setState({
-          item:  listaItems[this.props.keyServicio][0]
-        });
-        //En la lista todo
-        await this.setState({
-          listaItems: listaItems[this.props.keyServicio],
-        });
-        //le digo al formulario padre que ya escogi uno
-        await this.props.escogerItem(
-          this.props.subnombre
-            ?[this.state.item[this.props.subnombre][this.props.id]]
-            :[this.state.item[this.props.id]]);
+        if (listaItems[this.props.keyServicio].length > 0) {
+          console.log(
+            "entreeeee---->: ",
+            this.props.subnombre
+              ? listaItems[this.props.keyServicio][0][this.props.subnombre]
+              : listaItems[this.props.keyServicio][0]
+          );
+          // En item el primero
+          this.setState({
+            item: listaItems[this.props.keyServicio][0],
+          });
+          //En la lista todo
+          await this.setState({
+            listaItems: listaItems[this.props.keyServicio],
+          });
+          //le digo al formulario padre que ya escogi uno
+          await this.props.escogerItem(
+            this.props.subnombre
+              ? [this.state.item[this.props.subnombre][this.props.id]]
+              : [this.state.item[this.props.id]]
+          );
+        }
       }
     }
   }
-}
 
   render() {
     return (
       <Paper elevation={0} style={estilos.paper}>
         {this.props.small ? <></> : <br />}
 
-        <FormControl fullWidth >
+        <FormControl fullWidth>
           <InputLabel>{this.props.titulo}</InputLabel>
 
           {/* combo box propiamente */}
