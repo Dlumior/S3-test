@@ -127,7 +127,7 @@ const RegistrarDisponibilidad = () => {
       const endpoint = "/api/tutor/lista/" + programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      const auxTutores = parsearTutores(res.tutores);
+      const auxTutores = parsearTutores(res.tutores, facultad);
       console.log(auxTutores);
       setTutores({ ...tutores, data: auxTutores.data });
       //setTutores(res.tutores);

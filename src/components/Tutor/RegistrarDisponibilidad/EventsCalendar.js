@@ -50,11 +50,12 @@ class EventsCalendar extends Component {
   }
   
    async componentDidMount() {
-    console.log(this.state.tutor)
     let facuTutor = await Conexion.GET({ servicio: "/api/facultad/tutor/" + this.state.tutor.ID_USUARIO})
-    if(facuTutor.facultades){
-      await this.setState({facultades: facuTutor.facultades})
-      await this.setFacultad(facuTutor.facultades[0].FACULTAD.ID_PROGRAMA)
+    if(facuTutor){
+      if(facuTutor.facultades){
+        await this.setState({facultades: facuTutor.facultades})
+        await this.setFacultad(facuTutor.facultades[0].FACULTAD.ID_PROGRAMA)
+      }
     }
     console.log("facultades del tutor: ", facuTutor)
     let listaEventos = []
@@ -105,12 +106,12 @@ class EventsCalendar extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.bandera !== prevState.bandera) {
-      let facuTutor = await Conexion.GET({ servicio: "/api/facultad/tutor/" + this.state.tutor.ID_USUARIO})
+      //let facuTutor = await Conexion.GET({ servicio: "/api/facultad/tutor/" + this.state.tutor.ID_USUARIO})
       // if(facuTutor.facultades){
       //   await this.setState({facultades: facuTutor.facultades})
       //   await this.setState({facultad:facuTutor.facultades[0].ID_PROGRAMA})
       // }
-      console.log("facultades del tutor: ", facuTutor)
+      //console.log("facultades del tutor: ", facuTutor)
       let listaEventos = []
       let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO + "/" + this.state.facultad  });    
     
@@ -231,7 +232,7 @@ class EventsCalendar extends Component {
   render() {
   return (
     <>
-  <ComboBoxFacultad
+  <ComboBoxFacultad 
     facultades = {this.state.facultades}
     facultad = {this.state.facultad}
     setFacultad = {this.setFacultad}
@@ -240,7 +241,7 @@ class EventsCalendar extends Component {
     setAlerta = {this.setAlerta}
     empezarCarga = {this.empezarCarga}
   />
-  <br/><br/><br/>
+  <br/>
   <div style={{height:`${400}px`}} className="Big-calendar-container">
     {this.state.alerta.mostrar && <Alertas severity={"success"} titulo={"Observacion"} alerta={this.state.alerta} />}
     {this.state.problemaBack && <Alertas severity={"warning"} titulo={"Observacion"} alerta={this.state.alerta} />}

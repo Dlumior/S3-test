@@ -27,7 +27,7 @@ export default function DialogoCalendario(props) {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Ver disponibilidad
       </Button>
-      <Dialog
+      <Dialog style={{margin: `0 auto`}}
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
@@ -48,11 +48,11 @@ export default function DialogoCalendario(props) {
             type="email"
             fullWidth
           /> */}
-          <EventsCalendar Tutor={auxTutor} />
+          <EventsCalendar Tutor={auxTutor} facultad = {props.facultad}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Cancelar
           </Button>
           {/* <Button onClick={handleClose} color="primary">
             Subscribe

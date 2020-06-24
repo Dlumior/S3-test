@@ -35,8 +35,8 @@ import Confirmacion from './Confirmacion';
       super(props);
       this.state = {
         repeticion: 1,
-        horaInicio: (this.props.datos.horaInicio)>"08:00"?(this.props.datos.horaInicio):"08:00",
-        horaFin: (this.props.datos.horaFin)>"08:30"?(this.props.datos.horaFin):"08:30",
+        horaInicio: (this.props.datos.horaInicio),
+        horaFin: (this.props.datos.horaFin),
         lugar: "",
         idDisponibilidad: this.props.datos.idDisponibilidad,        
         mensajeEliminar: "Disponibilidad eliminada",
@@ -75,13 +75,12 @@ import Confirmacion from './Confirmacion';
     }
 
     handleFocusOutHoraIni = async e =>{ 
-      if(e.target.value.substring(0,2) < "08"){          
-        await this.setState({horaInicio:"08:"+e.target.value.substring(3,5)});     
-        document.getElementById("horaInicio").value = this.state.horaInicio;     
-      }
-      if(e.target.value.substring(3,5) == "30" || e.target.value.substring(3,5) == "00"){          
-           
-      } 
+      // if(e.target.value.substring(0,2) < "08"){          
+      //   await this.setState({horaInicio:"08:"+e.target.value.substring(3,5)});     
+      //   document.getElementById("horaInicio").value = this.state.horaInicio;     
+      // }
+      await this.setState({horaInicio:e.target.value});
+      if(e.target.value.substring(3,5) == "30" || e.target.value.substring(3,5) == "00"){} 
       else{        
         await this.setState({horaInicio:e.target.value.substring(0,2)+":00"});     
         document.getElementById("horaInicio").value = this.state.horaInicio;  
@@ -95,22 +94,23 @@ import Confirmacion from './Confirmacion';
     }
 
     handleFocusOutHoraFin = async e =>{
-      if(e.target.value.substring(0,2) < "08" || e.target.value.substring(0,2) > "20"){          
-        await this.setState({horaFin:"08:"+e.target.value.substring(3,5)});     
-        document.getElementById("horaFin").value = this.state.horaFin;     
-      }
-      if(e.target.value.substring(0,2) == "08"){
-        if(e.target.value.substring(3,5) == "00"){
-          await this.setState({horaFin:e.target.value.substring(0,2)+":30"});     
-          document.getElementById("horaFin").value = this.state.horaFin; 
-        }
-      }
-      if(e.target.value.substring(0,2) == "20"){
-        if(e.target.value.substring(3,5) == "30"){
-          await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
-          document.getElementById("horaFin").value = this.state.horaFin; 
-        }
-      }
+      // if(e.target.value.substring(0,2) < "08" || e.target.value.substring(0,2) > "20"){          
+      //   await this.setState({horaFin:"08:"+e.target.value.substring(3,5)});     
+      //   document.getElementById("horaFin").value = this.state.horaFin;     
+      // }
+      // if(e.target.value.substring(0,2) == "08"){
+      //   if(e.target.value.substring(3,5) == "00"){
+      //     await this.setState({horaFin:e.target.value.substring(0,2)+":30"});     
+      //     document.getElementById("horaFin").value = this.state.horaFin; 
+      //   }
+      // }
+      // if(e.target.value.substring(0,2) == "20"){
+      //   if(e.target.value.substring(3,5) == "30"){
+      //     await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
+      //     document.getElementById("horaFin").value = this.state.horaFin; 
+      //   }
+      // }
+      await this.setState({horaFin:e.target.value});
       if(e.target.value.substring(3,5) == "30" || e.target.value.substring(3,5) == "00"){} 
       else{        
         await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
@@ -265,15 +265,15 @@ import Confirmacion from './Confirmacion';
                   margin="dense"
                   id="horaInicio"
                   label="Hora Inicio"
-                  inputProps = {{step: 1800, min : "08:00", max: "19:30" }}  
+                  inputProps = {{step: 1800}}  
                   type="time"                  
-                  defaultValue = {(this.props.datos.horaInicio)>"08:00"?(this.props.datos.horaInicio):"08:00"}
+                  defaultValue = {(this.props.datos.horaInicio)}
                   onChange={this.handleOnChangeHoraIni}
                   disabled={!this.props.datos.visible}                  
                 />                 
-                <FormHelperText >
+                {/* <FormHelperText >
                   {"Valor entre 08:00 y 19:30"}
-                </FormHelperText>
+                </FormHelperText> */}
               </Grid>
               <Grid item md={6} xs={6}>                            
                 <TextField
@@ -284,14 +284,14 @@ import Confirmacion from './Confirmacion';
                   id="horaFin"
                   label="Hora Fin"
                   type="time"
-                  inputProps = {{step: 1800, min : "08:30", max: "20:00" }}  
-                  defaultValue = {(this.props.datos.horaFin>"08:30"?(this.props.datos.horaFin):"08:30")}
+                  inputProps = {{step: 1800}}  
+                  defaultValue = {(this.props.datos.horaFin)}
                   onChange={this.handleOnChangeHoraFin}
                   disabled={!this.props.datos.visible}
                 />    
-                <FormHelperText >
+                {/* <FormHelperText >
                   {"Valor entre 08:30 y 20:00"}
-                </FormHelperText>                      
+                </FormHelperText>                       */}
               </Grid>              
               <Grid item md={12} xs={12}>
                 <FormControl  fullWidth>
