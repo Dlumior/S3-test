@@ -140,8 +140,8 @@ import Confirmacion from './Confirmacion';
           let repeticion = this.state.repeticion;
           let lugar = this.state.lugar; 
           let fecha = this.props.datos.fecha 
-          // this.props.empezarCarga();     
-          // this.props.closeDialog();
+          this.props.empezarCarga();     
+          this.props.closeDialog();
           console.log(fecha);
           if(!this.props.datos.modificar){ // registro de nueva disponibilidad
             const nuevaDisponibilidad = {
@@ -151,12 +151,13 @@ import Confirmacion from './Confirmacion';
                 FECHA: fecha,
                 ID_TUTOR: this.props.datos.tutor.ID_USUARIO,
                 REPETICION: repeticion,
-                LUGAR: lugar
+                LUGAR: lugar,
+                ID_FACULTAD: this.props.datos.facultad
               }
             } 
             
             const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };
-            console.log(nuevaDisponibilidad)      
+            console.log("esto amndo", this.props.datos.facultad)      
             let nuevo = await Conexion.POST(props);
             if(nuevo){
               if(await nuevo.hasOwnProperty('error')){
@@ -180,7 +181,7 @@ import Confirmacion from './Confirmacion';
                 FECHA: fecha,
                 ID_TUTOR: this.props.datos.tutor.ID_USUARIO,
                 REPETICION: repeticion,
-                LUGAR: lugar
+                LUGAR: lugar                
               }
             }
             const props = { servicio: "/api/disponibilidad/modificar", request: disponibilidadModificada };      
@@ -197,8 +198,8 @@ import Confirmacion from './Confirmacion';
             }
           } 
           this.props.actualizarBandera();     
-          this.props.closeDialog();
-          this.props.empezarCarga();
+          // this.props.closeDialog();
+          // this.props.empezarCarga();
         }else{
           let alerta = {...this.state.alerta};
           alerta.mostrar = true

@@ -38,7 +38,7 @@ const Perfil = () => {
       DIRECCION: dir.current.value,
     };
     const sendData = {
-      servicio: "api/usuario/actualizarperfil",
+      servicio: "/api/usuario/actualizarperfil",
       request: { usuario: datos },
     };
 
