@@ -6,6 +6,7 @@ import { Paper,FormControl, FormHelperText } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaCoordinador from "./TablaCoordinador";
 import Button from "@material-ui/core/Button";
+import ModificaCoordinador from "./ModificaCoordinador";
 
 
 const style = {
@@ -29,10 +30,13 @@ class ListaCoordinadores extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        coordinadores:[{id:"1"}]
+        open:false,
+        idCoord:"",
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
+    this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
 
   }
 
@@ -45,11 +49,14 @@ class ListaCoordinadores extends React.Component {
                         nombre:element.NOMBRE+ " "+ element.APELLIDOS,
                         correo:element.CORREO,
                         boton:<div> 
-                                    <Button 
-                                        variant="outlined"
-                                        color="primary">
-                                        Ver Coordinador
-                                    </Button>
+                                    <Button
+                                      size="large"
+                                      variant="outlined"
+                                      color="secondary"                        
+                                      onClick={() => this.handleOnOpen(element.ID_USUARIO)}
+                                  >
+                                      Ver Coordinador
+                                  </Button>
                                 </div>
                         });  
     }
@@ -93,11 +100,23 @@ class ListaCoordinadores extends React.Component {
     this.establecerData(arregloCoord);
 }
 
+handleOnOpen= (id) =>{
+  this.setState({ open: true });
+  this.state.idCoord=id;
+} 
+handleOnClose() {
+  this.setState({ open: false });
+}
 
 render(){
     return (
         <div>
-            
+            {this.state.open && 
+            <ModificaCoordinador 
+              open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              id={this.state.idCoord}
+            />}
             <Paper elevation={0} style={style.paper}>
                 <TablaCoordinador coordinadores={this.state.coordinadores}  />
             </Paper>

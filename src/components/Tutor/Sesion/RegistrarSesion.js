@@ -246,7 +246,20 @@ const RegistrarSesion = () => {
           alerta={alerta}
         />
         <DialogTitle id="form-dialog-title">
-          <Typography variant="h5">Registar Sesion</Typography>
+            <Grid container md={12} justify="space-between" direction="row">
+            <Grid item md={9} >
+                <Typography variant="h5">
+                  Registar Sesión
+                </Typography>
+            </Grid>
+            <Grid item md={3}>
+                <Button 
+                variant="outlined"
+                onClick={handleClose} color="primary">
+                Derivar
+              </Button>
+            </Grid>
+            </Grid>
         </DialogTitle>
         <DialogContent>
           <Paper elevation={0} style={style.paper}>
