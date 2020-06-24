@@ -7,16 +7,13 @@ import { iniciarSesion } from "../../Sesion/actions/sesionAction";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import Alertas from "../Coordinador/Alertas";
-
 class IniciarSesion extends Component {
   static contextType = UserContext;
   constructor() {
     super();
     this.state = {
-      
-        Usuario: "",
-        Contrasenia: "",
-      
+      Usuario: "",
+      Contrasenia: "",
       errores: [],
       alert: {
         mensajeStrong: "",
@@ -46,27 +43,25 @@ class IniciarSesion extends Component {
     //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 
     let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
-    if (status.status) { 
+    if (status.status) {
       console.log("Parece que login", status);
       const move_to = status.data;
       //console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
       this.props.history.push("./" + move_to.rol.toLowerCase().split(" ")[0]);
-    }else{
+    } else {
       console.log("Parece NO que login", status);
     }
   };
 
-  handleOnChange =(e) => {
-    this.setState({[e.name]: e.value});
+  handleOnChange = (e) => {
+    this.setState({ [e.name]: e.value });
   };
   render() {
     let yo = getUser();
     if (yo) {
       //en caso ya este logueado
       const DESTINO = yo.rol.toLowerCase().split(" ")[0];
-      this.props.history.push(
-        "./" + DESTINO
-      );
+      this.props.history.push("./" + DESTINO);
     }
     return (
       <Grid container spacing={0}>
@@ -236,3 +231,4 @@ const estilos = {
 
       //mostrar warning
     }*/
+//

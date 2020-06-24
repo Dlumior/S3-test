@@ -34,11 +34,6 @@ const Alumno = (props) => {
         analogo a "matricula" de campus virtual
 
       */}
-
-
-
-
-
       <Route
         exact
         path={"/alumno/"}

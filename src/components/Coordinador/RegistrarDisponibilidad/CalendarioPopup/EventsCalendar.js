@@ -26,7 +26,7 @@ class EventsCalendar extends Component {
       fechaMostrar: "",
       horaInicio: "",
       idDisponibilidad: 0,
-      enlace: "/api/disponibilidad/",
+      enlace: "/api/disponibilidadporfacultad/",
       eventos: [],
       repeticion: 1,
       lugar: "",
@@ -35,6 +35,7 @@ class EventsCalendar extends Component {
       visible: 1,
       problemaBack: false,
       loading: true,
+      facultad: this.props.facultad,
       alerta: {
         mensaje: "",
         mensajeStrong: "",
@@ -48,7 +49,7 @@ class EventsCalendar extends Component {
     console.log(this.state.tutor);
     let listaEventos = [];
     let listaDisponibilidad = await Conexion.GET({
-      servicio: this.state.enlace + this.state.tutor.ID_USUARIO,
+      servicio: this.state.enlace + this.state.tutor.ID_USUARIO + "/" + this.state.facultad,
     });
     console.log("disponibilidad", listaDisponibilidad);
     if (listaDisponibilidad) {
@@ -100,7 +101,7 @@ class EventsCalendar extends Component {
     if (this.state.bandera !== prevState.bandera) {
       let listaEventos = [];
       let listaDisponibilidad = await Conexion.GET({
-        servicio: this.state.enlace + this.state.tutor.ID_USUARIO,
+        servicio: this.state.enlace + this.state.tutor.ID_USUARIO + "/" + this.state.facultad,
       });
       console.log("disponibilidad", listaDisponibilidad);
       if (listaDisponibilidad) {
@@ -204,6 +205,10 @@ class EventsCalendar extends Component {
     this.setState({ visible: 1 });
   };
 
+  setAlerta = (alerta) => {
+    this.setState({alerta:alerta})
+  }
+
   renderModal = () => {
     if (!this.state.modalIsOpen) return;
     return (
@@ -224,7 +229,7 @@ class EventsCalendar extends Component {
   };
   render() {
     return (
-      <div style={{ height: `${400}px` }} className="Big-calendar-container">
+      <div style={{ height: `${500}px`, width: `${550}px` }} className="Big-calendar-container">
         {this.state.alerta.mostrar && (
           <Alertas
             severity={"success"}

@@ -20,7 +20,8 @@ class CalendarioCitas extends Component {
       lunesActual: "",
       fechaControles: {},
       modoBatallador: true,
-      filtroIdProceso:0,
+      filtroIdProceso: 0,
+      listaIdTutores: [],
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
@@ -45,12 +46,12 @@ class CalendarioCitas extends Component {
    *
    * @param {Date} lunesActual el lunes de la semana actual
    */
-    /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
          linea 61 agregar paramtero para la linea 82
         para manejar el filtro del id del tutor en el servicio 
        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     */
-  renderDias = (lunesActual) => {
+  renderDias = (lunesActual,listaIdTutores) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
@@ -65,16 +66,23 @@ class CalendarioCitas extends Component {
       <>
         {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
         <Grid container spacing={2}>
-
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
-              {console.log("DIA_SEMANA xxx ", this.props.servicio+ this.state.filtroIdProceso+"/"+ diaSemana.toISOString().split("T")[0])}
+              {console.log(
+                "DIA_SEMANA xxx ",
+                this.props.servicio +
+                  this.state.filtroIdProceso +
+                  "/" +
+                  diaSemana.toISOString().split("T")[0]
+              )}
+
               <HorarioDelDia
                 fecha={{
                   fecha: diaSemana,
                   servicio:
                     this.props.servicio + diaSemana.toISOString().split("T")[0],
                   tipo: this.props.tipo,
+                  listaIdTutores: listaIdTutores,
                 }}
               />
             </Grid>
@@ -110,18 +118,22 @@ class CalendarioCitas extends Component {
   }
   handleFiltroProceso(idProceso) {
     console.log("idProceso seleccionado: ", idProceso);
-    this.setState({filtroIdProceso:idProceso});
+    this.setState({ filtroIdProceso: idProceso });
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
-
   }
-  handleFiltroTutores(idTutores) {
-    console.log("idTutores seleccionado: ", idTutores);
-      //tenemos q etener un state parael id proceso
+  handleFiltroTutores = async (listaIdTutores) => {
+    console.log("idTutores seleccionado: ", listaIdTutores);
+
+    await this.setState(
+      
+      { listaIdTutores: listaIdTutores }
+    );
+    //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.......
-  }
+  };
   render() {
     return (
       <div style={styles.container}>
@@ -144,19 +156,17 @@ class CalendarioCitas extends Component {
 
         {this.state.modoBatallador ? (
           <Grid container alignContent="center">
-            {this.props.tipo==="cita"?this.renderDias(this.state.lunesActual):
-            this.state.filtroIdProceso?
-            this.renderDias(this.state.lunesActual):
-            <></>
-            }
-
+            {this.props.tipo === "cita" ? (
+              this.renderDias(this.state.lunesActual,this.state.listaIdTutores)
+            ) : this.state.filtroIdProceso ? (
+              this.renderDias(this.state.lunesActual,this.state.listaIdTutores)
+            ) : (
+              <></>
+            )}
           </Grid>
         ) : (
           <FrmSolicitarCitaTutor_granito />
         )}
-
-
-
       </div>
     );
   }
