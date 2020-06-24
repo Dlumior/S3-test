@@ -432,7 +432,7 @@ useEffect(() => {
           <Button 
             variant="outlined"
             onClick={close} color="inherit">
-            Eliminar
+            Cancelar
           </Button>
 
           <Button 

@@ -2,11 +2,13 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, Grid, IconButton } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaCoordinador from "./TablaCoordinador";
 import Button from "@material-ui/core/Button";
 import ModificaCoordinador from "./ModificaCoordinador";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 
 const style = {
@@ -48,15 +50,27 @@ class ListaCoordinadores extends React.Component {
                         codigo:element.CODIGO,
                         nombre:element.NOMBRE+ " "+ element.APELLIDOS,
                         correo:element.CORREO,
-                        boton:<div> 
-                                    <Button
+                        boton:<div>  
+                                      <IconButton color="primary">
+                                          <EditRoundedIcon
+                                          color="secondary"
+                                          fontsize="large"
+                                          onClick={() => this.handleOnOpen(element.ID_USUARIO)}
+                                          />
+                                      </IconButton>
+                                      <IconButton color="primary">
+                                          <DeleteRoundedIcon
+                                          color="error"
+                                          fontsize="large" />
+                                      </IconButton> 
+                                    {/*<Button
                                       size="large"
                                       variant="outlined"
                                       color="secondary"                        
                                       onClick={() => this.handleOnOpen(element.ID_USUARIO)}
                                   >
                                       Ver Coordinador
-                                  </Button>
+                                    </Button>*/}
                                 </div>
                         });  
     }
