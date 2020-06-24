@@ -38,6 +38,7 @@ export async function GET(props) {
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve 
  */
 export async function POST(props) {
+    console.log("POST->",props);
     try {
         let response = await fetch(props.servicio,
         {

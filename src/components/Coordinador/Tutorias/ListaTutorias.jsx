@@ -28,21 +28,7 @@ class ListaTutorias extends Component {
       <>
         <TituloFormulario titulo="Lista de Tutorias TO-DO" />
 
-        <iframe
-          src="http://3.89.195.222:3000/Registrarse"
-          width="100%"
-          frameborder="0"
-          allowfullscreen
-          sandbox
-          style={style.logo}
-        >
-          <p>
-            {" "}
-            <a href="https://developer.mozilla.org/en-US/docs/Glossary">
-              Fallback link for browsers that don't support iframes
-            </a>{" "}
-          </p>
-        </iframe>
+        <EnConstruccion/>
       </>
     );
   }
