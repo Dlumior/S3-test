@@ -142,7 +142,7 @@ class FormularioRegistrarAlumno extends Component {
     let dominio = this.state.institucion.DOMINIO;
     let dominio2 = this.state.institucion.DOMINIO2;
     let email = this.state.alumno.correo;
-    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));/*
+    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
     if (email.substr(-dominio.length)!==dominio && email.substr(-dominio2.length)!==dominio2) { // validación del dominio de la institución
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
@@ -153,7 +153,7 @@ class FormularioRegistrarAlumno extends Component {
       this.state.alert.mensaje = this.state.alert.mensajeError;
       return;
     }
-    */
+    
 
     if (this.state.errores.length === 0) {
       e.preventDefault();
@@ -303,7 +303,13 @@ class FormularioRegistrarAlumno extends Component {
 
     return enlace;
   }
-  componentDidMount() {}
+  async componentDidMount() {
+    let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
+    console.log("got institucion from back:", getInsitucion.institucion);
+    this.setState({institucion:getInsitucion.institucion});
+    console.log("this.state.institucion: ", this.state.institucion);   
+    console.log("this.state.NOMBRE:", this.state.institucion.DOMINIO, this.state.institucion.DOMINIO2);  
+  }
 
   render() {
     return (

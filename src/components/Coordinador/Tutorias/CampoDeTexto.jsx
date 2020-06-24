@@ -47,7 +47,7 @@ class CampoDeTexto extends Component {
       });
       return false;
     }
-    /*/ validacion en caso sea un email
+    // validacion en caso sea un email
     if (this.state.validacion.tipo === "email") {
       if (texto.substr(-this.props.dominio.length)!==this.props.dominio && texto.substr(-this.props.dominio2.length)!==this.props.dominio2) {
 
@@ -67,7 +67,7 @@ class CampoDeTexto extends Component {
         return true;
       }
     }
-    */
+    
     //validacion en caso sea telefono
     if (this.state.validacion.tipo === "telefono") {
       if (this.state.regex.telefono.test(String(texto))) {
