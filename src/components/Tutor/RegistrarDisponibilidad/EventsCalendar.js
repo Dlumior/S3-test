@@ -5,6 +5,7 @@ import Dialogo from "./Dialogo";
 import * as Conexion from "../../../Conexion/Controller";
 import { CircularProgress } from "@material-ui/core";
 import Alertas from "../../Coordinador/Alertas";
+import ComboBoxFacultad from "./ComboBoxFacultad";
 import { getUser } from "../../../Sesion/Sesion";
 import {usuario} from "../../../App"
 require("./calendario.css")
@@ -28,13 +29,15 @@ class EventsCalendar extends Component {
       fechaMostrar: "",
       horaInicio: "",
       idDisponibilidad: 0,
-      enlace: "/api/disponibilidad/",
+      enlace: "/api/disponibilidadporfacultad/",
       eventos: [],
       repeticion: 1,
       lugar: "",
       bandera: 0,
       modificar: 0, 
       visible: 1,
+      facultades: [],
+      facultad: 0,
       problemaBack: false,
       loading: true,
       alerta: {
@@ -48,8 +51,14 @@ class EventsCalendar extends Component {
   
    async componentDidMount() {
     console.log(this.state.tutor)
+    let facuTutor = await Conexion.GET({ servicio: "/api/facultad/tutor/" + this.state.tutor.ID_USUARIO})
+    if(facuTutor.facultades){
+      await this.setState({facultades: facuTutor.facultades})
+      await this.setFacultad(facuTutor.facultades[0].FACULTAD.ID_PROGRAMA)
+    }
+    console.log("facultades del tutor: ", facuTutor)
     let listaEventos = []
-    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO });    
+    let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO + "/" + this.state.facultad  });    
     console.log("disponibilidad", listaDisponibilidad);
     if(listaDisponibilidad){
       if(!listaDisponibilidad.hasOwnProperty('error')){
@@ -96,8 +105,17 @@ class EventsCalendar extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     if (this.state.bandera !== prevState.bandera) {
+      let facuTutor = await Conexion.GET({ servicio: "/api/facultad/tutor/" + this.state.tutor.ID_USUARIO})
+      // if(facuTutor.facultades){
+      //   await this.setState({facultades: facuTutor.facultades})
+      //   await this.setState({facultad:facuTutor.facultades[0].ID_PROGRAMA})
+      // }
+      console.log("facultades del tutor: ", facuTutor)
       let listaEventos = []
-      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace + this.state.tutor.ID_USUARIO });            
+      let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO + "/" + this.state.facultad  });    
+    
+      // let listaEventos = []
+      // let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace + this.state.tutor.ID_USUARIO });            
       console.log("disponibilidad", listaDisponibilidad);
       if(listaDisponibilidad){
         if(!listaDisponibilidad.hasOwnProperty('error')){
@@ -193,6 +211,13 @@ class EventsCalendar extends Component {
     this.setState({visible:1})
   }
 
+  setFacultad = (facultad) => {
+    this.setState({facultad:facultad})
+  }
+
+  setAlerta = (alerta) => {
+    this.setState({alerta:alerta})
+  }
   renderModal = () => {
     if (!this.state.modalIsOpen) return;
     return(
@@ -205,6 +230,17 @@ class EventsCalendar extends Component {
   }
   render() {
   return (
+    <>
+  <ComboBoxFacultad
+    facultades = {this.state.facultades}
+    facultad = {this.state.facultad}
+    setFacultad = {this.setFacultad}
+    alerta = {this.state.alerta}
+    actualizarBandera = {this.actualizarBandera}
+    setAlerta = {this.setAlerta}
+    empezarCarga = {this.empezarCarga}
+  />
+  <br/><br/><br/>
   <div style={{height:`${400}px`}} className="Big-calendar-container">
     {this.state.alerta.mostrar && <Alertas severity={"success"} titulo={"Observacion"} alerta={this.state.alerta} />}
     {this.state.problemaBack && <Alertas severity={"warning"} titulo={"Observacion"} alerta={this.state.alerta} />}
@@ -214,8 +250,8 @@ class EventsCalendar extends Component {
       localizer={localizer}
       events={this.state.eventos}
       views={["month", "week"]}
-      min={new Date(0, 0, 0, 8, 0, 0)}
-      max={new Date(0, 0, 0, 20, 0, 0)}
+      // min={new Date(0, 0, 0, 8, 0, 0)}
+      // max={new Date(0, 0, 0, 20, 0, 0)}
       startAccessor="start"
       endAccessor="end"
       selectable = {true}
@@ -233,7 +269,8 @@ class EventsCalendar extends Component {
           }
     />     
     {this.renderModal()}
-  </div>);
+  </div>
+  </>);
   }
 }
 
