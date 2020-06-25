@@ -27,8 +27,10 @@ class ListaTutorias extends Component {
     return (
       <>
         <TituloFormulario titulo="Lista de Tutorias TO-DO" />
-
-        <EnConstruccion/>
+{/**
+ * <EnConstruccion/>
+ */}
+        
       </>
     );
   }

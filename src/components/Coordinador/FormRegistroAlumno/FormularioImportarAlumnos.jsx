@@ -22,6 +22,13 @@ class FormularioImportarAlumnos extends Component {
     return (
       <>
         <TituloFormulario titulo="Importar Alumnos" />
+        {/**
+         * Te la creiste Wey aun esta en construcción XDDDD
+         * Lo que viste fue una ilusion XD
+         * PD. holiiiiiiisss aha ha ha haaaa (Cat-2012)
+         * PD2. te odio hooks
+         * PD3. lo subo cuando lo acabe XDDDDDD
+         */}
         <EnConstruccion/>
       </>
     );
