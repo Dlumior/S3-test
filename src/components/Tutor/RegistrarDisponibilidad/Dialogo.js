@@ -20,7 +20,7 @@ import Confirmacion from './Confirmacion';
   },
 
   dialog:{
-    width: 475,
+    width: 490,
     margin: "0 auto"
   },
 

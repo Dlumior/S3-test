@@ -38,8 +38,9 @@ class EventsCalendar extends Component {
       visible: 1,
       facultades: [],
       facultad: 0,
-      problemaBack: false,
+      problema: false,
       loading: true,
+      diasAnticipacion: 0,
       alerta: {
         mensaje: "",
         mensajeStrong: "",
@@ -74,21 +75,23 @@ class EventsCalendar extends Component {
             lugar: disp.LUGAR
           }      
           listaEventos.push(evento);
-          this.setState({problemaBack:false})
-        }      
+          this.setState({problema:false})                   
+        } 
+        this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+        console.log(this.state.diasAnticipacion)     
       }else{
-        this.setState({problemaBack: true});
+        this.setState({problema: true});
         let alerta = {...this.state.alerta};
         alerta.mensaje = "Parece que algo anda mal"
-        alerta.mensajeStrong = "actualice la página"
+        alerta.mensajeStrong = "por favor actualice la página"
         this.setState({alerta: alerta})
       }
     }
     else{
-      this.setState({problemaBack:true});
+      this.setState({problema:true});
       let alerta = {...this.state.alerta};
-      alerta.mensaje = "Ocurrió un problema"
-      alerta.mensajeStrong = "actualice la página"
+      alerta.mensaje = "Parece que algo anda mal"
+      alerta.mensajeStrong = "por favor actualice la página"
       this.setState({alerta: alerta})
     }
     this.setState({eventos: listaEventos});    
@@ -131,20 +134,22 @@ class EventsCalendar extends Component {
                 lugar: disp.LUGAR
               }      
               listaEventos.push(evento);
-              this.setState({problemaBack: false});
+              this.setState({problema: false});              
             }
+            this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+            console.log(this.state.diasAnticipacion)
           }else{
-            this.setState({problemaBack: true});
+            this.setState({problema: true});
             let alerta = {...this.state.alerta};
             alerta.mensaje = "Parece que algo anda mal"
             alerta.mensajeStrong = "actualice la página"
             this.setState({alerta: alerta})
           }
       }else{
-        this.setState({problemaBack: true});
+        this.setState({problema: true});
         let alerta = {...this.state.alerta};
         alerta.mensaje = "Parece que algo anda mal"
-        alerta.mensajeStrong = "actualice la página"
+        alerta.mensajeStrong = "por favor actualice la página"
         this.setState({alerta: alerta})
       }
       this.setState({eventos: listaEventos});   
@@ -154,20 +159,37 @@ class EventsCalendar extends Component {
   
   handleSelectSlot = (slotInfo) => {
     //set model to true
-    let alerta = {...this.state.alerta}
-    alerta.mostrar = false;
-    this.setState({
-      modalIsOpen: true,
-      fechaMostrar: moment(slotInfo.start).format("dddd Do MMMM YYYY"),
-      fecha: moment(slotInfo.start).format("YYYY-MM-DD"),
-      horaInicio: moment(slotInfo.start).format("HH:mm"),
-      horaFin: moment(slotInfo.end).format("HH:mm"),
-      repeticion: 1,
-      lugar: "",
-      modificar: 0,
-      visible: 1,
-      alerta: alerta
-    });
+    if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).format("YYYY-MM-DD")){  
+      if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){
+        let alerta = {...this.state.alerta}
+        alerta.mostrar = false;
+        this.setState({
+          modalIsOpen: true,
+          fechaMostrar: moment(slotInfo.start).format("dddd Do MMMM YYYY"),
+          fecha: moment(slotInfo.start).format("YYYY-MM-DD"),
+          horaInicio: moment(slotInfo.start).format("HH:mm"),
+          horaFin: moment(slotInfo.end).format("HH:mm"),
+          repeticion: 1,
+          lugar: "",
+          modificar: 0,
+          visible: 1,
+          alerta: alerta,
+          problema: false
+        });
+      }else{
+        this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.mensaje = "Por politica de la facultad solo puede registrar su disponibilidad con mínimo "+this.state.diasAnticipacion+" días de anticipación"
+        alerta.mensajeStrong = ""
+        this.setState({alerta: alerta})
+      }
+    }else{
+      this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.mensaje = "No puede registrar disponibilidad en una fecha pasada"
+        alerta.mensajeStrong = ""
+        this.setState({alerta: alerta})
+    }
   }
 
   handleSelectEvent = (event) => {
@@ -185,7 +207,8 @@ class EventsCalendar extends Component {
       repeticion: event.repeticion,
       modificar: 1,
       visible:0,
-      alerta: alerta
+      alerta: alerta,
+      problema: false
     });
   }
 
@@ -244,7 +267,7 @@ class EventsCalendar extends Component {
   <br/>
   <div style={{height:`${400}px`}} className="Big-calendar-container">
     {this.state.alerta.mostrar && <Alertas severity={"success"} titulo={"Observacion"} alerta={this.state.alerta} />}
-    {this.state.problemaBack && <Alertas severity={"warning"} titulo={"Observacion"} alerta={this.state.alerta} />}
+    {this.state.problema && <Alertas severity={"warning"} titulo={"Observacion"} alerta={this.state.alerta} />}
     {this.state.loading && <CircularProgress color="primary" style = {style.carga}  /> }
     <Calendar
       popup = {true}
