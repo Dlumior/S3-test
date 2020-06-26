@@ -41,12 +41,20 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
     setErrors({ ...errors, name: res });
 };
 
+const handleDiasDisponibilidad = (e, datosForm, setDatosForm) => {
+  setDatosForm({
+    ...datosForm,
+    DIAS_DISP: e.target.value,
+  });
+};
+
 const RegistrarFacultad = () => {
   const [datosForm, setDatosForm] = React.useState({
     ID_INSTITUCION:"1",
     NOMBRE: "",
     IMAGEN: null,
     INDEPENDIENTE:0,
+    DIAS_DISP:0
   });
 
   const [alerta, setAlerta]=useState({
@@ -197,6 +205,21 @@ const RegistrarFacultad = () => {
                   fullWidth
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  //required
+                  //error={errors.name.error}
+                  margin="dense"
+                  id="antDias"
+                  label="Días de anticipación al registrar disponibilidad"
+                  fullWidth
+                  onChange={(e) => handleDiasDisponibilidad(e, datosForm, setDatosForm)}
+                  type= "number"
+                  defaultValue = {0}
+                  inputProps = {{min: 0}}                  
+                  //helperText={errors.name.mesage}
                 />
               </Grid>
             <Grid item>
