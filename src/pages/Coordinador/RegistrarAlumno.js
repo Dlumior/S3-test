@@ -5,17 +5,24 @@ import FormularioImportarAlumnos from "../../components/Coordinador/FormRegistro
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import ListadoDeAlumnos from "../../components/Coordinador/FormRegistroAlumno/ListadoDeAlumnos";
 
-
-
 const titulo = "Registro de nuevos Alumnos";
 class RegistrarAlumno extends React.Component {
   constructor() {
     super();
     this.state = {
       procesos: [
-        { index:0,titulo: "Registrar Alumno", proceso: FormularioRegistrarAlumno }, 
-        { index:1,titulo: "Importar Alumnos", proceso: FormularioImportarAlumnos },
-        { index:2, titulo: "Listado de Alumnos", proceso: ListadoDeAlumnos}
+        {
+          index: 0,
+          titulo: "Importar Alumnos",
+          proceso: FormularioImportarAlumnos,
+        },
+        {
+          index: 1,
+          titulo: "Registrar Alumno",
+          proceso: FormularioRegistrarAlumno,
+        },
+
+        { index: 2, titulo: "Listado de Alumnos", proceso: ListadoDeAlumnos },
       ],
     };
   }
@@ -30,4 +37,3 @@ class RegistrarAlumno extends React.Component {
 }
 
 export default RegistrarAlumno;
-
