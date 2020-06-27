@@ -167,7 +167,7 @@ const BarraNavegacion = (props) => {
               key={text}
               component={LinkRouter}
               //to={"/coordinador/" + text.toLowerCase()}
-              to={index===8?"/":"/coordinador/" + text.split(' ').join('').toLowerCase()}              
+              to={index===9?"/":"/coordinador/" + text.split(' ').join('').toLowerCase()}              
             >
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 

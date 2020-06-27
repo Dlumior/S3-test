@@ -9,6 +9,7 @@ import Tutorias from "./Tutorias.js";
 import Programas from "./Programas";
 import RegistrarDisponibilidad from "./RegistrarDisponibilidad.js";
 import RegistrarCoordPrograma from "./RegistrarCoordPrograma";
+import Reporte from "./Reporte.js";
 
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
@@ -75,6 +76,11 @@ const Coordinador = (props) => {
           exact
           path="/coordinador/registrarcoordinadoresdeprograma"
           component={RegistrarCoordPrograma}
+        />
+        <Route
+          exact
+          path="/coordinador/reportes"
+          component={Reporte}
         />
       </BarraNavegacion>
     </div>
