@@ -21,7 +21,7 @@ const Administrador = (props) => {
     console.log("Ruta", move_to);
 
     if (move_to !== "administrador") {
-      props.history.push("./" + move_to);
+      props.history.push("/" + move_to);
     }
   }
   return (

@@ -27,7 +27,7 @@ const Coordinador = (props) => {
     console.log("Ruta", move_to);
 
     if (move_to !== "coordinador") {
-      props.history.push("./" + move_to);
+      props.history.push("/" + move_to);
     }
   }
 
