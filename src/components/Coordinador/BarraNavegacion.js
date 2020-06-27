@@ -172,6 +172,7 @@ const BarraNavegacion = (props) => {
               <ListItemIcon>
                 {index === 0 ? <AccountCircleRoundedIcon /> : 
                  index === 1 ? <AccountBalanceRoundedIcon /> : 
+                 (index === 3 || index===4) ? <NoteAddRoundedIcon color ="primary"/> : 
                  index === 6 ? getUser().rol==="Coordinador Facultad"?<NoteAddRoundedIcon />:<SupervisorAccountRoundedIcon /> : 
                  index === 7 ? getUser().rol==="Coordinador Facultad"?<SupervisorAccountRoundedIcon/>:<AssessmentRoundedIcon />:
                  index === 8 ? <AssessmentRoundedIcon/> :
