@@ -11,7 +11,7 @@ class EnConstruccion extends Component {
       <div>
         <img
           style={styles.imagen}
-          src="https://ututor-recursos.s3.amazonaws.com/holiiiis3.png"
+          src="https://ututor-recursos.s3.amazonaws.com/holiiiis4.png"
         />
       </div>
     );
