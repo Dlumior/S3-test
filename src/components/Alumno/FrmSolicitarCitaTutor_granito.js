@@ -63,12 +63,16 @@ class FrmSolicitarCitaTutor_granito extends Component {
         for (let element of arregloDeTutores.tutores) {
             cont++;
             arreglillo.push({
+                campoCont:cont,
+                /*
                 imagen: <div>
                 <img
                     style={estilo.imagen}
                     src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
                 </img>
+                
                 </div>,
+                */
                 //numeroOrden: cont,
                 nombre: element.USUARIO?element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS:"Manuel",
                 correo: element.USUARIO?element.USUARIO.CORREO:"m.tupia@pucp.edu.pe",
@@ -101,9 +105,15 @@ class FrmSolicitarCitaTutor_granito extends Component {
         const data = {
             columns: [
                 {
+                    title:"",
+                    field:"campoCont",
+                },
+                /*
+                {
                     title: "",
                     field: "imagen",
                 },
+                */
                 {
                     title: "TUTOR",
                     field: "nombre",
