@@ -114,9 +114,9 @@ class FrmMisCitas extends Component {
         //DOING...
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
         if(sesionTyS){
-            this.setState({mensajillo:"CITA CANCELADA SASTISFACTORIAMENTE !"});  
+            this.setState({mensajillo:"Cita Cancelada Satisfactoriamente!"});  
         }else{
-            this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});  
+            this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});  
         }
 
         //  if(!sesionTyS.message){
@@ -220,8 +220,10 @@ class FrmMisCitas extends Component {
                     >
                         CANCELAR
                     </Button>,
-                campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
+                //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                campoEstado: estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                
+                //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*
                 btnPosponer:
                     <Button
@@ -266,13 +268,11 @@ class FrmMisCitas extends Component {
                 {
                     title: "CANCELAR CITA",
                     field: "btnCancelar"
-                },
-                /*
+                },                
                 {
                     title: "ESTADO",
                     field: "campoEstado"
-                },
-                */
+                },                
                 {
                     title: "ENCUESTA",
                     field: "campoEncuesta"
@@ -371,12 +371,12 @@ class FrmMisCitas extends Component {
 
                 <TabProceso procesos={[
                     {
-                        index: 0, titulo: "Pendientes",
-                        proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Pendiente"} />
+                        index: 0, titulo: "Futuras", //Pendientes y realizadas
+                        proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"PyR"} />
                     },
-                    { index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
-                    { index: 2, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas/> },
-                    { index: 3, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
+                    //{ index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
+                    { index: 1, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas/> },
+                    { index: 2, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
 
                 ]} paper={true} />
 
