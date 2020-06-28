@@ -160,6 +160,7 @@ const BarraNavegacion = (props) => {
               "Registrar Tutores",
               "Registrar disponibilidades",
               "Asignacion de Tutor",
+              "Asignar Roles",
               "Reportes",
             ].filter(e=>getUser().rol==="Coordinador Programa"?e!=="Registrar Coordinadores de Programa":e===e).map((text, index) => (
             <ListItem 
@@ -175,7 +176,8 @@ const BarraNavegacion = (props) => {
                  (index === 3 || index===4) ? <NoteAddRoundedIcon color ="primary"/> : 
                  index === 6 ? getUser().rol==="Coordinador Facultad"?<NoteAddRoundedIcon />:<SupervisorAccountRoundedIcon /> : 
                  index === 7 ? getUser().rol==="Coordinador Facultad"?<SupervisorAccountRoundedIcon/>:<AssessmentRoundedIcon />:
-                 index === 8 ? <AssessmentRoundedIcon/> :
+                 index === 8 ? <SupervisorAccountRoundedIcon/>:
+                 index === 9 ? <AssessmentRoundedIcon/> :
                  <NoteAddRoundedIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />

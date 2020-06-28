@@ -10,6 +10,7 @@ import Programas from "./Programas";
 import RegistrarDisponibilidad from "./RegistrarDisponibilidad.js";
 import RegistrarCoordPrograma from "./RegistrarCoordPrograma";
 import Reporte from "./Reporte.js";
+import AsignarRoles from "./AsignarRoles";
 
 import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
@@ -81,6 +82,11 @@ const Coordinador = (props) => {
           exact
           path="/coordinador/reportes"
           component={Reporte}
+        />
+        <Route
+          exact
+          path="/coordinador/asignarroles"
+          component={AsignarRoles}
         />
       </BarraNavegacion>
     </div>
