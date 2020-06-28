@@ -290,6 +290,7 @@ const RegistrarSesion = () => {
             </Grid>
             <Grid item md={12}>
               <TextField
+                  aria-readonly
                   id="alumno"
                   label="Alumno"
                   value={datosForm.alumnoNombre}

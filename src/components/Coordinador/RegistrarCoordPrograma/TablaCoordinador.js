@@ -10,6 +10,17 @@ function Tabla(props) {
         title=""
         columns={props.coordinadores.columns}
         data={props.coordinadores.data}
+
+        options={{
+          rowStyle: {
+             backgroundColor: '#FFF',
+           },
+           headerStyle: {
+            backgroundColor: '#3AAFA9',
+            color: '#FFF',
+            fontSize: 16
+          },
+        }}
        
       />
     );

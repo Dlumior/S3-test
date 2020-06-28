@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
