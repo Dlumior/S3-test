@@ -99,8 +99,10 @@ const RegistrarCoordinador = (props) => {
     IMAGEN: null,
     FACULTAD:[],
   });
-  const [datos, setDatos] = React.useState({
-    EXTENSION: ""
+  const [datosAsignacion, setDatosAsignacion] = React.useState({
+    idUsuario:0,
+    roles:[2],
+    idPrograma:'',
   });
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
@@ -135,6 +137,8 @@ const RegistrarCoordinador = (props) => {
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [openAviso, setOpenAviso] = React.useState(false);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -149,62 +153,14 @@ const RegistrarCoordinador = (props) => {
       mensaje:"",
     });   
   };
-  const handleOnChangeImg = (event) => {    
-    console.log(event.target.files[0]);
-    let ext=event.target.files[0].name;
-    let extens=ext.slice(-3);
-    setSeveridad({
-      severidad:"",
-    });     
-    setAlerta({
-      mensaje:"",
-    });    
 
-    console.log("name: ",extens);
-    if (extens==='jpg'){
-      extens='jpeg';
-    }else if (extens==='png'){
-      extens='png'
-    }else{
-      setSeveridad({
-        severidad:"error",
-      });     
-      setAlerta({
-        mensaje:"El logo debe tener extensión .jpg o .png",
-      });      
-    }
+  const handleClickOpenAviso = () => {
+    setOpenAviso(true);
+  };
 
-    let reader=new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload=(event)=>{
-      let base=event.target.result.slice(23);
-      console.warn("img data",event.target.result);
-
-      var base1;
-      console.log("name: ",extens);
-      if (extens==='jpeg'){
-        datos.EXTENSION='jpeg';
-        base1=event.target.result.slice(23);
-      }else{
-        datos.EXTENSION='png';
-        base1=event.target.result.slice(22);
-      }
-      console.log("base1",base1);
-      datosForm.IMAGEN=base1;
-      
-      setDatosForm({
-        ...
-        datosForm,
-      });
-      setDatos({
-        ...
-        datos,
-      });
-      console.log(datosForm.IMAGEN);
-    }  
-
-  }
- 
+  const handleCloseAviso = () => {
+    setOpenAviso(false);
+  };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
@@ -256,7 +212,16 @@ const RegistrarCoordinador = (props) => {
         });     
         setAlerta({
           mensaje:nuevoCoord.error,
-        });      
+        });
+        setOpenAviso(true);
+
+        const props2 = { servicio: "/api/usuario/buscar/" + datosForm.CODIGO};
+        const res = await GET(props2);
+        console.log("got updated coord from back:", res);
+        setDatosAsignacion({
+          ...datosAsignacion,
+          idUsuario:res.usuario.ID_USUARIO
+        });
 
       }else{
         if (nuevoCoord){    
@@ -276,6 +241,24 @@ const RegistrarCoordinador = (props) => {
     }  
     
   };
+
+  const handleClickAviso = async (e) =>{
+    for (let facu of datosForm.FACULTAD){
+      const nuevaAsignacion = {
+        asignacion: {
+            ID_USUARIO: datosAsignacion.idUsuario,
+            ID_ROLES: [2],
+            ID_PROGRAMA: facu,
+        },
+      };
+        console.log("lo que va:", nuevaAsignacion);
+  
+        const props = { servicio: "/api/usuario/asignarrol", request: nuevaAsignacion };
+        console.log("saving new asignacion in DB:", nuevaAsignacion);
+        let asignado = await Conexion.POST(props);
+        console.log("asignado",asignado); 
+    }
+  }
 
 
   return (
@@ -383,6 +366,36 @@ const RegistrarCoordinador = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
+      {openAviso &&
+        <Dialog
+        open={openAviso}
+        onClose={handleCloseAviso}
+        aria-labelledby="nuevorol"
+      >
+        <DialogContent>
+          <Grid container md={12} spacing={2}>
+            El usuario ya existe. 
+            ¿Desea asignarle el rol de coordinador de Facultad?
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            variant="outlined"
+            onClick={handleCloseAviso} color="primary">
+            Cancelar
+          </Button>
+
+          <Button 
+            variant="contained"
+            onClick={(e) => handleClickAviso(e)}
+            color="primary"
+          >
+            Asignar
+          </Button>
+        </DialogActions>
+
+      </Dialog>}
+
     </div>
   );
 };
