@@ -178,13 +178,14 @@ class FrmMisCitas extends Component {
         let arreglillo = [];
         let cont = 0;
         for (let element of arregloDeSesiones.data) {
-            cont++;
+            //cont++;
             let estadillo = element.ESTADO.split("-")[0];
             if (estadillo=="00" || estadillo==="01"){
+                cont++;
                 arreglillo.push({
                     campoCont: cont,
                     nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
-                    fecha: element.FECHA,
+                    fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,                    
                     tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
                     campoEncuesta: 
                     <div>
@@ -217,7 +218,7 @@ class FrmMisCitas extends Component {
                     field: "nombre",
                 },
                 {
-                    title: "FECHA",
+                    title: "FECHA / HORA",
                     field: "fecha"
                 },
                 {
