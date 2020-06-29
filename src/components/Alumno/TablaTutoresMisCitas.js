@@ -20,7 +20,7 @@ function Tabla(props) {
 
   if (valeria === "PyR") { //<-- Pendiente y Reprogrmadas
     props.sesiones.columns.forEach(element => {
-      if (element.title !== "ENCUESTA") { titulosColumnas.push(element); }
+      if (element.title !== "Encuesta") { titulosColumnas.push(element); }
     });
   }
   // else if(valeria==="Reprogramada"){
@@ -33,12 +33,12 @@ function Tabla(props) {
   // }
   else if (valeria === "Cancelada") {
     props.sesiones.columns.forEach(element => {
-      if (element.title !== "CANCELAR CITA" && element.title !== "ENCUESTA" && element.title !== "ESTADO") { titulosColumnas.push(element); }
+      if (element.title !== "Cancelar Cita" && element.title !== "Encuesta" && element.title !== "Estado") { titulosColumnas.push(element); }
     });
   }
   else { //Realizadas  igual no entra aca porque se usa el formulario: TablaTutoresMisCitas.js(jenn)
     props.sesiones.columns.forEach(element => {
-      if (element.title !== "CANCELAR CITA") { titulosColumnas.push(element); }
+      if (element.title !== "Cancelar Cita") { titulosColumnas.push(element); }
     });
   }
 

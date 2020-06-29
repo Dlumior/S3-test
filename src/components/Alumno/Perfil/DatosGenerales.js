@@ -1,13 +1,8 @@
 import React, { useState, useRef } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
-import { getUser } from "../../Sesion/Sesion";
-import ImgAlumno from "../../components/Alumno/alumno.png";
-import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
-import { POST } from "../../Conexion/Controller";
-import Datos from "../../components/Coordinador/Datos";
-import FrmPlanAccion from "../../components/Alumno/Perfil/FrmPlanAccion";
-import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
-import DatosGenerales from "../../components/Alumno/Perfil/DatosGenerales";
+import { getUser } from "../../../Sesion/Sesion";
+import { POST } from "../../../Conexion/Controller";
+import Datos from "../../Coordinador/Datos";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -22,13 +17,9 @@ const handleClick = () => {
   console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
 };
 
-const Perfil = () => {
+const DatosGenerales = () => {
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
-  const procesos= [{ index:0,titulo: "Datos Generales",proceso:DatosGenerales },
-                   { index:1,titulo: "Plan de Accion", proceso:FrmPlanAccion },
-                   //{ index:2,titulo: "Resultados", proceso:FrmHistorialAsignacion }
-      ];
 
   const dir = useRef(null);
   const tel = useRef(null);
@@ -62,13 +53,28 @@ const Perfil = () => {
 
   return (
     <div>
-      <CabeceraPerfil
-        titulo="Alumno"
-        nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
-      />
-      <TabProceso  procesos={procesos} />
+      <Grid
+        container
+        spacing={5}
+        justify="center"
+        alignItems="center"
+        className={classes.customContainer}
+      >
+        <Grid item>
+          <Datos
+            isEdit={isEdit}
+            codigo={getUser().usuario.CODIGO}
+            correo={getUser().usuario.CORREO}
+            direccion={getUser().usuario.DIRECCION}
+            telefono={getUser().usuario.TELEFONO}
+            refs={{ dir: dir, tel: tel }}
+            handleEdit={handleEdit}
+            handleGuardar={handleGuardar}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };
 
-export default Perfil;
+export default DatosGenerales;

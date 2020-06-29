@@ -172,6 +172,13 @@ const RegistrarSesion = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setSeveridad({
+      severidad:"",
+    }); 
+    setAlerta({
+      mensaje:"",
+    }); 
+
   };
   const handleOnChangeEtiquetas = (etiqueta) => {
     const listaEtiquetas = [];
