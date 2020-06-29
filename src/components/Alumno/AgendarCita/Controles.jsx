@@ -29,7 +29,7 @@ class Controles extends Component {
       modoBatallador: true,
       etiqueta: [],
       vistaColumna: "Columna",
-      vistaLista: "",
+      vistaLista: "Lista",
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
@@ -80,13 +80,13 @@ class Controles extends Component {
     this.setState({ colorBatallador: this.state.colorActivo });
     this.setState({ colorLista: this.state.colorInactivo });
     this.setState({ vistaColumna: "Columna" });
-    this.setState({ vistaLista: "" });
+    this.setState({ vistaLista: "Lista" });
   }
   ModoLista() {
     this.props.modoBatallador(false);
     this.setState({ colorBatallador: this.state.colorInactivo });
     this.setState({ colorLista: this.state.colorActivo });
-    this.setState({ vistaColumna: "" });
+    this.setState({ vistaColumna: "Columna" });
     this.setState({ vistaLista: "Lista" });
   }
   render() {

@@ -35,12 +35,12 @@ class ControlesTutoriaFija extends Component {
       colorInactivo: "secondary",
       colorLista: "primary",
       colorBatallador: "secondary",
-      modoBatallador: true,
+      //modoBatallador: false,
       etiqueta: [],
       vistaColumna: "Columna",
       vistaLista: "Lista",
 
-      tutorSeleccionado:"Nombre del Tutor",
+      tutorSeleccionado: "Nombre del Tutor",
 
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
@@ -86,13 +86,13 @@ class ControlesTutoriaFija extends Component {
     this.setState({ colorBatallador: this.state.colorActivo });
     this.setState({ colorLista: this.state.colorInactivo });
     this.setState({ vistaColumna: "Columna" });
-    this.setState({ vistaLista: "" });
+    this.setState({ vistaLista: "Lista" });
   }
   ModoLista() {
     this.props.modoBatallador(false);
     this.setState({ colorBatallador: this.state.colorInactivo });
     this.setState({ colorLista: this.state.colorActivo });
-    this.setState({ vistaColumna: "" });
+    this.setState({ vistaColumna: "Columna" });
     this.setState({ vistaLista: "Lista" });
   }
   render() {
@@ -165,29 +165,33 @@ class ControlesTutoriaFija extends Component {
             ) : (
                 <Grid container spacing={0} style={styles.control}>
                   <Grid item md={12} xs={12} alignContent="center">
+
                     {this.state.vistaLista}
-                    <IconButton onClick={() => this.ModoLista()}>
-                      <ViewListIcon color={this.state.colorLista} />
+                      <IconButton onClick={() => this.ModoLista()}>
+                        {/*si no eres el no color no activo... xq es modobatallador y aca en vistalista */}
+                      <ViewListIcon color={ !this.props.colorActivo  ?"Primary":"Secondary"} />
+
                     </IconButton>
 
+
                     <IconButton onClick={() => this.ModoBatallador()}>
-                      <ViewColumnIcon color={this.state.colorBatallador} />
+                      <ViewColumnIcon color={this.props.colorActivo  ?"Primary":"Secondary"} />
                     </IconButton>
                     {this.state.vistaColumna}
 
                   </Grid>
                 </Grid>
               )}
-           </Grid>
+          </Grid>
 
           {/** tutor filtro --> ahora solo LABEL*/}
-            <Grid item md={4} xs={4}>           
-              <Paper style={styles.paperTitulo} elevation={0}    >
-                 <InputLabel><strong>Tutor Seleccionado:</strong> </InputLabel>
-                    <h3>{this.props.tutorNombre}</h3>
-              </Paper>         
+          <Grid item md={4} xs={4}>
+            <Paper style={styles.paperTitulo} elevation={0}    >
+              <InputLabel><strong>Tutor Seleccionado:</strong> </InputLabel>
+              <h3>{this.props.tutorNombre}</h3>
+            </Paper>
 
-          </Grid>  
+          </Grid>
 
           {/** semana control*/}
           <Grid item md={1} xs={1}>
