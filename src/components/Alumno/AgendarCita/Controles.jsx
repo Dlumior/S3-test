@@ -7,6 +7,7 @@ import { IconButton, Grid, Typography, Paper, Button, InputLabel } from "@materi
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
+import GrupoRadioButton from "../../Coordinador/Tutorias/GrupoRadioButton";
 const styles = {
   control: {
     textAlign: "center",
@@ -35,13 +36,29 @@ class Controles extends Component {
       etiqueta: [],
       vistaColumna: "Columna",
       vistaLista: "Lista",
+      radios: {
+        tipoTutoria: [
+          { titulo: "Tutorias del Programa", valor: "Tutorias del Programa" },
+          { titulo: "Tutorias Fijas Asignadas", valor: "Tutorias Fijas Asignadas" },
+        ],
+      },
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
+
+    this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
+
+
   }
+
+  obtenerSeleccion(seleccion) {
+    console.log("seleccion", seleccion);
+  }
+
+
   async componentDidMount() {
     const myid = getUser().usuario.ID_USUARIO;
     console.log("USSSSSEEERRRR: ", myid);
@@ -136,26 +153,61 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-                <ListaComboBox
-                  allObject={true}
-                  mensaje="Programa"
-                  escogerItem={this.handleOnChangeProceso}
-                  titulo={"Programa del Alumno"}
-                  datos={{
-                    programa: [
-                      {
-                        ID_PROGRAMA: 30,
-                        NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                          .PROGRAMA.NOMBRE,
-                      },
-                    ],
-                  }}
-                  id={"ID_PROGRAMA"}
-                  nombre={"NOMBRE"}
-                  keyServicio={"programa"}
-                  placeholder={"Programa matriculado"}
-                />
+                // <ListaComboBox
+                //   allObject={true}
+                //   mensaje="Programa"
+                //   escogerItem={this.handleOnChangeProceso}
+                //   titulo={"Programa del Alumno"}
+                //   datos={{
+                //     programa: [
+                //       {
+                //         ID_PROGRAMA: 30,
+                //         NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                //           .PROGRAMA.NOMBRE,
+                //       },
+                //     ],
+                //   }}
+                //   id={"ID_PROGRAMA"}
+                //   nombre={"NOMBRE"}
+                //   keyServicio={"programa"}
+                //   placeholder={"Programa matriculado"}
+                // />
+
+
+                //aca va venir los RADIOBUTTN con su respectivo comboox
+                <Grid item md={12} xs={12}>
+                  <GrupoRadioButton
+                    disabled={false}
+                    titulo="Escoga un Tipo de tutoria"
+                    radios={this.state.radios.tipoTutoria}
+                    obtenerSeleccion={this.obtenerSeleccion}
+                  />
+                </Grid>
+
+
               )}
+
+            <ListaComboBox
+              allObject={true}
+              mensaje="Programa"
+              escogerItem={this.handleOnChangeProceso}
+              titulo={"Procesos de tutorías encontradas:"}
+              datos={{
+                programa: [
+                  {
+                    ID_PROGRAMA: 30,
+                    NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                      .PROGRAMA.NOMBRE,
+                  },
+                ],
+              }}
+              id={"ID_PROGRAMA"}
+              nombre={"NOMBRE"}
+              keyServicio={"programa"}
+              placeholder={""}
+            />
+
+
           </Grid>
 
           {/** fecha actual */}

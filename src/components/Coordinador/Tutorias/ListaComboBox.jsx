@@ -183,7 +183,7 @@ class ListaComboBox extends Component {
           <FormHelperText>
             {this.props.placeholder
               ? this.props.placeholder
-              : "placeholder sin definir"}
+              : ""}
           </FormHelperText>
         </FormControl>
         <FormHelperText error>{this.state.mensajeError}</FormHelperText>

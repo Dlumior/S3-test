@@ -80,6 +80,8 @@ class CalendarioCitas extends Component {
               <HorarioDelDia 
                 fecha={{
                   fecha: diaSemana,
+                  //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
+
                   servicio: this.state.estadoID ?
                   (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`) :
                     this.props.servicio + diaSemana.toISOString().split("T")[0],
