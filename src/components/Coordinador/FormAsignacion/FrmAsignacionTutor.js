@@ -221,7 +221,7 @@ const VerticalLinearStepper= () =>  {
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
               escogerTutoria={handleOnChangeTutoria}
-              enlace={"/api/tutoria/lista/"+subprograma}
+              enlace={"/api/tutoriafija/"+subprograma}
             />
           </div>
         );

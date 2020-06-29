@@ -214,19 +214,19 @@ class FrmMisCitas extends Component {
 
                 },
                 {
-                    title: "TUTOR",
+                    title: "Tutor",
                     field: "nombre",
                 },
                 {
-                    title: "FECHA / HORA",
+                    title: "Fecha / Hora",
                     field: "fecha"
                 },
                 {
-                    title: "TIPO TUTORIA",
+                    title: "Tipo Tutoria",
                     field: "tipoTutoria"
                 },
                 {
-                    title: "ENCUESTA",
+                    title: "Encuesta",
                     field: "campoEncuesta"
                 },              
 

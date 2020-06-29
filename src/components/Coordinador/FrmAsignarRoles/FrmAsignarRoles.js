@@ -117,10 +117,11 @@ const style = {
   
 
     async function fetchData(cod) {
-        const endpoint = "/api/usuario/buscar/" + cod;
+        const endpoint = "/api/usuario/buscar/"+cod;
         const params = { servicio: endpoint };
         const res = await GET(params);
-        if (res.usuario===null || res.usuario===undefined){
+        console.log("res",res);
+        if (res.usuario===null){
             setSeveridad({
                 severidad:"error",
               }); 
