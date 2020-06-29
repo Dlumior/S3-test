@@ -16,6 +16,7 @@ import PlanDeAccion from '../Sesion/PlanDeAccion';
 import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
+import ListaEtiquetas from "../Sesion/ListaEtiquetas";
 
 const style = {
   paper: {
@@ -96,6 +97,18 @@ const handleLugar = (e, datosForm, setDatosForm) => {
   console.log("lugar",datosForm.lugar);
 
 };
+const handleOnChangeEtiquetas = (etiqueta, datosForm, setDatosForm) => {
+  const listaEtiquetas = [];
+  etiqueta.forEach((element) => {
+    if (element.agregar) {
+      datosForm.apoyo.push(element.id);
+    }
+  });
+  setDatosForm({
+    ...datosForm,
+  });
+  console.log("areas: ",datosForm);
+};
 const handleResultados = (e, datosForm, setDatosForm) => {
   console.log("resu",e.target.value);
   if (e.target.value.length > 250) {
@@ -132,6 +145,7 @@ const RevisarSesion = (cita) => {
     resultado:'',
     lugar:'',
     descripcion:"",
+    apoyo:[],
   });
   const [alerta, setAlerta]= useState({
     mensajeStrong: "",
@@ -159,6 +173,7 @@ const RevisarSesion = (cita) => {
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
+    console.log('datosForm: ', datosForm);
     if (datosForm.asistencia == "yes") {
       var doggysAssistance = 1;
     } else if (datosForm.asistencia == "no") {
@@ -179,7 +194,8 @@ const RevisarSesion = (cita) => {
         COMPROMISOS: plan,
         AREAS_APOYO: ["1"],
         ALUMNOS:[cita.cita.ALUMNOs[0].ID_ALUMNO],
-        ASISTENCIA:[doggysAssistance]
+        ASISTENCIA:[doggysAssistance],
+        AREAS_APOYO: datosForm.apoyo
       },
     }
     const props = { servicio: "/api/registrarResultadoCita", request: resultadosSesion };
@@ -305,6 +321,19 @@ const RevisarSesion = (cita) => {
               plan={plan}
               setPlan={setPlan}
             />
+
+            <Grid item md={12} justify="flex-start">
+              <ListaEtiquetas
+                strecht={true}
+                titulo={""}
+                obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e, datosForm, setDatosForm)}
+                enlace={"/api/listaAreasApoyo"}
+                small={true}
+                label={"Unidades de Apoyo"}
+                ID={"ID_AREA_APOYO"}
+              />
+            </Grid>
+
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
                     <Typography variant="h6">
