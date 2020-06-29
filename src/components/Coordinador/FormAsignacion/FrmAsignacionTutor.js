@@ -17,7 +17,17 @@ import * as Controller from "../../../Conexion/Controller";
 import Alertas from "../../Coordinador/Alertas";
 import {getUser} from "../../../Sesion/Sesion"
 
-
+const style = {
+  paper: {
+    marginTop: "3%",
+    marginLeft: "3%",
+    marginRight:"3%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "left",
+    backgroundImage: "",
+  }
+};
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -252,7 +262,8 @@ const VerticalLinearStepper= () =>  {
   
   return (
     
-    <div className={classes.root}>
+    <div>
+      <Paper elevation={0} style={style.paper}>
       <Alertas
         severity={severidad.severidad}
         titulo={"Observación:"}
@@ -299,6 +310,7 @@ const VerticalLinearStepper= () =>  {
           </Button>
         </Paper>
       )}
+      </Paper>
     </div>
   );
 }

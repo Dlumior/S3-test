@@ -25,27 +25,17 @@ class CalendarioCitasTutoriaFija extends Component {
       lunesActual: "",
       fechaControles: {},
       modoBatallador: false,
-      _idProceso:0,
+      _idProceso: 0,
 
-      estadoTitulo:"",
-      estadoID:0,
+      estadoTitulo: "",
+      estadoID: 0,
     };
+
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
   }
-
-  //_tutor : es un objeto con id y nombre
-   handleFiltroTutor(_tutor){
-      console.log("R2D2 ",_tutor);
-      this.setState({estadoTitulo:_tutor.nombre});
-        //ahora vamos a seterar id
-      this.setState({estadoID:_tutor.id});
-
-   }
-
-
 
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
@@ -69,37 +59,35 @@ class CalendarioCitasTutoriaFija extends Component {
 
 
 
-    /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-         linea 61 agregar paramtero para la linea 82
-        para manejar el filtro del id del tutor en el servicio 
-       >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    */
-
-
+  /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+       linea 61 agregar paramtero para la linea 82
+      para manejar el filtro del id del tutor en el servicio 
+     >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  */
 
   renderDias = (lunesActual) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
-    console.log("CAlendarGAAAAbyy xxx ",lunesActual);
+    console.log("CAlendarGAAAAbyy xxx ", lunesActual);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
-    
+
     return (
       <>
-      {console.log("ANTES DIA SEMANA xxx ",fechasDias)}
+        {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            {console.log("DIA_SEMANA xxx ",diaSemana)}
+            {console.log("DIA_SEMANA xxx ", diaSemana)}
             <HorarioDelDiaTutoriaFija
               fecha={{
                 fecha: diaSemana,
-                servicio: this.state.estadoID? 
-                (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`):
+                servicio: this.state.estadoID ?
+                  (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`) :
                   this.props.servicio + diaSemana.toISOString().split("T")[0],
 
                 tipo: this.props.tipo,
@@ -132,37 +120,43 @@ class CalendarioCitasTutoriaFija extends Component {
       ),
     });
   }
+
+
+
+
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
+
   }
-
-
 
   // >>>>>>>>>>>>>>>> ACA SE DEBE FILTAR SOLO X PROCESOS DE TIPOS DE TUTORES FIJOS <<<<<<<<<<<
 
-  handleFiltroProceso(idProceso){
-    console.log("idProceso seleccionado: ", idProceso);
+  //_tutor : es un objeto con id y nombre
+  handleFiltroTutor(_tutor) {
+    console.log("R2D2 ", _tutor);
+    this.setState({ estadoTitulo: _tutor.nombre });
+    //ahora vamos a seterar id
+    this.setState({ estadoID: _tutor.id });
 
+  }
+
+  handleFiltroProceso(idProceso) {
+    console.log("idProceso seleccionado: ", idProceso);
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
-
-
-    this.setState({_idProceso:idProceso});
-
-
-
-
+    this.setState({ _idProceso: idProceso });
   }
-  handleFiltroTutores(idTutores){
+
+  handleFiltroTutores(idTutores) {
     console.log("idTutores seleccionado: ", idTutores);
-      //tenemos q etener un state parael id proceso
+    //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.......
   }
   render() {
     return (
-     
+
       <div style={styles.container}>
         <ControlesTutoriaFija
           fecha={this.state.fechaControles}
@@ -173,7 +167,8 @@ class CalendarioCitasTutoriaFija extends Component {
           handleFiltroTutores={this.handleFiltroTutores}
           tutorNombre={this.state.estadoTitulo}
           modoBatallador={this.handleModoBatallador}
-          tipo= {this.props.tipo}
+          tipo={this.props.tipo}
+          colorActivo={this.state.modoBatallador}
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -187,12 +182,12 @@ class CalendarioCitasTutoriaFija extends Component {
             {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-          <FrmSolicitarTutorTipoII  
-            modoBatallador={this.handleModoBatallador}            
-            frmIdProceso={this.state._idProceso} 
-            handleFiltroTutor ={this.handleFiltroTutor} />
-          //standbyCambiosJin
-        )}
+            <FrmSolicitarTutorTipoII
+              modoBatallador={this.handleModoBatallador}
+              frmIdProceso={this.state._idProceso}
+              handleFiltroTutor={this.handleFiltroTutor} />
+            //standbyCambiosJin
+          )}
 
 
 

@@ -11,6 +11,17 @@ function Tabla(props) {
         title=""
         columns={props.facultades.columns}
         data={props.facultades.data}
+
+        options={{
+          rowStyle: {
+             backgroundColor: '#FFF',
+           },
+           headerStyle: {
+            backgroundColor: '#3AAFA9',
+            color: '#FFF',
+            fontSize: 16
+          },
+        }}
        
       />
     );
