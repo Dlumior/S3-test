@@ -63,7 +63,9 @@ const styles = {
       <div>        
         {this.renderCabecera(this.props.fecha.fecha)}
         <div className="tituloDia" elevation={5} style={styles.paper}>
-          <ArregloHorariosTutoriaFija servicio={this.props.fecha.servicio} tipo={this.props.fecha.tipo}
+          <ArregloHorariosTutoriaFija
+           servicio={this.props.fecha.servicio} 
+           tipo={this.props.fecha.tipo}
           fexaForm={this.props.fecha.fecha}/>
         </div>
       </div>

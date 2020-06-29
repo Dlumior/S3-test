@@ -4,6 +4,7 @@ import Controles from "./Controles";
 import { NdiasMes, mesesAnio } from "./Util.js";
 import HorarioDelDia from "./HorarioDelDia";
 import FrmSolicitarCitaTutor_granito from "../FrmSolicitarCitaTutor_granito";
+import { getUser } from "../../../Sesion/Sesion";
 
 const styles = {
   control: {
@@ -22,11 +23,16 @@ class CalendarioCitas extends Component {
       modoBatallador: true,
       filtroIdProceso: 0,
       listaIdTutores: [],
+
+      estadoTitulo: "",
+      estadoID: 0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
     this.handleFiltroTutores = this.handleFiltroTutores.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
+    this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
+    
   }
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
@@ -68,18 +74,14 @@ class CalendarioCitas extends Component {
         <Grid container spacing={2}>
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
-              {console.log(
-                "DIA_SEMANA xxx ",
-                this.props.servicio +
-                  this.state.filtroIdProceso +
-                  "/" +
-                  diaSemana.toISOString().split("T")[0]
-              )}
+              {console.log("DIA_SEMANA xxx ",this.props.servicio +this.state.filtroIdProceso 
+                  +"/" + diaSemana.toISOString().split("T")[0] )}
 
               <HorarioDelDia 
                 fecha={{
                   fecha: diaSemana,
-                  servicio:
+                  servicio: this.state.estadoID ?
+                  (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`) :
                     this.props.servicio + diaSemana.toISOString().split("T")[0],
                   tipo: this.props.tipo,
                   listaIdTutores: listaIdTutores,
@@ -116,6 +118,17 @@ class CalendarioCitas extends Component {
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
   }
+
+  //_tutor : es un objeto con id y nombre
+  handleFiltroTutor(_tutor) {
+    //console.log("R2D2 ", _tutor);
+    this.setState({ estadoTitulo: _tutor.nombre });
+    //ahora vamos a seterar id
+    this.setState({ estadoID: _tutor.id });
+
+  }
+
+
   handleFiltroProceso(idProceso) {
     console.log("idProceso seleccionado: ", idProceso);
     this.setState({ filtroIdProceso: idProceso });
@@ -144,8 +157,11 @@ class CalendarioCitas extends Component {
           filtroTutores={true}
           handleFiltroProceso={this.handleFiltroProceso}
           handleFiltroTutores={this.handleFiltroTutores}
+          tutorNombre={this.state.estadoTitulo}
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}
+          colorActivo={this.state.modoBatallador}
+
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -165,7 +181,10 @@ class CalendarioCitas extends Component {
             )}
           </Grid>
         ) : (
-          <FrmSolicitarCitaTutor_granito />
+          <FrmSolicitarCitaTutor_granito
+          modoBatallador={this.handleModoBatallador}
+          handleFiltroTutor={this.handleFiltroTutor} 
+          />
         )}
       </div>
     );

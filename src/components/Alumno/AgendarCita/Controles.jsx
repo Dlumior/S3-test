@@ -3,7 +3,7 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { IconButton, Grid, Typography, Paper, Button } from "@material-ui/core";
+import { IconButton, Grid, Typography, Paper, Button, InputLabel } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
@@ -14,6 +14,11 @@ const styles = {
   paper: {
     borderTop: "2px solid #3AAFA9",
     backgroundColor: "#ffffff",
+  },
+  paperTitulo: {
+    marginTop: "2%",
+    marginLeft: "7%",
+    marginRight: "7%",
   },
 };
 class Controles extends Component {
@@ -62,7 +67,7 @@ class Controles extends Component {
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
     console.log("Seteado: ", this.state.etiqueta);
-    this.props.handleFiltroTutores(listaEtiquetas); 
+    this.props.handleFiltroTutores(listaEtiquetas);
   };
   /**
    *
@@ -131,26 +136,26 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <ListaComboBox
-                allObject={true}
-                mensaje="Programa"
-                escogerItem={this.handleOnChangeProceso}
-                titulo={"Programa del Alumno"}
-                datos={{
-                  programa: [
-                    {
-                      ID_PROGRAMA: 30,
-                      NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                        .PROGRAMA.NOMBRE,
-                    },
-                  ],
-                }}
-                id={"ID_PROGRAMA"}
-                nombre={"NOMBRE"}
-                keyServicio={"programa"}
-                placeholder={"Programa matriculado"}
-              />
-            )}
+                <ListaComboBox
+                  allObject={true}
+                  mensaje="Programa"
+                  escogerItem={this.handleOnChangeProceso}
+                  titulo={"Programa del Alumno"}
+                  datos={{
+                    programa: [
+                      {
+                        ID_PROGRAMA: 30,
+                        NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                          .PROGRAMA.NOMBRE,
+                      },
+                    ],
+                  }}
+                  id={"ID_PROGRAMA"}
+                  nombre={"NOMBRE"}
+                  keyServicio={"programa"}
+                  placeholder={"Programa matriculado"}
+                />
+              )}
           </Grid>
 
           {/** fecha actual */}
@@ -163,19 +168,20 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Grid container spacing={0} style={styles.control}>
-                <Grid item md={12} xs={12} alignContent="center">
-                  {this.state.vistaColumna}
-                  <IconButton onClick={() => this.ModoBatallador()}>
-                    <ViewColumnIcon color={this.state.colorBatallador} />
-                  </IconButton>
-                  <IconButton onClick={() => this.ModoLista()}>
-                    <ViewListIcon color={this.state.colorLista} />
-                  </IconButton>
-                  {this.state.vistaLista}
+                <Grid container spacing={0} style={styles.control}>
+                  <Grid item md={12} xs={12} alignContent="center">
+                    {this.state.vistaColumna}
+                    <IconButton onClick={() => this.ModoBatallador()}>
+                      <ViewColumnIcon color={this.props.colorActivo ? "Primary" : "Secondary"} />
+                    </IconButton>
+
+                    <IconButton onClick={() => this.ModoLista()}>
+                      <ViewListIcon color={!this.props.colorActivo ? "Primary" : "Secondary"} />
+                    </IconButton>
+                    {this.state.vistaLista}
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
+              )}
           </Grid>
 
           {/** tutor filtro */}
@@ -198,9 +204,17 @@ class Controles extends Component {
                 valueSubNivel={["NOMBRE", "APELLIDOS"]}
                 strecht={true}
               />
+
+
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
+
+            {/*Faltaria q cuando se le de click a listaEtiquetas, este paper se ponga disable */}
+            <Paper style={styles.paperTitulo} elevation={0}    >
+              <InputLabel><strong>Tutor Seleccionado:</strong> </InputLabel>
+              <h3>{this.props.tutorNombre}</h3>
+            </Paper>
           </Grid>
 
           {/** semana control*/}

@@ -43,8 +43,11 @@ class FrmSolicitarCitaTutor_granito extends Component {
  
 
     //=============================================================
-    handleOnClickVerDispo() {
-        this.setState( {openVerDispo : true});
+    handleOnClickVerDispo(e,_id,_nombre) {
+        //this.setState( {openVerDispo : true});
+
+        this.props.handleFiltroTutor({id:_id,nombre:_nombre});
+        this.props.modoBatallador(true);
     }
 
     handleOnCloseVerDispo() {
@@ -89,7 +92,9 @@ class FrmSolicitarCitaTutor_granito extends Component {
                     size="large"
                     variant="outlined"
                     color="secondary"
-                    onClick={this.handleOnClickVerDispo}
+                    //onClick={this.handleOnClickVerDispo}
+                    onClick={(e)=>this.handleOnClickVerDispo(e,element.ID_TUTOR,element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS)}
+
                 >
                     Ver Disponibilidad
                 </Button>,
