@@ -9,10 +9,20 @@ import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
+import ComboBoxProcesoTutoria from "./ComboBoxProcesoTutoria";
 
 
 const style = {
     paper: {
+      marginTop: "3%",
+      marginLeft: "3%",
+      marginRight:"3%",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "left",
+      backgroundImage: "",
+    },
+    paper2: {
       marginTop: "1%",
       marginLeft: "3%",
       marginRight:"3%",
@@ -28,9 +38,11 @@ const [datosForm, setDatosForm] = React.useState({
     usuarioNombre:'',
 });
 const [facultades, setFacultades] = useState([]);
-  const [facultad, setFacultad] = useState([]);
-  const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState([]);
+const [facultad, setFacultad] = useState("");
+const [programas, setProgramas] = useState([]);
+const [programa, setPrograma] = useState("");  
+const [procesosTutoria, setProcesosTutoria] = useState([]);
+const [procesoTutoria, setProcesoTutoria] = useState("");
 
 //faultades por coordinador
 useEffect(() => {
@@ -57,15 +69,31 @@ useEffect(() => {
   setProgramas(res.programa);
   console.log("proograma:", programa);
   }
-  if (facultad!=""){
+  if (facultad!==""){
   fetchData();
   }
 },[facultad]);
 
+//proceso de tutoria a partir de un programa
+useEffect(() => {
+  async function fetchData() {
+    const endpoint = "/api/tutoria/lista/"+programa;
+    const params = { servicio: endpoint };
+    const res = await GET(params);
+    console.log("tutoria: ",res);
+    if (res !== []) {
+      setProcesosTutoria(res.tutoria);
+    }
+  }
+  if (facultad!=="" && programa !== "") {
+    fetchData();
+  }
+},[programa]);
+
 
   return (
       <div>
-        <Grid container md={12} style={style.paper}>
+        <Grid container md={12} style={style.paper2}>
           <Grid item md={3}>
               <ComboBoxFacus
                   facultades={facultades}
@@ -73,18 +101,25 @@ useEffect(() => {
                   setFacultad={setFacultad}
               /> 
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={3} style={{marginRight:"6%"}}>
               <ComboBoxPrograma
                   programas={programas}
                   programa={programa}
                   setPrograma={setPrograma}
-                  />
+              />
           </Grid>
-
-        </Grid>{/*
+          <Grid item md={3}>
+            <ComboBoxProcesoTutoria
+                procesosTutoria={procesosTutoria}
+                procesoTutoria={procesoTutoria}
+                setProcesoTutoria={setProcesoTutoria}
+              />
+          </Grid>
+        </Grid>
         <Paper elevation={0} style={style.paper}>
-            Hola
-        </Paper>*/}
+            Tabla Tutores por proceso de tutoria
+        </Paper>
+        
       </div>
   );
 }
