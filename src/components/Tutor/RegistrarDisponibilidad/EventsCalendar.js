@@ -179,7 +179,7 @@ class EventsCalendar extends Component {
       }else{
         this.setState({problema: true});
         let alerta = {...this.state.alerta};
-        alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "+this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día":" días" +" de anticipación")
+        alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "+this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día":" días") +" de anticipación"
         alerta.mensajeStrong = ""
         this.setState({alerta: alerta})
       }
