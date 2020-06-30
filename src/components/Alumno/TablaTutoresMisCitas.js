@@ -84,13 +84,6 @@ function Tabla(props) {
       //element.campoCont = i;
     }
 
-
-    // if(element.campoEstado===props.estado){       
-    //   element.campoCont=i;
-    //   arr2.push(element);
-    //   i++;
-    // }
-
   });
 
   //console.log("AFTER daTA ",arr2);

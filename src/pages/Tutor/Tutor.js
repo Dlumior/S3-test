@@ -5,6 +5,9 @@ import Perfil from "./Perfil.js";
 import MisAlumnos from "./MisAlumnos.js";
 import MiDisponibilidad from "./MiDisponibilidad.js";
 
+import HistorialDeCitas from "./HistorialDeCitas.js";
+
+
 //import Calendario from "./Calendario.js";
 import Sesiones from "./Sesiones.js";
 import Solicitudes from "./Solicitudes.js";
@@ -36,6 +39,10 @@ const Tutor = (props) => {
         {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
         <Route exact path={"/tutor/sesiones"} component={Sesiones} />
         <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
+
+        <Route exact path={"/tutor/misCitas"} component={HistorialDeCitas} />
+
+
       </BarraNavegacion>
     </div>
   );
