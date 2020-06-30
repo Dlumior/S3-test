@@ -115,8 +115,9 @@ class Controles extends Component {
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
-          {/** mes control */}
+          
           <Grid item md={1} xs={1}>
+            {/** mes control */}
             <Grid container spacing={0} alignContent="center">
               <Grid item md={3} xs={3}>
                 <IconButton
@@ -144,12 +145,38 @@ class Controles extends Component {
                 </IconButton>
               </Grid>
             </Grid>
+            {/** semana control*/}
+            <Grid container spacing={0} alignContent="center">
+              <Grid item md={3} xs={3}>
+                <IconButton
+                  color="primary"
+                  aria-label="delete"
+                  onClick={() => this.saltoEnElTiempoLocal(-7)}
+                >
+                  <ArrowBackIosOutlinedIcon />
+                </IconButton>
+              </Grid>
+              <Grid item md={6} xs={6}>
+                <h3 style={styles.control}>
+                  {"Semana" + this.props.fecha.semana || "Semana Actual"}
+                </h3>
+              </Grid>
+              <Grid item md={3} xs={3}>
+                <IconButton
+                  color="primary"
+                  aria-label="delete"
+                  onClick={() => this.saltoEnElTiempoLocal(7)}
+                >
+                  <ArrowForwardIosOutlinedIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
           </Grid>
 
           {/** filtro de programa
            * creo q ya no va XD
            */}
-          <Grid item md={3} xs={3}>
+          <Grid item md={2} xs={2}>
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
@@ -177,6 +204,7 @@ class Controles extends Component {
                 //aca va venir los RADIOBUTTN con su respectivo comboox
                 <Grid item md={12} xs={12}>
                   <GrupoRadioButton
+                  stretch={true}
                     disabled={false}
                     titulo="Escoga un Tipo de tutoria"
                     radios={this.state.radios.tipoTutoria}
@@ -187,6 +215,11 @@ class Controles extends Component {
 
               )}
 
+            
+
+
+          </Grid>
+          <Grid item md={2} xs={2}>
             <ListaComboBox
               allObject={true}
               mensaje="Programa"
@@ -206,8 +239,6 @@ class Controles extends Component {
               keyServicio={"programa"}
               placeholder={""}
             />
-
-
           </Grid>
 
           {/** fecha actual */}
@@ -269,34 +300,8 @@ class Controles extends Component {
             </Paper>
           </Grid>
 
-          {/** semana control*/}
-          <Grid item md={1} xs={1}>
-            <Grid container spacing={0} alignContent="center">
-              <Grid item md={3} xs={3}>
-                <IconButton
-                  color="primary"
-                  aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(-7)}
-                >
-                  <ArrowBackIosOutlinedIcon />
-                </IconButton>
-              </Grid>
-              <Grid item md={6} xs={6}>
-                <h3 style={styles.control}>
-                  {"Semana" + this.props.fecha.semana || "Semana Actual"}
-                </h3>
-              </Grid>
-              <Grid item md={3} xs={3}>
-                <IconButton
-                  color="primary"
-                  aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(7)}
-                >
-                  <ArrowForwardIosOutlinedIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
-          </Grid>
+          
+          
         </Grid>
       </Paper>
     );
