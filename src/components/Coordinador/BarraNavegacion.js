@@ -86,19 +86,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [{},dispatch] = useUserValue();
-
+  const [{}, dispatch] = useUserValue();
 
   const handleClick = () => {
     //te odio hooks
-    console.log("Admin LOG OUTTTTT",props);
+    console.log("Admin LOG OUTTTTT", props);
     logOut(dispatch);
-  }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -151,50 +149,77 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-            {[
-              "Perfil",
-              "Programas",
-              "Registrar Coordinadores de Programa",
-              "Procesos de Tutoria",
-              "Registrar Alumnos",
-              "Registrar Tutores",
-              "Registrar disponibilidades",
-              "Asignacion de Tutor",
-              "Asignar Roles",
-              "Reportes",
-            ].filter(e=>getUser().rol==="Coordinador Programa"?e!=="Registrar Coordinadores de Programa":e===e).map((text, index) => (
-            <ListItem 
-              button
-              key={text}
-              component={LinkRouter}
-              //to={"/coordinador/" + text.toLowerCase()}
-              to={index===9?"/":"/coordinador/" + text.split(' ').join('').toLowerCase()}              
-            >
-              <ListItemIcon>
-                {index === 0 ? <AccountCircleRoundedIcon /> : 
-                 index === 1 ? <AccountBalanceRoundedIcon /> : 
-                 (index === 3 || index===4) ? <NoteAddRoundedIcon color ="primary"/> : 
-                 index === 6 ? getUser().rol==="Coordinador Facultad"?<NoteAddRoundedIcon />:<SupervisorAccountRoundedIcon /> : 
-                 index === 7 ? getUser().rol==="Coordinador Facultad"?<SupervisorAccountRoundedIcon/>:<AssessmentRoundedIcon />:
-                 index === 8 ? <SupervisorAccountRoundedIcon/>:
-                 index === 9 ? <AssessmentRoundedIcon/> :
-                 <NoteAddRoundedIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {[
+            "Perfil",
+            "Programas",
+            "Registrar Coordinadores de Programa",
+            "Procesos de Tutoria",
+            "Registrar Alumnos",
+            "Registrar Tutores",
+            "Registrar disponibilidades",
+            "Asignacion de Tutor",
+            "Asignar Roles",
+            "Reportes",
+          ]
+            .filter((e) =>
+              getUser().rol === "Coordinador Programa"
+                ? e !== "Registrar Coordinadores de Programa"
+                : e === e
+            )
+            .map((text, index) => (
+              <ListItem
+                button
+                key={text}
+                component={LinkRouter}
+                //to={"/coordinador/" + text.toLowerCase()}
+                to={
+                  index === 10
+                    ? "/"
+                    : "/coordinador/" + text.split(" ").join("").toLowerCase()
+                }
+              >
+                <ListItemIcon>
+                  {index === 0 ? (
+                    <AccountCircleRoundedIcon />
+                  ) : index === 1 ? (
+                    <AccountBalanceRoundedIcon />
+                  ) : index === 3 || index === 4 ? (
+                    <NoteAddRoundedIcon color="primary" />
+                  ) : index === 6 ? (
+                    getUser().rol === "Coordinador Facultad" ? (
+                      <NoteAddRoundedIcon />
+                    ) : (
+                      <SupervisorAccountRoundedIcon />
+                    )
+                  ) : index === 7 ? (
+                    getUser().rol === "Coordinador Facultad" ? (
+                      <SupervisorAccountRoundedIcon />
+                    ) : (
+                      <AssessmentRoundedIcon />
+                    )
+                  ) : index === 8 ? (
+                    <SupervisorAccountRoundedIcon />
+                  ) : index === 9 ? (
+                    <AssessmentRoundedIcon />
+                  ) : (
+                    <NoteAddRoundedIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
           <ListItem
-              button
-              key={"Cerrar Sesion"}
-              component={LinkRouter}
-              to={"/"}
-              onClick={handleClick}
-            >
-              <ListItemIcon>
-                  <ExitToAppRoundedIcon color="primary"/>
-              </ListItemIcon>
-              <ListItemText primary={"Cerrar Sesion"} />
-            </ListItem>
+            button
+            key={"Cerrar Sesion"}
+            component={LinkRouter}
+            to={"/"}
+            onClick={handleClick}
+          >
+            <ListItemIcon>
+              <ExitToAppRoundedIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={"Cerrar Sesion"} />
+          </ListItem>
         </List>
       </Drawer>
       <main
