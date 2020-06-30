@@ -10,6 +10,7 @@ import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
 import ComboBoxProcesoTutoria from "./ComboBoxProcesoTutoria";
+import ListaAsignaciones from "./ListaAsignaciones";
 
 
 const style = {
@@ -101,7 +102,7 @@ useEffect(() => {
                   setFacultad={setFacultad}
               /> 
           </Grid>
-          <Grid item md={3} style={{marginRight:"6%"}}>
+          <Grid item md={2} style={{marginRight:"5%"}}>
               <ComboBoxPrograma
                   programas={programas}
                   programa={programa}
@@ -116,10 +117,10 @@ useEffect(() => {
               />
           </Grid>
         </Grid>
-        <Paper elevation={0} style={style.paper}>
+        {/*<Paper elevation={0} style={style.paper}>
             Tabla Tutores por proceso de tutoria
-        </Paper>
-        
+          </Paper>*/}
+        <ListaAsignaciones idTutoria={procesoTutoria}/>        
       </div>
   );
 }

@@ -4,8 +4,9 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Paper,FormControl, FormHelperText } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
-import TablaProgramas from "./TablaProgramas";
+import TablaAsignaciones from "./TablaAsignaciones";
 import Button from "@material-ui/core/Button";
+import ModificaAsignacion from "./ModificaAsignaciones";
 import { getUser } from "../../../Sesion/Sesion";
 
 
@@ -26,27 +27,31 @@ class ListaAsignaciones extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        programas: {columns: [{
+        asignaciones: {columns: [{
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        programa:[{id:"1"}]
+        alumnos:[]
     };
-    this.establecerData = this.establecerData.bind(this);
+    this.establecerData = this.establecerData.bind(this);    
+    this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
   }
-  establecerData(arregloProg){
+  establecerData(arregloAsigna){
     
     let arreglillo = [];
-    for (let element of arregloProg.programa){
-      if (element.ID_PROGRAMA!==null){
+    for (let element of arregloAsigna.asignaciones){
+      if (element.ID_ASIGNACION!==null){
         arreglillo.push({
-          codigo:element.ID_PROGRAMA,
-          nombre:element.NOMBRE,
+          tutor:element.TUTOR.USUARIO.NOMBRE+" "+element.TUTOR.USUARIO.APELLIDOS,
+          tutoria:element.PROCESO_TUTORIA.NOMBRE,
           boton:<div> 
                     <Button 
                         variant="outlined"
-                        color="primary">
-                        Ver Programa
+                        color="primary"
+                        onClick={() => this.handleOnOpen(element.ALUMNOS)}
+                        >
+                        Ver alumnos
                     </Button>
                 </div>
           });  
@@ -56,51 +61,58 @@ class ListaAsignaciones extends React.Component {
     const data = {
         columns: [
           {
-            title: "Código",
-            field: "codigo",
+            title: "Tutor",
+            field: "tutor",
           },
           {
-            title: "Nombre",
-            field: "nombre",
+            title: "Tutoria",
+            field: "tutoria",
           },
           {
-            title:"",
+            title:"Alumnos",
             field:"boton"
            }
         ],
         data: arreglillo
       };
-      this.setState({programas:data});
+      this.setState({asignaciones:data});
 
   }
   async componentDidUpdate(prevProps){
-    if (this.props.idFacu!==prevProps.idFacu){
-      console.log("idFacu: ",this.props.idFacu);
-      //let arregloProg=await Controller.GET({servicio:"/api/programa"});
-      let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
-      //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-      console.log("arreglo: ",arregloProg);
-      this.establecerData(arregloProg);
+    if (this.props.idTutoria!==prevProps.idTutoria){
+      console.log("idFacu: ",this.props.idTutoria);
+      let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
+    console.log("arreglo: ",arregloAsigna);
+    this.establecerData(arregloAsigna);
 
     }
   }
   async componentDidMount(){
-    let idCoord=getUser().usuario.ID_USUARIO;
-    console.log("idFacu: ",this.props.idFacu);
-    let arregloProg=await Controller.GET({servicio:"/api/programa/coordinador/"+idCoord});
-    //let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    console.log("arreglo: ",arregloProg);
-    this.establecerData(arregloProg);
+    let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
+    console.log("arreglo: ",arregloAsigna);
+    this.establecerData(arregloAsigna);
   
 }
-
+handleOnOpen= (alumnos) =>{
+  this.setState({ open: true });
+  this.state.alumnos=alumnos;
+  console.log("alumnos",this.state.alumnos);
+} 
+handleOnClose() {
+  this.setState({ open: false });
+}
 
 render(){
     return (
         <div>
+            {this.state.open && 
+            <ModificaAsignacion 
+              open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              alumnos={this.state.alumnos}
+            />}
             <Paper elevation={0} style={style.paper}>
-                <TablaProgramas programas={this.state.programas}  />
+                <TablaAsignaciones asignaciones={this.state.asignaciones}  />
             </Paper>
         </div>
     );
