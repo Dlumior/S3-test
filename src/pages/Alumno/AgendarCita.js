@@ -10,6 +10,7 @@ import { UserContext, getUser } from "../../Sesion/Sesion";
 import { inicializarSesion } from "../../Sesion/actions/sesionAction";
 import NombrePrincipalSSJ from "../../components/Shared/NombrePrincipalSSJ";
 import ListaComboBox from "../../components/Coordinador/Tutorias/ListaComboBox";
+import NombrePrincipal_Alumno from "./NombrePrincipal_Alumno";
 
 class AgendarCita extends Component {
   constructor() {
@@ -88,28 +89,14 @@ class AgendarCita extends Component {
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs,
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
 
-        <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} />
+        {/* <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} /> */}
+        
+        <NombrePrincipal_Alumno titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} />
+
+        
         {/*<TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>*/}
 
-        <ListaComboBox
-          allObject={true}
-          mensaje="Programa"
-          escogerItem={this.handleOnChangeProceso}
-          titulo={"Programa del Alumno"}
-          datos={{
-            programa: [
-              {
-                ID_PROGRAMA: 30,
-                NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                  .PROGRAMA.NOMBRE,
-              },
-            ],
-          }}
-          id={"ID_PROGRAMA"}
-          nombre={"NOMBRE"}
-          keyServicio={"programa"}
-          placeholder={"Programa matriculado"}
-        />
+        
 
         <TabProceso
           procesos={[
