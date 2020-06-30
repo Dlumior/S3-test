@@ -32,7 +32,6 @@ class CalendarioCitas extends Component {
     this.handleFiltroTutores = this.handleFiltroTutores.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
-    
   }
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
@@ -57,7 +56,7 @@ class CalendarioCitas extends Component {
         para manejar el filtro del id del tutor en el servicio 
        >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     */
-  renderDias = (lunesActual,listaIdTutores) => {
+  renderDias = (lunesActual, listaIdTutores) => {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
@@ -74,17 +73,28 @@ class CalendarioCitas extends Component {
         <Grid container spacing={2}>
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
-              {console.log("DIA_SEMANA xxx ",this.props.servicio +this.state.filtroIdProceso 
-                  +"/" + diaSemana.toISOString().split("T")[0] )}
+              {console.log(
+                "DIA_SEMANA xxx ",
+                this.props.servicio +
+                  this.state.filtroIdProceso +
+                  "/" +
+                  diaSemana.toISOString().split("T")[0]
+              )}
 
-              <HorarioDelDia 
+              <HorarioDelDia
                 fecha={{
                   fecha: diaSemana,
                   //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
 
-                  servicio: this.state.estadoID ?
-                  (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`) :
-                    this.props.servicio + diaSemana.toISOString().split("T")[0],
+                  servicio: this.state.estadoID
+                    ? `/api/disponibilidad/listarPrograma/${
+                        getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                          .ID_PROGRAMA
+                      }/${diaSemana.toISOString().split("T")[0]}/${
+                        this.state.estadoID
+                      }`
+                    : this.props.servicio +
+                      diaSemana.toISOString().split("T")[0],
                   tipo: this.props.tipo,
                   listaIdTutores: listaIdTutores,
                 }}
@@ -127,9 +137,7 @@ class CalendarioCitas extends Component {
     this.setState({ estadoTitulo: _tutor.nombre });
     //ahora vamos a seterar id
     this.setState({ estadoID: _tutor.id });
-
   }
-
 
   handleFiltroProceso(idProceso) {
     console.log("idProceso seleccionado: ", idProceso);
@@ -141,10 +149,7 @@ class CalendarioCitas extends Component {
   handleFiltroTutores = async (listaIdTutores) => {
     console.log("idTutores seleccionado: ", listaIdTutores);
 
-    await this.setState(
-      
-      { listaIdTutores: listaIdTutores }
-    );
+    await this.setState({ listaIdTutores: listaIdTutores });
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.......
@@ -163,7 +168,6 @@ class CalendarioCitas extends Component {
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}
           colorActivo={this.state.modoBatallador}
-
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -175,17 +179,17 @@ class CalendarioCitas extends Component {
         {this.state.modoBatallador ? (
           <Grid container alignContent="center">
             {this.props.tipo === "cita" ? (
-              this.renderDias(this.state.lunesActual,this.state.listaIdTutores)
+              this.renderDias(this.state.lunesActual, this.state.listaIdTutores)
             ) : this.state.filtroIdProceso ? (
-              this.renderDias(this.state.lunesActual,this.state.listaIdTutores)
+              this.renderDias(this.state.lunesActual, this.state.listaIdTutores)
             ) : (
               <></>
             )}
           </Grid>
         ) : (
           <FrmSolicitarCitaTutor_granito
-          modoBatallador={this.handleModoBatallador}
-          handleFiltroTutor={this.handleFiltroTutor} 
+            modoBatallador={this.handleModoBatallador}
+            handleFiltroTutor={this.handleFiltroTutor}
           />
         )}
       </div>
