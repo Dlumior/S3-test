@@ -71,22 +71,31 @@ useEffect(() => {
 //programas a partir de un coordinador de Facultad
 useEffect(() => {
   async function fetchData() {
-  const endpoint = "/api/programa/lista/"+facultad;
-  const params = { servicio: endpoint };
-  const res = await GET(params);    
-  console.log("proogramasss:", res);
-  setProgramas(res.programa);
-  console.log("proograma:", programa);
-  }
-  if (facultad!==""){
-  fetchData();
+      if (getUser().rol ==="Coordinador Programa"){
+          const endpoint = "/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+facultad;
+          const params = { servicio: endpoint };
+          const res = await GET(params);    
+          console.log("proogramasss:", res);
+          setProgramas(res.programas);
+          console.log("proograma:", programa);
+      }else{
+          const endpoint = "/api/programa/lista/"+facultad;
+          const params = { servicio: endpoint };
+          const res = await GET(params);    
+          console.log("proogramasss:", res);
+          setProgramas(res.programa);
+          console.log("proograma:", programa);
+      }
+  }     
+  if (facultad!=""){
+      fetchData();
   }
 },[facultad]);
 
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
-    const endpoint = "/api/tutoria/lista/"+programa;
+    const endpoint = "/api/tutoriafija/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log("tutoria: ",res);
