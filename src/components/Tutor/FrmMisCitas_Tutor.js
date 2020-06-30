@@ -212,7 +212,7 @@ class FrmMisCitas_Tutor extends Component {
                 fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
                 lugar: element.LUGAR,
                 //tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
-                btnCancelar:
+                btnCancelar:            
                     <Button
                         size="large"
                         variant="outlined"
@@ -235,6 +235,7 @@ class FrmMisCitas_Tutor extends Component {
                     >
                         REPROGRAMAR
                     </Button>,
+                campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
 
             });
         }
@@ -277,6 +278,10 @@ class FrmMisCitas_Tutor extends Component {
                 {
                     title: "Estado",
                     field: "campoEstado"
+                },
+                {
+                    title: "Motivo Cancelacion",
+                    field: "campoRazonMantenimiento"
                 },
 
             ],

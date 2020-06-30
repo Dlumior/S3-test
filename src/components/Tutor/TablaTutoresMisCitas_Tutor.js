@@ -19,7 +19,7 @@ function Tabla(props) {
 
     if (valeria === "PyR") { //<-- Pendiente y Reprogrmadas
         props.sesiones.columns.forEach(element => {
-            if (element.title !== "Encuesta") { titulosColumnas.push(element); }
+            if (element.title !== "Motivo Cancelacion") { titulosColumnas.push(element); }
         });
     }
     else if (valeria === "Cancelada") {
@@ -54,21 +54,19 @@ function Tabla(props) {
         //   i++;
         // }
 
-
-
-
         if (props.estado === "PyR") {
             if (element.campoEstado === "Pendiente" || element.campoEstado === "Reprogramada") {
+                element.campoCont = i;
+                arr2.push(element);
+                i++;
+            }
+        } else if (props.estado === "Cancelada") { //"Cancelada" como parametro padre
+            if (element.campoEstado === "Cancelada") { // "Cancelada" como nombre en el campoEstado
                 element.campoCont = i;
 
                 arr2.push(element);
                 i++;
             }
-        } else if (props.estado === "Cancelada") { //"Cancelada"
-            element.campoCont = i;
-
-            arr2.push(element);
-            i++;
         } else {
             //element.campoCont = i;
         }
