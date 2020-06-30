@@ -15,11 +15,6 @@ const style = {
 };
 class FormularioImportarAlumnos extends Component {
   render() {
-    /**
-     * Please do not touch my code
-     *
-     * I'm in construction
-     */
     return (
       <>
         
@@ -30,7 +25,7 @@ class FormularioImportarAlumnos extends Component {
          * PD2. TE ODIO HOOKS
          * PD3. lo subo cuando lo acabe de hacerloXDDDDDD
          */}
-                 <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/holiiiis4.png"/>
+          <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/holiiiis4.png"/>
 
       </>
     );

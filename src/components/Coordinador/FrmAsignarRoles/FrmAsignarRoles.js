@@ -64,20 +64,28 @@ const style = {
     severS:"success"
   });
 
-    //faultades por coordinador
-    useEffect(() => {
-        let id=datosForm.usuarioCodigo;
-        async function fetchData() {
-        console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+//faultades por coordinador de facu o prog
+
+useEffect(() => {
+    async function fetchData() {
+      if(getUser().rol == "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
         setFacultades(res.facultades);
-        console.log("facultad:", facultad);
-        }
-        fetchData();
-    }, {});
+        console.log("facultad:", programa);
+      }else{
+        const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
+        const params = { servicio: endpoint };
+        const res = await GET(params);    
+        console.log("ENTREE:", res);
+        setFacultades(res.facultades);
+        console.log("facultad:", programa);
+      }
+    }
+     fetchData();
+  }, {});
 
     //programas a partir de un coordinador de Facultad
     useEffect(() => {
@@ -107,7 +115,10 @@ const style = {
         console.log("arrRoles: ",arrRoles);
         datosForm.roles=arrRoles;
         setRoles(arrRoles);
-        setDeshabilitar(false);
+        console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
+        if (datosForm.usuarioCodigo!==0){
+            setDeshabilitar(false);
+        }
         console.log("roles:", datosForm.roles);
         }
         if (programa!=""){
