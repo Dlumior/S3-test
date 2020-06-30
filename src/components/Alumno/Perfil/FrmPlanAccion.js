@@ -10,6 +10,7 @@ import { getUser } from "../../../Sesion/Sesion";
 
 import ComboBoxPrograma from "../../Coordinador/FormRegistroTutor/comboBoxProgramas";
 import ComboBoxProcesoTutoria from "../../Coordinador/FormAsignacion/ComboBoxProcesoTutoria";
+import ListadoPlanDeAccion from "./ListadoPlanDeAccion";
 
 const style = {
     paper: {
@@ -40,6 +41,7 @@ const [programas, setProgramas] = useState([]);
 const [programa, setPrograma] = useState("");  
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
+
 
 //AYUDA
 //programas a partir de un tutor
@@ -92,7 +94,7 @@ return (
           </Grid>
         </Grid>
         <Paper elevation={0} style={style.paper}>
-            TPlan de Accion filtrado por proceso de tutoria
+            <ListadoPlanDeAccion idAlumno={getUser().usuario.ID_USUARIO} idTutoria={procesoTutoria}/>
         </Paper>
         
       </div>

@@ -39,8 +39,8 @@ const ComboBoxFacus = (props) => {
         fullWidth
       >
         {facultades.map((item) => (
-          <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-            {item.NOMBRE}
+          <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA? item.ID_PROGRAMA : item.FACULTAD.ID_PROGRAMA}>
+            {item.NOMBRE? item.NOMBRE: item.FACULTAD.NOMBRE}
           </MenuItem>
         ))}
       </Select>

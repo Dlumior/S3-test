@@ -45,19 +45,27 @@ const [programa, setPrograma] = useState("");
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
 
-//faultades por coordinador
+//faultades por coordinador de prog o facu
 useEffect(() => {
-  let id=datosForm.usuarioCodigo;
   async function fetchData() {
-  console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
-  const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
-  const params = { servicio: endpoint };
-  const res = await GET(params);    
-  console.log("facultades:", res);
-  setFacultades(res.facultades);
-  console.log("facultad:", facultad);
+      console.log("cpp",getUser().rol );
+    if(getUser().rol === "Coordinador Facultad"){
+      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("facultades:", res);
+      setFacultades(res.facultades);
+      console.log("facultad:", facultades);
+    }else{
+      const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("ENTREE:", res);
+      setFacultades(res.facultades);
+      console.log("facultades:", facultades);
+    }
   }
-  fetchData();
+   fetchData();
 }, {});
 
 //programas a partir de un coordinador de Facultad

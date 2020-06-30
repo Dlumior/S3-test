@@ -68,20 +68,21 @@ const style = {
 
 useEffect(() => {
     async function fetchData() {
-      if(getUser().rol == "Coordinador Facultad"){
+        console.log("cpp",getUser().rol );
+      if(getUser().rol === "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
         setFacultades(res.facultades);
-        console.log("facultad:", programa);
+        console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("ENTREE:", res);
         setFacultades(res.facultades);
-        console.log("facultad:", programa);
+        console.log("facultades:", facultades);
       }
     }
      fetchData();

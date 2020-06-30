@@ -76,20 +76,15 @@ function Tabla(props) {
         arr2.push(element);
         i++;
       }
-    } else if (props.estado === "Cancelada"){ //"Cancelada"
-      element.campoCont = i;
-      arr2.push(element);
-      i++;
-    }else{
+    } else if (props.estado === "Cancelada") { //"Cancelada"
+      if (element.campoEstado === "Cancelada") {
+        element.campoCont = i;
+        arr2.push(element);
+        i++;
+      }
+    } else {
       //element.campoCont = i;
     }
-
-
-    // if(element.campoEstado===props.estado){       
-    //   element.campoCont=i;
-    //   arr2.push(element);
-    //   i++;
-    // }
 
   });
 

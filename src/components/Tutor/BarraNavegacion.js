@@ -155,6 +155,7 @@ const BarraNavegacion = (props) => {
             "Mis Alumnos",
             "Mi Disponibilidad",
             "Sesiones",
+            "Mis Citas",
           ].map((text, index) => (
             <ListItem
               button
