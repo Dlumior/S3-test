@@ -26,15 +26,25 @@ import {
 const style ={
     estilosRadio:{
         marginTop: "7%",
+        textAlign: "center",
     }
 };
 const estilos = {
   paper: {
+    //textAlign: "center",
+
     marginLeft: "10%",
     marginRight: "10%",
-    marginTop: "5%",
+    marginTop: "2%",
     flexDirection: "column",
   },
+  paperSmall:{
+    textAlign: "center",
+    marginLeft: "12%",
+    marginRight: "3%",
+    marginTop: "1%",
+    flexDirection: "column",
+  }
 };
 class GrupoRadioButton extends Component {
   constructor() {
@@ -64,9 +74,8 @@ class GrupoRadioButton extends Component {
   }
   render() {
     return (
-      <Paper elevation={0} style={estilos.paper}>
-        <div style={style.estilosRadio}>
-        <br/>
+      <Paper elevation={0} style={this.props.stretch?estilos.paperSmall:estilos.paper}>
+        {this.props.stretch?<></>:<br/>}
         <FormLabel component="legend" color="primary">
           {this.props.titulo}
         </FormLabel>
@@ -76,7 +85,6 @@ class GrupoRadioButton extends Component {
         >
           {this.renderRadios(this.props.radios)}
         </RadioGroup>
-      </div>
       </Paper>
       
     );
