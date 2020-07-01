@@ -204,7 +204,7 @@ class Controles extends Component {
                 //aca va venir los RADIOBUTTN con su respectivo comboox
                 <Grid item md={12} xs={12}>
                   <GrupoRadioButton
-                  stretch={true}
+                    stretch={true}
                     disabled={false}
                     titulo="Escoga un Tipo de tutoria"
                     radios={this.state.radios.tipoTutoria}
