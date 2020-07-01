@@ -40,25 +40,19 @@ class FrmMisCitas_Tutor extends Component {
 
         };
 
-
         this.handleOnClickCancelar = this.handleOnClickCancelar.bind(this);
         this.handleOnCloseCancelar = this.handleOnCloseCancelar.bind(this);
         this.handleOnCloseCitaCancelada = this.handleOnCloseCitaCancelada.bind(this);
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
-
 
         this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         this.handleOnCloseReprogramar = this.handleOnCloseReprogramar.bind(this);
         this.handleOnCloseCitaCancelada_Rep = this.handleOnCloseCitaCancelada_Rep.bind(this);
         this.handleOnclickAceptarReprogramacion = this.handleOnclickAceptarReprogramacion.bind(this);
 
-
         this.handleOnChangeFecha = this.handleOnChangeFecha.bind(this);
         this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
-
         this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
-
-
     };
 
     handleOnChangeHoraIni(e) {
@@ -76,7 +70,7 @@ class FrmMisCitas_Tutor extends Component {
 
         //this.setState({graciasYopsIdTutor:_idTutor});
         let _arrAlumno = [];
-        _arrAlumno.push(_idAlumno);
+        _arrAlumno.push(_idAlumno.toString());
 
         this.setState({ graciasYopsIdAlumno: _arrAlumno });
         this.setState({ open: true });
@@ -189,7 +183,7 @@ class FrmMisCitas_Tutor extends Component {
         let _razon = "";
         const nuevaSolicitud = {
             sesion: {
-                ID_SESION: this.state.graciasYopsIdSesion,
+                ID_SESION: this.state.graciasYopsIdSesion.toString(),
                 ALUMNOS: this.state.graciasYopsIdAlumno, //este es un arreglo de uno
                 RAZON: this.state.yopsRazon,
                 EMISOR: yo.usuario.ID_USUARIO.toString(),
@@ -197,27 +191,27 @@ class FrmMisCitas_Tutor extends Component {
             },
         };
 
-        //console.log("ANTES DE API: ", nuevaSolicitud);
+        console.log("ANTES DE API: ", nuevaSolicitud);
         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
-        console.log("RESULTADO API ", sesionTyS);
+        console.log("RESULTADO API Cancelar ", sesionTyS);
 
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
-        if (sesionTyS) {
-            this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente!" });
-        } else {
-            this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+        // if (sesionTyS) {
+        //     this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente!" });
+        // } else {
+        //     this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+        // }
+        if (!sesionTyS.message) {
+            if (!sesionTyS.error) {
+                this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
+            } else {
+                this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+            }
         }
-        //  if(!sesionTyS.message){
-        //      if(!sesionTyS.error){
-        //          this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
-        //      }else{
-        //          this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});   
-        //      }
-        //  }
-        //  else{
-        //      this.setState({mensajillo:sesionTyS.message});
-        //  }
+        else {
+            this.setState({ mensajillo: sesionTyS.message });
+        }
         this.setState({ open3: true });
     }
 
@@ -242,11 +236,11 @@ class FrmMisCitas_Tutor extends Component {
         };
 
 
-        //console.log("ANTES DE API arreglo nueva soli: ", nuevaSolicitud);
+        console.log("ANTES DE API arreglo Rep nueva soli: ", nuevaSolicitud);
 
         const props = { servicio: "/api/posponerCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
-        console.log("RESULTADO API ", sesionTyS);
+        console.log("RESULTADO API rep ", sesionTyS);
 
 
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -257,16 +251,16 @@ class FrmMisCitas_Tutor extends Component {
         //     this.setState({ mensajilloR: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
         // }
 
-         if(!sesionTyS.message){
-             if(!sesionTyS.error){
-                 this.setState({mensajilloR:"Cita Reprogramada Satisfactoriamente !"});    
-             }else{
-                 this.setState({mensajilloR:"Ups, Error inesperado... Por favor, inténtelo más tarde."});   
-             }
-         }
-         else{
-             this.setState({mensajilloR:sesionTyS.message});
-         }
+        if (!sesionTyS.message) {
+            if (!sesionTyS.error) {
+                this.setState({ mensajilloR: "Cita Reprogramada Satisfactoriamente !" });
+            } else {
+                this.setState({ mensajilloR: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+            }
+        }
+        else {
+            this.setState({ mensajilloR: sesionTyS.message });
+        }
 
         this.setState({ open4: true });
     }
@@ -299,8 +293,7 @@ class FrmMisCitas_Tutor extends Component {
 
                 //>>> ASUMIMOS PARA UN ALUMNO
                 //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
-                nombre: element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "",
-
+                nombre: element.ALUMNOs[0]?element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "":"",
                 fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
                 lugar: element.LUGAR,
                 campoMotivoSoli: element.MOTIVO,
@@ -409,7 +402,7 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de CANCELAR esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de Cancelar esta cita ? </h3>}</DialogTitle>
                     <DialogContent>
                         <Paper elevation={0} >
                             <CampoDeTexto
@@ -452,25 +445,25 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de REPROGRAMAR esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de Reprogramar esta cita ? </h3>}</DialogTitle>
                     <DialogContent>
 
-                        
+
                         <Grid container spacing={2} >
-                        <Grid item md={4}>
-                            <TextField
-                                required
-                                margin="dense"
-                                type="date"
-                                id="Fecha"
-                                label="Ingrese nueva Fecha"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                onChange={(e) => this.handleOnChangeFecha(e)}
-                                fullWidth
-                            />
-                        </Grid>
+                            <Grid item md={4}>
+                                <TextField
+                                    required
+                                    margin="dense"
+                                    type="date"
+                                    id="Fecha"
+                                    label="Ingrese nueva Fecha"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    onChange={(e) => this.handleOnChangeFecha(e)}
+                                    fullWidth
+                                />
+                            </Grid>
                             <Grid item md={4} >
                                 <TextField
                                     variant="outlined"
@@ -548,7 +541,7 @@ class FrmMisCitas_Tutor extends Component {
                         index: 0, titulo: "Futuras", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"PyR"} />
                     },
-                    { index: 1, titulo: "Realizadas", proceso: () => { "" } },
+                    { index: 1, titulo: "Realizadas", proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"Realizada"} /> },
                     { index: 2, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"Cancelada"} /> },
 
                 ]} paper={true} />

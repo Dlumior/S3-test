@@ -113,22 +113,22 @@ class FrmMisCitas extends Component {
 
         //DOING...
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
-        if(sesionTyS){
-            this.setState({mensajillo:"Cita Cancelada Satisfactoriamente!"});  
-        }else{
-            this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});  
-        }
+        // if(sesionTyS){
+        //     this.setState({mensajillo:"Cita Cancelada Satisfactoriamente!"});  
+        // }else{
+        //     this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});  
+        // }
 
-        //  if(!sesionTyS.message){
-        //      if(!sesionTyS.error){
-        //          this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});    
-        //      }else{
-        //          this.setState({mensajillo:"UPS, ERROR INESPERADO!    POR FAVOR, INTÉNTELO MÁS TARDE"});   
-        //      }
-        //  }
-        //  else{
-        //      this.setState({mensajillo:sesionTyS.message});
-        //  }
+         if(!sesionTyS.message){
+             if(!sesionTyS.error){
+                 this.setState({mensajillo:"Cita Cancelada Satisfactoriamente !"});    
+             }else{
+                 this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});   
+             }
+         }
+         else{
+             this.setState({mensajillo:sesionTyS.message});
+         }
 
         this.setState({open3:true });
     }
@@ -303,7 +303,7 @@ class FrmMisCitas extends Component {
                 >
 
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de CANCELAR esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de Cancelar esta cita ? </h3>}</DialogTitle>
 
                     <DialogContent>
                         <Paper elevation={0} >

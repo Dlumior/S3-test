@@ -66,9 +66,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
     //handles...
     this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
-    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(
-      this
-    );
+    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(   this  );
     this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
 
     this.handleOnClick = this.handleOnClick.bind(this);
@@ -86,10 +84,12 @@ class FrmDialogoSolicitarTutor extends Component {
     this.setState({ open: false });
     this.props.onCloseFrm();
   }
-
+  
   handleOnChangeMotivo(_motivoSeleccionado) {
-    //console.log("MotivoSeleccionadoXXX:", _motivoSeleccionado[0].NOMBRE);
-    this.setState({ _motivoSelecc: _motivoSeleccionado[0].NOMBRE });
+    console.log("MotivoSeleccionado XXX:", _motivoSeleccionado);
+    console.log("RESTA ",_motivoSeleccionado[0]-1);
+
+    //this.setState({ _motivoSelecc: this.state.lstMotivos.motivos[_motivoSeleccionado[0]-1].NOMBRE });
   }
 
   handleOnChangeCT = (e) => {
@@ -262,6 +262,7 @@ class FrmDialogoSolicitarTutor extends Component {
                     nombre={"NOMBRE"}
                     keyServicio={"motivos"}
                     placeholder={"Escoja un motivo"}
+                    allObject={true}
                   />
                 </Grid>
               </Grid>
