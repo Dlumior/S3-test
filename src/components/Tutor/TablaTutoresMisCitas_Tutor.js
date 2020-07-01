@@ -19,13 +19,14 @@ function Tabla(props) {
 
     if (valeria === "PyR") { //<-- Pendiente y Reprogrmadas
         props.sesiones.columns.forEach(element => {
-            if (element.title !== "Motivo Cancelacion") { titulosColumnas.push(element); }
+            if (element.title !== "Motivo Cancelación") { titulosColumnas.push(element); }
         });
     }
     else if (valeria === "Cancelada") {
         props.sesiones.columns.forEach(element => {
-            if (element.title !== "Cancelar Cita" && element.title !== "Encuesta" &&
-                element.title !== "Estado" && element.title !== "Reprogramar Cita"
+            if (element.title !== "Cancelar Cita" && element.title !== "Motivo Solicitud" &&
+                element.title !== "Estado" && element.title !== "Reprogramar Cita" &&
+                element.title !== "Descripción del Motivo"
             ) { titulosColumnas.push(element); }
         });
     }
@@ -63,7 +64,6 @@ function Tabla(props) {
         } else if (props.estado === "Cancelada") { //"Cancelada" como parametro padre
             if (element.campoEstado === "Cancelada") { // "Cancelada" como nombre en el campoEstado
                 element.campoCont = i;
-
                 arr2.push(element);
                 i++;
             }
