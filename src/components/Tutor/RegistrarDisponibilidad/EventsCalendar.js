@@ -77,8 +77,9 @@ class EventsCalendar extends Component {
           listaEventos.push(evento);
           this.setState({problema:false})                   
         } 
-        this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
-        console.log(this.state.diasAnticipacion)     
+        if(this.state.facultades){
+          this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+        }
       }else{
         this.setState({problema: true});
         let alerta = {...this.state.alerta};
@@ -136,8 +137,9 @@ class EventsCalendar extends Component {
               listaEventos.push(evento);
               this.setState({problema: false});              
             }
-            this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
-            console.log(this.state.diasAnticipacion)
+            if(this.state.facultades){
+              this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+            }
           }else{
             this.setState({problema: true});
             let alerta = {...this.state.alerta};
