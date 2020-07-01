@@ -163,6 +163,8 @@ const RevisarSesion = (cita) => {
   });
   const [open, setOpen] = React.useState(true);
   const [plan,setPlan]=useState(cita.cita.COMPROMISOs);
+  console.log("cita.cita.COMPROMISOs", cita.cita);
+  console.log("test123plan", plan);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -192,7 +194,6 @@ const RevisarSesion = (cita) => {
         ID_SESION: cita.cita.ID_SESION,
         RESULTADO: datosForm.resultado,
         COMPROMISOS: plan,
-        AREAS_APOYO: ["1"],
         ALUMNOS:[cita.cita.ALUMNOs[0].ID_ALUMNO],
         ASISTENCIA:[doggysAssistance],
         AREAS_APOYO: datosForm.apoyo
@@ -328,8 +329,10 @@ const RevisarSesion = (cita) => {
                 titulo={""}
                 obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e, datosForm, setDatosForm)}
                 enlace={"/api/listaAreasApoyo"}
+                enlace2={"/api/listaSesiones/"+cita.cita.ID_TUTOR+"/"+cita.cita.FECHA}
                 small={true}
                 label={"Unidades de Apoyo"}
+                idSesion={cita.cita.ID_SESION}
                 ID={"ID_AREA_APOYO"}
               />
             </Grid>

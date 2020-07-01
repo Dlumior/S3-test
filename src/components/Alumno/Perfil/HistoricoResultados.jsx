@@ -6,14 +6,13 @@ class HistoricoResultados extends Component {
   constructor() {
     super();
     this.state = {
-      title: `Resultados historicos de alumno al ${
-        new Date().toISOString().split("T")[0]
-      }`,
+      title: `Resultados historicos de alumno al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
       datosTablaOffline: {
         columns: [
           { title: "Nro", field: "nro" },
           { title: "Fecha", field: "fecha" },
+          { title: "Tutor", field: "tutor" },
           { title: "Motivo", field: "motivo" },
           { title: "Resultado", field: "resultado" },
         ],
@@ -22,24 +21,28 @@ class HistoricoResultados extends Component {
             nro: 1,
             fecha: "25/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "Odia a los hooks",
           },
           {
             nro: 2,
             fecha: "26/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "Sacara 40 en la PC2 de CGI",
           },
           {
             nro: 3,
             fecha: "27/06/2021",
             motivo: "Psicopedagogico",
+            tutor: "YOPS",
             resultado: "saco 39 de 20 puntos en la PC2",
           },
           {
             nro: 4,
             fecha: "28/06/2021",
             motivo: "Personal",
+            tutor: "YOPS",
             resultado: "Esta siendo atendido por la DAES",
           },
           {
@@ -53,24 +56,28 @@ class HistoricoResultados extends Component {
             nro: 6,
             fecha: "28/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "Tengo sueñoooooooooooo",
           },
           {
             nro: 7,
             fecha: "28/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "Las fotos son la travesura menor",
           },
           {
             nro: 8,
             fecha: "28/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "Asistio a las asesorias",
           },
           {
             nro: 9,
             fecha: "28/06/2021",
             motivo: "Academico",
+            tutor: "YOPS",
             resultado: "El sprint 4 estare de vacaciones XDDD",
           },
           {
@@ -91,19 +98,28 @@ class HistoricoResultados extends Component {
             nro: 12,
             fecha: "01/07/2021",
             motivo: "SSJ",
+            tutor: "YOPS",
             resultado: "KAMEEEEEE...",
           },
           {
             nro: 12,
             fecha: "01/07/2021",
             motivo: "SSJ",
+            tutor: "YOPS",
             resultado: "HAMEEEEEE...",
           },
-          { nro: 12, fecha: "01/07/2021", motivo: "SSJ", resultado: "......." },
           {
             nro: 12,
             fecha: "01/07/2021",
             motivo: "SSJ",
+            tutor: "YOPS",
+            resultado: ".......",
+          },
+          {
+            nro: 12,
+            fecha: "01/07/2021",
+            motivo: "SSJ",
+            tutor: "YOPS",
             resultado: "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA !",
           },
         ],
@@ -150,9 +166,6 @@ class HistoricoResultados extends Component {
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
-            // other es el instrumento principal para que se pueda actualizar esta vaina
-            other: this.props.other,
-
             //selection: true,
             rowStyle: {
               backgroundColor: "#FFF",
