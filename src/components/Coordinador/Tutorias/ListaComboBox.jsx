@@ -87,9 +87,11 @@ class ListaComboBox extends Component {
 
     console.log("this.props.enlace", this.props.enlace);
 
-    console.log("entreeeee---->: ", listaItems);
+    console.log("entreeeee---->[]: ", listaItems);
     if (!listaItems || listaItems.length === []) {
-      this.setState({ listaItems: [] });
+      console.log("=> esta vacio");
+
+      await this.setState({ listaItems: [] });
     } else {
       /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
@@ -114,16 +116,16 @@ class ListaComboBox extends Component {
             ? [this.state.item[this.props.subnombre][this.props.id]]
             : [this.state.item[this.props.id]]
         );
-      }
+        }
     }
   }
   async componentWillReceiveProps(nextProps) {
     if (nextProps.enlace !== this.props.enlace) {
       console.log("Nueva enlace", nextProps.enlace);
       let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
-      console.log("this.props.enlace", this.props.enlace);
+      console.log("this.props.enlace nuevo", this.props.enlace);
 
-      console.log("entreeeee---->: ", listaItems);
+      console.log("*entreeeee---->nuevo", listaItems);
       if (!listaItems || listaItems.length === []) {
         this.setState({ listaItems: [] });
       } else {
@@ -165,7 +167,10 @@ class ListaComboBox extends Component {
 
           {/* combo box propiamente */}
           <Select value={this.state.item} onChange={this.handleOnChange}>
-            {this.state.listaItems.map((item) => (
+            {this.state.listaItems===[]?
+            
+            <></>:
+            this.state.listaItems.map((item) => (
               <MenuItem
                 key={
                   this.props.subnombre
@@ -178,7 +183,8 @@ class ListaComboBox extends Component {
                   ? item[this.props.subnombre][this.props.nombre]
                   : item[this.props.nombre]}
               </MenuItem>
-            ))}
+            ))
+            }
           </Select>
           <FormHelperText>
             {this.props.placeholder

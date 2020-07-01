@@ -3,7 +3,14 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import { IconButton, Grid, Typography, Paper, Button, InputLabel } from "@material-ui/core";
+import {
+  IconButton,
+  Grid,
+  Typography,
+  Paper,
+  Button,
+  InputLabel,
+} from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
@@ -22,6 +29,8 @@ const styles = {
     marginRight: "7%",
   },
 };
+const FIJAS = 0;
+const PROGRAMA = 1;
 class Controles extends Component {
   constructor() {
     super();
@@ -39,25 +48,44 @@ class Controles extends Component {
       radios: {
         tipoTutoria: [
           { titulo: "Tutorias del Programa", valor: "Tutorias del Programa" },
-          { titulo: "Tutorias Fijas Asignadas", valor: "Tutorias Fijas Asignadas" },
+          {
+            titulo: "Tutorias Fijas Asignadas",
+            valor: "Tutorias Fijas Asignadas",
+          },
         ],
       },
+      serviciosTutoria: [
+        `/api/tutoriavariable/${
+          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        }`,
+        `/api/tutoriaasignada/${
+          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        }/${getUser().usuario.ID_USUARIO}`,
+      ],
+      servicioTutoriaActual: `/api/tutoriavariable/${
+        getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+      }`,
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
-
+    this.renderTutoria = this.renderTutoria.bind(this);
     this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
-
-
   }
 
-  obtenerSeleccion(seleccion) {
+  obtenerSeleccion = async (seleccion) => {
     console.log("seleccion", seleccion);
-  }
+    await this.setState({
+      servicioTutoriaActual:
+        seleccion.value === "Tutorias del Programa"
+          ? this.state.serviciosTutoria[0]
+          : this.state.serviciosTutoria[1],
+    });
 
+    console.log("=> ", this.state.servicioTutoriaActual);
+  };
 
   async componentDidMount() {
     const myid = getUser().usuario.ID_USUARIO;
@@ -111,11 +139,27 @@ class Controles extends Component {
     this.setState({ vistaColumna: "Columna" });
     this.setState({ vistaLista: "Lista" });
   }
+  renderTutoria(enlace) {
+    console.log("Cambiar Enlace", enlace);
+    return (
+      <ListaComboBox
+        mensaje="tutoria"
+        titulo={"Tutorias"}
+        enlace={enlace}
+        id={"ID_PROCESO_TUTORIA"}
+        nombre={"NOMBRE"}
+        keyServicio={"tutoria"}
+        escogerItem={this.handleOnChangeProceso}
+        small={true}
+        inicial={true}
+        placeholder={"Escoja la facultad"}
+      />
+    );
+  }
   render() {
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
-          
           <Grid item md={1} xs={1}>
             {/** mes control */}
             <Grid container spacing={0} alignContent="center">
@@ -176,69 +220,25 @@ class Controles extends Component {
           {/** filtro de programa
            * creo q ya no va XD
            */}
+
+          {this.props.tipo !== "disponibilidad" ? (
+            <Grid item md={2} xs={2}></Grid>
+          ) : (
+            <Grid item md={2} xs={2}>
+              <Grid item md={12} xs={12}>
+                <GrupoRadioButton
+                  stretch={true}
+                  disabled={false}
+                  titulo="Escoga un Tipo de tutoria"
+                  radios={this.state.radios.tipoTutoria}
+                  obtenerSeleccion={this.obtenerSeleccion}
+                />
+              </Grid>
+            </Grid>
+          )}
+
           <Grid item md={2} xs={2}>
-            {this.props.tipo !== "disponibilidad" ? (
-              <></>
-            ) : (
-                // <ListaComboBox
-                //   allObject={true}
-                //   mensaje="Programa"
-                //   escogerItem={this.handleOnChangeProceso}
-                //   titulo={"Programa del Alumno"}
-                //   datos={{
-                //     programa: [
-                //       {
-                //         ID_PROGRAMA: 30,
-                //         NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                //           .PROGRAMA.NOMBRE,
-                //       },
-                //     ],
-                //   }}
-                //   id={"ID_PROGRAMA"}
-                //   nombre={"NOMBRE"}
-                //   keyServicio={"programa"}
-                //   placeholder={"Programa matriculado"}
-                // />
-
-
-                //aca va venir los RADIOBUTTN con su respectivo comboox
-                <Grid item md={12} xs={12}>
-                  <GrupoRadioButton
-                    stretch={true}
-                    disabled={false}
-                    titulo="Escoga un Tipo de tutoria"
-                    radios={this.state.radios.tipoTutoria}
-                    obtenerSeleccion={this.obtenerSeleccion}
-                  />
-                </Grid>
-
-
-              )}
-
-            
-
-
-          </Grid>
-          <Grid item md={2} xs={2}>
-            <ListaComboBox
-              allObject={true}
-              mensaje="Programa"
-              escogerItem={this.handleOnChangeProceso}
-              titulo={"Procesos de tutorías encontradas:"}
-              datos={{
-                programa: [
-                  {
-                    ID_PROGRAMA: 30,
-                    NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                      .PROGRAMA.NOMBRE,
-                  },
-                ],
-              }}
-              id={"ID_PROGRAMA"}
-              nombre={"NOMBRE"}
-              keyServicio={"programa"}
-              placeholder={""}
-            />
+            {this.renderTutoria(this.state.servicioTutoriaActual)}
           </Grid>
 
           {/** fecha actual */}
@@ -251,20 +251,24 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-                <Grid container spacing={0} style={styles.control}>
-                  <Grid item md={12} xs={12} alignContent="center">
-                    {this.state.vistaColumna}
-                    <IconButton onClick={() => this.ModoBatallador()}>
-                      <ViewColumnIcon color={this.props.colorActivo ? "Primary" : "Secondary"} />
-                    </IconButton>
+              <Grid container spacing={0} style={styles.control}>
+                <Grid item md={12} xs={12} alignContent="center">
+                  {this.state.vistaColumna}
+                  <IconButton onClick={() => this.ModoBatallador()}>
+                    <ViewColumnIcon
+                      color={this.props.colorActivo ? "Primary" : "Secondary"}
+                    />
+                  </IconButton>
 
-                    <IconButton onClick={() => this.ModoLista()}>
-                      <ViewListIcon color={!this.props.colorActivo ? "Primary" : "Secondary"} />
-                    </IconButton>
-                    {this.state.vistaLista}
-                  </Grid>
+                  <IconButton onClick={() => this.ModoLista()}>
+                    <ViewListIcon
+                      color={!this.props.colorActivo ? "Primary" : "Secondary"}
+                    />
+                  </IconButton>
+                  {this.state.vistaLista}
                 </Grid>
-              )}
+              </Grid>
+            )}
           </Grid>
 
           {/** tutor filtro */}
@@ -287,21 +291,18 @@ class Controles extends Component {
                 valueSubNivel={["NOMBRE", "APELLIDOS"]}
                 strecht={true}
               />
-
-
             ) : (
-                  <></>
-                )}
+              <></>
+            )}
 
             {/*Faltaria q cuando se le de click a listaEtiquetas, este paper se ponga disable */}
-            <Paper style={styles.paperTitulo} elevation={0}    >
-              <InputLabel><strong>Tutor Seleccionado:</strong> </InputLabel>
+            <Paper style={styles.paperTitulo} elevation={0}>
+              <InputLabel>
+                <strong>Tutor Seleccionado:</strong>{" "}
+              </InputLabel>
               <h3>{this.props.tutorNombre}</h3>
             </Paper>
           </Grid>
-
-          
-          
         </Grid>
       </Paper>
     );
