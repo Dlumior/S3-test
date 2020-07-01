@@ -140,7 +140,7 @@ import Confirmacion from './Confirmacion';
           let repeticion = this.state.repeticion;
           let lugar = this.state.lugar; 
           let fecha = this.props.datos.fecha 
-          // this.props.empezarCarga();     
+          //this.props.empezarCarga();     
           // this.props.closeDialog();
           console.log(fecha);
           if(!this.props.datos.modificar){ // registro de nueva disponibilidad
@@ -166,7 +166,8 @@ import Confirmacion from './Confirmacion';
                 alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
                 this.setState({alerta});
                 return;
-              } 
+              }
+              this.props.empezarCarga(); 
               console.log("Mando al back: ", nuevaDisponibilidad);
               console.log("Respuesta del back: ",nuevo);
               this.props.actualizarMensaje(this.state.mensajeRegistrar, this.state.mensajeStrong);   
@@ -194,12 +195,13 @@ import Confirmacion from './Confirmacion';
                 this.setState({alerta});
                 return;
               }
+              this.props.empezarCarga();
               this.props.actualizarMensaje(this.state.mensajeModificar, this.state.mensajeStrong);
             }
           } 
           this.props.actualizarBandera();     
           this.props.closeDialog();
-          this.props.empezarCarga();
+          // this.props.empezarCarga();
         }else{
           let alerta = {...this.state.alerta};
           alerta.mostrar = true
