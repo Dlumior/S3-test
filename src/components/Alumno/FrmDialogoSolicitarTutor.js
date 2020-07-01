@@ -4,12 +4,9 @@ import {
   Grid,
   Chip,
   Paper,
-  TextField,
   Button,
   Dialog,
 } from "@material-ui/core";
-import FerCarrillo from "./tutor2.png";
-import ListaCombobMotivoSoli from "./ListaCombobMotivoSoli.js";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
 import CampoDeTexto from "./../Coordinador/Tutorias/CampoDeTexto.jsx";
@@ -86,13 +83,6 @@ class FrmDialogoSolicitarTutor extends Component {
   }
   
   handleOnChangeMotivo(_motivoSeleccionado) {
-    //console.log("MotivoSeleccionado XXX:", this.state.lstMotivos[_motivoSeleccionado.ID]);
-    //console.log("MotivoSeleccionado XXX:", this.state.lstMotivos);
-
-    //console.log("MotivoSeleccionado XXX:", _motivoSeleccionado);
-
-    //console.log("RESTA ",this.state.lstMotivos.motivos[_motivoSeleccionado[0]-1].NOMBRE);
-
     this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE});
   }
 

@@ -6,7 +6,9 @@ class HistoricoResultados extends Component {
   constructor() {
     super();
     this.state = {
-      title: `Resultados historicos de alumno al ${new Date().toISOString().split("T")[0]}`,
+      alumno: {},
+      title1: "Datos historicols del alumno",
+      title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
       datosTablaOffline: {
         columns: [
@@ -127,6 +129,12 @@ class HistoricoResultados extends Component {
     };
   }
   async componentDidMount() {
+    // si recibo los props como {idAlumno: ID_USUARIO, fullname: NOMBRE}
+    // entonces todo OK y sera totalmente reutilizable
+    const { idAlumno, fullname } = this.props.datosAlumno;
+    const alumno = { idAlumno: idAlumno, fullname: fullname };
+    this.setState({ alumno });
+    console.log("Recibi : ", fullname);
     if (this.props.servicio || !this.props.servicio?.length === 0) {
       //en teoria el resultado ya incluye l id de alumno y proceso, yo recibo el id listo
       const listaResultados = await GET({ servicio: this.props.servicio });
@@ -176,7 +184,7 @@ class HistoricoResultados extends Component {
               fontSize: 14,
             },
           }}
-          title={this.state.title}
+          title={`${this.state.title1} ${this.state.alumno?.fullname}, ${this.state.title2}`}
           //ya que estas aqui, si me pasas el nombre del alumno como props estaria super xd
           // lo de pasar a español si te lo dejo de tarea XDDDDD
         />

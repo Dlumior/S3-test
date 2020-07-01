@@ -8,6 +8,7 @@ import FrmPlanAccion from "../../../components/Alumno/Perfil/FrmPlanAccion";
 import TabProceso from "../../../components/Coordinador/Tutorias/TabProceso";
 import DatosGenerales from "./DatosGenerales";
 import FrmResultados from "../../../components/Alumno/Perfil/FrmResultados";
+import HistoricoResultados from "../../Alumno/Perfil/HistoricoResultados";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -16,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const handleClick = () => {
-
   let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
   sessionStorage.Sesion = JSON.stringify(usuario);
@@ -24,14 +24,27 @@ const handleClick = () => {
 };
 
 const Perfil = (props) => {
-  const {idAlumno,fullname}=props.match.params;
+  const { idAlumno, fullname } = props.match.params;
   console.log("veamos", idAlumno, fullname);
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
-  const procesos= [{ index:0,titulo: "Datos Generales",proceso:()=><DatosGenerales idAlumno={idAlumno}/> },
-                   { index:1,titulo: "Plan de Accion", proceso:()=><FrmPlanAccion idAlumno={idAlumno}/> },
-                   { index:2,titulo: "Resultados", proceso:FrmResultados}
-      ];
+  const procesos = [
+    {
+      index: 0,
+      titulo: "Datos Generales",
+      proceso: () => <DatosGenerales idAlumno={idAlumno} />,
+    },
+    {
+      index: 1,
+      titulo: "Plan de Accion",
+      proceso: () => <FrmPlanAccion idAlumno={idAlumno} />,
+    },
+    {
+      index: 2,
+      titulo: "Resultados",
+      proceso: () => <HistoricoResultados datosAlumno={props.match.params} />,
+    },
+  ];
 
   const dir = useRef(null);
   const tel = useRef(null);
@@ -70,7 +83,7 @@ const Perfil = (props) => {
         nombre={fullname}
         alumnodesdetutor={true}
       />
-      <TabProceso  procesos={procesos} />
+      <TabProceso procesos={procesos} />
     </div>
   );
 };

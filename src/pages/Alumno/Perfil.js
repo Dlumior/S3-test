@@ -27,6 +27,7 @@ const handleClick = () => {
 const Perfil = (props) => {
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
+  const { ID_USUARIO, NOMBRE, APELLIDOS } = getUser().usuario;
   const procesos = [
     { index: 0, titulo: "Datos Generales", proceso: DatosGenerales },
     { index: 1, titulo: "Plan de Accion", proceso: FrmPlanAccion },
@@ -34,7 +35,9 @@ const Perfil = (props) => {
       index: 2,
       titulo: "Resultados",
       proceso: () => (
-        <HistoricoResultados idAlumno={props.history.match?.params.idAlumno} />
+        <HistoricoResultados
+          datosAlumno={{ idAlumno: ID_USUARIO, fullname: `${NOMBRE} ${APELLIDOS}` }}
+        />
       ),
     },
   ];
