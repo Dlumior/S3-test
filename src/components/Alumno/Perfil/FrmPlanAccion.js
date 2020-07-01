@@ -105,7 +105,7 @@ return (
                 setProcesoTutoria={setProcesoTutoria}
               />
           </Grid>
-          <Grid item justify="flex-end" style={{marginTop: "1%",marginLeft: "7%"}}>
+          <Grid item justify="flex-end" style={{marginTop: "4%",marginLeft: "7%"}}>
           {getUser().rol==="Tutor" &&
           <Button
               disabled={procesoTutoria===""} 

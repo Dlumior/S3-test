@@ -7,7 +7,7 @@ class HistoricoResultados extends Component {
     super();
     this.state = {
       alumno: {},
-      title1: "Datos historicols del alumno",
+      title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
       datosTablaOffline: {

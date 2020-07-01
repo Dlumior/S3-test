@@ -32,7 +32,7 @@ const Perfil = (props) => {
     {
       index: 0,
       titulo: "Datos Generales",
-      proceso: () => <DatosGenerales idAlumno={idAlumno} />,
+      proceso: () => <DatosGenerales idAlumno={idAlumno}/>, paper:false
     },
     {
       index: 1,
@@ -83,7 +83,7 @@ const Perfil = (props) => {
         nombre={fullname}
         alumnodesdetutor={true}
       />
-      <TabProceso procesos={procesos} />
+      <TabProceso procesos={procesos} paper={true}/>
     </div>
   );
 };

@@ -29,7 +29,7 @@ const Perfil = (props) => {
   const [isEdit, setIsEdit] = useState(false);
   const { ID_USUARIO, NOMBRE, APELLIDOS } = getUser().usuario;
   const procesos = [
-    { index: 0, titulo: "Datos Generales", proceso: DatosGenerales },
+    { index: 0, titulo: "Datos Generales", proceso: DatosGenerales, paper:false },
     { index: 1, titulo: "Plan de Accion", proceso: FrmPlanAccion },
     {
       index: 2,
@@ -78,7 +78,7 @@ const Perfil = (props) => {
         titulo="Alumno"
         nombre={getUser().usuario.APELLIDOS + ", " + getUser().usuario.NOMBRE}
       />
-      <TabProceso procesos={procesos} />
+      <TabProceso procesos={procesos} paper={true}/>
     </div>
   );
 };
