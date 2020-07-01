@@ -28,6 +28,7 @@ class ListaEtiquetas extends React.Component {
     this.state = {
       etiquetas: [],
       etiquetasSeleccionadas: [],
+      etiquetasDefault: [],
       icon: <CheckBoxOutlineBlankIcon fontSize="small" color="primary" />,
       checkedIcon: <CheckBoxIcon fontSize="small" color="primary" />,
     };
@@ -35,12 +36,29 @@ class ListaEtiquetas extends React.Component {
   }
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
+    let listaEtiquetasSesion = await Conexion.GET({ servicio: this.props.enlace2 });
+
+    console.log("listaEtiquetasSesion ", listaEtiquetasSesion);
+    let areasApoyoDerivadas = []
+    listaEtiquetasSesion.data.forEach((sesion) => {
+      if (sesion.ID_SESION == this.props.idSesion) {
+        sesion.AREA_APOYO_X_SESIONs.forEach((area_apoyo)=>{
+          console.log("area apoyo push ", area_apoyo.AREA_APOYO.CORREO, area_apoyo.AREA_APOYO.ID_AREA_APOYO, area_apoyo.AREA_APOYO.NOMBRE, area_apoyo.AREA_APOYO.TELEFONO);
+          areasApoyoDerivadas.push({CORREO:area_apoyo.AREA_APOYO.CORREO, ID_AREA_APOYO: area_apoyo.AREA_APOYO.ID_AREA_APOYO, NOMBRE:area_apoyo.AREA_APOYO.NOMBRE, TELEFONO:area_apoyo.AREA_APOYO.TELEFONO});
+        });
+      }
+    });
+    console.log("areasApoyoDerivadas ", areasApoyoDerivadas);
+
     console.log("Tutores", listaEtiquetas);
-    this.setState({
+    console.log("enlace2 ", this.props.enlace2);
+    await this.setState({
       etiquetas: listaEtiquetas.data,
+      etiquetasDefault: areasApoyoDerivadas,
     });
 
     console.log("etiquetas del state", this.state.etiquetas);
+    console.log("etiquetas default", this.state.etiquetasDefault);
   }
   handle = (etiqueta, valor) => {
     let etiquetaSeleccionada = { id: etiqueta, agregar: valor };
@@ -85,8 +103,9 @@ class ListaEtiquetas extends React.Component {
           multiple
           options={this.state.etiquetas || []}
           disableCloseOnSelect
-          getOptionLabel={(etiqueta) => etiqueta.NOMBRE
-          }
+          getOptionLabel={(etiqueta) => etiqueta.NOMBRE}
+          //defaultValue={[{CORREO:"psicoped@edu.pe", ID_AREA_APOYO: 1, NOMBRE: "PSICOLOGIA", TELEFONO:"999999999"},{CORREO:"psicoped@edu.pe", ID_AREA_APOYO: 1, NOMBRE: "PSICOLOGIA2", TELEFONO:"999999999"}]}
+          defaultValue={this.state.etiquetasDefault}
           renderOption={(option, { selected }) => {
             this.handle(this.props.ID?option[this.props.ID]:
               option.ID_ETIQUETA, selected);

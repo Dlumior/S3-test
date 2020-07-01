@@ -53,7 +53,7 @@ handleOnClose() {
 
   render() {
     const cita = this.props.cita;
-    console.log("PERRO", cita.ESTADO);
+    console.log("PERRO", cita);
     // si es que es pospuesta o futura
     if (cita.ESTADO.includes("03") || cita.ESTADO.includes("04")) { 
       return (
