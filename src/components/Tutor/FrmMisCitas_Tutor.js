@@ -259,7 +259,7 @@ class FrmMisCitas_Tutor extends Component {
 
          if(!sesionTyS.message){
              if(!sesionTyS.error){
-                 this.setState({mensajilloR:"Cita Reprogramada Satisfactoriamente !"});    
+                 this.setState({mensajilloR:"Cita Reprogramada Satisfactoriamente"});    
              }else{
                  this.setState({mensajilloR:"Ups, Error inesperado... Por favor, inténtelo más tarde."});   
              }

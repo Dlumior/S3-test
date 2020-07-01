@@ -62,12 +62,13 @@ const CabeceraPerfil = (props) => {
       <Container maxWidth="xl" className={classes.customContainer}>
         <Grid container>
           <Grid item xs={2} container justify="center" alignItems="center">
+            {console.log("holisnombre",props.nombre.replace(/["]+/g,''))}
             <Avatar
-              alt={props.nombre}
+              alt={props.nombre.replace(/["]+/g,'')}
               src={props.imagen}
               className={classes.large}
             >
-              {props.nombre[0]}
+              {props.nombre[1]}
             </Avatar>
           </Grid>
           <Grid
@@ -79,10 +80,12 @@ const CabeceraPerfil = (props) => {
             justify="center"
           >
           
-            <Typography variant="h4">{props.nombre}</Typography>
+            <Typography variant="h4">{props.nombre.replace(/["]+/g,'')}</Typography>
             {/* <Typography variant="h6">{props.titulo}</Typography> */}
             <InputLabel id="demo-simple-select-placeholder-label-label">
         </InputLabel>
+        {console.log("alumnodesdetutor",props.alumnodesdetutor)}
+        {!props.alumnodesdetutor &&
         <Select
           labelId="demo-simple-select-placeholder-label-label"
           id="rol"
@@ -92,7 +95,9 @@ const CabeceraPerfil = (props) => {
           {items().map((item) => (            
             <MenuItem value = {item[0]}> {item[1]}</MenuItem>
           ))}
-        </Select>
+        </Select>}
+        {props.alumnodesdetutor && 
+        <Typography variant="h6">Alumno</Typography>}
           </Grid>
         </Grid>
       </Container>
