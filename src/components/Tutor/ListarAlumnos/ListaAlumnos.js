@@ -32,6 +32,8 @@ const ListaAlumnos = (props) => {
         {alumnos.map((item) => (
           <ItemAlumno
             key={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ID_ALUMNO}
+            idAlumno={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ID_ALUMNO}
+            history={props.history}
             fullname={
               item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.NOMBRE + " " + item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.APELLIDOS
             }

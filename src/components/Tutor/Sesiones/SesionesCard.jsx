@@ -79,7 +79,7 @@ handleOnClose() {
                   display="block"
                   gutterBottom
                 >
-                  {"ALUMNO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+                  {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
                 </Typography>
               </Grid>
   
@@ -107,23 +107,12 @@ handleOnClose() {
             </Grid>
             
           </Paper>
-          </Button>
-          <Dialog
+          </Button>  
+          <RevisarSesion 
+            cita={this.props.cita}
+            fexaForm={this.props.fexaForm} 
             open={this.state.open}
-            onClose={this.handleOnClose}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogContent>
-  
-              <RevisarSesion cita={this.props.cita}
-                fexaForm={this.props.fexaForm}   />
-  
-            </DialogContent>
-  
-            <DialogActions>
-              
-            </DialogActions>
-          </Dialog>
+            onClose={this.handleOnClose}  />
   
           <br/>
         </>
@@ -152,7 +141,7 @@ handleOnClose() {
                   display="block"
                   gutterBottom
                 >
-                  {"ALUMNO:" + cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+                  {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
                 </Typography>
               </Grid>
   

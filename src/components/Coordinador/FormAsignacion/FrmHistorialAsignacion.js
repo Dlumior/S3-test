@@ -10,6 +10,7 @@ import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
 import ComboBoxProcesoTutoria from "./ComboBoxProcesoTutoria";
+import ListaAsignaciones from "./ListaAsignaciones";
 
 
 const style = {
@@ -44,40 +45,57 @@ const [programa, setPrograma] = useState("");
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
 
-//faultades por coordinador
+//faultades por coordinador de prog o facu
 useEffect(() => {
-  let id=datosForm.usuarioCodigo;
   async function fetchData() {
-  console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
-  const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
-  const params = { servicio: endpoint };
-  const res = await GET(params);    
-  console.log("facultades:", res);
-  setFacultades(res.facultades);
-  console.log("facultad:", facultad);
+      console.log("cpp",getUser().rol );
+    if(getUser().rol === "Coordinador Facultad"){
+      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("facultades:", res);
+      setFacultades(res.facultades);
+      console.log("facultad:", facultades);
+    }else{
+      const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("ENTREE:", res);
+      setFacultades(res.facultades);
+      console.log("facultades:", facultades);
+    }
   }
-  fetchData();
+   fetchData();
 }, {});
 
 //programas a partir de un coordinador de Facultad
 useEffect(() => {
   async function fetchData() {
-  const endpoint = "/api/programa/lista/"+facultad;
-  const params = { servicio: endpoint };
-  const res = await GET(params);    
-  console.log("proogramasss:", res);
-  setProgramas(res.programa);
-  console.log("proograma:", programa);
-  }
-  if (facultad!==""){
-  fetchData();
+      if (getUser().rol ==="Coordinador Programa"){
+          const endpoint = "/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+facultad;
+          const params = { servicio: endpoint };
+          const res = await GET(params);    
+          console.log("proogramasss:", res);
+          setProgramas(res.programas);
+          console.log("proograma:", programa);
+      }else{
+          const endpoint = "/api/programa/lista/"+facultad;
+          const params = { servicio: endpoint };
+          const res = await GET(params);    
+          console.log("proogramasss:", res);
+          setProgramas(res.programa);
+          console.log("proograma:", programa);
+      }
+  }     
+  if (facultad!=""){
+      fetchData();
   }
 },[facultad]);
 
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
-    const endpoint = "/api/tutoria/lista/"+programa;
+    const endpoint = "/api/tutoriafija/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log("tutoria: ",res);
@@ -101,7 +119,7 @@ useEffect(() => {
                   setFacultad={setFacultad}
               /> 
           </Grid>
-          <Grid item md={3} style={{marginRight:"6%"}}>
+          <Grid item md={2} style={{marginRight:"5%"}}>
               <ComboBoxPrograma
                   programas={programas}
                   programa={programa}
@@ -116,10 +134,10 @@ useEffect(() => {
               />
           </Grid>
         </Grid>
-        <Paper elevation={0} style={style.paper}>
+        {/*<Paper elevation={0} style={style.paper}>
             Tabla Tutores por proceso de tutoria
-        </Paper>
-        
+          </Paper>*/}
+        <ListaAsignaciones idTutoria={procesoTutoria}/>        
       </div>
   );
 }

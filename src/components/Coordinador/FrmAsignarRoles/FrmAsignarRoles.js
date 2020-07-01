@@ -64,33 +64,51 @@ const style = {
     severS:"success"
   });
 
-    //faultades por coordinador
-    useEffect(() => {
-        let id=datosForm.usuarioCodigo;
-        async function fetchData() {
-        console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+//faultades por coordinador de facu o prog
+
+useEffect(() => {
+    async function fetchData() {
+        console.log("cpp",getUser().rol );
+      if(getUser().rol === "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
         setFacultades(res.facultades);
-        console.log("facultad:", facultad);
-        }
-        fetchData();
-    }, {});
+        console.log("facultad:", facultades);
+      }else{
+        const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
+        const params = { servicio: endpoint };
+        const res = await GET(params);    
+        console.log("ENTREE:", res);
+        setFacultades(res.facultades);
+        console.log("facultades:", facultades);
+      }
+    }
+     fetchData();
+  }, {});
 
     //programas a partir de un coordinador de Facultad
     useEffect(() => {
         async function fetchData() {
-        const endpoint = "/api/programa/lista/"+facultad;
-        const params = { servicio: endpoint };
-        const res = await GET(params);    
-        console.log("proogramasss:", res);
-        setProgramas(res.programa);
-        console.log("proograma:", programa);
-        }
+            if (getUser().rol ==="Coordinador Programa"){
+                const endpoint = "/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+facultad;
+                const params = { servicio: endpoint };
+                const res = await GET(params);    
+                console.log("proogramasss:", res);
+                setProgramas(res.programas);
+                console.log("proograma:", programa);
+            }else{
+                const endpoint = "/api/programa/lista/"+facultad;
+                const params = { servicio: endpoint };
+                const res = await GET(params);    
+                console.log("proogramasss:", res);
+                setProgramas(res.programa);
+                console.log("proograma:", programa);
+            }
+        }     
         if (facultad!=""){
-        fetchData();
+            fetchData();
         }
     },[facultad]);
     //rolesxprograma
@@ -107,7 +125,10 @@ const style = {
         console.log("arrRoles: ",arrRoles);
         datosForm.roles=arrRoles;
         setRoles(arrRoles);
-        setDeshabilitar(false);
+        console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
+        if (datosForm.usuarioCodigo!==0){
+            setDeshabilitar(false);
+        }
         console.log("roles:", datosForm.roles);
         }
         if (programa!=""){

@@ -6,6 +6,7 @@ import {
   Avatar,
   makeStyles,
 } from "@material-ui/core";
+import PerfilAlumno from "./PerfilAlumno";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,10 @@ const ItemAlumno = (props) => {
         </Grid>
       </Grid>
       <Grid item xs={2} container justify="center" alignItems="center">
-        <Button color="primary" variant="outlined">
+        {console.log("idyfull",props.idAlumno,props.fullname)}
+        <Button color="primary" variant="outlined"
+          onClick={()=>props.history.push("/tutor/mialumno/"+props.idAlumno)}
+        >
           Ver perfil
         </Button>
       </Grid>

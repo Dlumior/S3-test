@@ -223,8 +223,8 @@ const RevisarSesion = (cita) => {
         Registrar Sesión
       </Button> */}
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={cita.open}
+        onClose={cita.onClose}
         aria-labelledby="form-dialog-title"
       >
         <Alertas

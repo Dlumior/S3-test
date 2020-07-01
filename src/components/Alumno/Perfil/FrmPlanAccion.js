@@ -7,11 +7,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
-/*
-import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
-import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
-import ComboBoxProcesoTutoria from "./ComboBoxProcesoTutoria";
-*/
+
+import ComboBoxPrograma from "../../Coordinador/FormRegistroTutor/comboBoxProgramas";
+import ComboBoxProcesoTutoria from "../../Coordinador/FormAsignacion/ComboBoxProcesoTutoria";
+import ListadoPlanDeAccion from "./ListadoPlanDeAccion";
 
 const style = {
     paper: {
@@ -43,21 +42,22 @@ const [programa, setPrograma] = useState("");
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
 
+
 //AYUDA
-/*/programas a partir de un coordinador de Facultad
+//programas a partir de un tutor
 useEffect(() => {
   async function fetchData() {
-  const endpoint = "/api/programa/lista/"+facultad;
+  const endpoint = "/api/programa/alumno/"+getUser().usuario.ID_USUARIO;
   const params = { servicio: endpoint };
   const res = await GET(params);    
   console.log("proogramasss:", res);
-  setProgramas(res.programa);
-  console.log("proograma:", programa);
+  if (res.programas!==[]){
+    setProgramas(res.programas);
+    console.log("proograma:", programa);
+  }  
   }
-  if (facultad!==""){
   fetchData();
-  }
-},[facultad]);
+},{});
 
 //proceso de tutoria a partir de un programa
 useEffect(() => {
@@ -70,15 +70,14 @@ useEffect(() => {
       setProcesosTutoria(res.tutoria);
     }
   }
-  if (facultad!=="" && programa !== "") {
+  if (programa !== "") {
     fetchData();
   }
 },[programa]);
 
-*/
-  return (
+return (
       <div>
-        {/*<Grid container md={12} style={style.paper2}>
+        <Grid container md={12} style={style.paper2}>
           <Grid item md={3} style={{marginRight:"6%"}}>
               <ComboBoxPrograma
                   programas={programas}
@@ -93,9 +92,9 @@ useEffect(() => {
                 setProcesoTutoria={setProcesoTutoria}
               />
           </Grid>
-  </Grid>*/}
+        </Grid>
         <Paper elevation={0} style={style.paper}>
-            TPlan de Accion filtrado por proceso de tutoria
+            <ListadoPlanDeAccion idAlumno={getUser().usuario.ID_USUARIO} idTutoria={procesoTutoria}/>
         </Paper>
         
       </div>

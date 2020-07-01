@@ -186,6 +186,7 @@ class FrmMisCitas extends Component {
                     campoCont: cont,
                     nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
                     fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,                    
+                    campoLugar: element.LUGAR,
                     tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
                     campoEncuesta: 
                     <div>
@@ -220,6 +221,10 @@ class FrmMisCitas extends Component {
                 {
                     title: "Fecha / Hora",
                     field: "fecha"
+                },
+                {
+                    title: "Lugar",
+                    field: "campoLugar"
                 },
                 {
                     title: "Tipo Tutoria",
