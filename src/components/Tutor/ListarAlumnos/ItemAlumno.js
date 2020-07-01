@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from 'react-router';
 import {
   Grid,
   Typography,
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ItemAlumno = (props) => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Grid container className={classes.separacion}>
@@ -53,7 +55,7 @@ const ItemAlumno = (props) => {
       <Grid item xs={2} container justify="center" alignItems="center">
         {console.log("idyfull",props.idAlumno,props.fullname)}
         <Button color="primary" variant="outlined"
-          onClick={()=>props.history.push("/tutor/mialumno/"+props.idAlumno)}
+          onClick={()=>history.push("/tutor/mialumno/"+props.idAlumno+"/"+JSON.stringify(props.fullname))}
         >
           Ver perfil
         </Button>

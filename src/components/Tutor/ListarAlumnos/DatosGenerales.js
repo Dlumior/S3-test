@@ -2,8 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import { POST, GET } from "../../../Conexion/Controller";
-import Datos from "../../Coordinador/Datos";
-import HistoricoResultados from "./HistoricoResultados";
+import Datos from "./Datos";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -21,7 +20,12 @@ const handleClick = () => {
 const DatosGenerales = (props) => {
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
-  const [alumno,setAlumno]=useState([]);
+  const [alumno,setAlumno]=useState({
+    codigo:'',
+    correo:'',
+    direccion:'',
+    telefono:'',
+  });
 
   useEffect(() => {
     async function fetchData() {
@@ -30,12 +34,19 @@ const DatosGenerales = (props) => {
             const endpoint = "/api/alumno/"+props.idAlumno;
             const params = { servicio: endpoint };
             const res = await GET(params);    
-            console.log("alumno:", res);
-            setAlumno(res.alumno);
+            console.log("res:", res);
+            alumno.codigo=res.alumno.USUARIO.CODIGO;
+            alumno.correo=res.alumno.USUARIO.CORREO;
+            alumno.direccion=res.alumno.USUARIO.DIRECCION;
+            alumno.telefono=res.alumno.USUARIO.TELEFONO;
             console.log("alumno:", alumno);
+            setAlumno({
+              ...
+              alumno
+            });
         }
     }     
-        fetchData();
+    fetchData();
 },{});
 
   const dir = useRef(null);
@@ -50,7 +61,7 @@ const DatosGenerales = (props) => {
 
 
     const datos = {
-      ID_USUARIO: props.idAlumno? props.idAlumno : getUser().usuario.ID_USUARIO,
+      ID_USUARIO: props.idAlumno,
       TELEFONO: tel.current.value,
       DIRECCION: dir.current.value,
     };
@@ -79,12 +90,13 @@ const DatosGenerales = (props) => {
         className={classes.customContainer}
       >
         <Grid item>
+          {console.log("direcc:",alumno.direccion)}
           <Datos
             isEdit={isEdit}
-            codigo={getUser().usuario.CODIGO}
-            correo={getUser().usuario.CORREO}
-            direccion={getUser().usuario.DIRECCION}
-            telefono={getUser().usuario.TELEFONO}
+            codigo={alumno.codigo}
+            correo={alumno.correo}
+            direccion={alumno.direccion}
+            telefono={alumno.telefono}
             refs={{ dir: dir, tel: tel }}
             handleEdit={handleEdit}
             handleGuardar={handleGuardar}

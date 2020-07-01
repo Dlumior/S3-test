@@ -163,7 +163,7 @@ const FrmReporte = () => {
       <Grid item xs={12} md={4}>
         <ChartUsoRecomendaciones
           labels={procesosTuto}
-          dataSi={solSituacion}
+          dataSi={ut_recomendaciones}
           cant={cantidad}
         />
       </Grid>

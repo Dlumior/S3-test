@@ -44,6 +44,7 @@ class ArregloHorarios extends Component {
     }
   };
   async componentDidMount() {
+    console.log('POKEEEEEEMON ', this.props.servicio);
     if (!this.props.servicio) {
       console.log("no habia servico");
       return;

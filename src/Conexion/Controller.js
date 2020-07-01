@@ -8,7 +8,7 @@
 export async function GET(props) {
     
     try {
-        
+        console.log(">>> GET props",props);
         let response = await fetch(props.servicio,
             {
             method: 'GET',
@@ -20,6 +20,7 @@ export async function GET(props) {
         });
         console.log(">>> entre al GET response",response);
         let responseJson = await response.json();
+        console.log("*>>> entre al GET response",responseJson);
         
         return responseJson;  
     } catch (error) {
