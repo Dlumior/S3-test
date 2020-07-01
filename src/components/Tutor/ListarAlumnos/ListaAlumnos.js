@@ -18,7 +18,7 @@ const Alumnos = [
 
 const ListaAlumnos = (props) => {
   const classes = useStyles();
-  const { alumnos } = props;
+  const { alumnos,history } = props;
   // console.log(alumnos);
   // alumnos.map((item) => {
   //   console.log(item.ID_ALUMNO);

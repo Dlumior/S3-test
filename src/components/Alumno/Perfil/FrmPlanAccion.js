@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 //import useFetchData from "../../Conexion/useFetchData";
 import { GET } from "../../../Conexion/Controller";
-import { Grid} from "@material-ui/core";
+import { Grid, Button} from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
@@ -32,7 +32,7 @@ const style = {
       backgroundImage: "",
     }
   };
-const FrmPlanAccion = () => {
+const FrmPlanAccion = (props) => {
 const [datosForm, setDatosForm] = React.useState({
     usuarioCodigo:0,
     usuarioNombre:'',
@@ -43,18 +43,31 @@ const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
 
 
-//AYUDA
+
 //programas a partir de un tutor
 useEffect(() => {
   async function fetchData() {
-  const endpoint = "/api/programa/alumno/"+getUser().usuario.ID_USUARIO;
-  const params = { servicio: endpoint };
-  const res = await GET(params);    
-  console.log("proogramasss:", res);
-  if (res.programas!==[]){
-    setProgramas(res.programas);
-    console.log("proograma:", programa);
-  }  
+    if (getUser().rol==="Alumno"){
+      const endpoint = "/api/programa/alumno/"+getUser().usuario.ID_USUARIO;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("proogramasss:", res);
+      if (res.programas!==[]){
+        setProgramas(res.programas);
+        console.log("proograma:", programa);
+      }
+    }else{
+      const endpoint = "/api/programa/alumno/"+props.idAlumno;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("proogramasss:", res);
+      if (res.programas!==[]){
+        setProgramas(res.programas);
+        console.log("proograma:", programa);
+      }
+
+    }
+    
   }
   fetchData();
 },{});
@@ -92,11 +105,21 @@ return (
                 setProcesoTutoria={setProcesoTutoria}
               />
           </Grid>
+          <Grid item justify="flex-end" style={{marginTop: "1%",marginLeft: "7%"}}>
+          {getUser().rol==="Tutor" &&
+          <Button
+              disabled={procesoTutoria===""} 
+              variant="contained"
+              color="primary">
+              Guardar
+          </Button>}
+        </Grid>
         </Grid>
         <Paper elevation={0} style={style.paper}>
-            <ListadoPlanDeAccion idAlumno={getUser().usuario.ID_USUARIO} idTutoria={procesoTutoria}/>
-        </Paper>
-        
+            <ListadoPlanDeAccion 
+              idAlumno={getUser().rol==="Alumno" ? getUser().usuario.ID_USUARIO: props.idAlumno} 
+              idTutoria={procesoTutoria}/>
+        </Paper>        
       </div>
   );
 }

@@ -57,6 +57,12 @@ const ListadoPlanDeAccion = (props) => {
             fetchData();
         }
       },[idTutoria]);
+    
+    const handleToggle = (item) => () => {
+      console.log("idprog");
+      
+      
+    };
 
     return (
       <>
@@ -66,9 +72,16 @@ const ListadoPlanDeAccion = (props) => {
             <br></br>              
             {plan.map((item) => (  
                 <Grid>
-                  <Checkbox color="primary" id={"condfe"}     
+                  {console.log("item",item)}
+                  {/*<Checkbox color="primary" id={"condfe"}     
                     checked={item.ESTADO===1}>               
-                    </Checkbox>
+                  </Checkbox>*/}
+                  <Checkbox
+                      edge="end"
+                      color="primary"
+                      defaultChecked={item.ESTADO===1}
+                      onChange={handleToggle(item)}                   
+                  />
                   <TextField margin="dense" style={{ width: 300 }}
                     aria-readonly
                     id={"confe"}

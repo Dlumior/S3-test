@@ -41,6 +41,7 @@ const style = {
 const PlanDeAccion = (props) => {
     console.log("PLAN DE ACCION: ", props);
     const { plan, setPlan } = props;
+    console.log("plantest", plan);
     console.log("CANT COMPROMISOS: ", plan.length);
     const [cantCompromisos, setCantCompromisos]=useState(plan.length);
     //const [plan,setPlan]=useState([]);

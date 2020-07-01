@@ -7,9 +7,11 @@ import { Grid } from "@material-ui/core";
 import { GET } from "../../Conexion/Controller";
 import ComboBoxPrograma from "../../components/Tutor/ListarAlumnos/ComboBoxPrograma";
 import { getUser } from "../../Sesion/Sesion";
+import { defaultProps } from "recompose";
 
-const MisAlumnos = () => {
+const MisAlumnos = (props) => {
   // const idTutor = "50";
+  const {history}=props;
   const [tutor, setTutor] = useState({});
   const [programas, setProgramas] = useState(
     getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
@@ -119,7 +121,7 @@ const MisAlumnos = () => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <ListaAlumnos alumnos={alumnos} />
+          <ListaAlumnos alumnos={alumnos} history={props.history}/>
         </Grid>
       </Grid>
     </div>

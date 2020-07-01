@@ -6,7 +6,7 @@ import { POST } from "../../../Conexion/Controller";
 import Datos from "../../../components/Coordinador/Datos";
 import FrmPlanAccion from "../../../components/Alumno/Perfil/FrmPlanAccion";
 import TabProceso from "../../../components/Coordinador/Tutorias/TabProceso";
-import DatosGenerales from "../../../components/Alumno/Perfil/DatosGenerales";
+import DatosGenerales from "./DatosGenerales";
 import FrmResultados from "../../../components/Alumno/Perfil/FrmResultados";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const handleClick = () => {
+
   let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
   sessionStorage.Sesion = JSON.stringify(usuario);
@@ -23,11 +24,12 @@ const handleClick = () => {
 };
 
 const Perfil = (props) => {
-  const {idAlumno,fullname}=props;
+  const {idAlumno,fullname}=props.match.params;
+  console.log("veamos", idAlumno, fullname);
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);
-  const procesos= [{ index:0,titulo: "Datos Generales",proceso:DatosGenerales },
-                   { index:1,titulo: "Plan de Accion", proceso:FrmPlanAccion },
+  const procesos= [{ index:0,titulo: "Datos Generales",proceso:()=><DatosGenerales idAlumno={idAlumno}/> },
+                   { index:1,titulo: "Plan de Accion", proceso:()=><FrmPlanAccion idAlumno={idAlumno}/> },
                    { index:2,titulo: "Resultados", proceso:FrmResultados}
       ];
 
@@ -65,7 +67,8 @@ const Perfil = (props) => {
     <div>
       <CabeceraPerfil
         titulo="Alumno"
-        nombre={props.fullname}
+        nombre={fullname}
+        alumnodesdetutor={true}
       />
       <TabProceso  procesos={procesos} />
     </div>

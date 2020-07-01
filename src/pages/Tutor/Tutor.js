@@ -42,7 +42,7 @@ const Tutor = (props) => {
         <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
 
         <Route exact path={"/tutor/misCitas"} component={HistorialDeCitas}/>    
-        <Route exact path={"/tutor/misAlumnos/:idAlumno/:fullname"} component={PerfilAlumno}/>   
+        <Route exact path={"/tutor/mialumno/:idAlumno/:fullname"} component={PerfilAlumno}/>   
 
 
       </BarraNavegacion>

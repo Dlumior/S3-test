@@ -53,7 +53,7 @@ handleOnClose() {
 
   render() {
     const cita = this.props.cita;
-    console.log("PERRO", cita.ESTADO);
+    console.log("PERRO", cita);
     // si es que es pospuesta o futura
     if (cita.ESTADO.includes("03") || cita.ESTADO.includes("04")) { 
       return (
@@ -170,7 +170,14 @@ handleOnClose() {
             
           </Paper>
           </Button>
-          <Dialog
+
+          <RevisarSesion 
+            cita={this.props.cita}
+            fexaForm={this.props.fexaForm} 
+            open={this.state.open}
+            onClose={this.handleOnClose}  />
+            
+          {/* <Dialog
             open={this.state.open}
             onClose={this.handleOnClose}
             aria-labelledby="form-dialog-title"
@@ -185,7 +192,7 @@ handleOnClose() {
             <DialogActions>
               
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
   
           <br/>
         </>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Paper, TextField, Grid, Button, makeStyles } from "@material-ui/core";
-import { getUser } from "../../Sesion/Sesion";
+import { getUser } from "../../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -52,7 +52,7 @@ const Datos = (props) => {
             label="Dirección"
             type="text"
             fullWidth
-            defaultValue={props.direccion}
+            value={props.direccion}
             inputRef={props.refs.dir}
           />
         </Grid>
@@ -64,7 +64,7 @@ const Datos = (props) => {
             label="Teléfono"
             type="text"
             fullWidth
-            defaultValue={props.telefono}
+            value={props.telefono}
             inputRef={props.refs.tel}
           />
         </Grid>
