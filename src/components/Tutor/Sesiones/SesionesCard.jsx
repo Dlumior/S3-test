@@ -170,7 +170,14 @@ handleOnClose() {
             
           </Paper>
           </Button>
-          <Dialog
+
+          <RevisarSesion 
+            cita={this.props.cita}
+            fexaForm={this.props.fexaForm} 
+            open={this.state.open}
+            onClose={this.handleOnClose}  />
+            
+          {/* <Dialog
             open={this.state.open}
             onClose={this.handleOnClose}
             aria-labelledby="form-dialog-title"
@@ -185,7 +192,7 @@ handleOnClose() {
             <DialogActions>
               
             </DialogActions>
-          </Dialog>
+          </Dialog> */}
   
           <br/>
         </>
