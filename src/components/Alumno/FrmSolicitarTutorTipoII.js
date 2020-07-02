@@ -116,6 +116,8 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     async componentDidMount() {
+        let res = await Controller.GET({ servicio: "/api/tutor/estadosolicitud/" + getUser().usuario.ID_USUARIO + "/" + this.props.frmIdProceso});
+        
         let arregloDeTutores = 
         await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
@@ -126,6 +128,8 @@ class FrmSolicitarTutorTipoII extends Component {
         //id del proceso de tutoria
         let arreglillo = [];
         let cont = 0;
+        console.log(res.estado)
+        if (res.estado===0) {
         for (let element of arregloDeTutores.tutores) {
             cont++;
             arreglillo.push({
@@ -223,7 +227,41 @@ class FrmSolicitarTutorTipoII extends Component {
         };
 
         this.setState({ tutores: data });
+    }else{
+        const data = {
+            columns: [
+                {
+                    title: "OBSERVACION",
+                    field: "mensaje",
 
+                },
+                
+                /*}
+                {
+                    title: "",
+                    field: "imagen",
+                },*/
+                {
+                    title: "TUTOR",
+                    field: "nombre",
+                },
+                {
+                    title: "CORREO ELECTRÓNICO",
+                    field: "correo"
+                },
+                /*
+                {
+                    title: "",
+                    field: "rboton"
+                },
+                */
+                
+ 
+            ],
+            data: [{mensaje: res.mensaje, nombre: res.tutor.USUARIO.NOMBRE + " " + res.tutor.USUARIO.APELLIDOS, correo: res.tutor.USUARIO.CORREO}]
+        };
+        this.setState({ tutores: data });
+    }
     }
 
     render() {
