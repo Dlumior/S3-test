@@ -15,7 +15,7 @@ import ComboBoxFacultades from "./ComboBoxFacultades.js";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
-    marginTop: theme.spacing(3),
+    // marginTop: theme.spacing(3),
     padding: theme.spacing(5),
     width: theme.spacing(150),
     [theme.breakpoints.down("sm")]: {
@@ -106,7 +106,7 @@ const FormRegistroTutor = (props) => {
 
   const [disabled, setDisabled] = useState(true);
 
-  const { datos, setDatos } = props;
+  const { datos, setDatos, handleClose } = props;
   const [errors, setErrors] = useState(errorObj);
 
   const [facultades, setFacultades] = useState([]);
@@ -197,7 +197,7 @@ const FormRegistroTutor = (props) => {
   };
 
   return (
-    <Paper className={classes.caja}>
+    <Paper className={classes.caja} variant="outlined">
       <Grid
         container
         direction="column"
@@ -323,9 +323,14 @@ const FormRegistroTutor = (props) => {
           container
           justify="flex-end"
           alignItems="center"
-          spacing={10}
+          // spacing={10}
         >
-          <Grid item xs={12}>
+          <Grid item xs={2}>
+            <Button color="primary" variant="outlined" onClick={handleClose}>
+              Cancelar
+            </Button>
+          </Grid>
+          <Grid item xs={2}>
             <Button
               color="primary"
               variant="contained"
