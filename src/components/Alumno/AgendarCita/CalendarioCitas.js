@@ -76,29 +76,37 @@ class CalendarioCitas extends Component {
               {console.log(
                 "DIA_SEMANA xxx ",
                 this.props.servicio +
-                  this.state.filtroIdProceso +
-                  "/" +
-                  diaSemana.toISOString().split("T")[0]
+                this.state.filtroIdProceso +
+                "/" +
+                diaSemana.toISOString().split("T")[0]
               )}
+              {console.log("QQQ: ", this.state.filtroIdProceso)}
 
-              <HorarioDelDia
-                fecha={{
-                  fecha: diaSemana,
-                  //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
+              {this.state.filtroIdProceso?
+               <HorarioDelDia
+               idPro= {this.state.filtroIdProceso}
+               fecha={{
+                 fecha: diaSemana,
+                 //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
 
-                  servicio: this.state.estadoID
-                    ? `/api/disponibilidad/listarPrograma/${
-                        getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                          .ID_PROGRAMA
-                      }/${diaSemana.toISOString().split("T")[0]}/${
-                        this.state.estadoID
-                      }`
-                    : this.props.servicio +
-                      diaSemana.toISOString().split("T")[0],
-                  tipo: this.props.tipo,
-                  listaIdTutores: listaIdTutores,
-                }}
-              />
+                 servicio: this.state.estadoID
+                   ? `/api/disponibilidad/listarPrograma/${
+                   getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                     .ID_PROGRAMA
+                   }/${diaSemana.toISOString().split("T")[0]}/${
+                   this.state.estadoID
+                   }`
+                   : this.props.servicio +
+                   diaSemana.toISOString().split("T")[0],
+                 tipo: this.props.tipo,
+                 listaIdTutores: listaIdTutores,
+
+               }}
+
+             />
+              :
+              <></>}
+             
             </Grid>
           ))}
         </Grid>
@@ -139,9 +147,9 @@ class CalendarioCitas extends Component {
     this.setState({ estadoID: _tutor.id });
   }
 
-  handleFiltroProceso(idProceso) {
+  handleFiltroProceso = async(idProceso)=> {
     console.log("idProceso seleccionado: ", idProceso);
-    this.setState({ filtroIdProceso: idProceso });
+    await this.setState({ filtroIdProceso: idProceso });
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
@@ -183,15 +191,15 @@ class CalendarioCitas extends Component {
             ) : this.state.filtroIdProceso ? (
               this.renderDias(this.state.lunesActual, this.state.listaIdTutores)
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
           </Grid>
         ) : (
-          <FrmSolicitarCitaTutor_granito
-            modoBatallador={this.handleModoBatallador}
-            handleFiltroTutor={this.handleFiltroTutor}
-          />
-        )}
+            <FrmSolicitarCitaTutor_granito
+              modoBatallador={this.handleModoBatallador}
+              handleFiltroTutor={this.handleFiltroTutor}
+            />
+          )}
       </div>
     );
   }

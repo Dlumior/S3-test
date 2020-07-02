@@ -144,7 +144,7 @@ class Controles extends Component {
     return (
       <ListaComboBox
         mensaje="tutoria"
-        titulo={"Tutorias"}
+        titulo={"Tutorias enconctradas"}
         enlace={enlace}
         id={"ID_PROCESO_TUTORIA"}
         nombre={"NOMBRE"}
@@ -152,7 +152,7 @@ class Controles extends Component {
         escogerItem={this.handleOnChangeProceso}
         small={true}
         inicial={true}
-        placeholder={"Escoja la facultad"}
+        placeholder={"Escoja la tutoría"}
       />
     );
   }

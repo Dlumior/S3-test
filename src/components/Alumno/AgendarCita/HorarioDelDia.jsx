@@ -66,11 +66,14 @@ class HorarioDelDia extends Component {
           {console.log("ANTES_ARR fecha XXX", this.props.fecha.fecha)}
           {console.log("antes_arr servicio XXX", this.props.fecha.servicio)}
 
+          {console.log("OOO: ", this.props.idPro)}
+
           <ArregloHorarios
             servicio={this.props.fecha.servicio}
             tipo={this.props.fecha.tipo}
             fexaForm={this.props.fecha.fecha}
             filtroTutores={this.props.fecha.listaIdTutores}
+            idPro={this.props.idPro}
           />
         </div>
       </div>
