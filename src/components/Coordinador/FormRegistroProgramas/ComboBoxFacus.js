@@ -5,6 +5,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Input,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ComboBoxFacus = (props) => {
   const classes = useStyles();
-  const { facultades, facultad, setFacultad} = props;
+  const { facultades, facultad, setFacultad,nombre,id} = props;
 
 
   const handleChangeFacu = (event) => {
@@ -30,18 +31,19 @@ const ComboBoxFacus = (props) => {
 
   return (
     <FormControl style={{width:230 }}>
-      <InputLabel id="demo-simple-select-label">Facultad</InputLabel>
+      <InputLabel id="demo-simple-select-label">{nombre? nombre : "Facultad"}</InputLabel>
+      {console.log("idnombre",id,nombre)}
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select-label"
-        value={facultad}
+        value={facultad}        
         onChange={handleChangeFacu}
         fullWidth
       >
         {facultades.map((item) => (
-          <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA}>
-            {item.NOMBRE}
-          </MenuItem>
+          <MenuItem key={item.ID_PROGRAMA} value={item.ID_PROGRAMA? item.ID_PROGRAMA : item.FACULTAD.ID_PROGRAMA}>
+          {item.NOMBRE? item.NOMBRE: item.FACULTAD.NOMBRE}
+        </MenuItem>
         ))}
       </Select>
     </FormControl>

@@ -7,6 +7,7 @@ import * as Controller from "../../../Conexion/Controller";
 import TablaProgramas from "./TablaProgramas";
 import Button from "@material-ui/core/Button";
 import { getUser } from "../../../Sesion/Sesion";
+import ModificaPrograma from "./ModificarPrograma";
 
 
 const style = {
@@ -30,9 +31,12 @@ class ListaProgramas extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        programa:[{id:"1"}]
+        programa:[{id:"1"}],
+        programaConCoord:[]
     };
     this.establecerData = this.establecerData.bind(this);
+    this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
   }
   establecerData(arregloProg){
     
@@ -45,7 +49,9 @@ class ListaProgramas extends React.Component {
           boton:<div> 
                     <Button 
                         variant="outlined"
-                        color="primary">
+                        color="primary"
+                        onClick={() => this.handleOnOpen(element)}
+                    >
                         Ver Programa
                     </Button>
                 </div>
@@ -95,10 +101,27 @@ class ListaProgramas extends React.Component {
   
 }
 
+handleOnOpen= (programa) =>{
+  this.setState({ open: true });
+  console.log("coordinadores del programa",programa);
+  this.state.programaConCoord=programa;
+} 
+handleOnClose() {
+  this.setState({ open: false });
+}
+
+
+
 
 render(){
     return (
         <div>
+          {this.state.open && 
+            <ModificaPrograma
+              open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              programa={this.state.programaConCoord}
+            />}
             <Paper elevation={0} style={style.paper}>
                 <TablaProgramas programas={this.state.programas}  />
             </Paper>
