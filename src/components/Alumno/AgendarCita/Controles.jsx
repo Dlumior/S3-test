@@ -129,6 +129,7 @@ class Controles extends Component {
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
         this.setState({ tutoriaFija: true });
+        
         this.props.handleFiltroProceso(tutoria);
       } else {
         this.setState({ tutoriaFija: false });
