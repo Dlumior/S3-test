@@ -36,7 +36,7 @@ class FrmSolicitarTutorTipoII extends Component {
             _tutorFijo:0,
             mensajillo:"",
             botonDisable:false,
-
+            actualizar:false
         };
 
         {/* 
@@ -83,8 +83,9 @@ class FrmSolicitarTutorTipoII extends Component {
 
        
        if(sesionTyS){
-           this.setState({mensajillo:<><p>Solicitud Registrada Satisfactoriamente !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
+            this.setState({mensajillo:<><p>Solicitud Registrada Satisfactoriamente !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
             this.setState({botonDisable:true});
+            this.setState({actualizar:!this.state.actualizar});
         }else{
            this.setState({mensajillo:"UpS, Error Inesperado!    Por favor, Inténtelo más tarde."});  
        }
@@ -115,6 +116,162 @@ class FrmSolicitarTutorTipoII extends Component {
         this.setState( {openVerDispo : false});
     }
     
+    shouldComponentUpdate(nextState, nextProps) {
+        if (nextState.actualizar != this.state.actualizar) {
+          return true;
+        }
+        return false;
+    }
+
+    async componentDidUpdate(prevProps, prevState) {
+        let res = await Controller.GET({ servicio: "/api/tutor/estadosolicitud/" + getUser().usuario.ID_USUARIO + "/" + this.props.frmIdProceso});
+        
+        let arregloDeTutores = 
+        await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
+        /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
+        console.log("arreglo: ", arregloDeTutores);
+
+
+        //id del alumno
+        //id del proceso de tutoria
+        let arreglillo = [];
+        let cont = 0;
+        console.log(res.estado)
+        if (res.estado===0) {
+            for (let element of arregloDeTutores.tutores) {
+                cont++;
+                arreglillo.push({
+                    campoCont:cont,
+                    imagen: <div>
+                    <img
+                        style={estilo.imagen}
+                        src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
+                    </img>
+                    </div>,
+                    //numeroOrden: cont,
+                    nombre: element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS,
+                    correo: element.USUARIO.CORREO,
+                    /*rboton: <div>
+                        <input
+                            type="radio"
+                            id="age1"
+                            name="tutor"
+                            value={element.ID_TUTOR}>
+                        </input>
+                    </div>,*/
+                    btnVerDisponibilidad:
+                    <Button
+                        size="large"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={(e)=>this.handleOnClickVerDispo(e,element.ID_TUTOR,element.USUARIO.NOMBRE + " " + element.USUARIO.APELLIDOS)}
+                    >
+                        Ver Disponibilidad
+                    </Button>,
+                    btnSolicitarTutor:
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        onClick={e=>this.handleOnClickSolicitarTutor(e,element.ID_TUTOR)}
+                        disabled={this.state.botonDisable}
+                        //id={element.ID_TUTOR}
+
+                        //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}                    
+
+                    >
+                        SOLICITAR TUTOR
+                    </Button>,
+                });
+            }
+
+            const data = {
+                columns: [
+                    {
+                        title: "N°",
+                        field: "campoCont",
+
+                    },
+                    
+                    /*}
+                    {
+                        title: "",
+                        field: "imagen",
+                    },*/
+                    {
+                        title: "TUTOR",
+                        field: "nombre",
+                    },
+                    {
+                        title: "CORREO ELECTRÓNICO",
+                        field: "correo"
+                    },
+                    /*
+                    {
+                        title: "",
+                        field: "rboton"
+                    },
+                    */
+                    {
+                    title: "",
+                    field: "btnVerDisponibilidad",
+                    },
+                    {
+                    title: "",
+                    field: "btnSolicitarTutor",
+                    },
+    
+                ],
+                data: arreglillo
+                /*
+                [       
+                { nombre: "Alva Nuñez",correo :"ing informatica" },
+                { nombre: "Pedro Arce" ,correo :"ing informatica2"},
+                { nombre: "Alfredo Gomez",correo :"ing informatica3" },
+                { nombre: "Bill Grace",correo :"ing informatica4" },
+                { nombre: "Camilo Echeverry" ,correo :"ing informatica5"},
+                ],*/
+
+            };
+
+           await this.setState({ tutores: data });
+        }else{
+            const data = {
+                columns: [
+                    {
+                        title: "OBSERVACION",
+                        field: "mensaje",
+
+                    },
+                    
+                    /*}
+                    {
+                        title: "",
+                        field: "imagen",
+                    },*/
+                    {
+                        title: "TUTOR",
+                        field: "nombre",
+                    },
+                    {
+                        title: "CORREO ELECTRÓNICO",
+                        field: "correo"
+                    },
+                    /*
+                    {
+                        title: "",
+                        field: "rboton"
+                    },
+                    */
+                    
+    
+                ],
+                data: [{mensaje: res.mensaje, nombre: res.tutor.USUARIO.NOMBRE + " " + res.tutor.USUARIO.APELLIDOS, correo: res.tutor.USUARIO.CORREO}]
+            };
+            await this.setState({ tutores: data });
+        }
+    }
+
     async componentWillReceiveProps(nextProps) {
         if(nextProps.frmIdProceso !== this.props.frmIdProceso){
             let res = await Controller.GET({ servicio: "/api/tutor/estadosolicitud/" + getUser().usuario.ID_USUARIO + "/" + nextProps.frmIdProceso});
