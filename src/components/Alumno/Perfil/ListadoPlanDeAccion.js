@@ -1,7 +1,7 @@
 import React,{useState, useEffect} from "react";
 import * as Conexion from "../../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
-import { GET } from "../../../Conexion/Controller";
+import { GET,POST } from "../../../Conexion/Controller";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -41,6 +41,13 @@ const style = {
 const ListadoPlanDeAccion = (props) => {
     const { idAlumno, idTutoria } = props;
     const [plan,setPlan]=useState([]);
+    const [datos,setDatos]=useState([{
+      ID_COMPROMISO:'',
+      ID_SESION:'',
+      DESCRIPCION:'',
+      ESTADO:0
+    }]);//compromisos
+
     //compromisos de un alumno en un proceso de ttoria
     useEffect(() => {
         async function fetchData() {
@@ -58,10 +65,31 @@ const ListadoPlanDeAccion = (props) => {
         }
       },[idTutoria]);
     
-    const handleToggle = (item) => () => {
-      console.log("idprog");
+    const handleToggle = async (item) => {
       
-      
+      console.log("item",item);
+      datos.ID_COMPROMISO=item.ID_COMPROMISO;
+
+      datos.ID_SESION=item.ID_SESION;
+      datos.DESCRIPCION=item.DESCRIPCION;
+      datos.ESTADO=item.ESTADO===1? 0:1;
+      setDatos({...datos});
+      const nuevoCompromiso = {
+        compromiso: {
+          ID_COMPROMISO:item.ID_COMPROMISO,
+          ID_SESION:item.ID_SESION,
+          DESCRIPCION:item.DESCRIPCION,
+          ESTADO:item.ESTADO===1? 0:1,
+        },
+      };
+      //setPlan(plan.filter(v=>v.ID_COMPROMISO===item.ID_COMPROMISO));
+      const props = { servicio: "/api/compromiso/modificar", request: {compromiso: nuevoCompromiso}};
+      console.log("saving new coord in DB:", nuevoCompromiso);
+      let newCompromiso = await POST(props);
+      console.log("got updated coord from back:", newCompromiso);
+      if (newCompromiso){
+    
+      }
     };
 
     return (
@@ -72,15 +100,12 @@ const ListadoPlanDeAccion = (props) => {
             <br></br>              
             {plan.map((item) => (  
                 <Grid>
-                  {console.log("item",item)}
-                  {/*<Checkbox color="primary" id={"condfe"}     
-                    checked={item.ESTADO===1}>               
-                  </Checkbox>*/}
                   <Checkbox
-                      edge="end"
+                      id={item.ID_COMPROMISO}
+                      value={item.ID_SESION}
                       color="primary"
                       defaultChecked={item.ESTADO===1}
-                      onChange={handleToggle(item)}                   
+                      onChange={()=>handleToggle(item)}                   
                   />
                   <TextField margin="dense" style={{ width: 300 }}
                     aria-readonly
