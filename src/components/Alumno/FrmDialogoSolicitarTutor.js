@@ -98,7 +98,7 @@ class FrmDialogoSolicitarTutor extends Component {
     const nuevaSolicitud = {
       sesion: {
         ID_TUTOR: this.props.dispo.ID_TUTOR,
-        ID_PROCESO_TUTORIA: 41,
+        ID_PROCESO_TUTORIA: this.props.idPro, //ANTES 41
         LUGAR: this.props.dispo.LUGAR,
         MOTIVO: this.state._motivoSelecc,
         DESCRIPCION: this.state.descripcion,
@@ -109,12 +109,12 @@ class FrmDialogoSolicitarTutor extends Component {
       },
     };
 
-    //console.log("BTN_SOLICITAR XXX",nuevaSolicitud);
+    console.log("BTN_SOLICITAR WWW",nuevaSolicitud);
     //se llama al back
 
     const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
     let sesionTyS = await POST(props);
-    //console.log("SESIONtYS XXX ",sesionTyS);
+    console.log("SESIONtYS XXX ",sesionTyS);
 
     if (!sesionTyS.message) {
       if (!sesionTyS.error) {
@@ -243,7 +243,7 @@ class FrmDialogoSolicitarTutor extends Component {
                              />*/}
               <Grid container spacing={3}>
                 <Grid item md={6} xs={12}>
-                  <h2>Este proceso de tutoria dura : 90min</h2>
+                  <h2>Este proceso de tutoria dura : 90 min</h2>
                 </Grid>
                 <Grid item md={6} xs={12}>
                   <ListaComboBox

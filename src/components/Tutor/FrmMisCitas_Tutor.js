@@ -9,6 +9,8 @@ import * as Controller from "./../../Conexion/Controller";
 import { getUser } from "../../Sesion/Sesion";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
+import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
+
 
 class FrmMisCitas_Tutor extends Component {
     constructor() {
@@ -541,7 +543,7 @@ class FrmMisCitas_Tutor extends Component {
                         index: 0, titulo: "Futuras", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"PyR"} />
                     },
-                    { index: 1, titulo: "Realizadas", proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"Realizada"} /> },
+                    { index: 1, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas_Tutor /> },
                     { index: 2, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"Cancelada"} /> },
 
                 ]} paper={true} />

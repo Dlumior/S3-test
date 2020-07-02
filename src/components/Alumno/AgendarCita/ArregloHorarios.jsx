@@ -27,6 +27,7 @@ class ArregloHorarios extends Component {
               <DisponibilidadCard
                 disponibilidad={element}
                 fexaForm={this.props.fexaForm}
+                idPro={this.props.idPro}
               />
             ) : (
               <SesionesCard cita={element} />

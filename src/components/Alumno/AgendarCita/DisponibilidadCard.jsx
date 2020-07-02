@@ -143,6 +143,9 @@ class DisponibilidadCard extends Component {
               dispo={this.props.disponibilidad}
               fexaForm={this.props.fexaForm}
               onCloseFrm ={this.handleOnClose}
+              idPro={this.props.idPro}
+
+
             />
           </DialogContent>
 
