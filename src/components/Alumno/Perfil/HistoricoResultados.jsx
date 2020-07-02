@@ -279,14 +279,19 @@ USUARIO: "mag.alegre@pucp.edu.pe"
               ),
               resultado: RESULTADO,
             });
-            this.setState({datosTabla:{data:resultados, columns:this.state.datosTablaOffline.columns}});
+            this.setState({
+              datosTabla: {
+                data: resultados,
+                columns: this.state.datosTablaOffline.columns,
+              },
+            });
             //console.log("**Recibi sesion : ", resultados);
           });
         }
       });
 
       console.log("**Recibi resultados: ", resultados);
-      
+
       //return;
       //en teoria el resultado ya incluye l id de alumno y proceso, yo recibo el id listo
       //const listaTutorias = await GET({servicio:"/api/tutoria"});
@@ -313,7 +318,6 @@ USUARIO: "mag.alegre@pucp.edu.pe"
             },
           }}
           title={`${this.state.title1} ${this.state.alumno?.fullname}, ${this.state.title2}`}
-          //ya que estas aqui, si me pasas el nombre del alumno como props estaria super xd
           // lo de pasar a español si te lo dejo de tarea XDDDDD
         />
       );
