@@ -35,6 +35,7 @@ class Controles extends Component {
   constructor() {
     super();
     this.state = {
+      tutoriaFija: false,
       atras: -1,
       adelante: 1,
       colorActivo: "primary",
@@ -70,7 +71,7 @@ class Controles extends Component {
     this.ModoBatallador = this.ModoBatallador.bind(this);
     this.ModoLista = this.ModoLista.bind(this);
     this.handleOnChangeTutores = this.handleOnChangeTutores.bind(this);
-    this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
+    this.handleOnChangeTutoria = this.handleOnChangeTutoria.bind(this);
     this.renderTutoria = this.renderTutoria.bind(this);
     this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
   }
@@ -118,13 +119,24 @@ class Controles extends Component {
    *
    * @param {Array} proceso
    */
-  handleOnChangeProceso(proceso) {
-    console.log("proceso seleccionado: ", proceso);
+  handleOnChangeTutoria = (tutoria) => {
+    console.log(
+      "proceso seleccionado this.state.servicioTutoriaActual.includes(tutoriaasignada): ",
+      this.state.servicioTutoriaActual.includes("tutoriaasignada")
+    );
     //aqui se o mando al componente padre
+
     if (this.props.filtroProceso) {
-      this.props.handleFiltroProceso(proceso[0]);
+      if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
+        this.setState({ tutoriaFija: true });
+        this.props.handleFiltroProceso(tutoria);
+      } else {
+        this.setState({ tutoriaFija: false });
+        this.setState({ modoBatallador: true });
+        this.props.handleFiltroProceso(tutoria[0]);
+      }
     }
-  }
+  };
   ModoBatallador() {
     this.props.modoBatallador(true);
     this.setState({ colorBatallador: this.state.colorActivo });
@@ -143,13 +155,18 @@ class Controles extends Component {
     console.log("Cambiar Enlace", enlace);
     return (
       <ListaComboBox
+        allObject={
+          this.state.servicioTutoriaActual.includes("tutoriaasignada")
+            ? true
+            : false
+        }
         mensaje="tutoria"
         titulo={"Tutorias enconctradas"}
         enlace={enlace}
         id={"ID_PROCESO_TUTORIA"}
         nombre={"NOMBRE"}
         keyServicio={"tutoria"}
-        escogerItem={this.handleOnChangeProceso}
+        escogerItem={this.handleOnChangeTutoria}
         small={true}
         inicial={true}
         placeholder={"Escoja la tutoría"}
@@ -160,6 +177,7 @@ class Controles extends Component {
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
+          {/**controles semana y mes */}
           <Grid item md={1} xs={1}>
             {/** mes control */}
             <Grid container spacing={0} alignContent="center">
@@ -260,7 +278,10 @@ class Controles extends Component {
                     />
                   </IconButton>
 
-                  <IconButton onClick={() => this.ModoLista()}>
+                  <IconButton
+                    disabled={this.state.tutoriaFija}
+                    onClick={() => this.ModoLista()}
+                  >
                     <ViewListIcon
                       color={!this.props.colorActivo ? "Primary" : "Secondary"}
                     />
@@ -276,21 +297,24 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroTutores ? (
-              <ListaEtiquetas
-                obtenerEtiquetas={this.handleOnChangeTutores}
-                //enlace={"/api/tutor"}
-                enlace={
-                  "/api/tutor/lista/" +
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-                }
-                small={true}
-                label={"Tutores"}
-                ID={"ID_TUTOR"}
-                keyServicio={"tutores"}
-                keySubNivel={["USUARIO"]}
-                valueSubNivel={["NOMBRE", "APELLIDOS"]}
-                strecht={true}
-              />
+              !this.state.tutoriaFija ? (
+                <ListaEtiquetas
+                  obtenerEtiquetas={this.handleOnChangeTutores}
+                  enlace={
+                    "/api/tutor/lista/" +
+                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+                  }
+                  small={true}
+                  label={"Tutores"}
+                  ID={"ID_TUTOR"}
+                  keyServicio={"tutores"}
+                  keySubNivel={["USUARIO"]}
+                  valueSubNivel={["NOMBRE", "APELLIDOS"]}
+                  strecht={true}
+                />
+              ) : (
+                <></>
+              )
             ) : (
               <></>
             )}
@@ -298,7 +322,11 @@ class Controles extends Component {
             {/*Faltaria q cuando se le de click a listaEtiquetas, este paper se ponga disable */}
             <Paper style={styles.paperTitulo} elevation={0}>
               <InputLabel>
-                <strong>Tutor Seleccionado:</strong>{" "}
+                <strong>
+                  {this.state.tutoriaFija
+                    ? `Tutor Asignado:`
+                    : "Tutor Seleccionado:"}
+                </strong>{" "}
               </InputLabel>
               <h3>{this.props.tutorNombre}</h3>
             </Paper>

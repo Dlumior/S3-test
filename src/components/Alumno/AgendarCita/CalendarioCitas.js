@@ -73,40 +73,28 @@ class CalendarioCitas extends Component {
         <Grid container spacing={2}>
           {fechasDias.map((diaSemana) => (
             <Grid item md={2} xs={12}>
-              {console.log(
-                "DIA_SEMANA xxx ",
-                this.props.servicio +
-                this.state.filtroIdProceso +
-                "/" +
-                diaSemana.toISOString().split("T")[0]
-              )}
               {console.log("QQQ: ", this.state.filtroIdProceso)}
 
-              {this.state.filtroIdProceso?
-               <HorarioDelDia
-               idPro= {this.state.filtroIdProceso}
-               fecha={{
-                 fecha: diaSemana,
-                 //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
-
-                 servicio: this.state.estadoID
-                   ? `/api/disponibilidad/listarPrograma/${
-                   getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                     .ID_PROGRAMA
-                   }/${diaSemana.toISOString().split("T")[0]}/${
-                   this.state.estadoID
-                   }`
-                   : this.props.servicio +
-                   diaSemana.toISOString().split("T")[0],
-                 tipo: this.props.tipo,
-                 listaIdTutores: listaIdTutores,
-
-               }}
-
-             />
-              :
-              <></>}
-             
+              {this.state.filtroIdProceso ? (
+                <HorarioDelDia
+                  idPro={
+                    typeof this.state.filtroIdProceso === "number"
+                      ? this.state.filtroIdProceso
+                      : this.state.filtroIdProceso.ID_PROCESO_TUTORIA
+                  }
+                  fecha={{
+                    fecha: diaSemana,
+                    //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
+                    servicio: this.state.estadoID
+                      ? `/api/disponibilidad/listarPrograma/${ getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`
+                      : this.props.servicio +diaSemana.toISOString().split("T")[0],
+                    tipo: this.props.tipo,
+                    listaIdTutores: listaIdTutores,
+                  }}
+                />
+              ) : (
+                <></>
+              )}
             </Grid>
           ))}
         </Grid>
@@ -147,13 +135,19 @@ class CalendarioCitas extends Component {
     this.setState({ estadoID: _tutor.id });
   }
 
-  handleFiltroProceso = async(idProceso)=> {
+  handleFiltroProceso = async (idProceso) => {
     console.log("idProceso seleccionado: ", idProceso);
+    if(typeof idProceso === "object"){
+      this.handleFiltroTutor({id: idProceso.ASIGNACION_TUTORIA[0].ID_TUTOR, nombre:"un nombre XD"});
+    }else{
+      this.setState({ estadoID: 0 });
+    }
+
     await this.setState({ filtroIdProceso: idProceso });
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
-  }
+  };
   handleFiltroTutores = async (listaIdTutores) => {
     console.log("idTutores seleccionado: ", listaIdTutores);
 
@@ -191,15 +185,15 @@ class CalendarioCitas extends Component {
             ) : this.state.filtroIdProceso ? (
               this.renderDias(this.state.lunesActual, this.state.listaIdTutores)
             ) : (
-                  <></>
-                )}
+              <></>
+            )}
           </Grid>
         ) : (
-            <FrmSolicitarCitaTutor_granito
-              modoBatallador={this.handleModoBatallador}
-              handleFiltroTutor={this.handleFiltroTutor}
-            />
-          )}
+          <FrmSolicitarCitaTutor_granito
+            modoBatallador={this.handleModoBatallador}
+            handleFiltroTutor={this.handleFiltroTutor}
+          />
+        )}
       </div>
     );
   }

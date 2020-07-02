@@ -59,6 +59,8 @@ class ListaAlumnos extends Component {
   }
   async componentDidMount() {
     const { idPrograma } = this.props;
+
+    //const facultades = await GET({servicio: `api/programa/lista/${idPrograma}`});
     // Tengo que buscar con este ID FACULTAD los programas
     console.log("idPrograma", this.props.prog);
     const listaAtlumnos = await GET({

@@ -83,59 +83,22 @@ class ListaComboBox extends Component {
     } else {
       listaItems = await Conexion.GET({ servicio: this.props.enlace });
       console.log("No habian this.props.datos---->: ", listaItems);
-    }
-
-    console.log("this.props.enlace", this.props.enlace);
-
-    console.log("entreeeee---->[]: ", listaItems);
-    if (!listaItems || listaItems.length === []) {
-      console.log("=> esta vacio");
-
-      await this.setState({ listaItems: [] });
-    } else {
-      /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
-
-      if (listaItems[this.props.keyServicio].length > 0) {
-        console.log(
-          "entreeeee---->: ",
-          this.props.subnombre
-            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
-            : listaItems[this.props.keyServicio][0]
-        );
-        // En item el primero
-        this.setState({
-          item: listaItems[this.props.keyServicio][0],
-        });
-        //En la lista todo
-        await this.setState({
-          listaItems: listaItems[this.props.keyServicio],
-        });
-        //le digo al formulario padre que ya escogi uno
-        if(this.props.allObject){
-          await this.props.escogerItem(
-            listaItems[this.props.keyServicio][0]
-          );
-
-        }else{
-          await this.props.escogerItem(
-            this.props.subnombre
-              ? [this.state.item[this.props.subnombre][this.props.id]]
-              : [this.state.item[this.props.id]]
-          );
-        }
-       
-      }
-    }
-  }
-  async componentWillReceiveProps(nextProps) {
-    if (nextProps.enlace !== this.props.enlace) {
-      console.log("Nueva enlace", nextProps.enlace);
-      let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
       console.log("this.props.enlace nuevo", this.props.enlace);
 
       console.log("*entreeeee---->nuevo", listaItems);
-      if (!listaItems || listaItems.length === []) {
-        this.setState({ listaItems: [] });
+
+      if (
+        !listaItems[this.props.keyServicio] ||
+        listaItems[this.props.keyServicio].length === 0
+      ) {
+        console.log("*entreeeee---->vacio", listaItems);
+        if (this.props.allObject) {
+          this.props.escogerItem(undefined);
+        } else {
+          this.props.escogerItem([0]);
+        }
+
+        await this.setState({ listaItems: [] });
       } else {
         /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
@@ -164,45 +127,100 @@ class ListaComboBox extends Component {
       }
     }
   }
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.enlace !== this.props.enlace) {
+      console.log("Nueva enlace", nextProps.enlace);
+      let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
+      console.log("this.props.enlace nuevo", this.props.enlace);
+
+      console.log("*entreeeee---->nuevo", listaItems);
+
+      if (
+        !listaItems[this.props.keyServicio] ||
+        listaItems[this.props.keyServicio].length === 0
+      ) {
+        console.log("*entreeeee---->vacio", listaItems);
+        if (this.props.allObject) {
+          this.props.escogerItem(undefined);
+        } else {
+          this.props.escogerItem([0]);
+        }
+
+        await this.setState({ listaItems: [] });
+      } else {
+        /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
+
+        if (listaItems[this.props.keyServicio].length > 0) {
+          console.log(
+            "entreeeee---->: ",
+            this.props.subnombre
+              ? listaItems[this.props.keyServicio][0][this.props.subnombre]
+              : listaItems[this.props.keyServicio][0]
+          );
+          // En item el primero
+          this.setState({
+            item: listaItems[this.props.keyServicio][0],
+          });
+          //En la lista todo
+          await this.setState({
+            listaItems: listaItems[this.props.keyServicio],
+          });
+          //le digo al formulario padre que ya escogi uno
+          if (this.props.allObject) {
+            await this.props.escogerItem(
+              this.props.subnombre
+                ? this.state.item[this.props.subnombre]
+                : this.state.item
+            );
+          } else {
+            await this.props.escogerItem(
+              this.props.subnombre
+                ? [this.state.item[this.props.subnombre][this.props.id]]
+                : [this.state.item[this.props.id]]
+            );
+          }
+        }
+      }
+    }
+  }
 
   render() {
-    return (
-      <Paper elevation={0} style={estilos.paper}>
-        {this.props.small ? <></> : <br />}
+    console.log("**listaItems Vacio", this.state.listaItems);
+    if (this.state.listaItems.length === 0) {
+      return <h1>No hay tutorias asignadas</h1>;
+    } else {
+      return (
+        <Paper elevation={0} style={estilos.paper}>
+          {this.props.small ? <></> : <br />}
 
-        <FormControl fullWidth>
-          <InputLabel>{this.props.titulo}</InputLabel>
+          <FormControl fullWidth>
+            <InputLabel>{this.props.titulo}</InputLabel>
 
-          {/* combo box propiamente */}
-          <Select value={this.state.item} onChange={this.handleOnChange}>
-            {this.state.listaItems===[]?
-            
-            <></>:
-            this.state.listaItems.map((item) => (
-              <MenuItem
-                key={
-                  this.props.subnombre
-                    ? item[this.props.subnombre][this.props.id]
-                    : item[this.props.id]
-                }
-                value={item}
-              >
-                {this.props.subnombre
-                  ? item[this.props.subnombre][this.props.nombre]
-                  : item[this.props.nombre]}
-              </MenuItem>
-            ))
-            }
-          </Select>
-          <FormHelperText>
-            {this.props.placeholder
-              ? this.props.placeholder
-              : ""}
-          </FormHelperText>
-        </FormControl>
-        <FormHelperText error>{this.state.mensajeError}</FormHelperText>
-      </Paper>
-    );
+            {/* combo box propiamente */}
+            <Select value={this.state.item} onChange={this.handleOnChange}>
+              {this.state.listaItems.map((item) => (
+                <MenuItem
+                  key={
+                    this.props.subnombre
+                      ? item[this.props.subnombre][this.props.id]
+                      : item[this.props.id]
+                  }
+                  value={item}
+                >
+                  {this.props.subnombre
+                    ? item[this.props.subnombre][this.props.nombre]
+                    : item[this.props.nombre]}
+                </MenuItem>
+              ))}
+            </Select>
+            <FormHelperText>
+              {this.props.placeholder ? this.props.placeholder : ""}
+            </FormHelperText>
+          </FormControl>
+          <FormHelperText error>{this.state.mensajeError}</FormHelperText>
+        </Paper>
+      );
+    }
   }
 }
 
