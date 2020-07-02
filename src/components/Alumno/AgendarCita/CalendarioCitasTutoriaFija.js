@@ -182,7 +182,8 @@ class CalendarioCitasTutoriaFija extends Component {
             {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-            <FrmSolicitarTutorTipoII
+            this.state._idProceso && 
+              <FrmSolicitarTutorTipoII
               modoBatallador={this.handleModoBatallador}
               frmIdProceso={this.state._idProceso}
               handleFiltroTutor={this.handleFiltroTutor} />

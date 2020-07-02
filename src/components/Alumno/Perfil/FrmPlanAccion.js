@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from "react";
 //import useFetchData from "../../Conexion/useFetchData";
-import { GET } from "../../../Conexion/Controller";
+import { GET,POST } from "../../../Conexion/Controller";
 import { Grid, Button} from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -23,7 +23,7 @@ const style = {
       backgroundImage: "",
     },
     paper2: {
-      marginTop: "1%",
+      marginTop: "7%",
       marginLeft: "3%",
       marginRight:"3%",
       display: "flex",
@@ -41,7 +41,6 @@ const [programas, setProgramas] = useState([]);
 const [programa, setPrograma] = useState("");  
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
-
 
 
 //programas a partir de un tutor
@@ -90,27 +89,28 @@ useEffect(() => {
 
 return (
       <div>
-        <Grid container md={12} style={style.paper2}>
-          <Grid item md={3} style={{marginRight:"6%"}}>
+        <Grid container md={12} style={style.paper}>
+          <Grid item md={3} style={{marginRight:"6%",marginTop:"2%"}}>
               <ComboBoxPrograma
                   programas={programas}
                   programa={programa}
                   setPrograma={setPrograma}
               />
           </Grid>
-          <Grid item md={3}>
+          <Grid item md={3} style={{marginRight:"6%",marginTop:"2%"}}>
             <ComboBoxProcesoTutoria
                 procesosTutoria={procesosTutoria}
                 procesoTutoria={procesoTutoria}
                 setProcesoTutoria={setProcesoTutoria}
               />
           </Grid>
-          <Grid item justify="flex-end" style={{marginTop: "4%",marginLeft: "7%"}}>
+          <Grid item justify="flex-end" style={{marginRight:"6%",marginTop:"3%"}}>
           {getUser().rol==="Tutor" &&
           <Button
               disabled={procesoTutoria===""} 
               variant="contained"
-              color="primary">
+              color="primary"
+          >
               Guardar
           </Button>}
         </Grid>
