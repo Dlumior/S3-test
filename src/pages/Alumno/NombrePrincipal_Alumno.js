@@ -50,18 +50,10 @@ class NombrePrincipal_Alumno extends Component {
             mensaje="Programa"
             escogerItem={this.handleOnChangeProceso}
             titulo={"Programa del Alumno"}
-            datos={{
-              programa: [
-                {
-                  ID_PROGRAMA: 30,
-                  NOMBRE: getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                    .PROGRAMA.NOMBRE,
-                },
-              ],
-            }}
+            enlace={"/api/programa/alumno/"+getUser().usuario.ID_USUARIO}
             id={"ID_PROGRAMA"}
             nombre={"NOMBRE"}
-            keyServicio={"programa"}
+            keyServicio={"programas"}
             placeholder={"Programa matriculado"}
           />
 
