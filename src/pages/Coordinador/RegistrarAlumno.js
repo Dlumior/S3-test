@@ -5,6 +5,8 @@ import FormularioImportarAlumnos from "../../components/Coordinador/FormRegistro
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import ListadoDeAlumnos from "../../components/Coordinador/FormRegistroAlumno/ListadoDeAlumnos";
 import InformacionRelevante from "../../components/Coordinador/FormRegistroAlumno/InformacionRelevante";
+import { getUser } from "../../Sesion/Sesion";
+import ListaAlumnos from "../../components/Coordinador/ListaAlumnos/ListaAlumnos";
 
 const titulo = "Registro de nuevos Alumnos";
 class RegistrarAlumno extends React.Component {
@@ -23,7 +25,18 @@ class RegistrarAlumno extends React.Component {
           proceso: FormularioImportarAlumnos,
           paper: false,
         },
-        { index: 2, titulo: "Listado de Alumnos", proceso: ListadoDeAlumnos },
+        {
+          index: 2,
+          titulo: "Listado de Alumnos",
+          proceso: () => (
+            <ListaAlumnos
+              prog={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs}
+              idPrograma={
+                getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+              }
+            />
+          ),
+        },
         {
           index: 3,
           titulo: "Informacion historica",

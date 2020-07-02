@@ -261,7 +261,6 @@ USUARIO: "mag.alegre@pucp.edu.pe"
           const { sesiones } = listaResultados;
           await sesiones.forEach(async (sesion) => {
             index++;
-            //await resultados.push(sesion);
             const { FECHA, TUTOR, MOTIVO, COMPROMISOs, RESULTADO } = sesion;
             const { NOMBRE, APELLIDOS } = TUTOR.USUARIO;
             console.log("HAAA", COMPROMISOs);
