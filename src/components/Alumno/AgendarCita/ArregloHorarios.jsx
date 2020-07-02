@@ -13,12 +13,15 @@ class ArregloHorarios extends Component {
     super();
     this.state = {
       horarios: [],
-      filtroTutores:[],
+      filtroTutores: [],
     };
     this.renderHorarios = this.renderHorarios.bind(this);
   }
   renderHorarios = (horarios) => {
-
+    console.log("***/ ", horarios);
+    if (!horarios) {
+      return;
+    }
     if (horarios.data) {
       return (
         <div>
@@ -45,7 +48,7 @@ class ArregloHorarios extends Component {
     }
   };
   async componentDidMount() {
-    console.log('POKEEEEEEMON ', this.props.servicio);
+    console.log("POKEEEEEEMON ", this.props.servicio);
     if (!this.props.servicio) {
       console.log("no habia servico");
       return;
@@ -53,41 +56,51 @@ class ArregloHorarios extends Component {
     const servicio = this.props.servicio;
 
     let horarios = await GET({ servicio: servicio });
-    this.setState({ horarios: horarios });
+    await this.setState({ horarios: horarios });
     console.log("POKEMON GO: ", horarios);
   }
-/** NADIE TQUE AQUI O ELMO LOS BUSCARA
- * PORQUE SABE DONDE VIVEN
- * 
- * MUAJAJAJAJJAJAJAJAJJAJAJA
- */
+  /** NADIE TQUE AQUI O ELMO LOS BUSCARA
+   * PORQUE SABE DONDE VIVEN
+   *
+   * MUAJAJAJAJJAJAJAJAJJAJAJA
+   */
   async componentWillReceiveProps(nextProps) {
+    
     if (nextProps.servicio !== this.props.servicio) {
       let horarios = await GET({ servicio: nextProps.servicio });
+      
       this.setState({ horarios: horarios });
     }
     if (nextProps.filtroTutores !== this.props.filtroTutores) {
-      await this.setState({filtroTutores: nextProps.filtroTutores});
-      console.log("filtro holiiisss.... aha ha ha ha haaa", this.state.filtroTutores);
+      console.log("RIP n=>", nextProps.servicio);
+      console.log("RIP p=>", this.props.servicio);
+      await this.setState({ filtroTutores: nextProps.filtroTutores });
+      console.log(
+        "filtro holiiisss.... aha ha ha ha haaa",
+        this.state.filtroTutores
+      );
 
-      if (this.state.filtroTutores ===[]) {
-      console.log("filtro vacio holiiisss.... aha ha ha ha haaa");
+      if (this.state.filtroTutores === []) {
+        console.log("filtro vacio holiiisss.... aha ha ha ha haaa");
         let horarios = await GET({ servicio: this.props.servicio });
         this.setState({ horarios: horarios });
       } else {
-      console.log("filtro no vacio holiiisss.... aha ha ha ha haaa", this.state.filtroTutores);
+        console.log(
+          "filtro no vacio holiiisss.... aha ha ha ha haaa",
+          this.state.filtroTutores
+        );
 
         let horarios = await POST({
           servicio: this.props.servicio,
-          request: {tutores:{ tutores: this.props.filtroTutores }},
+          request: { tutores: { tutores: this.props.filtroTutores } },
         });
-        this.setState({ horarios: horarios });
+        console.log("horarios ",horarios);
+        await this.setState({ horarios: horarios });
       }
     }
   }
 
   render() {
-    
     return <>{this.renderHorarios(this.state.horarios)}</>;
   }
 }

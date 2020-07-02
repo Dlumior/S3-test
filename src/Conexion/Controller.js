@@ -52,7 +52,7 @@ export async function POST(props) {
             body: JSON.stringify( props.request )
         });
         let responseJson = await response.json();
-        console.log(">>> POST succesful");
+        console.log(">>> POST succesful",responseJson );
         return responseJson;  
     } catch (error) {
         console.log(">>> POST failed");

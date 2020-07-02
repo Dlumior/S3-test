@@ -78,15 +78,16 @@ class ListaComboBox extends Component {
   async componentDidMount() {
     let listaItems;
     if (this.props.datos) {
-      console.log("this.props.datos---->: ", this.props.datos);
+      console.log("this.props.datos---->: ", listaItems);
       listaItems = this.props.datos;
+
     } else {
       listaItems = await Conexion.GET({ servicio: this.props.enlace });
       console.log("No habian this.props.datos---->: ", listaItems);
       console.log("this.props.enlace nuevo", this.props.enlace);
 
       console.log("*entreeeee---->nuevo", listaItems);
-
+    }
       if (
         !listaItems[this.props.keyServicio] ||
         listaItems[this.props.keyServicio].length === 0
@@ -124,7 +125,7 @@ class ListaComboBox extends Component {
               : [this.state.item[this.props.id]]
           );
         }
-      }
+      
     }
   }
   async componentWillReceiveProps(nextProps) {
@@ -187,7 +188,7 @@ class ListaComboBox extends Component {
   render() {
     console.log("**listaItems Vacio", this.state.listaItems);
     if (this.state.listaItems.length === 0) {
-      return <h1>No hay tutorias asignadas</h1>;
+      return <h1></h1>;
     } else {
       return (
         <Paper elevation={0} style={estilos.paper}>

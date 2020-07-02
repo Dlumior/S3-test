@@ -129,7 +129,7 @@ class Controles extends Component {
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
         this.setState({ tutoriaFija: true });
-        
+
         this.props.handleFiltroProceso(tutoria);
       } else {
         this.setState({ tutoriaFija: false });
@@ -209,31 +209,35 @@ class Controles extends Component {
               </Grid>
             </Grid>
             {/** semana control*/}
-            <Grid container spacing={0} alignContent="center">
-              <Grid item md={3} xs={3}>
-                <IconButton
-                  color="primary"
-                  aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(-7)}
-                >
-                  <ArrowBackIosOutlinedIcon />
-                </IconButton>
+            {this.props.tipo !== "disponibilidad" ? (
+              <></>
+            ) : (
+              <Grid container spacing={0} alignContent="center">
+                <Grid item md={3} xs={3}>
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => this.saltoEnElTiempoLocal(-7)}
+                  >
+                    <ArrowBackIosOutlinedIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item md={6} xs={6}>
+                  <h3 style={styles.control}>
+                    {"Semana" + this.props.fecha.semana || "Semana Actual"}
+                  </h3>
+                </Grid>
+                <Grid item md={3} xs={3}>
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => this.saltoEnElTiempoLocal(7)}
+                  >
+                    <ArrowForwardIosOutlinedIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
-              <Grid item md={6} xs={6}>
-                <h3 style={styles.control}>
-                  {"Semana" + this.props.fecha.semana || "Semana Actual"}
-                </h3>
-              </Grid>
-              <Grid item md={3} xs={3}>
-                <IconButton
-                  color="primary"
-                  aria-label="delete"
-                  onClick={() => this.saltoEnElTiempoLocal(7)}
-                >
-                  <ArrowForwardIosOutlinedIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+            )}
           </Grid>
 
           {/** filtro de programa
@@ -255,10 +259,13 @@ class Controles extends Component {
               </Grid>
             </Grid>
           )}
-
-          <Grid item md={2} xs={2}>
-            {this.renderTutoria(this.state.servicioTutoriaActual)}
-          </Grid>
+          {this.props.tipo !== "disponibilidad" ? (
+            <Grid item md={2} xs={2}></Grid>
+          ) : (
+            <Grid item md={2} xs={2}>
+              {this.renderTutoria(this.state.servicioTutoriaActual)}
+            </Grid>
+          )}
 
           {/** fecha actual */}
           <Grid item md={3} xs={3}>
@@ -294,7 +301,11 @@ class Controles extends Component {
           </Grid>
 
           {/** tutor filtro */}
-          <Grid item md={4} xs={4}>
+          <Grid
+            item
+            md={this.props.tipo !== "disponibilidad" ? 3 : 4}
+            xs={this.props.tipo !== "disponibilidad" ? 3 : 4}
+          >
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroTutores ? (
@@ -321,17 +332,52 @@ class Controles extends Component {
             )}
 
             {/*Faltaria q cuando se le de click a listaEtiquetas, este paper se ponga disable */}
-            <Paper style={styles.paperTitulo} elevation={0}>
-              <InputLabel>
-                <strong>
-                  {this.state.tutoriaFija
-                    ? `Tutor Asignado:`
-                    : "Tutor Seleccionado:"}
-                </strong>{" "}
-              </InputLabel>
-              <h3>{this.props.tutorNombre}</h3>
-            </Paper>
+            {this.props.tipo !== "disponibilidad" ? (
+              <></>
+            ) : (
+              <Paper style={styles.paperTitulo} elevation={0}>
+                <InputLabel>
+                  <strong>
+                    {this.state.tutoriaFija
+                      ? `Tutor Asignado:`
+                      : "Tutor Seleccionado:"}
+                  </strong>{" "}
+                </InputLabel>
+                <h3>{this.props.tutorNombre}</h3>
+              </Paper>
+            )}
           </Grid>
+          {this.props.tipo !== "disponibilidad" ? (
+            <Grid item md={1} xs={1}>
+              <Grid container spacing={0} alignContent="center">
+                <Grid item md={3} xs={3}>
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => this.saltoEnElTiempoLocal(-7)}
+                  >
+                    <ArrowBackIosOutlinedIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item md={6} xs={6}>
+                  <h3 style={styles.control}>
+                    {"Semana" + this.props.fecha.semana || "Semana Actual"}
+                  </h3>
+                </Grid>
+                <Grid item md={3} xs={3}>
+                  <IconButton
+                    color="primary"
+                    aria-label="delete"
+                    onClick={() => this.saltoEnElTiempoLocal(7)}
+                  >
+                    <ArrowForwardIosOutlinedIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : (
+            <></>
+          )}
         </Grid>
       </Paper>
     );

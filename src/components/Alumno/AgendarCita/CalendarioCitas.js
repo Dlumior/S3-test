@@ -69,35 +69,65 @@ class CalendarioCitas extends Component {
     }
     return (
       <>
-        {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
-        <Grid container spacing={2}>
-          {fechasDias.map((diaSemana) => (
-            <Grid item md={2} xs={12}>
-              {console.log("QQQ: ", this.state.filtroIdProceso)}
-
-              {this.state.filtroIdProceso ? (
+        {console.log("this.props.tipo xxx ", this.props.tipo)}
+        {this.props.tipo !== "disponibilidad" ? (
+          <Grid container spacing={2}>
+            {fechasDias.map((diaSemana) => (
+              <Grid item md={2} xs={12}>
                 <HorarioDelDia
-                  idPro={
-                    typeof this.state.filtroIdProceso === "number"
-                      ? this.state.filtroIdProceso
-                      : this.state.filtroIdProceso.ID_PROCESO_TUTORIA
-                  }
                   fecha={{
                     fecha: diaSemana,
-                    //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
-                    servicio: this.state.estadoID
-                      ? `/api/disponibilidad/listarPrograma/${ getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`
-                      : this.props.servicio +diaSemana.toISOString().split("T")[0],
-                    tipo: this.props.tipo,
-                    listaIdTutores: listaIdTutores,
+                    servicio:
+                      this.props.servicio +
+                      diaSemana.toISOString().split("T")[0],
                   }}
                 />
-              ) : (
-                <></>
-              )}
-            </Grid>
-          ))}
-        </Grid>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <Grid container spacing={2}>
+            {fechasDias.map((diaSemana) => (
+              <Grid item md={2} xs={12}>
+                {console.log("QQQ: ", this.state.filtroIdProceso)}
+
+                {this.state.filtroIdProceso ? (
+                  <HorarioDelDia
+                    idPro={
+                      typeof this.state.filtroIdProceso === "number"
+                        ? this.state.filtroIdProceso
+                        : this.state.filtroIdProceso.ID_PROCESO_TUTORIA
+                    }
+                    fecha={{
+                      fecha: diaSemana,
+                      //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
+                      servicio: this.state.estadoID
+                        ? listaIdTutores !== []
+                          ? `/api/disponibilidad/listarPrograma/${
+                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                                .ID_PROGRAMA
+                            }
+                      /${diaSemana.toISOString().split("T")[0]}`
+                          : `/api/disponibilidad/listarPrograma/${
+                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                                .ID_PROGRAMA
+                            }
+                              /${diaSemana.toISOString().split("T")[0]}/${
+                              this.state.estadoID
+                            }`
+                        : this.props.servicio +
+                          diaSemana.toISOString().split("T")[0],
+                      tipo: this.props.tipo,
+                      listaIdTutores: listaIdTutores,
+                    }}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </>
     );
   };
@@ -137,9 +167,12 @@ class CalendarioCitas extends Component {
 
   handleFiltroProceso = async (idProceso) => {
     console.log("idProceso seleccionado: ", idProceso);
-    if(typeof idProceso === "object"){
-      this.handleFiltroTutor({id: idProceso.ASIGNACION_TUTORIA[0].ID_TUTOR, nombre:"un nombre XD"});
-    }else{
+    if (typeof idProceso === "object") {
+      this.handleFiltroTutor({
+        id: idProceso.ASIGNACION_TUTORIA[0].ID_TUTOR,
+        nombre: `${idProceso.ASIGNACION_TUTORIA[0].TUTOR.USUARIO.NOMBRE} ${idProceso.ASIGNACION_TUTORIA[0].TUTOR.USUARIO.APELLIDOS}`,
+      });
+    } else {
       this.setState({ estadoID: 0 });
     }
 
