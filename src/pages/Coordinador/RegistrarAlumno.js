@@ -37,12 +37,6 @@ class RegistrarAlumno extends React.Component {
             />
           ),
         },
-        {
-          index: 3,
-          titulo: "Informacion historica",
-          proceso: InformacionRelevante,
-          paper: false,
-        },
       ],
     };
   }
