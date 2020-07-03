@@ -6,6 +6,7 @@ import {
   Paper,
   Button,
   Dialog,
+  TextField,
 } from "@material-ui/core";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
@@ -43,6 +44,7 @@ class FrmDialogoSolicitarTutor extends Component {
   constructor() {
     super();
     this.state = {
+      duracionProceso: 90,
       lstMotivos: {
         motivos: [
           { ID: 1, NOMBRE: "Académico" },
@@ -59,15 +61,21 @@ class FrmDialogoSolicitarTutor extends Component {
       descripcion: "",
       open: false,
       mensajillo: "",
+      horaIniR: "",
+      horaFinR: "",
     };
 
     //handles...
     this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
-    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(   this  );
+    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(
+      this
+    );
     this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
 
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
+    this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
   }
 
   //menaje de satisfaccion
@@ -81,9 +89,9 @@ class FrmDialogoSolicitarTutor extends Component {
     this.setState({ open: false });
     this.props.onCloseFrm();
   }
-  
+
   handleOnChangeMotivo(_motivoSeleccionado) {
-    this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE});
+    this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
   }
 
   handleOnChangeCT = (e) => {
@@ -109,12 +117,12 @@ class FrmDialogoSolicitarTutor extends Component {
       },
     };
 
-    console.log("BTN_SOLICITAR WWW",nuevaSolicitud);
+    console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
     //se llama al back
 
     const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
     let sesionTyS = await POST(props);
-    console.log("SESIONtYS XXX ",sesionTyS);
+    console.log("SESIONtYS XXX ", sesionTyS);
 
     if (!sesionTyS.message) {
       if (!sesionTyS.error) {
@@ -169,7 +177,13 @@ class FrmDialogoSolicitarTutor extends Component {
         }
         */
   }
+  handleOnChangeHoraIni(e) {
+    this.setState({ horaIniR: e.target.value });
+  }
 
+  handleOnChangeHoraFin(e) {
+    this.setState({ horaFinR: e.target.value });
+  }
   render() {
     const _disponibilidad = this.props.dispo;
     console.log("XXX ", _disponibilidad);
@@ -178,132 +192,173 @@ class FrmDialogoSolicitarTutor extends Component {
 
     return (
       <div>
-        <Paper elevation={3} style={styles.paper}>
-          <Grid container spacing={2} alignContent="center" style={styles.chip}>
-            <Grid item md={4} xs={4}>
-              <ImagenCircular
-                square={true}
-                src="https://cdn.iconscout.com/icon/premium/png-256-thumb/deadline-calendar-date-schedule-timeline-33430.png"
-              />
-              {/*<ImagenCircular src={FerCarrillo} />*/}
-            </Grid>
-            <Grid item md={8} xs={8}>
-              <h1>
-                {_disponibilidad.TUTOR.USUARIO?.NOMBRE +
-                  " " +
-                  _disponibilidad.TUTOR.USUARIO?.APELLIDOS}
-              </h1>
-              <p>Tutor</p>
-              <p>
-                {diasSemana[_fexilla.getDay()] +
-                  ", " +
-                  _fexilla.getDate() +
-                  " de " +
-                  mesesAnio[_fexilla.getMonth() + 1] +
-                  " del 2020"}
-              </p>
-            </Grid>
-          </Grid>
-        </Paper>
-        <Paper elevation={3} style={styles.paper}>
-          <Grid container spacing={2} alignContent="center" style={styles.chip}>
-            <Grid item md={6} style={styles.chip}>
-              <p>Disponibilidad Inicio : </p>
-              <Chip
-                label={_disponibilidad?.HORA_INICIO}
-                color="primary"
-                size="medium"
-              />
-            </Grid>
-            <Grid item md={6} style={styles.chip}>
-              <p>Disponibilidad Fin : </p>
-              <Chip
-                label={_disponibilidad?.HORA_FIN}
-                color="primary"
-                size="medium"
-              />
-            </Grid>
-            <Grid item md={12} xs={12}>
-              {/*<h1>Motivo: </h1>*/}
+        <Grid container spacing={2}>
+          {/**TITULO TYS C LA COME A YERI */}
 
-              {/*}
-                            <ListaComboBox
-                              titulo={"Motivo de Solicitud"}
-                              datos={this.state.lstMotivos}
-                              id={"ID"}
-                              nombre={"NOMBRE"}
-                              //enlace={"/api/programa"}
-                              //id={"ID_PROGRAMA"}
-                              //nombre={"NOMBRE"}
-                              //keyServicio={"programa"}
-                              escogerItem={this.handleOnChangeMotivo}
-                            
-                            >
-                            </ListaComboBox>
-                             />*/}
-              <Grid container spacing={3}>
-                <Grid item md={6} xs={12}>
-                  <h2>Este proceso de tutoria dura : 90 min</h2>
-                </Grid>
-                <Grid item md={6} xs={12}>
-                  <ListaComboBox
-                    //allObject={true}
-                    mensaje="periodo"
-                    escogerItem={this.handleOnChangeMotivo}
-                    titulo={"Motivo de Solicitud"}
-                    datos={this.state.lstMotivos}
-                    id={"ID"}
-                    nombre={"NOMBRE"}
-                    keyServicio={"motivos"}
-                    placeholder={"Escoja un motivo"}
-                    allObject={true}
-                  />
+          <Paper elevation={3} style={styles.paper}>
+            <Grid
+              container
+              spacing={2}
+              alignContent="center"
+              style={styles.chip}
+            >
+              <Grid item md={3} xs={3}>
+                <ImagenCircular
+                  square={true}
+                  src="https://cdn.iconscout.com/icon/premium/png-256-thumb/deadline-calendar-date-schedule-timeline-33430.png"
+                />
+                <h3>
+                  {diasSemana[_fexilla.getDay()] +
+                    ", " +
+                    _fexilla.getDate() +
+                    " de " +
+                    mesesAnio[_fexilla.getMonth() + 1] +
+                    " del 2020"}
+                </h3>
+              </Grid>
+              <Grid item md={9} xs={9}>
+                <Grid container spacing={2} alignContent="center">
+                  <Grid item md={12} xs={12}>
+                    <h1>
+                      {"Tutor: " +
+                        _disponibilidad.TUTOR.USUARIO?.NOMBRE +
+                        " " +
+                        _disponibilidad.TUTOR.USUARIO?.APELLIDOS}
+                    </h1>
+                  </Grid>
+
+                  <Grid container spacing={2} alignContent="center">
+                    <Grid item md={12} xs={12} alignContent="center">
+                      <h3>{"Disponibilidad: "} </h3>
+                    </Grid>
+                    <Grid item md={12} xs={12}>
+                      <Grid container spacing={2} alignContent="center">
+                        <Grid item md={6} xs={6}>
+                          <h3>
+                            Desde :{" "}
+                            <Chip
+                              label={_disponibilidad?.HORA_INICIO}
+                              color="primary"
+                              size="medium"
+                            />{" "}
+                          </h3>
+                        </Grid>
+                        <Grid item md={6} xs={6}>
+                          <h3>
+                            Hasta :{" "}
+                            <Chip
+                              label={_disponibilidad?.HORA_FIN}
+                              color="primary"
+                              size="medium"
+                            />
+                          </h3>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item md={12} xs={12}>
-              <Paper elevation={0} style={estilos.paper}>
-                {/*
-                                <TextField
-                                    required={true}
-                                    autoFocus={true}
-                                    fullWidth
-                                    name={"descripcion"}
-                                    label={"Descripción"}
-                                    //onChange={this.handleOnChange}
-                                    //disabled={this.props.disabled || false}
-                                    variant={"outlined"}
-                                    rows={4}
-                                    multiline={true}
-                                //value={this.state.texto}
-                                />*/}
+          </Paper>
 
-                <CampoDeTexto
-                  autoFocus={true}
-                  name="descripcion"
-                  label="Descripción"
-                  validacion={{ lim: 100 }}
-                  variant={"outlined"}
-                  rows={4}
-                  multiline={true}
-                  requerido={true}
-                  inicial="..."
-                  onChange={this.handleOnChangeCT}
-                  validarEntrada={this.validarEntradaCT}
-                />
-              </Paper>
+          {/** ESCOJER HORA */}
 
-              <Button
-                size="large"
-                variant="contained"
-                color="primary"
-                onClick={this.handleOnClickSolicitarCita}
-              >
-                Solicitar Cita
-              </Button>
+          <Paper elevation={3} style={styles.paper}>
+            <Grid
+              container
+              spacing={2}
+              alignContent="center"
+              style={styles.chip}
+            >
+              <Grid item md={6} xs={6}>
+                <Grid container spacing={2} alignContent="center">
+                  <Grid item md={12} xs={12}>
+                    <h3>{`Este proceso de tutoria dura : ${this.state.duracionProceso} minutos`}</h3>
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <CampoDeTexto
+                      autoFocus={true}
+                      name="descripcion"
+                      label="Descripción"
+                      validacion={{ lim: 100 }}
+                      variant={"outlined"}
+                      rows={4}
+                      multiline={true}
+                      requerido={true}
+                      inicial="..."
+                      onChange={this.handleOnChangeCT}
+                      validarEntrada={this.validarEntradaCT}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item md={6} xs={6}>
+                <Grid container spacing={2} alignContent="center">
+                  <Grid item md={12} xs={12}>
+                    <Grid container spacing={2}>
+                      <Grid item md={6} xs={6}>
+                        <TextField
+                          defaultValue={_disponibilidad?.HORA_INICIO}
+                          variant="outlined"
+                          required
+                          margin="dense"
+                          type="time"
+                          id="Hora"
+                          label="Ingrese la hora Inicio"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          onChange={(e) => this.handleOnChangeHoraIni(e)}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid item md={6} xs={6}>
+                        <TextField
+                          disabled={true}
+                          variant="outlined"
+                          required
+                          margin="dense"
+                          type="time"
+                          id="Hora fin"
+                          label="Hora Fin"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          onChange={(e) => this.handleOnChangeHoraFin(e)}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <ListaComboBox
+                      //allObject={true}
+                      mensaje="periodo"
+                      escogerItem={this.handleOnChangeMotivo}
+                      titulo={"Motivo de Solicitud"}
+                      datos={this.state.lstMotivos}
+                      id={"ID"}
+                      nombre={"NOMBRE"}
+                      keyServicio={"motivos"}
+                      placeholder={"Escoja un motivo"}
+                      allObject={true}
+                    />
+                  </Grid>
+                  <Grid item md={12} xs={12}>
+                    <Button
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleOnClickSolicitarCita}
+                    >
+                      Solicitar Cita
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Grid>
             </Grid>
-          </Grid>
-        </Paper>
+          </Paper>
+        </Grid>
 
         <Dialog
           open={this.state.open}

@@ -8,13 +8,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  Grid,
 } from "@material-ui/core";
+import ImagenCircular from "../../Shared/ImagenCircular";
 const estilo = {
   centerDialog: {
-    marginLeft: "10%",
-    marginRight: "10%",
+    marginLeft: "1%",
+    marginRight: "1%",
     color: "#002D3D",
     textAlign: "center",
+    minHeight:550,
+    maxHeight: 900
   },
 };
 class JModal extends Component {
@@ -30,21 +34,37 @@ class JModal extends Component {
   handleClose() {
     this.props.hadleClose();
   }
-
+componentDidMount(){
+this.setState({open:false});
+}
   render() {
+    const {maxWidth} = this.props;
+    const titleSize= maxWidth==="xl"?1:2;
     return (
       <>
-        <Button onClick={() => this.handleClickOpen()}>ABRIR</Button>
-
         <Dialog
           open={this.props.open}
           onClose={() => this.handleClose}
           scroll={"paper"}
-          aria-labelledby="scroll-dialog-title"
+          fullWidth
+          maxWidth={maxWidth}
           aria-describedby="scroll-dialog-description"
+          aria-labelledby="max-width-dialog-title"
         >
           <DialogTitle id="scroll-dialog-title">
-            {this.props.titulo}
+            <Grid container spacing={2}>
+
+            <Grid item md={titleSize} xs={titleSize}>
+                <ImagenCircular 
+                src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted.png"
+                square
+                />
+            </Grid>
+            <Grid item md={12-titleSize} xs={12-titleSize}>
+              {this.props.titulo}
+            </Grid>
+            </Grid>
+            
           </DialogTitle>
           <DialogContent dividers={"paper"}>
             <DialogContentText
@@ -56,7 +76,7 @@ class JModal extends Component {
               {this.props.body}
             </DialogContentText>
           </DialogContent>
-          {this.props.botonIzquierdo || this.props.derecho ? (
+          {this.props.botonIzquierdo || this.props.botonDerecho ? (
             <DialogActions>
               {this.props.botonIzquierdo ? (
                 <Button

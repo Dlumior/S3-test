@@ -136,7 +136,8 @@ class DisponibilidadCard extends Component {
         <Dialog
           open={this.state.open}
           onClose={this.handleOnClose}
-          aria-labelledby="form-dialog-title"
+          aria-labelledby="max-width-dialog-title"
+          maxWidth={"md"}
         >
           <DialogContent>
             <FrmDialogoSolicitarTutor

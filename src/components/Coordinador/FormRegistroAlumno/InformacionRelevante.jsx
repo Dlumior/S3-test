@@ -16,7 +16,6 @@ class InformacionRelevante extends Component {
   render() {
     return (
       <div>
-          
         {/**<TituloFormulario titulo="Importar Informacion relevante" />
          * Te la creiste Wey aun esta en construcción XDDDD
          * Lo que viste fue una ilusion XD
@@ -24,7 +23,18 @@ class InformacionRelevante extends Component {
          * PD2. TE ODIO HOOKS
          * PD3. lo subo cuando lo acabe DE hacerlo XDDDDDD
          */}
-        <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/holiiiis5.png"/>
+        <iframe
+          className="portalDimensionalDeJin"
+          src={`http://localhost:3001/ImportarInformacionRelevante/${JSON.stringify(
+            getUser().usuario.CORREO
+          )}/${this.props.idAlumno}`}
+          width="100%"
+          height={1000}
+          frameborder="0"
+          allowfullscreen
+          sandbox
+          styler={style.otherDimension}
+        ></iframe>
       </div>
     );
   }
