@@ -2,17 +2,19 @@ import React, { Component } from "react";
 import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Fab, IconButton } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
-
+import AddIcon from "@material-ui/icons/Add";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 class ListaAlumnos extends Component {
   constructor() {
     super();
     this.state = {
-      open:false,
-      currentID:0,
+      open: false,
+      currentID: 0,
       alumno: {},
       title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
@@ -23,7 +25,8 @@ class ListaAlumnos extends Component {
           { title: "Codigo", field: "codigo" },
           { title: "Nombre", field: "nombre" },
           { title: "Correo", field: "correo" },
-          { title: "Agregar Información Historica", field: "agregarInfo" },
+          { title: "Información Historica", field: "agregarInfo" },
+          { title: "Mantenimiento", field: "mantenimiento" },
         ],
         data: [],
       },
@@ -33,6 +36,8 @@ class ListaAlumnos extends Component {
 
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
+    this.handleEliminar = this.handleEliminar.bind(this);
+    this.handleEditar = this.handleEditar.bind(this);
   }
   /*
        {
@@ -64,8 +69,15 @@ class ListaAlumnos extends Component {
        
        */
   handleOnClick(e, idAlumno) {
-    this.setState({currentID:idAlumno,open:true});
+    this.setState({ currentID: idAlumno, open: true });
     //alert("Selecciondao id: ", idAlumno);
+  }
+  handleEliminar(id){
+console.log("Eliminar a : ",id);
+  }
+  handleEditar(id){
+    console.log("Editar a : ",id);
+
   }
   handleOnChangePrograma = async (programa) => {
     console.log("proograma:", programa);
@@ -91,17 +103,31 @@ class ListaAlumnos extends Component {
             codigo: CODIGO,
             nombre: `${NOMBRE} ${APELLIDOS}`,
             correo: CORREO,
-            agregarInfo: 
-              <Button
-                type="submit"
-                size="large"
-                variant="contained"
+            agregarInfo: (
+              <Fab
+                size="small"
                 color="primary"
+                aria-label="add"
                 onClick={(e) => this.handleOnClick(e, ID_USUARIO)}
               >
-                +
-              </Button>
-            ,
+                <AddIcon />
+              </Fab>
+            ),
+            mantenimiento: (
+              <>
+                <IconButton color="primary">
+                  <EditRoundedIcon
+                    color="secondary"
+                    fontsize="large"
+                    onClick={() => this.handleEditar(ID_USUARIO)}
+                  />
+                </IconButton>
+                <IconButton color="primary">
+                  <DeleteRoundedIcon color="error" fontsize="large" 
+                  onClick={() => this.handleEliminar(ID_USUARIO)}/>
+                </IconButton>{" "}
+              </>
+            ),
           });
           console.log("listaAtlumnos.alumnos push", datos);
         });
@@ -179,11 +205,9 @@ class ListaAlumnos extends Component {
     // Tengo que buscar con este ID FACULTAD los programas
     console.log("idPrograma", this.props.prog);
   }
-  renderToolbar=()=> {
-    return (
-      <></>
-    );
-  }
+  renderToolbar = () => {
+    return <></>;
+  };
   renderTabla(datosNuevos) {
     console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
@@ -204,7 +228,6 @@ class ListaAlumnos extends Component {
             },
           }}
           title={`Listado de Alumnos`}
-          
         />
       );
     }
@@ -214,79 +237,78 @@ class ListaAlumnos extends Component {
     //this.props.hadleClose();
   }
 
-
-
   render() {
     return (
       <div>
         <JModal
           titulo={"Registro de Informacion historica"}
-          body={<InformacionRelevante idAlumno={this.state.currentID}/>}
+          body={<InformacionRelevante idAlumno={this.state.currentID} />}
           open={this.state.open}
-          hadleClose={()=>this.setState({open:false})}
+          hadleClose={() => this.setState({ open: false })}
           maxWidth={"lg"}
           botonDerecho
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
-        {/** eliminar data */}
-        <Grid item md={4} xs={4}>
-          <ListaComboBox
-            mensaje="facultad"
-            titulo={"Facultad"}
-            enlace={this.getEnlace(getUser().usuario)}
-            id={"ID_PROGRAMA"}
-            nombre={"NOMBRE"}
-            subnombre={
-              this.getSubRol(
-                getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
-              ) === "programa"
-                ? "FACULTAD"
-                : undefined
-            }
-            keyServicio={"facultades"}
-            escogerItem={this.handleOnChangeFacultad}
-            small={true}
-            inicial={true}
-            placeholder={"Escoja la facultad"}
-          />
-        </Grid>
-        <Grid item md={4} xs={4}>
-          {this.state.filtroFacultad ? (
+          {/** eliminar data */}
+          <Grid item md={4} xs={4}>
             <ListaComboBox
-              mensaje="programa"
-              titulo={"Programa"}
-              enlace={this.state.filtroFacultad}
+              mensaje="facultad"
+              titulo={"Facultad"}
+              enlace={this.getEnlace(getUser().usuario)}
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
-              keyServicio={
+              subnombre={
                 this.getSubRol(
                   getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
                 ) === "programa"
-                  ? "programas"
-                  : "programa"
+                  ? "FACULTAD"
+                  : undefined
               }
-              escogerItem={this.handleOnChangePrograma}
+              keyServicio={"facultades"}
+              escogerItem={this.handleOnChangeFacultad}
               small={true}
               inicial={true}
-              placeholder={"Escoja el programa"}
+              placeholder={"Escoja la facultad"}
             />
-          ) : (
-            <></>
-          )}
+          </Grid>
+          <Grid item md={4} xs={4}>
+            {this.state.filtroFacultad ? (
+              <ListaComboBox
+                mensaje="programa"
+                titulo={"Programa"}
+                enlace={this.state.filtroFacultad}
+                id={"ID_PROGRAMA"}
+                nombre={"NOMBRE"}
+                keyServicio={
+                  this.getSubRol(
+                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL
+                      .DESCRIPCION
+                  ) === "programa"
+                    ? "programas"
+                    : "programa"
+                }
+                escogerItem={this.handleOnChangePrograma}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja el programa"}
+              />
+            ) : (
+              <></>
+            )}
+          </Grid>
+          <Grid item md={2} xs={2} />
+          {/** Boton registarr */}
+          <Grid item md={2} xs={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => console.log("cliiick")}
+              //startIcon={<CloudUploadIcon />}
+            >
+              Nuevo
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item md={2} xs={2} />
-        {/** Boton registarr */}
-        <Grid item md={2} xs={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => console.log("cliiick")}
-            //startIcon={<CloudUploadIcon />}
-          >
-            Nuevo
-          </Button>
-        </Grid>
-      </Grid>
         {/* Lista  facultades */}
 
         {this.renderTabla(this.state.datosTabla)}
