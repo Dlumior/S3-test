@@ -17,17 +17,19 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import TodayRoundedIcon from '@material-ui/icons/TodayRounded';
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import TodayRoundedIcon from "@material-ui/icons/TodayRounded";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
-import DateRangeRoundedIcon from '@material-ui/icons/DateRangeRounded';
+import DateRangeRoundedIcon from "@material-ui/icons/DateRangeRounded";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Link as LinkRouter } from "react-router-dom";
 import { logOut } from "../../Sesion/actions/sesionAction";
 import { useUserValue } from "../../Sesion/Sesion";
+import { Badge, Menu, MenuItem } from "@material-ui/core";
 
 const drawerWidth = 250;
 
@@ -86,20 +88,31 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  grow: {
+    flexGrow: 1,
+  },
 }));
 
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  
-  const [{},dispatch] = useUserValue();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+
+  const [{}, dispatch] = useUserValue();
   const handleClick = () => {
     //te odio hooks
-    console.log("Alumno LOG OUTTTTT",props);
-    
+    console.log("Alumno LOG OUTTTTT", props);
+
     logOut(dispatch);
-  }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -107,6 +120,31 @@ const BarraNavegacion = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const menuId = "primary-menu";
+
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
 
   return (
     <div className={classes.root}>
@@ -130,8 +168,23 @@ const BarraNavegacion = (props) => {
           <Typography variant="h6" noWrap>
             Ututor / Alumnos
           </Typography>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop}>
+            <IconButton
+              aria-label="norifications of the user"
+              aria-controls="primary-menu"
+              aria-haspopup="true"
+              color="inherit"
+              onClick={handleMenuOpen}
+            >
+              <Badge badgeContent={40} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
+      {renderMenu}
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -154,41 +207,42 @@ const BarraNavegacion = (props) => {
 
         {/*mostrar tutorias fijas para 1era semana */}
         <List>
-          {[
-            "Solicitar Tutor Fijo",
-            "Perfil",
-            "Agendar Cita",
-            "Mis Citas",
-          ].map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              component={LinkRouter}
-              to={"/alumno/" + text.split(' ').join('').toLowerCase()}
-              
-            >
-              <ListItemIcon>
-                {index === 0 ? <AccountCircleRoundedIcon /> : 
-                 index === 2 ? <DateRangeRoundedIcon /> : 
-                 index === 1 ? <TodayRoundedIcon/> :
-                 <NoteAddRoundedIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {["Solicitar Tutor Fijo", "Perfil", "Agendar Cita", "Mis Citas"].map(
+            (text, index) => (
+              <ListItem
+                button
+                key={text}
+                component={LinkRouter}
+                to={"/alumno/" + text.split(" ").join("").toLowerCase()}
+              >
+                <ListItemIcon>
+                  {index === 0 ? (
+                    <AccountCircleRoundedIcon />
+                  ) : index === 2 ? (
+                    <DateRangeRoundedIcon />
+                  ) : index === 1 ? (
+                    <TodayRoundedIcon />
+                  ) : (
+                    <NoteAddRoundedIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            )
+          )}
 
           <ListItem
-              button
-              key={"Cerrar Sesion"}
-              component={LinkRouter}
-              to={"/"}
-              onClick={handleClick}
-            >
-              <ListItemIcon>
-                  <ExitToAppRoundedIcon color="primary"/>
-              </ListItemIcon>
-              <ListItemText primary={"Cerrar Sesion"} />
-            </ListItem>
+            button
+            key={"Cerrar Sesion"}
+            component={LinkRouter}
+            to={"/"}
+            onClick={handleClick}
+          >
+            <ListItemIcon>
+              <ExitToAppRoundedIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={"Cerrar Sesion"} />
+          </ListItem>
         </List>
       </Drawer>
       <main

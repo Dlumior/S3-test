@@ -43,14 +43,14 @@ class FrmMisCitasPasadas_Tutor extends Component {
         for (let element of arregloDeSesiones.data) {
             //cont++;
             let estadillo = element.ESTADO.split("-")[0];
-            if (estadillo=="020"){
+            if (estadillo=="00"){
                 cont++;
                 arreglillo.push({
                     campoCont: cont,
                     nombre: element.ALUMNOs ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "",
                     fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,                    
                     campoLugar: element.LUGAR,
-                    tipoTutoria: "on process...",//element.PROCESO_TUTORIum.NOMBRE,
+                    tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,//element.PROCESO_TUTORIum.NOMBRE,
                     campoResultados: 
                     <div>
                         <Button
