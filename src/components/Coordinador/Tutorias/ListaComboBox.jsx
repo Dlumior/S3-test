@@ -67,6 +67,7 @@ class ListaComboBox extends Component {
       await this.props.escogerItem(item);
     } else {
       listaItems.push(item[this.props.id]);
+      listaItems.push(item["DURACION"]);  //trato de devolver tambien en el array la duracion caso tuto variable
 
       await this.props.escogerItem(listaItems);
     }

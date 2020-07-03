@@ -126,15 +126,22 @@ class Controles extends Component {
     );
     //aqui se o mando al componente padre
 
+      console.log("escogerITEM => ",tutoria);
+
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
         this.setState({ tutoriaFija: true });
 
         this.props.handleFiltroProceso(tutoria);
+
+        this.props.handleDuracion(tutoria.DURACION); //<< caso tuto fijo le damos el campo duracion
+
       } else {
         this.setState({ tutoriaFija: false });
         this.setState({ modoBatallador: true });
         this.props.handleFiltroProceso(tutoria[0]);
+
+        this.props.handleDuracion(tutoria[1]);  //<<< para darle la duracion en el arreglo
       }
     }
   };

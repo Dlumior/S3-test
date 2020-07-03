@@ -18,6 +18,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 
+import moment from 'moment';
+
 const style = {
   paper: {
     marginTop: "3%",
@@ -44,7 +46,7 @@ class FrmDialogoSolicitarTutor extends Component {
   constructor() {
     super();
     this.state = {
-      duracionProceso: 90,
+      duracionProceso: 90, //ex 90 minutos
       lstMotivos: {
         motivos: [
           { ID: 1, NOMBRE: "Académico" },
@@ -179,6 +181,16 @@ class FrmDialogoSolicitarTutor extends Component {
   }
   handleOnChangeHoraIni(e) {
     this.setState({ horaIniR: e.target.value });
+    var myDate="09:30";
+
+    var _nuevaHoraFin= moment(myDate).add(2,'hours').format('HH:mm');
+
+    console.log("horaIniR ",this.state.horaIniR);
+    console.log("_nuevaHoraFin ",_nuevaHoraFin);
+
+    this.setState({horaFinR:_nuevaHoraFin});
+
+      //SOSSSSSSSSSSSSSSSSS
   }
 
   handleOnChangeHoraFin(e) {
@@ -273,13 +285,13 @@ class FrmDialogoSolicitarTutor extends Component {
               <Grid item md={6} xs={6}>
                 <Grid container spacing={2} alignContent="center">
                   <Grid item md={12} xs={12}>
-                    <h3>{`Este proceso de tutoria dura : ${this.state.duracionProceso} minutos`}</h3>
+                    <h3>{`Este proceso de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
                     <CampoDeTexto
                       autoFocus={true}
                       name="descripcion"
-                      label="Descripción"
+                      label="Ingrese Descripción del motivo de la solicitud:"
                       validacion={{ lim: 100 }}
                       variant={"outlined"}
                       rows={4}

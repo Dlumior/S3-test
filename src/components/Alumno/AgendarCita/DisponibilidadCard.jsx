@@ -145,6 +145,7 @@ class DisponibilidadCard extends Component {
               fexaForm={this.props.fexaForm}
               onCloseFrm ={this.handleOnClose}
               idPro={this.props.idPro}
+              duracionPro={this.props.duracionPro}
 
 
             />

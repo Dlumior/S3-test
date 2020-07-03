@@ -74,6 +74,7 @@ class HorarioDelDia extends Component {
             fexaForm={this.props.fecha.fecha}
             filtroTutores={this.props.fecha.listaIdTutores}
             idPro={this.props.idPro}
+            duracionPro={this.props.duracionPro}
           />
         </div>
       </div>

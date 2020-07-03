@@ -26,12 +26,16 @@ class CalendarioCitas extends Component {
 
       estadoTitulo: "",
       estadoID: 0,
+      duracionPro:0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
     this.handleFiltroTutores = this.handleFiltroTutores.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
+
+    this.handleDuracion = this.handleDuracion.bind(this);
+
   }
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
@@ -98,6 +102,7 @@ class CalendarioCitas extends Component {
                         ? this.state.filtroIdProceso
                         : this.state.filtroIdProceso.ID_PROCESO_TUTORIA
                     }
+                    duracionPro= {this.state.duracionPro}
                     fecha={{
                       fecha: diaSemana,
                       //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
@@ -165,6 +170,14 @@ class CalendarioCitas extends Component {
     this.setState({ estadoID: _tutor.id });
   }
 
+
+  handleDuracion=async(_dura)=>{
+    console.log("duraXXX: ", _dura);
+
+    await this.setState({duracionPro:_dura});
+  }
+
+
   handleFiltroProceso = async (idProceso) => {
     console.log("idProceso seleccionado: ", idProceso);
     if (typeof idProceso === "object") {
@@ -203,6 +216,8 @@ class CalendarioCitas extends Component {
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}
           colorActivo={this.state.modoBatallador}
+
+          handleDuracion={this.handleDuracion}
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

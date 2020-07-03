@@ -199,11 +199,11 @@ class FrmSolicitarTutorTipoII extends Component {
                         field: "imagen",
                     },*/
                     {
-                        title: "TUTOR",
+                        title: "Tutor",
                         field: "nombre",
                     },
                     {
-                        title: "CORREO ELECTRÓNICO",
+                        title: "Correo Electrónico",
                         field: "correo"
                     },
                     /*
