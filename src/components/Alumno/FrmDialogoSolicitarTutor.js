@@ -298,7 +298,7 @@ class FrmDialogoSolicitarTutor extends Component {
                     <Grid container spacing={2}>
                       <Grid item md={6} xs={6}>
                         <TextField
-                          defaultValue={_disponibilidad?.HORA_INICIO}
+                        defaultValue={_disponibilidad?.HORA_INICIO}
                           variant="outlined"
                           required
                           margin="dense"
