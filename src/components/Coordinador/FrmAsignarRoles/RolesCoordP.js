@@ -17,14 +17,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Roles = (props) => {
   
-  const rols=['Coordinador de Programa','Tutor','Alumno'];
+  const rols=['Tutor','Alumno'];
   const classes = useStyles();
   const {disabled,roles,setRoles,datos}=props;
 
   const handleToggle = (ind,value) => () => {
-    const currentIndex =roles.indexOf(ind+2);
+    const currentIndex =roles.indexOf(ind+3);//cambio por coordP
     if (currentIndex === -1) {
-      roles.push(ind+2);
+      roles.push(ind+3);//cambio por coordP
     } else {
       roles.splice(currentIndex,1);
     }
@@ -53,7 +53,7 @@ const Roles = (props) => {
                         color="primary"
                         id={index}
                         onChange={handleToggle(index,value)}
-                        checked={roles.indexOf(index+2)!==-1}//si el rol esta en el arreglo checked
+                        checked={roles.indexOf(index+3)!==-1}//si el rol esta en el arreglo checked
                         inputProps={{ 'aria-labelledby': labelId }}                        
                     >
                       {console.log("vemaos:",roles[index],index+2)}

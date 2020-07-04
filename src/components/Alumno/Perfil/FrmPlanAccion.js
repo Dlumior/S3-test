@@ -116,9 +116,9 @@ return (
         </Grid>
         </Grid>
         <Paper elevation={0} style={style.paper}>
-            <ListadoPlanDeAccion 
+            {<ListadoPlanDeAccion 
               idAlumno={getUser().rol==="Alumno" ? getUser().usuario.ID_USUARIO: props.idAlumno} 
-              idTutoria={procesoTutoria}/>
+              idTutoria={procesoTutoria}/>}
         </Paper>        
       </div>
   );

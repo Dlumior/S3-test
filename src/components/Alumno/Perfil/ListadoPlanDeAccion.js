@@ -100,13 +100,13 @@ const ListadoPlanDeAccion = (props) => {
             <br></br>              
             {plan.map((item) => (  
                 <Grid>
-                  <Checkbox
+                  {<Checkbox
                       id={item.ID_COMPROMISO}
                       value={item.ID_SESION}
                       color="primary"
                       defaultChecked={item.ESTADO===1}
                       onChange={()=>handleToggle(item)}                   
-                  />
+                  />}
                   <TextField margin="dense" style={{ width: 300 }}
                     aria-readonly
                     id={"confe"}
