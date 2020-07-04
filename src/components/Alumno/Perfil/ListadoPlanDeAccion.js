@@ -68,11 +68,6 @@ const ListadoPlanDeAccion = (props) => {
     const handleToggle = async (item) => {
       
       console.log("item",item);
-      datos.ID_COMPROMISO=item.ID_COMPROMISO;
-
-      datos.ID_SESION=item.ID_SESION;
-      datos.DESCRIPCION=item.DESCRIPCION;
-      datos.ESTADO=item.ESTADO===1? 0:1;
       setDatos({...datos});
       const nuevoCompromiso = {
         compromiso: {
@@ -83,13 +78,10 @@ const ListadoPlanDeAccion = (props) => {
         },
       };
       //setPlan(plan.filter(v=>v.ID_COMPROMISO===item.ID_COMPROMISO));
-      const props = { servicio: "/api/compromiso/modificar", request: {compromiso: nuevoCompromiso}};
-      console.log("saving new coord in DB:", nuevoCompromiso);
-      let newCompromiso = await POST(props);
-      console.log("got updated coord from back:", newCompromiso);
-      if (newCompromiso){
-    
-      }
+      const props = { servicio: "/api/compromiso/modificar", request: nuevoCompromiso };
+      console.log("saving new uni in DB:", nuevoCompromiso);
+      let nuevaUni = await POST(props);
+      console.log("lo que viene del POST:", nuevaUni);
     };
 
     return (

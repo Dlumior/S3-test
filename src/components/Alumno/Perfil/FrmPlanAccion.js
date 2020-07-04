@@ -105,20 +105,13 @@ return (
               />
           </Grid>
           <Grid item justify="flex-end" style={{marginRight:"6%",marginTop:"3%"}}>
-          {getUser().rol==="Tutor" &&
-          <Button
-              disabled={procesoTutoria===""} 
-              variant="contained"
-              color="primary"
-          >
-              Guardar
-          </Button>}
         </Grid>
         </Grid>
         <Paper elevation={0} style={style.paper}>
             {<ListadoPlanDeAccion 
               idAlumno={getUser().rol==="Alumno" ? getUser().usuario.ID_USUARIO: props.idAlumno} 
-              idTutoria={procesoTutoria}/>}
+              idTutoria={procesoTutoria}
+              disabled={getUser().rol==="Alumno" ? true:false}/>}
         </Paper>        
       </div>
   );

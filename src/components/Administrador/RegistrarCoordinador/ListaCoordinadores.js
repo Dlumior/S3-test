@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import ModificaCoordinador from "./ModificaCoordinador";
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EliminarCoordinador from "./EliminarCoordinador";
 
 
 const style = {
@@ -38,6 +39,7 @@ class ListaCoordinadores extends React.Component {
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
     this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
 
   }
@@ -61,7 +63,8 @@ class ListaCoordinadores extends React.Component {
                                       <IconButton color="primary">
                                           <DeleteRoundedIcon
                                           color="error"
-                                          fontsize="large" />
+                                          fontsize="large" 
+                                          onClick={() => this.handleOnOpenEliminar(element.ID_USUARIO)}/>
                                       </IconButton> 
                                     {/*<Button
                                       size="large"
@@ -117,9 +120,15 @@ class ListaCoordinadores extends React.Component {
 handleOnOpen= (id) =>{
   this.setState({ open: true });
   this.state.idCoord=id;
+}
+handleOnOpenEliminar= (id) =>{
+  this.setState({ open2: true });//para el eliminar
+  this.state.idCoord=id;
 } 
 handleOnClose() {
   this.setState({ open: false });
+  this.setState({ open2: false });
+
 }
 
 render(){
@@ -128,6 +137,12 @@ render(){
             {this.state.open && 
             <ModificaCoordinador 
               open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              id={this.state.idCoord}
+            />}
+            {this.state.open2 && 
+            <EliminarCoordinador 
+              open={this.handleOnOpenEliminar} 
               close={this.handleOnClose}
               id={this.state.idCoord}
             />}
