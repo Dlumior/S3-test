@@ -114,7 +114,7 @@ const BarraNavegacion = (props) => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar color="#000000">
           <IconButton
             color="inherit"
             aria-label="open drawer"

@@ -7,6 +7,8 @@ import ListadoDeAlumnos from "../../components/Coordinador/FormRegistroAlumno/Li
 import InformacionRelevante from "../../components/Coordinador/FormRegistroAlumno/InformacionRelevante";
 import { getUser } from "../../Sesion/Sesion";
 import ListaAlumnos from "../../components/Coordinador/ListaAlumnos/ListaAlumnos";
+import { compose } from "recompose";
+import { withRouter } from "react-router-dom";
 
 const titulo = "Registro de nuevos Alumnos";
 class RegistrarAlumno extends React.Component {
@@ -23,6 +25,7 @@ class RegistrarAlumno extends React.Component {
               idPrograma={
                 getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
               }
+              ruta={this.props.history.location.pathname}
             />
           ),
         },
@@ -46,4 +49,4 @@ class RegistrarAlumno extends React.Component {
   }
 }
 
-export default RegistrarAlumno;
+export default compose(withRouter)(RegistrarAlumno);

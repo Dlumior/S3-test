@@ -7,12 +7,22 @@ import MaterialTable, { MTableToolbar } from "material-table";
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
 import AddIcon from "@material-ui/icons/Add";
-import EditRoundedIcon from '@material-ui/icons/EditRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EditRoundedIcon from "@material-ui/icons/EditRounded";
+import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
+import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrarAlumno";
+import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
 class ListaAlumnos extends Component {
   constructor() {
     super();
+    // tipo de dialogo: 0 carga individual
+    //                  1 carga masiva
+    //                  2 carga informacion relevante
+    //                  3 mantenimiento editar
+    //                  4 mantenimiento eliminar
     this.state = {
+     
+      tipoDialogo: 0,
       open: false,
       currentID: 0,
       alumno: {},
@@ -38,6 +48,7 @@ class ListaAlumnos extends Component {
     this.getEnlace = this.getEnlace.bind(this);
     this.handleEliminar = this.handleEliminar.bind(this);
     this.handleEditar = this.handleEditar.bind(this);
+    this.handleOpenDialog = this.handleOpenDialog.bind(this);
   }
   /*
        {
@@ -68,16 +79,22 @@ class ListaAlumnos extends Component {
 }
        
        */
+  async handleOpenDialog(e, tipoDialogo, idAlumno) {
+    await this.setState({ cuerpoDialogo:tipoDialogo });
+    if (idAlumno) {
+      this.setState({ currentID: idAlumno });
+    }
+    this.setState({ open: true });
+  }
   handleOnClick(e, idAlumno) {
     this.setState({ currentID: idAlumno, open: true });
     //alert("Selecciondao id: ", idAlumno);
   }
-  handleEliminar(id){
-console.log("Eliminar a : ",id);
+  handleEliminar(id) {
+    console.log("Eliminar a : ", id);
   }
-  handleEditar(id){
-    console.log("Editar a : ",id);
-
+  handleEditar(id) {
+    console.log("Editar a : ", id);
   }
   handleOnChangePrograma = async (programa) => {
     console.log("proograma:", programa);
@@ -108,7 +125,7 @@ console.log("Eliminar a : ",id);
                 size="small"
                 color="primary"
                 aria-label="add"
-                onClick={(e) => this.handleOnClick(e, ID_USUARIO)}
+                onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
               >
                 <AddIcon />
               </Fab>
@@ -119,12 +136,15 @@ console.log("Eliminar a : ",id);
                   <EditRoundedIcon
                     color="secondary"
                     fontsize="large"
-                    onClick={() => this.handleEditar(ID_USUARIO)}
+                    onClick={(e) => this.handleOpenDialog(e, 3, ID_USUARIO)}
                   />
                 </IconButton>
                 <IconButton color="primary">
-                  <DeleteRoundedIcon color="error" fontsize="large" 
-                  onClick={() => this.handleEliminar(ID_USUARIO)}/>
+                  <DeleteRoundedIcon
+                    color="error"
+                    fontsize="large"
+                    onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
+                  />
                 </IconButton>{" "}
               </>
             ),
@@ -242,11 +262,24 @@ console.log("Eliminar a : ",id);
       <div>
         <JModal
           titulo={"Registro de Informacion historica"}
-          body={<InformacionRelevante idAlumno={this.state.currentID} />}
+          body={
+            this.state.cuerpoDialogo === 0 ? (
+              <FormularioRegistrarAlumno />
+            ) : this.state.cuerpoDialogo === 1 ? (
+              <FormularioImportarAlumnos />
+            ) : this.state.cuerpoDialogo === 2 ? (
+              <InformacionRelevante idAlumno={this.state.currentID} />
+            ) : (
+              <InformacionRelevante idAlumno={this.state.currentID} />
+            )
+          }
           open={this.state.open}
-          hadleClose={() => this.setState({ open: false })}
+          hadleClose={() => {
+            this.setState({ open: false });
+            //window.location.replace(this.props.ruta);
+          }}
           maxWidth={"lg"}
-          botonDerecho
+          botonDerecho={"Cerrar"}
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           {/** eliminar data */}
@@ -296,14 +329,22 @@ console.log("Eliminar a : ",id);
               <></>
             )}
           </Grid>
-          <Grid item md={2} xs={2} />
+          <Grid item md={2} xs={2}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={(e) => this.handleOpenDialog(e, 1)}
+              startIcon={<BackupTwoToneIcon />}
+            >
+              Importar de archivo CSV
+            </Button>
+          </Grid>
           {/** Boton registarr */}
           <Grid item md={2} xs={2}>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => console.log("cliiick")}
-              //startIcon={<CloudUploadIcon />}
+              onClick={(e) => this.handleOpenDialog(e, 0)}
             >
               Nuevo
             </Button>

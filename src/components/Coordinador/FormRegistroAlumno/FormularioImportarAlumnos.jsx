@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { Paper } from "@material-ui/core";
+import { Paper, ThemeProvider } from "@material-ui/core";
 import EnConstruccion from "../../Shared/EnConstruccion";
 import TituloFormulario from "../Tutorias/TituloFormulario";
 import { getUser } from "../../../Sesion/Sesion";
+import JinUploadSSJ from "jin-upload-ssj";
+import theme from "../../../theme";
+import { withRouter } from "react-router-dom";
 const style = {
   paper: {
     marginTop: "3%",
@@ -16,8 +19,7 @@ const style = {
 class FormularioImportarAlumnos extends Component {
   render() {
     return (
-      <>
-        
+      <div>
         {/**
          * Te la creiste Wey aun esta en construcción XDDDD
          * Lo que viste fue una ilusion XD
@@ -25,9 +27,18 @@ class FormularioImportarAlumnos extends Component {
          * PD2. TE ODIO HOOKS
          * PD3. lo subo cuando lo acabe de hacerloXDDDDDD
          */}
-          <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/holiiiis4.png"/>
-
-      </>
+        <div>
+          <div>
+            <div>
+              <div>
+                <JinUploadSSJ
+                  usuario={getUser().usuario}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
