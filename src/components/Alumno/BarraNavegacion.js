@@ -28,8 +28,10 @@ import DateRangeRoundedIcon from "@material-ui/icons/DateRangeRounded";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Link as LinkRouter } from "react-router-dom";
 import { logOut } from "../../Sesion/actions/sesionAction";
-import { useUserValue } from "../../Sesion/Sesion";
+import { useUserValue, getUser } from "../../Sesion/Sesion";
 import { Badge, Menu, MenuItem } from "@material-ui/core";
+import NotificacionBtn from "./Notificaciones/NotificacionBtn";
+import { GET } from "../../Conexion/Controller";
 
 const drawerWidth = 250;
 
@@ -102,9 +104,13 @@ const useStyles = makeStyles((theme) => ({
 const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const idUsuario = getUser().usuario.ID_USUARIO;
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const [numNotif, setNumNotif] = React.useState(0);
+
+  const changeNumNotif = (num) => setNumNotif(num);
 
   const [{}, dispatch] = useUserValue();
   const handleClick = () => {
@@ -122,28 +128,58 @@ const BarraNavegacion = (props) => {
   };
 
   const handleMenuOpen = (event) => {
+    console.log("current target:");
+    console.log(event.currentTarget);
+
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    removeNotif();
   };
+
+  async function removeNotif() {
+    const endpoint = "/api/notificacion/actualizar/" + idUsuario;
+    const params = { servicio: endpoint };
+    const res = await GET(params);
+    console.log(res);
+    setNumNotif(0);
+    window.location.reload();
+  }
 
   const menuId = "primary-menu";
 
+  // const renderMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     anchorReference="anchorPosition"
+  //     anchorPosition={{ top: 70, left: window.screen.width - 50 }}
+  //     id={menuId}
+  //     keepMounted
+  //     anchorOrigin={{
+  //       vertical: "bottom",
+  //       horizontal: "right",
+  //     }}
+  //     transformOrigin={{
+  //       vertical: "top",
+  //       horizontal: "right",
+  //     }}
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //     <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+  //     <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+  //   </Menu>
+  // );
   const renderMenu = (
-    <Menu
+    <NotificacionBtn
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "bottom", horizontal: "left" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
+      menuId={menuId}
+      isMenuOpen={isMenuOpen}
+      handleMenuClose={handleMenuClose}
+      changeNumNotif={changeNumNotif}
+    />
   );
 
   return (
@@ -177,7 +213,7 @@ const BarraNavegacion = (props) => {
               color="inherit"
               onClick={handleMenuOpen}
             >
-              <Badge badgeContent={40} color="error">
+              <Badge badgeContent={numNotif} color="error">
                 <NotificationsIcon />
               </Badge>
             </IconButton>
