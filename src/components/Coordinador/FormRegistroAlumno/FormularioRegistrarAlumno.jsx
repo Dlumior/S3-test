@@ -168,7 +168,8 @@ class FormularioRegistrarAlumno extends Component {
         direccion,
       } = this.state.alumno;
       const nuevoEstudiante = {
-        alumno: {
+        alumno: { 
+
           APELLIDOS: apellidos,
           CODIGO: codigo,
           CONTRASENHA: "sudo tys",
@@ -319,7 +320,7 @@ class FormularioRegistrarAlumno extends Component {
           titulo={"Observacion:"}
           alerta={this.state.alert}
         />
-        <TituloFormulario titulo="Formulario de Registro de Alumnos:" />
+        {/**<TituloFormulario titulo="Formulario de Registro de Alumnos:" /> */}
         <Grid container spacing={0}>
           <Grid item md={4} xs={12}>
             {/* Npmbres */}
