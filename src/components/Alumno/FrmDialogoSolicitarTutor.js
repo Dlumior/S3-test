@@ -7,6 +7,7 @@ import {
   Button,
   Dialog,
   TextField,
+  FormHelperText,
 } from "@material-ui/core";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
@@ -359,8 +360,8 @@ class FrmDialogoSolicitarTutor extends Component {
                           }}
                           onChange={(e) => this.handleOnChangeHoraIni(e)}
                           fullWidth
-                          placeholder ="Los minutos deben acabar en 00 o 30"
                         />
+                        <FormHelperText >{`Los minutos deben acabar en 00 o 30`}</FormHelperText>
                       </Grid>
                       <Grid item md={6} xs={6}>
                         <TextField
