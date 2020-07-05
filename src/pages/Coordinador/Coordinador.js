@@ -38,6 +38,16 @@ const Coordinador = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
+      <Route
+          exact
+          path="/coordinador"
+          component={() => (
+            <>
+              <SaltoDeLinea N={3} />
+              <Perfil data={props} />
+            </>
+          )}
+        />
         <Route
           exact
           path="/coordinador/facultades"
