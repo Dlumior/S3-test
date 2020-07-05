@@ -9,6 +9,9 @@ import Button from "@material-ui/core/Button";
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import IconButton from "@material-ui/core/IconButton";
+import ModificarFacultad from "./ModificarFacultad";
+import EliminarFacultad from "./EliminarFacultad";
+import { getUser } from "../../../Sesion/Sesion";
 
 
 const style = {
@@ -32,39 +35,39 @@ class ListaFacultades extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        facultad:[{id:"1"}]
+        facultad:[{id:"1"}],
+        facultadCompleta:[]
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
+    this.handleOnOpen = this.handleOnOpen.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
 
   }
 
   establecerData(arregloFac){
-
     let arreglillo = [];
-    for (let element of arregloFac.facultad){
+    for (let element of (arregloFac.facultad? arregloFac.facultad : arregloFac.facultades)){
       if (element.ID_PROGRAMA!==null){
         arreglillo.push({
           codigo:element.ID_PROGRAMA,
           nombre:element.NOMBRE,
           boton:<div> 
-                <Grid item md={4}> 
+                <IconButton color="primary">
+                    <EditRoundedIcon
+                    color="secondary"
+                    fontsize="large"
+                    onClick={() => this.handleOnOpen(element)}
+                    />
+                </IconButton>
+                {getUser().rol==="Administrador" &&
                   <IconButton color="primary">
-                      <EditRoundedIcon
-                      color="secondary"
-                      fontsize="large" />
-                  </IconButton>
-                  <IconButton color="primary">
-                      <DeleteRoundedIcon
-                      color="error"
-                      fontsize="large" />
-                  </IconButton> 
-                </Grid>  
-                      {/*<Button 
-                          variant="outlined"
-                          color="primary">
-                          Ver Facultad
-                      </Button>*/}
+                    <DeleteRoundedIcon
+                    color="error"
+                    fontsize="large" 
+                    onClick={() => this.handleOnOpenEliminar(element)}/>                    
+                </IconButton>  }
                 </div>
           });  
 
@@ -93,25 +96,59 @@ class ListaFacultades extends React.Component {
   async componentDidUpdate(prevProps){
     if (this.props.facultades!==prevProps.facultades){
       console.log("fac",this.props.facultades);
-      let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
-      
+      let arregloFac;
+      if (getUser().rol==="Administrador"){
+        arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+      }else{
+        arregloFac=await Controller.GET({servicio:"/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO});
+      }
       this.establecerData(arregloFac);
     }    
   }
 
   async componentDidMount(){
-    let arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+    let arregloFac;
+    if (getUser().rol==="Administrador"){
+      arregloFac=await Controller.GET({servicio:"/api/facultad/"});
+    }else{
+      arregloFac=await Controller.GET({servicio:"/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO});
+    }
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
     
     console.log("arreglo: ",arregloFac);
     this.establecerData(arregloFac);
 
-}
+  }
+  handleOnOpen= (element) =>{
+    this.setState({ open: true });
+    this.state.facultadCompleta=element;
+    console.log("faku",this.state.facultadCompleta);
+  } 
+  handleOnOpenEliminar= (element) =>{
+    this.setState({ open2: true });//para el eliminar
+    this.state.facultadCompleta=element;
 
+  } 
+  handleOnClose() {
+    this.setState({ open: false });
+    this.setState({ open2: false });
+  }
 
 render(){
     return (
         <div>
+          {this.state.open && 
+            <ModificarFacultad 
+              open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              facultad={this.state.facultadCompleta}
+            />}
+            {this.state.open2 && 
+            <EliminarFacultad 
+              open={this.handleOnOpenEliminar} 
+              close={this.handleOnClose}
+              id={this.state.idCoord}
+            />}
             <Paper elevation={0} style={style.paper}>
                 {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
                 <TablaFacultad facultades={this.state.facultades}  />
