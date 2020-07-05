@@ -134,7 +134,7 @@ class Controles extends Component {
 
         this.props.handleFiltroProceso(tutoria);
 
-        this.props.handleDuracion(tutoria.DURACION); //<< caso tuto fijo le damos el campo duracion
+        this.props.handleDuracion(tutoria.DURACION?tutoria.DURACION:0); //<< caso tuto fijo le damos el campo duracion
 
       } else {
         this.setState({ tutoriaFija: false });
