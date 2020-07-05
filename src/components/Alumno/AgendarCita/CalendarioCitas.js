@@ -106,22 +106,11 @@ class CalendarioCitas extends Component {
                     fecha={{
                       fecha: diaSemana,
                       //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
-                      servicio: this.state.estadoID
-                        ? listaIdTutores !== []
-                          ? `/api/disponibilidad/listarPrograma/${
-                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                                .ID_PROGRAMA
-                            }
-                      /${diaSemana.toISOString().split("T")[0]}`
-                          : `/api/disponibilidad/listarPrograma/${
-                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
-                                .ID_PROGRAMA
-                            }
-                              /${diaSemana.toISOString().split("T")[0]}/${
-                              this.state.estadoID
-                            }`
-                        : this.props.servicio +
-                          diaSemana.toISOString().split("T")[0],
+                      servicio: this.state.estadoID? //existe el id
+                       (listaIdTutores===[]) ? //diif de array vacio
+                          `/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}`
+                          : `/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`
+                        : this.props.servicio + diaSemana.toISOString().split("T")[0],
                       tipo: this.props.tipo,
                       listaIdTutores: listaIdTutores,
                     }}
@@ -165,6 +154,7 @@ class CalendarioCitas extends Component {
   //_tutor : es un objeto con id y nombre
   handleFiltroTutor(_tutor) {
     //console.log("R2D2 ", _tutor);
+    console.log("/*/ ", _tutor);
     this.setState({ estadoTitulo: _tutor.nombre });
     //ahora vamos a seterar id
     this.setState({ estadoID: _tutor.id });
@@ -205,6 +195,14 @@ class CalendarioCitas extends Component {
   render() {
     return (
       <div style={styles.container}>
+        {/**
+         * Desde la lista de tutores (granito) no filtra el tutor seleccionado[arreglado]
+         * En tutotria fija no filtra por su tutor fijo[arreglado]
+         * Desde las etiquetas tutores no filtra ahora :(
+         * 
+         * 
+         * al cargar el Combobox no recupera el id para la hora de inicio y fin y duracion pa que te acuerdes, sale undefined pon CTV exelente ya y nada mas .l.
+         */}
         <Controles
           fecha={this.state.fechaControles}
           saltoEnElTiempo={this.saltarEnElTiempo}

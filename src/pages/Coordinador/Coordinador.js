@@ -16,13 +16,16 @@ import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "../../theme.js";
+import Facultades from "../Administrador/Facultades";
 
 const Coordinador = (props) => {
   console.log("Coordinador", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
-    return (Home)
+    return Home;
   } else {
     const move_to = getUser().rol.toLowerCase().split(" ")[0];
     console.log("Ruta", move_to);
@@ -34,61 +37,69 @@ const Coordinador = (props) => {
 
   return (
     <div>
+      <ThemeProvider theme={theme}>
       <Route
-        exact
-        path={"/coordinador/"}
-        component={() => (
-          <>
-            <SaltoDeLinea N={3} />
-            <Perfil data={props} />
-          </>
-        )}
-      />
-      <BarraNavegacion>
-        {/*perfil...*/}
-        <Route exact path={"/coordinador/perfil"} component={Perfil} />
+          exact
+          path="/coordinador"
+          component={() => (
+            <>
+              <SaltoDeLinea N={3} />
+              <Perfil data={props} />
+            </>
+          )}
+        />
+        <Route
+          exact
+          path="/coordinador/facultades"
+          component={Facultades}
+        />
         <Route
           exact
           path="/coordinador/registrarTutores"
           component={RegistrarTutor}
         />
-        <Route
-          exact
-          path="/coordinador/registrarAlumnos"
-          component={RegistrarAlumno}
-        />
-        <Route
-          exact
-          path="/coordinador/asignaciondeTutor"
-          component={AsignarTutor}
-        />
-        <Route
-          exact
-          path="/coordinador/procesosdetutoria"
-          component={Tutorias}
-        />
-        <Route exact path="/coordinador/programas" component={Programas} />
-        <Route
-          exact
-          path="/coordinador/registrardisponibilidades"
-          component={RegistrarDisponibilidad}
-        />
-        <Route
-          exact
-          path="/coordinador/registrarcoordinadoresdeprograma"
-          component={RegistrarCoordPrograma}
-        />
-        <Route
-          exact
-          path="/coordinador/reportes"
-          component={Reporte}
-        />
-        <Route
-          exact
-          path="/coordinador/asignarroles"
-          component={AsignarRoles}
-        />
-      </BarraNavegacion>
+        <BarraNavegacion>
+          {/*perfil...*/}
+          <Route exact path={"/coordinador/perfil"} component={Perfil} />
+          <Route
+            exact
+            path="/coordinador/registrarTutores"
+            component={RegistrarTutor}
+          />
+          <Route
+            exact
+            path="/coordinador/registrarAlumnos"
+            component={RegistrarAlumno}
+          />
+          <Route
+            exact
+            path="/coordinador/asignaciondeTutor"
+            component={AsignarTutor}
+          />
+          <Route
+            exact
+            path="/coordinador/procesosdetutoria"
+            component={Tutorias}
+          />
+          <Route exact path="/coordinador/programas" component={Programas} />
+          <Route
+            exact
+            path="/coordinador/registrardisponibilidades"
+            component={RegistrarDisponibilidad}
+          />
+          <Route
+            exact
+            path="/coordinador/registrarcoordinadoresdeprograma"
+            component={RegistrarCoordPrograma}
+          />
+          <Route exact path="/coordinador/reportes" component={Reporte} />
+          <Route
+            exact
+            path="/coordinador/asignarroles"
+            component={AsignarRoles}
+          />
+        </BarraNavegacion>
+      </ThemeProvider>
     </div>
   );
 };

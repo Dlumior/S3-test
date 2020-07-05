@@ -7,6 +7,7 @@ import {
   Button,
   Dialog,
   TextField,
+  FormHelperText,
 } from "@material-ui/core";
 import { diasSemana, mesesAnio } from "./AgendarCita/Util";
 import ListaComboBox from "../Coordinador/Tutorias/ListaComboBox";
@@ -78,6 +79,12 @@ class FrmDialogoSolicitarTutor extends Component {
     this.handleOnClose = this.handleOnClose.bind(this);
     this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
     this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
+
+
+
+
+    this.handleFocusOutHoraIni = this.handleFocusOutHoraIni.bind(this);
+
   }
 
   //menaje de satisfaccion
@@ -113,8 +120,10 @@ class FrmDialogoSolicitarTutor extends Component {
         MOTIVO: this.state._motivoSelecc,
         DESCRIPCION: this.state.descripcion,
         FECHA: this.props.dispo.FECHA,
-        HORA_INICIO: this.props.dispo.HORA_INICIO,
-        HORA_FIN: this.props.dispo.HORA_FIN,
+        // HORA_INICIO: this.props.dispo.HORA_INICIO,
+        // HORA_FIN: this.props.dispo.HORA_FIN,
+        HORA_INICIO: this.state.horaIniR,
+        HORA_FIN: this.state.horaFinR,
         ALUMNOS: [yo.usuario.ID_USUARIO],
       },
     };
@@ -179,22 +188,50 @@ class FrmDialogoSolicitarTutor extends Component {
         }
         */
   }
+
+  handleFocusOutHoraIni() {
+    if (this.state.horaIniR.slice(-2) !== "30" || this.state.horaIniR.slice(-2) !== "00") {
+      let _yeri ="";
+      _yeri= this.state.horaIniR.slice(0, 2) + ":00";
+      console.log("FOCUS=>", _yeri);
+      this.setState({ horaIniR: _yeri });
+
+      //actualizamos la hora de la salida
+      let _strHora = "2020-07-04 ";
+      _strHora += _yeri;
+      let _datetime = new Date(_strHora);
+      _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
+      let n = _datetime.toLocaleTimeString();
+      console.log("antesIF=> ",n);
+      if (n.length === 7) { n = "0" + n; }
+      n = n.slice(0, 5);
+      console.log("antes n=> ",n);
+      this.setState({ horaFinR: n });
+
+    }
+  }
+
   handleOnChangeHoraIni(e) {
     this.setState({ horaIniR: e.target.value });
-    var myDate="09:30";
+    let _strHora = "2020-07-04 ";
+    _strHora += e.target.value;
+    let _datetime = new Date(_strHora);
+    _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
+    let n = _datetime.toLocaleTimeString();
+    if (n.length === 7) { n = "0" + n; }
+    n = n.slice(0, 5);
+    //console.log("SLICE=> ",n);
+    this.setState({ horaFinR: n });
+    //en los states hay un "delay" de un caracter 07:30 -> se graba 07:03 ... idkwhy
 
-    var _nuevaHoraFin= moment(myDate).add(2,'hours').format('HH:mm');
+    document.getElementById("Hora").addEventListener("focusout", this.handleFocusOutHoraIni);
 
-    console.log("horaIniR ",this.state.horaIniR);
-    console.log("_nuevaHoraFin ",_nuevaHoraFin);
-
-    this.setState({horaFinR:_nuevaHoraFin});
-
-      //SOSSSSSSSSSSSSSSSSS
   }
 
   handleOnChangeHoraFin(e) {
     this.setState({ horaFinR: e.target.value });
+    //e.target.value = this.sstate.horaFinR;
+
   }
   render() {
     const _disponibilidad = this.props.dispo;
@@ -285,7 +322,7 @@ class FrmDialogoSolicitarTutor extends Component {
               <Grid item md={6} xs={6}>
                 <Grid container spacing={2} alignContent="center">
                   <Grid item md={12} xs={12}>
-                    <h3>{`Este proceso de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
+                    <h3>{`Esta sesión de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
                     <CampoDeTexto
@@ -310,7 +347,8 @@ class FrmDialogoSolicitarTutor extends Component {
                     <Grid container spacing={2}>
                       <Grid item md={6} xs={6}>
                         <TextField
-                        defaultValue={_disponibilidad?.HORA_INICIO}
+                          defaultValue={_disponibilidad?.HORA_INICIO}
+                          value={this.state.horaIniR}
                           variant="outlined"
                           required
                           margin="dense"
@@ -323,9 +361,11 @@ class FrmDialogoSolicitarTutor extends Component {
                           onChange={(e) => this.handleOnChangeHoraIni(e)}
                           fullWidth
                         />
+                        <FormHelperText >{`Los minutos deben acabar en 00 o 30`}</FormHelperText>
                       </Grid>
                       <Grid item md={6} xs={6}>
                         <TextField
+                          value={this.state.horaFinR}
                           disabled={true}
                           variant="outlined"
                           required

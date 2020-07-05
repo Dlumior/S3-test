@@ -81,14 +81,15 @@ class FrmSolicitarTutorTipoII extends Component {
         let sesionTyS = await Controller.POST(props);
         console.log("TutoFIJOOO tYS XXX ",sesionTyS);
 
-       
+       if(sesionTyS.error || !sesionTyS){
+        this.setState({mensajillo:"UpS, Error Inesperado!    Por favor, Inténtelo más tarde."});  
+
+       }else
        if(sesionTyS){
             this.setState({mensajillo:<><p>Solicitud Registrada Satisfactoriamente !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></>});  
             this.setState({botonDisable:true});
             this.setState({actualizar:!this.state.actualizar});
-        }else{
-           this.setState({mensajillo:"UpS, Error Inesperado!    Por favor, Inténtelo más tarde."});  
-       }
+        }
 
        this.setState({openSolicitarTutor:true });
 

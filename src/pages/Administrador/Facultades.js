@@ -5,6 +5,7 @@ import ListaFacultades from "../../components/Administrador/Facultades/ListaFacu
 import { GET } from "../../Conexion/Controller";
 import { Grid, Paper, makeStyles, IconButton } from "@material-ui/core";
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
+import { getUser } from "../../Sesion/Sesion";
 
 const Facultades = () => {
   const [facultades, setFacultades] = useState([]);
@@ -12,10 +13,18 @@ const Facultades = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const endpoint = "/api/facultad";
-      const params = { servicio: endpoint };
-      const res = await GET(params);
-      setFacultades(res.facultades);
+      console.log("getuser",getUser().rol);
+      if (getUser().rol==="Administrador"){
+        const endpoint = "/api/facultad";
+        const params = { servicio: endpoint };
+        const res = await GET(params);
+        setFacultades(res.facultades);
+      }else{
+        const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
+        const params = { servicio: endpoint };
+        const res = await GET(params);
+        setFacultades(res.facultades);        
+      }
     }
     fetchData();
   }, {});
@@ -28,17 +37,19 @@ const Facultades = () => {
       <NombrePrincipal titulo="Facultades" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
         <Grid item>
-        <RegistrarFacultad/>
+        {getUser().rol==="Administrador" &&
+          <RegistrarFacultad/>}
         </Grid>
         <Grid item>
-        <IconButton color="primary" onClick={forceUpdate}>
-        <RefreshRoundedIcon
-          color="primary">
-        </RefreshRoundedIcon>
-        </IconButton>
+          {getUser().rol==="Administrador" &&
+          <IconButton color="primary" onClick={forceUpdate}>
+          <RefreshRoundedIcon
+            color="primary">
+          </RefreshRoundedIcon>
+          </IconButton>}
         </Grid>        
       </Grid>
-      <ListaFacultades facultades={facultades} />   
+      <ListaFacultades  />   
     </div>
   );
 };
