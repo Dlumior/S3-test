@@ -245,7 +245,7 @@ class ListaAlumnos extends Component {
             ) : this.state.cuerpoDialogo === 1 ? (
               <FormularioImportarAlumnos usuario={getUser().usuario}/>
             ) : this.state.cuerpoDialogo === 2 ? (
-              <h2>Actializar Alumno con ID : {this.state.currentID}</h2>
+              <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
             ) : this.state.cuerpoDialogo === 3 ? (
             <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (

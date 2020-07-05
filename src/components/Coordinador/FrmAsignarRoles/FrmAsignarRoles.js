@@ -16,6 +16,7 @@ import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
 import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import Roles from "./Roles";
+import RolesCoordP from "./RolesCoordP";
 import Alertas from "../../Coordinador/Alertas";
 import { findAllByTestId } from "@testing-library/react";
 
@@ -39,10 +40,11 @@ const style = {
     const [datosForm, setDatosForm] = React.useState({
       usuarioCodigo:0,
       usuarioNombre:'',
-      idUsuario:0,
+      idUsuario:getUser().usuario.ID_USUARIO,
       roles:[],
       idPrograma:'',
     });
+  const [esCoordFacu, setEsCoordFacu]=useState(true);
   const [deshabilitar, setDeshabilitar] = useState(true);
   const [facultades, setFacultades] = useState([]);
   const [facultad, setFacultad] = useState([]);
@@ -75,6 +77,7 @@ useEffect(() => {
         const res = await GET(params);    
         console.log("facultades:", res);
         setFacultades(res.facultades);
+        setEsCoordFacu(true);
         console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
@@ -82,6 +85,7 @@ useEffect(() => {
         const res = await GET(params);    
         console.log("ENTREE:", res);
         setFacultades(res.facultades);
+        setEsCoordFacu(false);
         console.log("facultades:", facultades);
       }
     }
@@ -124,7 +128,8 @@ useEffect(() => {
         }
         console.log("arrRoles: ",arrRoles);
         datosForm.roles=arrRoles;
-        setRoles(arrRoles);
+        setRoles(res.roles);
+        console.log("roles",roles);
         console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
         if (datosForm.usuarioCodigo!==0){
             setDeshabilitar(false);
@@ -260,12 +265,20 @@ useEffect(() => {
                     </Grid>
                     <Grid container md={12} spacing={3} justify="space-between" alignItems="flex-end">
                         <Grid item md={10}>
+                            {esCoordFacu &&
                             <Roles
                                 disabled={deshabilitar}
                                 datos={datosForm}
                                 roles={datosForm.roles}
                                 setRoles={setDatosForm}
-                            />
+                            />}
+                            {esCoordFacu===false &&
+                            <RolesCoordP
+                                disabled={deshabilitar}
+                                datos={datosForm}
+                                roles={datosForm.roles}
+                                setRoles={setDatosForm}
+                            />}
                         </Grid>
                         <Grid item md={2} >
                             <Button

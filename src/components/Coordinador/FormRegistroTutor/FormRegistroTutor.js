@@ -50,7 +50,7 @@ const handleLastName = (e, datos, setDatos, errors, setErrors) => {
   setErrors({ ...errors, lastnames: res });
 };
 
-const handleEmail = (e, datos, setDatos, errors, setErrors) => {
+const handleEmail = (e, datos, setDatos, errors, setErrors, dominio1, dominio2) => {
   const auxEmail = e.target.value;
 
   setDatos({
@@ -59,7 +59,7 @@ const handleEmail = (e, datos, setDatos, errors, setErrors) => {
     USUARIO: auxEmail,
   });
 
-  const res = validateEmail(auxEmail);
+  const res = validateEmail(auxEmail, dominio1, dominio2);
   setErrors({ ...errors, email: res });
 };
 
@@ -114,6 +114,22 @@ const FormRegistroTutor = (props) => {
 
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState("");
+
+  const [dominio1, setDominio1] = useState("");
+  const [dominio2, setDominio2] = useState("");
+
+  useEffect(() => {
+    async function fetchTutores() {
+      let institucion = await Controller.GET({servicio:"/api/institucion"});
+      console.log("RegistrarTutor institucion: ", institucion);
+      setDominio1(institucion.institucion.DOMINIO);
+      setDominio2(institucion.institucion.DOMINIO2);
+      console.log("RegistrarTutor dominio1: ", dominio1);
+      console.log("RegistrarTutor dominio2: ", dominio2);
+    }
+
+    fetchTutores();
+  }, [dominio1, dominio2]);
 
   //Funcion auxiliar para obtener las facultades del coordinador
   useEffect(() => {
@@ -248,7 +264,7 @@ const FormRegistroTutor = (props) => {
               type="email"
               fullWidth
               onChange={(e) =>
-                handleEmail(e, datos, setDatos, errors, setErrors)
+                handleEmail(e, datos, setDatos, errors, setErrors, dominio1, dominio2)
               }
               helperText={errors.email.mesage}
             />

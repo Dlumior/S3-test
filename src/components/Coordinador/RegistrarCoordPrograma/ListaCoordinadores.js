@@ -2,12 +2,15 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, IconButton } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaCoordinador from "./TablaCoordinador";
 import Button from "@material-ui/core/Button";
 import ModificaCoordinador from "../../Administrador/RegistrarCoordinador/ModificaCoordinador";
 
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EliminarCoordinador from "../../Administrador/RegistrarCoordinador/EliminarCoordinador";
 
 const style = {
     paper: {
@@ -35,6 +38,8 @@ class ListaCoordinadores extends React.Component {
     this.establecerData = this.establecerData.bind(this);    
     this.handleOnOpen = this.handleOnOpen.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
+
 
   }
   establecerData(arregloCoord){
@@ -45,13 +50,20 @@ class ListaCoordinadores extends React.Component {
                         nombre:element.NOMBRE+ " "+ element.APELLIDOS,
                         correo:element.CORREO,
                         boton:<div> 
-                                    <Button 
-                                        variant="outlined"
-                                        color="primary"
-                                        onClick={() => this.handleOnOpen(element.ID_USUARIO)}
-                                      >
-                                        Ver Coordinador
-                                    </Button>
+                                    <IconButton color="primary">
+                                          <EditRoundedIcon
+                                          color="secondary"
+                                          fontsize="large"
+                                          onClick={() => this.handleOnOpen(element.ID_USUARIO)}
+                                          />
+                                      </IconButton>
+                                      <IconButton color="primary">
+                                          <DeleteRoundedIcon
+                                          color="error"
+                                          fontsize="large" 
+                                          onClick={() => this.handleOnOpenEliminar(element.ID_USUARIO)}/>
+                                          
+                                      </IconButton> 
                                 </div>
                         });  
     }
@@ -96,8 +108,13 @@ handleOnOpen= (id) =>{
   this.setState({ open: true });
   this.state.idCoord=id;
 } 
+handleOnOpenEliminar= (id) =>{
+  this.setState({ open2: true });//para el eliminar
+  this.state.idCoord=id;
+} 
 handleOnClose() {
   this.setState({ open: false });
+  this.setState({ open2: false });
 }
 
 
@@ -107,6 +124,12 @@ render(){
           {this.state.open && 
             <ModificaCoordinador 
               open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              id={this.state.idCoord}
+            />}
+            {this.state.open2 && 
+            <EliminarCoordinador 
+              open={this.handleOnOpenEliminar} 
               close={this.handleOnClose}
               id={this.state.idCoord}
             />}

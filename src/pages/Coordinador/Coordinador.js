@@ -18,6 +18,7 @@ import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme.js";
+import Facultades from "../Administrador/Facultades";
 
 const Coordinador = (props) => {
   console.log("Coordinador", props.history.location.pathname);
@@ -39,13 +40,13 @@ const Coordinador = (props) => {
       <ThemeProvider theme={theme}>
         <Route
           exact
-          path={"/coordinador/"}
-          component={() => (
-            <>
-              <SaltoDeLinea N={3} />
-              <Perfil data={props} />
-            </>
-          )}
+          path="/coordinador/facultades"
+          component={Facultades}
+        />
+        <Route
+          exact
+          path="/coordinador/registrarTutores"
+          component={RegistrarTutor}
         />
         <BarraNavegacion>
           {/*perfil...*/}
