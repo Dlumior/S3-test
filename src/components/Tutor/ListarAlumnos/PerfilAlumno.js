@@ -8,6 +8,8 @@ import FrmPlanAccion from "../../../components/Alumno/Perfil/FrmPlanAccion";
 import TabProceso from "../../../components/Coordinador/Tutorias/TabProceso";
 import DatosGenerales from "./DatosGenerales";
 import FrmResultados from "../../../components/Alumno/Perfil/FrmResultados";
+import Asistencias from "../../../components/Alumno/Perfil/Asistencias";
+
 import HistoricoResultados from "../../Alumno/Perfil/HistoricoResultados";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +45,11 @@ const Perfil = (props) => {
       index: 2,
       titulo: "Resultados",
       proceso: () => <HistoricoResultados datosAlumno={props.match.params} />,
+    },
+    {
+      index: 3,
+      titulo: "Asistencias",
+      proceso: () => <Asistencias datosAlumno={props.match.params} />,
     },
   ];
 
