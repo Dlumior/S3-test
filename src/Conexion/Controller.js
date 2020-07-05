@@ -43,6 +43,7 @@ export async function POST(props) {
     try {
         let response = await fetch(props.servicio,
         {
+            limits:{fileSize: '10mb'},
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -51,6 +52,8 @@ export async function POST(props) {
             },
             body: JSON.stringify( props.request )
         });
+        console.log(">>> POST pre succesful",response );
+        
         let responseJson = await response.json();
         console.log(">>> POST succesful",responseJson );
         return responseJson;  

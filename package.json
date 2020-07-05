@@ -11,6 +11,8 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
+    "jin-upload-ssj2": "^1.0.6",
+    "jinssj-mat-table-drop-upload-csv": "^2.0.4",
     "material-table": "^1.57.2",
     "moment": "^2.27.0",
     "react": "^16.13.1",

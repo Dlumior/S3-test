@@ -14,11 +14,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Alertas from "../../Coordinador/Alertas"
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-
+import {getUser} from "../../../Sesion/Sesion";
 
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
-import { getUser } from "../../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -45,17 +44,28 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 const handleDiasDisponibilidad = (e, datosForm, setDatosForm) => {
   setDatosForm({
     ...datosForm,
-    DIAS_DISP: e.target.value,
+    DIAS_DISP: Number(e.target.value),
+  });
+  console.log("valuedisp",e.target.value);
+  console.log("valuedisp",datosForm.DIAS_DISP);
+
+};
+const handleDiasCancelacionCita = (e, datosForm, setDatosForm) => {
+  setDatosForm({
+    ...datosForm,
+    DIAS_CITA: Number(e.target.value),
   });
 };
-
-const RegistrarFacultad = () => {
+const ModificarFacultad = (props) => {
+  const {open,close,facultad}=props;
   const [datosForm, setDatosForm] = React.useState({
-    ID_INSTITUCION:"1",
+    ID_INSTITUCION:"",
+    ID_FACULTAD:"",
+    ID_PROGRAMA:"",
     NOMBRE: "",
     IMAGEN: null,
-    INDEPENDIENTE:0,
-    DIAS_DISP:0
+    DIAS_DISP:0,
+    DIAS_CITA:0,
   });
 
   const [alerta, setAlerta]=useState({
@@ -74,34 +84,35 @@ const RegistrarFacultad = () => {
   });
 
   const [errors, setErrors] = useState(errorObj);
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
   const [selectedValue, setSelectedValue] = React.useState();
   const [checked, setChecked] = React.useState(false);
+
+  useEffect(() => {
+    function fetchData() {  
+      datosForm.ID_FACULTAD=facultad.ID_FACULTAD;
+      datosForm.ID_PROGRAMA=facultad.ID_PROGRAMA;
+      datosForm.NOMBRE=facultad.NOMBRE;
+      datosForm.ID_INSTITUCION=facultad.ID_INSTITUCION;
+      datosForm.DIAS_DISP=facultad.ANTICIPACION_DISPONIBILIDAD;
+      datosForm.DIAS_CITA=facultad.ANTICIPACION_CANCELAR_CITA;
+
+      //datosForm.COORDINADORES=props.facultad.ROL_X_USUARIO_X_PROGRAMAs;
+      setDatosForm({
+        ...
+        datosForm,
+      });
+      console.log("datosForm:", datosForm);
+    }
+     fetchData();
+  }, {});
 
   const handleChangeChecked = (event) => {
     setChecked(event.target.checked);
     //agregar condicion para que cree una programa unico asignado a esa facultad
   };
 
-
-  const handleClickOpen = () => {
-    setOpen(true);
-    setChecked(false);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setSeveridad({
-      severidad:"",
-    });     
-    setAlerta({
-      mensaje:"",
-    }); 
-    setChecked(false);
-    setErrors(errorObj);
-  };
+  
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
@@ -116,34 +127,36 @@ const RegistrarFacultad = () => {
       console.log("severidad= ",severidad.severidad);
       return;
     } else {
+      /*
       if (checked){
         datosForm.INDEPENDIENTE=1;
       }else{
         datosForm.INDEPENDIENTE=0;
-      }
+      }*/
+      console.log("disp",datosForm.DIAS_DISP);
+      //datosForm.DIAS_DISP=parseInt(datosForm.DIAS_DISP);
       setDatosForm({
         ...datosForm
       });
       console.log(datosForm);
 
-      const props = { servicio: "/api/facultad", request: {facultad: datosForm} };
+      const props = { servicio: "/api/facultad/modificar", request: {facultad: datosForm} };
       console.log("saving new coord in DB:", datosForm);
       let nuevaFacu = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevaFacu);
 
       //si se registro bien ok==1, duplicado ok===0, otro error=-1
       if (nuevaFacu){
-        if(nuevaFacu.registro.ok===1){
-          var idProg=nuevaFacu.registro.facultad.ID_PROGRAMA; 
+        if(nuevaFacu.modificacion.ok===1){
           setSeveridad({
             severidad:"success",
           });     
           setAlerta({
-            mensaje:"Facultad registrada",
+            mensaje:"Facultad modificada satifactoriamente",
           });      
           console.log("severidad= ",severidad.severidad);
   
-        }else if(nuevaFacu.registro.ok===0){
+        }else{
           setSeveridad({
             severidad:"error",
           });     
@@ -151,13 +164,6 @@ const RegistrarFacultad = () => {
             mensaje:"La Facultad ya ha sido registrada",
           });      
   
-        }else{
-          setSeveridad({
-            severidad:"error",
-          });     
-          setAlerta({
-            mensaje:"Existen errores al completar el formulario",
-          });      
         }
       }
       
@@ -166,15 +172,9 @@ const RegistrarFacultad = () => {
 
   return (
     <div>
-      <Button 
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}>
-        Registrar
-      </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={close}
         aria-labelledby="form-dialog-title"
       >
       <Alertas
@@ -185,10 +185,10 @@ const RegistrarFacultad = () => {
         <DialogTitle id="form-dialog-title">
         <Grid container md={12} spacing={1}>
             <Grid item md={11} >
-              Formulario de Registro de Facultad
+              Formulario Modificación de Facultad
             </Grid>
             <Grid item md={1} alignContent="flex-end">
-              <CloseRoundedIcon onClick={handleClose}/>
+              <CloseRoundedIcon onClick={close}/>
             </Grid>
           </Grid>
         </DialogTitle>
@@ -203,6 +203,7 @@ const RegistrarFacultad = () => {
                   margin="dense"
                   id="NOMBRE"
                   label="Nombre"
+                  value={datosForm.NOMBRE}
                   fullWidth
                   onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
                   helperText={errors.name.mesage}
@@ -211,17 +212,27 @@ const RegistrarFacultad = () => {
               <Grid item>
                 {getUser().rol!=="Administrador" &&
                   <TextField
-                  //required
-                  //error={errors.name.error}
                   margin="dense"
                   id="antDias"
                   label="Días de anticipación al registrar disponibilidad"
                   fullWidth
+                  defaultValue={datosForm.DIAS_DISP? datosForm.DIAS_DISP:0}
                   onChange={(e) => handleDiasDisponibilidad(e, datosForm, setDatosForm)}
                   type= "number"
-                  defaultValue = {0}
-                  inputProps = {{min: 0}}                  
-                  //helperText={errors.name.mesage}
+                  inputProps = {{min: 0}}                
+                />}
+              </Grid>
+              <Grid item>
+                {getUser().rol!=="Administrador" &&
+                  <TextField
+                  margin="dense"
+                  id="antDias"
+                  label="Días de anticipación al cancelar una cita"
+                  defaultValue={datosForm.DIAS_CITA? datosForm.DIAS_CITA:0}
+                  fullWidth
+                  onChange={(e) => handleDiasCancelacionCita(e, datosForm, setDatosForm)}
+                  type= "number"
+                  inputProps = {{min: 0}}                
                 />}
               </Grid>
             <Grid item>
@@ -242,7 +253,7 @@ const RegistrarFacultad = () => {
         <DialogActions>
           <Button 
             variant="outlined"
-            onClick={handleClose} color="primary">
+            onClick={close} color="primary">
             Cancelar
           </Button>
 
@@ -251,11 +262,11 @@ const RegistrarFacultad = () => {
             onClick={(e) => handleClick(e, datosForm, setDatosForm)}
             color="primary"
           >
-            Crear
+            Modificar
           </Button>
         </DialogActions>
       </Dialog>
     </div>
   );
 };
-export default RegistrarFacultad;
+export default ModificarFacultad;
