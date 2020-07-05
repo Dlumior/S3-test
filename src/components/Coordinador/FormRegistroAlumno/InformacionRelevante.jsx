@@ -123,8 +123,21 @@ class InformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoadURL = async (file, fileName, ext) => {
-    console.log("++URL: ", file);
-    this.setState({ fileName: fileName ,ext:ext});
+    //console.log("++URL: ", file);
+    console.log("JUpload SSJ length: ", file.length);
+    //console.log("JUpload SSJ split: ", file.split("\n"));
+    const tamanio = file.length;
+    let splitedFile = [];
+    var i,
+      j,
+      chunk = 1024 * 10 * 5;
+    for (i = 0, j = tamanio; i < j; i += chunk) {
+      splitedFile.push(file.slice(i, i + chunk));
+      // do whatever
+    }
+    console.log("JUpload SSJ split: ", splitedFile);
+    await this.setState({ FILE: splitedFile });
+    this.setState({ fileName: fileName, ext: ext });
     if (ext === "pdf") {
       this.setState({ PDFURL: file });
     }
@@ -146,28 +159,34 @@ class InformacionRelevante extends Component {
   }
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
-      setTimeout(async () => {
-        const ARCHIVO = {
+
+      await setTimeout(async () => {
+        await this.state.FILE.forEach(async (pedazo,index) => {
+          const ARCHIVO = {
           archivo: {
             ID_ALUMNO: this.props.idAlumno,
-            ARCHIVO: this.state.FILE,
+            ARCHIVO: pedazo[index],
             EXTENSION: this.state.ext,
-            DESCRIPCION: this.state.descripcion,
-          }
+            DESCRIPCION: `${this.state.descripcion}.parte${index}`,
+          },
         };
-        let response = await POST({ servicio: "/api/alumno/informacionrelevante", request: ARCHIVO });
-    
-       
-        if(!response){
-          alert("Algo paso en el upload");
-        }else{
+        let response = await POST({
+          servicio: "/api/alumno/informacionrelevante",
+          request: ARCHIVO,
+        });
+
+        if (!response) {
+          console.log("Algo paso en el upload");
+          return;
+        } else {
           console.log("Se registro la informacion: ", response);
         }
+        });
+        
 
         resolve();
       }, 1000);
-    })
-    
+    });
   };
 
   async componentDidMount() {
@@ -177,8 +196,6 @@ class InformacionRelevante extends Component {
     }
 
     await this.setState({ loguedIn: true, usuario: usuario });
-
-   
   }
   removerDatos() {
     this.setState({ PDFURL: undefined });
@@ -189,7 +206,7 @@ class InformacionRelevante extends Component {
       return (
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           <Grid container spacing={0}>
-            {this.state.FILE ? (
+            {this.state.PDFURL ? (
               <Grid item md={2} xs={6}>
                 <Button
                   color="primary"
@@ -219,7 +236,7 @@ class InformacionRelevante extends Component {
                 value={this.state.fileName}
               />
             </Grid>
-            {this.state.FILE ? (
+            {(this.state.PDFURL || this.state.FILE)? (
               <>
                 <Grid item md={2} xs={6}>
                   <Button
@@ -239,7 +256,7 @@ class InformacionRelevante extends Component {
           </Grid>
 
           <Grid item md={12} xs={12}>
-            {this.state.PDFURL ? (
+            {this.state.PDFURL  ? (
               <div style={estilos.divini}>
                 <iframe
                   src={this.state.PDFURL}
