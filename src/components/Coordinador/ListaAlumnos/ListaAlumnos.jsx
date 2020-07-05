@@ -21,7 +21,6 @@ class ListaAlumnos extends Component {
     //                  3 mantenimiento editar
     //                  4 mantenimiento eliminar
     this.state = {
-     
       tipoDialogo: 0,
       open: false,
       currentID: 0,
@@ -50,37 +49,8 @@ class ListaAlumnos extends Component {
     this.handleEditar = this.handleEditar.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
   }
-  /*
-       {
-    "alumnos": [
-        {
-            "ESTADO": 1,
-            "ID_PROGRAMA": 2,
-            "ID_ROL": 4,
-            "ID_USUARIO": 239,
-            "ROL": {
-                "ID_ROL": 4,
-                "DESCRIPCION": "Alumno"
-            },
-            "USUARIO": {
-                "ID_USUARIO": 239,
-                "USUARIO": "dios",
-                "CONTRASENHA": "$2b$10$sUt2ARYee0kJ.bkv1VzuY.R8uGuev45CaNBSXIJRK6BrrlJlaWeIm",
-                "NOMBRE": "ruebc",
-                "APELLIDOS": "jfuispfd",
-                "CORREO": "tupia@pucp.edu.pe",
-                "CODIGO": "212798567",
-                "TELEFONO": "965567843",
-                "DIRECCION": "Av. Las Flores 2331",
-                "IMAGEN": null
-            }
-        }
-    ]
-}
-       
-       */
   async handleOpenDialog(e, tipoDialogo, idAlumno) {
-    await this.setState({ cuerpoDialogo:tipoDialogo });
+    await this.setState({ cuerpoDialogo: tipoDialogo });
     if (idAlumno) {
       this.setState({ currentID: idAlumno });
     }
@@ -125,7 +95,7 @@ class ListaAlumnos extends Component {
                 size="small"
                 color="primary"
                 aria-label="add"
-                onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
+                onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
               >
                 <AddIcon />
               </Fab>
@@ -136,14 +106,14 @@ class ListaAlumnos extends Component {
                   <EditRoundedIcon
                     color="secondary"
                     fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 3, ID_USUARIO)}
+                    onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
                   />
                 </IconButton>
                 <IconButton color="primary">
                   <DeleteRoundedIcon
                     color="error"
                     fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
+                    onClick={(e) => this.handleOpenDialog(e, 3, ID_USUARIO)}
                   />
                 </IconButton>{" "}
               </>
@@ -258,19 +228,29 @@ class ListaAlumnos extends Component {
   }
 
   render() {
+    const titulos= [
+      "Registro de Nuevo Alumno",
+      "Importar Alumnos desde un CSV",
+      "Registro de Informacion historica",
+      "Actualizar alumno",
+      "Eliminar alumno",
+    ];
     return (
-      <div>
+      <div style={{ backgroundColor: "#ffffff" }}>
         <JModal
-          titulo={"Registro de Informacion historica"}
+          titulo={titulos[this.state.cuerpoDialogo]}
           body={
             this.state.cuerpoDialogo === 0 ? (
               <FormularioRegistrarAlumno />
             ) : this.state.cuerpoDialogo === 1 ? (
-              <FormularioImportarAlumnos />
+              <FormularioImportarAlumnos usuario={getUser().usuario}/>
             ) : this.state.cuerpoDialogo === 2 ? (
-              <InformacionRelevante idAlumno={this.state.currentID} />
+              <h2>Actializar Alumno con ID : {this.state.currentID}</h2>
+            ) : this.state.cuerpoDialogo === 3 ? (
+            <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (
-              <InformacionRelevante idAlumno={this.state.currentID} />
+              <InformacionRelevante usuario={getUser().usuario} idAlumno={this.state.currentID} />
+
             )
           }
           open={this.state.open}
@@ -346,7 +326,7 @@ class ListaAlumnos extends Component {
               color="primary"
               onClick={(e) => this.handleOpenDialog(e, 0)}
             >
-              Nuevo
+              Registrar Nuevo Alumno
             </Button>
           </Grid>
         </Grid>

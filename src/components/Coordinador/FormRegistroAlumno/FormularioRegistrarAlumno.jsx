@@ -350,7 +350,7 @@ class FormularioRegistrarAlumno extends Component {
               name="correo"
               type="email"
               label="Correo"
-              validacion={{ lim: 25, tipo: "email" }}
+              validacion={{ lim: 35, tipo: "email" }}
               dominio = {this.state.institucion.DOMINIO}
               dominio2 = {this.state.institucion.DOMINIO2}
               onChange={this.handleOnChange}

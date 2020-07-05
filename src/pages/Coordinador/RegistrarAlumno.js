@@ -18,7 +18,8 @@ class RegistrarAlumno extends React.Component {
       procesos: [
         {
           index: 0,
-          titulo: "Alumnos",
+          paper: false,
+          titulo: "",
           proceso: () => (
             <ListaAlumnos
               prog={getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs}
@@ -28,14 +29,7 @@ class RegistrarAlumno extends React.Component {
               ruta={this.props.history.location.pathname}
             />
           ),
-        },
-        {
-          index: 1,
-          titulo: "Importar Alumnos",
-          proceso: FormularioImportarAlumnos,
-          paper: false,
-        },
-        
+        }
       ],
     };
   }
