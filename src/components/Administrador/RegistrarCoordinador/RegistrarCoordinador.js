@@ -8,14 +8,14 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";  
-import { Grid, Paper, makeStyles } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import ComboBoxPrograma from "./ComboBoxPrograma";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Alertas from "../../Coordinador/Alertas";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
-
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 
 import IconButton from '@material-ui/core/IconButton';
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
@@ -231,7 +231,11 @@ const RegistrarCoordinador = (props) => {
         });
         setOpenAviso(true);
 
-        const props2 = { servicio: "/api/usuario/buscar/" + datosForm.CODIGO};
+        const props2 = { servicio: 
+        nuevoCoord.error==="Correo repetido"? 
+        "/api/usuario/" + datosForm.CORREO : 
+        "/api/usuario/buscar/" + datosForm.CODIGO};
+
         console.log("PROOOOOPS2: ", props2);
         const res = await GET(props2);
         console.log("got updated coord from back:", res);
@@ -297,26 +301,20 @@ const RegistrarCoordinador = (props) => {
         alerta={alerta}
       />
         <DialogTitle id="form-dialog-title">
-          <Grid container md={12}>
-            <Grid item md={11} >
-              Formulario de registro de coordinador
-            </Grid>
-            <Grid item md={1} alignItems="flex-end">
+        <Grid container md={12} justify="space-between" direction="row">
+          <Grid item md={11} >
+              <Typography variant="h5">
+                Formulario de registro de coordinador
+              </Typography>
+          </Grid>
+          <Grid item md={1}>
               <CloseRoundedIcon onClick={handleClose}/>
-            </Grid>
+          </Grid>
           </Grid>
         </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}> 
             <Grid item md={12}>
-              <Facultades 
-                programasSeleccionados={programasSeleccionados}
-                setProgramasSeleccionados={setProgramasSeleccionados}
-                programa={programa}
-                setPrograma={setPrograma}
-                programas={programas}
-                setProgramas={setProgramas}
-              /> 
               <TextField
                 required
                 error={errors.code.error}
@@ -365,7 +363,14 @@ const RegistrarCoordinador = (props) => {
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               /> 
-                  
+              <Facultades 
+                programasSeleccionados={programasSeleccionados}
+                setProgramasSeleccionados={setProgramasSeleccionados}
+                programa={programa}
+                setPrograma={setPrograma}
+                programas={programas}
+                setProgramas={setProgramas}
+              /> 
             </Grid>
           </Grid>
         </DialogContent>
@@ -391,9 +396,14 @@ const RegistrarCoordinador = (props) => {
         onClose={handleCloseAviso}
         aria-labelledby="nuevorol"
       >
+        <DialogTitle id="form-dialog-title">
+          <Grid container md={12} justify="center">
+              <WarningRoundedIcon style={{ fontSize: 70,fill:"orange" }}/>
+          </Grid>
+        </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}>
-            El usuario ya existe. 
+                Ya existe un usuario con ese código
             ¿Desea asignarle el rol de coordinador de Facultad?
           </Grid>
         </DialogContent>

@@ -20,6 +20,8 @@ import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme.js";
 import Facultades from "../Administrador/Facultades";
 
+import PerfilAlumno from "../../components/Tutor/ListarAlumnos/PerfilAlumno";
+
 const Coordinador = (props) => {
   console.log("Coordinador", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
@@ -98,6 +100,8 @@ const Coordinador = (props) => {
             path="/coordinador/asignarroles"
             component={AsignarRoles}
           />
+          <Route exact path={"/coordinador/alumno/:idAlumno/:fullname"} component={PerfilAlumno}/>   
+
         </BarraNavegacion>
       </ThemeProvider>
     </div>

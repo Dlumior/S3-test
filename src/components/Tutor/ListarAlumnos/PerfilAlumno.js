@@ -52,6 +52,13 @@ const Perfil = (props) => {
       proceso: () => <Asistencias datosAlumno={props.match.params} />,
     },
   ];
+  const procesosCoordinador = [
+    {
+      index: 0,
+      titulo: "Asistencias",
+      proceso: () => <Asistencias datosAlumno={props.match.params} />,
+    },
+  ];
 
   const dir = useRef(null);
   const tel = useRef(null);
@@ -90,7 +97,8 @@ const Perfil = (props) => {
         nombre={fullname}
         alumnodesdetutor={true}
       />
-      <TabProceso procesos={procesos} paper={true}/>
+      <TabProceso procesos={getUser().rol==="Tutor" || getUser().rol==="Alumno"? 
+                  procesos:procesosCoordinador} paper={true}/>
     </div>
   );
 };

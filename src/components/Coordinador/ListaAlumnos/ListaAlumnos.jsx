@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
+import { withRouter } from 'react-router-dom';    
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
 import { Button, Grid, Fab, IconButton } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
@@ -13,7 +14,7 @@ import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrarAlumno";
 import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
 class ListaAlumnos extends Component {
-  constructor() {
+  constructor(props) {
     super();
     // tipo de dialogo: 0 carga individual
     //                  1 carga masiva
@@ -35,6 +36,7 @@ class ListaAlumnos extends Component {
           { title: "Nombre", field: "nombre" },
           { title: "Correo", field: "correo" },
           { title: "Información Historica", field: "agregarInfo" },
+          { title: "Historial de Asistencias", field: "perfil" },
           { title: "Mantenimiento", field: "mantenimiento" },
         ],
         data: [],
@@ -90,6 +92,17 @@ class ListaAlumnos extends Component {
             codigo: CODIGO,
             nombre: `${NOMBRE} ${APELLIDOS}`,
             correo: CORREO,
+            perfil:
+            <div>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={()=>this.props.history.push("/coordinador/alumno/"+
+                ID_USUARIO+"/"+JSON.stringify(APELLIDOS+", "+NOMBRE))}
+              >
+                Asistencias
+              </Button>
+            </div>,
             agregarInfo: (
               <Fab
                 size="small"

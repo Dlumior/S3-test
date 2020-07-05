@@ -12,7 +12,7 @@ import { withRouter } from "react-router-dom";
 
 const titulo = "Registro de nuevos Alumnos";
 class RegistrarAlumno extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
       procesos: [
@@ -27,6 +27,7 @@ class RegistrarAlumno extends React.Component {
                 getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
               }
               ruta={this.props.history.location.pathname}
+              history={this.props.history}
             />
           ),
         }

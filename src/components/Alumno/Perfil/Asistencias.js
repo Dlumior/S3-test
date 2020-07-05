@@ -5,7 +5,7 @@ import { dateFnsLocalizer } from "react-big-calendar";
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-class HistoricoResultados extends Component {
+class Asistencias extends Component {
   constructor() {
     super();
     this.state = {
@@ -152,4 +152,4 @@ class HistoricoResultados extends Component {
   }
 }
 
-export default HistoricoResultados;
+export default Asistencias;
