@@ -151,7 +151,6 @@ const BarraNavegacion = (props) => {
         <List>
           {[
             "Perfil",
-            "Facultades",
             "Programas",
             "Registrar Coordinadores de Programa",
             "Procesos de Tutoria",
@@ -164,7 +163,7 @@ const BarraNavegacion = (props) => {
           ]
             .filter((e) =>
               getUser().rol === "Coordinador Programa"
-                ? (e !=="Registrar Coordinadores de Programa") && (e!=="Facultades")
+                ? e !== "Registrar Coordinadores de Programa"
                 : e === e
             )
             .map((text, index) => (
@@ -184,29 +183,23 @@ const BarraNavegacion = (props) => {
                     <AccountCircleRoundedIcon />
                   ) : index === 1 ? (
                     <AccountBalanceRoundedIcon />
-                  ) : index === 2 ? (
-                    getUser().rol === "Coordinador Facultad" ? (
-                      <AccountBalanceRoundedIcon />
-                    ): (
-                      <NoteAddRoundedIcon />
-                    ) 
-                  ): index === 3 || index === 4 ? (
+                  ) : index === 3 || index === 4 ? (
                     <NoteAddRoundedIcon color="primary" />
-                  ) : index === 7 ? (
+                  ) : index === 6 ? (
                     getUser().rol === "Coordinador Facultad" ? (
                       <NoteAddRoundedIcon />
                     ) : (
                       <SupervisorAccountRoundedIcon />
                     )
-                  ) : index === 8 ? (
+                  ) : index === 7 ? (
                     getUser().rol === "Coordinador Facultad" ? (
                       <SupervisorAccountRoundedIcon />
                     ) : (
                       <AssessmentRoundedIcon />
                     )
-                  ) : index === 9 ? (
+                  ) : index === 8 ? (
                     <SupervisorAccountRoundedIcon />
-                  ) : index === 10 ? (
+                  ) : index === 9 ? (
                     <AssessmentRoundedIcon />
                   ) : (
                     <NoteAddRoundedIcon />

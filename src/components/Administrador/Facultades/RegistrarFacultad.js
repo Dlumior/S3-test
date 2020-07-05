@@ -18,7 +18,6 @@ import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj";
 import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
-import { getUser } from "../../../Sesion/Sesion";
 
 const useStyles = makeStyles((theme) => ({
   foto: {
@@ -209,8 +208,7 @@ const RegistrarFacultad = () => {
                 />
               </Grid>
               <Grid item>
-                {getUser().rol!=="Administrador" &&
-                  <TextField
+                <TextField
                   //required
                   //error={errors.name.error}
                   margin="dense"
@@ -222,7 +220,7 @@ const RegistrarFacultad = () => {
                   defaultValue = {0}
                   inputProps = {{min: 0}}                  
                   //helperText={errors.name.mesage}
-                />}
+                />
               </Grid>
             <Grid item>
             <Checkbox

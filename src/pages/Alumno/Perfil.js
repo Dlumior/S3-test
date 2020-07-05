@@ -9,8 +9,6 @@ import FrmPlanAccion from "../../components/Alumno/Perfil/FrmPlanAccion";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 import DatosGenerales from "../../components/Alumno/Perfil/DatosGenerales";
 import FrmResultados from "../../components/Alumno/Perfil/FrmResultados";
-import Asistencias from "../../components/Alumno/Perfil/Asistencias";
-
 import HistoricoResultados from "../../components/Alumno/Perfil/HistoricoResultados";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +31,8 @@ const Perfil = (props) => {
   const procesos = [
     { index: 0, titulo: "Datos Generales", proceso: DatosGenerales, paper:false },
     { index: 1, titulo: "Plan de Accion", proceso: FrmPlanAccion },
-    { index: 2,
+    {
+      index: 2,
       titulo: "Resultados",
       proceso: () => (
         <HistoricoResultados
@@ -41,12 +40,6 @@ const Perfil = (props) => {
         />
       ),
     },
-    { index: 3, titulo: "Asistencias", proceso: () => (
-      <Asistencias
-        datosAlumno={{ idAlumno: ID_USUARIO, fullname: `${NOMBRE} ${APELLIDOS}` }}
-      />
-    ),
-   },
   ];
 
   const dir = useRef(null);

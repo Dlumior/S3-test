@@ -16,7 +16,6 @@ import Perfil from "./Perfil.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
-import Facultades from "../Administrador/Facultades";
 
 const Coordinador = (props) => {
   console.log("Coordinador", props.history.location.pathname);
@@ -48,11 +47,6 @@ const Coordinador = (props) => {
       <BarraNavegacion>
         {/*perfil...*/}
         <Route exact path={"/coordinador/perfil"} component={Perfil} />
-        <Route
-          exact
-          path="/coordinador/facultades"
-          component={Facultades}
-        />
         <Route
           exact
           path="/coordinador/registrarTutores"

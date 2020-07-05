@@ -68,7 +68,7 @@ const CabeceraPerfil = (props) => {
               src={props.imagen}
               className={classes.large}
             >
-              {props.nombre[0]}
+              {props.nombre[1]}
             </Avatar>
           </Grid>
           <Grid
