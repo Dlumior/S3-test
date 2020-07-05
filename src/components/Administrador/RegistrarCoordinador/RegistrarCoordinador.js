@@ -69,12 +69,12 @@ const handleApellidos = (e, datosForm, setDatosForm, errors, setErrors) => {
     setErrors({ ...errors, lastnames: res });
 };
 
-const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors) => {
+const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors, dominio1, dominio2) => {
     setDatosForm({
       ...datosForm,
       CORREO: e.target.value,
     });
-    const res = validateEmail(e.target.value);
+    const res = validateEmail(e.target.value, dominio1, dominio2);
     setErrors({ ...errors, email: res });
 };
 const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
@@ -122,6 +122,22 @@ const RegistrarCoordinador = (props) => {
     severE:"error",
     severS:"success"
   });
+
+  const [dominio1, setDominio1] = useState("");
+  const [dominio2, setDominio2] = useState("");
+
+  useEffect(() => {
+    async function fetchTutores() {
+      let institucion = await Conexion.GET({servicio:"/api/institucion"});
+      console.log("RegistrarCoordinador institucion: ", institucion);
+      setDominio1(institucion.institucion.DOMINIO);
+      setDominio2(institucion.institucion.DOMINIO2);
+      console.log("RegistrarCoordinador dominio1: ", dominio1);
+      console.log("RegistrarCoordinador dominio2: ", dominio2);
+    }
+
+    fetchTutores();
+  }, [dominio1, dominio2]);
 
  useEffect(() => {
   async function fetchData() {
@@ -216,6 +232,7 @@ const RegistrarCoordinador = (props) => {
         setOpenAviso(true);
 
         const props2 = { servicio: "/api/usuario/buscar/" + datosForm.CODIGO};
+        console.log("PROOOOOPS2: ", props2);
         const res = await GET(props2);
         console.log("got updated coord from back:", res);
         setDatosAsignacion({
@@ -292,6 +309,14 @@ const RegistrarCoordinador = (props) => {
         <DialogContent>
           <Grid container md={12} spacing={2}> 
             <Grid item md={12}>
+              <Facultades 
+                programasSeleccionados={programasSeleccionados}
+                setProgramasSeleccionados={setProgramasSeleccionados}
+                programa={programa}
+                setPrograma={setPrograma}
+                programas={programas}
+                setProgramas={setProgramas}
+              /> 
               <TextField
                 required
                 error={errors.code.error}
@@ -329,7 +354,7 @@ const RegistrarCoordinador = (props) => {
                 id="CORREO"
                 label="Correo electrónico"
                 type="email"
-                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors)}
+                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors, dominio1, dominio2)}
                 fullWidth
               />
               <TextField
@@ -340,13 +365,7 @@ const RegistrarCoordinador = (props) => {
                 onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                 fullWidth
               /> 
-              <Facultades 
-                programasSeleccionados={programasSeleccionados}
-                setProgramasSeleccionados={setProgramasSeleccionados}
-                programa={programa}
-                setPrograma={setPrograma}
-                programas={programas}
-                setProgramas={setProgramas}/>     
+                  
             </Grid>
           </Grid>
         </DialogContent>

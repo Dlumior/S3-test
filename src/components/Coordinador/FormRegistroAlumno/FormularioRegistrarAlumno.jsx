@@ -143,7 +143,19 @@ class FormularioRegistrarAlumno extends Component {
     let dominio2 = this.state.institucion.DOMINIO2;
     let email = this.state.alumno.correo;
     console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
-    if (email.substr(-dominio.length)!==dominio && email.substr(-dominio2.length)!==dominio2) { // validación del dominio de la institución
+
+    if (!dominio && !dominio2) { // validación del dominio de la institución
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = alert.mensajeError;
+      alert.mensajeStrong = "Primero debe registrar algún dominio para los correos de la institución.";
+      this.setState({ alert: alert });
+      this.setState({ severidad: "error" });
+
+      this.state.alert.mensaje = this.state.alert.mensajeError;
+      return;
+    }
+
+    if ((dominio.length > 0 && email.substr(-dominio.length)!==dominio) && (dominio2.length > 0 && email.substr(-dominio2.length)!==dominio2)) { // validación del dominio de la institución
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
       alert.mensajeStrong = "El correo debe pertenecer a los dominios de la institución.";
