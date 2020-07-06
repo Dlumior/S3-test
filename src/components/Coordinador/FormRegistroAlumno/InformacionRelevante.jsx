@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Paper, Grid, Button } from "@material-ui/core";
 //import JUpload from "../components/JUpload";
 import JUploadSSJ from "jin-upload-ssj2";
-import {POST} from "./../../../Conexion/Controller"
+import { POST } from "./../../../Conexion/Controller";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CampoDeTexto from "../Tutorias/CampoDeTexto.jsx";
@@ -52,6 +52,7 @@ class InformacionRelevante extends Component {
       columnasLimpias: [],
       etiquetas: [],
       descripcion: "",
+      Npartes:0,
     };
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
     this.validarEntrada = this.validarEntrada.bind(this);
@@ -130,13 +131,14 @@ class InformacionRelevante extends Component {
     let splitedFile = [];
     var i,
       j,
-      chunk = 1024 * 10 * 5;
+      chunk = 1024 * 100 * 5;
     for (i = 0, j = tamanio; i < j; i += chunk) {
       splitedFile.push(file.slice(i, i + chunk));
       // do whatever
     }
+    const Npartes = splitedFile.length;
     console.log("JUpload SSJ split: ", splitedFile);
-    await this.setState({ FILE: splitedFile });
+    await this.setState({ FILE: splitedFile , Npartes:Npartes});
     this.setState({ fileName: fileName, ext: ext });
     if (ext === "pdf") {
       this.setState({ PDFURL: file });
@@ -159,30 +161,29 @@ class InformacionRelevante extends Component {
   }
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
-
       await setTimeout(async () => {
-        await this.state.FILE.forEach(async (pedazo,index) => {
+        await this.state.FILE.forEach(async (pedazo, index) => {
           const ARCHIVO = {
-          archivo: {
-            ID_ALUMNO: this.props.idAlumno,
-            ARCHIVO: pedazo[index],
-            EXTENSION: this.state.ext,
-            DESCRIPCION: `${this.state.descripcion}.parte${index}`,
-          },
-        };
-        let response = await POST({
-          servicio: "/api/alumno/informacionrelevante",
-          request: ARCHIVO,
-        });
+            archivo: {
+              ID_ALUMNO: this.props.idAlumno,
+              ARCHIVO: pedazo[index],
+              EXTENSION: this.state.ext,
+              DESCRIPCION: `${this.state.descripcion}.parte${index}`,
+              PARTES: this.state.Npartes,
+            },
+          };
+          let response = await POST({
+              servicio: "/api/alumno/informacionrelevante",
+              request: ARCHIVO,
+            });
 
-        if (!response) {
-          console.log("Algo paso en el upload");
-          return;
-        } else {
-          console.log("Se registro la informacion: ", response);
-        }
+          if (!response) {
+            console.log("Algo paso en el upload");
+            return;
+          } else {
+            console.log("Se registro la informacion: ", response);
+          }
         });
-        
 
         resolve();
       }, 1000);
@@ -236,7 +237,7 @@ class InformacionRelevante extends Component {
                 value={this.state.fileName}
               />
             </Grid>
-            {(this.state.PDFURL || this.state.FILE)? (
+            {this.state.PDFURL || this.state.FILE ? (
               <>
                 <Grid item md={2} xs={6}>
                   <Button
@@ -256,7 +257,7 @@ class InformacionRelevante extends Component {
           </Grid>
 
           <Grid item md={12} xs={12}>
-            {this.state.PDFURL  ? (
+            {this.state.PDFURL ? (
               <div style={estilos.divini}>
                 <iframe
                   src={this.state.PDFURL}

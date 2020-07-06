@@ -61,7 +61,7 @@ class ListaTutorias extends Component {
           { title: "Vigencia", field: "vigencia" },
           { title: "Duracion sesión (min)", field: "duracion" },
           { title: "Etiquetas", field: "etiquetas" },
-          { title: "Tipo Asignacion de tutor", field: "tipoasignacion" },
+          { title: "Tipo Asignacion de tutor", field: "asignacion" },
           { title: "Naturaleza", field: "naturaleza" },
           { title: "Tipo de tutor", field: "tipotutor" },
           { title: "Agrupacion de alumnos", field: "agrupacion" },
@@ -245,6 +245,7 @@ class ListaTutorias extends Component {
             },
           }}
           title={`Listado de Tutorias`}
+          
         />
       );
     }
