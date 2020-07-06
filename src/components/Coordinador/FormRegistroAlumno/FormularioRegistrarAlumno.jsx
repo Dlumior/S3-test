@@ -14,6 +14,7 @@ import ListaComboBox from "../Tutorias/ListaComboBox";
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
 import TituloFormulario from "../Tutorias/TituloFormulario";
 import { getUser } from "../../../Sesion/Sesion";
+import SaltoDeLinea from "../../Shared/SaltoDeLinea";
 const style = {
   paper: {
     marginTop: "3%",
@@ -39,17 +40,17 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
-      institucion:{
-        ID:'',
-        NOMBRE:"",
-        INICIALES:"",
-        IMAGEN:"",
-        TELEFONO:"",
-        PAGINA_WEB:"",
-        DOMINIO:"",
-        DOMINIO2:"",
-        UBICACION:"",
-        EXTENSION:"",  
+      institucion: {
+        ID: "",
+        NOMBRE: "",
+        INICIALES: "",
+        IMAGEN: "",
+        TELEFONO: "",
+        PAGINA_WEB: "",
+        DOMINIO: "",
+        DOMINIO2: "",
+        UBICACION: "",
+        EXTENSION: "",
       },
       validacionNombreMensaje: "",
       programas: [
@@ -142,12 +143,18 @@ class FormularioRegistrarAlumno extends Component {
     let dominio = this.state.institucion.DOMINIO;
     let dominio2 = this.state.institucion.DOMINIO2;
     let email = this.state.alumno.correo;
-    console.log("PRUEBA AAAA", email.substr(-dominio.length), email.substr(-dominio2.length));
+    console.log(
+      "PRUEBA AAAA",
+      email.substr(-dominio.length),
+      email.substr(-dominio2.length)
+    );
 
-    if (!dominio && !dominio2) { // validación del dominio de la institución
+    if (!dominio && !dominio2) {
+      // validación del dominio de la institución
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong = "Primero debe registrar algún dominio para los correos de la institución.";
+      alert.mensajeStrong =
+        "Primero debe registrar algún dominio para los correos de la institución.";
       this.setState({ alert: alert });
       this.setState({ severidad: "error" });
 
@@ -155,17 +162,23 @@ class FormularioRegistrarAlumno extends Component {
       return;
     }
 
-    if ((dominio.length > 0 && email.substr(-dominio.length)!==dominio) && (dominio2.length > 0 && email.substr(-dominio2.length)!==dominio2)) { // validación del dominio de la institución
+    if (
+      dominio.length > 0 &&
+      email.substr(-dominio.length) !== dominio &&
+      dominio2.length > 0 &&
+      email.substr(-dominio2.length) !== dominio2
+    ) {
+      // validación del dominio de la institución
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong = "El correo debe pertenecer a los dominios de la institución.";
+      alert.mensajeStrong =
+        "El correo debe pertenecer a los dominios de la institución.";
       this.setState({ alert: alert });
       this.setState({ severidad: "error" });
 
       this.state.alert.mensaje = this.state.alert.mensajeError;
       return;
     }
-    
 
     if (this.state.errores.length === 0) {
       e.preventDefault();
@@ -180,8 +193,7 @@ class FormularioRegistrarAlumno extends Component {
         direccion,
       } = this.state.alumno;
       const nuevoEstudiante = {
-        alumno: { 
-
+        alumno: {
           APELLIDOS: apellidos,
           CODIGO: codigo,
           CONTRASENHA: "sudo tys",
@@ -221,7 +233,9 @@ class FormularioRegistrarAlumno extends Component {
       console.log("got updated alumno from back:", nuevoAlumno);
     } else {
       let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = `${alert.mensajeError}: ${this.state.errores.map((error)=>error.error)}`;
+      alert.mensaje = `${alert.mensajeError}: ${this.state.errores.map(
+        (error) => error.error
+      )}`;
       alert.mensajeStrong = alert.mensajeStrongError;
       this.setState({ alert: alert });
       this.setState({ severidad: "error" });
@@ -317,11 +331,15 @@ class FormularioRegistrarAlumno extends Component {
     return enlace;
   }
   async componentDidMount() {
-    let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
+    let getInsitucion = await Controller.GET({ servicio: "/api/institucion" });
     console.log("got institucion from back:", getInsitucion.institucion);
-    this.setState({institucion:getInsitucion.institucion});
-    console.log("this.state.institucion: ", this.state.institucion);   
-    console.log("this.state.NOMBRE:", this.state.institucion.DOMINIO, this.state.institucion.DOMINIO2);  
+    this.setState({ institucion: getInsitucion.institucion });
+    console.log("this.state.institucion: ", this.state.institucion);
+    console.log(
+      "this.state.NOMBRE:",
+      this.state.institucion.DOMINIO,
+      this.state.institucion.DOMINIO2
+    );
   }
 
   render() {
@@ -334,7 +352,7 @@ class FormularioRegistrarAlumno extends Component {
         />
         {/**<TituloFormulario titulo="Formulario de Registro de Alumnos:" /> */}
         <Grid container spacing={0}>
-          <Grid item md={4} xs={12}>
+          <Grid item md={6} xs={12}>
             {/* Npmbres */}
             <CampoDeTexto
               requerido={true}
@@ -364,8 +382,8 @@ class FormularioRegistrarAlumno extends Component {
               type="email"
               label="Correo"
               validacion={{ lim: 35, tipo: "email" }}
-              dominio = {this.state.institucion.DOMINIO}
-              dominio2 = {this.state.institucion.DOMINIO2}
+              dominio={this.state.institucion.DOMINIO}
+              dominio2={this.state.institucion.DOMINIO2}
               onChange={this.handleOnChange}
               validarEntrada={this.validarEntrada}
             />
@@ -391,7 +409,7 @@ class FormularioRegistrarAlumno extends Component {
             <br />
             <br />
           </Grid>
-          <Grid item md={4} xs={12}>
+          <Grid item md={6} xs={12}>
             {/* Codigo */}
             <CampoDeTexto
               requerido={true}
@@ -454,25 +472,19 @@ class FormularioRegistrarAlumno extends Component {
               obtenerEtiquetas={this.handleOnChangeEtiquetas}
               enlace={"/api/etiqueta"}
             />
-          </Grid>
-          <Grid item md={4} xs={12}>
             {/* Guardar */}
-            <br />
-            <Grid container spacing={5}>
-              <Grid item md={6} xs={8}></Grid>
-              <Grid item md={4} xs={4}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleOnClick}
-                >
-                  Guardar
-                </Button>
-              </Grid>
-              <Grid item md={6} xs={8}></Grid>
+            <Grid item md={12} xs={12} style={{ alignText: "center" }}>
+              <SaltoDeLinea N={3} />
+
+              <Button
+                type="submit"
+                size="large"
+                variant="contained"
+                color="primary"
+                onClick={this.handleOnClick}
+              >
+                Guardar
+              </Button>
             </Grid>
           </Grid>
         </Grid>

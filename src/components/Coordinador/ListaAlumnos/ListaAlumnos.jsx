@@ -12,12 +12,14 @@ import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrarAlumno";
 import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
+import FileCopyTwoToneIcon from "@material-ui/icons/FileCopyTwoTone";
 class ListaAlumnos extends Component {
   constructor() {
     super();
     // tipo de dialogo: 0 carga individual
     //                  1 carga masiva
-    //                  2 carga informacion relevante
+    //                  4 carga informacion relevante
+    //                  4 ver informacion relevante
     //                  3 mantenimiento editar
     //                  4 mantenimiento eliminar
     this.state = {
@@ -91,14 +93,28 @@ class ListaAlumnos extends Component {
             nombre: `${NOMBRE} ${APELLIDOS}`,
             correo: CORREO,
             agregarInfo: (
-              <Fab
-                size="small"
-                color="primary"
-                aria-label="add"
-                onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
-              >
-                <AddIcon />
-              </Fab>
+              <>
+                <Grid container spacing={2} style={{ textAlign: "center" }}>
+                  {/** eliminar data */}
+                  <Grid item md={6} xs={6}><Fab
+                  size="small"
+                  color="primary"
+                  aria-label="add"
+                  onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
+                >
+                  <AddIcon />
+                </Fab></Grid>
+                  <Grid item md={6} xs={6}><IconButton color="primary">
+                  <FileCopyTwoToneIcon
+                    color="primary"
+                    fontsize="large"
+                    onClick={(e) => this.handleOpenDialog(e, 5, ID_USUARIO)}
+                  />
+                </IconButton></Grid>
+                </Grid>
+                
+                
+              </>
             ),
             mantenimiento: (
               <>
@@ -228,12 +244,13 @@ class ListaAlumnos extends Component {
   }
 
   render() {
-    const titulos= [
+    const titulos = [
       "Registro de Nuevo Alumno",
       "Importar Alumnos desde un CSV",
       "Registro de Informacion historica",
-      "Actualizar alumno",
-      "Eliminar alumno",
+      "Actualizar alumno: ",
+      "Eliminar alumno: ",
+      "Informacion relevante de ",
     ];
     return (
       <div style={{ backgroundColor: "#ffffff" }}>
@@ -243,14 +260,16 @@ class ListaAlumnos extends Component {
             this.state.cuerpoDialogo === 0 ? (
               <FormularioRegistrarAlumno />
             ) : this.state.cuerpoDialogo === 1 ? (
-              <FormularioImportarAlumnos usuario={getUser().usuario}/>
+              <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
               <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
             ) : this.state.cuerpoDialogo === 3 ? (
-            <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
+              <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (
-              <InformacionRelevante usuario={getUser().usuario} idAlumno={this.state.currentID} />
-
+              <InformacionRelevante
+                usuario={getUser().usuario}
+                idAlumno={this.state.currentID}
+              />
             )
           }
           open={this.state.open}
