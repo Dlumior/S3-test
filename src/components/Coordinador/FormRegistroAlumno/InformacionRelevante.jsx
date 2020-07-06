@@ -128,17 +128,17 @@ class InformacionRelevante extends Component {
     console.log("JUpload SSJ length: ", file.length);
     //console.log("JUpload SSJ split: ", file.split("\n"));
     const tamanio = file.length;
-    let splitedFile = [];
-    var i,
-      j,
-      chunk = 1024 * 100 * 5;
-    for (i = 0, j = tamanio; i < j; i += chunk) {
-      splitedFile.push(file.slice(i, i + chunk));
-      // do whatever
-    }
-    const Npartes = splitedFile.length;
-    console.log("JUpload SSJ split: ", splitedFile);
-    await this.setState({ FILE: splitedFile , Npartes:Npartes});
+    // let splitedFile = [];
+    // var i,
+    //   j,
+    //   chunk = 1024 * 100 * 5;
+    // for (i = 0, j = tamanio; i < j; i += chunk) {
+    //   splitedFile.push(file.slice(i, i + chunk));
+    //   // do whatever
+    // }
+    // const Npartes = splitedFile.length;
+    // console.log("JUpload SSJ split: ", splitedFile);
+    await this.setState({ FILE: file });
     this.setState({ fileName: fileName, ext: ext });
     if (ext === "pdf") {
       this.setState({ PDFURL: file });
@@ -162,14 +162,14 @@ class InformacionRelevante extends Component {
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
       await setTimeout(async () => {
-        await this.state.FILE.forEach(async (pedazo, index) => {
+        //await this.state.FILE.forEach(async (pedazo, index) => {
           const ARCHIVO = {
             archivo: {
               ID_ALUMNO: this.props.idAlumno,
-              ARCHIVO: pedazo[index],
+              ARCHIVO: this.state.FILE,
               EXTENSION: this.state.ext,
-              DESCRIPCION: `${this.state.descripcion}.parte${index}`,
-              PARTES: this.state.Npartes,
+              DESCRIPCION: `${this.state.descripcion}`,
+              // PARTES: this.state.Npartes,
             },
           };
           let response = await POST({
@@ -183,7 +183,7 @@ class InformacionRelevante extends Component {
           } else {
             console.log("Se registro la informacion: ", response);
           }
-        });
+       // });
 
         resolve();
       }, 1000);
