@@ -152,6 +152,7 @@ const BarraNavegacion = (props) => {
             "Institucion",
             "Facultades",
             "Coordinadores",
+            "Unidades de Apoyo",
            ].map(
             (text, index) => (
               // <LinkRouter to={}>
@@ -159,7 +160,7 @@ const BarraNavegacion = (props) => {
                 button
                 key={text}
                 component={LinkRouter}
-                to={index===4?"/":"/administrador/" + text.split(' ').join('').toLowerCase()}
+                to={index===5?"/":"/administrador/" + text.split(' ').join('').toLowerCase()}
               //onClick={handleClick}
               >
                 <ListItemIcon>
@@ -167,6 +168,7 @@ const BarraNavegacion = (props) => {
                   index === 1 ? <AccountBalanceRoundedIcon /> : 
                   index === 2 ? <AccountBalanceRoundedIcon /> : 
                   index === 3 ? <SupervisorAccountRoundedIcon/> :
+                  index === 4 ? <AccountBalanceRoundedIcon/> :
                   <NoteAddRoundedIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />

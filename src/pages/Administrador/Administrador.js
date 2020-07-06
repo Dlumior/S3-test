@@ -9,6 +9,7 @@ import Institucion from "./Institucion"
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
+import UnidadApoyo from "../UnidadApoyo/UnidadApoyo";
 
 const Administrador = (props) => {
   console.log("Administrador", props.history.location.pathname);
@@ -44,6 +45,7 @@ const Administrador = (props) => {
           path={"/administrador/coordinadores"}
           component={Coordinador}
         />
+        <Route exact path={"/administrador/unidadesdeapoyo"} component={UnidadApoyo} />
       </BarraNavegacion>
     </div>
   );
