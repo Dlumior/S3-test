@@ -182,15 +182,17 @@ const RegistrarSesion = () => {
   };
   const handleOnChangeEtiquetas = (etiqueta) => {
     const listaEtiquetas = [];
+    console.log("etiqueta",etiqueta);
     etiqueta.forEach((element) => {
       if (element.agregar) {
-        datosForm.apoyo.push(element.id);
+        console.log("agrega",element);
+        listaEtiquetas.push(element.id);
       }
     });
+    datosForm.apoyo=listaEtiquetas;
     setDatosForm({
-      ...datosForm,
+      ...datosForm
     });
-    console.log("areas: ",datosForm);
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {

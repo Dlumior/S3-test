@@ -99,15 +99,17 @@ const handleLugar = (e, datosForm, setDatosForm) => {
 };
 const handleOnChangeEtiquetas = (etiqueta, datosForm, setDatosForm) => {
   const listaEtiquetas = [];
-  etiqueta.forEach((element) => {
-    if (element.agregar) {
-      datosForm.apoyo.push(element.id);
-    }
-  });
-  setDatosForm({
-    ...datosForm,
-  });
-  console.log("areas: ",datosForm);
+    console.log("etiqueta",etiqueta);
+    etiqueta.forEach((element) => {
+      if (element.agregar) {
+        console.log("agrega",element);
+        listaEtiquetas.push(element.id);
+      }
+    });
+    datosForm.apoyo=listaEtiquetas;
+    setDatosForm({
+      ...datosForm
+    });
 };
 const handleResultados = (e, datosForm, setDatosForm) => {
   console.log("resu",e.target.value);
