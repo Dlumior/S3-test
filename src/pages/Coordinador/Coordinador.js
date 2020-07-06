@@ -40,7 +40,7 @@ const Coordinador = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-      <Route
+        <Route
           exact
           path="/coordinador"
           component={() => (
@@ -50,16 +50,12 @@ const Coordinador = (props) => {
             </>
           )}
         />
-        <Route
-          exact
-          path="/coordinador/facultades"
-          component={Facultades}
-        />
-        <Route
+        <Route exact path="/coordinador/facultades" component={Facultades} />
+        {/* <Route
           exact
           path="/coordinador/registrarTutores"
           component={RegistrarTutor}
-        />
+        /> */}
         <BarraNavegacion>
           {/*perfil...*/}
           <Route exact path={"/coordinador/perfil"} component={Perfil} />
@@ -100,8 +96,11 @@ const Coordinador = (props) => {
             path="/coordinador/asignarroles"
             component={AsignarRoles}
           />
-          <Route exact path={"/coordinador/alumno/:idAlumno/:fullname"} component={PerfilAlumno}/>   
-
+          <Route
+            exact
+            path={"/coordinador/alumno/:idAlumno/:fullname"}
+            component={PerfilAlumno}
+          />
         </BarraNavegacion>
       </ThemeProvider>
     </div>

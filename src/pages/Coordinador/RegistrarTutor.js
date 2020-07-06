@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, makeStyles, Paper } from "@material-ui/core";
+import { Grid, makeStyles, Paper, IconButton } from "@material-ui/core";
 import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import FormRegistroTutor from "../../components/Coordinador/FormRegistroTutor/FormRegistroTutor.js";
 import BtnRegistroTutor from "../../components/Coordinador/FormRegistroTutor/BtnRegistroTutor";
@@ -9,6 +9,7 @@ import ParseTutors from "../../components/Coordinador/FormRegistroTutor/TablaTut
 import TableTutores from "../../components/Coordinador/FormRegistroTutor/TablaTutores/TableTutores";
 import { GET } from "../../Conexion/Controller";
 import { getUser } from "../../Sesion/Sesion";
+import RefreshRoundedIcon from "@material-ui/icons/RefreshRounded";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -47,6 +48,8 @@ const RegistrarTutor = () => {
 
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState("");
+
+  const forceUpdate = () => window.location.reload();
 
   const [tutores, setTutores] = useState({
     columns: [
@@ -154,7 +157,7 @@ const RegistrarTutor = () => {
                   setDisabled={setDisabled}
                 />
               </Grid>
-              <Grid item xs={12} md={5}>
+              <Grid item xs={12} md={4}>
                 <ComboBoxPrograma
                   disabled={disabled}
                   programas={programas}
@@ -162,8 +165,13 @@ const RegistrarTutor = () => {
                   setPrograma={setPrograma}
                 />
               </Grid>
-              <Grid item xs={12} md={2}>
+              <Grid item xs={10} md={2}>
                 <BtnRegistroTutor datos={datosForm} setDatos={setDatosForm} />
+              </Grid>
+              <Grid item xs={2} md={1}>
+                <IconButton color="primary" onClick={forceUpdate}>
+                  <RefreshRoundedIcon color="primary"></RefreshRoundedIcon>
+                </IconButton>
               </Grid>
             </Grid>
           </Paper>

@@ -12,6 +12,7 @@ import validateEmail from "./validateEmail.js";
 import ComboBoxPrograma from "./comboBoxProgramas.js";
 import { getUser } from "../../../Sesion/Sesion.js";
 import ComboBoxFacultades from "./ComboBoxFacultades.js";
+import Alertas from "../Alertas.jsx";
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -50,7 +51,15 @@ const handleLastName = (e, datos, setDatos, errors, setErrors) => {
   setErrors({ ...errors, lastnames: res });
 };
 
-const handleEmail = (e, datos, setDatos, errors, setErrors, dominio1, dominio2) => {
+const handleEmail = (
+  e,
+  datos,
+  setDatos,
+  errors,
+  setErrors,
+  dominio1,
+  dominio2
+) => {
   const auxEmail = e.target.value;
 
   setDatos({
@@ -118,9 +127,12 @@ const FormRegistroTutor = (props) => {
   const [dominio1, setDominio1] = useState("");
   const [dominio2, setDominio2] = useState("");
 
+  const [severidad, setSeveridad] = useState("");
+  const [alerta, setAlerta] = useState({ mensaje: "" });
+
   useEffect(() => {
     async function fetchTutores() {
-      let institucion = await Controller.GET({servicio:"/api/institucion"});
+      let institucion = await Controller.GET({ servicio: "/api/institucion" });
       console.log("RegistrarTutor institucion: ", institucion);
       setDominio1(institucion.institucion.DOMINIO);
       setDominio2(institucion.institucion.DOMINIO2);
@@ -194,7 +206,11 @@ const FormRegistroTutor = (props) => {
       errors.address.error ||
       errors.code.error
     ) {
-      alert("Hay errores en los campos");
+      // alert("Hay errores en los campos");
+      setSeveridad("error");
+      setAlerta({
+        mensaje: "Existen errores en el formulario",
+      });
       return;
     } else {
       setDatos({
@@ -208,12 +224,17 @@ const FormRegistroTutor = (props) => {
       console.log("Saving new tutor in DB:", datos);
       let nuevoTutor = await Controller.POST(sendData);
       console.log("Got updated alumno from back:", nuevoTutor);
-      alert("Se creó correctamente el tutor");
+      // alert("Se creó correctamente el tutor");
+      setSeveridad("success");
+      setAlerta({
+        mensaje: "Se registró correctamente el tutor",
+      });
     }
   };
 
   return (
     <Paper className={classes.caja} variant="outlined">
+      <Alertas severity={severidad} titulo={"Observacion:"} alerta={alerta} />
       <Grid
         container
         direction="column"
@@ -264,7 +285,15 @@ const FormRegistroTutor = (props) => {
               type="email"
               fullWidth
               onChange={(e) =>
-                handleEmail(e, datos, setDatos, errors, setErrors, dominio1, dominio2)
+                handleEmail(
+                  e,
+                  datos,
+                  setDatos,
+                  errors,
+                  setErrors,
+                  dominio1,
+                  dominio2
+                )
               }
               helperText={errors.email.mesage}
             />
