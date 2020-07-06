@@ -247,6 +247,7 @@ class ListaAlumnos extends Component {
             },
           }}
           title={`Listado de Alumnos`}
+          
         />
       );
     }
