@@ -26,6 +26,7 @@ const NotificacionBtn = (props) => {
     isMenuOpen,
     handleMenuClose,
     changeNumNotif,
+    refresh,
   } = props;
 
   const idUsuario = getUser().usuario.ID_USUARIO;
@@ -43,11 +44,13 @@ const NotificacionBtn = (props) => {
       if (res.notificaciones.length !== 0) {
         setTieneNotif(true);
         changeNumNotif(res.notificaciones.length);
+      } else {
+        setTieneNotif(false);
       }
     }
 
     fetchNotif();
-  }, []);
+  }, [refresh]);
 
   return (
     <Menu

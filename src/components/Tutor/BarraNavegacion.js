@@ -24,7 +24,11 @@ import { Link as LinkRouter } from "react-router-dom";
 import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 import HowToRegRoundedIcon from "@material-ui/icons/HowToRegRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
-import { useUserValue } from "../../Sesion/Sesion";
+import { useUserValue, getUser } from "../../Sesion/Sesion";
+import NotificacionBtn from "../Alumno/Notificaciones/NotificacionBtn";
+import { GET } from "../../Conexion/Controller";
+import { Badge } from "@material-ui/core";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 const drawerWidth = 250;
 
@@ -83,6 +87,15 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+    },
+  },
+  grow: {
+    flexGrow: 1,
+  },
 }));
 
 const BarraNavegacion = (props) => {
@@ -90,6 +103,12 @@ const BarraNavegacion = (props) => {
   const theme = useTheme();
   const [{}, dispatch] = useUserValue();
   const [open, setOpen] = React.useState(false);
+
+  const idUsuario = getUser().usuario.ID_USUARIO;
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const [numNotif, setNumNotif] = React.useState(0);
+  const [refresh, setRefresh] = React.useState(0);
 
   const handleClick = () => {
     //te odio hooks
@@ -104,6 +123,42 @@ const BarraNavegacion = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleMenuOpen = (event) => {
+    console.log("current target:");
+    console.log(event.currentTarget);
+
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    removeNotif();
+  };
+
+  async function removeNotif() {
+    const endpoint = "/api/notificacion/actualizar/" + idUsuario;
+    const params = { servicio: endpoint };
+    const res = await GET(params);
+    console.log(res);
+    setNumNotif(0);
+    // window.location.reload();
+    setRefresh(1);
+  }
+
+  const menuId = "primary-menu";
+  const changeNumNotif = (num) => setNumNotif(num);
+
+  const renderMenu = (
+    <NotificacionBtn
+      anchorEl={anchorEl}
+      menuId={menuId}
+      isMenuOpen={isMenuOpen}
+      handleMenuClose={handleMenuClose}
+      changeNumNotif={changeNumNotif}
+      refresh={refresh}
+    />
+  );
 
   return (
     <div className={classes.root}>
@@ -125,10 +180,24 @@ const BarraNavegacion = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Ututor
+            Ututor / Tutor
           </Typography>
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop} />
+          <IconButton
+            aria-label="norifications of the user"
+            aria-controls="primary-menu"
+            aria-haspopup="true"
+            color="inherit"
+            onClick={handleMenuOpen}
+          >
+            <Badge badgeContent={numNotif} color="error">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
+      {renderMenu}
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -161,7 +230,7 @@ const BarraNavegacion = (props) => {
               button
               key={text}
               component={LinkRouter}
-              to={"/tutor/" + text.split(' ').join('').toLowerCase()}
+              to={"/tutor/" + text.split(" ").join("").toLowerCase()}
             >
               <ListItemIcon>
                 {index === 0 ? (
@@ -174,7 +243,7 @@ const BarraNavegacion = (props) => {
                   <ScheduleRoundedIcon />
                 ) : index === 4 ? (
                   <CalendarTodayIcon />
-                ) :  (
+                ) : (
                   <NoteAddRoundedIcon />
                 )}
               </ListItemIcon>
