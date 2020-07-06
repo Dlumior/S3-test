@@ -8,7 +8,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography, List, ListItem, ListItemText } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -67,7 +67,7 @@ const ModificarFacultad = (props) => {
     DIAS_DISP:0,
     DIAS_CITA:0,
   });
-
+  const [coordinadores, setCoordinadores] = useState([]);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -103,6 +103,19 @@ const ModificarFacultad = (props) => {
         datosForm,
       });
       console.log("datosForm:", datosForm);
+    }
+     fetchData();
+  }, {});
+
+  //coordinadores de la facultad
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/facultad/"+facultad.ID_PROGRAMA;
+      const params = { servicio: endpoint };
+      const res = await GET(params);    
+      console.log("coordinadores de la facu:", res);
+      setCoordinadores(res.facultad.USUARIOs);
+      console.log("coord:", coordinadores);
     }
      fetchData();
   }, {});
@@ -245,6 +258,19 @@ const ModificarFacultad = (props) => {
             <Typography variant="h7" align="center">
                 {" "}Facultad Independiente
             </Typography>
+            {coordinadores!==undefined &&
+                <List>
+                <Grid item style={{marginLeft:"2%"}}>
+                  <h3>Lista Coordinadores:</h3>
+                </Grid>
+                  {coordinadores.map((value) => {
+                      return (
+                      <ListItem>
+                          <ListItemText primary={value.NOMBRE+" "+value.APELLIDOS} />
+                      </ListItem>
+                      );
+                  })}
+                  </List>}
             </Grid>
             </Grid>
             </Grid>
