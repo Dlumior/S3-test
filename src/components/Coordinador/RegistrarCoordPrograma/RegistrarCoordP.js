@@ -71,12 +71,12 @@ const handleApellidos = (e, datosForm, setDatosForm, errors, setErrors) => {
     setErrors({ ...errors, lastnames: res });
 };
 
-const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors) => {
+const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors, dominio1, dominio2) => {
     setDatosForm({
       ...datosForm,
       CORREO: e.target.value,
     });
-    const res = validateEmail(e.target.value);
+    const res = validateEmail(e.target.value, dominio1, dominio2);
     setErrors({ ...errors, email: res });
 };
 const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
@@ -128,6 +128,23 @@ const RegistrarCoordinador = (props) => {
     severE:"error",
     severS:"success"
   });
+
+  const [dominio1, setDominio1] = useState("");
+  const [dominio2, setDominio2] = useState("");
+
+  useEffect(() => {
+    async function fetchTutores() {
+      let institucion = await Conexion.GET({servicio:"/api/institucion"});
+      console.log("RegistrarCoordinador institucion: ", institucion);
+      setDominio1(institucion.institucion.DOMINIO);
+      setDominio2(institucion.institucion.DOMINIO2);
+      console.log("RegistrarCoordinador dominio1: ", dominio1);
+      console.log("RegistrarCoordinador dominio2: ", dominio2);
+    }
+
+    fetchTutores();
+  }, [dominio1, dominio2]);
+
 //programas a partir de un coordinador de Facultad
  useEffect(() => {
   async function fetchData() {
@@ -308,7 +325,7 @@ useEffect(() => {
                 id="CORREO"
                 label="Correo electrónico"
                 type="email"
-                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors)}
+                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors, dominio1, dominio2)}
                 fullWidth
               />
               <TextField
