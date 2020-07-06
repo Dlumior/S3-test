@@ -12,13 +12,14 @@ class Tutorias extends React.Component {
     super();
     this.state = {
       procesos: [
-        {
+       /* {
           index: 0,
           titulo: "Registrar Nueva Tutoria",
           proceso: FormularioNuevaTutoria,
-        },
+        },*/
 
-        { index: 1, titulo: "Lista Tutorías", proceso: ListaTutorias },
+        { index: 0, titulo: "", proceso: ListaTutorias , paper:false},
+        //cuando se cumple qu el titulo es vacio y
       ],
     };
   }
