@@ -310,7 +310,6 @@ class FormularioNuevaTutoria extends Component {
           titulo={"Observacion"}
           alerta={this.state.alert}
         />
-        <TituloFormulario titulo="Formulario de Nueva Tutoría:" />
         <Grid container spacing={0}>
           <Grid item md={6} xs={12}>
             {/* Nombre tutoria */}

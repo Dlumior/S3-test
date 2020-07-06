@@ -11,6 +11,7 @@ import {
   Grid,
 } from "@material-ui/core";
 import ImagenCircular from "../../Shared/ImagenCircular";
+import TituloFormulario from "../Tutorias/TituloFormulario";
 const estilo = {
   centerDialog: {
     marginLeft: "1%",
@@ -61,7 +62,9 @@ this.setState({open:false});
                 />
             </Grid>
             <Grid item md={12-titleSize} xs={12-titleSize}>
-              {this.props.titulo}
+            <TituloFormulario titulo={this.props.titulo} />
+
+              
             </Grid>
             </Grid>
             
