@@ -451,6 +451,7 @@ class FrmMisCitas_Tutor extends Component {
                 >
                     <DialogTitle id="alert-dialog-title">
                         {<h3> ¿ Está seguro de Reprogramar esta cita ? </h3>}</DialogTitle>
+                        
                     <DialogContent>
                         <Grid container spacing={2} >
                             <Grid item md={4}>

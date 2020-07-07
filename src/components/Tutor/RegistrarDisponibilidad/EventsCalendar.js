@@ -161,6 +161,7 @@ class EventsCalendar extends Component {
   
   handleSelectSlot = (slotInfo) => {
     //set model to true
+   
     if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).format("YYYY-MM-DD")){  
       if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){
         let alerta = {...this.state.alerta}
@@ -181,6 +182,7 @@ class EventsCalendar extends Component {
       }else{
         this.setState({problema: true});
         let alerta = {...this.state.alerta};
+        alerta.mostrar = false;
         alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "+this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día":" días") +" de anticipación"
         alerta.mensajeStrong = ""
         this.setState({alerta: alerta})
@@ -188,6 +190,7 @@ class EventsCalendar extends Component {
     }else{
       this.setState({problema: true});
         let alerta = {...this.state.alerta};
+        alerta.mostrar = false;
         alerta.mensaje = "No puede registrar/modificar su disponibilidad en una fecha pasada"
         alerta.mensajeStrong = ""
         this.setState({alerta: alerta})
@@ -217,6 +220,7 @@ class EventsCalendar extends Component {
       }else{
         this.setState({problema: true});
         let alerta = {...this.state.alerta};
+        alerta.mostrar = false;
         alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "+this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día ":" días") +" de anticipación"
         alerta.mensajeStrong = ""
         this.setState({alerta: alerta})
@@ -224,6 +228,7 @@ class EventsCalendar extends Component {
     }else{
       this.setState({problema: true});
         let alerta = {...this.state.alerta};
+        alerta.mostrar = false;
         alerta.mensaje = "No puede registrar/modificar su disponibilidad en una fecha pasada"
         alerta.mensajeStrong = ""
         this.setState({alerta: alerta})
