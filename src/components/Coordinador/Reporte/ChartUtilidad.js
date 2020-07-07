@@ -28,6 +28,15 @@ const ChartUtilidad = (props) => {
       display: true,
       text: "Nivel de utilidad promedio por proceso de tutoria",
     },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            min: 0,
+          },
+        },
+      ],
+    },
   };
 
   return (
