@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import GetAppSharpIcon from "@material-ui/icons/GetAppSharp";
 import JUploadSSJ from "jin-upload-ssj2";
-import { GET } from "../../../Conexion/Controller";
+import { GET , POST} from "../../../Conexion/Controller";
 import { IconButton, Grid, Paper ,Button} from "@material-ui/core";
 import MaterialTable from "material-table";
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
@@ -32,6 +32,8 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      fileName: "",
+      PDFURL: undefined,
       extension: "",
       archivo: undefined,
       tipoDialogo: 0,
@@ -51,8 +53,12 @@ class VerInformacionRelevante extends Component {
         data: [],
       },
     };
-    this.removerDatos = this.removerDatos.bind(this);
+    this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
 
+    this.removerDatos = this.removerDatos.bind(this);
+    this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(
+      this
+    );
     this.handleVistaPrevia = this.handleVistaPrevia.bind(this);
     this.handleDescargar = this.handleDescargar.bind(this);
     this.getArchivo = this.getArchivo.bind(this);
@@ -171,6 +177,60 @@ class VerInformacionRelevante extends Component {
       });
     }
   }
+    /**
+   * buffer array read as text
+   * @param {Buffer} file
+   */
+  handleOnSuccesLoad = async (file, fileName, ext) => {
+    //console.log("++URL: ", file);
+    console.log("JUpload SSJ length: ", file.length);
+    //console.log("JUpload SSJ split: ", file.split("\n"));
+    const tamanio = file.length;
+    // let splitedFile = [];
+    // var i,
+    //   j,
+    //   chunk = 1024 * 100 * 5;
+    // for (i = 0, j = tamanio; i < j; i += chunk) {
+    //   splitedFile.push(file.slice(i, i + chunk));
+    //   // do whatever
+    // }
+    // const Npartes = splitedFile.length;
+    // console.log("JUpload SSJ split: ", splitedFile);
+    await this.setState({ archivo: file });
+    this.setState({ fileName: fileName, ext: ext });
+    
+    //const alumnosFromCSV = await readCSV(file, "alumnos");
+  };
+  handleOnClickRegistroSSJ_masivo = async () => {
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        //await this.state.FILE.forEach(async (pedazo, index) => {
+          const ARCHIVO = {
+            archivo: {
+              ID_ALUMNO: this.props.idAlumno,
+              ARCHIVO: this.state.FILE,
+              EXTENSION: this.state.ext,
+              DESCRIPCION: `${this.state.descripcion}`,
+              // PARTES: this.state.Npartes,
+            },
+          };
+          let response = await POST({
+              servicio: "/api/alumno/informacionrelevante",
+              request: ARCHIVO,
+            });
+
+          if (!response) {
+            console.log("Algo paso en el upload");
+            return;
+          } else {
+            console.log("Se registro la informacion: ", response);
+          }
+       // });
+
+        resolve();
+      }, 1000);
+    });
+  };
   clickInput() {
     const inputElement = document.getElementById("superDownload");
     inputElement.click();
@@ -260,7 +320,7 @@ this.setState({ archivo: undefined });
                 embebed={true}
                 contained={true}
                 id_drop_zone={"drop_zone_archivo"}
-                onSuccesLoadURL={this.handleOnSuccesLoadURL}
+                onSuccesLoadURL={this.handleOnSuccesLoad}
                 onSuccesLoad={this.handleOnSuccesLoad}
                 formato={this.state.formato}
                 maxTamanio={this.state.maxTamanio}
