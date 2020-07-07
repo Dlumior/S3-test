@@ -191,7 +191,6 @@ class FrmDialogoSolicitarTutor extends Component {
 
   async handleFocusOutHoraIni() {
     /*********VLIDACION DEL RANGO******* */
-
     let parteHoraI = this.props.dispo.HORA_INICIO.slice(0, 2);
     let parteMini = this.props.dispo.HORA_INICIO.slice(-2);
     let parteHoraF = this.props.dispo.HORA_FIN.slice(0, 2);
@@ -202,8 +201,7 @@ class FrmDialogoSolicitarTutor extends Component {
     let user_parteMin = this.state.horaIniR.slice(-2);
     let user_Hora = parseInt(user_parteHora, 10);
     let user_Min = parseInt(user_parteMin, 10);
-
-
+    console.log(">>> ***********");
     if (user_Hora < nHIni || user_Hora > nHFin) {
       console.log(">>> fuera de rango");
       user_Hora = nHIni; //setear a la hora
@@ -223,42 +221,66 @@ class FrmDialogoSolicitarTutor extends Component {
         user_Hora = nHIni; //setear a la hora 
         user_Min = nMIni;
       }
-
     } else {
       console.log(">>> en rango");
       user_Hora = parseInt(user_parteHora, 10);
       user_Min = parseInt(user_parteMin, 10);
+      // validar parte minutos del user con parrte min de la disponibildad
+      if (user_Min < nMIni) {
+        console.log(">>> en rango pero minutos no");
+        //user_Hora = nHIni; //setear a la hora 
+        user_Min = nMIni; // <<< le damos la parte de los minutos de la disponibilidad
+      }
+
 
     }
-    /*********VLIDACION DEL RANGO******* */
+    /*********VALIDACION DEL RANGO******* */
 
-    //>>Actualizamos states:
-    let vali = user_Hora.toString() + ":" + user_Min.toString();
-    console.log(">>> vali: ",vali);
-     this.setState({ horaIniR: vali });
+    //>> Verificamos si la hora y min del user  es de un digito
+    let vali = "";
+    if (user_Hora < 10 && user_Min < 10) {
+      vali = "0" + user_Hora.toString() + ":0" + user_Min.toString();
+    } else if (user_Hora >= 10 && user_Min < 10) {
+      vali = user_Hora.toString() + ":0" + user_Min.toString();
+    } else if (user_Hora < 10 && user_Min >= 10) {
+      vali = "0" + user_Hora.toString() + ":" + user_Min.toString();
+    } else if (user_Hora >= 10 && user_Min >= 10) {
+      vali = user_Hora.toString() + ":" + user_Min.toString();
+    }
 
-    /*********VLIDACION DEL MINUTOS******* */
+    console.log(">>> ***********");
+    console.log(">>> horaValidada: ", vali);
+    this.setState({ horaIniR: vali });
+    console.log(">>> A,this.state.horaIniR: ", this.state.horaIniR);
 
+    /*********VALIDACION DEL MINUTOS******* */
+    let valMin = this.state.horaIniR.slice(-2);
+    let _yeri = "";
+    if (valMin === "00" || valMin === "30") {
+      console.log(">>> Es 00 o 30");
+      _yeri = this.state.horaIniR;
+      this.setState({ horaIniR: _yeri });
+    } else {
+      console.log(">>> joder");
+      console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
+      console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
+      console.log(">>> tipo: ", typeof (valMin));
 
-    if (this.state.horaIniR.slice(-2) !== "30" || this.state.horaIniR.slice(-2) !== "00") {
-      let _yeri = "";
       _yeri = this.state.horaIniR.slice(0, 2) + ":00";
       console.log("FOCUS=>", _yeri);
       this.setState({ horaIniR: _yeri });
-
-      //actualizamos la hora de la salida
-      let _strHora = "2020-07-04 ";
-      _strHora += _yeri;
-      let _datetime = new Date(_strHora);
-      _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
-      let n = _datetime.toLocaleTimeString();
-      console.log("antesIF=> ", n);
-      if (n.length === 7) { n = "0" + n; }
-      n = n.slice(0, 5);
-      console.log("antes n=> ", n);
-      this.setState({ horaFinR: n });
-
     }
+    //actualizamos la hora de la salida
+    let _strHora = "2020-07-04 ";
+    _strHora += _yeri;
+    let _datetime = new Date(_strHora);
+    _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
+    let n = _datetime.toLocaleTimeString();
+    console.log("antesIF=> ", n);
+    if (n.length === 7) { n = "0" + n; }
+    n = n.slice(0, 5);
+    console.log("antes n=> ", n);
+    this.setState({ horaFinR: n });
   }
 
   handleOnChangeHoraIni(e) {
