@@ -26,7 +26,7 @@ class CalendarioCitasTutoriaFija extends Component {
       fechaControles: {},
       modoBatallador: false,
       _idProceso: 0,
-
+      columnasInvisible: 0,
       estadoTitulo: "",
       estadoID: 0,
     };
@@ -35,6 +35,7 @@ class CalendarioCitasTutoriaFija extends Component {
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
+    this.actualizarVisibilidadColumnas = this.actualizarVisibilidadColumnas.bind(this)
   }
 
   /**
@@ -51,6 +52,10 @@ class CalendarioCitasTutoriaFija extends Component {
       ),
     });
     console.log("salto actual: ", this.state.lunesActual);
+  }
+
+  actualizarVisibilidadColumnas(visibilidad){
+    this.setState({columnasInvisible: visibilidad})
   }
   /**
    *
@@ -169,6 +174,7 @@ class CalendarioCitasTutoriaFija extends Component {
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}
           colorActivo={this.state.modoBatallador}
+          columnasInvisible = {this.state.columnasInvisible}
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -186,7 +192,8 @@ class CalendarioCitasTutoriaFija extends Component {
               <FrmSolicitarTutorTipoII
               modoBatallador={this.handleModoBatallador}
               frmIdProceso={this.state._idProceso}
-              handleFiltroTutor={this.handleFiltroTutor} />
+              handleFiltroTutor={this.handleFiltroTutor}
+              actualizarVisibilidadColumnas = {this.actualizarVisibilidadColumnas} />
             //standbyCambiosJin
           )}
 

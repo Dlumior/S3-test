@@ -174,7 +174,7 @@ class ControlesTutoriaFija extends Component {
                     </IconButton>
 
 
-                    <IconButton onClick={() => this.ModoBatallador()}>
+                    <IconButton onClick={() => this.ModoBatallador()} disabled={this.props.columnasInvisible}>
                       <ViewColumnIcon color={this.props.colorActivo  ?"Primary":"Secondary"} />
                     </IconButton>
                     {this.state.vistaColumna}
