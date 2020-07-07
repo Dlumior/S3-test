@@ -435,7 +435,7 @@ class FrmMisCitas_Tutor extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnclickAceptarCancelacion}                        >
-                            Aceptar
+                            Sí
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -529,7 +529,7 @@ class FrmMisCitas_Tutor extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnclickAceptarReprogramacion}                        >
-                            Aceptar
+                            Sí
                         </Button>
                     </DialogActions>
                 </Dialog>

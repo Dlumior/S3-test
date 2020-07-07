@@ -109,6 +109,7 @@ const BarraNavegacion = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const [numNotif, setNumNotif] = React.useState(0);
+  const [refresh, setRefresh] = React.useState(0);
 
   const changeNumNotif = (num) => setNumNotif(num);
 
@@ -145,7 +146,8 @@ const BarraNavegacion = (props) => {
     const res = await GET(params);
     console.log(res);
     setNumNotif(0);
-    window.location.reload();
+    // window.location.reload();
+    setRefresh(1);
   }
 
   const menuId = "primary-menu";
@@ -179,6 +181,7 @@ const BarraNavegacion = (props) => {
       isMenuOpen={isMenuOpen}
       handleMenuClose={handleMenuClose}
       changeNumNotif={changeNumNotif}
+      refresh={refresh}
     />
   );
 

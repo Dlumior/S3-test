@@ -337,7 +337,7 @@ class FrmMisCitas extends Component {
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnclickAceptarCancelacion}                        >
-                            Aceptar
+                            SÍ
                         </Button>
                     </DialogActions>
                 </Dialog>

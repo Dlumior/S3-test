@@ -274,8 +274,8 @@ class ListaTutorias extends Component {
   }
 
   render() {
-    const titulos = [
-      "Registro de Nuevo Alumno",
+    const titulos= [
+      "Registro de Procesos de Tutoria",
       "Importar Alumnos desde un CSV",
       "Registro de Informacion historica",
       "Actualizar alumno",

@@ -45,9 +45,9 @@ class FrmMisCitas extends Component {
                 sesion:'',
                 acompana:1,
                 utilidad:1,
-                influyo:true,
-                ayudo:true,
-                recomienda:true,
+                influyo:false,
+                ayudo:false,
+                recomienda:false,
             },
             alert: {
                 mensajeStrong: "",
