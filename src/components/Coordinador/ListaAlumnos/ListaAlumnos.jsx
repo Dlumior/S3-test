@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
-import { withRouter } from 'react-router-dom';    
+import { withRouter } from "react-router-dom";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
 import { Button, Grid, Fab, IconButton } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
@@ -13,9 +13,10 @@ import DeleteRoundedIcon from "@material-ui/icons/DeleteRounded";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrarAlumno";
 import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
-import FileCopyTwoToneIcon from "@material-ui/icons/FileCopyTwoTone";
+import DescriptionSharpIcon from "@material-ui/icons/DescriptionSharp";
+import VerInformacionRelevante from "../FormRegistroAlumno/VerInformacionRelevante";
 class ListaAlumnos extends Component {
-  constructor(props) {
+  constructor() {
     super();
     // tipo de dialogo: 0 carga individual
     //                  1 carga masiva
@@ -94,39 +95,44 @@ class ListaAlumnos extends Component {
             codigo: CODIGO,
             nombre: `${NOMBRE} ${APELLIDOS}`,
             correo: CORREO,
-            perfil:
-            <div>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={()=>this.props.history.push("/coordinador/alumno/"+
-                ID_USUARIO+"/"+JSON.stringify(APELLIDOS+", "+NOMBRE))}
-              >
-                Asistencias
-              </Button>
-            </div>,
+            perfil: (
+              <div>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() =>
+                    this.props.history.push(
+                      "/coordinador/alumno/" +
+                        ID_USUARIO +
+                        "/" +
+                        JSON.stringify(APELLIDOS + ", " + NOMBRE)
+                    )
+                  }
+                >
+                  Asistencias
+                </Button>
+              </div>
+            ),
             agregarInfo: (
               <>
                 <Grid container spacing={2} style={{ textAlign: "center" }}>
                   {/** eliminar data */}
-                  <Grid item md={6} xs={6}><Fab
-                  size="small"
-                  color="primary"
-                  aria-label="add"
-                  onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
-                >
-                  <AddIcon />
-                </Fab></Grid>
-                  <Grid item md={6} xs={6}><IconButton color="primary">
-                  <FileCopyTwoToneIcon
-                    color="primary"
-                    fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 5, ID_USUARIO)}
-                  />
-                </IconButton></Grid>
+                  
+                  <Grid item md={6} xs={6}>
+                    
+                   <IconButton>
+                     <DescriptionSharpIcon
+                         fontSize="large"
+                        color="primary"
+                        aria-label="add"
+                        
+                        onClick={(e) =>
+                          this.handleOpenDialog(e, 4, ID_USUARIO)}
+                        />
+                   </IconButton>
+                        
+                  </Grid>
                 </Grid>
-                
-                
               </>
             ),
             mantenimiento: (
@@ -247,7 +253,6 @@ class ListaAlumnos extends Component {
             },
           }}
           title={`Listado de Alumnos`}
-          
         />
       );
     }
@@ -280,7 +285,7 @@ class ListaAlumnos extends Component {
             ) : this.state.cuerpoDialogo === 3 ? (
               <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (
-              <InformacionRelevante
+              <VerInformacionRelevante
                 usuario={getUser().usuario}
                 idAlumno={this.state.currentID}
               />
@@ -291,7 +296,7 @@ class ListaAlumnos extends Component {
             this.setState({ open: false });
             //window.location.replace(this.props.ruta);
           }}
-          maxWidth={"lg"}
+          maxWidth={this.state.cuerpoDialogo !== 4?"lg":"xl"}
           botonDerecho={"Cerrar"}
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
