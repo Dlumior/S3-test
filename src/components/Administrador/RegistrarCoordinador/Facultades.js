@@ -62,21 +62,15 @@ const Facultades = (props) => {
             programasSeleccionados.push(programa);
             console.log("programasSelecc",programasSeleccionados);
             console.log("programas ",programas);
-            //var i=programas.indexof(programa);
             console.log("programa ",programa);
-            /*
-            let arr=programas.filter(function(e){
-              return e.ID_PROGRAMA!==programa;
-            });
-            console.log("arr",arr);
-            //setProgramas(arr);
-            console.log("prog",programas);
-            */
 
           }else{
             setCantPrograma(cantProgramas => func);
-            console.log("func",func)
-            programasSeleccionados.splice(-1);
+            console.log("func",programasSeleccionados.length)
+            console.log("func",cantProgramas)
+            if (programasSeleccionados.length>=cantProgramas){
+              programasSeleccionados.splice(-1);
+            } 
             console.log("programasSelecc",programasSeleccionados)
           }
         }else{

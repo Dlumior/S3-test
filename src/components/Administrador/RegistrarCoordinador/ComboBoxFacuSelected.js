@@ -21,6 +21,7 @@ const ComboBoxPrograma = (props) => {
   const classes = useStyles();
   const {nombre, programas, programa, setPrograma, setProgramas,cantProgramas } = props;
 
+  console.log("PROG",nombre);
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
     //quitamos ese valor del combobox
@@ -39,12 +40,11 @@ const ComboBoxPrograma = (props) => {
     <FormControl style={{width:230 }}>
       <InputLabel id={cantProgramas}>{props.nombre}</InputLabel>
       <Select
-        {...props}
-        labelId="demo-simple-select-label"
+        disabled={props.nombre!==undefined}
+        helperText="Facultad"
         id={cantProgramas}
         value={programa}
         onChange={handleChangePrograma}
-        placeholder={"props.nombre"}
         fullWidth
       >
         {programas.map((item) => (
