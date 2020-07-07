@@ -169,7 +169,7 @@ class Controles extends Component {
             : false
         }
         mensaje="tutoria"
-        titulo={"Tutorias enconctradas"}
+        titulo={"Tutorias encontradas"}
         enlace={enlace}
         id={"ID_PROCESO_TUTORIA"}
         nombre={"NOMBRE"}
@@ -347,7 +347,7 @@ class Controles extends Component {
                   <strong>
                     {this.state.tutoriaFija
                       ? `Tutor Asignado:`
-                      : "Tutor Seleccionado:"}
+                      : " Último Tutor Seleccionado:"}
                   </strong>{" "}
                 </InputLabel>
                 <h3>{this.props.tutorNombre}</h3>
