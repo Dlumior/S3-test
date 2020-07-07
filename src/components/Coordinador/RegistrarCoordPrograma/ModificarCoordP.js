@@ -10,7 +10,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";  
 import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
-import ComboBoxFacuSelected from "./ComboBoxFacuSelected";
+import ComboBoxFacuSelected from "../../Administrador/RegistrarCoordinador/ComboBoxFacuSelected";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Alertas from "../../Coordinador/Alertas";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
@@ -26,7 +26,6 @@ import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress
 import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
 import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
 import { wait } from "@testing-library/react";
-import Facultades from "./Facultades";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -87,7 +86,7 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
 };
 
 const ModificaCoordinador = (props) => {
-  const {open,close,codigo}=props;
+  const {open,close,codigo,idFacu}=props;
   const [datosForm, setDatosForm] = React.useState({
     ID:"",
     CODIGO: "",
@@ -98,7 +97,7 @@ const ModificaCoordinador = (props) => {
     USUARIO: "",
     DIRECCION: "",
     IMAGEN: null,
-    FACULTAD:[],
+    PROGRAMA:[],
   });
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);//facultades
   const [nombreFacultades,setNombreFacultades]=useState([]);//nombre facultades
@@ -188,22 +187,17 @@ const ModificaCoordinador = (props) => {
     datosForm.TELEFONO=res.coordinador.TELEFONO;
     datosForm.DIRECCION=res.coordinador.DIRECCION;    
   
-    let cantProg=res.coordinador.PROGRAMAs.length;
-    console.log("long prog:", cantProg);
-    setCantPrograma(cantProg);
+    //let cantProg=res.coordinador.PROGRAMAs.length;
+    //console.log("long prog:", cantProg);
+    //setCantPrograma(cantProg);
 
     let arreglillo = [];
     for (let element of res.coordinador.PROGRAMAs){
-
-      if (getUser().rol==="Administrador" && element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===6){
+      if(element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===2){
         programasSeleccionados.push(element.ID_PROGRAMA);
         nombreFacultades.push(element.NOMBRE); 
-      }else if(getUser().rol==="Coordinador Facultad"){
-        programasSeleccionados.push(element.ID_PROGRAMA);
-        nombreFacultades.push(element.NOMBRE); 
+        setCantPrograma(cantProgramas => cantProgramas+1);
       }
-
-      //programa.push(element.ID_PROGRAMA);
     }
     //datosForm.FACULTAD=programasSeleccionados;
     console.log("proogramaSelecc:", programasSeleccionados);
@@ -215,38 +209,18 @@ const ModificaCoordinador = (props) => {
       ...
       datosForm,
     });
-    
-    /*
-    programasSeleccionados={programasSeleccionados}
-    setProgramasSeleccionados={setProgramasSeleccionados}
-    programa={programa}
-    setPrograma={setPrograma}
-    programas={programas}
-    setProgramas={setProgramas
-
-    */
     console.log("datosForm:", datosForm);
-    //setProgramas(res.facultad);
-    //console.log("COORDINADOR:", programa);
   }
    fetchData();
 }, {});
 
 useEffect(() => {
   async function fetchData() {
-    if (getUser().rol==="Administrador"){
-      const endpoint = "/api/facultad";
+      const endpoint = "/api/programa/lista/"+idFacu;
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      setProgramas(res.facultad);
-    }else{
-      const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
-      const params = { servicio: endpoint };
-      const res = await GET(params);    
-      console.log("proogramasss:", res);
-      setProgramas(res.facultades);
-    }
+      setProgramas(res.programa);
   }
    fetchData();
 }, {});
@@ -298,13 +272,13 @@ useEffect(() => {
       }      
       console.log("programasSelecc",programasSeleccionados)
 
-      datosForm.FACULTAD=programasSeleccionados;
+      datosForm.PROGRAMA=programasSeleccionados;
       setDatosForm({
         ...datosForm,
       });
 
       console.log(datosForm);      
-      const props = { servicio: "/api/coordinadorfacultad/modificar", request: {coordinador: datosForm} };
+      const props = { servicio: "/api/coordinador/modificar", request: {coordinador: datosForm} };
       console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);

@@ -258,7 +258,8 @@ const ModificarFacultad = (props) => {
             <Typography variant="h7" align="center">
                 {" "}Facultad Independiente
             </Typography>
-            {coordinadores!==undefined &&
+            {getUser().rol==="Administrador" &&
+            coordinadores!==undefined &&
                 <List>
                 <Grid item style={{marginLeft:"2%"}}>
                   <h3>Lista Coordinadores:</h3>

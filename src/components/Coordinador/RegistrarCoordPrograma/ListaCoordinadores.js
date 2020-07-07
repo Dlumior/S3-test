@@ -6,7 +6,7 @@ import { Paper,FormControl, FormHelperText, IconButton } from "@material-ui/core
 import * as Controller from "../../../Conexion/Controller";
 import TablaCoordinador from "./TablaCoordinador";
 import Button from "@material-ui/core/Button";
-import ModificaCoordinador from "../../Administrador/RegistrarCoordinador/ModificaCoordinador";
+import ModificaCoordinador from "./ModificarCoordP";
 
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
@@ -126,6 +126,7 @@ render(){
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               id={this.state.idCoord}
+              idFacu={this.props.idFacu}
             />}
             {this.state.open2 && 
             <EliminarCoordinador 
