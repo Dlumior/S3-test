@@ -15,7 +15,7 @@ import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Alertas from "../../Coordinador/Alertas";
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
-
+import {getUser} from "../../../Sesion/Sesion";
 
 import IconButton from '@material-ui/core/IconButton';
 import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
@@ -190,8 +190,15 @@ const ModificaCoordinador = (props) => {
 
     let arreglillo = [];
     for (let element of res.coordinador.PROGRAMAs){
-      programasSeleccionados.push(element.ID_PROGRAMA);
-      nombreFacultades.push(element.NOMBRE);
+
+      if (getUser().rol==="Administrador" && element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===6){
+        programasSeleccionados.push(element.ID_PROGRAMA);
+        nombreFacultades.push(element.NOMBRE); 
+      }else if(getUser().rol==="Coordinador Facultad"){
+        programasSeleccionados.push(element.ID_PROGRAMA);
+        nombreFacultades.push(element.NOMBRE); 
+      }
+
       //programa.push(element.ID_PROGRAMA);
     }
     //datosForm.FACULTAD=programasSeleccionados;
