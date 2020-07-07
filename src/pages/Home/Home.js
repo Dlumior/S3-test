@@ -16,7 +16,7 @@ import { useUserValue } from "../../Sesion/Sesion.js";
 function Home(props) {
   const classes = useStyles();
   const [{ usuario }, dispatch] = useUserValue();
-  console.log("Home encontro: ", usuario );
+  console.log("Home encontro: ", usuario);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -44,15 +44,29 @@ function Home(props) {
             container
             justify="flex-start"
             alignItems="center"
-            spacing={5}
           >
             <Grid item>
-              <Typography variant="h3" color="primary">
+              <Typography variant="h2" color="secondary" className={classes.t1}>
                 Bienvenidos a Ututor
+              </Typography>
+              <Typography
+                variant="h5"
+                color="textSecondary"
+                className={classes.t2}
+              >
+                Ingresa y solicita una sesión de tutoría con los profesores de
+                tu universidad.
               </Typography>
             </Grid>
           </Grid>
-          <Grid item md={6} xs={12} container justify="center" alignItems="center">
+          <Grid
+            item
+            md={6}
+            xs={12}
+            container
+            justify="center"
+            alignItems="center"
+          >
             {/*<Login />*/}
             <IniciarSesion />
           </Grid>
