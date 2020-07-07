@@ -5,29 +5,30 @@ import JUploadSSJ from "jin-upload-ssj2";
 import { GET } from "../../../Conexion/Controller";
 import { IconButton, Grid, Paper } from "@material-ui/core";
 import MaterialTable from "material-table";
-import JDownloadButtonIcon from "downloadssj";
+//import JDownloadButtonIcon from "downloadssj";
 const estilos = {
-    paper: {
-      marginTop: "1%",
-      marginLeft: "1%",
-      marginRight: "1%",
-    },
-    margen: {
-      marginTop: "1%",
-      marginLeft: "4%",
-      marginRight: "4%",
-    },
-    divini: {
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      marginRight: "4%",
-    },
-  };
+  paper: {
+    marginTop: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+  },
+  margen: {
+    marginTop: "1%",
+    marginLeft: "4%",
+    marginRight: "4%",
+  },
+  divini: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    marginRight: "4%",
+  },
+};
 class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      archivo: undefined,
       tipoDialogo: 0,
       open: false,
       currentID: 0,
@@ -47,6 +48,7 @@ class VerInformacionRelevante extends Component {
     };
     this.handleVistaPrevia = this.handleVistaPrevia.bind(this);
     this.handleDescargar = this.handleDescargar.bind(this);
+    this.getArchivo = this.getArchivo.bind(this);
   }
   renderTabla(datosNuevos) {
     console.log("***", datosNuevos);
@@ -67,27 +69,52 @@ class VerInformacionRelevante extends Component {
               fontSize: 14,
             },
           }}
-          title={`Listado de Tutorias`}
+          title={`Archivos del Alumno`}
         />
       );
     }
   }
+  async getArchivo(idArchivo) {
+    const archivoOutput = await GET({
+      servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
+    });
+    console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
+    return "data:application/pdf;base64,"+archivoOutput.informacionRelevante.ARCHIVO;
+  }
+
   async handleVistaPrevia(e, idArchivo) {
     const { archivo } = this.state;
     if (archivo) {
       if (archivo.idArchivo !== idArchivo) {
         // si hay archivo i los id son dif,pide al back y muestra
-        const archivo = await GET({servicio:`/api/alumno/informacionrelevante/descargar/${idArchivo}`});
-      }else{
-          //ya esta cargado, so, no hagas nada
+        this.setState({ archivo: undefined });
+        const archivo = await this.getArchivo(idArchivo);
+        await this.setState({ archivo });
+      } else {
+        //ya esta cargado, so, no hagas nada
       }
+    } else {
+      //no hay archivos, lo cargo en memoria
+      const archivo = await this.getArchivo(idArchivo);
+      await this.setState({ archivo });
     }
   }
   async handleDescargar(e, idArchivo) {
-    if (!this.state.archivo) {
-      //descarga
-      const archivo = await GET({servicio:`/api/alumno/informacionrelevante/descargar/${idArchivo}`});
-        await this.setState({archivo:archivo});
+    const { archivo } = this.state;
+    if (archivo) {
+      if (archivo.idArchivo !== idArchivo) {
+        this.setState({ archivo: undefined });
+        const archivo = await this.getArchivo(idArchivo);
+
+        await this.setState({ archivo });
+        this.clickInput();
+      } else {
+        this.clickInput();
+      }
+    } else {
+      const archivo = await this.getArchivo(idArchivo);
+      
+      await this.setState({ archivo });
       this.clickInput();
     }
   }
@@ -97,9 +124,9 @@ class VerInformacionRelevante extends Component {
       servicio: `/api/alumno/informacionrelevante/${this.props.idAlumno}`,
     });
     let datos = [];
-    if(!listaResultados) return;
+    if (!listaResultados) return;
     if (listaResultados.informacionRelevante) {
-      listaResultados.informacionRelevante.forEach((archivo,index) => {
+      listaResultados.informacionRelevante.forEach((archivo, index) => {
         const { ID_INFORMACION_RELEVANTE, DESCRIPCION } = archivo;
         datos.push({
           nro: index + 1,
@@ -110,6 +137,7 @@ class VerInformacionRelevante extends Component {
                 fontSize="large"
                 color="primary"
                 aria-label="add"
+                name="view"
                 onClick={(e) =>
                   this.handleVistaPrevia(e, ID_INFORMACION_RELEVANTE)
                 }
@@ -117,7 +145,12 @@ class VerInformacionRelevante extends Component {
             </IconButton>
           ),
           descargar: (
-            <JDownloadButtonIcon
+            <GetAppSharpIcon
+              fontSize="large"
+              name="download"
+              color="primary"
+              aria-label="add"
+              onClick={(e) => this.handleDescargar(e, ID_INFORMACION_RELEVANTE)}
             />
           ),
         });
@@ -138,12 +171,17 @@ class VerInformacionRelevante extends Component {
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/**tabla de informacuion historica */}
-        <Grid item md={4} xs={12}>
+        <Grid item md={3} xs={12}>
           {this.renderTabla(this.state.datosTabla)}
         </Grid>
         {/** vista previa y opcion de descarga */}
-        <Grid item md={8} xs={12}>
-        <a id="superDownload" href={this.props.archivo} style={{display: "none"}} download></a>
+        <Grid item md={9} xs={12}>
+          <a
+            id="superDownload"
+            href={this.state.archivo}
+            style={{ display: "none" }}
+            download
+          ></a>
           {this.state.archivo ? (
             <div style={estilos.divini}>
               <iframe
@@ -157,7 +195,7 @@ class VerInformacionRelevante extends Component {
             </div>
           ) : (
             <Paper style={estilos.margen}>
-              <a id="superDownload" href={this.state.archivo} style={{display: "none"}} download></a>
+              <h2>{"Vista previa(solo pdf):"}</h2>
               <JUploadSSJ
                 embebed={true}
                 contained={true}
