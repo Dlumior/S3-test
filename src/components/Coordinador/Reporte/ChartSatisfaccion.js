@@ -28,6 +28,15 @@ const ChartSatisfaccion = (props) => {
       display: true,
       text: "Nivel de satisfacción promedio por proceso de tutoria",
     },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            min: 0,
+          },
+        },
+      ],
+    },
   };
 
   return (
