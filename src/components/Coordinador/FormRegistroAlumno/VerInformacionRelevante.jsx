@@ -3,9 +3,13 @@ import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import GetAppSharpIcon from "@material-ui/icons/GetAppSharp";
 import JUploadSSJ from "jin-upload-ssj2";
 import { GET } from "../../../Conexion/Controller";
-import { IconButton, Grid, Paper } from "@material-ui/core";
+import { IconButton, Grid, Paper ,Button} from "@material-ui/core";
 import MaterialTable from "material-table";
+import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
+
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -28,6 +32,7 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      extension: "",
       archivo: undefined,
       tipoDialogo: 0,
       open: false,
@@ -46,6 +51,8 @@ class VerInformacionRelevante extends Component {
         data: [],
       },
     };
+    this.removerDatos = this.removerDatos.bind(this);
+
     this.handleVistaPrevia = this.handleVistaPrevia.bind(this);
     this.handleDescargar = this.handleDescargar.bind(this);
     this.getArchivo = this.getArchivo.bind(this);
@@ -78,6 +85,7 @@ class VerInformacionRelevante extends Component {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
+    this.setState({extension: archivoOutput.informacionRelevante.DESCRIPCION.split('.')[1]});
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
     return "data:application/pdf;base64,"+archivoOutput.informacionRelevante.ARCHIVO;
   }
@@ -167,22 +175,74 @@ class VerInformacionRelevante extends Component {
     const inputElement = document.getElementById("superDownload");
     inputElement.click();
   }
+  removerDatos(){
+this.setState({ archivo: undefined });
+  }
   render() {
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/**tabla de informacuion historica */}
-        <Grid item md={3} xs={12}>
+        <Grid item md={4} xs={12}>
           {this.renderTabla(this.state.datosTabla)}
         </Grid>
         {/** vista previa y opcion de descarga */}
-        <Grid item md={9} xs={12}>
+        <Grid item md={8} xs={12}>
+        <Grid container spacing={0}>
+            {this.state.archivo ? (
+              <Grid item md={2} xs={6}>
+                <Button
+                  color="primary"
+                  onClick={() => this.removerDatos()}
+                  startIcon={<RestorePageTwoToneIcon />}
+                >
+                  Deshacer Carga
+                </Button>
+              </Grid>
+            ) : (
+              <Grid item md={2} xs={false} />
+            )}
+            <Grid item md={5} xs={12}>
+              <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
+            </Grid>
+            <Grid item md={3} xs={12}>
+              <CampoDeTexto
+                variant={"outlined"}
+                name="nombre"
+                label="Descripcion o comentarios"
+                requerido={true}
+                autoFocus={true}
+                inicial={this.state.fileName}
+                validacion={{ lim: 25 }}
+                onChange={this.handleOnChangeTexto}
+                validarEntrada={()=>{}}
+                value={this.state.fileName}
+              />
+            </Grid>
+            {this.state.PDFURL || this.state.FILE ? (
+              <>
+                <Grid item md={2} xs={6}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleOnClickRegistroSSJ_masivo}
+                    startIcon={<CloudUploadIcon />}
+                    disabled={!this.state.FILE}
+                  >
+                    Registrar
+                  </Button>
+                </Grid>
+              </>
+            ) : (
+              <Grid item md={2} xs={false} />
+            )}
+          </Grid>
           <a
             id="superDownload"
             href={this.state.archivo}
             style={{ display: "none" }}
             download
           ></a>
-          {this.state.archivo ? (
+          {this.state.archivo && this.state.extension==="pdf"? (
             <div style={estilos.divini}>
               <iframe
                 src={this.state.archivo}
