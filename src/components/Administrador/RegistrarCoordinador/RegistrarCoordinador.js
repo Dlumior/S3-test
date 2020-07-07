@@ -101,12 +101,15 @@ const RegistrarCoordinador = (props) => {
   });
   const [datosAsignacion, setDatosAsignacion] = React.useState({
     idUsuario:0,
-    roles:[2],
+    roles:[6],
     idPrograma:'',
+  });
+  const [nombre,setNombre]=useState({
+    usuario:"",
   });
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState([]);
+  const [programa, setPrograma] = useState("");
   const [errors, setErrors] = useState(errorObj);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
@@ -199,14 +202,6 @@ const RegistrarCoordinador = (props) => {
 
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
-      /*
-      let arregloProg=[];
-      for (let element of programasSeleccionados){
-        //arregloProg.push(element.ID_PROGRAMA)
-        datosForm.PROGRAMA.push(element)        
-      }
-      console.log("arreglo ha actualizar: ",arregloProg);
-      */
       console.log("programa",programa)
       programasSeleccionados.push(programa);
       console.log("programasSelecc",programasSeleccionados)
@@ -230,6 +225,16 @@ const RegistrarCoordinador = (props) => {
           mensaje:nuevoCoord.error,
         });
         setOpenAviso(true);
+        
+        const propsUsuario = { servicio: "/api/usuario/buscar/"+datosForm.CODIGO }
+
+        console.log("PROOOOOPSUSUARIO: ", propsUsuario);
+        const resUsuario = await GET(propsUsuario);
+        console.log("got updated coord from back:", resUsuario);
+
+        setNombre({
+          usuario:resUsuario.usuario.NOMBRE + " " + resUsuario.usuario.APELLIDOS
+        });
 
         const props2 = { servicio: 
         nuevoCoord.error==="Correo repetido"? 
@@ -268,7 +273,7 @@ const RegistrarCoordinador = (props) => {
       const nuevaAsignacion = {
         asignacion: {
             ID_USUARIO: datosAsignacion.idUsuario,
-            ID_ROLES: [2],
+            ID_ROLES: [6],
             ID_PROGRAMA: facu,
         },
       };
@@ -279,6 +284,7 @@ const RegistrarCoordinador = (props) => {
         let asignado = await Conexion.POST(props);
         console.log("asignado",asignado); 
     }
+    setOpenAviso(false);
   }
 
 
@@ -403,7 +409,7 @@ const RegistrarCoordinador = (props) => {
         </DialogTitle>
         <DialogContent>
           <Grid container md={12} spacing={2}>
-                Ya existe un usuario con ese código
+            El usuario {nombre.usuario} ya cuenta con ese código
             ¿Desea asignarle el rol de coordinador de Facultad?
           </Grid>
         </DialogContent>
