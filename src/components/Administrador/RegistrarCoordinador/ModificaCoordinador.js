@@ -192,7 +192,7 @@ const ModificaCoordinador = (props) => {
     for (let element of res.coordinador.PROGRAMAs){
       programasSeleccionados.push(element.ID_PROGRAMA);
       nombreFacultades.push(element.NOMBRE);
-      programa.push(element.ID_PROGRAMA);
+      //programa.push(element.ID_PROGRAMA);
     }
     //datosForm.FACULTAD=programasSeleccionados;
     console.log("proogramaSelecc:", programasSeleccionados);
@@ -274,7 +274,7 @@ useEffect(() => {
       console.log("programa ha actualizar: ",programasSeleccionados);
       console.log("programa",programa)
 
-      programasSeleccionados.push(programa);
+      //programasSeleccionados.push(programa);
       console.log("programasSelecc",programasSeleccionados)
 
       datosForm.FACULTAD=programasSeleccionados;
