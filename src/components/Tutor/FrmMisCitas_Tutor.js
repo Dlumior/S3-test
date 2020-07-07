@@ -59,6 +59,9 @@ class FrmMisCitas_Tutor extends Component {
 
     handleOnChangeHoraIni(e) {
         this.setState({ horaIniR: e.target.value });
+
+        //=> aquiRicop
+
     }
 
     handleOnChangeHoraFin(e) {
@@ -449,8 +452,6 @@ class FrmMisCitas_Tutor extends Component {
                     <DialogTitle id="alert-dialog-title">
                         {<h3> ¿ Está seguro de Reprogramar esta cita ? </h3>}</DialogTitle>
                     <DialogContent>
-
-
                         <Grid container spacing={2} >
                             <Grid item md={4}>
                                 <TextField
@@ -483,6 +484,9 @@ class FrmMisCitas_Tutor extends Component {
                             </Grid>
                             <Grid item md={4} >
                                 <TextField
+                                     value={this.state.horaFinR}
+                                     disabled={true}
+                                    
                                     variant="outlined"
                                     required
                                     margin="dense"

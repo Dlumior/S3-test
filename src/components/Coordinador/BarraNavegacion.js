@@ -164,7 +164,8 @@ const BarraNavegacion = (props) => {
           ]
             .filter((e) =>
               getUser().rol === "Coordinador Programa"
-                ? (e !=="Registrar Coordinadores de Programa") && (e!=="Facultades")
+                ? e !== "Registrar Coordinadores de Programa" &&
+                  e !== "Facultades"
                 : e === e
             )
             .map((text, index) => (
@@ -174,7 +175,7 @@ const BarraNavegacion = (props) => {
                 component={LinkRouter}
                 //to={"/coordinador/" + text.toLowerCase()}
                 to={
-                  index === 10
+                  index === 11
                     ? "/"
                     : "/coordinador/" + text.split(" ").join("").toLowerCase()
                 }
@@ -187,10 +188,10 @@ const BarraNavegacion = (props) => {
                   ) : index === 2 ? (
                     getUser().rol === "Coordinador Facultad" ? (
                       <AccountBalanceRoundedIcon />
-                    ): (
+                    ) : (
                       <NoteAddRoundedIcon />
-                    ) 
-                  ): index === 3 || index === 4 ? (
+                    )
+                  ) : index === 3 || index === 4 ? (
                     <NoteAddRoundedIcon color="primary" />
                   ) : index === 7 ? (
                     getUser().rol === "Coordinador Facultad" ? (

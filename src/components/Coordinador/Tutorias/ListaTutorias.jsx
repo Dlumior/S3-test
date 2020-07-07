@@ -26,17 +26,17 @@ const style = {
   logo: {
     backgorundSize: "cover",
     width: "100%",
-    height:800,
+    height: 800,
   },
 };
-const tutoriaOpciones={
-  vigencia: ["Semestral","Permanente"],
-  tipoasignacion: ["Solicitado","Asignado"],
-  asignacion: ["Obligatorio","Opcional"],
-  naturaleza: ["Semestral","Permanente"],
-  tipotutor: ["Variable","Fijo Semestral","Fijo Permanente"],
-  agrupacion: ["Grupal","Individual"],
-}
+const tutoriaOpciones = {
+  vigencia: ["Semestral", "Permanente"],
+  tipoasignacion: ["Solicitado", "Asignado"],
+  asignacion: ["Obligatorio", "Opcional"],
+  naturaleza: ["Semestral", "Permanente"],
+  tipotutor: ["Variable", "Fijo Semestral", "Fijo Permanente"],
+  agrupacion: ["Grupal", "Individual"],
+};
 class ListaTutorias extends Component {
   constructor() {
     super();
@@ -105,9 +105,7 @@ class ListaTutorias extends Component {
     // console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
 
-
-
-    //   
+    //
     if (programa) {
       const listaTutorias = await GET({
         servicio: `/api/tutoria/lista/${programa}`,
@@ -117,41 +115,62 @@ class ListaTutorias extends Component {
 
       if (listaTutorias.tutoria) {
         listaTutorias.tutoria.forEach((tutoria, index) => {
-         
-          const {ID_PROCESO_TUTORIA, NOMBRE, DESCRIPCION, OBLIGATORIO, TUTOR_FIJO,GRUPAL ,TUTOR_ASIGNADO,PERMANENTE,ETIQUETA } = tutoria;
-          let listaEtiquetas =[];
-          ETIQUETA.forEach(etiqueta => {
+          const {
+            ID_PROCESO_TUTORIA,
+            NOMBRE,
+            DESCRIPCION,
+            OBLIGATORIO,
+            TUTOR_FIJO,
+            GRUPAL,
+            TUTOR_ASIGNADO,
+            PERMANENTE,
+            ETIQUETA,
+          } = tutoria;
+          let listaEtiquetas = [];
+          ETIQUETA.forEach((etiqueta) => {
             listaEtiquetas.push(etiqueta.DESCRIPCION);
           });
-           
-           datos.push({
+
+          datos.push({
             nro: index + 1,
             nombre: NOMBRE,
             descripcion: DESCRIPCION,
             vigencia: tutoriaOpciones.vigencia[PERMANENTE],
-            duracion:"90 min",
-           etiquetas:<>{listaEtiquetas.map((etiqueta)=>(
-            <Chip label={etiqueta} color="primary" style={{marginRight: 5}}/>
-           ))}</>,
-            asignacion:tutoriaOpciones.asignacion[TUTOR_ASIGNADO],
-            naturaleza:tutoriaOpciones.naturaleza[OBLIGATORIO],
-            tipotutor:tutoriaOpciones.tipotutor[TUTOR_FIJO],
-            agrupacion:tutoriaOpciones.agrupacion[GRUPAL],
-           
+            duracion: "90 min",
+            etiquetas: (
+              <>
+                {listaEtiquetas.map((etiqueta) => (
+                  <Chip
+                    label={etiqueta}
+                    color="primary"
+                    style={{ marginRight: 5 }}
+                  />
+                ))}
+              </>
+            ),
+            asignacion: tutoriaOpciones.asignacion[TUTOR_ASIGNADO],
+            naturaleza: tutoriaOpciones.naturaleza[OBLIGATORIO],
+            tipotutor: tutoriaOpciones.tipotutor[TUTOR_FIJO],
+            agrupacion: tutoriaOpciones.agrupacion[GRUPAL],
+
             mantenimiento: (
               <>
                 <IconButton color="primary">
                   <EditRoundedIcon
                     color="secondary"
                     fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)}
+                    onClick={(e) =>
+                      this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
+                    }
                   />
                 </IconButton>
                 <IconButton color="primary">
                   <DeleteRoundedIcon
                     color="error"
                     fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 3, ID_PROCESO_TUTORIA)}
+                    onClick={(e) =>
+                      this.handleOpenDialog(e, 3, ID_PROCESO_TUTORIA)
+                    }
                   />
                 </IconButton>{" "}
               </>
@@ -224,7 +243,7 @@ class ListaTutorias extends Component {
     // const { idPrograma } = this.props;
     // console.log("idPrograma", this.props.prog);
   }
-  
+
   renderTabla(datosNuevos) {
     console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
@@ -245,7 +264,6 @@ class ListaTutorias extends Component {
             },
           }}
           title={`Listado de Tutorias`}
-          
         />
       );
     }
@@ -272,14 +290,16 @@ class ListaTutorias extends Component {
             this.state.cuerpoDialogo === 0 ? (
               <FormularioNuevaTutoria />
             ) : this.state.cuerpoDialogo === 1 ? (
-              <FormularioImportarAlumnos usuario={getUser().usuario}/>
+              <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
               <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
             ) : this.state.cuerpoDialogo === 3 ? (
-            <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
+              <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (
-              <InformacionRelevante usuario={getUser().usuario} idAlumno={this.state.currentID} />
-
+              <InformacionRelevante
+                usuario={getUser().usuario}
+                idAlumno={this.state.currentID}
+              />
             )
           }
           open={this.state.open}
@@ -313,7 +333,7 @@ class ListaTutorias extends Component {
               placeholder={"Escoja la facultad"}
             />
           </Grid>
-          
+
           {/** Combobox programa */}
           <Grid item md={4} xs={4}>
             {this.state.filtroFacultad ? (
@@ -341,7 +361,7 @@ class ListaTutorias extends Component {
             )}
           </Grid>
           {/** Botones toolbar */}
-          
+
           {/**Boton importar */}
           <Grid item md={2} xs={2}>
             <Button

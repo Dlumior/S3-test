@@ -189,10 +189,60 @@ class FrmDialogoSolicitarTutor extends Component {
         */
   }
 
-  handleFocusOutHoraIni() {
+  async handleFocusOutHoraIni() {
+    /*********VLIDACION DEL RANGO******* */
+
+    let parteHoraI = this.props.dispo.HORA_INICIO.slice(0, 2);
+    let parteMini = this.props.dispo.HORA_INICIO.slice(-2);
+    let parteHoraF = this.props.dispo.HORA_FIN.slice(0, 2);
+    let nHIni = parseInt(parteHoraI, 10); //tengo en numero la horaIni disponib
+    let nMIni = parseInt(parteMini, 10); //tengo en numero los minIni disponib
+    let nHFin = parseInt(parteHoraF, 10); //tengo en numero la horaFin disponib
+    let user_parteHora = this.state.horaIniR.slice(0, 2);
+    let user_parteMin = this.state.horaIniR.slice(-2);
+    let user_Hora = parseInt(user_parteHora, 10);
+    let user_Min = parseInt(user_parteMin, 10);
+
+
+    if (user_Hora < nHIni || user_Hora > nHFin) {
+      console.log(">>> fuera de rango");
+      user_Hora = nHIni; //setear a la hora
+      user_Min = nMIni;
+    } else if (user_Hora === nHFin) {
+      console.log(">>> horas iguales");
+      if (this.props.dispo.HORA_FIN.slice(-2) === "00") {
+        console.log(">>> hora fin acaba en 00");
+        user_Hora = nHIni; //setear a la hora
+        user_Min = nMIni;
+      } else if (this.props.dispo.HORA_FIN.slice(-2) === "30" && this.props.duracionPro === 30) {
+        console.log(">>> hora fin acaba en 30 y proT = 30");
+        user_Hora = nHFin;
+        user_Min = 0;
+      } else {
+        console.log(">>> hora fin acaba en 30 y proT != 30");
+        user_Hora = nHIni; //setear a la hora 
+        user_Min = nMIni;
+      }
+
+    } else {
+      console.log(">>> en rango");
+      user_Hora = parseInt(user_parteHora, 10);
+      user_Min = parseInt(user_parteMin, 10);
+
+    }
+    /*********VLIDACION DEL RANGO******* */
+
+    //>>Actualizamos states:
+    let vali = user_Hora.toString() + ":" + user_Min.toString();
+    console.log(">>> vali: ",vali);
+     this.setState({ horaIniR: vali });
+
+    /*********VLIDACION DEL MINUTOS******* */
+
+
     if (this.state.horaIniR.slice(-2) !== "30" || this.state.horaIniR.slice(-2) !== "00") {
-      let _yeri ="";
-      _yeri= this.state.horaIniR.slice(0, 2) + ":00";
+      let _yeri = "";
+      _yeri = this.state.horaIniR.slice(0, 2) + ":00";
       console.log("FOCUS=>", _yeri);
       this.setState({ horaIniR: _yeri });
 
@@ -202,10 +252,10 @@ class FrmDialogoSolicitarTutor extends Component {
       let _datetime = new Date(_strHora);
       _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
       let n = _datetime.toLocaleTimeString();
-      console.log("antesIF=> ",n);
+      console.log("antesIF=> ", n);
       if (n.length === 7) { n = "0" + n; }
       n = n.slice(0, 5);
-      console.log("antes n=> ",n);
+      console.log("antes n=> ", n);
       this.setState({ horaFinR: n });
 
     }
@@ -347,7 +397,7 @@ class FrmDialogoSolicitarTutor extends Component {
                     <Grid container spacing={2}>
                       <Grid item md={6} xs={6}>
                         <TextField
-                          defaultValue={_disponibilidad?.HORA_INICIO}
+                          //defaultValue={_disponibilidad?.HORA_INICIO}
                           value={this.state.horaIniR}
                           variant="outlined"
                           required
