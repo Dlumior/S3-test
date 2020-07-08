@@ -35,8 +35,10 @@ class EventsCalendar extends Component {
       visible: 1,
       problemaBack: false,
       loading: true,
+      diasAnticipacion: 0,
       facultad: this.props.facultad,
       alerta: {
+        severity:"",
         mensaje: "",
         mensajeStrong: "",
         mostrar: false,
@@ -70,6 +72,15 @@ class EventsCalendar extends Component {
           listaEventos.push(evento);
           this.setState({ problemaBack: false });
         }
+        let politicas = await Conexion.GET({
+          servicio: "/api/facultad/politicas/" + this.state.facultad,
+        });
+        console.log("polit",politicas);
+        if (politicas){
+          this.setState({ diasAnticipacion: politicas.politicas.ANTICIPACION_DISPONIBILIDAD });
+        }
+        console.log("veamossisale",this.state.diasAnticipacion);
+
       } else {
         this.setState({ problemaBack: true });
         let alerta = { ...this.state.alerta };
@@ -122,6 +133,14 @@ class EventsCalendar extends Component {
             listaEventos.push(evento);
             this.setState({ problemaBack: false });
           }
+          let politicas = await Conexion.GET({
+            servicio: "/api/facultad/politicas/" + this.state.facultad,
+          });
+          console.log("polit",politicas);
+          if (politicas){
+            this.setState({ diasAnticipacion: politicas.politicas.ANTICIPACION_DISPONIBILIDAD });
+          }
+          console.log("veamossisale",this.state.diasAnticipacion);
         } else {
           this.setState({ problemaBack: true });
           let alerta = { ...this.state.alerta };
@@ -142,39 +161,79 @@ class EventsCalendar extends Component {
 
   handleSelectSlot = (slotInfo) => {
     //set model to true
-    let alerta = { ...this.state.alerta };
-    alerta.mostrar = false;
-    this.setState({
-      modalIsOpen: true,
-      fechaMostrar: moment(slotInfo.start).format("dddd Do MMMM YYYY"),
-      fecha: moment(slotInfo.start).format("YYYY-MM-DD"),
-      horaInicio: moment(slotInfo.start).format("HH:mm"),
-      horaFin: moment(slotInfo.end).format("HH:mm"),
-      repeticion: 1,
-      lugar: "",
-      modificar: 0,
-      visible: 1,
-      alerta: alerta,
-    });
-  };
+    if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).format("YYYY-MM-DD")){  
+      if(moment(slotInfo.start).format("YYYY-MM-DD") >= moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){
+        let alerta = { ...this.state.alerta };
+        alerta.mostrar = false;
+        this.setState({
+          modalIsOpen: true,
+          fechaMostrar: moment(slotInfo.start).format("dddd Do MMMM YYYY"),
+          fecha: moment(slotInfo.start).format("YYYY-MM-DD"),
+          horaInicio: moment(slotInfo.start).format("HH:mm"),
+          horaFin: moment(slotInfo.end).format("HH:mm"),
+          repeticion: 1,
+          lugar: "",
+          modificar: 0,
+          visible: 1,
+          alerta: alerta,
+        });
+      }else{
+        this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.severity="warning";
+        alerta.mostrar = true;
+        alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "
+        alerta.mensajeStrong = this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día":" días") +" de anticipación"
+        this.setState({alerta: alerta})
+      }
+    }else{
+      this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.severity="error";
+        alerta.mostrar = true;
+        alerta.mensaje = "No puede registrar/modificar su disponibilidad en una fecha pasada"
+        alerta.mensajeStrong = "Intente de nuevo"
+        this.setState({alerta: alerta})
+    }
+  }
 
   handleSelectEvent = (event) => {
     //set model to true
-    let alerta = { ...this.state.alerta };
-    alerta.mostrar = false;
-    this.setState({
-      modalIsOpen: true,
-      fechaMostrar: moment(event.start).format("dddd Do MMMM YYYY"),
-      fecha: moment(event.start).format("YYYY-MM-DD"),
-      horaInicio: moment(event.start).format("HH:mm"),
-      horaFin: moment(event.end).format("HH:mm"),
-      idDisponibilidad: event.id,
-      lugar: event.lugar,
-      repeticion: event.repeticion,
-      modificar: 1,
-      visible: 0,
-      alerta: alerta,
-    });
+    if(moment(event.start).format("YYYY-MM-DD") >= moment(new Date()).format("YYYY-MM-DD")){  
+      if(moment(event.start).format("YYYY-MM-DD") >= moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){      
+        let alerta = { ...this.state.alerta };
+        alerta.mostrar = false;
+        this.setState({
+          modalIsOpen: true,
+          fechaMostrar: moment(event.start).format("dddd Do MMMM YYYY"),
+          fecha: moment(event.start).format("YYYY-MM-DD"),
+          horaInicio: moment(event.start).format("HH:mm"),
+          horaFin: moment(event.end).format("HH:mm"),
+          idDisponibilidad: event.id,
+          lugar: event.lugar,
+          repeticion: event.repeticion,
+          modificar: 1,
+          visible: 0,
+          alerta: alerta,
+        });
+      }else{
+        this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.severity="warning";
+        alerta.mostrar = true;
+        alerta.mensaje = "Por politica de la facultad solo puede registrar/modificar su disponibilidad con mínimo "
+        alerta.mensajeStrong = this.state.diasAnticipacion +(this.state.diasAnticipacion ===1?" día":" días") +" de anticipación"
+        this.setState({alerta: alerta})
+      }
+    }else{
+      this.setState({problema: true});
+        let alerta = {...this.state.alerta};
+        alerta.severity="error";
+        alerta.mostrar = true;
+        alerta.mensaje = "No puede registrar/modificar su disponibilidad en una fecha pasada"
+        alerta.mensajeStrong = "Intente de nuevo"
+        this.setState({alerta: alerta})
+    } 
   };
 
   closeDialog = () => {
@@ -229,14 +288,16 @@ class EventsCalendar extends Component {
   };
   render() {
     return (
-      <div style={{ height: `${500}px`, width: `${550}px` }} className="Big-calendar-container">
+      <div style={{ height: `${410}px`, width: `${850}px` }} className="Big-calendar-container">
+        {console.log("mostrar",this.state.alerta.mostrar)}
         {this.state.alerta.mostrar && (
           <Alertas
-            severity={"success"}
+            severity={this.state.alerta.severity}
             titulo={"Observacion"}
             alerta={this.state.alerta}
           />
         )}
+        {console.log("back",this.state.alerta.problemaBack)}
         {this.state.problemaBack && (
           <Alertas
             severity={"warning"}
@@ -244,6 +305,7 @@ class EventsCalendar extends Component {
             alerta={this.state.alerta}
           />
         )}
+        {console.log("mostrar",this.state.alerta.mostrar)}
         {this.state.loading && (
           <CircularProgress color="primary" style={style.carga} />
         )}
