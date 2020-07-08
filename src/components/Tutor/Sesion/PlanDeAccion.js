@@ -94,7 +94,7 @@ const PlanDeAccion = (props) => {
             <div>
               {plan.map((item) => (  
                 <Grid>
-                  <Checkbox color="primary" id={cantCompromisos}>                     
+                  <Checkbox disabled color="primary" id={cantCompromisos}>                     
                     </Checkbox>
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}
