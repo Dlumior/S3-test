@@ -54,7 +54,7 @@ const Perfil = (props) => {
     },
     {
       index:4,
-      titulo:"Citar Alumno",
+      titulo:"Notificar Alumno",
       proceso:()=> <FrmCitarAlumno idAlumno ={idAlumno}/>,
     },
   ];

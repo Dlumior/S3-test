@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Grid, makeStyles, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@material-ui/core";
+﻿import React, { Component } from "react";
+import { Grid, makeStyles, Paper, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, FormHelperText } from "@material-ui/core";
 import * as Controller from "./../../Conexion/Controller";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { getUser } from "../../Sesion/Sesion";
@@ -7,17 +7,19 @@ import { getUser } from "../../Sesion/Sesion";
 class FrmCitarAlumno extends Component {
     constructor() {
         super();
-        this.state={
-            open:false,
-            mensajillo:"",
-            motivoCita:"",
-            dataMotivo:"...",
+        this.state = {
+            open: false,
+            mensajillo: "",
+            motivoCita: "",
+            dataMotivo: "",
+            mensajeError:"",
+            esValido:true,
         };
 
         this.handleOnclickCitarAlumno = this.handleOnclickCitarAlumno.bind(this);
         this.handleOnCloseCitaEnviada = this.handleOnCloseCitaEnviada.bind(this);
 
-        
+
     };
 
     async handleOnclickCitarAlumno() {
@@ -27,10 +29,10 @@ class FrmCitarAlumno extends Component {
                 RAZON: this.state.motivoCita,
                 EMISOR: yo.usuario.ID_USUARIO,
                 RECEPTOR: parseInt(this.props.idAlumno,10), 
-                //RECEPTOR: 265, 
+                //RECEPTOR: 425,
             },
-        }; 
-        console.log(">>> Soli: ",nuevaSolicitud);
+        };
+        console.log(">>> Soli: ", nuevaSolicitud);
         const props = { servicio: "/api/citarAlumno", request: nuevaSolicitud };
 
         let citaTyS = await Controller.POST(props);
@@ -45,22 +47,36 @@ class FrmCitarAlumno extends Component {
         else {
             this.setState({ mensajillo: citaTyS.message });
         }
+
+        //await this.setState({ dataMotivo: "" });
         this.setState({ open: true });
+
     }
 
-    
+
     handleOnCloseCitaEnviada() {
         //Darle ok o Aceptar al dialogo de "Se envio la cita staisfactoriamente "
-    
-        this.setState({ open: false });
-        this.setState({dataMotivo:"..."});
+
+        this.setState({ dataMotivo: "", open: false });
+        //this.setState({dataMotivo:"..."});
         //window.location.replace(this.props.location.pathname);
     }
 
     handleOnChangeCT = (e) => {
-        //console.log("XXXXXXXXX RAZON ",e.value);
-        this.setState({ [e.name]: e.value });
-        this.setState({ motivoCita: e.value });
+        console.log("XXX value",e.target.value);
+        console.log("XXX lenth",e.target.value.length);
+        console.log("XXX name",e.target.name);
+
+        //aca valido
+        if(e.target.value.length===0){
+            this.setState({mensajeError:"Debe ingresar un mensaje!",esValido:true});
+        }else{
+            this.setState({mensajeError:"", esValido:false});
+        }
+
+        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ motivoCita: e.target.value });
+
     }
 
     validarEntradaCT(error) {
@@ -101,45 +117,57 @@ class FrmCitarAlumno extends Component {
         }
         */
     }
+
+    renderMensaje(dato) {
+        return (
+            <>
+            <TextField
+                required={true}
+                autoFocus={true}
+                fullWidth
+                name={"dataMotivo"}
+                label={"Mensaje de citación"}
+                onChange={this.handleOnChangeCT}
+                variant={"outlined"}
+                rows={10}
+                multiline={true}
+                value={dato}
+            />
+            <FormHelperText error>{this.state.mensajeError}</FormHelperText>
+            </>
+        );
+    }
+
     render() {
         return (
-            <div>
-                <br></br>
-                <Paper >
-                    <CampoDeTexto
-                        autoFocus={true}
-                        name="Motivo"
-                        label="Ingrese mensaje de citación para este alumno"
-                        validacion={{ lim: 300 }}
-                        variant={"outlined"}
-                        rows={10}
-                        multiline={true}
-                        requerido={true}
-                        inicial={this.state.dataMotivo}
-                        onChange={this.handleOnChangeCT}
-                        validarEntrada={this.validarEntradaCT}
-                        //value={this.state.dataMotivo}  // <<< me parece no tiene este campo
-                    />
-                    <Grid
-                        item
-                        xs={12}
-                        container
-                        justify="flex-end"
-                        alignItems="center"
-                    // spacing={10}
-                    >
-                        <Grid item xs={2}>
-                            <Button
-                                size="large"
-                                variant="contained"
-                                color="primary"
-                                onClick={this.handleOnclickCitarAlumno}  >
-                                CITAR
-                         </Button>
-                        </Grid>
-                    </Grid>
+            <div style={estilos.paper} elevation={0}>
+                <h3>Ingrese mensaje de citación para este alumno:</h3>
 
-                </Paper>
+                {this.renderMensaje(this.state.dataMotivo)}
+                
+
+                <Grid
+                    item
+                    xs={12}
+                    container
+                    justify="flex-end"
+                    alignItems="center"
+                // spacing={10}
+                >
+       
+                    <Grid item xs={2}>
+                    <br></br>
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            disabled={this.state.esValido}
+                            onClick={this.handleOnclickCitarAlumno}  >
+                            ENVIAR
+                         </Button>
+                    </Grid>
+                </Grid>
+                
 
                 <Dialog
                     open={this.state.open}
@@ -164,3 +192,13 @@ class FrmCitarAlumno extends Component {
     }
 }
 export default FrmCitarAlumno;
+const estilos = {
+    paper: {
+        marginTop: "3%",
+        marginLeft: "3%",
+        marginRight: "3%",
+        display: "flex",
+        flexDirection: "column",
+        //alignText: "center" //se centra al centro
+    }
+};
