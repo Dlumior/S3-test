@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { getUser } from "../../Sesion/Sesion";
 import TabProceso from "../Coordinador/Tutorias/TabProceso.js";
 import FrmMisCitasPasadas from "./AgendarCita/CitasPasadas/FrmMisCitasPasadas";
+import moment from 'moment';
+
 
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { compose } from "recompose";
@@ -44,6 +46,7 @@ class FrmMisCitas extends Component {
             graciasYopsIdSesion:0,
             graciasYopsIdTutor:[],
             yopsRazon:"",
+            diasAnticipacion:0,
 
 
         };
@@ -54,26 +57,47 @@ class FrmMisCitas extends Component {
 
         this.handleOnCloseCitaCancelada = this.handleOnCloseCitaCancelada.bind(this);
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
-
         //this.handleOnClickPosponer = this.handleOnClickPosponer.bind(this);
         //this.handleOnClosePosponer = this.handleOnClosePosponer.bind(this);
     };
 
+    //obtenemos diasAnticipacion
+    
 
     //de btn cancelar
-    handleOnClick(e,_idSesion,_idTutor,_fecha) {
+    async handleOnClick(e,_idSesion,_idTutor,_fecha,_idProg) {
         console.log("TARGET DEL E idSesion/idTutor",_idSesion,_idTutor);
         console.log("fechaSesion",_fecha);
-        /*
-        AQUI ME QUEDE
-        if(moment(_fecha).format("YYYY-MM-DD") >= 
-            moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){}
-        */
-        this.setState({graciasYopsIdSesion:_idSesion});
-        let _arrTutor= [];
-        _arrTutor.push(_idTutor);
-        this.setState({graciasYopsIdTutor:_arrTutor});
-        this.setState({ open: true });
+
+        //obtenemos diasAnticipacion
+        let facu=await Controller.GET({ servicio: "/api/facultad/" + _idProg });
+        if (facu){
+            let pol =await Controller.GET({ servicio: "/api/facultad/politicas/" + facu.facultad.ID_FACULTAD });
+            console.log("POLITICA",pol);
+            
+            if (pol){
+                let dias= pol.politicas.ANTICIPACION_CANCELAR_CITA;
+                this.state.diasAnticipacion=dias;
+                console.log("dia",this.state.diasAnticipacion);
+                this.setState({diasAnticipacion:dias});
+            }
+        }
+
+        console.log("DIAS",this.state.diasAnticipacion);
+
+        if (this.state.diasAnticipacion!==0){
+            console.log("fecha::",moment(_fecha).format("YYYY-MM-DD"));
+            if(moment(_fecha).format("YYYY-MM-DD") < 
+                moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){
+                    this.setState({openFechaInvalida:true});
+                }
+        }else{
+            this.setState({graciasYopsIdSesion:_idSesion});
+            let _arrTutor= [];
+            _arrTutor.push(_idTutor);
+            this.setState({graciasYopsIdTutor:_arrTutor});
+            this.setState({ open: true });
+        }      
 
     }
 
@@ -98,6 +122,7 @@ class FrmMisCitas extends Component {
 
     handleOnCloseAdvertencia() {
         this.setState({ openFechaInvalida: false });
+
     }
 
     async handleOnclickAceptarCancelacion() {
@@ -205,16 +230,6 @@ class FrmMisCitas extends Component {
 
             arreglillo.push({
                 campoCont: cont,
-                /*
-                    imagen: <div>
-                      <img
-                          style={estilo.imagen}
-                          src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
-  
-                      </img>
-                  </div>, 
-                 */
-
                 nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
                 //fecha: fex + " " + "de Mayo del 2020",
                 fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
@@ -226,7 +241,7 @@ class FrmMisCitas extends Component {
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA)}
+                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
                     >
                         CANCELAR
                     </Button>,
@@ -357,22 +372,21 @@ class FrmMisCitas extends Component {
                 <Dialog
                     open={this.state.openFechaInvalida}
                     onClose={this.handleOnCloseAdvertencia}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle id="form-dialog-title">
+                    <DialogTitle id="form-dialog-title-fecha">
                     <Grid container md={12} justify="center">
                         <WarningRoundedIcon style={{ fontSize: 70,fill:"orange" }}/>
                     </Grid>
                     </DialogTitle>
                     <DialogContent>
-                    <Grid container md={12} spacing={2}>
-                        Por politica de la facultad solo puede cancelar su 
-                        cita con mínimo 3 dias de Anticipación
+                    <Grid container md={12} justify="center">
+                        <Typography variant="subtitle1" >
+                            Por politica de la facultad solo puede cancelar su 
+                            cita con mínimo {this.state.diasAnticipacion} dias de Anticipación
+                        </Typography>
                     </Grid>
                     </DialogContent>
                     <DialogActions>
-
                         <Button 
                             variant="contained"
                             onClick={this.handleOnCloseAdvertencia}
@@ -397,12 +411,10 @@ class FrmMisCitas extends Component {
                         {this.state.mensajillo}
                     </DialogContent>
                     <DialogActions>
-
                         <Button
                             variant="contained"
                             color="primary"
                             onClick={this.handleOnCloseCitaCancelada}>
-
                             Aceptar
                         </Button>
                     </DialogActions>
