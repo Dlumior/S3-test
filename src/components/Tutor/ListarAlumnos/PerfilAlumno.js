@@ -11,6 +11,7 @@ import FrmResultados from "../../../components/Alumno/Perfil/FrmResultados";
 import Asistencias from "../../../components/Alumno/Perfil/Asistencias";
 
 import HistoricoResultados from "../../Alumno/Perfil/HistoricoResultados";
+import FrmCitarAlumno from "../FrmCitarAlumno";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -50,6 +51,11 @@ const Perfil = (props) => {
       index: 3,
       titulo: "Asistencias",
       proceso: () => <Asistencias datosAlumno={props.match.params} />,
+    },
+    {
+      index:4,
+      titulo:"Citar Alumno",
+      proceso:()=> <FrmCitarAlumno idAlumno ={idAlumno}/>,
     },
   ];
   const procesosCoordinador = [
@@ -97,8 +103,11 @@ const Perfil = (props) => {
         nombre={fullname}
         alumnodesdetutor={true}
       />
-      <TabProceso procesos={getUser().rol==="Tutor" || getUser().rol==="Alumno"? 
-                  procesos:procesosCoordinador} paper={true}/>
+
+
+      <TabProceso procesos={getUser().rol==="Tutor" || getUser().rol==="Alumno"? procesos:procesosCoordinador}
+                  paper={true}
+      />
     </div>
   );
 };
