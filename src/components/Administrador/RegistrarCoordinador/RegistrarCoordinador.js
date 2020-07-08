@@ -171,6 +171,7 @@ const RegistrarCoordinador = (props) => {
     setAlerta({
       mensaje:"",
     });   
+    window.location.reload();
   };
 
   const handleClickOpenAviso = () => {

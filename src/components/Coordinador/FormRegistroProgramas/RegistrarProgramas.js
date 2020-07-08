@@ -104,6 +104,7 @@ const RegistrarProgramas = () => {
     });      
     console.log("severidad= ",severidad.severidad);
     //setOpen(false);
+    window.location.reload();
     
   };
 

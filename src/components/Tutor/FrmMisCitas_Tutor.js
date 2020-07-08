@@ -486,7 +486,7 @@ class FrmMisCitas_Tutor extends Component {
                             <Grid item md={4} >
                                 <TextField
                                      value={this.state.horaFinR}
-                                     disabled={true}
+                                     //disabled={true}
                                     
                                     variant="outlined"
                                     required

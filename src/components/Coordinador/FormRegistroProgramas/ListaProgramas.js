@@ -108,6 +108,7 @@ handleOnOpen= (programa) =>{
 } 
 handleOnClose() {
   this.setState({ open: false });
+  window.location.reload();
 }
 
 

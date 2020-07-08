@@ -115,6 +115,7 @@ handleOnOpenEliminar= (id) =>{
 handleOnClose() {
   this.setState({ open: false });
   this.setState({ open2: false });
+  window.location.reload();
 }
 
 
