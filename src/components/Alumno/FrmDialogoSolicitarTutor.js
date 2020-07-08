@@ -189,7 +189,7 @@ class FrmDialogoSolicitarTutor extends Component {
         */
   }
 
-  async handleFocusOutHoraIni() {
+   handleFocusOutHoraIni() {
     /*********VLIDACION DEL RANGO******* */
     let parteHoraI = this.props.dispo.HORA_INICIO.slice(0, 2);
     let parteMini = this.props.dispo.HORA_INICIO.slice(-2);

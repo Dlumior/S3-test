@@ -39,6 +39,7 @@ class FrmMisCitas_Tutor extends Component {
             fechaR: "",
             horaIniR: "",
             horaFinR: "",
+            duraSesion: 0,
 
         };
 
@@ -55,12 +56,66 @@ class FrmMisCitas_Tutor extends Component {
         this.handleOnChangeFecha = this.handleOnChangeFecha.bind(this);
         this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
         this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
+
+        this.handleFocusOutHoraIni = this.handleFocusOutHoraIni.bind(this);
+
     };
+
+
+
+    handleFocusOutHoraIni() {
+        let valMin = this.state.horaIniR.slice(-2);
+        let _yeri = "";
+
+        if (valMin === "00" || valMin === "30") {
+            console.log(">>> Es 00 o 30");
+            _yeri = this.state.horaIniR;
+            this.setState({ horaIniR: _yeri });
+        } else {
+            console.log(">>> joder");
+            console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
+            console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
+            console.log(">>> tipo: ", typeof (valMin));
+
+            _yeri = this.state.horaIniR.slice(0, 2) + ":00";
+            console.log("FOCUS=>", _yeri);
+            this.setState({ horaIniR: _yeri });
+        }
+        //actualizamos la hora de la salida
+        let _strHora = "2020-07-04 ";
+        _strHora += _yeri;
+        let _datetime = new Date(_strHora);
+        _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
+        let n = _datetime.toLocaleTimeString();
+        console.log("antesIF=> ", n);
+        if (n.length === 7) { n = "0" + n; }
+        n = n.slice(0, 5);
+        console.log("antes n=> ", n);
+        this.setState({ horaFinR: n });
+    }
 
     handleOnChangeHoraIni(e) {
         this.setState({ horaIniR: e.target.value });
-
+        console.log("horaIniR", this.state.horaIniR);
         //=> aquiRicop
+        //********/
+
+
+        let _strHora = "2020-07-04 ";
+        _strHora += e.target.value;
+        console.log("_str", _strHora);
+        let _datetime = new Date(_strHora);
+        _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
+        let n = _datetime.toLocaleTimeString();
+        console.log("n", n);
+        if (n.length === 7) { n = "0" + n; }
+        n = n.slice(0, 5);
+        console.log("SLICE TUTO=> ", n);
+        this.setState({ horaFinR: n });
+        //********/
+
+        document.getElementById("Hora").addEventListener("focusout", this.handleFocusOutHoraIni);
+
 
     }
 
@@ -86,15 +141,16 @@ class FrmMisCitas_Tutor extends Component {
 
     //de boton Reprogramar
 
-    handleOnClickPosponer(e, _idSesion, _idAlumno, _idProctuto) {
+    handleOnClickPosponer(e, _idSesion, _idAlumno, _idProctuto, _duracion) {
         //console.log("holiss");
         this.setState({ graciasYopsIdSesionR: _idSesion });
         this.setState({ graciasYopsIdProcesoTuto: _idProctuto });
 
+        this.setState({ duraSesion: _duracion });
+
         let _arrAlumno = [];
         _arrAlumno.push(_idAlumno);
         this.setState({ graciasYopsIdAlumnoR: _arrAlumno });
-
         this.setState({ open2: true });
     }
 
@@ -298,7 +354,7 @@ class FrmMisCitas_Tutor extends Component {
 
                 //>>> ASUMIMOS PARA UN ALUMNO
                 //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
-                nombre: element.ALUMNOs[0]?element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "":"",
+                nombre: element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "" : "",
                 fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
                 lugar: element.LUGAR,
                 campoMotivoSoli: element.MOTIVO,
@@ -321,7 +377,7 @@ class FrmMisCitas_Tutor extends Component {
                         size="large"
                         variant="contained"
                         color="primary"
-                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs[0].ID_ALUMNO, element.ID_PROCESO_TUTORIA)}
+                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs[0].ID_ALUMNO, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
                     >
                         REPROGRAMAR
                     </Button>,
@@ -451,7 +507,9 @@ class FrmMisCitas_Tutor extends Component {
                 >
                     <DialogTitle id="alert-dialog-title">
                         {<h3> ¿ Está seguro de Reprogramar esta cita ? </h3>}</DialogTitle>
-                        
+                    <Grid item md={12} xs={12}>
+                        <h3>{`Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
+                    </Grid>
                     <DialogContent>
                         <Grid container spacing={2} >
                             <Grid item md={4}>
@@ -470,6 +528,7 @@ class FrmMisCitas_Tutor extends Component {
                             </Grid>
                             <Grid item md={4} >
                                 <TextField
+                                    value = {this.state.horaIniR}
                                     variant="outlined"
                                     required
                                     margin="dense"
@@ -485,9 +544,9 @@ class FrmMisCitas_Tutor extends Component {
                             </Grid>
                             <Grid item md={4} >
                                 <TextField
-                                     value={this.state.horaFinR}
-                                     disabled={true}
-                                    
+                                    value={this.state.horaFinR}
+                                    disabled={true}
+
                                     variant="outlined"
                                     required
                                     margin="dense"
