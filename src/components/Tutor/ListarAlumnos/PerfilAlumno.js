@@ -12,6 +12,7 @@ import Asistencias from "../../../components/Alumno/Perfil/Asistencias";
 
 import HistoricoResultados from "../../Alumno/Perfil/HistoricoResultados";
 import FrmCitarAlumno from "../FrmCitarAlumno";
+import VerInformacionRelevante from "../../Coordinador/FormRegistroAlumno/VerInformacionRelevante";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -56,6 +57,14 @@ const Perfil = (props) => {
       index:4,
       titulo:"Notificar Alumno",
       proceso:()=> <FrmCitarAlumno idAlumno ={idAlumno}/>,
+    },
+    {
+      index:5,
+      titulo:"Informacion Relevante",
+        proceso:()=><VerInformacionRelevante
+          usuario={getUser().usuario}
+          idAlumno={idAlumno}
+      />,
     },
   ];
   const procesosCoordinador = [

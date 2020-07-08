@@ -9,6 +9,7 @@ import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
+import { getUser } from "../../../Sesion/Sesion";
 
 const estilos = {
   paper: {
@@ -242,10 +243,11 @@ this.setState({ archivo: undefined });
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/**tabla de informacuion historica */}
-        <Grid item md={4} xs={12}>
+        <Grid item md={getUser().rol==="Tutor" || getUser().rol==="Alumno" ? 12:4} xs={12}>
           {this.renderTabla(this.state.datosTabla)}
         </Grid>
         {/** vista previa y opcion de descarga */}
+        {getUser().rol!=="Tutor" && getUser().rol!=="Alumno" &&
         <Grid item md={8} xs={12}>
         <Grid container spacing={0}>
             {this.state.archivo ? (
@@ -328,7 +330,7 @@ this.setState({ archivo: undefined });
               />
             </Paper>
           )}
-        </Grid>
+        </Grid>}
       </Grid>
     );
   }
