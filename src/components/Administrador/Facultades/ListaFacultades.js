@@ -117,7 +117,8 @@ class ListaFacultades extends React.Component {
     
     console.log("arreglo: ",arregloFac);
     this.establecerData(arregloFac);
-
+    console.log("MATAME DESGRACIADO columns", this.state.facultades.columns);
+    console.log("MATAME DESGRACIADO data", this.state.facultades.data);
   }
   handleOnOpen= (element) =>{
     this.setState({ open: true });

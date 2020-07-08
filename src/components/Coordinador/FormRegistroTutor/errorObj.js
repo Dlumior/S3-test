@@ -23,6 +23,18 @@ const errorObj = {
     error: false,
     mesage: "",
   },
+  telefono: {
+    error: false,
+    message: "",
+  },
+  correo: {
+    error: false,
+    message: "",
+  },
+  contacto: {
+    error: false,
+    message: "",
+  }
 };
 
 export default errorObj;
