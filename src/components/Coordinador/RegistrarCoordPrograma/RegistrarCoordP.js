@@ -189,6 +189,7 @@ useEffect(() => {
     setAlerta({
       mensaje:"",
     });   
+    window.location.reload();
   };
 
  

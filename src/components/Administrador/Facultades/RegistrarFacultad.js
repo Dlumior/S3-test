@@ -101,6 +101,7 @@ const RegistrarFacultad = () => {
     }); 
     setChecked(false);
     setErrors(errorObj);
+    window.location.reload();
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {

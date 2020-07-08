@@ -32,16 +32,9 @@ const Coordinador = () => {
     <div>
       <NombrePrincipal titulo="Coordinadores" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
-        <Grid item>
+        <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
         <RegistrarCoordinador/>
-        </Grid>
-        <Grid item>
-        <IconButton color="primary" onClick={forceUpdate}>
-        <RefreshRoundedIcon
-          color="primary">
-        </RefreshRoundedIcon>
-        </IconButton>
-        </Grid>        
+        </Grid>       
       </Grid>
       <ListaCoordinadores coordinadores={coordinadores} />   
     </div>

@@ -132,6 +132,7 @@ class ListaFacultades extends React.Component {
   handleOnClose() {
     this.setState({ open: false });
     this.setState({ open2: false });
+    window.location.reload();
   }
 
 render(){

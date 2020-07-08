@@ -364,7 +364,8 @@ class ListaTutorias extends Component {
 
           {/**Boton importar */}
           <Grid item md={2} xs={2}>
-            <Button
+            {/*
+             <Button
               variant="outlined"
               color="primary"
               onClick={(e) => this.handleOpenDialog(e, 1)}
@@ -372,6 +373,8 @@ class ListaTutorias extends Component {
             >
               Importar de archivo CSV
             </Button>
+             */}
+            
           </Grid>
           {/** Boton registarr */}
           <Grid item md={2} xs={2}>

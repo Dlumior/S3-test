@@ -36,18 +36,10 @@ const Facultades = () => {
     <div>
       <NombrePrincipal titulo="Facultades" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
-        <Grid item>
+        <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
         {getUser().rol==="Administrador" &&
           <RegistrarFacultad/>}
-        </Grid>
-        <Grid item>
-          {getUser().rol==="Administrador" &&
-          <IconButton color="primary" onClick={forceUpdate}>
-          <RefreshRoundedIcon
-            color="primary">
-          </RefreshRoundedIcon>
-          </IconButton>}
-        </Grid>        
+        </Grid>       
       </Grid>
       <ListaFacultades  />   
     </div>
