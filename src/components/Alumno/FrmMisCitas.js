@@ -41,6 +41,7 @@ class FrmMisCitas extends Component {
             open: false,
             //open2: false,
             openFechaInvalida:false,
+            fechaPasada:false,
             open3:false,
             mensajillo:"",
             graciasYopsIdSesion:0,
@@ -85,12 +86,18 @@ class FrmMisCitas extends Component {
 
         console.log("DIAS",this.state.diasAnticipacion);
 
-        if (this.state.diasAnticipacion!==0){
-            console.log("fecha::",moment(_fecha).format("YYYY-MM-DD"));
-            if(moment(_fecha).format("YYYY-MM-DD") < 
-                moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){
-                    this.setState({openFechaInvalida:true});
-                }
+        console.log("fecha::",moment(_fecha).format("YYYY-MM-DD"));
+        console.log("fecha::",moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD"));
+        
+        let fechaSesion=moment(_fecha).format("YYYY-MM-DD");
+        let fechaConAnticip=moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD");
+        let fechaHoy=moment(new Date()).format("YYYY-MM-DD");
+        
+        if(fechaSesion<fechaHoy){
+            this.setState({fechaPasada:true});
+            this.setState({openFechaInvalida:true});  
+        }else if(fechaSesion<fechaConAnticip){
+            this.setState({openFechaInvalida:true});                
         }else{
             this.setState({graciasYopsIdSesion:_idSesion});
             let _arrTutor= [];
@@ -369,6 +376,7 @@ class FrmMisCitas extends Component {
 
 
 
+                {this.state.openFechaInvalida &&
                 <Dialog
                     open={this.state.openFechaInvalida}
                     onClose={this.handleOnCloseAdvertencia}
@@ -395,7 +403,7 @@ class FrmMisCitas extends Component {
                             Aceptar
                         </Button>
                     </DialogActions>
-                </Dialog>
+                </Dialog>}
 
                 <Dialog
                     open={this.state.open3}
