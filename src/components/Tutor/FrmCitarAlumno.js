@@ -20,7 +20,7 @@ class FrmCitarAlumno extends Component {
         
     };
 
-    handleOnclickCitarAlumno() {
+    async handleOnclickCitarAlumno() {
         let yo = getUser();
         const nuevaSolicitud = {
             cita: {
@@ -31,20 +31,20 @@ class FrmCitarAlumno extends Component {
             },
         }; 
         console.log(">>> Soli: ",nuevaSolicitud);
-        //const props = { servicio: "/api/citarAlumno", request: nuevaSolicitud };
+        const props = { servicio: "/api/citarAlumno", request: nuevaSolicitud };
 
-        //let citaTyS = await Controller.POST(props);
-        //console.log("RESULTADO API citacion ", citaTyS);
-        // if (!citaTyS.message) {
-        //     if (!citaTyS.error) {
-        //         this.setState({ mensajillo: "Cita Enviada Satisfactoriamente !" });
-        //     } else {
-        //         this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
-        //     }
-        // }
-        // else {
-        //     this.setState({ mensajillo: citaTyS.message });
-        // }
+        let citaTyS = await Controller.POST(props);
+        console.log("RESULTADO API citacion ", citaTyS);
+        if (!citaTyS.message) {
+            if (!citaTyS.error) {
+                this.setState({ mensajillo: "Cita Enviada Satisfactoriamente !" });
+            } else {
+                this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+            }
+        }
+        else {
+            this.setState({ mensajillo: citaTyS.message });
+        }
         this.setState({ open: true });
     }
 
