@@ -47,6 +47,8 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 
 const  ModificarPrograma = (props) => {
+  const {programa,parentCallback}=props;
+  const [flag, setFlag] = useState(0);//actualizar lista 
   const [datosForm, setDatosForm] = React.useState({
     ID_FACULTAD:"",
     ID_PROGRAMA:"",
@@ -116,12 +118,12 @@ const  ModificarPrograma = (props) => {
 
   useEffect(() => {
     function fetchData() {
-      datosForm.ID_FACULTAD=props.programa.ID_FACULTAD;
-      datosForm.ID_PROGRAMA=props.programa.ID_PROGRAMA;
-      datosForm.NOMBRE=props.programa.NOMBRE;
-      datosForm.ID_INSTITUCION=props.programa.ID_INSTITUCION;
-      datosForm.NOMBREFACU=props.programa.FACULTAD.NOMBRE;
-      datosForm.COORDINADORES=props.programa.ROL_X_USUARIO_X_PROGRAMAs;
+      datosForm.ID_FACULTAD=programa.ID_FACULTAD;
+      datosForm.ID_PROGRAMA=programa.ID_PROGRAMA;
+      datosForm.NOMBRE=programa.NOMBRE;
+      datosForm.ID_INSTITUCION=programa.ID_INSTITUCION;
+      datosForm.NOMBREFACU=programa.FACULTAD.NOMBRE;
+      datosForm.COORDINADORES=programa.ROL_X_USUARIO_X_PROGRAMAs;
       setDatosForm({
         ...
         datosForm,
@@ -150,7 +152,7 @@ const  ModificarPrograma = (props) => {
       return;
     } else {
       console.log("id_facu",facultad);
-      datosForm.ID_FACULTAD=facultad;
+      datosForm.ID_FACULTAD=facultad!==""? facultad:programa.ID_FACULTAD;
       setDatosForm({
         ...datosForm,
       });
@@ -181,6 +183,9 @@ const  ModificarPrograma = (props) => {
         console.log("severidad= ",severidad.severidad);      
       }
     }
+    const newValue = flag + 1;
+    setFlag(newValue);
+    parentCallback(newValue);
 
     }  
   };

@@ -11,7 +11,7 @@ class MisCitas extends Component {
         super();
         this.state = {
             procesos: [
-                { index:0,titulo: "", proceso:FrmMisCitas }
+                { index:0,titulo: "", proceso:() => <FrmMisCitas/> }
               ],
         };
     };

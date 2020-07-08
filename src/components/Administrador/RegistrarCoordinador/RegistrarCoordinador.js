@@ -87,6 +87,7 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
 };
 
 const RegistrarCoordinador = (props) => {
+  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     CODIGO: "",
     NOMBRE: "",
@@ -171,7 +172,7 @@ const RegistrarCoordinador = (props) => {
     setAlerta({
       mensaje:"",
     });   
-    window.location.reload();
+    setFlag(flag => flag +1);
   };
 
   const handleClickOpenAviso = () => {
@@ -260,6 +261,7 @@ const RegistrarCoordinador = (props) => {
             mensaje:"Se registro al coordinador satisfactoriamente",
           });      
           console.log("severidad= ",severidad.severidad);
+          
         }
 
       }

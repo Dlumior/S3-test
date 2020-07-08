@@ -11,6 +11,8 @@ import FrmMisCitasPasadas from "./AgendarCita/CitasPasadas/FrmMisCitasPasadas";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { compose } from "recompose";
 import { withRouter } from "react-router-dom";
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+
 
 const style = {
     paper: {
@@ -36,7 +38,7 @@ class FrmMisCitas extends Component {
             }, //aqui va el nombre de la tablilla
             open: false,
             //open2: false,
-
+            openFechaInvalida:false,
             open3:false,
             mensajillo:"",
             graciasYopsIdSesion:0,
@@ -48,6 +50,7 @@ class FrmMisCitas extends Component {
 
         this.handleOnClick = this.handleOnClick.bind(this);
         this.handleOnClose = this.handleOnClose.bind(this);
+        this.handleOnCloseAdvertencia = this.handleOnCloseAdvertencia.bind(this);//fecha no esta dentro de la politica
 
         this.handleOnCloseCitaCancelada = this.handleOnCloseCitaCancelada.bind(this);
         this.handleOnclickAceptarCancelacion = this.handleOnclickAceptarCancelacion.bind(this);
@@ -58,16 +61,18 @@ class FrmMisCitas extends Component {
 
 
     //de btn cancelar
-    handleOnClick(e,_idSesion,_idTutor) {
+    handleOnClick(e,_idSesion,_idTutor,_fecha) {
         console.log("TARGET DEL E idSesion/idTutor",_idSesion,_idTutor);
+        console.log("fechaSesion",_fecha);
+        /*
+        AQUI ME QUEDE
+        if(moment(_fecha).format("YYYY-MM-DD") >= 
+            moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD")){}
+        */
         this.setState({graciasYopsIdSesion:_idSesion});
-
-        //this.setState({graciasYopsIdTutor:_idTutor});
         let _arrTutor= [];
         _arrTutor.push(_idTutor);
-
         this.setState({graciasYopsIdTutor:_arrTutor});
-
         this.setState({ open: true });
 
     }
@@ -89,6 +94,10 @@ class FrmMisCitas extends Component {
         this.setState({ open3: false });
         this.setState({open:false});
         window.location.replace(this.props.location.pathname);
+    }
+
+    handleOnCloseAdvertencia() {
+        this.setState({ openFechaInvalida: false });
     }
 
     async handleOnclickAceptarCancelacion() {
@@ -181,6 +190,7 @@ class FrmMisCitas extends Component {
     }
 
     async componentDidMount() {
+
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
@@ -216,7 +226,7 @@ class FrmMisCitas extends Component {
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA)}
                     >
                         CANCELAR
                     </Button>,
@@ -343,6 +353,35 @@ class FrmMisCitas extends Component {
                 </Dialog>
 
 
+
+                <Dialog
+                    open={this.state.openFechaInvalida}
+                    onClose={this.handleOnCloseAdvertencia}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="form-dialog-title">
+                    <Grid container md={12} justify="center">
+                        <WarningRoundedIcon style={{ fontSize: 70,fill:"orange" }}/>
+                    </Grid>
+                    </DialogTitle>
+                    <DialogContent>
+                    <Grid container md={12} spacing={2}>
+                        Por politica de la facultad solo puede cancelar su 
+                        cita con mínimo 3 dias de Anticipación
+                    </Grid>
+                    </DialogContent>
+                    <DialogActions>
+
+                        <Button 
+                            variant="contained"
+                            onClick={this.handleOnCloseAdvertencia}
+                            color="primary"
+                        >
+                            Aceptar
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
                 <Dialog
                     open={this.state.open3}

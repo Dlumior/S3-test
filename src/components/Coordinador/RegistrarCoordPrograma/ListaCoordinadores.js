@@ -33,7 +33,8 @@ class ListaCoordinadores extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        coordinadores:[{id:"1"}]
+        coordinadores:[{id:"1"}],
+        flag:0,//actualizar lista coord
     };
     this.establecerData = this.establecerData.bind(this);    
     this.handleOnOpen = this.handleOnOpen.bind(this);
@@ -89,8 +90,9 @@ class ListaCoordinadores extends React.Component {
       this.setState({coordinadores:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.idFacu!==prevProps.idFacu){
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag
+      || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
       let arregloCoord=await Controller.GET({servicio:"/api/coordinadorprograma/"+this.props.idFacu});
       //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
@@ -115,9 +117,14 @@ handleOnOpenEliminar= (id) =>{
 handleOnClose() {
   this.setState({ open: false });
   this.setState({ open2: false });
-  window.location.reload();
+  //window.location.reload();
 }
-
+callback = (count) => {
+  // do something with value in parent component, like save to state
+  let i= this.state.flag +1;
+  console.log("veamos: ",i);
+  this.setState({flag:i});
+}
 
 render(){
     return (
@@ -128,6 +135,7 @@ render(){
               close={this.handleOnClose}
               id={this.state.idCoord}
               idFacu={this.props.idFacu}
+              parentCallback={this.callback}
             />}
             {this.state.open2 && 
             <EliminarCoordinador 

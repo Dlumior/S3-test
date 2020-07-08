@@ -46,7 +46,8 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 
 
-const RegistrarProgramas = () => {
+const RegistrarProgramas = (props) => {
+  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     ID_FACULTAD:"13",
     ID_INSTITUCION:"1",
@@ -104,7 +105,7 @@ const RegistrarProgramas = () => {
     });      
     console.log("severidad= ",severidad.severidad);
     //setOpen(false);
-    window.location.reload();
+    //window.location.reload();
     
   };
 
@@ -148,6 +149,8 @@ const RegistrarProgramas = () => {
           });      
           console.log("severidad= ",severidad.severidad);
           //setOpen(false);        
+          setFlag(flag => flag +1);
+  
       }
     }else if(nuevoProg.registro.ok===0){
       setSeveridad({

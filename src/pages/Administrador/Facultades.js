@@ -9,6 +9,8 @@ import { getUser } from "../../Sesion/Sesion";
 
 const Facultades = () => {
   const [facultades, setFacultades] = useState([]);
+  const [flag1,setFlag1]=useState(0);//actualizacion entre hermanos
+  const [flag2,setFlag2]=useState(0);
   //const [update,setUpdate]=useState(false);
 
   useEffect(() => {
@@ -38,10 +40,10 @@ const Facultades = () => {
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
         <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
         {getUser().rol==="Administrador" &&
-          <RegistrarFacultad/>}
+          <RegistrarFacultad flag={flag2} setFlag={setFlag1}/>}
         </Grid>       
       </Grid>
-      <ListaFacultades  />   
+      <ListaFacultades flag={flag1} setFlag={setFlag2}/>   
     </div>
   );
 };

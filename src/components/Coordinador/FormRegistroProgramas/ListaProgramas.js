@@ -32,7 +32,8 @@ class ListaProgramas extends React.Component {
             field: "nombre", }],
             data:[{nombre:""}]  },
         programa:[{id:"1"}],
-        programaConCoord:[]
+        programaConCoord:[],
+        flag:0,//actualiza modificar y eliminar
     };
     this.establecerData = this.establecerData.bind(this);
     this.handleOnOpen = this.handleOnOpen.bind(this);
@@ -79,8 +80,9 @@ class ListaProgramas extends React.Component {
       this.setState({programas:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.idFacu!==prevProps.idFacu){
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag 
+      || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
       //let arregloProg=await Controller.GET({servicio:"/api/programa"});
       let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
@@ -108,10 +110,15 @@ handleOnOpen= (programa) =>{
 } 
 handleOnClose() {
   this.setState({ open: false });
-  window.location.reload();
+  //window.location.reload();
 }
 
-
+callback = (count) => {
+  // do something with value in parent component, like save to state
+  let i= this.state.flag +1;
+  console.log("veamos: ",i);
+  this.setState({flag:i});
+}
 
 
 render(){
@@ -122,6 +129,7 @@ render(){
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               programa={this.state.programaConCoord}
+              parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>
                 <TablaProgramas programas={this.state.programas}  />
