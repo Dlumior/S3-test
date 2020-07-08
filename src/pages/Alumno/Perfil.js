@@ -12,6 +12,7 @@ import FrmResultados from "../../components/Alumno/Perfil/FrmResultados";
 import Asistencias from "../../components/Alumno/Perfil/Asistencias";
 
 import HistoricoResultados from "../../components/Alumno/Perfil/HistoricoResultados";
+import VerInformacionRelevante from "../../components/Coordinador/FormRegistroAlumno/VerInformacionRelevante";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -47,6 +48,13 @@ const Perfil = (props) => {
       />
     ),
    },
+   { index: 4, titulo: "Infomación Relevante", proceso: () => (
+    <VerInformacionRelevante
+      usuario={getUser().usuario}
+      idAlumno={ID_USUARIO}
+    />
+  ),
+ },
   ];
 
   const dir = useRef(null);

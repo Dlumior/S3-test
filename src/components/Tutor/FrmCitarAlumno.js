@@ -105,7 +105,7 @@ class FrmCitarAlumno extends Component {
         return (
             <div>
                 <br></br>
-                <Paper >
+                <Grid >
                     <CampoDeTexto
                         autoFocus={true}
                         name="Motivo"
@@ -139,7 +139,7 @@ class FrmCitarAlumno extends Component {
                         </Grid>
                     </Grid>
 
-                </Paper>
+                </Grid>
 
                 <Dialog
                     open={this.state.open}

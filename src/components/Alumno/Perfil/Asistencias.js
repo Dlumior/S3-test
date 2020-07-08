@@ -45,7 +45,8 @@ class Asistencias extends React.Component {
   establecerData(arregloSesiones){
     let arreglillo = [];
     for (let element of (arregloSesiones.data)){
-      if (element.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO!==null){//las canceladas tienen null
+      if (element.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO===0 ||
+          element.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO===1){//las canceladas tienen null
         arreglillo.push({
           tutor:element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS,
           tutoria:element.PROCESO_TUTORIum.NOMBRE,
