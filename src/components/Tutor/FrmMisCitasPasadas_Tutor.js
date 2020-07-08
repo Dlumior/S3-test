@@ -43,7 +43,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
         for (let element of arregloDeSesiones.data) {
             //cont++;
             let estadillo = element.ESTADO.split("-")[0];
-            if (estadillo=="00"){
+            if (estadillo==="00" || estadillo==="01"){
                 cont++;
                 arreglillo.push({
                     campoCont: cont,

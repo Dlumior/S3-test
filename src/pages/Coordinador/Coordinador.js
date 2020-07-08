@@ -50,7 +50,6 @@ const Coordinador = (props) => {
             </>
           )}
         />
-        <Route exact path="/coordinador/facultades" component={Facultades} />
         {/* <Route
           exact
           path="/coordinador/registrarTutores"
@@ -59,6 +58,8 @@ const Coordinador = (props) => {
         <BarraNavegacion>
           {/*perfil...*/}
           <Route exact path={"/coordinador/perfil"} component={Perfil} />
+          <Route exact path="/coordinador/facultades" component={Facultades} />
+
           <Route
             exact
             path="/coordinador/registrarTutores"

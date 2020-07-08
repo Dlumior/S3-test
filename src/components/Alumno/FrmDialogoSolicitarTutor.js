@@ -384,16 +384,16 @@ class FrmDialogoSolicitarTutor extends Component {
 
           {/** ESCOJER HORA */}
 
-          <Paper elevation={3} style={styles.paper}>
+          <Grid  style={styles.paper}>
             <Grid
               container
               spacing={2}
               alignContent="center"
               style={styles.chip}
             >
-              <Grid item md={6} xs={6}>
+              <Grid item md={6} >
                 <Grid container spacing={2} alignContent="center">
-                  <Grid item md={12} xs={12}>
+                  <Grid item md={12} >
                     <h3>{`Esta sesión de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
@@ -481,7 +481,7 @@ class FrmDialogoSolicitarTutor extends Component {
                 </Grid>
               </Grid>
             </Grid>
-          </Paper>
+          </Grid>
         </Grid>
 
         <Dialog
