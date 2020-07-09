@@ -31,6 +31,7 @@ export default function DialogoCalendario(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
+        maxWidth
       >
         <DialogTitle id="form-dialog-title">
           Disponibilidad de {props.titulo}
