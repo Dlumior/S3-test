@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import VisibilityTwoToneIcon from "@material-ui/icons/VisibilityTwoTone";
 import GetAppSharpIcon from "@material-ui/icons/GetAppSharp";
 import JUploadSSJ from "jin-upload-ssj2";
-import { GET , POST} from "../../../Conexion/Controller";
-import { IconButton, Grid, Paper ,Button} from "@material-ui/core";
+import { GET, POST } from "../../../Conexion/Controller";
+import { IconButton, Grid, Paper, Button } from "@material-ui/core";
 import MaterialTable from "material-table";
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
@@ -91,9 +91,14 @@ class VerInformacionRelevante extends Component {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
-    this.setState({extension: archivoOutput.informacionRelevante.DESCRIPCION.split('.')[1]});
+    this.setState({
+      extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],
+    });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
-    return "data:application/pdf;base64,"+archivoOutput.informacionRelevante.ARCHIVO;
+    return (
+      "data:application/pdf;base64," +
+      archivoOutput.informacionRelevante.ARCHIVO
+    );
   }
 
   async handleVistaPrevia(e, idArchivo) {
@@ -103,6 +108,7 @@ class VerInformacionRelevante extends Component {
         // si hay archivo i los id son dif,pide al back y muestra
         this.setState({ archivo: undefined });
         const archivo = await this.getArchivo(idArchivo);
+
         await this.setState({ archivo });
       } else {
         //ya esta cargado, so, no hagas nada
@@ -111,6 +117,9 @@ class VerInformacionRelevante extends Component {
       //no hay archivos, lo cargo en memoria
       const archivo = await this.getArchivo(idArchivo);
       await this.setState({ archivo });
+    }
+    if (this.state.extension.toLowerCase() !== "pdf") {
+      this.clickInput();
     }
   }
   async handleDescargar(e, idArchivo) {
@@ -127,7 +136,7 @@ class VerInformacionRelevante extends Component {
       }
     } else {
       const archivo = await this.getArchivo(idArchivo);
-      
+
       await this.setState({ archivo });
       this.clickInput();
     }
@@ -177,55 +186,43 @@ class VerInformacionRelevante extends Component {
       });
     }
   }
-    /**
+  /**
    * buffer array read as text
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    //console.log("++URL: ", file);
     console.log("JUpload SSJ length: ", file.length);
-    //console.log("JUpload SSJ split: ", file.split("\n"));
     const tamanio = file.length;
-    // let splitedFile = [];
-    // var i,
-    //   j,
-    //   chunk = 1024 * 100 * 5;
-    // for (i = 0, j = tamanio; i < j; i += chunk) {
-    //   splitedFile.push(file.slice(i, i + chunk));
-    //   // do whatever
-    // }
-    // const Npartes = splitedFile.length;
-    // console.log("JUpload SSJ split: ", splitedFile);
+
     await this.setState({ archivo: file });
     this.setState({ fileName: fileName, ext: ext });
-    
-    //const alumnosFromCSV = await readCSV(file, "alumnos");
   };
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
       await setTimeout(async () => {
         //await this.state.FILE.forEach(async (pedazo, index) => {
-          const ARCHIVO = {
-            archivo: {
-              ID_ALUMNO: this.props.idAlumno,
-              ARCHIVO: this.state.FILE,
-              EXTENSION: this.state.ext,
-              DESCRIPCION: `${this.state.descripcion}`,
-              // PARTES: this.state.Npartes,
-            },
-          };
-          let response = await POST({
-              servicio: "/api/alumno/informacionrelevante",
-              request: ARCHIVO,
-            });
+        const ARCHIVO = {
+          archivo: {
+            ID_ALUMNO: this.props.idAlumno,
+            ARCHIVO: this.state.archivo,
+            EXTENSION: this.state.ext,
+            DESCRIPCION: `${this.state.descripcion}`,
+            // PARTES: this.state.Npartes,
+          },
+        };
+        let response = await POST({
+          servicio: "/api/alumno/informacionrelevante",
+          request: ARCHIVO,
+        });
 
-          if (!response) {
-            console.log("Algo paso en el upload");
-            return;
-          } else {
-            console.log("Se registro la informacion: ", response);
-          }
-       // });
+        if (!response) {
+          console.log("Algo paso en el upload");
+          return;
+        } else if(response.informacionRelevante.ID_INFORMACION_RELEVANTE){
+          alert("Se registro la informacion: ", response);
+          this.removerDatos()
+        }
+        // });
 
         resolve();
       }, 1000);
@@ -235,8 +232,8 @@ class VerInformacionRelevante extends Component {
     const inputElement = document.getElementById("superDownload");
     inputElement.click();
   }
-  removerDatos(){
-this.setState({ archivo: undefined });
+  removerDatos() {
+    this.setState({ archivo: undefined });
   }
   render() {
     return (
@@ -247,7 +244,7 @@ this.setState({ archivo: undefined });
         </Grid>
         {/** vista previa y opcion de descarga */}
         <Grid item md={8} xs={12}>
-        <Grid container spacing={0}>
+          <Grid container spacing={0}>
             {this.state.archivo ? (
               <Grid item md={2} xs={6}>
                 <Button
@@ -274,11 +271,11 @@ this.setState({ archivo: undefined });
                 inicial={this.state.fileName}
                 validacion={{ lim: 25 }}
                 onChange={this.handleOnChangeTexto}
-                validarEntrada={()=>{}}
+                validarEntrada={() => {}}
                 value={this.state.fileName}
               />
             </Grid>
-            {this.state.PDFURL || this.state.FILE ? (
+            {this.state.archivo ? (
               <>
                 <Grid item md={2} xs={6}>
                   <Button
@@ -286,7 +283,7 @@ this.setState({ archivo: undefined });
                     color="primary"
                     onClick={this.handleOnClickRegistroSSJ_masivo}
                     startIcon={<CloudUploadIcon />}
-                    disabled={!this.state.FILE}
+                    disabled={!this.state.archivo}
                   >
                     Registrar
                   </Button>
@@ -302,7 +299,7 @@ this.setState({ archivo: undefined });
             style={{ display: "none" }}
             download
           ></a>
-          {this.state.archivo && this.state.extension==="pdf"? (
+          {this.state.archivo && this.state.extension === "pdf" ? (
             <div style={estilos.divini}>
               <iframe
                 src={this.state.archivo}
