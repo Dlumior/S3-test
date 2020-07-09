@@ -28,8 +28,8 @@ class FrmCitarAlumno extends Component {
             cita: {
                 RAZON: this.state.motivoCita,
                 EMISOR: yo.usuario.ID_USUARIO,
-                //RECEPTOR: parseInt(this.props.idAlumno,10), 
-                RECEPTOR: 511,
+                RECEPTOR: parseInt(this.props.idAlumno,10), 
+                //RECEPTOR: 511,
             },
         };
         console.log(">>> Soli: ", nuevaSolicitud);
