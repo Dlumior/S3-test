@@ -33,7 +33,7 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
-      descripcion:"",
+      descripcion: "",
       fileName: "",
       PDFURL: undefined,
       extension: "",
@@ -102,7 +102,8 @@ class VerInformacionRelevante extends Component {
     });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
     return (
-      "data:application/pdf;base64," +
+      (this.state.extension==="pdf")?
+      "data:application/pdf;base64,":"data:application/octet-stream;base64" +
       archivoOutput.informacionRelevante.ARCHIVO
     );
   }
@@ -197,9 +198,9 @@ class VerInformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    console.log("JUpload SSJ length: ", file.length);
+    console.log("JUpload SSJ length: ", file);
     const tamanio = file.length;
-
+  
     await this.setState({ archivo: file });
     this.setState({ fileName: fileName, ext: ext });
   };
@@ -224,9 +225,9 @@ class VerInformacionRelevante extends Component {
         if (!response) {
           console.log("Algo paso en el upload");
           return;
-        } else if(response.informacionRelevante.ID_INFORMACION_RELEVANTE){
+        } else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
           alert("Se registro la informacion: ", response);
-          this.removerDatos()
+          this.removerDatos();
         }
         // });
 
@@ -249,41 +250,37 @@ class VerInformacionRelevante extends Component {
           {this.renderTabla(this.state.datosTabla)}
         </Grid>
         {/** vista previa y opcion de descarga */}
-        
+
         <Grid item md={8} xs={12}>
           <Grid container spacing={0}>
             {this.state.archivo ? (
-              <Grid item md={2} xs={6}>
-                <Button
-                  color="primary"
-                  onClick={() => this.removerDatos()}
-                  startIcon={<RestorePageTwoToneIcon />}
-                >
-                  Deshacer Carga
-                </Button>
-              </Grid>
-            ) : (
-              <Grid item md={2} xs={false} />
-            )}
-            <Grid item md={5} xs={12}>
-              <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
-            </Grid>
-            <Grid item md={3} xs={12}>
-              <CampoDeTexto
-                variant={"outlined"}
-                name="nombre"
-                label="Descripcion o comentarios"
-                requerido={true}
-                autoFocus={true}
-                inicial={this.state.fileName}
-                validacion={{ lim: 25 }}
-                onChange={this.handleOnChangeTexto}
-                validarEntrada={() => {}}
-                value={this.state.fileName}
-              />
-            </Grid>
-            {this.state.archivo ? (
               <>
+                <Grid item md={2} xs={6}>
+                  <Button
+                    color="primary"
+                    onClick={() => this.removerDatos()}
+                    startIcon={<RestorePageTwoToneIcon />}
+                  >
+                    Deshacer Carga
+                  </Button>
+                </Grid>
+                <Grid item md={5} xs={12}>
+                  <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
+                </Grid>
+                <Grid item md={3} xs={12}>
+                  <CampoDeTexto
+                    variant={"outlined"}
+                    name="nombre"
+                    label="Descripcion o comentarios"
+                    requerido={true}
+                    autoFocus={true}
+                    inicial={this.state.fileName}
+                    validacion={{ lim: 25 }}
+                    onChange={this.handleOnChangeTexto}
+                    validarEntrada={() => {}}
+                    value={this.state.fileName}
+                  />
+                </Grid>
                 <Grid item md={2} xs={6}>
                   <Button
                     variant="contained"
@@ -297,7 +294,7 @@ class VerInformacionRelevante extends Component {
                 </Grid>
               </>
             ) : (
-              <Grid item md={2} xs={false} />
+              <Grid item md={12} xs={false} />
             )}
           </Grid>
           <a
@@ -320,17 +317,19 @@ class VerInformacionRelevante extends Component {
           ) : (
             <Grid style={estilos.margen}>
               <h2>{"Vista previa(solo pdf):"}</h2>
-              {(getUser().rol==="Coordinador Facultad" || getUser().rol==="Coordinador Programa") &&
+              {(getUser().rol === "Coordinador Facultad" ||
+                getUser().rol === "Coordinador Programa") && (
                 <JUploadSSJ
-                embebed={true}
-                contained={true}
-                id_drop_zone={"drop_zone_archivo"}
-                onSuccesLoadURL={this.handleOnSuccesLoad}
-                onSuccesLoad={this.handleOnSuccesLoad}
-                formato={this.state.formato}
-                maxTamanio={this.state.maxTamanio}
-                extension="any"
-              />}
+                  embebed={true}
+                  contained={true}
+                  id_drop_zone={"drop_zone_archivo"}
+                  onSuccesLoadURL={this.handleOnSuccesLoad}
+                  onSuccesLoad={this.handleOnSuccesLoad}
+                  formato={this.state.formato}
+                  maxTamanio={this.state.maxTamanio}
+                  extension="any"
+                />
+              )}
             </Grid>
           )}
         </Grid>
