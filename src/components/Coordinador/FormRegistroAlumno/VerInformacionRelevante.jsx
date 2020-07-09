@@ -33,6 +33,7 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      descripcion:"",
       fileName: "",
       PDFURL: undefined,
       extension: "",
@@ -64,6 +65,10 @@ class VerInformacionRelevante extends Component {
     this.handleDescargar = this.handleDescargar.bind(this);
     this.getArchivo = this.getArchivo.bind(this);
   }
+  handleOnChangeTexto = (e) => {
+    // nombre y descripcion
+    this.setState({ descripcion: e.value });
+  };
   renderTabla(datosNuevos) {
     console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
