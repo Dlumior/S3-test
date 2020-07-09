@@ -87,7 +87,7 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
 };
 
 const ModificaCoordinador = (props) => {
-  const {open,close,codigo}=props;
+  const {open,close,codigo,parentCallback}=props;
   const [datosForm, setDatosForm] = React.useState({
     ID:"",
     CODIGO: "",
@@ -100,6 +100,8 @@ const ModificaCoordinador = (props) => {
     IMAGEN: null,
     FACULTAD:[],
   });
+  const [flag, setFlag] = useState(0);//actualizar lista 
+
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);//facultades
   const [nombreFacultades,setNombreFacultades]=useState([]);//nombre facultades
   const [programaAñadido,setProgramaAñadido]=useState([]);//facultades
@@ -329,6 +331,11 @@ useEffect(() => {
         }
 
       }
+
+      //actualizamos lista coord
+      const newValue = flag + 1;
+      setFlag(newValue);
+      parentCallback(newValue);
       
 
     }  

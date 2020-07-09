@@ -11,6 +11,8 @@ import { getUser } from "../../Sesion/Sesion";
 const Programas = () => {
   const [facultades, setFacultades] = useState([]);
   const [facultad, setFacultad] = useState([]);
+  const [flag1,setFlag1]=useState(0);//actualizacion entre hermanos
+  const [flag2,setFlag2]=useState(0);
   /*
   useEffect(() => {
     async function fetchData() {
@@ -48,10 +50,10 @@ const Programas = () => {
          /> }
         </Grid> 
         <Grid item md={2}>
-          <RegistrarProgramas/>
+          <RegistrarProgramas  flag={flag2} setFlag={setFlag1}/>
         </Grid>
       </Grid>
-      <ListaProgramas idFacu={facultad}/>
+      <ListaProgramas idFacu={facultad} flag={flag1} setFlag={setFlag2}/>
     </div>
   );
 };

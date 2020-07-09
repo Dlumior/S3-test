@@ -57,7 +57,9 @@ const handleDiasCancelacionCita = (e, datosForm, setDatosForm) => {
   });
 };
 const ModificarFacultad = (props) => {
-  const {open,close,facultad}=props;
+  const {open,close,facultad,parentCallback}=props;
+  const [flag, setFlag] = useState(0);//actualizar lista facu
+
   const [datosForm, setDatosForm] = React.useState({
     ID_INSTITUCION:"",
     ID_FACULTAD:"",
@@ -103,6 +105,7 @@ const ModificarFacultad = (props) => {
         datosForm,
       });
       console.log("datosForm:", datosForm);
+      console.log("flag",props.flag);
     }
      fetchData();
   }, {});
@@ -168,6 +171,7 @@ const ModificarFacultad = (props) => {
             mensaje:"Facultad modificada satifactoriamente",
           });      
           console.log("severidad= ",severidad.severidad);
+          
   
         }else{
           setSeveridad({
@@ -180,6 +184,10 @@ const ModificarFacultad = (props) => {
         }
       }
       
+      //actualizamos lista coord
+      const newValue = flag + 1;
+      setFlag(newValue);
+      parentCallback(newValue);
     }  
   };
 

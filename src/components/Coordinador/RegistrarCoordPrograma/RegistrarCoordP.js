@@ -96,6 +96,7 @@ const handleAlertas = (e, datosForm, setDatosForm, errors, setErrors) => {
 */
 
 const RegistrarCoordinador = (props) => {
+  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     CODIGO: "",
     NOMBRE: "",
@@ -189,6 +190,8 @@ useEffect(() => {
     setAlerta({
       mensaje:"",
     });   
+    //window.location.reload();
+    setFlag(flag => flag +1);
   };
 
  

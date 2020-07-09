@@ -26,7 +26,7 @@ const style = {
 
 
 class ListaCoordinadores extends React.Component {
-  constructor() {
+  constructor(props) {
     super();
     this.state = {
         coordinadores: {columns: [{
@@ -35,6 +35,7 @@ class ListaCoordinadores extends React.Component {
             data:[{nombre:""}]  },
         open:false,
         idCoord:"",
+        flag:0,//actualizar lista coord
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
@@ -99,8 +100,10 @@ class ListaCoordinadores extends React.Component {
       this.setState({coordinadores:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.coordinadores!==prevProps.coordinadores){
+
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.coordinadores!==prevProps.coordinadores || this.props.flag!==prevProps.flag
+      || nextState.flag !== this.state.flag){
       console.log("fac",this.props.coordinadores);
       let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
       
@@ -130,6 +133,12 @@ handleOnClose() {
   this.setState({ open2: false });
 
 }
+callback = (count) => {
+  // do something with value in parent component, like save to state
+  let i= this.state.flag +1;
+  console.log("veamos: ",i);
+  this.setState({flag:i});
+}
 
 render(){
     return (
@@ -139,6 +148,7 @@ render(){
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               id={this.state.idCoord}
+              parentCallback={this.callback}
             />}
             {this.state.open2 && 
             <EliminarCoordinador 

@@ -9,6 +9,7 @@ import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
+import { getUser } from "../../../Sesion/Sesion";
 
 const estilos = {
   paper: {
@@ -243,6 +244,7 @@ class VerInformacionRelevante extends Component {
           {this.renderTabla(this.state.datosTabla)}
         </Grid>
         {/** vista previa y opcion de descarga */}
+        
         <Grid item md={8} xs={12}>
           <Grid container spacing={0}>
             {this.state.archivo ? (
@@ -311,9 +313,10 @@ class VerInformacionRelevante extends Component {
               ></iframe>
             </div>
           ) : (
-            <Paper style={estilos.margen}>
+            <Grid style={estilos.margen}>
               <h2>{"Vista previa(solo pdf):"}</h2>
-              <JUploadSSJ
+              {(getUser().rol==="Coordinador Facultad" || getUser().rol==="Coordinador Programa") &&
+                <JUploadSSJ
                 embebed={true}
                 contained={true}
                 id_drop_zone={"drop_zone_archivo"}
@@ -322,8 +325,8 @@ class VerInformacionRelevante extends Component {
                 formato={this.state.formato}
                 maxTamanio={this.state.maxTamanio}
                 extension="any"
-              />
-            </Paper>
+              />}
+            </Grid>
           )}
         </Grid>
       </Grid>

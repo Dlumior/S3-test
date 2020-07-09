@@ -49,7 +49,8 @@ const handleDiasDisponibilidad = (e, datosForm, setDatosForm) => {
   });
 };
 
-const RegistrarFacultad = () => {
+const RegistrarFacultad = (props) => {
+  const {flag,setFlag}=props;
   const [datosForm, setDatosForm] = React.useState({
     ID_INSTITUCION:"1",
     NOMBRE: "",
@@ -142,6 +143,7 @@ const RegistrarFacultad = () => {
             mensaje:"Facultad registrada",
           });      
           console.log("severidad= ",severidad.severidad);
+          setFlag(flag => flag +1);
   
         }else if(nuevaFacu.registro.ok===0){
           setSeveridad({

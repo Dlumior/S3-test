@@ -178,7 +178,19 @@ const RegistrarSesion = () => {
     setAlerta({
       mensaje:"",
     }); 
-
+    setDatosForm({
+      alumnoCodigo:0,
+      alumnoNombre:'',
+      alumnos:[],
+      fecha: new Date(),
+      horaini:'',
+      horafin:0,
+      resultado:'',
+      lugar:'',
+      descripcion:"",
+      apoyo:[],
+    });
+    window.location.reload();
   };
   const handleOnChangeEtiquetas = (etiqueta) => {
     const listaEtiquetas = [];
@@ -204,12 +216,6 @@ const RegistrarSesion = () => {
         mensaje:"Complete los campos obligatorios (*)",
       }); 
     } else {
-      setSeveridad({
-        severidad:"success",
-      }); 
-      setAlerta({
-        mensaje:"La sesión se ha registrado satisfactoriamente",
-      }); 
       const nuevaSesion = {
         sesion: {
           ID_TUTOR: (getUser()).usuario.ID_USUARIO,
@@ -232,6 +238,12 @@ const RegistrarSesion = () => {
       console.log("sesion",sesion);
       if (sesion) {
         //alert("Sesion registrada Satisfactoriamente");
+        setSeveridad({
+          severidad:"success",
+        }); 
+        setAlerta({
+          mensaje:"La sesión se ha registrado satisfactoriamente",
+        }); 
       }
       console.log("got updated sesion from back:", sesion);
         

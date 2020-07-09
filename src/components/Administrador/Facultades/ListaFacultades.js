@@ -36,7 +36,8 @@ class ListaFacultades extends React.Component {
             field: "nombre", }],
             data:[{nombre:""}]  },
         facultad:[{id:"1"}],
-        facultadCompleta:[]
+        facultadCompleta:[],
+        flag:0,//actualiza modificar y eliminar
     };
     //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
@@ -93,8 +94,10 @@ class ListaFacultades extends React.Component {
       this.setState({facultades:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.facultades!==prevProps.facultades){
+
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.facultades!==prevProps.facultades || this.props.flag!==prevProps.flag 
+      || nextState.flag !== this.state.flag){
       console.log("fac",this.props.facultades);
       let arregloFac;
       if (getUser().rol==="Administrador"){
@@ -117,7 +120,8 @@ class ListaFacultades extends React.Component {
     
     console.log("arreglo: ",arregloFac);
     this.establecerData(arregloFac);
-
+    console.log("MATAME DESGRACIADO columns", this.state.facultades.columns);
+    console.log("MATAME DESGRACIADO data", this.state.facultades.data);
   }
   handleOnOpen= (element) =>{
     this.setState({ open: true });
@@ -132,6 +136,15 @@ class ListaFacultades extends React.Component {
   handleOnClose() {
     this.setState({ open: false });
     this.setState({ open2: false });
+    //window.location.reload();
+
+  }
+
+  callback = (count) => {
+    // do something with value in parent component, like save to state
+    let i= this.state.flag +1;
+    console.log("veamos: ",i);
+    this.setState({flag:i});
   }
 
 render(){
@@ -142,6 +155,7 @@ render(){
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               facultad={this.state.facultadCompleta}
+              parentCallback={this.callback}
             />}
             {this.state.open2 && 
             <EliminarFacultad 

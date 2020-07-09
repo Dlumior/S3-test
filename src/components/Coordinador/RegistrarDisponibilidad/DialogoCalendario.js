@@ -31,23 +31,12 @@ export default function DialogoCalendario(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
+        maxWidth
       >
         <DialogTitle id="form-dialog-title">
-          Disponibildad de {props.titulo}
+          Disponibilidad de {props.titulo}
         </DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>
-            To subscribe to this website, please enter your email address here.
-            We will send updates occasionally.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          /> */}
           <EventsCalendar Tutor={auxTutor} facultad = {props.facultad}/>
         </DialogContent>
         <DialogActions>

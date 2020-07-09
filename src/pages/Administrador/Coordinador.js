@@ -9,6 +9,8 @@ import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 
 const Coordinador = () => {
   const [coordinadores, setCoordinadores] = useState([]);
+  const [flag1,setFlag1]=useState(0);
+  const [flag2,setFlag2]=useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,18 +34,11 @@ const Coordinador = () => {
     <div>
       <NombrePrincipal titulo="Coordinadores" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
-        <Grid item>
-        <RegistrarCoordinador/>
-        </Grid>
-        <Grid item>
-        <IconButton color="primary" onClick={forceUpdate}>
-        <RefreshRoundedIcon
-          color="primary">
-        </RefreshRoundedIcon>
-        </IconButton>
-        </Grid>        
+        <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
+        <RegistrarCoordinador flag={flag2} setFlag={setFlag1}/>
+        </Grid>       
       </Grid>
-      <ListaCoordinadores coordinadores={coordinadores} />   
+      <ListaCoordinadores coordinadores={coordinadores} flag={flag1} setFlag={setFlag2}/>   
     </div>
   );
 };

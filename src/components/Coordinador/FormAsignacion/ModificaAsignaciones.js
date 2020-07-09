@@ -37,16 +37,17 @@ const ModificaAsignaciones = (props) => {
         open={open}
         onClose={close}
         aria-labelledby="form-dialog-title"
+        fullWidth
       >
         <DialogTitle id="form-dialog-title">
           <Grid container md={12}>
-            <Grid item md={11} >
+            <Grid item md={12} >
               Alumnos:
             </Grid>
           </Grid>
         </DialogTitle>
         <DialogContent>
-          <Grid container md={12} spacing={2}> 
+          <Grid container md={12}> 
             <ModificaListaAlumnos alumnos={alumnos}/>
           </Grid>
         </DialogContent>

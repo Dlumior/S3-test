@@ -97,7 +97,7 @@ const MisAlumnos = (props) => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Alumnos por Proceso de Tutorìa de un Programa" />
+      <NombrePrincipal titulo="Alumnos por Proceso de Tutoria de un Programa" />
       <Grid container direction="column" justify="center" alignItems="center">
         <Grid item container justify="center" alignItems="center" spacing={2}>
           <Grid item>
