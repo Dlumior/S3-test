@@ -28,7 +28,7 @@ const handleName = (e, datosForm, setDatosForm, errors, setErrors) => {
 
         setDatosForm({
             ...datosForm,
-            nombre: e.target.value,
+            NOMBRE: e.target.value,
         });
     }
 };
@@ -55,7 +55,7 @@ const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
 
         setDatosForm({
             ...datosForm,
-            telefono: e.target.value,
+            TELEFONO: e.target.value,
         });
     }
 };
@@ -66,7 +66,7 @@ const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors, dominio1, d
     
     setDatosForm({
       ...datosForm,
-      correo: e.target.value,
+      CORREO: e.target.value,
     });
 };
 
@@ -86,7 +86,7 @@ const handleContacto = (e, datosForm, setDatosForm, errors, setErrors) => {
 
         setDatosForm({
             ...datosForm,
-            contacto: e.target.value,
+            CONTACTO: e.target.value,
         });
     }
 };
@@ -96,10 +96,10 @@ const handleContacto = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 const RegistrarUnidadApoyo = () => {
     const [datosForm, setDatosForm] = React.useState({
-        nombre:"",
-        telefono: "",
-        correo:"",
-        contacto:""
+        NOMBRE:"",
+        TELEFONO: "",
+        CORREO:"",
+        CONTACTO:""
     });
 
     const [alerta, setAlerta]=useState({
@@ -107,7 +107,7 @@ const RegistrarUnidadApoyo = () => {
         mensajeStrongError: "por favor revisalos!",
         mensajeStrongExito: "satisfactoriamente!",
         mensajeError: "Existen errores al completar el formulario",
-        mensajeExito: "Facultad registrada",
+        mensajeExito: "Unidad de Apoyo registrada",
         mensaje: "",
     });
     const [severidad, setSeveridad] = useState({
@@ -142,7 +142,7 @@ const RegistrarUnidadApoyo = () => {
     const handleClick = async (e, datosForm, setDatosForm) => {
         console.log("ERRORS handleclick: ", errors);
 
-        if (datosForm.nombre==="" || datosForm.email==="" || datosForm.telefono==="" || datosForm.contacto==="") {
+        if (datosForm.NOMBRE==="" || datosForm.CORREO==="" || datosForm.TELEFONO==="" || datosForm.CONTACTO==="") {
             console.log("error vacia");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: "Todos los datos son obligatorios."} ); 
@@ -190,7 +190,7 @@ const RegistrarUnidadApoyo = () => {
                 setAlerta({mensaje: newAreaApoyo.error});   
             } else {
                 setSeveridad({severidad: "success"});     
-                setAlerta({mensaje: "Facultad registrada"}); 
+                setAlerta({mensaje: "Unidad de apoyo registrada"}); 
             }
         }
     }
@@ -255,7 +255,7 @@ const RegistrarUnidadApoyo = () => {
                                     required
                                     error={errors.name.error}
                                     margin="dense"
-                                    id="NOMBRE"
+                                    id="nombre"
                                     label="Nombre"
                                     fullWidth
                                     onChange={(e) => handleName(e, datosForm, setDatosForm, errors, setErrors)}
