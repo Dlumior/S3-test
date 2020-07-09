@@ -198,11 +198,10 @@ class VerInformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    console.log("JUpload SSJ length: ", file);
+    console.log("JUpload SSJ length: ", { archivo: file?true:false ,fileName: fileName, ext: ext });
     const tamanio = file.length;
   
-    await this.setState({ archivo: file });
-    this.setState({ fileName: fileName, ext: ext });
+    await this.setState({ archivo: file ,fileName: fileName,ext:ext, extension: ext });
   };
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
