@@ -270,7 +270,7 @@ class FormularioRegistrarAlumno extends Component {
 
     const usuario = getUser().usuario;
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -316,7 +316,7 @@ class FormularioRegistrarAlumno extends Component {
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
 
     const ID = usuario.ID_USUARIO;
@@ -430,7 +430,7 @@ class FormularioRegistrarAlumno extends Component {
               nombre={"NOMBRE"}
               subnombre={
                 this.getSubRol(
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                  getUser().rol
                 ) === "programa"
                   ? "FACULTAD"
                   : undefined
@@ -450,8 +450,7 @@ class FormularioRegistrarAlumno extends Component {
                 nombre={"NOMBRE"}
                 keyServicio={
                   this.getSubRol(
-                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL
-                      .DESCRIPCION
+                    getUser().rol
                   ) === "programa"
                     ? "programas"
                     : "programa"

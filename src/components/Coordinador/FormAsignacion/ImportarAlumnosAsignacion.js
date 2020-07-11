@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import { Paper, Grid, Button } from "@material-ui/core";
+import { Paper, Grid, Button, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
 
 import {
   parseMaterialJTable,
   validateMaterialJTableData,
-} from "./utilssj/UtilsSSJ.js";
+} from "../FormRegistroAlumno/utilssj/UtilsSSJ.js";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { GET, POST } from "../../../Conexion/Controller.js";
 import CampoDeTexto from "../Tutorias/CampoDeTexto.jsx";
-import ListaComboBox from "../Tutorias/ListaComboBox.jsx";
-import ListaEtiquetas from "../Tutorias/ListaEtiquetas.jsx";
 import JModal from "../ListaAlumnos/JModal.jsx";
-import Jloading from "./Jloading.jsx";
+import Jloading from "../FormRegistroAlumno/Jloading.jsx";
 import { getUser } from "../../../Sesion/Sesion.js";
 const estilos = {
   paper: {
@@ -52,6 +50,7 @@ class FormularioImportarAlumnos extends Component {
       numUpdates: 0,
       columnasLimpias: [],
       etiquetas: [],
+      alumnosCargados: [],
       open: false,
     };
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
@@ -59,8 +58,6 @@ class FormularioImportarAlumnos extends Component {
     this.handleOnChangeTexto = this.handleOnChangeTexto.bind(this);
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
-    this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
-    this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(
       this
@@ -87,7 +84,18 @@ class FormularioImportarAlumnos extends Component {
       tags.forEach((tag) => {
         ALUMNO.alumno[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
-      ALUMNO.alumno.PROGRAMA = this.state.programas;
+      //valida que exista el alumno
+      let alu=await GET({servicio:"/api/alumno/buscar/"+ALUMNO.alumno.CODIGO});
+      if (alu!==null){
+        //valida que pertenezca al mismo programa
+        let programs=await GET({servicio:"/api/programa/alumno/"+ALUMNO.alumno.ID_ALUMNO});
+        for (let el of programs){
+          if (el.ID_PROGRAMA===this.props.programa){
+            this.state.alumnosCargados.push(ALUMNO.alumno.CODIGO);
+          }
+        }
+      }      
+      /*ALUMNO.alumno.PROGRAMA = this.state.programas;
       ALUMNO.alumno.CONTRASENHA = "youthinkyouknowme";
       ALUMNO.alumno.USUARIO = ALUMNO.alumno.CORREO;
       ALUMNO.alumno.ETIQUETA = this.state.etiquetas;
@@ -101,44 +109,12 @@ class FormularioImportarAlumnos extends Component {
       } else {
         //se registro bien
       }
+      */
+      //AQUI IRIA LA VALIDACION SI EL ALUMNO EXISTE Y SI PERTENECE AL PROGRAMA
       this.handleCloseLoading();
     });
+    await this.props.escogerAlumnos(this.state.alumnosCargados); 
   };
-  handleOnChangeEtiquetas = async (etiqueta) => {
-    //primero que llegue
-    //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
-    const listaEtiquetas = [];
-    etiqueta.forEach((element) => {
-      if (element.agregar) {
-        listaEtiquetas.push(element.id);
-      }
-    });
-    await this.setState({ etiquetas: listaEtiquetas });
-    //this.setState({tutoria:tutoria});
-    console.log("Seteado: ", this.state.etiqueta);
-  };
-  handleOnChangePrograma(listaPrograma) {
-    console.log("proograma:", listaPrograma);
-    this.setState({ programas: listaPrograma });
-  }
-  handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
-
-    const usuario = this.state.usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
-    const ID = usuario.ID_USUARIO;
-    let enlace = usuario
-      ? subrol === "facultad"
-        ? `/api/programa/lista/${facultad[0]}`
-        : subrol === "programa"
-        ? `/api/programa/lista/${ID}/${facultad[0]}`
-        : ""
-      : "";
-    this.setState({ filtroFacultad: enlace });
-  }
   /**
    * Obtiene el subrol, util cuando se trarta de coordinador de programa o facultad
    * @param {string} fullRol
@@ -164,7 +140,6 @@ class FormularioImportarAlumnos extends Component {
         ? "/api/facultad/lista/" + ID
         : ""
       : "";
-
     return enlace;
   }
   /**
@@ -306,9 +281,8 @@ class FormularioImportarAlumnos extends Component {
             variant="contained"
             color="primary"
             onClick={this.handleOnClickRegistroSSJ_masivo}
-            startIcon={<CloudUploadIcon />}
           >
-            Registrar
+            Guardar 
           </Button>
         </Grid>
       </Grid>
@@ -320,7 +294,7 @@ class FormularioImportarAlumnos extends Component {
       return (
         <JMaterialCSVUploadSSJ
           toolbar={() => this.renderToolbar()}
-          title="Vista Previa de los datos antes del registro (solo archivos .CSV)"
+          title="Vista Previa (solo archivos .CSV)"
           agrupar={datosNuevos.huboErrores}
           other={this.state.numUpdates}
           data={datosNuevos.data}
@@ -346,105 +320,23 @@ class FormularioImportarAlumnos extends Component {
   render() {
     if (this.state.loguedIn) {
       return (
-        <>
+        <>  
+        <Dialog
+          open={this.props.open}
+          onClose={this.props.close}
+          fullWidth
+          maxWidth
+        >
           <JModal
             titulo={"Mensaje de uTutor.com"}
-            body={<Jloading mensaje={"Registrando Alumnos"} />}
+            body={<Jloading mensaje={"Cargando Alumnos"} />}
             open={this.state.open}
-            hadleClose={this.handleCloseLoading}
-            //botonIzquierdo={"Cancelar"}
-            //botonDerecho={"Continuar"}
+            handleClose={this.handleCloseLoading}
           />
-          <Grid container spacing={1} style={estilos.paper}>
-            {/** nombre del archivo */}
-            <Grid item md={2} xs={12}>
-              <CampoDeTexto
-                variant={"outlined"}
-                name="nombre"
-                label="Nombre del archivo"
-                requerido={true}
-                autoFocus={true}
-                inicial={this.state.fileName}
-                validacion={{ lim: 25 }}
-                onChange={this.handleOnChangeTexto}
-                validarEntrada={this.validarEntrada}
-                value={this.state.fileName}
-              />
-            </Grid>
-            {/**CB1 */}
-            <Grid item md={3} xs={12}>
-              <ListaComboBox
-                mensaje="facultad"
-                titulo={"Facultad"}
-                enlace={this.getEnlace(this.state.usuario)}
-                id={"ID_PROGRAMA"}
-                nombre={"NOMBRE"}
-                subnombre={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
-                    ? "FACULTAD"
-                    : undefined
-                }
-                keyServicio={"facultades"}
-                escogerItem={this.handleOnChangeFacultad}
-                small={true}
-                inicial={true}
-                placeholder={"Escoja la facultad"}
-              />
-            </Grid>
-            {/**CB2 */}
-            <Grid item md={3} xs={12}>
-              {this.state.filtroFacultad ? (
-                <ListaComboBox
-                  mensaje="programa"
-                  titulo={"Programa"}
-                  enlace={this.state.filtroFacultad}
-                  id={"ID_PROGRAMA"}
-                  nombre={"NOMBRE"}
-                  keyServicio={
-                    this.getSubRol(
-                      getUser().rol
-                    ) === "programa"
-                      ? "programas"
-                      : "programa"
-                  }
-                  escogerItem={this.handleOnChangePrograma}
-                  small={true}
-                  inicial={true}
-                  placeholder={"Escoja el programa"}
-                />
-              ) : (
-                <></>
-              )}
-            </Grid>
-            {/**Etiquetas */}
-            <Grid item md={4} xs={12}>
-              <ListaEtiquetas
-                small={true}
-                strecht={false}
-                titulo={"Etiquetas(opcional):"}
-                obtenerEtiquetas={this.handleOnChangeEtiquetas}
-                enlace={"/api/etiqueta"}
-              />
-            </Grid>
-            <Grid item md={12} xs={12}>
+          <Grid container spacing={1}>
               {this.renderTable(this.state.alumnosTabla)}
-            </Grid>
           </Grid>
-          {/**
-           * Te la creiste Wey aun esta en construcción XDDDD
-           * Lo que viste fue una ilusion XD
-           * PD. holiiiiiiisss aha ha ha haaaa (Cat-2012)
-           * PD2. TE ODIO HOOKS
-           * PD3. lo subo cuando lo acabe de hacerloXDDDDDD
-           */}
-
-          {/**
-                   * <JinUploadSSJ
-                  usuario={getUser().usuario}
-                />
-                   */}
+          </Dialog>
         </>
       );
     } else {

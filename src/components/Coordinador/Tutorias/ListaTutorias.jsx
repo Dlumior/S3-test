@@ -200,7 +200,7 @@ class ListaTutorias extends Component {
 
     const usuario = getUser().usuario;
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -227,7 +227,7 @@ class ListaTutorias extends Component {
    */
   getEnlace(usuario) {
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -321,7 +321,7 @@ class ListaTutorias extends Component {
               nombre={"NOMBRE"}
               subnombre={
                 this.getSubRol(
-                  getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+                  getUser().rol
                 ) === "programa"
                   ? "FACULTAD"
                   : undefined
@@ -345,8 +345,7 @@ class ListaTutorias extends Component {
                 nombre={"NOMBRE"}
                 keyServicio={
                   this.getSubRol(
-                    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL
-                      .DESCRIPCION
+                    getUser().rol
                   ) === "programa"
                     ? "programas"
                     : "programa"

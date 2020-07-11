@@ -16,6 +16,9 @@ import { GET } from "../../../Conexion/Controller";
 import * as Controller from "../../../Conexion/Controller";
 import Alertas from "../../Coordinador/Alertas";
 import {getUser} from "../../../Sesion/Sesion"
+import { Grid } from '@material-ui/core';
+import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import ImportarAlumnosAsignacion from "./ImportarAlumnosAsignacion";
 
 const style = {
   paper: {
@@ -59,6 +62,10 @@ const VerticalLinearStepper= () =>  {
     alumnos:[],
   });
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [grupal, setGrupal] = useState(false);
+  const [alumnosMasivo,setAlumnosMasivo]=useState([]);
+
   const [subprograma,setSubprograma]=useState([]);
   const [tutoria,setTutoria]=useState([]);
   const [tutor,setTutor]=useState([]);
@@ -152,7 +159,13 @@ const VerticalLinearStepper= () =>  {
   };
   const handleOnChangeTutoria = (tutoria) => {
     console.log("tutoria: ",tutoria );
-    setTutoria(tutoria);
+
+    if (tutoria.GRUPAL===0){
+      setGrupal(false);
+    }else{
+      setGrupal(true);
+    }
+    setTutoria(tutoria.ID_PROCESO_TUTORIA);
   };
   const handleOnChangeTutor = (tutor) => {
     console.log("tutoria: ",tutor );
@@ -162,6 +175,11 @@ const VerticalLinearStepper= () =>  {
     console.log("alumnos: ",alumnos );
     setAlumnos(alumnos);
   };
+  const handleOnChangeAlumnosPorCodigo = (alumnos) => {//de la carga masiva
+    console.log("alumnos: ",alumnos );
+    setAlumnosMasivo(alumnos);
+  };
+  
 
   const handleClick = async(e) =>{
     e.preventDefault();
@@ -173,10 +191,33 @@ const VerticalLinearStepper= () =>  {
         FECHA_ASIGNACION: new Date(),
       },
     };
-      const props = { servicio: "/api/asignacion", request: nuevaAsignacion };
-      console.log("saving new asignacion in DB:", nuevaAsignacion);
-      let asignado = await Controller.POST(props);
-      console.log("asignado",asignado);
+      let asignado;
+      let props;
+      if (grupal){
+        props = { servicio: "/api/asignacion", request: nuevaAsignacion };
+        console.log("saving new asignacion in DB:", nuevaAsignacion);
+        asignado = await Controller.POST(props);
+        console.log("asignado",asignado);
+      }else{       
+        let newasig;
+        let alu;
+        for (let element of alumnosMasivo){
+          alu=[];//guarda un unico alumo
+          alu.push(element);
+          newasig = {
+            asignacionTutoria: {
+              PROCESO_TUTORIA: tutoria,
+              TUTOR: tutor,
+              ALUMNOS: alu,
+              FECHA_ASIGNACION: new Date(),
+            },
+          };
+          props = { servicio: "/api/asignacion", request: newasig }; //aqui seria la asignacion grupal
+          console.log("saving new asignacion in DB:", newasig);
+          asignado = await Controller.POST(props);
+        }
+      }
+      
       if (asignado) {
         setSeveridad({
           severidad:severidad.severS,
@@ -189,6 +230,16 @@ const VerticalLinearStepper= () =>  {
       console.log("got updated alumno from back:", asignado);
     
   }
+
+    /////////////////////////////////
+  const handleOpen = (event) => {
+    setOpen(true);
+  };
+  const handleClose = (event) => {
+    setOpen(false);
+  };
+  /////////////////////////////////
+
   function getStepContent(step) {
     switch (step) {
       case 0:
@@ -222,6 +273,7 @@ const VerticalLinearStepper= () =>  {
               titulo={"Proceso de Tutoría"}
               escogerTutoria={handleOnChangeTutoria}
               enlace={"/api/tutoriafija/"+subprograma}
+              grupal={grupal}
             />
           </div>
         );
@@ -240,10 +292,27 @@ const VerticalLinearStepper= () =>  {
         console.log("tutor: ",tutor);
         return(
           <div>
+            <Grid md={12} justify="flex-end" style={{marginTop:"1%",marginBottom:"1%",marginLeft:"79%"}}>
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={handleOpen}
+                startIcon={<BackupTwoToneIcon />}
+              >
+                Importar desde .csv
+              </Button>
+            </Grid>
             <ListaAlumnos
               escogerAlumnos={handleOnChangeAlumnos}
               enlace={"/api/alumno/lista/"+subprograma}
             />
+            {open && 
+              <ImportarAlumnosAsignacion
+              usuario={getUser().usuario} 
+              open={handleOpen} 
+              close={handleClose}
+              escogerAlumnos={handleOnChangeAlumnosPorCodigo}
+              programa={subprograma}/>}  
           </div>
         );
       case 5:

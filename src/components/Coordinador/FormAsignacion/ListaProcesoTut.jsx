@@ -19,8 +19,8 @@ class ListaProcesoTut extends React.Component {
   async handleOnChange(e) {
       let tutoria = e.target.value;
       let tutorias = [];
-      tutorias.push(tutoria.ID_PROCESO_TUTORIA);
-    await this.props.escogerTutoria(tutoria.ID_PROCESO_TUTORIA);
+      tutorias.push(tutoria);
+    await this.props.escogerTutoria(tutoria);
     this.setState({ tutoria: e.target.value });
     e.target.value=this.state.tutoria;
   }

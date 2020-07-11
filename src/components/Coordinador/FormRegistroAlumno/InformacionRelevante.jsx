@@ -6,6 +6,7 @@ import { POST } from "./../../../Conexion/Controller";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CampoDeTexto from "../Tutorias/CampoDeTexto.jsx";
+import { getUser } from "../../../Sesion/Sesion";
 
 const estilos = {
   paper: {
@@ -79,7 +80,7 @@ class InformacionRelevante extends Component {
 
     const usuario = this.state.usuario;
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -105,7 +106,7 @@ class InformacionRelevante extends Component {
    */
   getEnlace(usuario) {
     const subrol = this.getSubRol(
-      usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION
+      getUser().rol
     );
 
     const ID = usuario.ID_USUARIO;
