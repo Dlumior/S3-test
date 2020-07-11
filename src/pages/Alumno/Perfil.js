@@ -33,7 +33,7 @@ const Perfil = (props) => {
   const { ID_USUARIO, NOMBRE, APELLIDOS } = getUser().usuario;
   const procesos = [
     { index: 0, titulo: "Datos Generales", proceso: DatosGenerales, paper:false },
-    { index: 1, titulo: "Plan de Accion", proceso: FrmPlanAccion },
+    { index: 1, titulo: "Plan de Acción", proceso: FrmPlanAccion },
     { index: 2,
       titulo: "Resultados",
       proceso: () => (
