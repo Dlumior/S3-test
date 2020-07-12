@@ -463,7 +463,7 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de Cancelar esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}</DialogTitle>
                     <DialogContent>
                         <Paper elevation={0} >
                             <CampoDeTexto
@@ -506,7 +506,7 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de Reprogramar esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de reprogramar esta cita ? </h3>}</DialogTitle>
                     <Grid item md={12} xs={12}>
                         <h3>{`Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
                     </Grid>
