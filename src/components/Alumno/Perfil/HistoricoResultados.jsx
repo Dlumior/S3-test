@@ -133,7 +133,7 @@ class HistoricoResultados extends Component {
     const { idAlumno } = this.state.alumno;
 
     const listaProcesos = await GET({
-      servicio: `/api/listaSesionAlumnoProcesoTutoria/${idAlumno}/${idPprocesoTutoria}`,
+      servicio: `/api/listaSesionRealizadaAlumnoProcesoTutoria/${idAlumno}/${idPprocesoTutoria}`,
     });
     console.log("GOT: ", listaProcesos);
     return listaProcesos;

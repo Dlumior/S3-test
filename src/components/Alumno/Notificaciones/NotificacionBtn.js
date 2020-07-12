@@ -40,12 +40,14 @@ const NotificacionBtn = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       console.log(res);
-      setNotificaciones(res.notificaciones);
-      if (res.notificaciones.length !== 0) {
-        setTieneNotif(true);
-        changeNumNotif(res.notificaciones.length);
-      } else {
-        setTieneNotif(false);
+      if(res){
+        setNotificaciones(res.notificaciones);
+        if (res.notificaciones.length !== 0) {
+          setTieneNotif(true);
+          changeNumNotif(res.notificaciones.length);
+        } else {
+          setTieneNotif(false);
+        }
       }
     }
 
@@ -73,11 +75,11 @@ const NotificacionBtn = (props) => {
       {tieneNotif && (
         <List component="nav" className={classes.cajaNotif}>
           {notificaciones.map((item) => (
-            <div key={item.SESION.ID_SESION}>
+            <div key={item.ID_NOTIFICACION}>
               <ListItem>
                 <ListItemText
                   primary={
-                    <>
+                    item.SESION? <>
                       <Typography variant="subtitle2">
                         {item.SESION.ESTADO.substring(3, 20).toUpperCase() +
                           " - " +
@@ -88,9 +90,14 @@ const NotificacionBtn = (props) => {
                       <Typography variant="subtitle1">
                         {item.SESION.RAZON_MANTENIMIENTO}
                       </Typography>
+                      </>:
+                      <>
+                      <Typography variant="subtitle2">
+                      {item.MENSAJE}
+                    </Typography>
                     </>
                   }
-                  secondary={item.SESION.FECHA}
+                  secondary={item.SESION?item.SESION.FECHA:""}
                 />
               </ListItem>
               <Divider />
