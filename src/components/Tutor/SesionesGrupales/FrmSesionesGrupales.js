@@ -10,7 +10,7 @@ import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../../Coordinador/FormRegistroTutor/comboBoxProgramas";
 import ComboBoxFacus from "../../Coordinador/RegistrarCoordPrograma/ComboBoxFacus";
 import ComboBoxProcesoTutoria from "../../Coordinador/FormAsignacion/ComboBoxProcesoTutoria";
-import ListaAsignaciones from "../../Coordinador/FormAsignacion/ListaAsignaciones";
+import ListaGrupos from "./ListaGrupos";
 import ListaAlumnos from "../../Coordinador/FormAsignacion/ListaAlumnosPorPrograma";
 import LooksOneRoundedIcon from '@material-ui/icons/LooksOneRounded';
 import LooksTwoRoundedIcon from '@material-ui/icons/LooksTwoRounded';
@@ -161,7 +161,7 @@ useEffect(() => {
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
-    const endpoint = "/api/tutoriafija/"+programa;
+    const endpoint = "/api/tutoriagrupal/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log("tutoria: ",res);
@@ -199,7 +199,7 @@ const handleOnClick = async(e) => {
             ALUMNOS:alumnos,
           },
         }
-        const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
+        const props = { servicio: "/api/crearSesionGrupal", request: nuevaSesion };
         console.log("saving new sesion in DB:", nuevaSesion);
         let sesion = await POST(props);
         console.log("sesion debug xaeee: ", sesion);
@@ -311,12 +311,9 @@ const handleOnClick = async(e) => {
             </Grid>
         </Grid>
         </Paper>
-        {/*<Paper elevation={0} style={style.paper}>
-            Tabla Tutores por proceso de tutoria
-          </Paper>*/}
         {procesoTutoria &&
             <Grid md={12}>
-                <ListaAsignaciones idTutoria={procesoTutoria}/> 
+                <ListaGrupos idTutoria={procesoTutoria} escogerAlumnos={handleOnChangeAlumnos}/> 
             </Grid> 
         }
         {procesoTutoria &&
