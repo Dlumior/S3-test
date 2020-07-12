@@ -101,8 +101,10 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeMotivo(_motivoSeleccionado) {
+    console.log("<<moti",_motivoSeleccionado.NOMBRE);
 
     if (_motivoSeleccionado.NOMBRE !== undefined) {
+      console.log("<<<HOC",_motivoSeleccionado.NOMBRE);
       this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
 
     } else {
@@ -110,7 +112,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
     }
 
-    console.log("motivo", _motivoSeleccionado.NOMBRE);
+    //console.log("<<<motivo", _motivoSeleccionado.NOMBRE);
     //this.setState({ banderillaMotivo: true });
 
   }
