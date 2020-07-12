@@ -20,12 +20,16 @@ const Facultades = () => {
         const endpoint = "/api/facultad";
         const params = { servicio: endpoint };
         const res = await GET(params);
-        setFacultades(res.facultades);
+        if (res){
+          setFacultades(res.facultades);
+        }
       }else{
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);
-        setFacultades(res.facultades);        
+        if (res){
+          setFacultades(res.facultades);
+        }        
       }
     }
     fetchData();

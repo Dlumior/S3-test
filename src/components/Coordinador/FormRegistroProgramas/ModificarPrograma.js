@@ -102,14 +102,18 @@ const  ModificarPrograma = (props) => {
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
-        setFacultades(res.facultades);
+        if (res){
+          setFacultades(res.facultades);
+        }        
         console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("ENTREE:", res);
-        setFacultades(res.facultades);
+        if (res){
+          setFacultades(res.facultades);
+        }        
         console.log("facultades:", facultades);
       }
     }

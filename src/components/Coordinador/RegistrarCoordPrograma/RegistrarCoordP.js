@@ -153,7 +153,9 @@ const RegistrarCoordinador = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("proogramasss:", res);
-    setProgramas(res.programa);
+    if (res){
+      setProgramas(res.programa);
+    }
     console.log("proograma:", programa);
   }
   if (facultad!=""){
@@ -169,7 +171,9 @@ useEffect(() => {
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("facultades:", res);
-    setFacultades(res.facultades);
+    if (res){
+      setFacultades(res.facultades);
+    }    
     console.log("facultad:", facultad);
   }
    fetchData();

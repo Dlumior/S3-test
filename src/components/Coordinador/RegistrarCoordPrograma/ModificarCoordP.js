@@ -181,33 +181,33 @@ const ModificaCoordinador = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("COORDINADOR:", res);
-    datosForm.ID=res.coordinador.ID_USUARIO;
-    datosForm.USUARIO=res.coordinador.USUARIO;
-    datosForm.NOMBRE=res.coordinador.NOMBRE;
-    datosForm.APELLIDOS=res.coordinador.APELLIDOS;
-    datosForm.CORREO=res.coordinador.CORREO;
-    datosForm.CODIGO=res.coordinador.CODIGO;
-    datosForm.TELEFONO=res.coordinador.TELEFONO;
-    datosForm.DIRECCION=res.coordinador.DIRECCION;    
-  
-    //let cantProg=res.coordinador.PROGRAMAs.length;
-    //console.log("long prog:", cantProg);
-    //setCantPrograma(cantProg);
+    if (res){
+      datosForm.ID=res.coordinador.ID_USUARIO;
+      datosForm.USUARIO=res.coordinador.USUARIO;
+      datosForm.NOMBRE=res.coordinador.NOMBRE;
+      datosForm.APELLIDOS=res.coordinador.APELLIDOS;
+      datosForm.CORREO=res.coordinador.CORREO;
+      datosForm.CODIGO=res.coordinador.CODIGO;
+      datosForm.TELEFONO=res.coordinador.TELEFONO;
+      datosForm.DIRECCION=res.coordinador.DIRECCION;    
+    
+      //let cantProg=res.coordinador.PROGRAMAs.length;
+      //console.log("long prog:", cantProg);
+      //setCantPrograma(cantProg);
 
-    let arreglillo = [];
-    for (let element of res.coordinador.PROGRAMAs){
-      if(element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===2){
-        programasSeleccionados.push(element.ID_PROGRAMA);
-        nombreFacultades.push(element.NOMBRE); 
-        setCantPrograma(cantProgramas => cantProgramas+1);
+      let arreglillo = [];
+      for (let element of res.coordinador.PROGRAMAs){
+        if(element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===2){
+          programasSeleccionados.push(element.ID_PROGRAMA);
+          nombreFacultades.push(element.NOMBRE); 
+          setCantPrograma(cantProgramas => cantProgramas+1);
+        }
       }
+      //datosForm.FACULTAD=programasSeleccionados;
+      console.log("proogramaSelecc:", programasSeleccionados);
+      console.log("proogramaD:", programa);
+      console.log("nombreFacultades:", nombreFacultades);
     }
-    //datosForm.FACULTAD=programasSeleccionados;
-    console.log("proogramaSelecc:", programasSeleccionados);
-    console.log("proogramaD:", programa);
-    console.log("nombreFacultades:", nombreFacultades);
-
-
     setDatosForm({
       ...
       datosForm,
@@ -223,7 +223,9 @@ useEffect(() => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      setProgramas(res.programa);
+      if (res){
+        setProgramas(res.programa);
+      }      
   }
    fetchData();
 }, {});

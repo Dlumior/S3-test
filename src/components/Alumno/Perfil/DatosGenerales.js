@@ -31,7 +31,9 @@ const DatosGenerales = (props) => {
             const params = { servicio: endpoint };
             const res = await GET(params);    
             console.log("alumno:", res);
-            setAlumno(res.alumno);
+            if (res){
+              setAlumno(res.alumno);
+            }            
             console.log("alumno:", alumno);
         }
     }     

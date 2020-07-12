@@ -47,7 +47,9 @@ const FrmReporteSesiones = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       console.log(res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }      
     }
     fetchFacultades();
   }, [rolCoordinador, idCoordinador]);
@@ -74,11 +76,15 @@ const FrmReporteSesiones = () => {
         if (rolCoordinador === 6) {
           console.log("asignando programa");
           console.log(res);
-          setProgramas(res.programa);
+          if (res){
+            setProgramas(res.programa);
+          }          
         } else if (rolCoordinador === 2) {
           console.log("asignando programas");
           console.log(res);
-          setProgramas(res.programas);
+          if (res){
+            setProgramas(res.programas);
+          }          
         }
       }
     }

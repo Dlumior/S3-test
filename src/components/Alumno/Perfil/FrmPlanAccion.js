@@ -51,20 +51,23 @@ useEffect(() => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      if (res.programas!==[]){
-        setProgramas(res.programas);
-        console.log("proograma:", programa);
-      }
+      if (res){
+        if (res.programas!==[]){
+          setProgramas(res.programas);
+          console.log("proograma:", programa);
+        }
+      }      
     }else{
       const endpoint = "/api/programa/alumno/"+props.idAlumno;
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      if (res.programas!==[]){
-        setProgramas(res.programas);
-        console.log("proograma:", programa);
+      if (res){
+        if (res.programas!==[]){
+          setProgramas(res.programas);
+          console.log("proograma:", programa);
+        }
       }
-
     }
     
   }
@@ -78,9 +81,12 @@ useEffect(() => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log("tutoria: ",res);
-    if (res !== []) {
-      setProcesosTutoria(res.tutoria);
+    if (res){
+      if (res !== []) {
+        setProcesosTutoria(res.tutoria);
+      }
     }
+    
   }
   if (programa !== "") {
     fetchData();

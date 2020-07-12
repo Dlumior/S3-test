@@ -35,15 +35,17 @@ const DatosGenerales = (props) => {
             const params = { servicio: endpoint };
             const res = await GET(params);    
             console.log("res:", res);
-            alumno.codigo=res.alumno.USUARIO.CODIGO;
-            alumno.correo=res.alumno.USUARIO.CORREO;
-            alumno.direccion=res.alumno.USUARIO.DIRECCION;
-            alumno.telefono=res.alumno.USUARIO.TELEFONO;
-            console.log("alumno:", alumno);
-            setAlumno({
-              ...
-              alumno
-            });
+            if (res){
+              alumno.codigo=res.alumno.USUARIO.CODIGO;
+              alumno.correo=res.alumno.USUARIO.CORREO;
+              alumno.direccion=res.alumno.USUARIO.DIRECCION;
+              alumno.telefono=res.alumno.USUARIO.TELEFONO;
+              console.log("alumno:", alumno);
+              setAlumno({
+                ...
+                alumno
+              });
+            }
         }
     }     
     fetchData();

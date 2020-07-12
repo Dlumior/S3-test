@@ -103,16 +103,20 @@ const VerticalLinearStepper = () => {
         const params = { servicio: endpoint };
         const res = await GET(params);
         console.log("facultades:", res);
-        if (res.facultades) {
-          setProgramas(res.facultades);
-        }
+        if (res){
+          if (res.facultades) {
+            setProgramas(res.facultades);
+          }
+        }        
         console.log("facultad:", programa);
       } else {
         const endpoint = "/api/facultad/lista/" + getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);
         console.log("ENTREE:", res);
-        setProgramas(res.facultades);
+        if (res){
+          setProgramas(res.facultades);
+        }
         console.log("facultad:", programa);
       }
     }

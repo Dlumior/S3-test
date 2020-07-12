@@ -24,7 +24,9 @@ const Coordinador = () => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("facultades:", res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }
       console.log("facultades:", facultades);
     }
     fetchData();
@@ -35,7 +37,9 @@ const Coordinador = () => {
       const endpoint = "/api/coordinador";
       const params = { servicio: endpoint };
       const res = await GET(params);
-      setCoordinadores(res.coordinadores);
+      if (res){
+        setCoordinadores(res.coordinadores);
+      }
     }
     fetchData();
   }, {});

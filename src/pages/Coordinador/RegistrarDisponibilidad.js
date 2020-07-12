@@ -69,7 +69,9 @@ const RegistrarDisponibilidad = () => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       console.log(res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }
     }
     fetchFacultades();
   }, [rolCoordinador, idCoordinador]);
@@ -127,10 +129,12 @@ const RegistrarDisponibilidad = () => {
       const endpoint = "/api/tutor/lista/" + programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      const auxTutores = parsearTutores(res.tutores, facultad);
-      console.log(auxTutores);
-      setTutores({ ...tutores, data: auxTutores.data });
-      //setTutores(res.tutores);
+      if (res){
+        const auxTutores = parsearTutores(res.tutores, facultad);
+        console.log(auxTutores);
+        setTutores({ ...tutores, data: auxTutores.data });
+        //setTutores(res.tutores);
+      }
     }
     if (programa !== -1) {
       fetchTutores();

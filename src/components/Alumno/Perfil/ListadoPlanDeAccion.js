@@ -55,9 +55,11 @@ const ListadoPlanDeAccion = (props) => {
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("compromisos:", res);
-        if (res.compromisos!==[]){
-          setPlan(res.compromisos);
-          console.log("compromisos:", plan);
+        if (res){
+          if (res.compromisos!==[]){
+            setPlan(res.compromisos);
+            console.log("compromisos:", plan);
+          }
         }  
         }
         if (idTutoria!=="" && idAlumno!==""){
