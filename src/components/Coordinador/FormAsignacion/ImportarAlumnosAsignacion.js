@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Paper, Grid, Button, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
+import {
+  Paper,
+  Grid,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogTitle, DialogContentText, DialogActions
+} from "@material-ui/core";
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
 
@@ -14,6 +21,8 @@ import CampoDeTexto from "../Tutorias/CampoDeTexto.jsx";
 import JModal from "../ListaAlumnos/JModal.jsx";
 import Jloading from "../FormRegistroAlumno/Jloading.jsx";
 import { getUser } from "../../../Sesion/Sesion.js";
+import ImagenCircular from "../../Shared/ImagenCircular.js";
+import TituloFormulario from "../Tutorias/TituloFormulario.jsx";
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -24,6 +33,14 @@ const estilos = {
   divini: {
     width: "100%",
     height: "100%",
+  },
+  centerDialog: {
+    marginLeft: "1%",
+    marginRight: "1%",
+    color: "#002D3D",
+    textAlign: "center",
+    minHeight: 550,
+    maxHeight: 900,
   },
 };
 class FormularioImportarAlumnos extends Component {
@@ -85,37 +102,46 @@ class FormularioImportarAlumnos extends Component {
         ALUMNO.alumno[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
       //valida que exista el alumno
-      let alu=await GET({servicio:"/api/alumno/buscar/"+ALUMNO.alumno.CODIGO});
-      console.log("programaa:",alu.alumno.ID_ALUMNO);
+      let alu = await GET({
+        servicio: "/api/alumno/buscar/" + ALUMNO.alumno.CODIGO,
+      });
+      console.log("programaa:", alu.alumno.ID_ALUMNO);
 
-      if (alu!==null){
+      if (alu !== null) {
         //valida que pertenezca al mismo programa
-        let programs=[];
-        programs=await GET({servicio:"/api/programa/alumno/"+alu.alumno.ID_ALUMNO});
-        console.log("programaa:",programs.programas);
+        let programs = [];
+        programs = await GET({
+          servicio: "/api/programa/alumno/" + alu.alumno.ID_ALUMNO,
+        });
+        console.log("programaa:", programs.programas);
 
-        for (let el of programs.programas){
-          if (el.ID_PROGRAMA===this.props.programa){
+        for (let el of programs.programas) {
+          if (el.ID_PROGRAMA === this.props.programa) {
             //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
-            let asig=await GET({servicio:"/api/tutoriaasignada/"+el.ID_PROGRAMA+"/"+alu.alumno.ID_ALUMNO});
-            console.log("programaa:",asig.tutoria);
-            for (let ele of asig.tutoria){
-              if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
+            let asig = await GET({
+              servicio:
+                "/api/tutoriaasignada/" +
+                el.ID_PROGRAMA +
+                "/" +
+                alu.alumno.ID_ALUMNO,
+            });
+            console.log("programaa:", asig.tutoria);
+            for (let ele of asig.tutoria) {
+              if (ele.ID_PROCESO_TUTORIA === this.props.proceso) {
                 return;
               }
             }
-            
+
             this.state.alumnosCargados.push(alu.alumno.ID_ALUMNO);
-            console.log("programaa",this.state.alumnosCargados);
-            
+            console.log("programaa", this.state.alumnosCargados);
           }
         }
-      }  
+      }
       //AQUI IRIA LA VALIDACION SI EL ALUMNO EXISTE Y SI PERTENECE AL PROGRAMA
       this.handleCloseLoading();
-      console.log("programaa",this.state.alumnosCargados);
-      this.props.escogerAlumnos(this.state.alumnosCargados); 
-      console.log("programaa",this.state.alumnosCargados);
+      console.log("programaa", this.state.alumnosCargados);
+      this.props.escogerAlumnos(this.state.alumnosCargados);
+      console.log("programaa", this.state.alumnosCargados);
     });
   };
   /**
@@ -131,9 +157,7 @@ class FormularioImportarAlumnos extends Component {
    * @param {*} usuario
    */
   getEnlace(usuario) {
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
 
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -285,7 +309,7 @@ class FormularioImportarAlumnos extends Component {
             color="primary"
             onClick={this.handleOnClickRegistroSSJ_masivo}
           >
-            Guardar 
+            Guardar
           </Button>
         </Grid>
       </Grid>
@@ -306,7 +330,6 @@ class FormularioImportarAlumnos extends Component {
           superPlaceHolder={true}
           //Uploading
           embebed={false}
-                  
           handleOnSuccesLoad={this.handleOnSuccesLoad}
           formato={this.state.formato}
           maxTamanio={this.state.maxTamanio}
@@ -323,25 +346,51 @@ class FormularioImportarAlumnos extends Component {
   render() {
     if (this.state.loguedIn) {
       return (
-        <>  
-        <Dialog
-          open={this.props.open}
-          onClose={this.props.close}
-          fullWidth
-          maxWidth
-        >
+        <>
+          <Dialog
+            open={this.props.open}
+            onClose={this.props.close}
+            scroll={"paper"}
+            fullWidth
+            maxWidth={"md"}
+            aria-describedby="scroll-dialog-description"
+            aria-labelledby="max-width-dialog-title"
+          >
+            <DialogTitle id="scroll-dialog-title">
+              <Grid container spacing={2}>
+                <Grid item md={2} xs={2}>
+                  <ImagenCircular
+                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted.png"
+                    square
+                  />
+                </Grid>
+                <Grid item md={10} xs={10}>
+                  <TituloFormulario titulo={"Importar Amlumnos"} />
+                </Grid>
+              </Grid>
+            </DialogTitle>
+
+
+
+            <DialogContent dividers={"paper"}>
+              <DialogContentText
+                style={estilos.centerDialog}
+                id="scroll-dialog-description"
+                //ref={descriptionElementRef}
+                tabIndex={-1}
+              >
+                {this.renderTable(this.state.alumnosTabla)}
+              </DialogContentText>
+            </DialogContent>
+
+            
+          </Dialog>
           <JModal
             titulo={"Mensaje de uTutor.com"}
             body={<Jloading mensaje={"Cargando Alumnos"} />}
             open={this.state.open}
             handleClose={this.handleCloseLoading}
           />
-            <DialogContent>
-              <Grid container spacing={1}>
-                  {this.renderTable(this.state.alumnosTabla)}
-              </Grid>
-            </DialogContent>
-          </Dialog>
         </>
       );
     } else {

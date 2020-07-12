@@ -66,6 +66,7 @@ class FrmDialogoSolicitarTutor extends Component {
       mensajillo: "",
       horaIniR: "",
       horaFinR: "",
+      //banderillaMotivo: false,
     };
 
     //handles...
@@ -100,7 +101,20 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeMotivo(_motivoSeleccionado) {
-    this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
+    console.log("<<moti",_motivoSeleccionado.NOMBRE);
+
+    if (_motivoSeleccionado.NOMBRE !== undefined) {
+      console.log("<<<HOC",_motivoSeleccionado.NOMBRE);
+      this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
+
+    } else {
+      this.setState({ _motivoSelecc: "Académico" });
+
+    }
+
+    //console.log("<<<motivo", _motivoSeleccionado.NOMBRE);
+    //this.setState({ banderillaMotivo: true });
+
   }
 
   handleOnChangeCT = (e) => {
@@ -111,13 +125,15 @@ class FrmDialogoSolicitarTutor extends Component {
 
   async handleOnClickSolicitarCita() {
     let yo = getUser();
+    console.log("banderilla", this.state.banderillaMotivo);
 
     const nuevaSolicitud = {
       sesion: {
         ID_TUTOR: this.props.dispo.ID_TUTOR,
         ID_PROCESO_TUTORIA: this.props.idPro, //ANTES 41
         LUGAR: this.props.dispo.LUGAR,
-        MOTIVO: this.state._motivoSelecc,
+        //MOTIVO: (this.state.banderillaMotivo === true) ? this.state._motivoSelecc : "Académico",
+        MOTIVO: this.state._motivoSelecc ,
         DESCRIPCION: this.state.descripcion,
         FECHA: this.props.dispo.FECHA,
         // HORA_INICIO: this.props.dispo.HORA_INICIO,
@@ -189,7 +205,7 @@ class FrmDialogoSolicitarTutor extends Component {
         */
   }
 
-   handleFocusOutHoraIni() {
+  handleFocusOutHoraIni() {
     /*********VLIDACION DEL RANGO******* */
     let parteHoraI = this.props.dispo.HORA_INICIO.slice(0, 2);
     let parteMini = this.props.dispo.HORA_INICIO.slice(-2);
@@ -384,7 +400,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
           {/** ESCOJER HORA */}
 
-          <Grid  style={styles.paper}>
+          <Grid style={styles.paper}>
             <Grid
               container
               spacing={2}
@@ -466,6 +482,7 @@ class FrmDialogoSolicitarTutor extends Component {
                       keyServicio={"motivos"}
                       placeholder={"Escoja un motivo"}
                       allObject={true}
+                    //value={this.state._motivoSelecc}
                     />
                   </Grid>
                   <Grid item md={12} xs={12}>
