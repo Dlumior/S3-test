@@ -101,14 +101,18 @@ const FrmReporteTutores = () => {
       const res = await Controller.GET(params);
       const res2 = await Controller.GET(params2);
       
-      if (res.motivosSolicitud !== []) {        
-        setNombres(res.motivosSolicitud.map((item) => item.NOMBRE));
-        setHoras(res.motivosSolicitud.map((item) => item.TIEMPO));
+      if(res){
+        if (res.motivosSolicitud !== []) {        
+          setNombres(res.motivosSolicitud.map((item) => item.NOMBRE));
+          setHoras(res.motivosSolicitud.map((item) => item.TIEMPO));
+        }
       }
 
-      if (res2.motivosSolicitud !== []) {
-        setNombres2(res2.motivosSolicitud.map((item) => item.NOMBRE));
-        setHoras2(res2.motivosSolicitud.map((item) => item.TIEMPO));
+      if(res2){
+        if (res2.motivosSolicitud !== []) {
+          setNombres2(res2.motivosSolicitud.map((item) => item.NOMBRE));
+          setHoras2(res2.motivosSolicitud.map((item) => item.TIEMPO));
+        }
       }
     }
     if (programa !== "") {
