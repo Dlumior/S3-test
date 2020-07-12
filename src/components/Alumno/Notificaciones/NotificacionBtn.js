@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import { GET } from "../../../Conexion/Controller";
-
+import { Link as LinkRouter } from "react-router-dom";
 const useStyle = makeStyles((theme) => ({
   cajaNotif: {
     width: theme.spacing(50),
@@ -40,12 +40,14 @@ const NotificacionBtn = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       console.log(res);
-      setNotificaciones(res.notificaciones);
-      if (res.notificaciones.length !== 0) {
-        setTieneNotif(true);
-        changeNumNotif(res.notificaciones.length);
-      } else {
-        setTieneNotif(false);
+      if(res){
+        setNotificaciones(res.notificaciones);
+        if (res.notificaciones.length !== 0) {
+          setTieneNotif(true);
+          changeNumNotif(res.notificaciones.length);
+        } else {
+          setTieneNotif(false);
+        }
       }
     }
 
@@ -73,11 +75,15 @@ const NotificacionBtn = (props) => {
       {tieneNotif && (
         <List component="nav" className={classes.cajaNotif}>
           {notificaciones.map((item) => (
-            <div key={item.SESION.ID_SESION}>
-              <ListItem>
+            <div key={item.ID_NOTIFICACION}>
+              <ListItem
+              button
+              component={LinkRouter}
+              to={getUser().rol === "Tutor"?item.SESION?"/tutor/misCitas":"/tutor/solicitudes":item.SESION?"/alumno/misCitas":"/alumno/solicitarTutorFijo"}>
+              
                 <ListItemText
                   primary={
-                    <>
+                    item.SESION? <>
                       <Typography variant="subtitle2">
                         {item.SESION.ESTADO.substring(3, 20).toUpperCase() +
                           " - " +
@@ -88,9 +94,14 @@ const NotificacionBtn = (props) => {
                       <Typography variant="subtitle1">
                         {item.SESION.RAZON_MANTENIMIENTO}
                       </Typography>
+                      </>:
+                      <>
+                      <Typography variant="subtitle2">
+                      {item.MENSAJE}
+                    </Typography>
                     </>
                   }
-                  secondary={item.SESION.FECHA}
+                  secondary={item.SESION?item.SESION.FECHA:""}
                 />
               </ListItem>
               <Divider />

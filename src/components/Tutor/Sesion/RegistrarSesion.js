@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import * as Controller from "../../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
 import { GET } from "../../../Conexion/Controller";
@@ -17,6 +17,8 @@ import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core"
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "./ListaEtiquetas";
+import ComboBoxPrograma from "../ListarAlumnos/ComboBoxPrograma";
+import ComboBoxProcesoTutoria from "../ListarAlumnos/ComboBoxProcesoTutoria";
 
 const style = {
   paper: {
@@ -139,6 +141,26 @@ const RegistrarSesion = () => {
   });
   const [open, setOpen] = React.useState(false);
   const [plan,setPlan]=useState([]);
+  const [pDisabled, setPDisabled] = useState(true);
+  const [programa, setPrograma] = useState("");
+  const [programas, setProgramas] = useState(
+    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
+  );
+  const [procesosTutoria, setProcesosTutoria] = useState([]);
+  const [procesoTutoria, setProcesoTutoria] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint =
+        "/api/tutoria/lista/"+ programa;
+      const params = { servicio: endpoint };
+      const res = await GET(params);
+      setProcesosTutoria(res.tutoria);
+    }
+    if (programa !== "") {
+      fetchData();
+    }
+  }, [programa]);
 
   async function fetchData(cod, datosForm, setDatosForm) {
     const endpoint = "/api/alumno/buscar/" + cod;
@@ -219,7 +241,7 @@ const RegistrarSesion = () => {
       const nuevaSesion = {
         sesion: {
           ID_TUTOR: (getUser()).usuario.ID_USUARIO,
-          ID_PROCESO_TUTORIA: "43",
+          ID_PROCESO_TUTORIA: datosForm.procesoTutoria,
           LUGAR: datosForm.lugar,
           MOTIVO: "PUCP",
           DESCRIPCION: datosForm.descripcion,
@@ -235,9 +257,9 @@ const RegistrarSesion = () => {
       const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
       console.log("saving new sesion in DB:", nuevaSesion);
       let sesion = await Controller.POST(props);
-      console.log("sesion",sesion);
+      console.log("sesion debug xaeee: ", sesion);
       if (sesion) {
-        //alert("Sesion registrada Satisfactoriamente");
+        console.log("ENTRE AL IF: ");
         setSeveridad({
           severidad:"success",
         }); 
@@ -248,17 +270,31 @@ const RegistrarSesion = () => {
       console.log("got updated sesion from back:", sesion);
         
   
+      // setDatosForm({
+      //   ...datosForm,
+      // });
+      // setSeveridad({
+      //   severidad:"success",
+      // }); 
+      // setAlerta({
+      //   mensaje:"",
+      // }); 
+    }
+  };
+
+  //Obtener a los alumnos una vez seleccionado el programa y el procesos de tutoria
+  useEffect(() => {
+    async function fetchData() {
       setDatosForm({
         ...datosForm,
+        procesoTutoria: procesoTutoria,
       });
-      setSeveridad({
-        severidad:"success",
-      }); 
-      setAlerta({
-        mensaje:"",
-      }); 
     }
-};
+
+    if (procesoTutoria !== "") {
+      fetchData();
+    }
+  }, [procesoTutoria]);
 
   
 
@@ -318,6 +354,25 @@ const RegistrarSesion = () => {
                   fullWidth   
               />
             </Grid>
+
+            <Grid item md={12}>
+              <ComboBoxPrograma
+                setPDisabled={setPDisabled}
+                programas={programas}
+                programa={programa}
+                setPrograma={setPrograma}
+              />
+            </Grid>
+
+            <Grid item md={12}>
+              <ComboBoxProcesoTutoria
+                pDisabled={pDisabled}
+                procesosTutoria={procesosTutoria}
+                procesoTutoria={procesoTutoria}
+                setProcesoTutoria={setProcesoTutoria}
+              />
+            </Grid>
+
             <Grid item md={4}>
               <TextField
                   required

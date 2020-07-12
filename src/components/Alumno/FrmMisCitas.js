@@ -335,7 +335,7 @@ class FrmMisCitas extends Component {
                 >
 
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de Cancelar esta cita ? </h3>}</DialogTitle>
+                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}</DialogTitle>
 
                     <DialogContent>
                         <Paper elevation={0} >

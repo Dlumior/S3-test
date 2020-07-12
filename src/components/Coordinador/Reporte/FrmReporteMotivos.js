@@ -96,13 +96,15 @@ const FrmReporteMotivos = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       console.log(res);
-      if (res.motivosSolicitud !== []) {
-        let tot = 0;
-        for(let item of res.motivosSolicitud){
-            tot += item.CANTIDAD;
+      if(res){
+        if (res.motivosSolicitud !== []) {
+          let tot = 0;
+          for(let item of res.motivosSolicitud){
+              tot += item.CANTIDAD;
+          }
+          setMotivos(res.motivosSolicitud.map((item) => item.MOTIVO));
+          setCantidad(res.motivosSolicitud.map((item) => {return ((item.CANTIDAD/tot) * 100).toFixed(2)}));
         }
-        setMotivos(res.motivosSolicitud.map((item) => item.MOTIVO));
-        setCantidad(res.motivosSolicitud.map((item) => {return ((item.CANTIDAD/tot) * 100).toFixed(2)}));
       }
     }
     if (programa !== "") {

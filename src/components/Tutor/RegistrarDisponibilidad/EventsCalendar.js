@@ -55,7 +55,9 @@ class EventsCalendar extends Component {
     if(facuTutor){
       if(facuTutor.facultades){
         await this.setState({facultades: facuTutor.facultades})
-        await this.setFacultad(facuTutor.facultades[0].FACULTAD.ID_PROGRAMA)
+        if(facuTutor.facultades.length !== 0){
+          await this.setFacultad(facuTutor.facultades[0].FACULTAD.ID_PROGRAMA)
+        }
       }
     }
     console.log("facultades del tutor: ", facuTutor)
@@ -78,7 +80,9 @@ class EventsCalendar extends Component {
           this.setState({problema:false})                   
         } 
         if(this.state.facultades){
-          this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+          if(this.state.facultades.length!==0){
+            this.setState({diasAnticipacion: this.state.facultades.filter(e=>e.FACULTAD.ID_PROGRAMA===this.state.facultad)[0].FACULTAD.ANTICIPACION_DISPONIBILIDAD})
+          }
         }
       }else{
         this.setState({problema: true});

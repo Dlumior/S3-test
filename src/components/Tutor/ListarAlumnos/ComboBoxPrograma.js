@@ -37,7 +37,7 @@ const ComboBoxPrograma = (props) => {
     setPDisabled(false);
   };
 
-  console.log(programas);
+  console.log("props cmoboboxprograma:", props);
 
   return (
     <>

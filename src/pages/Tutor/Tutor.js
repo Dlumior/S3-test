@@ -7,6 +7,7 @@ import MiDisponibilidad from "./MiDisponibilidad.js";
 
 import HistorialDeCitas from "./HistorialDeCitas.js";
 import PerfilAlumno from "../../components/Tutor/ListarAlumnos/PerfilAlumno";
+import SesionesGrupales from "./SesionesGrupales";
 
 
 //import Calendario from "./Calendario.js";
@@ -40,6 +41,8 @@ const Tutor = (props) => {
         {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
         <Route exact path={"/tutor/sesiones"} component={Sesiones} />
         <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
+        <Route exact path={"/tutor/sesionesgrupales"} component={SesionesGrupales} />
+
 
         <Route exact path={"/tutor/misCitas"} component={HistorialDeCitas}/>    
         <Route exact path={"/tutor/mialumno/:idAlumno/:fullname"} component={PerfilAlumno}/>   

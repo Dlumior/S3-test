@@ -38,26 +38,44 @@ class ListaAlumnos extends React.Component {
 
   async componentDidMount(){
     let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
+
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});    
     console.log("arreglo: ",arregloDeAlumnos);
 
     let arreglillo = [];
+    
     for (let element of arregloDeAlumnos.alumnos){
-        arreglillo.push({
-                        codigo:element.USUARIO.CODIGO,
-                        nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
-                        correo:element.USUARIO.CORREO,
-                        checkbox:
-                                  <div>
-                                    <input                                       
-                                        type="checkbox" 
-                                        id={element.ID_USUARIO} 
-                                        name="alumnos" 
-                                        value={element.ID_USUARIO}
-                                        onChange={this.handleOnChangeChecked}>                                                                           
-                                    </input>
-                                  </div>
-                        });  
+      let asignada=false;//ve si el alumno ya ha sido asignado
+
+        //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
+        let asig=await Controller.GET({servicio:"/api/tutoriaasignada/"+this.props.programa+"/"+element.ID_USUARIO});
+        console.log("programaa:",asig.tutoria);
+        for (let ele of asig.tutoria){
+          console.log("veamos:",ele.ID_PROCESO_TUTORIA,this.props.proceso);
+          if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
+            asignada=true;
+            break;
+          }
+        }
+        console.log("estaasignada:",asignada);
+
+        if (!asignada){
+          arreglillo.push({
+            codigo:element.USUARIO.CODIGO,
+            nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
+            correo:element.USUARIO.CORREO,
+            checkbox:
+                      <div>
+                        <input                                     
+                            type="checkbox" 
+                            id={element.ID_USUARIO} 
+                            name="alumnos" 
+                            value={element.ID_USUARIO}
+                            onChange={this.handleOnChangeChecked}>                                                                           
+                        </input>
+                      </div>
+            });  
+        }
     }
     const data = {
         columns: [

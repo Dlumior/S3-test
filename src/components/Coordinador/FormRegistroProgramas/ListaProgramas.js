@@ -81,7 +81,7 @@ class ListaProgramas extends React.Component {
 
   }
   async componentDidUpdate(prevProps,nextState){
-    if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag 
+    if (this.props.idFacu!==prevProps.idFacu //|| this.props.flag!==prevProps.flag 
       || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
       //let arregloProg=await Controller.GET({servicio:"/api/programa"});
