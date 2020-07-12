@@ -224,6 +224,7 @@ const BarraNavegacion = (props) => {
             "Mis Alumnos",
             "Mi Disponibilidad",
             "Sesiones",
+            "Sesiones Grupales",
             "Mis Citas",
           ].map((text, index) => (
             <ListItem
@@ -241,7 +242,7 @@ const BarraNavegacion = (props) => {
                   <SupervisorAccountRoundedIcon />
                 ) : index === 3 ? (
                   <ScheduleRoundedIcon />
-                ) : index === 4 ? (
+                ) : index === 4 || index===5 ? (
                   <CalendarTodayIcon />
                 ) : (
                   <NoteAddRoundedIcon />
