@@ -99,7 +99,9 @@ const VerticalLinearStepper= () =>  {
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
-        setProgramas(res.facultades);
+        if (res.facultades){
+          setProgramas(res.facultades);
+        }
         console.log("facultad:", programa);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
@@ -174,10 +176,7 @@ const VerticalLinearStepper= () =>  {
   const handleOnChangeAlumnos = (alumnos) => {
     console.log("alumnos: ",alumnos );
     setAlumnos(alumnos);
-  };
-  const handleOnChangeAlumnosPorCodigo = (alumnos) => {//de la carga masiva
-    console.log("alumnos: ",alumnos );
-    setAlumnosMasivo(alumnos);
+    //setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
   
 
@@ -193,6 +192,7 @@ const VerticalLinearStepper= () =>  {
     };
       let asignado;
       let props;
+      console.log("grupal",grupal);
       if (grupal){
         props = { servicio: "/api/asignacion", request: nuevaAsignacion };
         console.log("saving new asignacion in DB:", nuevaAsignacion);
@@ -201,7 +201,7 @@ const VerticalLinearStepper= () =>  {
       }else{       
         let newasig;
         let alu;
-        for (let element of alumnosMasivo){
+        for (let element of alumnos){
           alu=[];//guarda un unico alumo
           alu.push(element);
           newasig = {
@@ -212,6 +212,7 @@ const VerticalLinearStepper= () =>  {
               FECHA_ASIGNACION: new Date(),
             },
           };
+          console.log("new",newasig);
           props = { servicio: "/api/asignacion", request: newasig }; //aqui seria la asignacion grupal
           console.log("saving new asignacion in DB:", newasig);
           asignado = await Controller.POST(props);
@@ -274,6 +275,7 @@ const VerticalLinearStepper= () =>  {
               escogerTutoria={handleOnChangeTutoria}
               enlace={"/api/tutoriafija/"+subprograma}
               grupal={grupal}
+              proceso={tutoria}
             />
           </div>
         );
@@ -305,14 +307,16 @@ const VerticalLinearStepper= () =>  {
             <ListaAlumnos
               escogerAlumnos={handleOnChangeAlumnos}
               enlace={"/api/alumno/lista/"+subprograma}
+              programa={subprograma}
+              proceso={tutoria}
             />
             {open && 
               <ImportarAlumnosAsignacion
-              usuario={getUser().usuario} 
-              open={handleOpen} 
-              close={handleClose}
-              escogerAlumnos={handleOnChangeAlumnosPorCodigo}
-              programa={subprograma}/>}  
+                usuario={getUser().usuario}
+                open={handleOpen} 
+                close={handleClose}
+                escogerAlumnos={handleOnChangeAlumnos}
+                programa={subprograma}/>}  
           </div>
         );
       case 5:

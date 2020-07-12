@@ -70,7 +70,7 @@ class FormularioImportarAlumnos extends Component {
   }
 
   handleOnClickRegistroSSJ_masivo = async () => {
-    alert("Registrando Alumnos espere...");
+    alert("Cargando Alumnos espere...");
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
     const tags = this.state.columnasLimpias;
@@ -86,34 +86,37 @@ class FormularioImportarAlumnos extends Component {
       });
       //valida que exista el alumno
       let alu=await GET({servicio:"/api/alumno/buscar/"+ALUMNO.alumno.CODIGO});
+      console.log("programaa:",alu.alumno.ID_ALUMNO);
+
       if (alu!==null){
         //valida que pertenezca al mismo programa
-        let programs=await GET({servicio:"/api/programa/alumno/"+ALUMNO.alumno.ID_ALUMNO});
-        for (let el of programs){
+        let programs=[];
+        programs=await GET({servicio:"/api/programa/alumno/"+alu.alumno.ID_ALUMNO});
+        console.log("programaa:",programs.programas);
+
+        for (let el of programs.programas){
           if (el.ID_PROGRAMA===this.props.programa){
-            this.state.alumnosCargados.push(ALUMNO.alumno.CODIGO);
+            //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
+            let asig=await GET({servicio:"/api/tutoriaasignada/"+el.ID_PROGRAMA+"/"+alu.alumno.ID_ALUMNO});
+            console.log("programaa:",asig.tutoria);
+            for (let ele of asig.tutoria){
+              if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
+                return;
+              }
+            }
+            
+            this.state.alumnosCargados.push(alu.alumno.ID_ALUMNO);
+            console.log("programaa",this.state.alumnosCargados);
+            
           }
         }
-      }      
-      /*ALUMNO.alumno.PROGRAMA = this.state.programas;
-      ALUMNO.alumno.CONTRASENHA = "youthinkyouknowme";
-      ALUMNO.alumno.USUARIO = ALUMNO.alumno.CORREO;
-      ALUMNO.alumno.ETIQUETA = this.state.etiquetas;
-      console.log("Registrando ALUMNO", ALUMNO);
-      //console.log("Podria registrar: ", ALUMNO);
-      let response = await POST({ servicio: "/api/alumno", request: ALUMNO });
-      if (!response) {
-        alert("Hubo un error insperado");
-      } else if (response.error) {
-        alert("Error ", response.error);
-      } else {
-        //se registro bien
-      }
-      */
+      }  
       //AQUI IRIA LA VALIDACION SI EL ALUMNO EXISTE Y SI PERTENECE AL PROGRAMA
       this.handleCloseLoading();
+      console.log("programaa",this.state.alumnosCargados);
+      this.props.escogerAlumnos(this.state.alumnosCargados); 
+      console.log("programaa",this.state.alumnosCargados);
     });
-    await this.props.escogerAlumnos(this.state.alumnosCargados); 
   };
   /**
    * Obtiene el subrol, util cuando se trarta de coordinador de programa o facultad
@@ -333,9 +336,11 @@ class FormularioImportarAlumnos extends Component {
             open={this.state.open}
             handleClose={this.handleCloseLoading}
           />
-          <Grid container spacing={1}>
-              {this.renderTable(this.state.alumnosTabla)}
-          </Grid>
+            <DialogContent>
+              <Grid container spacing={1}>
+                  {this.renderTable(this.state.alumnosTabla)}
+              </Grid>
+            </DialogContent>
           </Dialog>
         </>
       );
