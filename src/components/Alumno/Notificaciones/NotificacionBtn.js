@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import { GET } from "../../../Conexion/Controller";
-
+import { Link as LinkRouter } from "react-router-dom";
 const useStyle = makeStyles((theme) => ({
   cajaNotif: {
     width: theme.spacing(50),
@@ -76,7 +76,11 @@ const NotificacionBtn = (props) => {
         <List component="nav" className={classes.cajaNotif}>
           {notificaciones.map((item) => (
             <div key={item.ID_NOTIFICACION}>
-              <ListItem>
+              <ListItem
+              button
+              component={LinkRouter}
+              to={getUser().rol === "Tutor"?item.SESION?"/tutor/misCitas":"/tutor/solicitudes":item.SESION?"/alumno/misCitas":"/alumno/solicitarTutorFijo"}>
+              
                 <ListItemText
                   primary={
                     item.SESION? <>
