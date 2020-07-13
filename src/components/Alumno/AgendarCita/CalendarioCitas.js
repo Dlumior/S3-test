@@ -5,6 +5,7 @@ import { NdiasMes, mesesAnio } from "./Util.js";
 import HorarioDelDia from "./HorarioDelDia";
 import FrmSolicitarCitaTutor_granito from "../FrmSolicitarCitaTutor_granito";
 import { getUser } from "../../../Sesion/Sesion";
+import moment from "moment"
 
 const styles = {
   control: {
@@ -68,7 +69,7 @@ class CalendarioCitas extends Component {
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
-      fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
+      fechasDias.push(moment(new Date(fechaInicial.setDate(fechaInicial.getDate()))));
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
     return (
