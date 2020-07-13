@@ -48,7 +48,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
             //cont++;
             fechaSesion= await moment(element.FECHA).format("YYYY-MM-DD");
 
-            let estadillo = fechaHoy>fechaSesion?"PR":element.ESTADO.split("-")[0];
+            let estadillo = element.ESTADO.includes("realizada")? element.ESTADO.split("-")[0]:fechaHoy>fechaSesion?"PR":element.ESTADO.split("-")[0];
             if (estadillo==="00" || estadillo==="01" || estadillo ==="PR"){
                 cont++;
                 arreglillo.push({
