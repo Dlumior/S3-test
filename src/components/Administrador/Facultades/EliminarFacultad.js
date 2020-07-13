@@ -12,8 +12,9 @@ import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import {getUser} from "../../../Sesion/Sesion";
 
-const EliminarCoordinador = (props) => {
-  const {open,close,id}=props;
+const EliminarFacultad = (props) => {
+  const {open,close,id,parentCallback}=props;
+  const [flag, setFlag] = useState(0);//actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
@@ -32,25 +33,27 @@ const EliminarCoordinador = (props) => {
  
 
   const handleClick = async (e) => {    
-      /*FACULTAD ELIMINAR FALTA
-      console.log("idCoord",id);
+      
+      //FACULTAD ELIMINAR 
+      console.log("idFacu",id);
       let enlace;
-      console.log("ROL:",getUser().rol);
-      if (getUser().rol==="Administrador"){
-        enlace="/api/coordinadorfacultad/eliminar/"+id;
-      }else{
-        enlace="/api/coordinador/eliminar/"+id;
-      }
+      enlace="/api/facultad/eliminar/"+id;
       const props = { servicio: enlace };
       let resultado = await Conexion.POST(props);
       console.log("got updated coord from back:", resultado);
-      if (resultado.status!=="success"){
-        setElimino(false);
-      }else{
-        setElimino(true);
-      }    
-      */
-     setElimino(true);
+      if (resultado){
+        if (resultado.eliminacion.ok!==1){
+          setElimino(false);
+          console.log("elimino",elimino);
+        }else{          
+          setElimino(true);
+        }    
+      }
+      //actualizamos lista 
+      const newValue = flag + 1;
+      setFlag(newValue);
+      await parentCallback(newValue);
+      console.log("elimino",elimino);
   };
 
 
@@ -99,4 +102,4 @@ const EliminarCoordinador = (props) => {
     </div>
   );
 };
-export default EliminarCoordinador;
+export default EliminarFacultad;

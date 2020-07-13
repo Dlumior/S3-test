@@ -11,6 +11,7 @@ import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
 import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
 import moment from 'moment';
+import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaciones";
 
 class FrmMisCitas_Tutor extends Component {
     constructor() {
@@ -27,6 +28,7 @@ class FrmMisCitas_Tutor extends Component {
             open2: false,
             open3: false,
             open4: false,
+            open5: false,
             mensajillo: "",
             mensajilloR: "",
             graciasYopsIdSesion: 0,
@@ -40,6 +42,7 @@ class FrmMisCitas_Tutor extends Component {
             horaIniR: "",
             horaFinR: "",
             duraSesion: 0,
+            arrAlumnoVer: [],
 
         };
 
@@ -59,9 +62,35 @@ class FrmMisCitas_Tutor extends Component {
 
         this.handleFocusOutHoraIni = this.handleFocusOutHoraIni.bind(this);
 
+        this.handleOnclickVerAlmunos = this.handleOnclickVerAlmunos.bind(this);
+
+        
+        this.handleOnOpenVer = this.handleOnOpenVer.bind(this);
+        this.handleOnCloseVer = this.handleOnCloseVer.bind(this);
+
+
     };
 
+    handleOnOpenVer() {
+        this.setState({ open5: true });
 
+    }
+    handleOnCloseVer() {
+        console.log("<<rico");
+        this.setState({ open5: false });
+    }
+
+    handleOnclickVerAlmunos(e, arrAlumno) {
+        console.log("<<AVER", arrAlumno);
+
+        let _arr = [];
+        _arr = arrAlumno;
+
+        this.setState({ arrAlumnoVer: _arr })
+        this.setState({ open5: true });
+
+
+    }
 
     handleFocusOutHoraIni() {
         let valMin = this.state.horaIniR.slice(-2);
@@ -130,7 +159,14 @@ class FrmMisCitas_Tutor extends Component {
 
         //this.setState({graciasYopsIdTutor:_idTutor});
         let _arrAlumno = [];
-        _arrAlumno.push(_idAlumno.toString());
+
+        for (let element of _idAlumno) {
+            _arrAlumno.push(element.ID_ALUMNO.toString());
+
+        }
+
+
+        //_arrAlumno.push(_idAlumno.toString());
 
         this.setState({ graciasYopsIdAlumno: _arrAlumno });
         this.setState({ open: true });
@@ -149,7 +185,13 @@ class FrmMisCitas_Tutor extends Component {
         this.setState({ duraSesion: _duracion });
 
         let _arrAlumno = [];
-        _arrAlumno.push(_idAlumno);
+
+        for (let element of _idAlumno) {
+            _arrAlumno.push(element.ID_ALUMNO.toString());
+
+        }
+
+        //_arrAlumno.push(_idAlumno);
         this.setState({ graciasYopsIdAlumnoR: _arrAlumno });
         this.setState({ open2: true });
     }
@@ -336,14 +378,14 @@ class FrmMisCitas_Tutor extends Component {
         //console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
-        let fechaHoy=moment(new Date()).format("YYYY-MM-DD"); 
+        let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
         let fechaSesion;
 
         for (let element of arregloDeSesiones.data) {
             cont++;
-            fechaSesion= await moment(element.FECHA).format("YYYY-MM-DD");
+            fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
 
-            let estadillo = fechaHoy>fechaSesion?"PR": element.ESTADO.split("-")[0];
+            let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
             arreglillo.push({
                 campoCont: cont,
@@ -359,39 +401,53 @@ class FrmMisCitas_Tutor extends Component {
 
                 //>>> ASUMIMOS PARA UN ALUMNO
                 //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
-                nombre: element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "" : "",
+                nombre: element.PROCESO_TUTORIum.GRUPAL ?
+                    <Button
+                    href="#text-buttons" color="primary"
+  
+                        onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
+                    >
+                        Ver Alumnos
+                    </Button> :
+                    (element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " +
+                        element.ALUMNOs[0].USUARIO.APELLIDOS : "" : ""),
+
                 fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
                 lugar: element.LUGAR,
-                campoMotivoSoli: element.MOTIVO,
-                campoDescMotivo: element.DESCRIPCION,
-                //tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
+                campoMotivoSoli: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.MOTIVO,
+                campoDescMotivo: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.DESCRIPCION,
+                tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
                 btnCancelar:
                     <Button
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={e => this.handleOnClickCancelar(e, element.ID_SESION, element.ALUMNOs[0].ID_ALUMNO)}
+                        onClick={e => this.handleOnClickCancelar(e, element.ID_SESION, element.ALUMNOs)}
                     >
                         CANCELAR
                     </Button>,
-                campoEstado: estadillo==="PR"?"Pendiente Registro":
-                estadillo === "04" ? "Pendiente" :
-                 estadillo === "03" ? "Reprogramada" :
-                    estadillo === "02" ? "Cancelada" : 
-                    "Realizada",
+                campoEstado: estadillo === "PR" ? "Pendiente Registro" :
+                    estadillo === "04" ? "Pendiente" :
+                        estadillo === "03" ? "Reprogramada" :
+                            estadillo === "02" ? "Cancelada" :
+                                "Realizada",
 
                 btnPosponer:
                     <Button
                         size="large"
                         variant="contained"
                         color="primary"
-                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs[0].ID_ALUMNO, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
+                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
                     >
                         REPROGRAMAR
                     </Button>,
                 campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
 
             });
+
+
+
+
         }
 
         const data = {
@@ -425,10 +481,10 @@ class FrmMisCitas_Tutor extends Component {
                     title: "Descripción del Motivo",
                     field: "campoDescMotivo",
                 },
-                // {
-                //     title: "Tipo Tutoria",
-                //     field: "tipoTutoria"
-                // },
+                {
+                    title: "Tipo Tutoria",
+                    field: "tipoTutoria"
+                },
                 {
                     title: "Cancelar Cita",
                     field: "btnCancelar"
@@ -464,6 +520,13 @@ class FrmMisCitas_Tutor extends Component {
     render() {
         return (
             <div>
+                {this.state.open5 &&
+                    <ModificaAsignaciones
+                        open={this.handleOnOpenVer}
+                        close={this.handleOnCloseVer}
+                        alumnos={this.state.arrAlumnoVer} />
+                }
+
                 {/********************** CANCELAR ******************************/}
                 <Dialog
                     open={this.state.open}
@@ -536,7 +599,7 @@ class FrmMisCitas_Tutor extends Component {
                             </Grid>
                             <Grid item md={4} >
                                 <TextField
-                                    value = {this.state.horaIniR}
+                                    value={this.state.horaIniR}
                                     variant="outlined"
                                     required
                                     margin="dense"
@@ -612,7 +675,7 @@ class FrmMisCitas_Tutor extends Component {
 
                 <TabProceso procesos={[
                     {
-                        index: 0, titulo: "Futuras", //Pendientes y realizadas
+                        index: 0, titulo: "Pendientes", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"PyR"} />
                     },
                     { index: 1, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas_Tutor /> },

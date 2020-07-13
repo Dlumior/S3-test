@@ -28,7 +28,9 @@ const ComboBoxPrograma = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("programasss:", res);
-      setProgramas(res.facultad);
+      if (res){
+        setProgramas(res.facultad);
+      }
       console.log("programa:", programa);
     }
      fetchData();

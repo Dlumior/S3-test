@@ -254,11 +254,17 @@ class FrmMisCitas extends Component {
                         variant="outlined"
                         color="secondary"
                         onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
+                        disabled={element.PROCESO_TUTORIum.GRUPAL}
                     >
                         CANCELAR
                     </Button>,
                 //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                campoEstado: fechaSesion<fechaHoy?"Pendiente Registro":(estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))),
+                campoEstado: (estadillo!=="00" && estadillo!=="01")?  fechaSesion<fechaHoy?"Pendiente Registro":
+                
+                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" :"Realizada"))):
+
+                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
+                ,
                 
                 //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*

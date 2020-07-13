@@ -117,7 +117,7 @@ const ModificarFacultad = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("coordinadores de la facu:", res);
-      if (res){
+      if (res.facultad){
         setCoordinadores(res.facultad.USUARIOs);
       }      
       console.log("coord:", coordinadores);
@@ -186,7 +186,7 @@ const ModificarFacultad = (props) => {
         }
       }
       
-      //actualizamos lista coord
+      //actualizamos lista 
       const newValue = flag + 1;
       setFlag(newValue);
       parentCallback(newValue);
@@ -259,7 +259,7 @@ const ModificarFacultad = (props) => {
                 />}
               </Grid>
             <Grid item>
-            <Checkbox
+            {/*<Checkbox
               checked={checked}
               onChange={handleChangeChecked}
               color="primary"
@@ -267,7 +267,7 @@ const ModificarFacultad = (props) => {
             />
             <Typography variant="h7" align="center">
                 {" "}Facultad Independiente
-            </Typography>
+            </Typography>*/}
             {getUser().rol==="Administrador" &&
             coordinadores!==undefined &&
                 <List>
