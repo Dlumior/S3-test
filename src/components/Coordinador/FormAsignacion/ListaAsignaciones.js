@@ -43,6 +43,7 @@ class ListaAsignaciones extends React.Component {
     for (let element of arregloAsigna.asignaciones){
       if (element.ID_ASIGNACION!==null){
         arreglillo.push({
+          fecha:element.FECHA_ASIGNACION,
           tutor:element.TUTOR.USUARIO.NOMBRE+" "+element.TUTOR.USUARIO.APELLIDOS,
           tutoria:element.PROCESO_TUTORIA.NOMBRE,
           boton:<div> 
@@ -60,6 +61,10 @@ class ListaAsignaciones extends React.Component {
     }
     const data = {
         columns: [
+          {
+            title: "Fecha",
+            field: "fecha",
+          },
           {
             title: "Tutor",
             field: "tutor",

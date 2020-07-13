@@ -352,7 +352,7 @@ class FormularioImportarAlumnos extends Component {
             onClose={this.props.close}
             scroll={"paper"}
             fullWidth
-            maxWidth={"md"}
+            maxWidth={"xs"}
             aria-describedby="scroll-dialog-description"
             aria-labelledby="max-width-dialog-title"
           >
@@ -365,13 +365,10 @@ class FormularioImportarAlumnos extends Component {
                   />
                 </Grid>
                 <Grid item md={10} xs={10}>
-                  <TituloFormulario titulo={"Importar Amlumnos"} />
+                  <TituloFormulario titulo={"Importar Alumnos"} />
                 </Grid>
               </Grid>
             </DialogTitle>
-
-
-
             <DialogContent dividers={"paper"}>
               <DialogContentText
                 style={estilos.centerDialog}
@@ -382,8 +379,6 @@ class FormularioImportarAlumnos extends Component {
                 {this.renderTable(this.state.alumnosTabla)}
               </DialogContentText>
             </DialogContent>
-
-            
           </Dialog>
           <JModal
             titulo={"Mensaje de uTutor.com"}

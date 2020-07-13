@@ -155,6 +155,7 @@ render(){
               open={this.handleOnOpenEliminar} 
               close={this.handleOnClose}
               id={this.state.idCoord}
+              parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>
                 <TablaCoordinador coordinadores={this.state.coordinadores}  />

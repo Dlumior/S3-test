@@ -186,6 +186,7 @@ const RegistrarCoordinador = (props) => {
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
+    console.log("programaa",programa);
     if (
       errors.name.error ||
       errors.lastnames.error ||
@@ -194,15 +195,23 @@ const RegistrarCoordinador = (props) => {
       errors.address.error ||
       errors.code.error ||
       datosForm.NOMBRE==='' || datosForm.APELLIDOS==='' ||
-      datosForm.CORREO==='' || datosForm.CODIGO===''
+      datosForm.CORREO==='' || datosForm.CODIGO==='' ||
+      programa===''
     ) {
 
       setSeveridad({
         severidad:"error",
-      });     
-      setAlerta({
-        mensaje:"Hay errores en el formulario",
-      });      
+      });
+      if (programa===''){
+        setAlerta({
+          mensaje:"Falta asignar una facultad",
+        }); 
+      }else{
+        setAlerta({
+          mensaje:"Hay errores en el formulario",
+        }); 
+      }     
+           
 
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
@@ -235,24 +244,21 @@ const RegistrarCoordinador = (props) => {
         console.log("PROOOOOPSUSUARIO: ", propsUsuario);
         const resUsuario = await GET(propsUsuario);
         console.log("got updated coord from back:", resUsuario);
-
-        setNombre({
-          usuario:resUsuario.usuario.NOMBRE + " " + resUsuario.usuario.APELLIDOS
-        });
-
-        const props2 = { servicio: 
-        nuevoCoord.error==="Correo repetido"? 
-        "/api/usuario/" + datosForm.CORREO : 
-        "/api/usuario/buscar/" + datosForm.CODIGO};
-
-        console.log("PROOOOOPS2: ", props2);
-        const res = await GET(props2);
-        console.log("got updated coord from back:", res);
-        if (res){
-          setDatosAsignacion({
-            ...datosAsignacion,
-            idUsuario:res.usuario.ID_USUARIO
-          });
+        if (resUsuario){
+          const props2 = { servicio: 
+            nuevoCoord.error==="Correo repetido"? 
+            "/api/usuario/" + datosForm.CORREO : 
+            "/api/usuario/buscar/" + datosForm.CODIGO};
+    
+            console.log("PROOOOOPS2: ", props2);
+            const res = await GET(props2);
+            console.log("got updated coord from back:", res);
+            if (res.usuario){
+              setDatosAsignacion({
+                ...datosAsignacion,
+                idUsuario:res.usuario.ID_USUARIO
+              });
+            }
         }
         
       }else{
