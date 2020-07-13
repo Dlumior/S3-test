@@ -266,10 +266,9 @@ class ListaAlumnos extends Component {
     const titulos = [
       "Registro de Nuevo Alumno",
       "Importar Alumnos desde un CSV",
-      "Registro de Informacion historica",
       "Actualizar alumno: ",
       "Eliminar alumno: ",
-      "Informacion relevante de ",
+      "Informacion relevante del alumno: ",
     ];
     return (
       <div style={{ backgroundColor: "#ffffff" }}>

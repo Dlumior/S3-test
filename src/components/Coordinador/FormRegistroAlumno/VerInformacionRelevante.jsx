@@ -28,6 +28,11 @@ const estilos = {
     objectFit: "cover",
     marginRight: "4%",
   },
+  // sos pirataaaaaaaa xddd
+  fa: {
+    fontSize: "1.3rem",
+    color: "#2E908A",
+  },
 };
 class VerInformacionRelevante extends Component {
   constructor() {
@@ -101,11 +106,10 @@ class VerInformacionRelevante extends Component {
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],
     });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
-    return (
-      (this.state.extension==="pdf")?
-      "data:application/pdf;base64,":"data:application/octet-stream;base64" +
-      archivoOutput.informacionRelevante.ARCHIVO
-    );
+    return this.state.extension === "pdf"
+      ? "data:application/pdf;base64,"
+      : "data:application/octet-stream;base64" +
+          archivoOutput.informacionRelevante.ARCHIVO;
   }
 
   async handleVistaPrevia(e, idArchivo) {
@@ -158,9 +162,29 @@ class VerInformacionRelevante extends Component {
     if (listaResultados.informacionRelevante) {
       listaResultados.informacionRelevante.forEach((archivo, index) => {
         const { ID_INFORMACION_RELEVANTE, DESCRIPCION } = archivo;
+        const EXT = DESCRIPCION.split(".")[1];
         datos.push({
           nro: index + 1,
-          nombreArchivo: DESCRIPCION,
+          nombreArchivo: (
+            <>
+              <i
+                style={estilos.fa}
+                className={`fa fa-file${
+                  "-" + EXT
+                    ? "-" +
+                      (EXT === "pdf"
+                        ? "pdf"
+                        : EXT === "docx" || EXT === "docx"
+                        ? "word"
+                        : "excel") +
+                      "-o"
+                    : ""
+                }`}
+                aria-hidden="true"
+              ></i>
+              {` - ${DESCRIPCION}`}
+            </>
+          ),
           vistaPrevia: (
             <IconButton>
               <VisibilityTwoToneIcon
@@ -198,10 +222,19 @@ class VerInformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    console.log("JUpload SSJ length: ", { archivo: file?true:false ,fileName: fileName, ext: ext });
+    console.log("JUpload SSJ length: ", {
+      archivo: file ? true : false,
+      fileName: fileName,
+      ext: ext,
+    });
     const tamanio = file.length;
-  
-    await this.setState({ archivo: file ,fileName: fileName,ext:ext, extension: ext });
+
+    await this.setState({
+      archivo: file,
+      fileName: fileName,
+      ext: ext,
+      extension: ext,
+    });
   };
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
