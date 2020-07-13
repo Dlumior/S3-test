@@ -13,8 +13,9 @@ import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import {getUser} from "../../../Sesion/Sesion";
 
 const EliminarCoordinador = (props) => {
-  const {open,close,id}=props;
+  const {open,close,id,parentCallback}=props;
   const [elimino, setElimino] = useState(false);
+  const [flag, setFlag] = useState(0);//actualizar lista facu
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -48,6 +49,10 @@ const EliminarCoordinador = (props) => {
       }else{
         setElimino(true);
       }    
+      //actualizamos lista 
+      const newValue = flag + 1;
+      setFlag(newValue);
+      parentCallback(newValue);
   };
 
 

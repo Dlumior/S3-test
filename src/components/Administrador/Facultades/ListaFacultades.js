@@ -49,10 +49,12 @@ class ListaFacultades extends React.Component {
 
   establecerData(arregloFac){
     let arreglillo = [];
+    let cont=0;
     for (let element of (arregloFac.facultad? arregloFac.facultad : arregloFac.facultades)){
       if (element.ID_PROGRAMA!==null){
+        cont++;
         arreglillo.push({
-          codigo:element.ID_PROGRAMA,
+          codigo:cont,
           nombre:element.NOMBRE,
           boton:<div> 
                 <IconButton color="primary">
@@ -77,7 +79,7 @@ class ListaFacultades extends React.Component {
     const data = {
         columns: [
           {
-            title: "Código",
+            title: "Nro",
             field: "codigo",
           },
           {
@@ -105,7 +107,10 @@ class ListaFacultades extends React.Component {
       }else{
         arregloFac=await Controller.GET({servicio:"/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO});
       }
-      this.establecerData(arregloFac);
+      if (arregloFac){
+        console.log("arreglo: ",arregloFac);
+        this.establecerData(arregloFac);
+      }
     }    
   }
 
@@ -117,11 +122,10 @@ class ListaFacultades extends React.Component {
       arregloFac=await Controller.GET({servicio:"/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO});
     }
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    
-    console.log("arreglo: ",arregloFac);
-    this.establecerData(arregloFac);
-    console.log("MATAME DESGRACIADO columns", this.state.facultades.columns);
-    console.log("MATAME DESGRACIADO data", this.state.facultades.data);
+    if (arregloFac){
+      console.log("arreglo: ",arregloFac);
+      this.establecerData(arregloFac);
+    }
   }
   handleOnOpen= (element) =>{
     this.setState({ open: true });
@@ -137,7 +141,6 @@ class ListaFacultades extends React.Component {
     this.setState({ open: false });
     this.setState({ open2: false });
     //window.location.reload();
-
   }
 
   callback = (count) => {
@@ -161,7 +164,8 @@ render(){
             <EliminarFacultad 
               open={this.handleOnOpenEliminar} 
               close={this.handleOnClose}
-              id={this.state.idCoord}
+              id={this.state.facultadCompleta.ID_PROGRAMA}
+              parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>
                 {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
