@@ -4,6 +4,7 @@ import TablaCitasPasadas from "../Alumno/AgendarCita/CitasPasadas/TablaCitasPasa
 
 import { getUser } from "../../Sesion/Sesion"
 import { Button } from "@material-ui/core";
+import moment from 'moment';
 
 class FrmMisCitasPasadas_Tutor extends Component {
     constructor() {
@@ -37,13 +38,18 @@ class FrmMisCitasPasadas_Tutor extends Component {
         this.setState({ open: true });
     }
 
-    establecerData(arregloDeSesiones) {
+    async establecerData(arregloDeSesiones) {
         let arreglillo = [];
         let cont = 0;
+        let fechaHoy=moment(new Date()).format("YYYY-MM-DD"); 
+        let fechaSesion;
+
         for (let element of arregloDeSesiones.data) {
             //cont++;
-            let estadillo = element.ESTADO.split("-")[0];
-            if (estadillo==="00" || estadillo==="01"){
+            fechaSesion= await moment(element.FECHA).format("YYYY-MM-DD");
+
+            let estadillo = fechaHoy>fechaSesion?"PR":element.ESTADO.split("-")[0];
+            if (estadillo==="00" || estadillo==="01" || estadillo ==="PR"){
                 cont++;
                 arreglillo.push({
                     campoCont: cont,
@@ -51,6 +57,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
                     fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,                    
                     campoLugar: element.LUGAR,
                     tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,//element.PROCESO_TUTORIum.NOMBRE,
+                    campoEstado:estadillo==="PR"?"Pendiente registro":"Realizada",
                     campoResultados: 
                     <div>
                         <Button
@@ -58,7 +65,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
                             variant="outlined"
                             color="secondary"                        
                             onClick={() => this.handleOnOpen(element.ID_SESION)}
-                            disabled
+                            disabled={estadillo!=="PR"}
                         >
                             Resultados
                         </Button>
@@ -96,7 +103,11 @@ class FrmMisCitasPasadas_Tutor extends Component {
                 {
                     title: "Resultados",//Resumen
                     field: "campoResultados"//campoEncuesta
-                },              
+                },     
+                {
+                    title: "Estado",
+                    field: "campoEstado"
+                },           
 
             ],
             data: arreglillo

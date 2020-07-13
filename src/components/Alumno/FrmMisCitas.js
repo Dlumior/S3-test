@@ -16,6 +16,7 @@ import { withRouter } from "react-router-dom";
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 
 
+
 const style = {
     paper: {
         marginTop: "3%",
@@ -230,11 +231,15 @@ class FrmMisCitas extends Component {
         let arreglillo = [];
         let cont = 0;
         //let max=29;     //let fex=0;      //let letras =['I','II'];
+        let fechaHoy=moment (new Date()).format("YYYY-MM-DD");
+        let fechaSesion;
+        
         for (let element of arregloDeSesiones.data) {
             cont++;
             //fex= max-(cont+1);
+            fechaSesion=moment(element.FECHA).format("YYYY-MM-DD");
+            
             let estadillo = element.ESTADO.split("-")[0];
-
             arreglillo.push({
                 campoCont: cont,
                 nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
@@ -253,7 +258,7 @@ class FrmMisCitas extends Component {
                         CANCELAR
                     </Button>,
                 //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                campoEstado: estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                campoEstado: fechaSesion<fechaHoy?"Pendiente Registro":(estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))),
                 
                 //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*
@@ -430,7 +435,7 @@ class FrmMisCitas extends Component {
 
                 <TabProceso procesos={[
                     {
-                        index: 0, titulo: "Futuras", //Pendientes y realizadas
+                        index: 0, titulo: "Pendientes", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"PyR"} />
                     },
                     //{ index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },

@@ -89,44 +89,44 @@ class ListaComboBox extends Component {
 
       console.log("*entreeeee---->nuevo", listaItems);
     }
-      if (
-        !listaItems[this.props.keyServicio] ||
-        listaItems[this.props.keyServicio].length === 0
-      ) {
-        console.log("*entreeeee---->vacio", listaItems);
-        if (this.props.allObject) {
-          this.props.escogerItem(undefined);
-        } else {
-          this.props.escogerItem([0]);
-        }
-
-        await this.setState({ listaItems: [] });
+    if (
+      !listaItems[this.props.keyServicio] ||   listaItems[this.props.keyServicio].length === 0
+    ) {
+      console.log("*entreeeee---->vacio", listaItems);
+      if (this.props.allObject) {
+        this.props.escogerItem(undefined);
       } else {
-        /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
-        if (listaItems[this.props.keyServicio].length > 0) {
-          console.log(
-            "entreeeee---->: ",
-            this.props.subnombre
-              ? listaItems[this.props.keyServicio][0][this.props.subnombre]
-              : listaItems[this.props.keyServicio][0]
-          );
-          // En item el primero
-          this.setState({
-            item: listaItems[this.props.keyServicio][0],
-          });
-          //En la lista todo
-          await this.setState({
-            listaItems: listaItems[this.props.keyServicio],
-          });
-          //le digo al formulario padre que ya escogi uno
-          await this.props.escogerItem(
-            this.props.subnombre
-              ? [this.state.item[this.props.subnombre][this.props.id]]
-              : [this.state.item[this.props.id]]
-          );
-        }
-      
+        this.props.escogerItem([0]);
+      }
+
+      await this.setState({ listaItems: [] });
+    } else {
+      /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
+
+      if (listaItems[this.props.keyServicio].length > 0) {
+        console.log(
+          "entreeeee---->: ",
+          this.props.subnombre
+            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
+            : listaItems[this.props.keyServicio][0]
+        );
+        // En item el primero
+        this.setState({
+          item: listaItems[this.props.keyServicio][0],
+        });
+        //En la lista todo
+        await this.setState({
+          listaItems: listaItems[this.props.keyServicio],
+        });
+        //le digo al formulario padre que ya escogi uno
+        await this.props.escogerItem(
+          this.props.subnombre
+            ? [this.state.item[this.props.subnombre][this.props.id]]
+            : [this.state.item[this.props.id],this.state.item["DURACION"]]
+        );
+      }
+
     }
   }
   async componentWillReceiveProps(nextProps) {

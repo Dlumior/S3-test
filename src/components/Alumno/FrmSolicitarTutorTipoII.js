@@ -434,6 +434,7 @@ class FrmSolicitarTutorTipoII extends Component {
 
     async componentDidMount() {
         let res = await Controller.GET({ servicio: "/api/tutor/estadosolicitud/" + getUser().usuario.ID_USUARIO + "/" + this.props.frmIdProceso });
+        console.log("RES",res);
         if (res) {
             this.props.actualizarVisibilidadColumnas(res.estado);
             if (res.estado === 0) {

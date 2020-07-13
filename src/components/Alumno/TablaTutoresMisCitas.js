@@ -54,9 +54,11 @@ function Tabla(props) {
     //   arr2.push(element);
     //   i++;
     // }
+  
 
     if (props.estado === "PyR") {
-      if (element.campoEstado === "Pendiente" || element.campoEstado === "Reprogramada") {
+      if (element.campoEstado === "Pendiente" || element.campoEstado === "Reprogramada" || element.campoEstado === "Pendiente Registro") {     
+
         element.campoCont = i;
         arr2.push(element);
         i++;

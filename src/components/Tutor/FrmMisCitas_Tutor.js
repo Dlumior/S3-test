@@ -10,7 +10,7 @@ import { getUser } from "../../Sesion/Sesion";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 
 import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
-
+import moment from 'moment';
 
 class FrmMisCitas_Tutor extends Component {
     constructor() {
@@ -336,9 +336,14 @@ class FrmMisCitas_Tutor extends Component {
         //console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
+        let fechaHoy=moment(new Date()).format("YYYY-MM-DD"); 
+        let fechaSesion;
+
         for (let element of arregloDeSesiones.data) {
             cont++;
-            let estadillo = element.ESTADO.split("-")[0];
+            fechaSesion= await moment(element.FECHA).format("YYYY-MM-DD");
+
+            let estadillo = fechaHoy>fechaSesion?"PR": element.ESTADO.split("-")[0];
 
             arreglillo.push({
                 campoCont: cont,
@@ -369,8 +374,11 @@ class FrmMisCitas_Tutor extends Component {
                     >
                         CANCELAR
                     </Button>,
-                campoEstado: estadillo === "04" ? "Pendiente" : estadillo === "03" ? "Reprogramada" :
-                    estadillo === "02" ? "Cancelada" : "Realizada",
+                campoEstado: estadillo==="PR"?"Pendiente Registro":
+                estadillo === "04" ? "Pendiente" :
+                 estadillo === "03" ? "Reprogramada" :
+                    estadillo === "02" ? "Cancelada" : 
+                    "Realizada",
 
                 btnPosponer:
                     <Button
