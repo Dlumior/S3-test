@@ -117,7 +117,9 @@ const ModificarFacultad = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("coordinadores de la facu:", res);
-      setCoordinadores(res.facultad.USUARIOs);
+      if (res){
+        setCoordinadores(res.facultad.USUARIOs);
+      }      
       console.log("coord:", coordinadores);
     }
      fetchData();

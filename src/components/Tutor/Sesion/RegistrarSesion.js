@@ -155,7 +155,9 @@ const RegistrarSesion = () => {
         "/api/tutoria/lista/"+ programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      setProcesosTutoria(res.tutoria);
+      if (res){
+        setProcesosTutoria(res.tutoria);
+      }      
     }
     if (programa !== "") {
       fetchData();
@@ -166,25 +168,26 @@ const RegistrarSesion = () => {
     const endpoint = "/api/alumno/buscar/" + cod;
     const params = { servicio: endpoint };
     const res = await GET(params);
-  
-    if (res.alumno == null) {  
-      setSeveridad({
-        severidad:"error",
-      }); 
-      setAlerta({
-        mensaje:"No existe ningún alumno con ese código",
-      }); 
-      console.log("severidad= ",severidad.severidad);
-    } else {
-      console.log("alumnocod",res.alumno);
-      datosForm.alumnos.push(res.alumno.ID_ALUMNO);
-      setDatosForm({
-        ...datosForm,
-        alumnoNombre: res.alumno.USUARIO.NOMBRE,
-      }); 
-      console.log("alumnos: ",datosForm.alumnos);
+    if (res){
+      if (res.alumno == null) {  
+        setSeveridad({
+          severidad:"error",
+        }); 
+        setAlerta({
+          mensaje:"No existe ningún alumno con ese código",
+        }); 
+        console.log("severidad= ",severidad.severidad);
+      } else {
+        console.log("alumnocod",res.alumno);
+        datosForm.alumnos.push(res.alumno.ID_ALUMNO);
+        setDatosForm({
+          ...datosForm,
+          alumnoNombre: res.alumno.USUARIO.NOMBRE,
+        }); 
+        console.log("alumnos: ",datosForm.alumnos);
+      }
+
     }
-  
     
   }
 

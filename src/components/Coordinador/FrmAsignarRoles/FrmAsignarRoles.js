@@ -76,16 +76,20 @@ useEffect(() => {
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("facultades:", res);
-        setFacultades(res.facultades);
-        setEsCoordFacu(true);
+        if (res){
+            setFacultades(res.facultades);
+            setEsCoordFacu(true);
+        }
         console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("ENTREE:", res);
-        setFacultades(res.facultades);
-        setEsCoordFacu(false);
+        if (res){
+            setFacultades(res.facultades);
+            setEsCoordFacu(false);
+        }
         console.log("facultades:", facultades);
       }
     }
@@ -100,14 +104,18 @@ useEffect(() => {
                 const params = { servicio: endpoint };
                 const res = await GET(params);    
                 console.log("proogramasss:", res);
-                setProgramas(res.programas);
+                if (res){
+                    setProgramas(res.programas);
+                }
                 console.log("proograma:", programa);
             }else{
                 const endpoint = "/api/programa/lista/"+facultad;
                 const params = { servicio: endpoint };
                 const res = await GET(params);    
                 console.log("proogramasss:", res);
-                setProgramas(res.programa);
+                if (res){
+                    setProgramas(res.programa);
+                }
                 console.log("proograma:", programa);
             }
         }     
@@ -122,17 +130,19 @@ useEffect(() => {
         const params = { servicio: endpoint };
         const res = await GET(params);    
         console.log("roles:", res);
-        let arrRoles=[];
-        for (let element of res.roles){
-            arrRoles.push(element.ROL.ID_ROL);
-        }
-        console.log("arrRoles: ",arrRoles);
-        datosForm.roles=arrRoles;
-        setRoles(res.roles);
-        console.log("roles",roles);
-        console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
-        if (datosForm.usuarioCodigo!==0){
-            setDeshabilitar(false);
+        if (res){
+            let arrRoles=[];
+            for (let element of res.roles){
+                arrRoles.push(element.ROL.ID_ROL);
+            }
+            console.log("arrRoles: ",arrRoles);
+            datosForm.roles=arrRoles;
+            setRoles(res.roles);
+            console.log("roles",roles);
+            console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
+            if (datosForm.usuarioCodigo!==0){
+                setDeshabilitar(false);
+            }
         }
         console.log("roles:", datosForm.roles);
         }
@@ -147,23 +157,24 @@ useEffect(() => {
         const params = { servicio: endpoint };
         const res = await GET(params);
         console.log("res",res);
-        if (res.usuario===null){
-            setSeveridad({
-                severidad:"error",
-              }); 
-              setAlerta({
-                mensaje:"No existe ningún usuario con ese código",
-              }); 
-              console.log("severidad= ",severidad.severidad);
-
-        }else{
-            setDatosForm({
-                ...datosForm,
-                usuarioNombre: res.usuario.NOMBRE+' '+res.usuario.APELLIDOS,
-                idUsuario:res.usuario.ID_USUARIO,
-            }); 
-        }
-             
+        if (res){
+            if (res.usuario===null){
+                setSeveridad({
+                    severidad:"error",
+                  }); 
+                  setAlerta({
+                    mensaje:"No existe ningún usuario con ese código",
+                  }); 
+                  console.log("severidad= ",severidad.severidad);
+    
+            }else{
+                setDatosForm({
+                    ...datosForm,
+                    usuarioNombre: res.usuario.NOMBRE+' '+res.usuario.APELLIDOS,
+                    idUsuario:res.usuario.ID_USUARIO,
+                }); 
+            }
+        }       
         
     }
 

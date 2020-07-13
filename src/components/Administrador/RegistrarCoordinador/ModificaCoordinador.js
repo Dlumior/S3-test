@@ -181,37 +181,41 @@ const ModificaCoordinador = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("COORDINADOR:", res);
-    datosForm.ID=res.coordinador.ID_USUARIO;
-    datosForm.USUARIO=res.coordinador.USUARIO;
-    datosForm.NOMBRE=res.coordinador.NOMBRE;
-    datosForm.APELLIDOS=res.coordinador.APELLIDOS;
-    datosForm.CORREO=res.coordinador.CORREO;
-    datosForm.CODIGO=res.coordinador.CODIGO;
-    datosForm.TELEFONO=res.coordinador.TELEFONO;
-    datosForm.DIRECCION=res.coordinador.DIRECCION;    
+    if (res){
+      datosForm.ID=res.coordinador.ID_USUARIO;
+      datosForm.USUARIO=res.coordinador.USUARIO;
+      datosForm.NOMBRE=res.coordinador.NOMBRE;
+      datosForm.APELLIDOS=res.coordinador.APELLIDOS;
+      datosForm.CORREO=res.coordinador.CORREO;
+      datosForm.CODIGO=res.coordinador.CODIGO;
+      datosForm.TELEFONO=res.coordinador.TELEFONO;
+      datosForm.DIRECCION=res.coordinador.DIRECCION;    
+    
+      let cantProg=res.coordinador.PROGRAMAs.length;
+      console.log("long prog:", cantProg);
+      setCantPrograma(cantProg);
   
-    let cantProg=res.coordinador.PROGRAMAs.length;
-    console.log("long prog:", cantProg);
-    setCantPrograma(cantProg);
-
-    let arreglillo = [];
-    for (let element of res.coordinador.PROGRAMAs){
-
-      if (getUser().rol==="Administrador" && element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===6){
-        programasSeleccionados.push(element.ID_PROGRAMA);
-        nombreFacultades.push(element.NOMBRE); 
-      }else if(getUser().rol==="Coordinador Facultad"){
-        programasSeleccionados.push(element.ID_PROGRAMA);
-        nombreFacultades.push(element.NOMBRE); 
+      let arreglillo = [];
+      for (let element of res.coordinador.PROGRAMAs){
+  
+        if (getUser().rol==="Administrador" && element.ROL_X_USUARIO_X_PROGRAMA.ID_ROL===6){
+          programasSeleccionados.push(element.ID_PROGRAMA);
+          nombreFacultades.push(element.NOMBRE); 
+        }else if(getUser().rol==="Coordinador Facultad"){
+          programasSeleccionados.push(element.ID_PROGRAMA);
+          nombreFacultades.push(element.NOMBRE); 
+        }
+  
+        //programa.push(element.ID_PROGRAMA);
       }
-
-      //programa.push(element.ID_PROGRAMA);
+      //datosForm.FACULTAD=programasSeleccionados;
+      console.log("proogramaSelecc:", programasSeleccionados);
+      console.log("proogramaD:", programa);
+      console.log("nombreFacultades:", nombreFacultades);
+  
+      
     }
-    //datosForm.FACULTAD=programasSeleccionados;
-    console.log("proogramaSelecc:", programasSeleccionados);
-    console.log("proogramaD:", programa);
-    console.log("nombreFacultades:", nombreFacultades);
-
+   
 
     setDatosForm({
       ...

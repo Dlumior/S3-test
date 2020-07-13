@@ -57,7 +57,10 @@ const FrmReporte = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       console.log(res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }
+      
     }
     fetchFacultades();
   }, [rolCoordinador, idCoordinador]);
@@ -84,11 +87,15 @@ const FrmReporte = () => {
         if (rolCoordinador === 6) {
           console.log("asignando programa");
           console.log(res);
-          setProgramas(res.programa);
+          if (res){
+            setProgramas(res.programa);
+          }          
         } else if (rolCoordinador === 2) {
           console.log("asignando programas");
           console.log(res);
-          setProgramas(res.programas);
+          if (res){
+            setProgramas(res.programas);
+          }          
         }
       }
     }
@@ -106,18 +113,21 @@ const FrmReporte = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       console.log(res);
-      setEncuestas(res.encuestas);
-      if (res.encuestas !== []) {
-        setProcesosTuto(res.encuestas.map((item) => item.PROCESO_TUTORIA));
-        setSatisfacion(res.encuestas.map((item) => item.SATISFACCION));
-        setUtilidad(res.encuestas.map((item) => item.UTILIDAD));
-        setUt_recomendaciones(
-          res.encuestas.map((item) => item.UTILIZO_RECOMENDACIONES)
-        );
-        setSolSituacion(res.encuestas.map((item) => item.SOLUCIONO_SITUACION));
-        setRecomendaria(res.encuestas.map((item) => item.RECOMENDARIA));
-        setCantidad(res.encuestas.map((item) => item.CANTIDAD));
+      if (res){
+        setEncuestas(res.encuestas);
+        if (res.encuestas !== []) {
+          setProcesosTuto(res.encuestas.map((item) => item.PROCESO_TUTORIA));
+          setSatisfacion(res.encuestas.map((item) => item.SATISFACCION));
+          setUtilidad(res.encuestas.map((item) => item.UTILIDAD));
+          setUt_recomendaciones(
+            res.encuestas.map((item) => item.UTILIZO_RECOMENDACIONES)
+          );
+          setSolSituacion(res.encuestas.map((item) => item.SOLUCIONO_SITUACION));
+          setRecomendaria(res.encuestas.map((item) => item.RECOMENDARIA));
+          setCantidad(res.encuestas.map((item) => item.CANTIDAD));
+        }
       }
+      
     }
     if (programa !== "") {
       fetchResultados();

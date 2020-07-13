@@ -54,14 +54,18 @@ useEffect(() => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("facultades:", res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }      
       console.log("facultad:", facultades);
     }else{
       const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("ENTREE:", res);
-      setFacultades(res.facultades);
+      if (res){
+        setFacultades(res.facultades);
+      }      
       console.log("facultades:", facultades);
     }
   }
@@ -76,14 +80,18 @@ useEffect(() => {
           const params = { servicio: endpoint };
           const res = await GET(params);    
           console.log("proogramasss:", res);
-          setProgramas(res.programas);
+          if (res){
+            setProgramas(res.programas);
+          }          
           console.log("proograma:", programa);
       }else{
           const endpoint = "/api/programa/lista/"+facultad;
           const params = { servicio: endpoint };
           const res = await GET(params);    
           console.log("proogramasss:", res);
-          setProgramas(res.programa);
+          if (res){
+            setProgramas(res.programa);
+          }          
           console.log("proograma:", programa);
       }
   }     

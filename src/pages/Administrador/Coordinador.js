@@ -17,7 +17,9 @@ const Coordinador = () => {
       const endpoint = "/api/coordinador";
       const params = { servicio: endpoint };
       const res = await GET(params);
-      setCoordinadores(res.coordinadores);
+      if (res){
+        setCoordinadores(res.coordinadores);
+      }      
     }
     fetchData();
   }, {});
@@ -25,7 +27,9 @@ const Coordinador = () => {
     const endpoint = "/api/coordinador";
     const params = { servicio: endpoint };
     const res = await GET(params);
-    console.log(res.coordinadores);
+    if (res){
+      console.log(res.coordinadores);
+    }
     setCoordinadores(res.coordinadores);
   }
   const forceUpdate = React.useCallback(() => setCoordinadores({}), []);

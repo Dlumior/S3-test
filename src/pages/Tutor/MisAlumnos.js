@@ -44,7 +44,9 @@ const MisAlumnos = (props) => {
         "/api/tutoria/lista/"+ programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      setProcesosTutoria(res.tutoria);
+      if (res){
+        setProcesosTutoria(res.tutoria);
+      }
     }
     if (programa !== "") {
       fetchData();
@@ -66,8 +68,9 @@ const MisAlumnos = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       // console.log(res.alumnos);
-
-      setAlumnos(res.alumnos);
+      if (res){
+        setAlumnos(res.alumnos);
+      }
     }
     if (procesoTutoria !== "" && texto !== "") {
       fetchData();

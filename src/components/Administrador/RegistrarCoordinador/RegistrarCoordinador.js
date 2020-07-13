@@ -149,7 +149,9 @@ const RegistrarCoordinador = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);    
     console.log("proogramasss:", res);
-    setProgramas(res.facultad);
+    if (res){
+      setProgramas(res.facultad);
+    }    
     console.log("proograma:", programa);
   }
    fetchData();
@@ -246,11 +248,13 @@ const RegistrarCoordinador = (props) => {
         console.log("PROOOOOPS2: ", props2);
         const res = await GET(props2);
         console.log("got updated coord from back:", res);
-        setDatosAsignacion({
-          ...datosAsignacion,
-          idUsuario:res.usuario.ID_USUARIO
-        });
-
+        if (res){
+          setDatosAsignacion({
+            ...datosAsignacion,
+            idUsuario:res.usuario.ID_USUARIO
+          });
+        }
+        
       }else{
         if (nuevoCoord){    
 
