@@ -2,7 +2,9 @@
 async function onSignIn(googleUser) {
   console.log("LOGIN DE GOOOGLEEEEEEEEEE");
   var profile = googleUser.getBasicProfile();
+  
   if (!profile) return;
+  console.log("LOGIN DE GOOOGLEEEEEEEEEE: ", profile);
 
   const usuarioCorreo = profile.getEmail();
   var auth2 = gapi.auth2.getAuthInstance();
@@ -18,6 +20,9 @@ async function onSignIn(googleUser) {
     },
   });
   let responseJson = await usuarioLogueado.json();
+  if(responseJson.error){
+    return;
+  }
   console.log("google obtains: ", responseJson);
   sessionStorage.setItem("Sesion",JSON.stringify(
     responseJson
