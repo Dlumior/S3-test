@@ -135,7 +135,7 @@ class IniciarSesion extends Component {
                 <SaltoDeLinea N={1} />
                 <Divider variant="middle" />
 
-                <h5 align="center">o Inicia Sesión con Gmail</h5>
+                <h5 align="center">o Inicia Sesión con Google</h5>
                 {/** google */}
                 <Grid container spacing={0}>
                   <Grid item md={1} xs={1}></Grid>
@@ -179,56 +179,3 @@ const estilos = {
     width: "100%",
   },
 };
-/*
-    if (this.state.errores.length === 0) {
-      e.preventDefault();
-      console.log("alumno: ", this.state.alumno);
-      let {
-        nombres,
-        apellidos,
-        codigo,
-        correo,
-        programa,
-        telefono,
-        direccion,
-      } = this.state.alumno;
-      const nuevoEstudiante = {
-        alumno: {
-          APELLIDOS: apellidos,
-          CODIGO: codigo,
-          CONTRASENHA: "sudo tys",
-          CORREO: correo,
-          DIRECCION: direccion,
-          NOMBRE: nombres,
-          PROGRAMA: programa,
-          TELEFONO: telefono,
-          USUARIO: "UsuarioPruebaRegistrar",
-          ETIQUETA: this.state.etiqueta,
-        },
-      };
-      const props = { servicio: "/api/alumno", request: nuevoEstudiante };
-      console.log("saving new student in DB:", nuevoEstudiante);
-      let nuevoAlumno = await POST(props);
-      if (nuevoAlumno) {
-        let alert = Object.assign({}, this.state.alert);
-        alert.mensaje = alert.mensajeExito;
-        alert.mensajeStrong = alert.mensajeStrongExito;
-        this.setState({ alert: alert });
-        this.setState({ severidad: "success" });
-        this.state.alert.mensaje = this.state.alert.mensajeExito;
-        //alert("Alumno registrado Satisfactoriamente");
-        //entonces viajo al tab de listado de alumnos
-      }
-      console.log("got updated alumno from back:", nuevoAlumno);
-    } else {
-      let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong = alert.mensajeStrongError;
-      this.setState({ alert: alert });
-      this.setState({ severidad: "error" });
-
-      this.state.alert.mensaje = this.state.alert.mensajeError;
-
-      //mostrar warning
-    }*/
-//

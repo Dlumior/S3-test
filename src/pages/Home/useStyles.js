@@ -12,8 +12,8 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     // backgroundImage: "url(https://source.unsplash.com/random)",
-    backgroundImage:
-      "url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)",
+    //backgroundImage:
+      //"url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)",
     backgroundRepeat: "no-repeat",
     backgroundColor:
       theme.palette.type === "light"
@@ -23,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: "center",
     // webkitTransform: "scaleX(-1)",
     // transform: "scaleX(-1)",
+    background: 
+    'linear-gradient(to right,'+
+    ' rgba(212, 207, 202, 0.849)'
+    +',rgba(0, 61, 46, 0)'
+    +' ),'+
+    ' url(https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)',
   },
   fullscreen: {
     height: "95vh",
