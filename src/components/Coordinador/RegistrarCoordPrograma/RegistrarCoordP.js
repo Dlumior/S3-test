@@ -209,21 +209,22 @@ useEffect(() => {
       errors.address.error ||
       errors.code.error ||
       datosForm.NOMBRE==='' || datosForm.APELLIDOS==='' ||
-      datosForm.CORREO==='' || datosForm.CODIGO===''
+      datosForm.CORREO==='' || datosForm.CODIGO==='' ||
+      programa.length===0 || facultad.length===0
     ) {
-
-      //let alerta = Object.assign({}, alert);
-      //console.log("alerta",alerta);
-      //alerta.mensaje = alerta.mensajeError;
-      //severidad="error";
       setSeveridad({
-        severidad:severidad.severE,
-      });     
-      setAlerta({
-        mensaje:alerta.mensajeError,
-      });      
-      console.log("severidad= ",severidad.severidad);
-
+        severidad:"error",
+      });
+      if (programa.length===0){
+        setAlerta({
+          mensaje:"Debe asignarle al menos un programa",
+        }); 
+      }else{
+        setAlerta({
+          mensaje:"Hay errores en el formulario",
+        }); 
+      }     
+        
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
       /*
@@ -250,14 +251,23 @@ useEffect(() => {
       let nuevoCoord = await Conexion.POST(props);
       console.log("got updated coord from back:", nuevoCoord);
 
-      if (nuevoCoord){      
-        setSeveridad({
-          severidad:severidad.severS,
-        });     
-        setAlerta({
-          mensaje:"Se registro al coordinador satisfactoriamente",
-        });      
-        console.log("severidad= ",severidad.severidad);
+      if (nuevoCoord){    
+        if (nuevoCoord.error){
+          setSeveridad({
+            severidad:"error",
+          });     
+          setAlerta({
+            mensaje:nuevoCoord.error,
+          });
+        }else{
+          setSeveridad({
+            severidad:severidad.severS,
+          });     
+          setAlerta({
+            mensaje:"Se registro al coordinador satisfactoriamente",
+          });      
+          console.log("severidad= ",severidad.severidad);
+        }  
       }
 
     }  

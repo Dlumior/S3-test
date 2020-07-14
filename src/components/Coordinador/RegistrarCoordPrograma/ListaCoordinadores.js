@@ -91,18 +91,21 @@ class ListaCoordinadores extends React.Component {
 
   }
   async componentDidUpdate(prevProps,nextState){
-    if (this.props.idFacu!==prevProps.idFacu //|| this.props.flag!==prevProps.flag
+    if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag
       || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
       let arregloCoord=await Controller.GET({servicio:"/api/coordinadorprograma/"+this.props.idFacu});
       //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-      console.log("arreglo: ",arregloCoord);
-      this.establecerData(arregloCoord);
+      if (arregloCoord)   {
+        console.log("arreglo: ",arregloCoord);
+        this.establecerData(arregloCoord);
+      }
 
     }
   }
   async componentDidMount(){
-    let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});    
+    let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
+    //
     console.log("arreglo: ",arregloCoord);
     //this.establecerData(arregloCoord);
 }

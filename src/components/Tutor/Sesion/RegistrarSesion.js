@@ -19,7 +19,7 @@ import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "./ListaEtiquetas";
 import ComboBoxPrograma from "../ListarAlumnos/ComboBoxPrograma";
 import ComboBoxProcesoTutoria from "../ListarAlumnos/ComboBoxProcesoTutoria";
-
+import moment from 'moment';
 const style = {
   paper: {
     marginTop: "4%",
@@ -117,7 +117,7 @@ const RegistrarSesion = () => {
     alumnoCodigo:0,
     alumnoNombre:'',
     alumnos:[],
-    fecha: new Date(),
+    fecha: moment(new Date()).format("YYYY-MM-DD"),
     horaini:'',
     horafin:0,
     resultado:'',
@@ -207,7 +207,7 @@ const RegistrarSesion = () => {
       alumnoCodigo:0,
       alumnoNombre:'',
       alumnos:[],
-      fecha: new Date(),
+      fecha: moment(new Date()).format("YYYY-MM-DD"),
       horaini:'',
       horafin:0,
       resultado:'',
@@ -383,6 +383,7 @@ const RegistrarSesion = () => {
                   type="date"
                   id="Fecha"
                   label="Fecha"
+                  defaultValue={datosForm.fecha}
                   InputLabelProps={{
                     shrink: true,
                   }}

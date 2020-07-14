@@ -230,10 +230,12 @@ class ConfigurarInstitucion extends React.Component {
 
 async componentDidMount() {
     let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
-    console.log("got institucion from back:", getInsitucion.institucion);
-    this.setState({institucion:getInsitucion.institucion});
-    console.log("state:", this.state.institucion);   
-    console.log("state:", getInsitucion.institucion.NOMBRE);     
+    if (getInsitucion){
+      console.log("got institucion from back:", getInsitucion.institucion);
+      this.setState({institucion:getInsitucion.institucion});
+      console.log("state:", this.state.institucion);   
+      console.log("state:", getInsitucion.institucion.NOMBRE);  
+    }   
 }
 
 render(){

@@ -145,9 +145,11 @@ const BarraNavegacion = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log(res);
-    setNumNotif(0);
+    if (res){
+      setNumNotif(0);
     // window.location.reload();
-    setRefresh(1);
+      setRefresh(1);
+    }    
   }
 
   const menuId = "primary-menu";

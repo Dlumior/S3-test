@@ -5,7 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import Checkbox from '@material-ui/core/Checkbox';
-
+import moment from 'moment';
 import * as Controller from "../../../Conexion/Controller";
 import TablaAlumnos from "./TablaAlumnos";
 
@@ -32,16 +32,10 @@ class ListaAlumnos extends React.Component {
         alumnosSeleccionados:[]
     };
     this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+    this.establecerData = this.establecerData.bind(this);
 
   }
-  
-
-  async componentDidMount(){
-    let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
-
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});    
-    console.log("arreglo: ",arregloDeAlumnos);
-
+  async establecerData(arregloDeAlumnos){
     let arreglillo = [];
     
     for (let element of arregloDeAlumnos.alumnos){
@@ -49,32 +43,38 @@ class ListaAlumnos extends React.Component {
 
         //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
         let asig=await Controller.GET({servicio:"/api/tutoriaasignada/"+this.props.programa+"/"+element.ID_USUARIO});
-        console.log("programaa:",asig.tutoria);
-        for (let ele of asig.tutoria){
-          console.log("veamos:",ele.ID_PROCESO_TUTORIA,this.props.proceso);
-          if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
-            asignada=true;
-            break;
-          }
+        if (asig){
+          console.log("programaa:",asig.tutoria);
+          for (let ele of asig.tutoria){
+            console.log("veamos:",ele.ID_PROCESO_TUTORIA,this.props.proceso);
+            if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
+              asignada=true;
+              break;
+            }
         }
-        console.log("estaasignada:",asignada);
+          console.log("estaasignada:",asignada);
 
-        if (!asignada){
-          arreglillo.push({
-            codigo:element.USUARIO.CODIGO,
-            nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
-            correo:element.USUARIO.CORREO,
-            checkbox:
-                      <div>
-                        <input                                     
-                            type="checkbox" 
-                            id={element.ID_USUARIO} 
-                            name="alumnos" 
-                            value={element.ID_USUARIO}
-                            onChange={this.handleOnChangeChecked}>                                                                           
-                        </input>
-                      </div>
-            });  
+          if (!asignada){
+            arreglillo.push({
+              codigo:element.USUARIO.CODIGO,
+              nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
+              correo:element.USUARIO.CORREO,
+              checkbox:
+                <div>
+                  {<input                                     
+                      type="checkbox" 
+                      id={element.ID_USUARIO} 
+                      name="alumnos" 
+                      value={element.ID_USUARIO}
+                      defaultChecked={
+                        this.state.alumnosSeleccionados.findIndex(v => v === element.ID_USUARIO)!==-1
+                      }
+                      onChange={this.handleOnChangeChecked}>                                                                           
+                  </input>}
+                </div>
+              });  
+          }
+
         }
     }
     const data = {
@@ -97,6 +97,23 @@ class ListaAlumnos extends React.Component {
         data: arreglillo
       };
       this.setState({alumnos:data});
+
+  }
+  async componentDidUpdate(prevProps,nextState){
+    if (nextState.alumnosSeleccionados !== this.state.alumnosSeleccionados){
+      let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
+      if (arregloDeAlumnos){
+        console.log("arreglo: ",arregloDeAlumnos);
+        this.establecerData(arregloDeAlumnos);
+      }      
+    }    
+  }
+  async componentDidMount(){
+    let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
+    if (arregloDeAlumnos){
+      console.log("arreglo: ",arregloDeAlumnos);
+      this.establecerData(arregloDeAlumnos);
+    }
 }
 
 
@@ -129,9 +146,9 @@ async handleOnChangeChecked(e) {
 render(){
     return (
         <div>
-            <TablaAlumnos 
+            {<TablaAlumnos 
               alumnos={this.state.alumnos}
-            />
+            />}
         </div>
     );
 }

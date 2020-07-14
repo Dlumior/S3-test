@@ -8,7 +8,7 @@ import TablaAsignaciones from "./TablaAsignaciones";
 import Button from "@material-ui/core/Button";
 import ModificaAsignacion from "./ModificaAsignaciones";
 import { getUser } from "../../../Sesion/Sesion";
-
+import moment from 'moment';
 
 const style = {
     paper: {
@@ -43,7 +43,7 @@ class ListaAsignaciones extends React.Component {
     for (let element of arregloAsigna.asignaciones){
       if (element.ID_ASIGNACION!==null){
         arreglillo.push({
-          fecha:element.FECHA_ASIGNACION,
+          fecha:moment(element.FECHA_ASIGNACION).format("YYYY-MM-DD"),
           tutor:element.TUTOR.USUARIO.NOMBRE+" "+element.TUTOR.USUARIO.APELLIDOS,
           tutoria:element.PROCESO_TUTORIA.NOMBRE,
           boton:<div> 

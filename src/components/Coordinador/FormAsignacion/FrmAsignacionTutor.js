@@ -19,6 +19,7 @@ import { getUser } from "../../../Sesion/Sesion";
 import { Grid } from "@material-ui/core";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
 import ImportarAlumnosAsignacion from "./ImportarAlumnosAsignacion";
+import moment from 'moment';
 
 const style = {
   paper: {
@@ -193,7 +194,7 @@ const VerticalLinearStepper = () => {
         PROCESO_TUTORIA: tutoria,
         TUTOR: tutor,
         ALUMNOS: alumnos,
-        FECHA_ASIGNACION: new Date(),
+        FECHA_ASIGNACION: moment(new Date()).format("YYYY-MM-DD"),
       },
     };
     let asignado;
@@ -215,7 +216,7 @@ const VerticalLinearStepper = () => {
             PROCESO_TUTORIA: tutoria,
             TUTOR: tutor,
             ALUMNOS: alu,
-            FECHA_ASIGNACION: new Date(),
+            FECHA_ASIGNACION: moment(new Date()).format("YYYY-MM-DD"),
           },
         };
         console.log("new", newasig);

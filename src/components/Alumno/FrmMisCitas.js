@@ -233,54 +233,55 @@ class FrmMisCitas extends Component {
         //let max=29;     //let fex=0;      //let letras =['I','II'];
         let fechaHoy=moment (new Date()).format("YYYY-MM-DD");
         let fechaSesion;
-        
-        for (let element of arregloDeSesiones.data) {
-            cont++;
-            //fex= max-(cont+1);
-            fechaSesion=moment(element.FECHA).format("YYYY-MM-DD");
-            
-            let estadillo = element.ESTADO.split("-")[0];
-            arreglillo.push({
-                campoCont: cont,
-                nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
-                //fecha: fex + " " + "de Mayo del 2020",
-                fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
-                lugar: element.LUGAR,
-                //tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
-                tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
-                btnCancelar:
-                    <Button
-                        size="large"
-                        variant="outlined"
-                        color="secondary"
-                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
-                        disabled={element.PROCESO_TUTORIum.GRUPAL}
-                    >
-                        CANCELAR
-                    </Button>,
-                //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                campoEstado: (estadillo!=="00" && estadillo!=="01")?  fechaSesion<fechaHoy?"Pendiente Registro":
+        if (arregloDeSesiones){
+            for (let element of arregloDeSesiones.data) {
+                cont++;
+                //fex= max-(cont+1);
+                fechaSesion=moment(element.FECHA).format("YYYY-MM-DD");
                 
-                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" :"Realizada"))):
+                let estadillo = element.ESTADO.split("-")[0];
+                arreglillo.push({
+                    campoCont: cont,
+                    nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
+                    //fecha: fex + " " + "de Mayo del 2020",
+                    fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                    lugar: element.LUGAR,
+                    //tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
+                    tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
+                    btnCancelar:
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
+                            disabled={element.PROCESO_TUTORIum.GRUPAL}
+                        >
+                            CANCELAR
+                        </Button>,
+                    //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                    campoEstado: (estadillo!=="00" && estadillo!=="01")?  fechaSesion<fechaHoy?"Pendiente Registro":
+                    
+                    (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" :"Realizada"))):
 
-                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
-                ,
-                
-                //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
-                /*
-                btnPosponer:
-                    <Button
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                        onClick={this.handleOnClickPosponer}
-                    >
-                        POSPONER
-                    </Button>,
-                */
-            });
+                    (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
+                    ,
+                    
+                    //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
+                    /*
+                    btnPosponer:
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnClickPosponer}
+                        >
+                            POSPONER
+                        </Button>,
+                    */
+                });
+            }
         }
-
+        
         const data = {
             columns: [
                 // {

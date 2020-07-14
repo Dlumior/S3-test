@@ -106,8 +106,10 @@ class ListaCoordinadores extends React.Component {
       || nextState.flag !== this.state.flag){
       console.log("fac",this.props.coordinadores);
       let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
+      if (arregloCoord){
+        this.establecerData(arregloCoord);
+      }    
       
-      this.establecerData(arregloCoord);
     }    
   }
 
@@ -117,7 +119,9 @@ class ListaCoordinadores extends React.Component {
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
     
     console.log("arreglo: ",arregloCoord);
-    this.establecerData(arregloCoord);
+    if (arregloCoord){
+      this.establecerData(arregloCoord);
+    }   
 }
 
 handleOnOpen= (id) =>{

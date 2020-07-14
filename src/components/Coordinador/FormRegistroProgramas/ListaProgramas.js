@@ -2,12 +2,14 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, IconButton } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaProgramas from "./TablaProgramas";
 import Button from "@material-ui/core/Button";
 import { getUser } from "../../../Sesion/Sesion";
 import ModificaPrograma from "./ModificarPrograma";
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 
 const style = {
@@ -42,19 +44,27 @@ class ListaProgramas extends React.Component {
   establecerData(arregloProg){
     
     let arreglillo = [];
+    let cont=0;
     for (let element of arregloProg.programa){
       if (element.ID_PROGRAMA!==null){
+        cont++;
         arreglillo.push({
-          codigo:element.ID_PROGRAMA,
+          codigo:cont,
           nombre:element.NOMBRE,
-          boton:<div> 
-                    <Button 
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => this.handleOnOpen(element)}
-                    >
-                        Ver Programa
-                    </Button>
+          boton:<div>
+            <IconButton color="primary">
+              <EditRoundedIcon
+              color="secondary"
+              fontsize="large"
+              onClick={() => this.handleOnOpen(element)}
+              />
+          </IconButton>
+          <IconButton color="primary">
+              <DeleteRoundedIcon
+              color="error"
+              fontsize="large" 
+              onClick={() => this.handleOnOpenEliminar(element.ID_USUARIO)}/>
+          </IconButton>  
                 </div>
           });  
 
@@ -81,14 +91,16 @@ class ListaProgramas extends React.Component {
 
   }
   async componentDidUpdate(prevProps,nextState){
-    if (this.props.idFacu!==prevProps.idFacu //|| this.props.flag!==prevProps.flag 
+    if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag 
       || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
       //let arregloProg=await Controller.GET({servicio:"/api/programa"});
       let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
       //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-      console.log("arreglo: ",arregloProg);
-      this.establecerData(arregloProg);
+      if (arregloProg){
+        console.log("arreglo: ",arregloProg);
+        this.establecerData(arregloProg);
+      }
 
     }
   }
@@ -98,8 +110,10 @@ class ListaProgramas extends React.Component {
     let arregloProg=await Controller.GET({servicio:"/api/programa/coordinador/"+idCoord});
     //let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
-    console.log("arreglo: ",arregloProg);
-    this.establecerData(arregloProg);
+    if (arregloProg){
+      console.log("arreglo: ",arregloProg);
+      this.establecerData(arregloProg);
+    }
   
 }
 

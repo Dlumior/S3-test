@@ -16,6 +16,7 @@ import LooksOneRoundedIcon from '@material-ui/icons/LooksOneRounded';
 import LooksTwoRoundedIcon from '@material-ui/icons/LooksTwoRounded';
 import Looks3RoundedIcon from '@material-ui/icons/Looks3Rounded';
 import Alertas from "../../Coordinador/Alertas";
+import moment from "moment"
 
 
 const style = {
@@ -99,7 +100,7 @@ const FrmHistorialAsignacion = () => {
 const [datosForm, setDatosForm] = React.useState({
     usuarioCodigo:0,
     usuarioNombre:'',
-    fecha: new Date(),
+    fecha: moment(new Date()).format("YYYY-MM-DD"),
     horaini:'',
     horafin:0,
     lugar:'',
@@ -237,6 +238,7 @@ const handleOnClick = async(e) => {
                   type="date"
                   id="Fecha"
                   label="Fecha"
+                  defaultValue={datosForm.fecha}
                   InputLabelProps={{
                     shrink: true,
                   }}

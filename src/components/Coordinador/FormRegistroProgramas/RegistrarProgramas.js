@@ -117,14 +117,20 @@ const RegistrarProgramas = (props) => {
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     if (
-      errors.name.error || datosForm.NOMBRE===''
+      errors.name.error || datosForm.NOMBRE==='' || facultad.length===0
     ) {
       setSeveridad({
-        severidad:severidad.severE,
-      });     
-      setAlerta({
-        mensaje:alerta.mensajeError,
-      });      
+        severidad:"error",
+      });
+      if (facultad.length===0){
+        setAlerta({
+          mensaje:"Debe asignarle una facultad",
+        }); 
+      }else{
+        setAlerta({
+          mensaje:"Errores en el formulario",
+        });
+      }           
       console.log("severidad= ",severidad.severidad);
 
       return;

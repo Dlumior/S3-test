@@ -245,13 +245,17 @@ useEffect(() => {
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      setProgramas(res.facultad);
+      if (res){
+        setProgramas(res.facultad);
+      }
     }else{
       const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
       console.log("proogramasss:", res);
-      setProgramas(res.facultades);
+      if (res){
+        setProgramas(res.facultades);
+      }
     }
   }
    fetchData();
