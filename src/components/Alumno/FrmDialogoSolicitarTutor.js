@@ -67,6 +67,7 @@ class FrmDialogoSolicitarTutor extends Component {
       mensajillo: "",
       horaIniR: "",
       horaFinR: "",
+      errorDesc: false
       //banderillaMotivo: false,
     };
 
@@ -118,10 +119,14 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeCT = (e) => {
-    this.setState({flagCT:true});
     // nombre y descripcion
-    console.log(e);
-    this.setState({ [e.name]: e.value });
+    console.log("jhjhjhj: ", e);
+    if(e.target.value.length===0){
+      this.setState({errorDesc: true})
+    }else{
+      this.setState({errorDesc: false})
+    }
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   cumpleValidacion(){
@@ -438,19 +443,23 @@ class FrmDialogoSolicitarTutor extends Component {
                     <h3>{`Esta sesión de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
-                    <CampoDeTexto
+                  <Paper elevation={0} style={estilos.paper}>
+                    <TextField
                       autoFocus={true}
                       name="descripcion"
                       label="Ingrese Descripción del motivo de la solicitud:"
-                      validacion={{ lim: 100 }}
+                      fullWidth
+                      //validacion={{ lim: 100 }}
                       variant={"outlined"}
-                      rows={4}
+                      rows={6}
                       multiline={true}
-                      requerido={true}
-                      inicial=""
+                      required={true}
+                      // inicial=""
                       onChange={this.handleOnChangeCT}
-                      validarEntrada={this.validarEntradaCT}
+                      //validarEntrada={this.validarEntradaCT}
                     />
+                    {this.state.errorDesc && <FormHelperText error>Descripción es un campo requerido</FormHelperText>}
+                    </Paper>
                   </Grid>
                 </Grid>
               </Grid>
