@@ -46,13 +46,17 @@ function Home(props) {
             alignItems="center"
           >
             <Grid item>
-              <Typography variant="h2" color="secondary" className={classes.t1}>
+              <Typography
+                variant="h2"
+                className={classes.t1}
+                style={{ color: "#2B7A78" }}
+              >
                 Bienvenidos a Ututor
               </Typography>
               <Typography
                 variant="h5"
-                color="textSecondary"
                 className={classes.t2}
+                style={{ color: "#2B7A78" }}
               >
                 Ingresa y solicita una sesión de tutoría con los profesores de
                 tu universidad.

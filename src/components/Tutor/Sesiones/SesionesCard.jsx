@@ -79,7 +79,7 @@ handleOnClose() {
                   display="block"
                   gutterBottom
                 >
-                  {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+                  {cita.PROCESO_TUTORIum.GRUPAL?"Grupal":cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
                 </Typography>
               </Grid>
   

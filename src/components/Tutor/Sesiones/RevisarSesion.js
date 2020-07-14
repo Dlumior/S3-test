@@ -17,6 +17,7 @@ import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core"
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "../Sesion/ListaEtiquetas";
+import ModificaAsignaciones from "../../Coordinador/FormAsignacion/ModificaAsignaciones";
 
 const style = {
   paper: {
@@ -50,6 +51,8 @@ const handleName = (e, datosForm, setDatosForm) => {
     alumnoCodigo: e.target.value,
   });
 };
+
+
 const handleFecha = (e, datosForm, setDatosForm) => {
   console.log("fecha",e.target.value);
   setDatosForm({
@@ -164,6 +167,7 @@ const RevisarSesion = (cita) => {
     severS:"success"
   });
   const [open, setOpen] = React.useState(true);
+  const [open2, setOpen2] = React.useState(false);
   const [plan,setPlan]=useState(cita.cita.COMPROMISOs);
   console.log("cita.cita.COMPROMISOs", cita.cita);
   console.log("test123plan", plan);
@@ -172,8 +176,21 @@ const RevisarSesion = (cita) => {
     setOpen(true);
   };
 
+  const handleOnOpenVer = () => {
+    setOpen2(true);
+  }
+  
+  const handleOnCloseVer = () => {
+    setOpen2(false);
+  }
+  
+  const handleOnclickVerAlmunos = (e, alumnos) => {
+    setOpen2(true);
+  }
+  
   const handleClose = () => {
     setOpen(false);
+    cita.onClose();
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -224,6 +241,12 @@ const RevisarSesion = (cita) => {
         onClick={handleClickOpen}>
         Registrar Sesión
       </Button> */}
+      {open2 &&
+        <ModificaAsignaciones
+          open={handleOnOpenVer}
+          close={handleOnCloseVer}
+          alumnos={cita.cita.ALUMNOs} />
+          }
       <Dialog
         open={cita.open}
         onClose={cita.onClose}
@@ -251,17 +274,18 @@ const RevisarSesion = (cita) => {
                   fullWidth   
               />
             </Grid> */}
-            <Grid item md={1} justify="flex-start">
-            </Grid>
+            {/* <Grid item md={1} justify="flex-start">
+            </Grid> */}
+            {cita.cita.PROCESO_TUTORIum.GRUPAL?undefined:
             <Grid item md={12}>
               <TextField
                   disabled
                   id="alumno"
                   label="Alumno"
-                  value={cita.cita.ALUMNOs[0].USUARIO.NOMBRE + cita.cita.ALUMNOs[0].USUARIO.APELLIDOS}
+                  value={cita.cita.ALUMNOs[0].USUARIO.NOMBRE + " " + cita.cita.ALUMNOs[0].USUARIO.APELLIDOS}
                   fullWidth   
               />
-            </Grid>
+            </Grid>}
             <Grid item md={4}>
               <TextField
                   disabled
@@ -320,6 +344,24 @@ const RevisarSesion = (cita) => {
                   fullWidth   
               />
             </Grid>
+            <Grid item md={12}>
+              <TextField
+                  disabled
+                  id="tutoria"
+                  label="Tutoría"
+                  value={cita.cita.PROCESO_TUTORIum.NOMBRE}
+                  onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
+                  fullWidth   
+              />
+            </Grid>
+            {cita.cita.PROCESO_TUTORIum.GRUPAL?
+            <Grid item md={12}>
+              <Button
+                href="#text-buttons" color="primary"
+                onClick={e => handleOnclickVerAlmunos(e, cita.cita.ALUMNOs)}>
+                Ver Alumnos
+              </Button>
+            </Grid>:""}
             <PlanDeAccion
               plan={plan}
               setPlan={setPlan}

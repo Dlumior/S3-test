@@ -157,9 +157,9 @@ const FormRegistroTutor = (props) => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       console.log(res);
-      if (res){
+      if (res) {
         setFacultades(res.facultades);
-      }      
+      }
     }
     fetchFacultades();
   }, [rolCoordinador, idCoordinador]);
@@ -186,15 +186,15 @@ const FormRegistroTutor = (props) => {
         if (rolCoordinador === 6) {
           console.log("asignando programa");
           console.log(res);
-          if (res){
+          if (res) {
             setProgramas(res.programa);
-          }          
+          }
         } else if (rolCoordinador === 2) {
           console.log("asignando programas");
           console.log(res);
-          if (res){
+          if (res) {
             setProgramas(res.programas);
-          }          
+          }
         }
       }
     }
@@ -219,22 +219,43 @@ const FormRegistroTutor = (props) => {
       });
       return;
     } else {
-      setDatos({
-        ...datos,
-        // CONTRASENHA: "contra",
-        PROGRAMA: datos.PROGRAMA.push(programa),
-      });
+      // await setDatos({
+      //   ...datos,
+      //   // CONTRASENHA: "contra",
+      //   PROGRAMA: [programa],
+      // });
       console.log(datos);
 
-      const sendData = { servicio: "/api/tutor", request: { tutor: datos } };
-      console.log("Saving new tutor in DB:", datos);
-      let nuevoTutor = await Controller.POST(sendData);
+      const sendData = {
+        servicio: "/api/tutor",
+        request: { tutor: { ...datos, PROGRAMA: [programa] } },
+      };
+      console.log("Saving new tutor in DB:", sendData);
+      let nuevoTutor = Controller.POST(sendData);
       console.log("Got updated alumno from back:", nuevoTutor);
-      // alert("Se creó correctamente el tutor");
-      setSeveridad("success");
-      setAlerta({
-        mensaje: "Se registró correctamente el tutor",
-      });
+      console.log("Got updated alumno from back:", nuevoTutor.error);
+      if (
+        nuevoTutor === null ||
+        nuevoTutor === undefined ||
+        nuevoTutor.error !== undefined
+      ) {
+        if (nuevoTutor.error !== undefined) {
+          setSeveridad("error");
+          setAlerta({
+            mensaje: nuevoTutor.error,
+          });
+        } else if (nuevoTutor === null) {
+          setSeveridad("error");
+          setAlerta({
+            mensaje: "Algo salió mal :(",
+          });
+        }
+      } else {
+        setSeveridad("success");
+        setAlerta({
+          mensaje: "Se registró correctamente el tutor",
+        });
+      }
     }
   };
 
