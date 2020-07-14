@@ -2,10 +2,6 @@ import React,{useState,useEffect} from "react";
 //import useFetchData from "../../Conexion/useFetchData";
 import { GET } from "../../../Conexion/Controller";
 import { Grid} from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText} from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import ComboBoxFacus from "../RegistrarCoordPrograma/ComboBoxFacus";
@@ -34,6 +30,8 @@ const style = {
     }
   };
 const FrmHistorialAsignacion = () => {
+  //Line 37:8:   'datosForm' is assigned a value but never used
+  //Line 37:19:  'setDatosForm' is assigned a value but never used 
 const [datosForm, setDatosForm] = React.useState({
     usuarioCodigo:0,
     usuarioNombre:'',
@@ -73,6 +71,8 @@ useEffect(() => {
 }, {});
 
 //programas a partir de un coordinador de Facultad
+//Line 73:4:   React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps    
+//Line 73:4:   React Hook useEffect has a missing dependency: 'facultades'. Either include it or remove the dependency array
 useEffect(() => {
   async function fetchData() {
       if (getUser().rol ==="Coordinador Programa"){
@@ -95,11 +95,13 @@ useEffect(() => {
           console.log("proograma:", programa);
       }
   }     
-  if (facultad!=""){
+  if (facultad!==""){
       fetchData();
   }
 },[facultad]);
-
+//Line 101:3:  React Hook useEffect has a missing dependency: 'programa'. Either include it or remove the dependency array
+//Line 101:3:  React Hook useEffect has a missing dependency: 'programa'. Either include it or remove the dependency array
+//Line 73:4:   React Hook useEffect has a missing dependency: 'facultades'. Either include it or remove the dependency array 
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
@@ -112,6 +114,7 @@ useEffect(() => {
     }
   }
   if (facultad!=="" && programa !== "") {
+    //Line 117:3:  React Hook useEffect has a missing dependency: 'facultad'. Either include it or remove the dependency array
     fetchData();
   }
 },[programa]);

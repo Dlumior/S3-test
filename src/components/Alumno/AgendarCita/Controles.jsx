@@ -6,9 +6,7 @@ import ViewColumnIcon from "@material-ui/icons/ViewColumn";
 import {
   IconButton,
   Grid,
-  Typography,
   Paper,
-  Button,
   InputLabel,
 } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
@@ -29,8 +27,8 @@ const styles = {
     marginRight: "7%",
   },
 };
-const FIJAS = 0;
-const PROGRAMA = 1;
+//const FIJAS = 0;
+//const PROGRAMA = 1;
 class Controles extends Component {
   constructor() {
     super();

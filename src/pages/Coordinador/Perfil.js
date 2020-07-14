@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import { getUser } from "../../Sesion/Sesion";
 import Datos from "../../components/Coordinador/Datos";
 import { Grid, makeStyles } from "@material-ui/core";
-import LuisR from "../../components/Coordinador/luisRios.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil.js";
 import { POST } from "../../Conexion/Controller";
 

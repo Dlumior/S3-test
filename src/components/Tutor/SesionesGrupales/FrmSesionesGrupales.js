@@ -181,7 +181,7 @@ const handleOnChangeAlumnos = (alumnos) => {
   };
 
 const handleOnClick = async(e) => {
-    if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || alumnos == []) {
+    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "0" || alumnos === []) {
         setSeveridad({
           severidad:"error",
         }); 

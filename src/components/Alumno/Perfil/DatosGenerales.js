@@ -3,21 +3,21 @@ import { Grid, makeStyles } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import { POST, GET } from "../../../Conexion/Controller";
 import Datos from "../../Coordinador/Datos";
-import HistoricoResultados from "./HistoricoResultados";
+//import HistoricoResultados from "./HistoricoResultados";
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
     marginTop: theme.spacing(5),
   },
 }));
-
+/*
 const handleClick = () => {
   let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
   sessionStorage.Sesion = JSON.stringify(usuario);
   console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
 };
-
+*/
 const DatosGenerales = (props) => {
   const classes = useStyles();
   const [isEdit, setIsEdit] = useState(false);

@@ -6,9 +6,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  IconButton,
 } from "@material-ui/core";
-import { LooksOne } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   icon: {

@@ -170,7 +170,7 @@ const RegistrarSesion = () => {
     const res = await GET(params);
     if (res){
       datosForm.alumnos.pop();
-      if (res.alumno == null) {  
+      if (res.alumno === null) {  
         setSeveridad({
           severidad:"error",
         }); 
@@ -251,7 +251,7 @@ const RegistrarSesion = () => {
     setAlerta({
       mensaje:"",
     });
-    if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || datosForm.resultado == "" ||datosForm.alumnos == []) {
+    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "0" || datosForm.resultado === "" ||datosForm.alumnos === []) {
       setSeveridad({
         severidad:"error",
       }); 

@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { UserProvider } from "./Sesion/Sesion";
-import { mainReducer } from "./Sesion/reducers";
+//import { mainReducer } from "./Sesion/reducers";
 import { EstadoInicial } from "./Sesion/estadoInicial";
 import sesionReducer from "./Sesion/reducers/sesionReducer";
 

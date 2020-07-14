@@ -38,7 +38,7 @@ class IniciarSesion extends Component {
     e.preventDefault();
     //console.log("validacion al click: ", this.state.errores);
     let [{ usuario }, dispatch] = this.context;
-    //console.log("this.context ", usuario);
+    console.log("this.context ", usuario);
     const { Usuario, Contrasenia } = this.state;
     //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 

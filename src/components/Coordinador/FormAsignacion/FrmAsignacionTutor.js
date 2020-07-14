@@ -98,7 +98,7 @@ const VerticalLinearStepper = () => {
 
   useEffect(() => {
     async function fetchData() {
-      if (getUser().rol == "Coordinador Facultad") {
+      if (getUser().rol === "Coordinador Facultad") {
         const endpoint =
           "/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
@@ -249,6 +249,7 @@ const VerticalLinearStepper = () => {
 
   function getStepContent(step) {
     switch (step) {
+      // falta default case!
       case 0:
         return (
           <div>
@@ -262,6 +263,8 @@ const VerticalLinearStepper = () => {
       case 1:
         console.log("fac: ", programa);
         let fac = programa;
+        console.log("fac: ", fac);
+
         return (
           <div>
             <ListaProgramas

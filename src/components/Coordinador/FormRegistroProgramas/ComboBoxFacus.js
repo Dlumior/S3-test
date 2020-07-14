@@ -5,7 +5,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Input,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ComboBoxFacus = (props) => {
-  const classes = useStyles();
+  //const classes = useStyles();
   const { facultades, facultad, setFacultad,nombre,id} = props;
 
 

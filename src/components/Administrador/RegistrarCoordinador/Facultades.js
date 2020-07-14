@@ -1,29 +1,9 @@
-import React, { Component, useEffect,useState } from "react";
-import * as Conexion from "../../../Conexion/Controller";
-//import useFetchData from "../../Conexion/useFetchData";
-import ListaProgramas from "../../Coordinador/ListaProgramas";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import { Grid, Paper, makeStyles } from "@material-ui/core";
-import { GET } from "../../../Conexion/Controller";
+import React, { useState } from "react";
+import { Grid } from "@material-ui/core";
 import ComboBoxPrograma from "./ComboBoxPrograma";
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
-import Alertas from "../../Coordinador/Alertas";
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
 import IconButton from '@material-ui/core/IconButton';
-import errorObj from "../../Coordinador/FormRegistroTutor/errorObj.js";
-import validateName from "../../Coordinador/FormRegistroTutor/validateName.js";
-import validateLastNames from "../../Coordinador/FormRegistroTutor/validateLastNames.js";
-import validatePhoneNumber from "../../Coordinador/FormRegistroTutor/validatePhoneNumber.js";
-import validateAddress from "../../Coordinador/FormRegistroTutor/validateAddress.js";
-import validateCode from "../../Coordinador/FormRegistroTutor/validateCode.js";
-import validateEmail from "../../Coordinador/FormRegistroTutor/validateEmail.js";
-import { wait } from "@testing-library/react";
 
 const style = {
     paper: {

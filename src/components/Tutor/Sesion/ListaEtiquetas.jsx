@@ -41,7 +41,7 @@ class ListaEtiquetas extends React.Component {
     // console.log("listaEtiquetasSesion ", listaEtiquetasSesion);
     // let areasApoyoDerivadas = []
     // listaEtiquetasSesion.data.forEach((sesion) => {
-    //   if (sesion.ID_SESION == this.props.idSesion) {
+    //   if (sesion.ID_SESION === this.props.idSesion) {
     //     sesion.AREA_APOYO_X_SESIONs.forEach((area_apoyo)=>{
     //       console.log("area apoyo push ", area_apoyo.AREA_APOYO.CORREO, area_apoyo.AREA_APOYO.ID_AREA_APOYO, area_apoyo.AREA_APOYO.NOMBRE, area_apoyo.AREA_APOYO.TELEFONO);
     //       areasApoyoDerivadas.push({CORREO:area_apoyo.AREA_APOYO.CORREO, ID_AREA_APOYO: area_apoyo.AREA_APOYO.ID_AREA_APOYO, NOMBRE:area_apoyo.AREA_APOYO.NOMBRE, TELEFONO:area_apoyo.AREA_APOYO.TELEFONO});

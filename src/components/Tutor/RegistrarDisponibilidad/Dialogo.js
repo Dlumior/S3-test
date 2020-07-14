@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+//import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import * as Conexion from "../../../Conexion/Controller";
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -61,7 +61,8 @@ import Confirmacion from './Confirmacion';
     };  
     
     handleOnChangeCombo = e =>{
-      this.state.repeticion = e.target.value
+      this.setState({repeticion: e.target.value});
+      //this.state.repeticion = e.target.value
     }
 
     handleOnChangeLugar = e =>{  
@@ -80,7 +81,7 @@ import Confirmacion from './Confirmacion';
       //   document.getElementById("horaInicio").value = this.state.horaInicio;     
       // }
       await this.setState({horaInicio:e.target.value});
-      if(e.target.value.substring(3,5) == "30" || e.target.value.substring(3,5) == "00"){} 
+      if(e.target.value.substring(3,5) === "30" || e.target.value.substring(3,5) === "00"){} 
       else{        
         await this.setState({horaInicio:e.target.value.substring(0,2)+":00"});     
         document.getElementById("horaInicio").value = this.state.horaInicio;  
@@ -98,20 +99,20 @@ import Confirmacion from './Confirmacion';
       //   await this.setState({horaFin:"08:"+e.target.value.substring(3,5)});     
       //   document.getElementById("horaFin").value = this.state.horaFin;     
       // }
-      // if(e.target.value.substring(0,2) == "08"){
-      //   if(e.target.value.substring(3,5) == "00"){
+      // if(e.target.value.substring(0,2) === "08"){
+      //   if(e.target.value.substring(3,5) === "00"){
       //     await this.setState({horaFin:e.target.value.substring(0,2)+":30"});     
       //     document.getElementById("horaFin").value = this.state.horaFin; 
       //   }
       // }
-      // if(e.target.value.substring(0,2) == "20"){
-      //   if(e.target.value.substring(3,5) == "30"){
+      // if(e.target.value.substring(0,2) === "20"){
+      //   if(e.target.value.substring(3,5) === "30"){
       //     await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
       //     document.getElementById("horaFin").value = this.state.horaFin; 
       //   }
       // }
       await this.setState({horaFin:e.target.value});
-      if(e.target.value.substring(3,5) == "30" || e.target.value.substring(3,5) == "00"){} 
+      if(e.target.value.substring(3,5) === "30" || e.target.value.substring(3,5) === "00"){} 
       else{        
         await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
         document.getElementById("horaFin").value = this.state.horaFin;  

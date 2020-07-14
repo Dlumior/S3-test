@@ -1,20 +1,14 @@
 import React,{useState} from "react";
 import * as Controller from "../../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
-import { GET } from "../../../Conexion/Controller";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from '@material-ui/core/IconButton';
-import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
-import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
-import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import PlanDeAccion from '../Sesion/PlanDeAccion';
-import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
-import { getUser } from "../../../Sesion/Sesion";
+import { Grid, Paper,Typography } from "@material-ui/core";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "../Sesion/ListaEtiquetas";
 import ModificaAsignaciones from "../../Coordinador/FormAsignacion/ModificaAsignaciones";
@@ -195,9 +189,9 @@ const RevisarSesion = (cita) => {
   
   const handleClick = async (e, datosForm, setDatosForm) => {
     console.log('datosForm: ', datosForm);
-    if (datosForm.asistencia == "yes") {
+    if (datosForm.asistencia === "yes") {
       var doggysAssistance = 1;
-    } else if (datosForm.asistencia == "no") {
+    } else if (datosForm.asistencia === "no") {
       var doggysAssistance = 0;
     } else {
       setSeveridad({

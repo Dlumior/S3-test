@@ -1,17 +1,14 @@
-import React, { Component, useEffect,useState } from "react";
+import React, {  useEffect,useState } from "react";
 import * as Conexion from "../../../Conexion/Controller";
 //import useFetchData from "../../Conexion/useFetchData";
-import ListaProgramas from "../../Coordinador/ListaProgramas";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Grid, Paper, makeStyles, Typography, List, ListItem, ListItemText } from "@material-ui/core";
+import { Grid, Paper, makeStyles, List, ListItem, ListItemText } from "@material-ui/core";
 import { GET } from "../../../Conexion/Controller";
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Alertas from "../../Coordinador/Alertas"
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import {getUser} from "../../../Sesion/Sesion";

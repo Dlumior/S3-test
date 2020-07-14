@@ -2,11 +2,7 @@ import React,{useState,useEffect} from "react";
 //import useFetchData from "../../Conexion/useFetchData";
 import { GET } from "../../../Conexion/Controller";
 import { Grid, Button} from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText} from "@material-ui/core";
-import Checkbox from '@material-ui/core/Checkbox';
+import { Paper} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import IconButton from '@material-ui/core/IconButton';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
@@ -25,7 +21,6 @@ const style = {
     paper: {
       marginTop: "3%",
       marginLeft: "3%",
-      marginRight:"3%",
       marginRight:"3%",
       marginBottom:"3%",
       display: "flex",

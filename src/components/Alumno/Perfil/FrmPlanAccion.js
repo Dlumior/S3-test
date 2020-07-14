@@ -1,11 +1,8 @@
 import React,{useState,useEffect} from "react";
 //import useFetchData from "../../Conexion/useFetchData";
-import { GET,POST } from "../../../Conexion/Controller";
-import { Grid, Button} from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText} from "@material-ui/core";
+import { GET, } from "../../../Conexion/Controller";
+import { Grid} from "@material-ui/core";
+import { Paper} from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 
 import ComboBoxPrograma from "../../Coordinador/FormRegistroTutor/comboBoxProgramas";
