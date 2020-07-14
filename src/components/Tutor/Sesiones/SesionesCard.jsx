@@ -67,7 +67,7 @@ handleOnClose() {
             <Grid container spacing={2} style={styles.chip}>
               {/** IMAGEN  */}
               <Grid item md={3} xs={3}>
-                <ImagenCircular src="https://pics.me.me/honk-this-we-live-in-a-clown-world-folks-55670983.png" />
+                <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
               </Grid>
               
               {/** NOMBRE-APELLIDOS  */}
@@ -129,7 +129,7 @@ handleOnClose() {
             <Grid container spacing={2} style={styles.chip}>
               {/** IMAGEN  */}
               <Grid item md={3} xs={3}>
-                <ImagenCircular src="https://pics.me.me/honk-this-we-live-in-a-clown-world-folks-55670983.png" />
+                <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
               </Grid>
               
               {/** NOMBRE-APELLIDOS  */}

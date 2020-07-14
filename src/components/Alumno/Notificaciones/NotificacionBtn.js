@@ -41,12 +41,14 @@ const NotificacionBtn = (props) => {
       const res = await GET(params);
       console.log(res);
       if(res){
-        setNotificaciones(res.notificaciones);
-        if (res.notificaciones.length !== 0) {
-          setTieneNotif(true);
-          changeNumNotif(res.notificaciones.length);
-        } else {
-          setTieneNotif(false);
+        if(!res.error){
+          setNotificaciones(res.notificaciones);
+          if (res.notificaciones.length !== 0) {
+            setTieneNotif(true);
+            changeNumNotif(res.notificaciones.length);
+          } else {
+            setTieneNotif(false);
+          }
         }
       }
     }
