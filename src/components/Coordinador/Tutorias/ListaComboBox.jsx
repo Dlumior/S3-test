@@ -84,6 +84,7 @@ class ListaComboBox extends Component {
 
     } else {
       listaItems = await Conexion.GET({ servicio: this.props.enlace });
+      if(!listaItems) return;
       console.log("No habian this.props.datos---->: ", listaItems);
       console.log("this.props.enlace nuevo", this.props.enlace);
 

@@ -18,7 +18,7 @@ class CalendarioCitas extends Component {
     super();
     this.state = {
       Ndias: 6,
-      fechaActual: new Date(),
+      fechaActual: moment(new Date()).toDate("YYYY-MM-DD"),
       lunesActual: "",
       fechaControles: {},
       modoBatallador: true,
@@ -44,11 +44,11 @@ class CalendarioCitas extends Component {
   async saltarEnElTiempo(salto) {
     //funcion generica de viaje en el tiempo
     if (!salto) return;
-    let lunesActual = new Date(this.state.lunesActual);
+    let lunesActual = moment(new Date(this.state.lunesActual)).toDate();
     this.setState({
-      lunesActual: await new Date(
-        lunesActual.setDate(lunesActual.getDate() + salto)
-      ),
+      lunesActual: await moment(new Date(
+        lunesActual.setDate(lunesActual.getDate() + salto))
+      ).toDate(),
     });
     console.log("salto actual: ", this.state.lunesActual);
   }
@@ -63,15 +63,20 @@ class CalendarioCitas extends Component {
     */
   renderDias = (lunesActual, listaIdTutores) => {
     if (!lunesActual) return;
-    let fechaInicial = new Date(lunesActual);
-
+    let fechaInicial = moment(new Date(lunesActual)).add("hours", -5).toDate();
+    console.log("luneessss", fechaInicial)
+    console.log("äctualll: ", this.state.fechaActual)
     console.log("CAlendarGAAAAbyy xxx ", lunesActual);
+    console.log("<<<FI",fechaInicial);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
-      fechasDias.push(moment(new Date(fechaInicial.setDate(fechaInicial.getDate()))));
-      fechaInicial.setDate(fechaInicial.getDate() + 1);
+      console.log("inicial: ", fechaInicial.toISOString().split("T")[0])
+      fechasDias.push(fechaInicial);
+      //fechaInicial.setDate(fechaInicial.getDate() + 1);
+      fechaInicial = moment(fechaInicial).add('days', 1).toDate();
     }
+    console.log("fechasdiasss: ",fechasDias)
     return (
       <>
         {console.log("this.props.tipo xxx ", this.props.tipo)}
@@ -95,7 +100,7 @@ class CalendarioCitas extends Component {
             {fechasDias.map((diaSemana) => (
               <Grid item md={2} xs={12}>
                 {console.log("QQQ: ", this.state.filtroIdProceso)}
-
+                {console.log("dia semana: ", diaSemana)}
                 {this.state.filtroIdProceso ? (
                   <HorarioDelDia
                     idPro={
@@ -132,6 +137,7 @@ class CalendarioCitas extends Component {
     let offset = 0;
     const lunes = 1;
     offset = fechaActual.getDay() - lunes;
+    console.log("este actual: ", this.state.fechaActual)
     this.setState({
       fechaControles: {
         mes: mesesAnio[fechaActual.getMonth() + 1],
@@ -143,9 +149,9 @@ class CalendarioCitas extends Component {
     console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
 
     this.setState({
-      lunesActual: new Date(
+      lunesActual: moment(new Date(
         await fechaActual.setDate(fechaActual.getDate() - offset)
-      ),
+      )).toDate(),
     });
   }
   handleModoBatallador(modoBatallador) {
@@ -210,7 +216,7 @@ class CalendarioCitas extends Component {
           filtroProceso={true}
           filtroTutores={true}
           handleFiltroProceso={this.handleFiltroProceso}
-          handleFiltroTutores={this.handleFiltroTutores}
+          handleFiltroTutores={this.handleFiltroTutores}xxxxxxxxxxx 
           tutorNombre={this.state.estadoTitulo}
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}

@@ -169,6 +169,7 @@ const RegistrarSesion = () => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     if (res){
+      datosForm.alumnos.pop();
       if (res.alumno == null) {  
         setSeveridad({
           severidad:"error",
@@ -176,13 +177,24 @@ const RegistrarSesion = () => {
         setAlerta({
           mensaje:"No existe ningún alumno con ese código",
         }); 
+        setDatosForm({
+          ...datosForm,
+          alumnoNombre: "",
+        });
         console.log("severidad= ",severidad.severidad);
       } else {
+        setSeveridad({
+          severidad:"",
+        }); 
+        setAlerta({
+          mensaje:"",
+        }); 
+        console.log("fechaa", moment(new Date()).format("DD-MM-YYYY"))
         console.log("alumnocod",res.alumno);
         datosForm.alumnos.push(res.alumno.ID_ALUMNO);
         setDatosForm({
           ...datosForm,
-          alumnoNombre: res.alumno.USUARIO.NOMBRE,
+          alumnoNombre: res.alumno.USUARIO.NOMBRE + " " + res.alumno.USUARIO.APELLIDOS,
         }); 
         console.log("alumnos: ",datosForm.alumnos);
       }
@@ -233,6 +245,12 @@ const RegistrarSesion = () => {
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
+    setSeveridad({
+      severidad:"",
+    }); 
+    setAlerta({
+      mensaje:"",
+    });
     if (datosForm.fecha == "" || datosForm.horaini == "" || datosForm.horafin == "0" || datosForm.resultado == "" ||datosForm.alumnos == []) {
       setSeveridad({
         severidad:"error",
@@ -263,12 +281,28 @@ const RegistrarSesion = () => {
       console.log("sesion debug xaeee: ", sesion);
       if (sesion) {
         console.log("ENTRE AL IF: ");
-        setSeveridad({
-          severidad:"success",
-        }); 
-        setAlerta({
-          mensaje:"La sesión se ha registrado satisfactoriamente",
-        }); 
+        if(sesion.message){
+          setSeveridad({
+            severidad:"error",
+          }); 
+          setAlerta({
+            mensaje:sesion.message,
+          });
+        }else if (sesion.error){
+          setSeveridad({
+            severidad:"error",
+          }); 
+          setAlerta({
+            mensaje:"Ocurrió un error en la operación, intente de nuevo",
+          }); 
+        }else{
+          setSeveridad({
+            severidad:"success",
+          }); 
+          setAlerta({
+            mensaje:"La sesión se ha registrado satisfactoriamente",
+          }); 
+        }
       }
       console.log("got updated sesion from back:", sesion);
         
@@ -387,6 +421,7 @@ const RegistrarSesion = () => {
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  defaultValue = {moment(new Date()).format("YYYY-MM-DD")}
                   onChange={(e) => handleFecha(e, datosForm, setDatosForm)}
                   fullWidth   
               />

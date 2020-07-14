@@ -63,28 +63,28 @@ class FrmDialogoSolicitarTutor extends Component {
       _motivoSelecc: "",
       descripcion: "",
       open: false,
+      openV:false,
       mensajillo: "",
       horaIniR: "",
       horaFinR: "",
+      errorDesc: false
       //banderillaMotivo: false,
     };
 
     //handles...
     this.handleOnChangeMotivo = this.handleOnChangeMotivo.bind(this);
-    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(
-      this
-    );
+    this.handleOnClickSolicitarCita = this.handleOnClickSolicitarCita.bind(this);
     this.handleOnChangeCT = this.handleOnChangeCT.bind(this);
 
     this.handleOnClick = this.handleOnClick.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnCloseV = this.handleOnCloseV.bind(this);
+
     this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
     this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
-
-
-
-
     this.handleFocusOutHoraIni = this.handleFocusOutHoraIni.bind(this);
+
+    this.cumpleValidacion = this.cumpleValidacion.bind(this);
 
   }
 
@@ -100,70 +100,98 @@ class FrmDialogoSolicitarTutor extends Component {
     this.props.onCloseFrm();
   }
 
-  handleOnChangeMotivo(_motivoSeleccionado) {
-    console.log("<<moti",_motivoSeleccionado.NOMBRE);
+  handleOnCloseV() {
+    this.setState({ openV: false });
+    //this.props.onCloseFrm();
+  }
 
+  handleOnChangeMotivo(_motivoSeleccionado) {
+    console.log("<<moti", _motivoSeleccionado.NOMBRE);
     if (_motivoSeleccionado.NOMBRE !== undefined) {
-      console.log("<<<HOC",_motivoSeleccionado.NOMBRE);
+      console.log("<<<HOC", _motivoSeleccionado.NOMBRE);
       this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
 
     } else {
       this.setState({ _motivoSelecc: "Académico" });
-
     }
-
     //console.log("<<<motivo", _motivoSeleccionado.NOMBRE);
     //this.setState({ banderillaMotivo: true });
-
   }
 
   handleOnChangeCT = (e) => {
     // nombre y descripcion
-    console.log(e);
-    this.setState({ [e.name]: e.value });
+    console.log("jhjhjhj: ", e);
+    if(e.target.value.length===0){
+      this.setState({errorDesc: true})
+    }else{
+      this.setState({errorDesc: false})
+    }
+    this.setState({ [e.target.name]: e.target.value });
   };
 
+  cumpleValidacion(){
+    // if(this.state.flagHI && this.state.flagCT) return true;
+    // return false;
+    console.log("<<<CV - descripcion:",this.state.descripcion);
+    console.log("<<<CV - horaIni:",this.state.horaIniR);
+
+    if(this.state.descripcion!=="" && this.state.horaIniR!=="") return true;
+    return false;
+  }
+
+
   async handleOnClickSolicitarCita() {
-    let yo = getUser();
-    console.log("banderilla", this.state.banderillaMotivo);
 
-    const nuevaSolicitud = {
-      sesion: {
-        ID_TUTOR: this.props.dispo.ID_TUTOR,
-        ID_PROCESO_TUTORIA: this.props.idPro, //ANTES 41
-        LUGAR: this.props.dispo.LUGAR,
-        //MOTIVO: (this.state.banderillaMotivo === true) ? this.state._motivoSelecc : "Académico",
-        MOTIVO: this.state._motivoSelecc ,
-        DESCRIPCION: this.state.descripcion,
-        FECHA: this.props.dispo.FECHA,
-        // HORA_INICIO: this.props.dispo.HORA_INICIO,
-        // HORA_FIN: this.props.dispo.HORA_FIN,
-        HORA_INICIO: this.state.horaIniR,
-        HORA_FIN: this.state.horaFinR,
-        ALUMNOS: [yo.usuario.ID_USUARIO],
-      },
-    };
+    if (this.cumpleValidacion()) {
+      console.log("<<cumpleV");
 
-    console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
-    //se llama al back
+      let yo = getUser();
+      console.log("banderilla", this.state.banderillaMotivo);
 
-    const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
-    let sesionTyS = await POST(props);
-    console.log("SESIONtYS XXX ", sesionTyS);
+      const nuevaSolicitud = {
+        sesion: {
+          ID_TUTOR: this.props.dispo.ID_TUTOR,
+          ID_PROCESO_TUTORIA: this.props.idPro, //ANTES 41
+          LUGAR: this.props.dispo.LUGAR,
+          //MOTIVO: (this.state.banderillaMotivo === true) ? this.state._motivoSelecc : "Académico",
+          MOTIVO: this.state._motivoSelecc,
+          DESCRIPCION: this.state.descripcion,
+          FECHA: this.props.dispo.FECHA,
+          // HORA_INICIO: this.props.dispo.HORA_INICIO,
+          // HORA_FIN: this.props.dispo.HORA_FIN,
+          HORA_INICIO: this.state.horaIniR,
+          HORA_FIN: this.state.horaFinR,
+          ALUMNOS: [yo.usuario.ID_USUARIO],
+        },
+      };
 
-    if (!sesionTyS.message) {
-      if (!sesionTyS.error) {
-        this.setState({ mensajillo: "Sesión Registrada Satisfactoriamente!" });
+      console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
+      //se llama al back
+
+      const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
+      let sesionTyS = await POST(props);
+      
+      console.log("SESIONtYS XXX ", sesionTyS);
+
+      if (!sesionTyS.message) {
+        if (!sesionTyS.error) {
+          this.setState({ mensajillo: "Sesión Registrada Satisfactoriamente!" });
+        } else {
+          this.setState({
+            mensajillo:
+              "Ups, Error Inesperado.   Por favor, Inténtelo más tarde.",
+          });
+        }
       } else {
-        this.setState({
-          mensajillo:
-            "Ups, Error Inesperado.   Por favor, Inténtelo más tarde.",
-        });
+        this.setState({ mensajillo: sesionTyS.message });
       }
+      this.setState({ open: true });
     } else {
-      this.setState({ mensajillo: sesionTyS.message });
+      //muestra mensajito
+      this.setState({ mensajillo: "Complete todos los campos, por favor!" });
+      this.setState({ openV: true });
     }
-    this.setState({ open: true });
+
   }
 
   validarEntradaCT(error) {
@@ -300,6 +328,8 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeHoraIni(e) {
+    this.setState({flagHI:true});
+
     this.setState({ horaIniR: e.target.value });
     let _strHora = "2020-07-04 ";
     _strHora += e.target.value;
@@ -413,19 +443,23 @@ class FrmDialogoSolicitarTutor extends Component {
                     <h3>{`Esta sesión de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
-                    <CampoDeTexto
+                  <Paper elevation={0} style={estilos.paper}>
+                    <TextField
                       autoFocus={true}
                       name="descripcion"
                       label="Ingrese Descripción del motivo de la solicitud:"
-                      validacion={{ lim: 100 }}
+                      fullWidth
+                      //validacion={{ lim: 100 }}
                       variant={"outlined"}
-                      rows={4}
+                      rows={6}
                       multiline={true}
-                      requerido={true}
-                      inicial="..."
+                      required={true}
+                      // inicial=""
                       onChange={this.handleOnChangeCT}
-                      validarEntrada={this.validarEntradaCT}
+                      //validarEntrada={this.validarEntradaCT}
                     />
+                    {this.state.errorDesc && <FormHelperText error>Descripción es un campo requerido</FormHelperText>}
+                    </Paper>
                   </Grid>
                 </Grid>
               </Grid>
@@ -516,6 +550,28 @@ class FrmDialogoSolicitarTutor extends Component {
               variant="contained"
               color="primary"
               onClick={this.handleOnClose}
+            >
+              Aceptar
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+
+        <Dialog
+          open={this.state.openV}
+          onClose={this.handleOnCloseV}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle>
+            <h3>Resultado </h3>
+          </DialogTitle>
+          <DialogContent>{this.state.mensajillo}</DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.handleOnCloseV}
             >
               Aceptar
             </Button>
