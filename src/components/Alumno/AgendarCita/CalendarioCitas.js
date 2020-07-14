@@ -65,10 +65,13 @@ class CalendarioCitas extends Component {
     let fechaInicial = new Date(lunesActual);
 
     console.log("CAlendarGAAAAbyy xxx ", lunesActual);
+    console.log("<<<FI",fechaInicial);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
       fechasDias.push(new Date(fechaInicial.setDate(fechaInicial.getDate())));
+      //fechasDias.push(fechaInicial);
+      
       fechaInicial.setDate(fechaInicial.getDate() + 1);
     }
     return (

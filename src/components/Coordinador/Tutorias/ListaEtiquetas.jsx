@@ -36,11 +36,10 @@ class ListaEtiquetas extends React.Component {
   }
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
+    if(!listaEtiquetas) return;
     console.log("Tutores", listaEtiquetas);
     this.setState({
-      etiquetas: this.props.keyServicio
-        ? listaEtiquetas[this.props.keyServicio]
-        : listaEtiquetas.etiquetas,
+      etiquetas: this.props.keyServicio ? listaEtiquetas[this.props.keyServicio]   : listaEtiquetas.etiquetas,
     });
 
     console.log("etiquetas del state", this.state.etiquetas);

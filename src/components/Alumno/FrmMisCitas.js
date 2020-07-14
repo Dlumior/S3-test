@@ -41,15 +41,15 @@ class FrmMisCitas extends Component {
             }, //aqui va el nombre de la tablilla
             open: false,
             //open2: false,
-            openFechaInvalida:false,
-            fechaPasada:false,
-            open3:false,
-            mensajillo:"",
-            graciasYopsIdSesion:0,
-            graciasYopsIdTutor:[],
-            yopsRazon:"",
-            diasAnticipacion:0,
-
+            openFechaInvalida: false,
+            fechaPasada: false,
+            open3: false,
+            mensajillo: "",
+            graciasYopsIdSesion: 0,
+            graciasYopsIdTutor: [],
+            yopsRazon: "",
+            diasAnticipacion: 0,
+            actuTys: false,
 
         };
 
@@ -64,48 +64,48 @@ class FrmMisCitas extends Component {
     };
 
     //obtenemos diasAnticipacion
-    
+
 
     //de btn cancelar
-    async handleOnClick(e,_idSesion,_idTutor,_fecha,_idProg) {
-        console.log("TARGET DEL E idSesion/idTutor",_idSesion,_idTutor);
-        console.log("fechaSesion",_fecha);
+    async handleOnClick(e, _idSesion, _idTutor, _fecha, _idProg) {
+        console.log("TARGET DEL E idSesion/idTutor", _idSesion, _idTutor);
+        console.log("fechaSesion", _fecha);
 
         //obtenemos diasAnticipacion
-        let facu=await Controller.GET({ servicio: "/api/facultad/" + _idProg });
-        if (facu){
-            let pol =await Controller.GET({ servicio: "/api/facultad/politicas/" + facu.facultad.ID_FACULTAD });
-            console.log("POLITICA",pol);
-            
-            if (pol){
-                let dias= pol.politicas.ANTICIPACION_CANCELAR_CITA;
-                this.state.diasAnticipacion=dias;
-                console.log("dia",this.state.diasAnticipacion);
-                this.setState({diasAnticipacion:dias});
+        let facu = await Controller.GET({ servicio: "/api/facultad/" + _idProg });
+        if (facu) {
+            let pol = await Controller.GET({ servicio: "/api/facultad/politicas/" + facu.facultad.ID_FACULTAD });
+            console.log("POLITICA", pol);
+
+            if (pol) {
+                let dias = pol.politicas.ANTICIPACION_CANCELAR_CITA;
+                this.state.diasAnticipacion = dias;
+                console.log("dia", this.state.diasAnticipacion);
+                this.setState({ diasAnticipacion: dias });
             }
         }
 
-        console.log("DIAS",this.state.diasAnticipacion);
+        console.log("DIAS", this.state.diasAnticipacion);
 
-        console.log("fecha::",moment(_fecha).format("YYYY-MM-DD"));
-        console.log("fecha::",moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD"));
-        
-        let fechaSesion=moment(_fecha).format("YYYY-MM-DD");
-        let fechaConAnticip=moment(new Date()).add(this.state.diasAnticipacion,"days").format("YYYY-MM-DD");
-        let fechaHoy=moment(new Date()).format("YYYY-MM-DD");
-        
-        if(fechaSesion<fechaHoy){
-            this.setState({fechaPasada:true});
-            this.setState({openFechaInvalida:true});  
-        }else if(fechaSesion<fechaConAnticip){
-            this.setState({openFechaInvalida:true});                
-        }else{
-            this.setState({graciasYopsIdSesion:_idSesion});
-            let _arrTutor= [];
+        console.log("fecha::", moment(_fecha).format("YYYY-MM-DD"));
+        console.log("fecha::", moment(new Date()).add(this.state.diasAnticipacion, "days").format("YYYY-MM-DD"));
+
+        let fechaSesion = moment(_fecha).format("YYYY-MM-DD");
+        let fechaConAnticip = moment(new Date()).add(this.state.diasAnticipacion, "days").format("YYYY-MM-DD");
+        let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
+
+        if (fechaSesion < fechaHoy) {
+            this.setState({ fechaPasada: true });
+            this.setState({ openFechaInvalida: true });
+        } else if (fechaSesion < fechaConAnticip) {
+            this.setState({ openFechaInvalida: true });
+        } else {
+            this.setState({ graciasYopsIdSesion: _idSesion });
+            let _arrTutor = [];
             _arrTutor.push(_idTutor);
-            this.setState({graciasYopsIdTutor:_arrTutor});
+            this.setState({ graciasYopsIdTutor: _arrTutor });
             this.setState({ open: true });
-        }      
+        }
 
     }
 
@@ -119,13 +119,13 @@ class FrmMisCitas extends Component {
         //console.log("ctm",this.state.open);
         this.setState({ open: false });
     }
-  
+
 
     handleOnCloseCitaCancelada() {
         //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
         this.setState({ open3: false });
-        this.setState({open:false});
-        window.location.replace(this.props.location.pathname);
+        this.setState({ open: false });
+        //window.location.replace(this.props.location.pathname);
     }
 
     handleOnCloseAdvertencia() {
@@ -133,25 +133,141 @@ class FrmMisCitas extends Component {
 
     }
 
+    async componentDidUpdate(prevProps, prevState) {
+
+        if (prevState.actuTys != this.state.actuTys) {
+            let arregloDeSesiones =
+                await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
+
+            //console.log("arreglo: ", arregloDeSesiones);
+            let arreglillo = [];
+            let cont = 0;
+            //let max=29;     //let fex=0;      //let letras =['I','II'];
+            let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
+            let fechaSesion;
+
+            for (let element of arregloDeSesiones.data) {
+                cont++;
+                //fex= max-(cont+1);
+                fechaSesion = moment(element.FECHA).format("YYYY-MM-DD");
+
+                let estadillo = element.ESTADO.split("-")[0];
+                arreglillo.push({
+                    campoCont: cont,
+                    nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
+                    //fecha: fex + " " + "de Mayo del 2020",
+                    fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                    lugar: element.LUGAR,
+                    //tipoTutoria: "Regular Tipo "+ letras[Math.floor(Math.random()*letras.length)],
+                    tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
+                    btnCancelar:
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={e => this.handleOnClick(e, element.ID_SESION, element.ID_TUTOR, element.FECHA, element.PROCESO_TUTORIum.ID_PROGRAMA)}
+                            disabled={element.PROCESO_TUTORIum.GRUPAL}
+                        >
+                            CANCELAR
+                        </Button>,
+                    //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
+                    campoEstado: (estadillo !== "00" && estadillo !== "01") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
+
+                        (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))) :
+
+                        (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
+                    ,
+
+                    //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
+                    /*
+                    btnPosponer:
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnClickPosponer}
+                        >
+                            POSPONER
+                        </Button>,
+                    */
+                });
+            }
+
+            const data = {
+                columns: [
+                    // {
+                    //     title: "",
+                    //     field: "imagen"
+                    // },
+                    {
+                        title: "N°",
+                        field: "campoCont",
+
+                    },
+                    {
+                        title: "Tutor",
+                        field: "nombre",
+                    },
+                    {
+                        title: "Fecha / Hora",
+                        field: "fecha"
+                    },
+                    {
+                        title: "Lugar",
+                        field: "lugar"
+                    },
+                    {
+                        title: "Tipo Tutoria",
+                        field: "tipoTutoria"
+                    },
+                    {
+                        title: "Cancelar Cita",
+                        field: "btnCancelar"
+                    },
+                    {
+                        title: "Estado",
+                        field: "campoEstado"
+                    },
+                    {
+                        title: "Encuesta",
+                        field: "campoEncuesta"
+                    },
+                    /*
+                    {
+                        title: "POSPONER CITA",
+                        field: "btnPosponer",
+                    },
+                    */
+
+                ],
+                data: arreglillo
+            };
+
+            this.setState({ sesiones: data });
+        }
+    }
+
+
+
     async handleOnclickAceptarCancelacion() {
         //console.log("ctm",this.state.open);
         //this.setState({ open: false });
 
         let yo = getUser();
         let _razon = "";
-         const nuevaSolicitud = {
-             sesion: {
-                 ID_SESION:this.state.graciasYopsIdSesion,
-                 ALUMNOS: [yo.usuario.ID_USUARIO],
-                 RAZON: this.state.yopsRazon,
-                 EMISOR:yo.usuario.ID_USUARIO.toString(),
-                 RECEPTOR:this.state.graciasYopsIdTutor,
-             },
-         };
+        const nuevaSolicitud = {
+            sesion: {
+                ID_SESION: this.state.graciasYopsIdSesion,
+                ALUMNOS: [yo.usuario.ID_USUARIO],
+                RAZON: this.state.yopsRazon,
+                EMISOR: yo.usuario.ID_USUARIO.toString(),
+                RECEPTOR: this.state.graciasYopsIdTutor,
+            },
+        };
 
-         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
-         let sesionTyS = await Controller.POST(props);
-         console.log("YOOOPSSS tYS XXX ",sesionTyS);
+        const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
+        let sesionTyS = await Controller.POST(props);
+        console.log("YOOOPSSS tYS XXX ", sesionTyS);
 
         //DOING...
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -161,25 +277,27 @@ class FrmMisCitas extends Component {
         //     this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});  
         // }
 
-         if(!sesionTyS.message){
-             if(!sesionTyS.error){
-                 this.setState({mensajillo:"Cita Cancelada Satisfactoriamente !"});    
-             }else{
-                 this.setState({mensajillo:"Ups, Error inesperado... Por favor, inténtelo más tarde."});   
-             }
-         }
-         else{
-             this.setState({mensajillo:sesionTyS.message});
-         }
+        if (!sesionTyS.message) {
+            if (!sesionTyS.error) {
+                this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
+                this.setState({ actuTys: !this.state.actuTys });
 
-        this.setState({open3:true });
+            } else {
+                this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+            }
+        }
+        else {
+            this.setState({ mensajillo: sesionTyS.message });
+        }
+
+        this.setState({ open3: true });
     }
 
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
         //console.log("XXXXXXXXX RAZON ",e.value);
         this.setState({ [e.name]: e.value });
-        this.setState({yopsRazon:e.value});
+        this.setState({ yopsRazon: e.value });
 
     }
 
@@ -231,14 +349,14 @@ class FrmMisCitas extends Component {
         let arreglillo = [];
         let cont = 0;
         //let max=29;     //let fex=0;      //let letras =['I','II'];
-        let fechaHoy=moment (new Date()).format("YYYY-MM-DD");
+        let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
         let fechaSesion;
-        
+
         for (let element of arregloDeSesiones.data) {
             cont++;
             //fex= max-(cont+1);
-            fechaSesion=moment(element.FECHA).format("YYYY-MM-DD");
-            
+            fechaSesion = moment(element.FECHA).format("YYYY-MM-DD");
+
             let estadillo = element.ESTADO.split("-")[0];
             arreglillo.push({
                 campoCont: cont,
@@ -253,19 +371,19 @@ class FrmMisCitas extends Component {
                         size="large"
                         variant="outlined"
                         color="secondary"
-                        onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
+                        onClick={e => this.handleOnClick(e, element.ID_SESION, element.ID_TUTOR, element.FECHA, element.PROCESO_TUTORIum.ID_PROGRAMA)}
                         disabled={element.PROCESO_TUTORIum.GRUPAL}
                     >
                         CANCELAR
                     </Button>,
                 //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                campoEstado: (estadillo!=="00" && estadillo!=="01")?  fechaSesion<fechaHoy?"Pendiente Registro":
-                
-                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" :"Realizada"))):
+                campoEstado: (estadillo !== "00" && estadillo !== "01") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
 
-                (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
+                    (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))) :
+
+                    (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
                 ,
-                
+
                 //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                 /*
                 btnPosponer:
@@ -311,11 +429,11 @@ class FrmMisCitas extends Component {
                 {
                     title: "Cancelar Cita",
                     field: "btnCancelar"
-                },                
+                },
                 {
                     title: "Estado",
                     field: "campoEstado"
-                },                
+                },
                 {
                     title: "Encuesta",
                     field: "campoEncuesta"
@@ -336,7 +454,7 @@ class FrmMisCitas extends Component {
     }
 
     render() {
-        
+
         return (
             <div>
                 <Dialog
@@ -388,33 +506,33 @@ class FrmMisCitas extends Component {
 
 
                 {this.state.openFechaInvalida &&
-                <Dialog
-                    open={this.state.openFechaInvalida}
-                    onClose={this.handleOnCloseAdvertencia}
-                >
-                    <DialogTitle id="form-dialog-title-fecha">
-                    <Grid container md={12} justify="center">
-                        <WarningRoundedIcon style={{ fontSize: 70,fill:"orange" }}/>
-                    </Grid>
-                    </DialogTitle>
-                    <DialogContent>
-                    <Grid container md={12} justify="center">
-                        <Typography variant="subtitle1" >
-                            Por politica de la facultad solo puede cancelar su 
+                    <Dialog
+                        open={this.state.openFechaInvalida}
+                        onClose={this.handleOnCloseAdvertencia}
+                    >
+                        <DialogTitle id="form-dialog-title-fecha">
+                            <Grid container md={12} justify="center">
+                                <WarningRoundedIcon style={{ fontSize: 70, fill: "orange" }} />
+                            </Grid>
+                        </DialogTitle>
+                        <DialogContent>
+                            <Grid container md={12} justify="center">
+                                <Typography variant="subtitle1" >
+                                    Por politica de la facultad solo puede cancelar su
                             cita con mínimo {this.state.diasAnticipacion} dias de Anticipación
                         </Typography>
-                    </Grid>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button 
-                            variant="contained"
-                            onClick={this.handleOnCloseAdvertencia}
-                            color="primary"
-                        >
-                            Aceptar
+                            </Grid>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button
+                                variant="contained"
+                                onClick={this.handleOnCloseAdvertencia}
+                                color="primary"
+                            >
+                                Aceptar
                         </Button>
-                    </DialogActions>
-                </Dialog>}
+                        </DialogActions>
+                    </Dialog>}
 
                 <Dialog
                     open={this.state.open3}
@@ -445,7 +563,7 @@ class FrmMisCitas extends Component {
                         proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"PyR"} />
                     },
                     //{ index: 1, titulo: "Reprogramadas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Reprogramada"} /> },
-                    { index: 1, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas/> },
+                    { index: 1, titulo: "Realizadas", proceso: () => < FrmMisCitasPasadas /> },
                     { index: 2, titulo: "Canceladas", proceso: () => < TablaTutoresMisCitas sesiones={this.state.sesiones} estado={"Cancelada"} /> },
 
                 ]} paper={true} />

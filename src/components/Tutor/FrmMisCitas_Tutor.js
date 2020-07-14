@@ -43,7 +43,7 @@ class FrmMisCitas_Tutor extends Component {
             horaFinR: "",
             duraSesion: 0,
             arrAlumnoVer: [],
-
+            actuTys:false,
         };
 
         this.handleOnClickCancelar = this.handleOnClickCancelar.bind(this);
@@ -208,14 +208,14 @@ class FrmMisCitas_Tutor extends Component {
         //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
         this.setState({ open3: false });
         this.setState({ open: false });
-        window.location.replace(this.props.location.pathname);
+        //window.location.replace(this.props.location.pathname);
     }
 
     handleOnCloseCitaCancelada_Rep() {
         //Darle ok o Aceptar al dialogo de "Se registro staisfactoriamente la cancelacion"
         this.setState({ open4: false });
         this.setState({ open2: false });
-        window.location.replace(this.props.location.pathname);
+        //window.location.replace(this.props.location.pathname);
     }
 
     handleOnChangeCT = (e) => {
@@ -308,6 +308,8 @@ class FrmMisCitas_Tutor extends Component {
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
                 this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
+                this.setState({actuTys:!this.state.actuTys});
+
             } else {
                 this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
             }
@@ -317,6 +319,156 @@ class FrmMisCitas_Tutor extends Component {
         }
         this.setState({ open3: true });
     }
+
+
+    async componentDidUpdate(prevProps, prevState){
+
+        if (prevState.actuTys != this.state.actuTys){
+            let arregloDeSesiones =
+            await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO });
+
+        //console.log("arreglo: ", arregloDeSesiones);
+        let arreglillo = [];
+        let cont = 0;
+        let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
+        let fechaSesion;
+
+        for (let element of arregloDeSesiones.data) {
+            cont++;
+            fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
+
+            let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+
+            arreglillo.push({
+                campoCont: cont,
+                /*
+                    imagen: <div>
+                      <img
+                          style={estilo.imagen}
+                          src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
+  
+                      </img>
+                  </div>, 
+                 */
+
+                //>>> ASUMIMOS PARA UN ALUMNO
+                //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
+                nombre: element.PROCESO_TUTORIum.GRUPAL ?
+                    <Button
+                    href="#text-buttons" color="primary"
+  
+                        onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
+                    >
+                        Ver Alumnos
+                    </Button> :
+                    (element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " +
+                        element.ALUMNOs[0].USUARIO.APELLIDOS : "" : ""),
+
+                fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                lugar: element.LUGAR,
+                campoMotivoSoli: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.MOTIVO,
+                campoDescMotivo: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.DESCRIPCION,
+                tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
+                btnCancelar:
+                    <Button
+                        size="large"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={e => this.handleOnClickCancelar(e, element.ID_SESION, element.ALUMNOs)}
+                    >
+                        CANCELAR
+                    </Button>,
+                campoEstado: estadillo === "PR" ? "Pendiente Registro" :
+                    estadillo === "04" ? "Pendiente" :
+                        estadillo === "03" ? "Reprogramada" :
+                            estadillo === "02" ? "Cancelada" :
+                                "Realizada",
+
+                btnPosponer:
+                    <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
+                    >
+                        REPROGRAMAR
+                    </Button>,
+                campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
+
+            });
+
+
+
+
+        }
+
+        const data = {
+            columns: [
+                // {
+                //     title: "",
+                //     field: "imagen"
+                // },
+                {
+                    title: "N°",
+                    field: "campoCont",
+
+                },
+                {
+                    title: "Alumno",
+                    field: "nombre",
+                },
+                {
+                    title: "Fecha / Hora",
+                    field: "fecha"
+                },
+                {
+                    title: "Lugar",
+                    field: "lugar"
+                },
+                {
+                    title: "Motivo Solicitud",
+                    field: "campoMotivoSoli",
+                },
+                {
+                    title: "Descripción del Motivo",
+                    field: "campoDescMotivo",
+                },
+                {
+                    title: "Tipo Tutoria",
+                    field: "tipoTutoria"
+                },
+                {
+                    title: "Cancelar Cita",
+                    field: "btnCancelar"
+                },
+                {
+                    title: "Reprogramar Cita",
+                    field: "btnPosponer",
+                },
+                {
+                    title: "Estado",
+                    field: "campoEstado"
+                },
+                {
+                    title: "Motivo Cancelación",
+                    field: "campoRazonMantenimiento"
+                },
+
+            ],
+            data: arreglillo
+        };
+
+        this.setState({ sesiones: data });
+
+
+        }
+
+
+
+    }
+
+
+
 
 
     async handleOnclickAceptarReprogramacion() {
@@ -357,6 +509,8 @@ class FrmMisCitas_Tutor extends Component {
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
                 this.setState({ mensajilloR: "Cita Reprogramada Satisfactoriamente !" });
+                this.setState({actuTys:!this.state.actuTys});
+
             } else {
                 this.setState({ mensajilloR: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
             }
