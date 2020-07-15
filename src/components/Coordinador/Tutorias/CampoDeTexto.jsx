@@ -9,10 +9,6 @@ const estilos = {
     flexDirection: "column",
   },
 };
-/**
- *
- */
-
 class CampoDeTexto extends Component {
   constructor() {
     super();
@@ -36,6 +32,7 @@ class CampoDeTexto extends Component {
     if (!this.state.validacion) {
       return true;
     }
+
     // Validacion de limite de tamaño
     if (texto.length > this.state.validacion.lim) {
       this.setState({
@@ -47,27 +44,31 @@ class CampoDeTexto extends Component {
       });
       return false;
     }
+
     // validacion en caso sea un email
     if (this.state.validacion.tipo === "email") {
-      if (texto.substr(-this.props.dominio.length)!==this.props.dominio && texto.substr(-this.props.dominio2.length)!==this.props.dominio2) {
-
-        let errorMessageDomain = ''
+      if (
+        texto.substr(-this.props.dominio.length) !== this.props.dominio &&
+        texto.substr(-this.props.dominio2.length) !== this.props.dominio2
+      ) {
+        let errorMessageDomain = "";
         if (this.props.dominio) {
-          console.log("dom1: ",this.props.dominio);
+          console.log("dom1: ", this.props.dominio);
           errorMessageDomain = errorMessageDomain + this.props.dominio;
         }
         if (this.props.dominio2) {
-          console.log("dom2: ",this.props.dominio2);
-          errorMessageDomain = errorMessageDomain + ' - ' + this.props.dominio2;
+          console.log("dom2: ", this.props.dominio2);
+          errorMessageDomain = errorMessageDomain + " - " + this.props.dominio2;
         }
         this.setState({
           mensajeError:
-            ' Un correo valido debe contener caracteres alfanumericos, un "@" y ser del dominio de la institución: ' + errorMessageDomain,
+            ' Un correo valido debe contener caracteres alfanumericos, un "@" y ser del dominio de la institución: ' +
+            errorMessageDomain,
         });
         return true;
       }
     }
-    
+
     //validacion en caso sea telefono
     if (this.state.validacion.tipo === "telefono") {
       if (this.state.regex.telefono.test(String(texto))) {
@@ -118,7 +119,7 @@ class CampoDeTexto extends Component {
       this.setState({ texto: textoActual });
       return;
     }
-
+    
     //Validacion general
     if (this.validacion(textoActual)) {
       this.setState({ texto: textoActual });
@@ -129,18 +130,17 @@ class CampoDeTexto extends Component {
       this.props.validarEntrada({ llave: this.props.name, error: error });
       return;
     }
-
     this.props.validarEntrada({ llave: this.props.name, error: error });
   };
+
   componentDidMount() {
     if (this.props.validacion) {
       this.setState({ validacion: this.props.validacion });
     }
-    if (this.props.inicial) { 
-      console.log("inicial: ",this.props.inicial);
+    if (this.props.inicial) {
+      console.log("inicial: ", this.props.inicial);
       this.props.onChange({ name: this.props.name, value: this.props.inicial });
       this.setState({ texto: this.props.inicial });
-     
     }
     if (this.props.inicial) {
       this.props.validarEntrada({

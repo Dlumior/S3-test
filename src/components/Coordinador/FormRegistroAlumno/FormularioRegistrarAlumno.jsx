@@ -183,6 +183,7 @@ class FormularioRegistrarAlumno extends Component {
     if (this.state.errores.length === 0) {
       e.preventDefault();
       console.log("alumno: ", this.state.alumno);
+      console.log("errores: ", this.state.errores);
       let {
         nombres,
         apellidos,
@@ -269,9 +270,7 @@ class FormularioRegistrarAlumno extends Component {
     console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -315,9 +314,7 @@ class FormularioRegistrarAlumno extends Component {
     //usuarioLogueado?"/api/facultad//"
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
 
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -430,9 +427,7 @@ class FormularioRegistrarAlumno extends Component {
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
               subnombre={
-                this.getSubRol(
-                  getUser().rol
-                ) === "programa"
+                this.getSubRol(getUser().rol) === "programa"
                   ? "FACULTAD"
                   : undefined
               }
@@ -450,9 +445,7 @@ class FormularioRegistrarAlumno extends Component {
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
                 keyServicio={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
+                  this.getSubRol(getUser().rol) === "programa"
                     ? "programas"
                     : "programa"
                 }

@@ -7,11 +7,13 @@ import { iniciarSesion } from "../../Sesion/actions/sesionAction";
 import { withRouter } from "react-router-dom";
 import { compose } from "recompose";
 import Alertas from "../Coordinador/Alertas";
+
 class IniciarSesion extends Component {
   static contextType = UserContext;
   constructor() {
     super();
     this.state = {
+      
       Usuario: "",
       Contrasenia: "",
       errores: [],
@@ -30,7 +32,12 @@ class IniciarSesion extends Component {
     this.validarEntrada = this.validarEntrada.bind(this);
     this.onSignInNormal = this.onSignInNormal.bind(this);
     // this.onFailure = this.onFailure.bind(this);
+
+
   }
+
+ 
+
   validarEntrada(error) {
     console.log("errores:", error);
   }
@@ -129,6 +136,8 @@ class IniciarSesion extends Component {
                     >
                       Iniciar Sesión
                     </Button>
+
+                    
                   </Grid>
                   <Grid item md={1} xs={1}></Grid>
                 </Grid>
