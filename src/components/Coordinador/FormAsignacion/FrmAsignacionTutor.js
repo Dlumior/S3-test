@@ -289,7 +289,7 @@ const VerticalLinearStepper = () => {
             <ListaProcesoTut
               titulo={"Proceso de Tutoría"}
               escogerTutoria={handleOnChangeTutoria}
-              enlace={"/api/tutoriafija/" + subprograma}
+              enlace={"/api/tutoriafijaasignada/" + subprograma}
               grupal={grupal}
               proceso={tutoria}
             />

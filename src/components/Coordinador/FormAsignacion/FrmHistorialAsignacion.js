@@ -105,7 +105,7 @@ useEffect(() => {
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
-    const endpoint = "/api/tutoriafija/"+programa;
+    const endpoint = "/api/tutoriafijaasignada/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log("tutoria: ",res);

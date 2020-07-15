@@ -108,6 +108,7 @@ const RegistrarCoordinador = (props) => {
   const [nombre,setNombre]=useState({
     usuario:"",
   });
+  const [cantP,setCantP]=useState(0);
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState("");
@@ -177,6 +178,8 @@ const RegistrarCoordinador = (props) => {
       mensaje:"",
     });   
     setFlag(flag => flag +1);
+    let ps=[];
+    setProgramasSeleccionados(ps);
   };
 
   const handleClickOpenAviso = () => {
@@ -217,8 +220,10 @@ const RegistrarCoordinador = (props) => {
 
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
-      console.log("programa",programa)
-      programasSeleccionados.push(programa);
+      console.log("cant Pro sel",cantP,programasSeleccionados.length)
+      if (cantP<programasSeleccionados.length){
+        programasSeleccionados.push(programa);
+      }
       console.log("programasSelecc",programasSeleccionados)
 
       datosForm.FACULTAD=programasSeleccionados;
@@ -300,6 +305,12 @@ const RegistrarCoordinador = (props) => {
         console.log("asignado",asignado); 
     }
     setOpenAviso(false);
+  }
+
+  const handleCantP = (cant) =>{
+    console.log("CANT",cant);
+    setCantP(cant);
+    console.log("CANTP",cantP);
   }
 
 
@@ -391,6 +402,7 @@ const RegistrarCoordinador = (props) => {
                 setPrograma={setPrograma}
                 programas={programas}
                 setProgramas={setProgramas}
+                cantP={handleCantP}
               /> 
             </Grid>
           </Grid>

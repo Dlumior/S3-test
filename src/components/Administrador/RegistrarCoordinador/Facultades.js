@@ -31,36 +31,38 @@ const style = {
     
 const Facultades = (props) => {
     const { programasSeleccionados, setProgramasSeleccionados,programa,
-        setPrograma,programas, setProgramas } = props;
+        setPrograma,programas, setProgramas,cantP } = props;
     const [cantProgramas, setCantPrograma]=useState(0);
 
     const handleCantPrograma = (func) => {
-        if (func>0){
-          if (func>cantProgramas){  
-            setCantPrograma(cantProgramas => func);
-            console.log("func",func);
+      if (func>=0){
+        if (func>cantProgramas){  
+          setCantPrograma(cantProgramas => func);
+          console.log("func",func);
+          if (programa!==""){
             programasSeleccionados.push(programa);
-            console.log("programasSelecc",programasSeleccionados);
-            console.log("programas ",programas);
-            console.log("programa ",programa);
-
-          }else{
-            setCantPrograma(cantProgramas => func);
-            console.log("func",programasSeleccionados.length)
-            console.log("func",cantProgramas)
-            if (programasSeleccionados.length>=cantProgramas){
-              programasSeleccionados.splice(-1);
-            } 
-            console.log("programasSelecc",programasSeleccionados)
-          }
+          }          
+          console.log("programasSelecc",programasSeleccionados);
+          console.log("programas ",programas);
+          console.log("programa ",programa);
         }else{
-          setCantPrograma(cantProgramas => 0);
+          setCantPrograma(cantProgramas => func);
+          console.log("programasSelecc",programasSeleccionados);
+          console.log("cantP",cantProgramas)
+          if (programasSeleccionados.length>cantProgramas){//this is it
+            programasSeleccionados.splice(-1);
+          }          
+          console.log("programasSelecc",programasSeleccionados)
         }
-      };
+      }else{
+        setCantPrograma(cantProgramas => 0);
+      }
+      cantP(cantProgramas);
+    };
     
 
     const renderPrograma = (cantProgramas) => {
-        console.log("cant=",cantProgramas);
+        
         let n=cantProgramas;
         let arregloProg=[];
         for (let i=0;i<n;i++){

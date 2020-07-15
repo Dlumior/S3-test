@@ -389,6 +389,7 @@ class FormularioRegistrarAlumno extends Component {
             />
             {/* Telefono */}
             <CampoDeTexto
+              requerido={false}
               autoFocus={true}
               name="telefono"
               label="Teléfono"
@@ -398,7 +399,7 @@ class FormularioRegistrarAlumno extends Component {
             />
             {/* Direccion */}
             <CampoDeTexto
-              requerido={true}
+              requerido={false}
               autoFocus={true}
               name="direccion"
               label="Dirección"

@@ -17,24 +17,12 @@ const EliminarFacultad = (props) => {
   const [flag, setFlag] = useState(0);//actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensajeStrong: "",
-    mensajeStrongError: "por favor revisalos!",
-    mensajeStrongExito: "satisfactoriamente!",
-    mensajeError: "Existen errores al completar el formulario",
-    mensajeExito: "Coordinador registrado",
-    mensaje: "",
-  });
-  const [severidad, setSeveridad] = useState({
-    severidad:"",
-    severW:"warning",
-    severE:"error",
-    severS:"success"
+    mensaje: "¿Esta seguro de eliminar la facultad?",
   });
  
 
   const handleClick = async (e) => {    
-      
-      //FACULTAD ELIMINAR 
+            //FACULTAD ELIMINAR 
       console.log("idFacu",id);
       let enlace;
       enlace="/api/facultad/eliminar/"+id;
@@ -44,9 +32,15 @@ const EliminarFacultad = (props) => {
       if (resultado){
         if (resultado.eliminacion.ok!==1){
           setElimino(false);
-          console.log("elimino",elimino);
+          console.log("elimino",elimino);    
+          setAlerta({
+            mensaje:"La facultad no puede eliminarse porque cuenta con programas registrados",
+          }); 
         }else{          
           setElimino(true);
+          setAlerta({
+            mensaje:"",
+          }); 
         }    
       }
       //actualizamos lista 
@@ -72,12 +66,13 @@ const EliminarFacultad = (props) => {
         </DialogTitle>
         <DialogContent>
             <Grid container md={12} justify="center">
-              {!elimino &&
-                <Typography variant="h6" >
-                ¿Esta seguro de eliminar la facultad?
-            </Typography>}
+              {console.log("alerta",alerta.mensaje)}
+              {!elimino && 
+                <Typography variant="subtitle1" >
+                  {alerta.mensaje}
+               </Typography>}
             {elimino &&
-              <Typography variant="h6" >
+              <Typography variant="subtitle1" >
                 La facultad se elimino satisfactoriamente
             </Typography>}
             </Grid>

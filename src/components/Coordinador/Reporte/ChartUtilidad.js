@@ -33,6 +33,7 @@ const ChartUtilidad = (props) => {
         {
           ticks: {
             min: 0,
+            max:5,
           },
         },
       ],

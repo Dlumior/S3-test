@@ -145,6 +145,7 @@ const RevisarSesion = (cita) => {
     lugar:'',
     descripcion:"",
     apoyo:[],
+    asistencia:cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO === 0 ? "no":"yes",
   });
   const [alerta, setAlerta]= useState({
     mensajeStrong: "",
@@ -176,6 +177,12 @@ const RevisarSesion = (cita) => {
   
   const handleOnCloseVer = () => {
     setOpen2(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
   }
   
   const handleOnclickVerAlmunos = (e, alumnos) => {
@@ -185,6 +192,13 @@ const RevisarSesion = (cita) => {
   const handleClose = () => {
     setOpen(false);
     cita.onClose();
+    setOpen2(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -193,7 +207,9 @@ const RevisarSesion = (cita) => {
       var doggysAssistance = 1;
     } else if (datosForm.asistencia === "no") {
       var doggysAssistance = 0;
-    } else {
+    } else if (datosForm.asistencia === null) {
+      var doggysAssistance = 0; 
+    }else {
       setSeveridad({
         severidad:severidad.severE,
       });     
@@ -217,7 +233,12 @@ const RevisarSesion = (cita) => {
     let sesion = await Controller.POST(props);
     console.log("ASISTENCIA PRUEBA",sesion);
     if (sesion) {
-      alert("Sesion registrada Satisfactoriamente");
+      setSeveridad({
+        severidad:"success",
+      });     
+      setAlerta({
+        mensaje:"Sesion registrada Satisfactoriamente",
+      }); 
     }
     console.log("got updated sesion from back:", sesion);
       
@@ -246,7 +267,7 @@ const RevisarSesion = (cita) => {
         onClose={cita.onClose}
         aria-labelledby="form-dialog-title"
       >
-        <Alertas
+          <Alertas  
           severity={severidad.severidad}
           titulo={"Observacion:"}
           alerta={alerta}
