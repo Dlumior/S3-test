@@ -439,7 +439,7 @@ useEffect(() => {
 
             <Grid item md={12}>
               <ComboBoxFacus
-                setPrDisabled={setPDisabled}
+                setPrDisabled={setPrDisabled}
                 facultades={facultades}
                 facultad={facultad}
                 setFacultad={setFacultad}
