@@ -815,7 +815,7 @@ class FrmMisCitas_Tutor extends Component {
                                     onChange={(e) => this.handleOnChangeHoraFin(e)}
                                     fullWidth
                                 />
-                                <FormHelperText error>{this.state.mensajeError}</FormHelperText>
+                                {/*<FormHelperText error>{this.state.mensajeError}</FormHelperText>*/}
 
                             </Grid>
                         </Grid>
