@@ -38,12 +38,12 @@ const style = {
       }
   };
     
-const PlanDeAccion = (props) => {
+const ModificarPlanDeAccion = (props) => {
     console.log("PLAN DE ACCION: ", props);
     const { plan, setPlan } = props;
     console.log("plantest", plan);
     console.log("CANT COMPROMISOS: ", plan.length);
-    const [cantCompromisos, setCantCompromisos]=useState(1);
+    const [cantCompromisos, setCantCompromisos]=useState(plan.length);
     const [compromiso,setCompromiso]=useState({
         indice:0,
         campo:'',
@@ -64,10 +64,16 @@ const PlanDeAccion = (props) => {
         indice:cantCom,
         campo: e.target.value,
       });
-      for (let element of plan){
-        if(element.indice===cantCom){
-          plan[cantCom].campo=e.target.value;
-        }
+      console.log("compromise",compromiso);
+      console.log("cantComp",cantCompromisos);
+      if (cantCompromisos>0){
+        for (let i=0;i<cantCompromisos;i++){
+            if(i===cantCom){
+              plan[cantCom].DESCRIPCION=e.target.value;
+            }
+          }
+      }else{
+          plan.push(compromiso);
       }
       console.log("a ver: ",plan)
       console.log("cantComp: ",cantCom)
@@ -96,7 +102,7 @@ const PlanDeAccion = (props) => {
         console.log("entra?",cantCompromisos);
 
         //setCantCompromisos(cantCompromisos => cantCompromisos+1)
-        handleCantCompromisos(cantCompromisos+1)
+        handleCantCompromisos(cantCompromisos+1);
         setPlan(plan);
          // put the login here
       }
@@ -105,22 +111,24 @@ const PlanDeAccion = (props) => {
         console.log("cant=",cantCompromisos);
         let n=cantCompromisos;
         let arregloPlan=[];
-        for (let i=0;i<n;i++){
+        for (let i of plan){
           arregloPlan.push(i);
           //programasSeleccionados.push(programa);
         }
           return(
             <div>
-              {arregloPlan.map((item) => (  
+              {arregloPlan.map((item,index) => (  
                 <Grid>
-                  <Checkbox color="primary" id={cantCompromisos}>                     
-                    </Checkbox>
+                  {item.DESCRIPCION!=='' &&
+                      <Checkbox color="primary" id={cantCompromisos}>                     
+                    </Checkbox>}
+                  {item.DESCRIPCION!=='' &&
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}
                     defaultValue={item.DESCRIPCION}
-                    onChange={(e) => handleCompromiso(e,item)}
+                    onChange={(e) => handleCompromiso(e,index)}
                     onKeyDown={keyPress}>
-                  </TextField> 
+                  </TextField> }
     
                 </Grid>          
                  
@@ -142,6 +150,15 @@ const PlanDeAccion = (props) => {
         <Grid item md={12}
             container
             justify="flex-start" >
+            {cantCompromisos===0 &&
+            <Checkbox color="primary" id={cantCompromisos}>                     
+            </Checkbox>}
+            {cantCompromisos===0 &&
+                <TextField margin="dense" style={{ width: 300 }}
+            id={cantCompromisos}
+            onChange={(e) => handleCompromiso(e,0)}
+            onKeyDown={keyPress}>
+            </TextField>}
             {/*<IconButton color="primary" onClick={()=> handleCantCompromisos(cantCompromisos+1)}>
             <AddBoxRoundedIcon
             color="primary"
@@ -159,4 +176,4 @@ const PlanDeAccion = (props) => {
     );
   };
   
-  export default PlanDeAccion;
+  export default ModificarPlanDeAccion;

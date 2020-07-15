@@ -33,6 +33,7 @@ class SesionesCard extends Component {
         data: [{ nombre: "" }]
       }, //aqui va el nombre de la tablilla
       open: false,
+      
 
     };
 
@@ -49,6 +50,7 @@ handleOnClick() {
 
 handleOnClose() {
   this.setState({ open: false });
+  
 }
 
   render() {

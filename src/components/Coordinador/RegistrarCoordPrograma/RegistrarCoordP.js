@@ -109,6 +109,7 @@ const RegistrarCoordinador = (props) => {
     IMAGEN: null,
     PROGRAMA:[],
   });
+  const [cantP,setCantP]=useState(0);
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);
   const [programas, setProgramas] = useState([]);
   const [programa, setPrograma] = useState([]);
@@ -196,6 +197,8 @@ useEffect(() => {
     });   
     //window.location.reload();
     setFlag(flag => flag +1);
+    let ps=[];
+    setProgramasSeleccionados(ps);
   };
 
  
@@ -236,7 +239,10 @@ useEffect(() => {
       console.log("arreglo ha actualizar: ",arregloProg);
       */
       console.log("programa",programa)
-      programasSeleccionados.push(programa);
+      console.log("cant Pro sel",cantP,programasSeleccionados.length)
+      if (cantP<programasSeleccionados.length){
+        programasSeleccionados.push(programa);
+      }
       console.log("programasSelecc",programasSeleccionados)
 
       datosForm.PROGRAMA=programasSeleccionados;
@@ -272,7 +278,11 @@ useEffect(() => {
 
     }  
   };
-
+  const handleCantP = (cant) =>{
+    console.log("CANT",cant);
+    setCantP(cant);
+    console.log("CANTP",cantP);
+  }
 
   return (
     <div>
@@ -364,7 +374,8 @@ useEffect(() => {
                 programa={programa}
                 setPrograma={setPrograma}
                 programas={programas}
-              setProgramas={setProgramas}/>
+                setProgramas={setProgramas}
+                cantP={handleCantP}/>
             </Grid>
           </Grid>
         </DialogContent>

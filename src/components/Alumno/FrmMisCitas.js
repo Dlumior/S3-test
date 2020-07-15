@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography,TextField, FormHelperText } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -50,6 +50,8 @@ class FrmMisCitas extends Component {
             yopsRazon: "",
             diasAnticipacion: 0,
             actuTys: false,
+            esInvalido:true,
+            mensajeError:"",
 
         };
 
@@ -267,6 +269,8 @@ class FrmMisCitas extends Component {
 
         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
+        if (!sesionTyS) return;
+
         console.log("YOOOPSSS tYS XXX ", sesionTyS);
 
         //DOING...
@@ -296,8 +300,22 @@ class FrmMisCitas extends Component {
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
         //console.log("XXXXXXXXX RAZON ",e.value);
-        this.setState({ [e.name]: e.value });
-        this.setState({ yopsRazon: e.value });
+
+        //this.setState({ [e.name]: e.value });
+        //this.setState({ yopsRazon: e.value });
+
+        //aca valido
+        if (e.target.value.length === 0) {
+            this.setState({ mensajeError: "Debe ingresar un motivo!", esInvalido: true });
+        } else {
+            this.setState({ mensajeError: "", esInvalido: false });
+        }
+
+        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ yopsRazon: e.target.value });
+
+
+
 
     }
 
@@ -351,12 +369,12 @@ class FrmMisCitas extends Component {
         //let max=29;     //let fex=0;      //let letras =['I','II'];
         let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
         let fechaSesion;
-        if (arregloDeSesiones){
+        if (arregloDeSesiones) {
             for (let element of arregloDeSesiones.data) {
                 cont++;
                 //fex= max-(cont+1);
-                fechaSesion=moment(element.FECHA).format("YYYY-MM-DD");
-                
+                fechaSesion = moment(element.FECHA).format("YYYY-MM-DD");
+
                 let estadillo = element.ESTADO.split("-")[0];
                 arreglillo.push({
                     campoCont: cont,
@@ -371,19 +389,19 @@ class FrmMisCitas extends Component {
                             size="large"
                             variant="outlined"
                             color="secondary"
-                            onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR,element.FECHA,element.PROCESO_TUTORIum.ID_PROGRAMA)}
+                            onClick={e => this.handleOnClick(e, element.ID_SESION, element.ID_TUTOR, element.FECHA, element.PROCESO_TUTORIum.ID_PROGRAMA)}
                             disabled={element.PROCESO_TUTORIum.GRUPAL}
                         >
                             CANCELAR
                         </Button>,
                     //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                    campoEstado: (estadillo!=="00" && estadillo!=="01")?  fechaSesion<fechaHoy?"Pendiente Registro":
-                    
-                    (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" :"Realizada"))):
+                    campoEstado: (estadillo !== "00" && estadillo !== "01") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
 
-                    (estadillo === "04"?"Pendiente":(estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
+                        (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))) :
+
+                        (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")))
                     ,
-                    
+
                     //campoEncuesta: "rico p", /*<<<<AQUÍ ENTRAS TÚ BBITA xD */
                     /*
                     btnPosponer:
@@ -399,7 +417,7 @@ class FrmMisCitas extends Component {
                 });
             }
         }
-        
+
         const data = {
             columns: [
                 // {
@@ -469,7 +487,7 @@ class FrmMisCitas extends Component {
 
                     <DialogContent>
                         <Paper elevation={0} >
-                            <CampoDeTexto
+                            {/* <CampoDeTexto
                                 autoFocus={true}
                                 name="Motivo"
                                 label="Ingrese Motivo de Cancelación"
@@ -481,7 +499,21 @@ class FrmMisCitas extends Component {
                                 inicial="..."
                                 onChange={this.handleOnChangeCT}
                                 validarEntrada={this.validarEntradaCT}
+                            /> */}
+                            <TextField
+                                required={true}
+                                autoFocus={true}
+                                fullWidth
+                                name="Motivo"
+                                label="Ingrese Motivo de Cancelación"
+                                onChange={this.handleOnChangeCT}
+                                variant={"outlined"}
+                                rows={10}
+                                multiline={true}
+                                //value={this.state.Motivo}
+
                             />
+                            <FormHelperText error>{this.state.mensajeError}</FormHelperText>
                         </Paper>
 
                     </DialogContent>
@@ -498,6 +530,7 @@ class FrmMisCitas extends Component {
                             size="large"
                             variant="contained"
                             color="primary"
+                            disabled={this.state.esInvalido}
                             onClick={this.handleOnclickAceptarCancelacion}                        >
                             SÍ
                         </Button>

@@ -38,6 +38,8 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      
+
       descripcion: "",
       fileName: "",
       PDFURL: undefined,
@@ -69,6 +71,9 @@ class VerInformacionRelevante extends Component {
     this.handleVistaPrevia = this.handleVistaPrevia.bind(this);
     this.handleDescargar = this.handleDescargar.bind(this);
     this.getArchivo = this.getArchivo.bind(this);
+
+
+
   }
   handleOnChangeTexto = (e) => {
     // nombre y descripcion
@@ -217,6 +222,8 @@ class VerInformacionRelevante extends Component {
       });
     }
   }
+
+ 
   /**
    * buffer array read as text
    * @param {Buffer} file
@@ -335,6 +342,8 @@ class VerInformacionRelevante extends Component {
             style={{ display: "none" }}
             download
           ></a>
+          
+          
           {this.state.archivo && this.state.extension === "pdf" ? (
             <div style={estilos.divini}>
               <iframe

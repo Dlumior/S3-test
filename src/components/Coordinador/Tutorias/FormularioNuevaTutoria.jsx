@@ -40,7 +40,7 @@ class FormularioNuevaTutoria extends Component {
         tutor_fijo: 0,
         grupal: 0,
         tutor_asignado: 0,
-        permanente: 0,
+        permanente: 5,
         programa: "",
         duracion: 0,
       },
@@ -60,7 +60,6 @@ class FormularioNuevaTutoria extends Component {
         tutor_fijo: [
           { titulo: "Variable", valor: 0 },
           { titulo: "Fijo Semestral", valor: 1 },
-          { titulo: "Fijo Permanente", valor: 2 },
         ],
         grupal: [
           { titulo: "Grupal", valor: 1 },
@@ -381,7 +380,9 @@ class FormularioNuevaTutoria extends Component {
               <></>
             )}
 
-            {/* Vigencia */}
+            {/* Vigencia
+            
+            @deprecado
             <GrupoRadioButton
               name={"permanente"}
               disabled={false}
@@ -389,6 +390,9 @@ class FormularioNuevaTutoria extends Component {
               radios={this.state.radios.permanente}
               obtenerSeleccion={this.obtenerSeleccionRadio}
             />
+            
+            */}
+            
 
             {/* Duracion */}
 

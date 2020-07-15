@@ -43,7 +43,8 @@ class FrmMisCitas_Tutor extends Component {
             horaFinR: "",
             duraSesion: 0,
             arrAlumnoVer: [],
-            actuTys:false,
+            actuTys: false,
+            mensajeError: "",
         };
 
         this.handleOnClickCancelar = this.handleOnClickCancelar.bind(this);
@@ -64,7 +65,7 @@ class FrmMisCitas_Tutor extends Component {
 
         this.handleOnclickVerAlmunos = this.handleOnclickVerAlmunos.bind(this);
 
-        
+
         this.handleOnOpenVer = this.handleOnOpenVer.bind(this);
         this.handleOnCloseVer = this.handleOnCloseVer.bind(this);
 
@@ -221,8 +222,21 @@ class FrmMisCitas_Tutor extends Component {
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
         //console.log("XXXXXXXXX RAZON ",e.value);
-        this.setState({ [e.name]: e.value });
-        this.setState({ yopsRazon: e.value });
+
+        //this.setState({ [e.name]: e.value });
+        //this.setState({ yopsRazon: e.value });
+
+        //aca valido
+        if (e.target.value.length === 0) {
+            this.setState({ mensajeError: "Debe ingresar un motivo!", esValido: true }); //que seria un "es invalido"
+        } else {
+            this.setState({ mensajeError: "", esValido: false });
+        }
+
+        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ yopsRazon: e.target.value });
+
+
 
     }
 
@@ -297,6 +311,8 @@ class FrmMisCitas_Tutor extends Component {
         console.log("ANTES DE API: ", nuevaSolicitud);
         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
+        if (!sesionTyS) return;
+
         console.log("RESULTADO API Cancelar ", sesionTyS);
 
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -308,7 +324,7 @@ class FrmMisCitas_Tutor extends Component {
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
                 this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
-                this.setState({actuTys:!this.state.actuTys});
+                this.setState({ actuTys: !this.state.actuTys });
 
             } else {
                 this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
@@ -321,144 +337,144 @@ class FrmMisCitas_Tutor extends Component {
     }
 
 
-    async componentDidUpdate(prevProps, prevState){
+    async componentDidUpdate(prevProps, prevState) {
 
-        if (prevState.actuTys != this.state.actuTys){
+        if (prevState.actuTys != this.state.actuTys) {
             let arregloDeSesiones =
-            await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO });
+                await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO });
 
-        //console.log("arreglo: ", arregloDeSesiones);
-        let arreglillo = [];
-        let cont = 0;
-        let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
-        let fechaSesion;
+            //console.log("arreglo: ", arregloDeSesiones);
+            let arreglillo = [];
+            let cont = 0;
+            let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
+            let fechaSesion;
 
-        for (let element of arregloDeSesiones.data) {
-            cont++;
-            fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
+            for (let element of arregloDeSesiones.data) {
+                cont++;
+                fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
 
-            let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+                let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
-            arreglillo.push({
-                campoCont: cont,
-                /*
-                    imagen: <div>
-                      <img
-                          style={estilo.imagen}
-                          src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
-  
-                      </img>
-                  </div>, 
-                 */
+                arreglillo.push({
+                    campoCont: cont,
+                    /*
+                        imagen: <div>
+                          <img
+                              style={estilo.imagen}
+                              src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg">
+      
+                          </img>
+                      </div>, 
+                     */
 
-                //>>> ASUMIMOS PARA UN ALUMNO
-                //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
-                nombre: element.PROCESO_TUTORIum.GRUPAL ?
-                    <Button
-                    href="#text-buttons" color="primary"
-  
-                        onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
-                    >
-                        Ver Alumnos
+                    //>>> ASUMIMOS PARA UN ALUMNO
+                    //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
+                    nombre: element.PROCESO_TUTORIum.GRUPAL ?
+                        <Button
+                            href="#text-buttons" color="primary"
+
+                            onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
+                        >
+                            Ver Alumnos
                     </Button> :
-                    (element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " +
-                        element.ALUMNOs[0].USUARIO.APELLIDOS : "" : ""),
+                        (element.ALUMNOs[0] ? element.ALUMNOs[0].USUARIO.NOMBRE ? element.ALUMNOs[0].USUARIO.NOMBRE + " " +
+                            element.ALUMNOs[0].USUARIO.APELLIDOS : "" : ""),
 
-                fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
-                lugar: element.LUGAR,
-                campoMotivoSoli: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.MOTIVO,
-                campoDescMotivo: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.DESCRIPCION,
-                tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
-                btnCancelar:
-                    <Button
-                        size="large"
-                        variant="outlined"
-                        color="secondary"
-                        onClick={e => this.handleOnClickCancelar(e, element.ID_SESION, element.ALUMNOs)}
-                    >
-                        CANCELAR
+                    fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
+                    lugar: element.LUGAR,
+                    campoMotivoSoli: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.MOTIVO,
+                    campoDescMotivo: element.PROCESO_TUTORIum.GRUPAL ? "Grupal" : element.DESCRIPCION,
+                    tipoTutoria: element.PROCESO_TUTORIum.NOMBRE,
+                    btnCancelar:
+                        <Button
+                            size="large"
+                            variant="outlined"
+                            color="secondary"
+                            onClick={e => this.handleOnClickCancelar(e, element.ID_SESION, element.ALUMNOs)}
+                        >
+                            CANCELAR
                     </Button>,
-                campoEstado: estadillo === "PR" ? "Pendiente Registro" :
-                    estadillo === "04" ? "Pendiente" :
-                        estadillo === "03" ? "Reprogramada" :
-                            estadillo === "02" ? "Cancelada" :
-                                "Realizada",
+                    campoEstado: estadillo === "PR" ? "Pendiente Registro" :
+                        estadillo === "04" ? "Pendiente" :
+                            estadillo === "03" ? "Reprogramada" :
+                                estadillo === "02" ? "Cancelada" :
+                                    "Realizada",
 
-                btnPosponer:
-                    <Button
-                        size="large"
-                        variant="contained"
-                        color="primary"
-                        onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
-                    >
-                        REPROGRAMAR
+                    btnPosponer:
+                        <Button
+                            size="large"
+                            variant="contained"
+                            color="primary"
+                            onClick={e => this.handleOnClickPosponer(e, element.ID_SESION, element.ALUMNOs, element.ID_PROCESO_TUTORIA, element.PROCESO_TUTORIum.DURACION)}
+                        >
+                            REPROGRAMAR
                     </Button>,
-                campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
+                    campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
 
-            });
-
-
+                });
 
 
-        }
 
-        const data = {
-            columns: [
-                // {
-                //     title: "",
-                //     field: "imagen"
-                // },
-                {
-                    title: "N°",
-                    field: "campoCont",
 
-                },
-                {
-                    title: "Alumno",
-                    field: "nombre",
-                },
-                {
-                    title: "Fecha / Hora",
-                    field: "fecha"
-                },
-                {
-                    title: "Lugar",
-                    field: "lugar"
-                },
-                {
-                    title: "Motivo Solicitud",
-                    field: "campoMotivoSoli",
-                },
-                {
-                    title: "Descripción del Motivo",
-                    field: "campoDescMotivo",
-                },
-                {
-                    title: "Tipo Tutoria",
-                    field: "tipoTutoria"
-                },
-                {
-                    title: "Cancelar Cita",
-                    field: "btnCancelar"
-                },
-                {
-                    title: "Reprogramar Cita",
-                    field: "btnPosponer",
-                },
-                {
-                    title: "Estado",
-                    field: "campoEstado"
-                },
-                {
-                    title: "Motivo Cancelación",
-                    field: "campoRazonMantenimiento"
-                },
+            }
 
-            ],
-            data: arreglillo
-        };
+            const data = {
+                columns: [
+                    // {
+                    //     title: "",
+                    //     field: "imagen"
+                    // },
+                    {
+                        title: "N°",
+                        field: "campoCont",
 
-        this.setState({ sesiones: data });
+                    },
+                    {
+                        title: "Alumno",
+                        field: "nombre",
+                    },
+                    {
+                        title: "Fecha / Hora",
+                        field: "fecha"
+                    },
+                    {
+                        title: "Lugar",
+                        field: "lugar"
+                    },
+                    {
+                        title: "Motivo Solicitud",
+                        field: "campoMotivoSoli",
+                    },
+                    {
+                        title: "Descripción del Motivo",
+                        field: "campoDescMotivo",
+                    },
+                    {
+                        title: "Tipo Tutoria",
+                        field: "tipoTutoria"
+                    },
+                    {
+                        title: "Cancelar Cita",
+                        field: "btnCancelar"
+                    },
+                    {
+                        title: "Reprogramar Cita",
+                        field: "btnPosponer",
+                    },
+                    {
+                        title: "Estado",
+                        field: "campoEstado"
+                    },
+                    {
+                        title: "Motivo Cancelación",
+                        field: "campoRazonMantenimiento"
+                    },
+
+                ],
+                data: arreglillo
+            };
+
+            this.setState({ sesiones: data });
 
 
         }
@@ -495,6 +511,8 @@ class FrmMisCitas_Tutor extends Component {
 
         const props = { servicio: "/api/posponerCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
+        if (!sesionTyS) return;
+
         console.log("RESULTADO API rep ", sesionTyS);
 
 
@@ -509,7 +527,7 @@ class FrmMisCitas_Tutor extends Component {
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
                 this.setState({ mensajilloR: "Cita Reprogramada Satisfactoriamente !" });
-                this.setState({actuTys:!this.state.actuTys});
+                this.setState({ actuTys: !this.state.actuTys });
 
             } else {
                 this.setState({ mensajilloR: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
@@ -557,8 +575,8 @@ class FrmMisCitas_Tutor extends Component {
                 //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
                 nombre: element.PROCESO_TUTORIum.GRUPAL ?
                     <Button
-                    href="#text-buttons" color="primary"
-  
+                        href="#text-buttons" color="primary"
+
                         onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
                     >
                         Ver Alumnos
@@ -691,7 +709,7 @@ class FrmMisCitas_Tutor extends Component {
                         {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}</DialogTitle>
                     <DialogContent>
                         <Paper elevation={0} >
-                            <CampoDeTexto
+                            {/* <CampoDeTexto
                                 autoFocus={true}
                                 name="Motivo"
                                 label="Ingrese Motivo de Cancelación"
@@ -703,6 +721,19 @@ class FrmMisCitas_Tutor extends Component {
                                 inicial="..."
                                 onChange={this.handleOnChangeCT}
                                 validarEntrada={this.validarEntradaCT}
+                            /> */}
+                            <TextField
+                                required={true}
+                                autoFocus={true}
+                                fullWidth
+                                name="Motivo"
+                                label="Ingrese Motivo de Cancelación"
+                                onChange={this.handleOnChangeCT}
+
+                                variant={"outlined"}
+                                rows={10}
+                                multiline={true}
+                            //value={this.state.Motivo}
                             />
                         </Paper>
                     </DialogContent>
@@ -784,6 +815,8 @@ class FrmMisCitas_Tutor extends Component {
                                     onChange={(e) => this.handleOnChangeHoraFin(e)}
                                     fullWidth
                                 />
+                                {/*<FormHelperText error>{this.state.mensajeError}</FormHelperText>*/}
+
                             </Grid>
                         </Grid>
 
@@ -817,6 +850,7 @@ class FrmMisCitas_Tutor extends Component {
                             size="large"
                             variant="contained"
                             color="primary"
+                            disabled={this.state.esValido}
                             onClick={this.handleOnclickAceptarReprogramacion}                        >
                             Sí
                         </Button>

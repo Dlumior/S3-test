@@ -51,15 +51,17 @@ const style = {
     
 const Programas = (props) => {
     const { programasSeleccionados, setProgramasSeleccionados,programa,
-        setPrograma,programas, setProgramas } = props;
+        setPrograma,programas, setProgramas,cantP} = props;
     const [cantProgramas, setCantPrograma]=useState(0);
 
     const handleCantPrograma = (func) => {
-        if (func>0){
+        if (func>=0){
           if (func>cantProgramas){  
             setCantPrograma(cantProgramas => func);
             console.log("func",func);
-            programasSeleccionados.push(programa);
+            if (programa!==""){
+              programasSeleccionados.push(programa);
+            }
             console.log("programasSelecc",programasSeleccionados);
             console.log("programas ",programas);
             //var i=programas.indexof(programa);
@@ -68,12 +70,17 @@ const Programas = (props) => {
           }else{
             setCantPrograma(cantProgramas => func);
             console.log("func",func)
-            programasSeleccionados.splice(-1);
+            console.log("programasSelecc",programasSeleccionados);
+            console.log("cantP",cantProgramas)
+            if (programasSeleccionados.length>cantProgramas){//this is it
+              programasSeleccionados.splice(-1);
+            } 
             console.log("programasSelecc",programasSeleccionados)
           }
         }else{
           setCantPrograma(cantProgramas => 0);
         }
+        cantP(cantProgramas);
       };
     
 

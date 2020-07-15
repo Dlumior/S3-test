@@ -139,7 +139,7 @@ class ControlesTutoriaFija extends Component {
                 mensaje="proceso"
                 titulo={"Procesos de tutorías Fijas"}
                 //enlace={"/api/tutoria"}
-                enlace={"/api/tutoriafija/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
+                enlace={"/api/tutoriafijasolicitada/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}
                 id={"ID_PROCESO_TUTORIA"}
                 nombre={"NOMBRE"}
                 keyServicio={"tutoria"}

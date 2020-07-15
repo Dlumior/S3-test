@@ -17,8 +17,9 @@ import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core"
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "./ListaEtiquetas";
-import ComboBoxPrograma from "../ListarAlumnos/ComboBoxPrograma";
-import ComboBoxProcesoTutoria from "../ListarAlumnos/ComboBoxProcesoTutoria";
+import ComboBoxPrograma from "../../Coordinador/FormRegistroTutor/comboBoxProgramas";
+import ComboBoxFacus from "../../Coordinador/RegistrarCoordPrograma/ComboBoxFacus";
+import ComboBoxProcesoTutoria from "../../Coordinador/FormAsignacion/ComboBoxProcesoTutoria";
 import moment from 'moment';
 const style = {
   paper: {
@@ -142,27 +143,65 @@ const RegistrarSesion = () => {
   const [open, setOpen] = React.useState(false);
   const [plan,setPlan]=useState([]);
   const [pDisabled, setPDisabled] = useState(true);
-  const [programa, setPrograma] = useState("");
-  const [programas, setProgramas] = useState(
-    getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
-  );
+  const [prDisabled, setPrDisabled] = useState(true);
+  const [facultades, setFacultades] = useState([]);
+  const [facultad, setFacultad] = useState("");
+  const [programas, setProgramas] = useState([]);
+  const [programa, setPrograma] = useState("");  
   const [procesosTutoria, setProcesosTutoria] = useState([]);
   const [procesoTutoria, setProcesoTutoria] = useState("");
+  const [compromiso,setCompromiso]=useState({
+    campo:'',
+    check:false, 
+  });
 
-  useEffect(() => {
-    async function fetchData() {
-      const endpoint =
-        "/api/tutoria/lista/"+ programa;
+//faultades por coordinador de prog o facu
+useEffect(() => {
+  async function fetchData() {
+      const endpoint = "/api/facultad/tutor/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
-      const res = await GET(params);
+      const res = await GET(params);    
+      console.log("facultades:", res);
       if (res){
-        setProcesosTutoria(res.tutoria);
+        setFacultades(res.facultades);
       }      
+      console.log("facultad:", facultades);
     }
-    if (programa !== "") {
-      fetchData();
+   fetchData();
+}, {});
+
+//programas a partir de un coordinador de Facultad
+useEffect(() => {
+    async function fetchData() {
+        const endpoint = "/api/programa/lista/tutor/"+getUser().usuario.ID_USUARIO+"/"+facultad;
+        const params = { servicio: endpoint };
+        const res = await GET(params);    
+        console.log("proogramasss:", res);
+        if (res){
+            setProgramas(res.programas);
+        }
+        console.log("proograma:", programas);
+      }     
+      if (facultad!=""){
+          fetchData();
+      }
+},[facultad]);
+
+//proceso de tutoria a partir de un programa
+useEffect(() => {
+  async function fetchData() {
+    const endpoint = "/api/tutoria/lista/"+programa;
+    const params = { servicio: endpoint };
+    const res = await GET(params);
+    console.log("tutoria: ",res);
+    if (res !== []) {
+      setProcesosTutoria(res.tutoria);
     }
-  }, [programa]);
+  }
+  if (facultad!=="" && programa !== "") {
+    fetchData();
+  }
+},[programa]);
 
   async function fetchData(cod, datosForm, setDatosForm) {
     const endpoint = "/api/alumno/buscar/" + cod;
@@ -206,7 +245,11 @@ const RegistrarSesion = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+  
+  const handleCompromiso = (comp) => {
+    console.log("thisisit",comp);
+    setCompromiso(comp);
+  };
   const handleClose = () => {
     setOpen(false);
     setSeveridad({
@@ -259,6 +302,8 @@ const RegistrarSesion = () => {
         mensaje:"Complete los campos obligatorios (*)",
       }); 
     } else {
+      //agrega el ultimo compromiso
+      //plan.push(compromiso);
       const nuevaSesion = {
         sesion: {
           ID_TUTOR: (getUser()).usuario.ID_USUARIO,
@@ -393,7 +438,17 @@ const RegistrarSesion = () => {
             </Grid>
 
             <Grid item md={12}>
+              <ComboBoxFacus
+                setPrDisabled={setPrDisabled}
+                facultades={facultades}
+                facultad={facultad}
+                setFacultad={setFacultad}
+              />
+            </Grid>
+
+            <Grid item md={12}>
               <ComboBoxPrograma
+                prDisabled={prDisabled}
                 setPDisabled={setPDisabled}
                 programas={programas}
                 programa={programa}
@@ -476,6 +531,7 @@ const RegistrarSesion = () => {
             <PlanDeAccion
               plan={plan}
               setPlan={setPlan}
+              ultimoCompromiso={handleCompromiso}
             />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>

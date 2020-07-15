@@ -35,7 +35,7 @@ const tutoriaOpciones = {
   asignacion: ["Obligatorio", "Opcional"],
   naturaleza: ["Semestral", "Permanente"],
   tipotutor: ["Variable", "Fijo Semestral", "Fijo Permanente"],
-  agrupacion: ["Grupal", "Individual"],
+  agrupacion: ["Individual", "Grupal"],
 };
 class ListaTutorias extends Component {
   constructor() {
@@ -125,6 +125,7 @@ class ListaTutorias extends Component {
             TUTOR_ASIGNADO,
             PERMANENTE,
             ETIQUETA,
+            DURACION,
           } = tutoria;
           let listaEtiquetas = [];
           ETIQUETA.forEach((etiqueta) => {
@@ -136,7 +137,7 @@ class ListaTutorias extends Component {
             nombre: NOMBRE,
             descripcion: DESCRIPCION,
             vigencia: tutoriaOpciones.vigencia[PERMANENTE],
-            duracion: "90 min",
+            duracion: DURACION,
             etiquetas: (
               <>
                 {listaEtiquetas.map((etiqueta) => (

@@ -12,6 +12,7 @@ import { Grid, Paper,Typography } from "@material-ui/core";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "../Sesion/ListaEtiquetas";
 import ModificaAsignaciones from "../../Coordinador/FormAsignacion/ModificaAsignaciones";
+import ModificarPlanDeAccion from "./ModificarPlanDeAccion";
 
 const style = {
   paper: {
@@ -145,7 +146,12 @@ const RevisarSesion = (cita) => {
     lugar:'',
     descripcion:"",
     apoyo:[],
+    asistencia:cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO === 0 ? "no":"yes",
   });
+  const [compromiso,setCompromiso]=useState({
+    campo:'',
+    check:false, 
+});
   const [alerta, setAlerta]= useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -169,13 +175,22 @@ const RevisarSesion = (cita) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+  const handleCompromiso = (comp) => {
+    console.log("thisisit",comp);
+    setCompromiso(comp);
+  };
   const handleOnOpenVer = () => {
     setOpen2(true);
   }
   
   const handleOnCloseVer = () => {
     setOpen2(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
   }
   
   const handleOnclickVerAlmunos = (e, alumnos) => {
@@ -185,6 +200,15 @@ const RevisarSesion = (cita) => {
   const handleClose = () => {
     setOpen(false);
     cita.onClose();
+    setOpen2(false);
+    setSeveridad({
+      severidad:"",
+    });     
+    setAlerta({
+      mensaje:"",
+    }); 
+    window.location.reload();
+    
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -193,7 +217,9 @@ const RevisarSesion = (cita) => {
       var doggysAssistance = 1;
     } else if (datosForm.asistencia === "no") {
       var doggysAssistance = 0;
-    } else {
+    } else if (datosForm.asistencia === null) {
+      var doggysAssistance = 0; 
+    }else {
       setSeveridad({
         severidad:severidad.severE,
       });     
@@ -202,6 +228,9 @@ const RevisarSesion = (cita) => {
       }); 
       return;
     }
+    //agrega el ultimo compromiso
+    //plan.push(compromiso);
+    console.log("este es el plan",plan);
     const resultadosSesion = {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
@@ -217,7 +246,12 @@ const RevisarSesion = (cita) => {
     let sesion = await Controller.POST(props);
     console.log("ASISTENCIA PRUEBA",sesion);
     if (sesion) {
-      alert("Sesion registrada Satisfactoriamente");
+      setSeveridad({
+        severidad:"success",
+      });     
+      setAlerta({
+        mensaje:"Sesion modificada Satisfactoriamente",
+      }); 
     }
     console.log("got updated sesion from back:", sesion);
       
@@ -246,7 +280,7 @@ const RevisarSesion = (cita) => {
         onClose={cita.onClose}
         aria-labelledby="form-dialog-title"
       >
-        <Alertas
+          <Alertas  
           severity={severidad.severidad}
           titulo={"Observacion:"}
           alerta={alerta}
@@ -356,10 +390,19 @@ const RevisarSesion = (cita) => {
                 Ver Alumnos
               </Button>
             </Grid>:""}
-            <PlanDeAccion
-              plan={plan}
-              setPlan={setPlan}
-            />
+            {console.log("estadoo",cita.cita.ESTADO)}
+            {(cita.cita.ESTADO.includes("realizada")) &&
+              <ModificarPlanDeAccion
+                plan={plan}
+                setPlan={setPlan}
+                ultimoCompromiso={handleCompromiso}
+            />}
+            {(cita.cita.ESTADO.includes("03") || cita.cita.ESTADO.includes("04")) &&
+              <PlanDeAccion
+                plan={plan}
+                setPlan={setPlan}
+                ultimoCompromiso={handleCompromiso}
+            />}
 
             <Grid item md={12} justify="flex-start">
               <ListaEtiquetas

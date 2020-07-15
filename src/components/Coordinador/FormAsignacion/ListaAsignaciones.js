@@ -2,13 +2,15 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, IconButton } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaAsignaciones from "./TablaAsignaciones";
 import Button from "@material-ui/core/Button";
 import ModificaAsignacion from "./ModificaAsignaciones";
 import { getUser } from "../../../Sesion/Sesion";
 import moment from 'moment';
+import EditRoundedIcon from '@material-ui/icons/EditRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 
 const style = {
     paper: {
@@ -54,8 +56,24 @@ class ListaAsignaciones extends React.Component {
                         >
                         Ver alumnos
                     </Button>
-                </div>
-          });  
+                </div>,
+          edit:
+          <div> 
+          <IconButton color="primary">
+              <EditRoundedIcon
+              color="secondary"
+              fontsize="large"
+              />
+          </IconButton>
+          <IconButton color="primary">
+              <DeleteRoundedIcon
+              color="error"
+              fontsize="large" />                    
+          </IconButton>
+        </div>
+
+          });
+            
 
       }
     }
@@ -76,6 +94,10 @@ class ListaAsignaciones extends React.Component {
           {
             title:"Alumnos",
             field:"boton"
+          },
+          {
+            title:"",
+            field:"edit"
            }
         ],
         data: arreglillo
