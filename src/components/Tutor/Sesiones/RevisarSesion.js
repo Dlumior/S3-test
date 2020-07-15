@@ -12,6 +12,7 @@ import { Grid, Paper,Typography } from "@material-ui/core";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "../Sesion/ListaEtiquetas";
 import ModificaAsignaciones from "../../Coordinador/FormAsignacion/ModificaAsignaciones";
+import ModificarPlanDeAccion from "./ModificarPlanDeAccion";
 
 const style = {
   paper: {
@@ -147,6 +148,10 @@ const RevisarSesion = (cita) => {
     apoyo:[],
     asistencia:cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO === 0 ? "no":"yes",
   });
+  const [compromiso,setCompromiso]=useState({
+    campo:'',
+    check:false, 
+});
   const [alerta, setAlerta]= useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -170,7 +175,10 @@ const RevisarSesion = (cita) => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+  const handleCompromiso = (comp) => {
+    console.log("thisisit",comp);
+    setCompromiso(comp);
+  };
   const handleOnOpenVer = () => {
     setOpen2(true);
   }
@@ -218,6 +226,8 @@ const RevisarSesion = (cita) => {
       }); 
       return;
     }
+    //agrega el ultimo compromiso
+    plan.push(compromiso);
     const resultadosSesion = {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
@@ -380,6 +390,7 @@ const RevisarSesion = (cita) => {
             <PlanDeAccion
               plan={plan}
               setPlan={setPlan}
+              ultimoCompromiso={handleCompromiso}
             />
 
             <Grid item md={12} justify="flex-start">

@@ -146,6 +146,10 @@ const RegistrarSesion = () => {
   const [programas, setProgramas] = useState(
     getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
   );
+  const [compromiso,setCompromiso]=useState({
+    campo:'',
+    check:false, 
+});
   const [procesosTutoria, setProcesosTutoria] = useState([]);
   const [procesoTutoria, setProcesoTutoria] = useState("");
 
@@ -206,7 +210,11 @@ const RegistrarSesion = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
-
+  
+  const handleCompromiso = (comp) => {
+    console.log("thisisit",comp);
+    setCompromiso(comp);
+  };
   const handleClose = () => {
     setOpen(false);
     setSeveridad({
@@ -259,6 +267,8 @@ const RegistrarSesion = () => {
         mensaje:"Complete los campos obligatorios (*)",
       }); 
     } else {
+      //agrega el ultimo compromiso
+      plan.push(compromiso);
       const nuevaSesion = {
         sesion: {
           ID_TUTOR: (getUser()).usuario.ID_USUARIO,
@@ -476,6 +486,7 @@ const RegistrarSesion = () => {
             <PlanDeAccion
               plan={plan}
               setPlan={setPlan}
+              ultimoCompromiso={handleCompromiso}
             />
             <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
