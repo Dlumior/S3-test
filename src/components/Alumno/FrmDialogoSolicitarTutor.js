@@ -171,6 +171,8 @@ class FrmDialogoSolicitarTutor extends Component {
       const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
       let sesionTyS = await POST(props);
       
+      if(!sesionTyS) return;
+
       console.log("SESIONtYS XXX ", sesionTyS);
 
       if (!sesionTyS.message) {
