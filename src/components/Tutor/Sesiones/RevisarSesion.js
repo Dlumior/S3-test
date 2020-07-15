@@ -207,6 +207,8 @@ const RevisarSesion = (cita) => {
     setAlerta({
       mensaje:"",
     }); 
+    window.location.reload();
+    
   };
   
   const handleClick = async (e, datosForm, setDatosForm) => {
@@ -227,7 +229,8 @@ const RevisarSesion = (cita) => {
       return;
     }
     //agrega el ultimo compromiso
-    plan.push(compromiso);
+    //plan.push(compromiso);
+    console.log("este es el plan",plan);
     const resultadosSesion = {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
@@ -247,7 +250,7 @@ const RevisarSesion = (cita) => {
         severidad:"success",
       });     
       setAlerta({
-        mensaje:"Sesion registrada Satisfactoriamente",
+        mensaje:"Sesion modificada Satisfactoriamente",
       }); 
     }
     console.log("got updated sesion from back:", sesion);
@@ -387,11 +390,19 @@ const RevisarSesion = (cita) => {
                 Ver Alumnos
               </Button>
             </Grid>:""}
-            <PlanDeAccion
-              plan={plan}
-              setPlan={setPlan}
-              ultimoCompromiso={handleCompromiso}
-            />
+            {console.log("estadoo",cita.cita.ESTADO)}
+            {(cita.cita.ESTADO.includes("realizada_cita")) &&
+              <ModificarPlanDeAccion
+                plan={plan}
+                setPlan={setPlan}
+                ultimoCompromiso={handleCompromiso}
+            />}
+            {(cita.cita.ESTADO.includes("03") || cita.cita.ESTADO.includes("04")) &&
+              <PlanDeAccion
+                plan={plan}
+                setPlan={setPlan}
+                ultimoCompromiso={handleCompromiso}
+            />}
 
             <Grid item md={12} justify="flex-start">
               <ListaEtiquetas

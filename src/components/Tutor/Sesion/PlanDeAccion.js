@@ -40,17 +40,17 @@ const style = {
     
 const PlanDeAccion = (props) => {
     console.log("PLAN DE ACCION: ", props);
-    const { plan, setPlan,ultimoCompromiso } = props;
+    const { plan, setPlan } = props;
     console.log("plantest", plan);
     console.log("CANT COMPROMISOS: ", plan.length);
-    const [cantCompromisos, setCantCompromisos]=useState(plan.length);
-    //const [plan,setPlan]=useState([]);
+    const [cantCompromisos, setCantCompromisos]=useState(1);
     const [compromiso,setCompromiso]=useState({
+        indice:0,
         campo:'',
         check:false, 
     });
     
-    const handleCompromiso = async (e) => {
+    const handleCompromiso = (e,cantCom) => {
       for (let i=0; i<100; i++) {
         console.log("BABA: ", document.getElementById(i));
         if (document.getElementById(i) === null) {
@@ -61,49 +61,66 @@ const PlanDeAccion = (props) => {
       console.log("comp",e.target.value);
       setCompromiso({
         ...compromiso,
+        indice:cantCom,
         campo: e.target.value,
       });
-      await ultimoCompromiso(compromiso);
-  
-    }; 
-    const handleCantCompromisos = (func) => {
-      console.log("func: ",func)
-      
-      if (func>0){
-        if (func>cantCompromisos){
-          setCantCompromisos(cantCompromisos => func);
-          plan.push(compromiso);
-          console.log("plan",plan);
-        }else{
-          setCantCompromisos(cantCompromisos => func);
-          plan.splice(-1);
-          console.log("plan",plan);
-        }        
-      }else{
-        setCantCompromisos(cantCompromisos => 0);
+      for (let element of plan){
+        if(element.indice===cantCom){
+          plan[cantCom].campo=e.target.value;
+        }
       }
+      console.log("a ver: ",plan)
+      console.log("cantComp: ",cantCom)
+    }; 
+
+    const handleCantCompromisos = (func) => {
+        if (func>0){
+          if (func>cantCompromisos){
+            setCantCompromisos(cantCompromisos => func);
+            plan.push(compromiso);
+            console.log("plan",plan);
+          }else{
+            setCantCompromisos(cantCompromisos => func);
+            plan.splice(-1);
+            console.log("plan",plan);
+          }
+          
+        }else{
+          setCantCompromisos(cantCompromisos => 0);
+        }
     };
-    
+  
+  const  keyPress = (e) =>{
+      if(e.keyCode === 13 && compromiso.indice==cantCompromisos-1){
+        console.log("entra?",plan);
+        console.log("entra?",cantCompromisos);
+
+        //setCantCompromisos(cantCompromisos => cantCompromisos+1)
+        handleCantCompromisos(cantCompromisos+1)
+        setPlan(plan);
+         // put the login here
+      }
+   }
     const renderCompromisos = (plan) => {
-        console.log("cant=",plan.length);
-        let n=plan.length;
+        console.log("cant=",cantCompromisos);
+        let n=cantCompromisos;
         let arregloPlan=[];
-        // for (let i=0;i<n;i++){
-        //   arregloPlan.push(i);
-        // }
+        for (let i=0;i<n;i++){
+          arregloPlan.push(i);
+          //programasSeleccionados.push(programa);
+        }
           return(
             <div>
-              {plan.map((item) => (  
+              {arregloPlan.map((item) => (  
                 <Grid>
-                  {item.DESCRIPCION!=="" &&
-                    <Checkbox color="primary" id={cantCompromisos}>                     
-                    </Checkbox>}
-                    {item.DESCRIPCION!=="" &&
+                  <Checkbox color="primary" id={cantCompromisos}>                     
+                    </Checkbox>
                   <TextField margin="dense" style={{ width: 300 }}
                     id={cantCompromisos}
                     defaultValue={item.DESCRIPCION}
-                    onChange={(e) => handleCompromiso(e)}>
-                  </TextField> }
+                    onChange={(e) => handleCompromiso(e,item)}
+                    onKeyDown={keyPress}>
+                  </TextField> 
     
                 </Grid>          
                  
@@ -125,14 +142,7 @@ const PlanDeAccion = (props) => {
         <Grid item md={12}
             container
             justify="flex-start" >
-            {/* <Checkbox color="primary" id={cantCompromisos}>
-                    
-            </Checkbox>
-            <TextField margin="dense" style={{ width: 300 }}
-              id={cantCompromisos}
-              onChange={(e) => handleCompromiso(e)}>
-            </TextField>  */}
-            <IconButton color="primary" onClick={()=> handleCantCompromisos(cantCompromisos+1)}>
+            {/*<IconButton color="primary" onClick={()=> handleCantCompromisos(cantCompromisos+1)}>
             <AddBoxRoundedIcon
             color="primary"
             fontsize="large" />
@@ -141,8 +151,8 @@ const PlanDeAccion = (props) => {
             <IndeterminateCheckBoxRoundedIcon
             color="primary"
             fontsize="large" />
-            </IconButton>     
-            <br></br>              
+          </IconButton> 
+            <br></br> */}                
             {cantCompromisos>0 ? renderCompromisos(plan): null} 
         </Grid>
       </>

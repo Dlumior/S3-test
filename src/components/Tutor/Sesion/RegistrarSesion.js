@@ -268,7 +268,7 @@ const RegistrarSesion = () => {
       }); 
     } else {
       //agrega el ultimo compromiso
-      plan.push(compromiso);
+      //plan.push(compromiso);
       const nuevaSesion = {
         sesion: {
           ID_TUTOR: (getUser()).usuario.ID_USUARIO,
