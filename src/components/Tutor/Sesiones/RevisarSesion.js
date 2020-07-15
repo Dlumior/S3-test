@@ -391,7 +391,7 @@ const RevisarSesion = (cita) => {
               </Button>
             </Grid>:""}
             {console.log("estadoo",cita.cita.ESTADO)}
-            {(cita.cita.ESTADO.includes("realizada_cita")) &&
+            {(cita.cita.ESTADO.includes("realizada")) &&
               <ModificarPlanDeAccion
                 plan={plan}
                 setPlan={setPlan}
