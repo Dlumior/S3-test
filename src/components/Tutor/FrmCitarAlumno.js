@@ -36,6 +36,8 @@ class FrmCitarAlumno extends Component {
         const props = { servicio: "/api/citarAlumno", request: nuevaSolicitud };
 
         let citaTyS = await Controller.POST(props);
+        if(!citaTyS) return;
+
         console.log("RESULTADO API citacion ", citaTyS);
         if (!citaTyS.message) {
             if (!citaTyS.error) {
@@ -69,7 +71,7 @@ class FrmCitarAlumno extends Component {
 
         //aca valido
         if(e.target.value.length===0){
-            this.setState({mensajeError:"Debe ingresar un mensaje!",esValido:true});
+            this.setState({mensajeError:"Debe ingresar un mensaje!",esValido:true}); //que seria un "es invalido"
         }else{
             this.setState({mensajeError:"", esValido:false});
         }

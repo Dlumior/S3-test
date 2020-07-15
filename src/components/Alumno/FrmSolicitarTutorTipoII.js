@@ -79,6 +79,8 @@ class FrmSolicitarTutorTipoII extends Component {
         console.log("NUEVA SOLIXXXXX ", nuevaSolicitud);
 
         let sesionTyS = await Controller.POST(props);
+        if(!sesionTyS) return;
+        
         console.log("TutoFIJOOO tYS XXX ", sesionTyS);
 
         if (sesionTyS.error || !sesionTyS) {
