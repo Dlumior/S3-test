@@ -85,7 +85,16 @@ const NotificacionBtn = (props) => {
               
                 <ListItemText
                   primary={
-                    item.SESION? <>
+                    item.SESION && item.MENSAJE? <>
+                      <Typography variant="subtitle2">
+                      {item.MENSAJE}
+                      </Typography>
+                      <Typography variant="subtitle1">
+                        {item.EMISOR.APELLIDOS +
+                          ", " +
+                          item.EMISOR.NOMBRE}
+                      </Typography>
+                      </>:(item.SESION?<>
                       <Typography variant="subtitle2">
                         {item.SESION.ESTADO.substring(3, 20).toUpperCase() +
                           " - " +
@@ -101,7 +110,7 @@ const NotificacionBtn = (props) => {
                       <Typography variant="subtitle2">
                       {item.MENSAJE}
                     </Typography>
-                    </>
+                    </>)
                   }
                   secondary={item.SESION?item.SESION.FECHA:""}
                 />
