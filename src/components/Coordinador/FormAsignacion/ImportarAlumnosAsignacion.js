@@ -352,7 +352,7 @@ class FormularioImportarAlumnos extends Component {
             onClose={this.props.close}
             scroll={"paper"}
             fullWidth
-            maxWidth={"xs"}
+            maxWidth
             aria-describedby="scroll-dialog-description"
             aria-labelledby="max-width-dialog-title"
           >
