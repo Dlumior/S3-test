@@ -35,9 +35,6 @@ class IniciarSesion extends Component {
 
 
   }
-
- 
-
   validarEntrada(error) {
     console.log("errores:", error);
   }
@@ -57,6 +54,7 @@ class IniciarSesion extends Component {
       this.props.history.push("./" + move_to.rol.toLowerCase().split(" ")[0]);
     } else {
       console.log("Parece NO que login", status);
+      //levanar alerta de fallo en iniciar sesion
     }
   };
 

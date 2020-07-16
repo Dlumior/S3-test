@@ -62,8 +62,7 @@ class ListaProgramas extends React.Component {
           <IconButton color="primary">
               <DeleteRoundedIcon
               color="error"
-              fontsize="large" 
-              onClick={() => this.handleOnOpenEliminar(element.ID_USUARIO)}/>
+              fontsize="large" />
           </IconButton>  
                 </div>
           });  

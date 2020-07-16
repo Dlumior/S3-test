@@ -31,6 +31,7 @@ class FormularioNuevaTutoria extends Component {
   constructor() {
     super();
     this.state = {
+      modal:false,
       usuarioLogueado: getUser(),
       etiqueta: [],
       tutoria: {
@@ -202,7 +203,7 @@ class FormularioNuevaTutoria extends Component {
     console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     console.log("NOOOOOOOOOO: ", this.state.errores);
     if (this.state.errores.length === 0) {
-      e.preventDefault();
+      //e.preventDefault();
       const {
         nombre,
         descripcion,
@@ -300,6 +301,18 @@ class FormularioNuevaTutoria extends Component {
   }
   async componentDidMount() {
     console.log("FORMULARIONUEVATURRIA: ", this.state.usuarioLogueado);
+    if (this.props.modalOrden !== undefined) {
+      this.setState({ modal: true });
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.modalOrden !== prevProps.modalOrden) {
+      console.log("/*/* props diff", this.props.modalOrden);
+      
+        console.log("/*/* props en true", this.props.modalOrden);
+        this.handleOnClick();
+      
+    }
   }
   render() {
     return (
@@ -464,6 +477,8 @@ class FormularioNuevaTutoria extends Component {
                   variant="contained"
                   color="primary"
                   onClick={this.handleOnClick}
+                style={{ display: this.state.modal ? "none" : "block" }}
+
                 >
                   Guardar
                 </Button>

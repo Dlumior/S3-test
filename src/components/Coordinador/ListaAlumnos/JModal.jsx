@@ -94,11 +94,11 @@ this.setState({open:false});
               )}
               {this.props.botonDerecho ? (
                 <Button
-                  onClick={this.handleClose}
+                  onClick={async ()=>{await this.props.botonDerecho.onClick()}}
                   variant={"contained"}
                   color="primary"
                 >
-                  {this.props.botonDerecho}
+                  {this.props.botonDerecho.name}
                 </Button>
               ) : (
                 <></>

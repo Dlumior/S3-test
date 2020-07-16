@@ -46,6 +46,7 @@ class ListaTutorias extends Component {
     //                  3 mantenimiento editar
     //                  4 mantenimiento eliminar
     this.state = {
+      registrarTutoria: false,
       tipoDialogo: 0,
       open: false,
       currentID: 0,
@@ -289,7 +290,10 @@ class ListaTutorias extends Component {
           titulo={titulos[this.state.cuerpoDialogo]}
           body={
             this.state.cuerpoDialogo === 0 ? (
-              <FormularioNuevaTutoria />
+              <FormularioNuevaTutoria 
+              modalOrden={this.state.registrarTutoria}
+
+              />
             ) : this.state.cuerpoDialogo === 1 ? (
               <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
@@ -309,7 +313,12 @@ class ListaTutorias extends Component {
             //window.location.replace(this.props.ruta);
           }}
           maxWidth={"lg"}
-          botonDerecho={"Cerrar"}
+          botonIzquierdo={"Cerrar"}
+          
+          botonDerecho={this.state.cuerpoDialogo === 0 ?
+            {name:"Registrar", 
+            onClick: ()=>{this.setState({registrarTutoria:!this.state.registrarTutoria})}}:undefined
+          }
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           {/** Combobox facultad */}

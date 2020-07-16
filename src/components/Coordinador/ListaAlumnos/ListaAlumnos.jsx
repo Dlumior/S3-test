@@ -25,6 +25,7 @@ class ListaAlumnos extends Component {
     //                  3 mantenimiento editar
     //                  4 mantenimiento eliminar
     this.state = {
+      registrarAlumno: false,
       tipoDialogo: 0,
       open: false,
       currentID: 0,
@@ -276,7 +277,9 @@ class ListaAlumnos extends Component {
           titulo={titulos[this.state.cuerpoDialogo]}
           body={
             this.state.cuerpoDialogo === 0 ? (
-              <FormularioRegistrarAlumno />
+              <FormularioRegistrarAlumno
+              modalOrden={this.state.registrarAlumno}
+               />
             ) : this.state.cuerpoDialogo === 1 ? (
               <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
@@ -287,6 +290,7 @@ class ListaAlumnos extends Component {
               <VerInformacionRelevante
                 usuario={getUser().usuario}
                 idAlumno={this.state.currentID}
+                
               />
             )
           }
@@ -296,7 +300,12 @@ class ListaAlumnos extends Component {
             //window.location.replace(this.props.ruta);
           }}
           maxWidth={this.state.cuerpoDialogo !== 4?"lg":"xl"}
-          botonDerecho={"Cerrar"}
+          botonIzquierdo={"Cerrar"}
+          
+          botonDerecho={this.state.cuerpoDialogo === 0 ?
+            {name:"Registrar", 
+            onClick: ()=>{this.setState({registrarAlumno:!this.state.registrarAlumno})}}:undefined
+          }
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           {/** eliminardata */}
