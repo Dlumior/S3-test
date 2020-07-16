@@ -283,7 +283,7 @@ class FrmMisCitas extends Component {
 
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
-                this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
+                this.setState({ mensajillo: "¡ Cita Cancelada Satisfactoriamente !" });
                 this.setState({ actuTys: !this.state.actuTys });
 
             } else {

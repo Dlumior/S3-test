@@ -177,7 +177,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
       if (!sesionTyS.message) {
         if (!sesionTyS.error) {
-          this.setState({ mensajillo: "Sesión Registrada Satisfactoriamente!" });
+          this.setState({ mensajillo: "¡ Sesión Registrada Satisfactoriamente !" });
         } else {
           this.setState({
             mensajillo:
@@ -190,7 +190,7 @@ class FrmDialogoSolicitarTutor extends Component {
       this.setState({ open: true });
     } else {
       //muestra mensajito
-      this.setState({ mensajillo: "Complete todos los campos, por favor!" });
+      this.setState({ mensajillo: "¡ Complete todos los campos, por favor !" });
       this.setState({ openV: true });
     }
 
