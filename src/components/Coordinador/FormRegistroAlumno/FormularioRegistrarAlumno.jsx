@@ -40,6 +40,7 @@ class FormularioRegistrarAlumno extends Component {
   constructor() {
     super();
     this.state = {
+      modal: false,
       institucion: {
         ID: "",
         NOMBRE: "",
@@ -138,6 +139,7 @@ class FormularioRegistrarAlumno extends Component {
       this.setState({ errores: newErrores });
     }
   }
+
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
     let dominio = this.state.institucion.DOMINIO;
@@ -181,7 +183,7 @@ class FormularioRegistrarAlumno extends Component {
     }
 
     if (this.state.errores.length === 0) {
-      e.preventDefault();
+      //e.preventDefault();
       console.log("alumno: ", this.state.alumno);
       console.log("errores: ", this.state.errores);
       let {
@@ -328,9 +330,14 @@ class FormularioRegistrarAlumno extends Component {
     return enlace;
   }
   async componentDidMount() {
+    console.log("*-*- Ocultar Boton", this.props);
+
     let getInsitucion = await Controller.GET({ servicio: "/api/institucion" });
     console.log("got institucion from back:", getInsitucion.institucion);
     this.setState({ institucion: getInsitucion.institucion });
+    if (this.props.modalOrden !== undefined) {
+      this.setState({ modal: true });
+    }
     console.log("this.state.institucion: ", this.state.institucion);
     console.log(
       "this.state.NOMBRE:",
@@ -338,7 +345,15 @@ class FormularioRegistrarAlumno extends Component {
       this.state.institucion.DOMINIO2
     );
   }
-
+  componentDidUpdate(prevProps) {
+    if (this.props.modalOrden !== prevProps.modalOrden) {
+      console.log("/*/* props diff", this.props.modalOrden);
+      
+        console.log("/*/* props en true", this.props.modalOrden);
+        this.handleOnClick();
+      
+    }
+  }
   render() {
     return (
       <>
@@ -475,6 +490,7 @@ class FormularioRegistrarAlumno extends Component {
                 variant="contained"
                 color="primary"
                 onClick={this.handleOnClick}
+                style={{ display: this.state.modal ? "none" : "block" }}
               >
                 Guardar
               </Button>
