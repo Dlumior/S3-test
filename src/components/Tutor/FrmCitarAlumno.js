@@ -71,7 +71,7 @@ class FrmCitarAlumno extends Component {
 
         //aca valido
         if(e.target.value.length===0){
-            this.setState({mensajeError:"Debe ingresar un mensaje!",esValido:true}); //que seria un "es invalido"
+            this.setState({mensajeError:"¡ Debe ingresar un mensaje !",esValido:true}); //que seria un "es invalido"
         }else{
             this.setState({mensajeError:"", esValido:false});
         }

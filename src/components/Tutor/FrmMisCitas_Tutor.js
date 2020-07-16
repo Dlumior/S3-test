@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, DialogActions, DialogContent, TextField } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, DialogActions, DialogContent, TextField, FormHelperText } from "@material-ui/core";
 import { compose } from "recompose";
 import { withRouter } from "react-router-dom";
 import TabProceso from "../Coordinador/Tutorias/TabProceso";
 import TablaTutoresMisCitas_Tutor from "./TablaTutoresMisCitas_Tutor.js"
-
 import * as Controller from "./../../Conexion/Controller";
 import { getUser } from "../../Sesion/Sesion";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
-
 import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
 import moment from 'moment';
 import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaciones";
@@ -45,6 +43,12 @@ class FrmMisCitas_Tutor extends Component {
             arrAlumnoVer: [],
             actuTys: false,
             mensajeError: "",
+            mensajeErrorR: "",
+            esInvalido: true,
+            esInvalidoR: true,
+            esInvalRTotal: true,
+            dataMotivo:"",
+
         };
 
         this.handleOnClickCancelar = this.handleOnClickCancelar.bind(this);
@@ -60,14 +64,13 @@ class FrmMisCitas_Tutor extends Component {
         this.handleOnChangeFecha = this.handleOnChangeFecha.bind(this);
         this.handleOnChangeHoraIni = this.handleOnChangeHoraIni.bind(this);
         this.handleOnChangeHoraFin = this.handleOnChangeHoraFin.bind(this);
-
         this.handleFocusOutHoraIni = this.handleFocusOutHoraIni.bind(this);
-
         this.handleOnclickVerAlmunos = this.handleOnclickVerAlmunos.bind(this);
-
 
         this.handleOnOpenVer = this.handleOnOpenVer.bind(this);
         this.handleOnCloseVer = this.handleOnCloseVer.bind(this);
+
+        this.cumpleValidaciones = this.cumpleValidaciones.bind(this);
 
 
     };
@@ -77,38 +80,32 @@ class FrmMisCitas_Tutor extends Component {
 
     }
     handleOnCloseVer() {
-        console.log("<<rico");
+        //console.log("<<rico");
         this.setState({ open5: false });
     }
 
     handleOnclickVerAlmunos(e, arrAlumno) {
-        console.log("<<AVER", arrAlumno);
-
+        //console.log("<<AVER", arrAlumno);
         let _arr = [];
         _arr = arrAlumno;
-
         this.setState({ arrAlumnoVer: _arr })
         this.setState({ open5: true });
-
-
     }
 
     handleFocusOutHoraIni() {
         let valMin = this.state.horaIniR.slice(-2);
         let _yeri = "";
-
         if (valMin === "00" || valMin === "30") {
-            console.log(">>> Es 00 o 30");
+            //console.log(">>> Es 00 o 30");
             _yeri = this.state.horaIniR;
             this.setState({ horaIniR: _yeri });
         } else {
-            console.log(">>> joder");
-            console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
-            console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
-            console.log(">>> tipo: ", typeof (valMin));
-
+            // console.log(">>> joder");
+            // console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
+            // console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
+            // console.log(">>> tipo: ", typeof (valMin));
             _yeri = this.state.horaIniR.slice(0, 2) + ":00";
-            console.log("FOCUS=>", _yeri);
+            //console.log("FOCUS=>", _yeri);
             this.setState({ horaIniR: _yeri });
         }
         //actualizamos la hora de la salida
@@ -117,35 +114,44 @@ class FrmMisCitas_Tutor extends Component {
         let _datetime = new Date(_strHora);
         _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
         let n = _datetime.toLocaleTimeString();
-        console.log("antesIF=> ", n);
+        //console.log("antesIF=> ", n);
         if (n.length === 7) { n = "0" + n; }
         n = n.slice(0, 5);
-        console.log("antes n=> ", n);
+        //console.log("antes n=> ", n);
         this.setState({ horaFinR: n });
+
+        if (this.state.horaIniR === ":00") {
+            this.setState({ horaFinR: "" });
+            this.setState({ esInvalRTotal: true });
+        }
+
     }
 
     handleOnChangeHoraIni(e) {
         this.setState({ horaIniR: e.target.value });
-        console.log("horaIniR", this.state.horaIniR);
+        //console.log("horaIniR", this.state.horaIniR);
         //=> aquiRicop
         //********/
 
-
         let _strHora = "2020-07-04 ";
         _strHora += e.target.value;
-        console.log("_str", _strHora);
+        //console.log("_str", _strHora);
         let _datetime = new Date(_strHora);
         _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
         let n = _datetime.toLocaleTimeString();
-        console.log("n", n);
+        //console.log("n", n);
         if (n.length === 7) { n = "0" + n; }
         n = n.slice(0, 5);
-        console.log("SLICE TUTO=> ", n);
+        //console.log("SLICE TUTO=> ", n);
         this.setState({ horaFinR: n });
         //********/
 
         document.getElementById("Hora").addEventListener("focusout", this.handleFocusOutHoraIni);
 
+        if (this.state.horaIniR === ":00") {
+            this.setState({ horaFinR: "" });
+            this.setState({ esInvalRTotal: true });
+        }
 
     }
 
@@ -155,43 +161,37 @@ class FrmMisCitas_Tutor extends Component {
 
     //de btn cancelar
     handleOnClickCancelar(e, _idSesion, _idAlumno) {
-        console.log("TARGET DEL E idSesion/idAlumno", _idSesion, _idAlumno);
+        //console.log("TARGET DEL E idSesion/idAlumno", _idSesion, _idAlumno);
         this.setState({ graciasYopsIdSesion: _idSesion });
-
         //this.setState({graciasYopsIdTutor:_idTutor});
         let _arrAlumno = [];
-
         for (let element of _idAlumno) {
             _arrAlumno.push(element.ID_ALUMNO.toString());
-
         }
-
-
         //_arrAlumno.push(_idAlumno.toString());
-
         this.setState({ graciasYopsIdAlumno: _arrAlumno });
         this.setState({ open: true });
-
-        console.log("AFTER sesion: ", this.state.graciasYopsIdSesion);
-
+        //console.log("AFTER sesion: ", this.state.graciasYopsIdSesion);
     }
 
     //de boton Reprogramar
 
     handleOnClickPosponer(e, _idSesion, _idAlumno, _idProctuto, _duracion) {
+
+        console.log("<<Iniciales");
+        console.log("<<Hini=>", this.state.horaIniR);
+        console.log("<<Hfin=>", this.state.horaFinR);
+        console.log("<<CT=>", this.state.yopsRazon_Rep);
+
+
         //console.log("holiss");
         this.setState({ graciasYopsIdSesionR: _idSesion });
         this.setState({ graciasYopsIdProcesoTuto: _idProctuto });
-
         this.setState({ duraSesion: _duracion });
-
         let _arrAlumno = [];
-
-        for (let element of _idAlumno) {
+        for (let element of _idAlumno) { //_isAlumno es un array
             _arrAlumno.push(element.ID_ALUMNO.toString());
-
         }
-
         //_arrAlumno.push(_idAlumno);
         this.setState({ graciasYopsIdAlumnoR: _arrAlumno });
         this.setState({ open2: true });
@@ -228,25 +228,55 @@ class FrmMisCitas_Tutor extends Component {
 
         //aca valido
         if (e.target.value.length === 0) {
-            this.setState({ mensajeError: "Debe ingresar un motivo!", esValido: true }); //que seria un "es invalido"
+            this.setState({ mensajeError: "¡ Debe ingresar un motivo !", esInvalido: true });
         } else {
-            this.setState({ mensajeError: "", esValido: false });
+            this.setState({ mensajeError: "", esInvalido: false });
         }
-
         this.setState({ [e.target.name]: e.target.value });
         this.setState({ yopsRazon: e.target.value });
-
-
-
     }
 
 
     handleOnChangeCT_Rep = (e) => {
-        // nombre y descripcion   
         //console.log("XXXXXXXXX RAZON ",e.value);
-        this.setState({ [e.name]: e.value });
-        this.setState({ yopsRazon_Rep: e.value });
+        //>>> con CampoDeTexto jin
+        //this.setState({ [e.name]: e.value });
+        //this.setState({ yopsRazon_Rep: e.value });
 
+        //>>> con TextField
+        //aca valido descripcion y tmb me valgo para validar la hora
+        if (e.target.value.length === 0) {
+            this.setState({ mensajeErrorR: "¡ Debe ingresar un motivo de reprogramación!", esInvalidoR: true });
+            this.setState({ esInvalRTotal: true });
+
+        }
+        if (e.target.value.length !== 0 && this.state.horaFinR === "") {
+            this.setState({ mensajeErrorR: "¡ Debe ingresar la hora inicial !", esInvalidoR: true });
+            this.setState({ dataMotivo: ""});
+
+            this.setState({ esInvalRTotal: true });
+        }
+
+        // if (e.target.value.length !== 0 && this.state.horaIniR === ":00") {
+        //     this.setState({ mensajeErrorR: "¡ Debe ingresar la hora inicial !", esInvalidoR: true });
+        //     this.setState({ esInvalRTotal: true });
+
+        // }
+        if (e.target.value.length !== 0 && this.state.horaFinR!=="") {
+            this.setState({ mensajeErrorR: "", esInvalidoR: false });
+            this.setState({ esInvalRTotal: false });
+
+        }
+        console.log("<<e.target.value=>", e.target.value);
+        console.log("<<horaIniR=>", this.state.horaIniR);
+        console.log("<<horaFinR=>", this.state.horaFinR);
+
+        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ yopsRazon_Rep: e.target.value });
+
+        // if (this.cumpleValidaciones()){
+        //     this.setState({esInvalRTotal:false});
+        // }
     }
 
     validarEntradaCT_Rep(error) {
@@ -254,45 +284,8 @@ class FrmMisCitas_Tutor extends Component {
     }
 
     validarEntradaCT(error) {
-        /*
-        console.log("errores:", error);
-        let encontrado = undefined;
-        let nuevo = false;
-        let eliminar = this.state.errores.forEach((element) => {
-          if (element.llave === error.llave) {
-            encontrado = element;
-          }
-        });
-        if (encontrado) {
-          if (error.error.length === 0) {
-            //lo borro
-            eliminar = true;
-          }
-        } else {
-          if (error.error.length !== 0) {
-            nuevo = true;
-          }
-        }
-        console.log("nuevo: ", nuevo);
-        if (nuevo) {
-          let newErrores = this.state.errores;
-          newErrores.push(error);
-          this.setState({ errores: newErrores });
-          return;
-        }
-        if (eliminar) {
-          let newErrores = [];
-          this.state.errores.forEach((element) => {
-            if (element.llave !== error.llave) {
-              newErrores.push(element);
-            }
-          });
-          this.setState({ errores: newErrores });
-        }
-        */
+        /* ..jinValidar copiar si querer usar    */
     }
-
-
 
     async handleOnclickAceptarCancelacion() {
         //console.log("STATE ", this.state.graciasYopsIdSesion);
@@ -312,7 +305,6 @@ class FrmMisCitas_Tutor extends Component {
         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
         if (!sesionTyS) return;
-
         console.log("RESULTADO API Cancelar ", sesionTyS);
 
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -323,7 +315,7 @@ class FrmMisCitas_Tutor extends Component {
         // }
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
-                this.setState({ mensajillo: "Cita Cancelada Satisfactoriamente !" });
+                this.setState({ mensajillo: "¡ Cita Cancelada Satisfactoriamente !" });
                 this.setState({ actuTys: !this.state.actuTys });
 
             } else {
@@ -352,7 +344,6 @@ class FrmMisCitas_Tutor extends Component {
             for (let element of arregloDeSesiones.data) {
                 cont++;
                 fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
-
                 let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
                 arreglillo.push({
@@ -372,7 +363,6 @@ class FrmMisCitas_Tutor extends Component {
                     nombre: element.PROCESO_TUTORIum.GRUPAL ?
                         <Button
                             href="#text-buttons" color="primary"
-
                             onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
                         >
                             Ver Alumnos
@@ -473,23 +463,24 @@ class FrmMisCitas_Tutor extends Component {
                 ],
                 data: arreglillo
             };
-
             this.setState({ sesiones: data });
-
-
         }
-
-
-
     }
 
 
-
-
+    cumpleValidaciones() {
+        console.log("<<esinval", this.state.esInvalidoR);
+        console.log("<<hIniR", this.state.esInvalidoR);
+        if (this.state.esInvalidoR == false && this.state.horaIniR !== "") return true;
+        return false;
+    }
 
     async handleOnclickAceptarReprogramacion() {
 
-        //console.log("STATE ", this.state.graciasYopsIdSesionR);
+        //if (this.cumpleValidaciones()) {
+
+        console.log("cumple vals");
+        this.setState({ esInvalRTotal: false });
         let yo = getUser();
         const nuevaSolicitud = {
             sesion: {
@@ -515,18 +506,9 @@ class FrmMisCitas_Tutor extends Component {
 
         console.log("RESULTADO API rep ", sesionTyS);
 
-
-        //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
-
-        // if (sesionTyS) {
-        //     this.setState({ mensajilloR: "Cita Reprogramada Satisfactoriamente!" });
-        // } else {
-        //     this.setState({ mensajilloR: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
-        // }
-
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
-                this.setState({ mensajilloR: "Cita Reprogramada Satisfactoriamente !" });
+                this.setState({ mensajilloR: "¡ Cita Reprogramada Satisfactoriamente !" });
                 this.setState({ actuTys: !this.state.actuTys });
 
             } else {
@@ -538,14 +520,20 @@ class FrmMisCitas_Tutor extends Component {
         }
 
         this.setState({ open4: true });
+
+
+        // } else {
+        //     console.log("No cumple validaciiones Rep<<");
+        // }
+
     }
-
-
 
 
     async componentDidMount() {
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO });
+
+        if (!arregloDeSesiones) return;
 
         //console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
@@ -556,7 +544,7 @@ class FrmMisCitas_Tutor extends Component {
         for (let element of arregloDeSesiones.data) {
             cont++;
             fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
-
+            if (!fechaSesion) return;
             let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
             arreglillo.push({
@@ -576,7 +564,6 @@ class FrmMisCitas_Tutor extends Component {
                 nombre: element.PROCESO_TUTORIum.GRUPAL ?
                     <Button
                         href="#text-buttons" color="primary"
-
                         onClick={e => this.handleOnclickVerAlmunos(e, element.ALUMNOs)}
                     >
                         Ver Alumnos
@@ -616,9 +603,6 @@ class FrmMisCitas_Tutor extends Component {
                 campoRazonMantenimiento: element.RAZON_MANTENIMIENTO,
 
             });
-
-
-
 
         }
 
@@ -682,9 +666,6 @@ class FrmMisCitas_Tutor extends Component {
 
     }
 
-
-
-
     handleOnChangeFecha(e) {
         this.setState({ fechaR: e.target.value });
     }
@@ -735,6 +716,8 @@ class FrmMisCitas_Tutor extends Component {
                                 multiline={true}
                             //value={this.state.Motivo}
                             />
+                            <FormHelperText error>{this.state.mensajeError}</FormHelperText>
+
                         </Paper>
                     </DialogContent>
                     <DialogActions>
@@ -749,6 +732,7 @@ class FrmMisCitas_Tutor extends Component {
                             size="large"
                             variant="contained"
                             color="primary"
+                            disabled={this.state.esInvalido}
                             onClick={this.handleOnclickAceptarCancelacion}                        >
                             Sí
                         </Button>
@@ -764,7 +748,7 @@ class FrmMisCitas_Tutor extends Component {
                     <DialogTitle id="alert-dialog-title">
                         {<h3> ¿ Está seguro de reprogramar esta cita ? </h3>}</DialogTitle>
                     <Grid item md={12} xs={12}>
-                        <h3>{`Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
+                        <h3>{`  => Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
                     </Grid>
                     <DialogContent>
                         <Grid container spacing={2} >
@@ -774,7 +758,7 @@ class FrmMisCitas_Tutor extends Component {
                                     margin="dense"
                                     type="date"
                                     id="Fecha"
-                                    label="Ingrese nueva Fecha"
+                                    label="Nueva Fecha"
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
@@ -802,7 +786,6 @@ class FrmMisCitas_Tutor extends Component {
                                 <TextField
                                     value={this.state.horaFinR}
                                     disabled={true}
-
                                     variant="outlined"
                                     required
                                     margin="dense"
@@ -815,15 +798,11 @@ class FrmMisCitas_Tutor extends Component {
                                     onChange={(e) => this.handleOnChangeHoraFin(e)}
                                     fullWidth
                                 />
-                                {/*<FormHelperText error>{this.state.mensajeError}</FormHelperText>*/}
-
                             </Grid>
                         </Grid>
 
-
-
                         <Paper elevation={0} >
-                            <CampoDeTexto
+                            {/* <CampoDeTexto
                                 autoFocus={true}
                                 name="Motivo"
                                 label="Ingrese razón  de Reprogramación de la Cita"
@@ -835,7 +814,20 @@ class FrmMisCitas_Tutor extends Component {
                                 inicial="..."
                                 onChange={this.handleOnChangeCT_Rep}
                                 validarEntrada={this.validarEntradaCT_Rep}
+                            /> */}
+                            <TextField
+                                required={true}
+                                autoFocus={true}
+                                fullWidth
+                                name="dataMotivo"
+                                label="Ingrese razón  de Reprogramación de la Cita"
+                                variant={"outlined"}
+                                rows={10}
+                                multiline={true}
+                                onChange={this.handleOnChangeCT_Rep}
+                                value={this.state.dataMotivo}
                             />
+                            <FormHelperText error>{this.state.mensajeErrorR}</FormHelperText>
                         </Paper>
                     </DialogContent>
                     <DialogActions>
@@ -850,7 +842,7 @@ class FrmMisCitas_Tutor extends Component {
                             size="large"
                             variant="contained"
                             color="primary"
-                            disabled={this.state.esValido}
+                            disabled={this.state.esInvalRTotal}
                             onClick={this.handleOnclickAceptarReprogramacion}                        >
                             Sí
                         </Button>
