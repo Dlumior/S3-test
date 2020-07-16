@@ -7,6 +7,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(5),
     padding: theme.spacing(5),
     width: theme.spacing(160),
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(1),
+      width: theme.spacing(40),
+    },
   },
 }));
 
@@ -18,7 +22,7 @@ const Alumnos = [
 
 const ListaAlumnos = (props) => {
   const classes = useStyles();
-  const { alumnos,history } = props;
+  const { alumnos, history } = props;
   // console.log(alumnos);
   // alumnos.map((item) => {
   //   console.log(item.ID_ALUMNO);
@@ -31,16 +35,16 @@ const ListaAlumnos = (props) => {
       <Grid container spacing={5}>
         {alumnos.map((item) => (
           <ItemAlumno
-            key={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ID_ALUMNO}
-            idAlumno={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ID_ALUMNO}
+            key={item.ID_ALUMNO}
+            idAlumno={item.ID_ALUMNO}
             history={props.history}
             fullname={
-              item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.NOMBRE + " " + item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.APELLIDOS
+              item.ALUMNO.USUARIO.NOMBRE + " " + item.ALUMNO.USUARIO.APELLIDOS
             }
-            faculty={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.PROGRAMAs.map(
+            faculty={item.ALUMNO.USUARIO.PROGRAMAs.map(
               (programa) => programa.NOMBRE + "/"
             )}
-            image={item.ASIGNACION_TUTORIA_X_ALUMNOs[0].ALUMNO.USUARIO.IMAGEN}
+            image={item.ALUMNO.USUARIO.IMAGEN}
           />
         ))}
       </Grid>

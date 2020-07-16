@@ -3,15 +3,26 @@ import NombrePrincipal from "../../components/Shared/NombrePrincipal";
 import Buscador from "../../components/Tutor/ListarAlumnos/Buscador";
 import ComboBoxProcesoTutoria from "../../components/Tutor/ListarAlumnos/ComboBoxProcesoTutoria";
 import ListaAlumnos from "../../components/Tutor/ListarAlumnos/ListaAlumnos";
-import { Grid } from "@material-ui/core";
+import { Grid, Paper, makeStyles } from "@material-ui/core";
 import { GET } from "../../Conexion/Controller";
 import ComboBoxPrograma from "../../components/Tutor/ListarAlumnos/ComboBoxPrograma";
 import { getUser } from "../../Sesion/Sesion";
 import { defaultProps } from "recompose";
 
+const useStyles = makeStyles((theme) => ({
+  cbs: {
+    marginTop: theme.spacing(3),
+    padding: theme.spacing(1),
+    [theme.breakpoints.down("sm")]: {
+      width: theme.spacing(40),
+    },
+  },
+}));
+
 const MisAlumnos = (props) => {
+  const classes = useStyles();
   // const idTutor = "50";
-  const {history}=props;
+  const { history } = props;
   const [tutor, setTutor] = useState({});
   const [programas, setProgramas] = useState(
     getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs
@@ -40,11 +51,10 @@ const MisAlumnos = (props) => {
   //Funcion para obtener los procesos de tutoria
   useEffect(() => {
     async function fetchData() {
-      const endpoint =
-        "/api/tutoria/lista/"+ programa;
+      const endpoint = "/api/tutoria/lista/" + programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      if (res){
+      if (res) {
         setProcesosTutoria(res.tutoria);
       }
     }
@@ -68,8 +78,10 @@ const MisAlumnos = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       // console.log(res.alumnos);
-      if (res){
-        setAlumnos(res.alumnos);
+      if (res !== [] && res.alumnos[0] !== undefined) {
+        setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
+      } else {
+        setAlumnos([]);
       }
     }
     if (procesoTutoria !== "" && texto !== "") {
@@ -88,9 +100,10 @@ const MisAlumnos = (props) => {
       console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
-      console.log(res.alumnos);
-      if (res !== []) {
-        setAlumnos(res.alumnos);
+      if (res !== [] && res.alumnos[0] !== undefined) {
+        setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
+      } else {
+        setAlumnos([]);
       }
     }
     if (procesoTutoria !== "") {
@@ -102,29 +115,35 @@ const MisAlumnos = (props) => {
     <div>
       <NombrePrincipal titulo="Alumnos por Proceso de Tutoria de un Programa" />
       <Grid container direction="column" justify="center" alignItems="center">
+        <Grid item xs={12}>
+          <Paper className={classes.cbs}>
+            <Grid container justify="center" alignItems="center">
+              <Grid item md={6} xs={12}>
+                <ComboBoxPrograma
+                  setPDisabled={setPDisabled}
+                  programas={programas}
+                  programa={programa}
+                  setPrograma={setPrograma}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <ComboBoxProcesoTutoria
+                  pDisabled={pDisabled}
+                  procesosTutoria={procesosTutoria}
+                  procesoTutoria={procesoTutoria}
+                  setProcesoTutoria={setProcesoTutoria}
+                />
+              </Grid>
+            </Grid>
+          </Paper>
+        </Grid>
         <Grid item container justify="center" alignItems="center" spacing={2}>
-          <Grid item>
-            <ComboBoxPrograma
-              setPDisabled={setPDisabled}
-              programas={programas}
-              programa={programa}
-              setPrograma={setPrograma}
-            />
-          </Grid>
-          <Grid item>
-            <ComboBoxProcesoTutoria
-              pDisabled={pDisabled}
-              procesosTutoria={procesosTutoria}
-              procesoTutoria={procesoTutoria}
-              setProcesoTutoria={setProcesoTutoria}
-            />
-          </Grid>
           <Grid item>
             <Buscador texto={texto} setTexto={setTexto} />
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <ListaAlumnos alumnos={alumnos} history={props.history}/>
+          <ListaAlumnos alumnos={alumnos} history={props.history} />
         </Grid>
       </Grid>
     </div>
