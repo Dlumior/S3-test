@@ -112,9 +112,9 @@ class VerInformacionRelevante extends Component {
     });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
     return this.state.extension === "pdf"
-      ? "data:application/pdf;base64,"
-      : "data:application/octet-stream;base64" +
-          archivoOutput.informacionRelevante.ARCHIVO;
+      ? `data:application/pdf;base64,${archivoOutput.informacionRelevante.ARCHIVO}`
+      : (`data:application/octet-stream;base64,${archivoOutput.informacionRelevante.ARCHIVO}`)
+          
   }
 
   async handleVistaPrevia(e, idArchivo) {
