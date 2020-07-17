@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { Paper, Grid, makeStyles } from "@material-ui/core";
+import { Paper, Grid, makeStyles, Button } from "@material-ui/core";
 import ComboBoxFacultades from "../FormRegistroTutor/ComboBoxFacultades";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import * as Controller from "./../../../Conexion/Controller.js";
 import { getUser } from "../../../Sesion/Sesion";
 import ChartEstadoSesiones from "./ChartEstadoSesiones";
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -32,6 +34,20 @@ const FrmReporteSesiones = () => {
 
   const [estados, setEstado] = useState([]);
   const [cantidad, setCantidad] = useState([]);
+
+  const [data, setData] = useState([]);
+
+  const handleDescargar = async e => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    const fileName = 'Rep_Sesiones'
+    const ws = XLSX.utils.json_to_sheet(data);
+    console.log("dataaa",data)
+    const wb = { Sheets: { 'Sesiones': ws }, SheetNames: ['Sesiones'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const datos = await new Blob([excelBuffer], {type: fileType});
+    FileSaver.saveAs(datos, fileName + fileExtension);
+  }
 
   //Funcion auxiliar para obtener las facultades del coordinador
   useEffect(() => {
@@ -110,6 +126,7 @@ const FrmReporteSesiones = () => {
           }
           setEstado(res.motivosSolicitud.map((item) => item.ESTADO));
           setCantidad(res.motivosSolicitud.map((item) => {return ((item.CANTIDAD/tot) * 100).toFixed(2)}));
+          setData(res.motivosSolicitud.map((item) => item));
         }
       }
     }
@@ -129,7 +146,7 @@ const FrmReporteSesiones = () => {
       <Grid item xs={10} md={8}>
         <Paper className={classes.caja}>
           <Grid container spacing={5} justify="center" alignItems="center">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <ComboBoxFacultades
                 programas={facultades}
                 programa={facultad}
@@ -137,13 +154,18 @@ const FrmReporteSesiones = () => {
                 setDisabled={setDisabled}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <ComboBoxPrograma
                 disabled={disabled}
                 programas={programas}
                 programa={programa}
                 setPrograma={setPrograma}
               />
+            </Grid>
+            <Grid item xs={12} md={2}>
+            <Button id = "btnGuardar" color="primary" variant="contained" onClick = {(e) => handleDescargar(e)} disabled = {!estados.length}>
+                Descargar
+              </Button>
             </Grid>
           </Grid>
         </Paper>
