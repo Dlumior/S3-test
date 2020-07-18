@@ -62,67 +62,37 @@ export async function POST(props) {
         let dia=(hoy.getDay()+"-"+hoy.getMonth()+"-"+hoy.getFullYear());
         console.log("DIA",dia);
 
-        let auditoria = await fetch("/api/auditoria/",
-        {
-            limits:{fileSize: '10mb'},
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({auditoria:
-                {usuario:getUser().usuario.CODIGO+"_"+getUser().usuario.NOMBRE+"_",dia,
-                transaccion:props.request}}
-                )
-        });
+        console.log(">>> getUser",getUser());
+
+        if (getUser()!== undefined){
+            let auditoria = await fetch("/api/auditoria/",
+            {
+                limits:{fileSize: '10mb'},
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({auditoria:
+                    {usuario:getUser().usuario.CODIGO+"_"+getUser().usuario.NOMBRE+"_",dia,
+                    transaccion:props.request}}
+                    )
+            });
+
+            console.log(">>> POST auditoria",await auditoria.json());
+            console.log(">>> POST auditoria",await auditoria);
+
+        }       
             
         console.log(">>> POST succesful",responseJson);
-        console.log(">>> POST succesful",responseJson);
-        console.log(">>> POST auditoria",await auditoria.json());
-        console.log(">>> POST auditoria",await auditoria);
-
-
-        //Para la auditoria:        
-        //WriteDemo(nombre,JSON.stringify( props.request));
+        
 
         return responseJson;  
     } catch (error) {
 
         console.log(">>> POST failed");
         console.log(">>> ", error.message);
-/*
-        let auditoria = await fetch("/api/auditoria/",
-        {
-            limits:{fileSize: '10mb'},
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({auditoria:
-                {usuario:getUser().usuario.CODIGO+"_"+getUser().usuario.NOMBRE+"_"+getUser().usuario.APELLIDOS,
-                transaccion:responseJson}}
-                )
-        });
-*/
         return null;
     }
 }
-
-/*
-function WriteDemo(nombre,body) 
-{
- let fso, f, r;
- let ForReading = 1, ForWriting = 2;
- let dia=new Date();
- fso = new ActiveXObject("Scripting.FileSystemObject"); 
- f = fso.OpenTextFile(path.join("..","Auditoria"+dia.getDay()+"-"+dia.getMonth()+"-"+dia.getFullYear()+"-"+".txt", ForWriting, true));
- 
- f.Write(nombre+"   "+body);
- f.Close();
- //f = fso.OpenTextFile("c:\\testfile.txt", ForReading);
- //r = f.ReadLine();
- //return(r);
-}*/
