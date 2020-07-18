@@ -2,6 +2,7 @@ import React from "react";
 
 import * as Controller from "../../../Conexion/Controller";
 import TablaAlumnos from "./TablaAlumnos";
+import { Checkbox } from "@material-ui/core";
 
 const style = {
     paper: {
@@ -23,53 +24,34 @@ class ListaAlumnos extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        alumnosSeleccionados:[]
+        alumnosSeleccionados:[],
+        flag:0,
     };
     this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
 
   }
   async establecerData(arregloDeAlumnos){
     let arreglillo = [];
     
     for (let element of arregloDeAlumnos.alumnos){
-      let asignada=false;//ve si el alumno ya ha sido asignado
-
-        //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
-        let asig=await Controller.GET({servicio:"/api/tutoriaasignada/"+this.props.programa+"/"+element.ID_USUARIO});
-        if (asig){
-          console.log("programaa:",asig.tutoria);
-          for (let ele of asig.tutoria){
-            console.log("veamos:",ele.ID_PROCESO_TUTORIA,this.props.proceso);
-            if(ele.ID_PROCESO_TUTORIA===this.props.proceso){
-              asignada=true;
-              break;
-            }
-        }
-          console.log("estaasignada:",asignada);
-
-          if (!asignada){
-            arreglillo.push({
-              codigo:element.USUARIO.CODIGO,
-              nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
-              correo:element.USUARIO.CORREO,
-              checkbox:
-                <div>
-                  {<input                                     
-                      type="checkbox" 
-                      id={element.ID_USUARIO} 
-                      name="alumnos" 
-                      value={element.ID_USUARIO}
-                      defaultChecked={
-                        this.state.alumnosSeleccionados.findIndex(v => v === element.ID_USUARIO)!==-1
-                      }
-                      onChange={this.handleOnChangeChecked}>                                                                           
-                  </input>}
-                </div>
-              });  
-          }
-
-        }
+      arreglillo.push({
+        codigo:element.CODIGO,
+        nombre:element.NOMBRE+ " "+ element.APELLIDOS,
+        correo:element.CORREO,
+        checkbox:
+          <div>
+            {<Checkbox
+                id={element.ID_USUARIO}
+                value={element.ID_USUARIO}
+                color="primary"
+                defaultChecked={this.state.alumnosSeleccionados.findIndex(v => v === element.ID_USUARIO)!==-1}
+                onChange={() => this.handleToggle(element.ID_USUARIO)}                   
+            />}
+          </div>
+        });  
+      
     }
     const data = {
         columns: [
@@ -94,12 +76,12 @@ class ListaAlumnos extends React.Component {
 
   }
   async componentDidUpdate(prevProps,nextState){
-    if (nextState.alumnosSeleccionados !== this.state.alumnosSeleccionados){
+    if (nextState.flag !== this.state.flag ){
       let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
       if (arregloDeAlumnos){
         console.log("arreglo: ",arregloDeAlumnos);
         this.establecerData(arregloDeAlumnos);
-      }      
+      }
     }    
   }
   async componentDidMount(){
@@ -110,6 +92,21 @@ class ListaAlumnos extends React.Component {
     }
 }
 
+async handleToggle(idA){
+  var i = this.state.alumnosSeleccionados.findIndex(v => v === idA)
+  console.log("indice",i);
+  if ( i !== -1 ) {
+    this.state.alumnosSeleccionados.splice(i,1);
+  }else{
+    this.state.alumnosSeleccionados.push(idA);
+  }
+  let j= this.state.flag +1;
+  console.log("veamos: ",j);
+  this.setState({flag:j});
+
+  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
+};
 
 async handleOnChangeChecked(e) {
   let idA=e.target.value;

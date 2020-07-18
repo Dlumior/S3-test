@@ -326,7 +326,7 @@ const VerticalLinearStepper = () => {
             </Grid>
             <ListaAlumnos
               escogerAlumnos={handleOnChangeAlumnos}
-              enlace={"/api/alumno/lista/" + subprograma}
+              enlace={"/api/alumno/noasignados/" + tutoria}
               programa={subprograma}
               proceso={tutoria}
             />

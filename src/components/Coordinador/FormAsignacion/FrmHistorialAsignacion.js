@@ -147,7 +147,7 @@ useEffect(() => {
         </Grid>
         {/*<Paper elevation={0} style={style.paper}>
             Tabla Tutores por proceso de tutoria
-          </Paper>*/}
+          </Paper> */}
         <ListaAsignaciones idTutoria={procesoTutoria}/>        
       </div>
   );

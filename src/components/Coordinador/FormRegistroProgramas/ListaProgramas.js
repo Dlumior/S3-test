@@ -10,6 +10,7 @@ import { getUser } from "../../../Sesion/Sesion";
 import ModificaPrograma from "./ModificarPrograma";
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EliminarPrograma from "./EliminarPrograma";
 
 
 const style = {
@@ -40,6 +41,7 @@ class ListaProgramas extends React.Component {
     this.establecerData = this.establecerData.bind(this);
     this.handleOnOpen = this.handleOnOpen.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
   }
   establecerData(arregloProg){
     
@@ -52,18 +54,20 @@ class ListaProgramas extends React.Component {
           codigo:cont,
           nombre:element.NOMBRE,
           boton:<div>
-            <IconButton color="primary">
-              <EditRoundedIcon
-              color="secondary"
-              fontsize="large"
-              onClick={() => this.handleOnOpen(element)}
-              />
-          </IconButton>
-          <IconButton color="primary">
-              <DeleteRoundedIcon
-              color="error"
-              fontsize="large" />
-          </IconButton>  
+                  <IconButton color="primary">
+                      <EditRoundedIcon
+                      color="secondary"
+                      fontsize="large"
+                      onClick={() => this.handleOnOpen(element)}
+                      />
+                  </IconButton>
+                  {getUser().rol==="Coordinador Facultad" &&
+                  <IconButton color="primary">
+                      <DeleteRoundedIcon
+                      color="error"
+                      fontsize="large"
+                      onClick={() => this.handleOnOpenEliminar(element)} />
+                  </IconButton>}  
                 </div>
           });  
 
@@ -93,9 +97,7 @@ class ListaProgramas extends React.Component {
     if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag 
       || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idFacu);
-      //let arregloProg=await Controller.GET({servicio:"/api/programa"});
       let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
-      //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
       if (arregloProg){
         console.log("arreglo: ",arregloProg);
         this.establecerData(arregloProg);
@@ -107,8 +109,6 @@ class ListaProgramas extends React.Component {
     let idCoord=getUser().usuario.ID_USUARIO;
     console.log("idFacu: ",this.props.idFacu);
     let arregloProg=await Controller.GET({servicio:"/api/programa/coordinador/"+idCoord});
-    //let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
-    //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
     if (arregloProg){
       console.log("arreglo: ",arregloProg);
       this.establecerData(arregloProg);
@@ -121,8 +121,14 @@ handleOnOpen= (programa) =>{
   console.log("coordinadores del programa",programa);
   this.state.programaConCoord=programa;
 } 
+handleOnOpenEliminar= (programa) =>{
+  this.setState({ open2: true });//para el eliminar
+  this.state.programaConCoord=programa;
+
+} 
 handleOnClose() {
   this.setState({ open: false });
+  this.setState({ open2: false });//para el eliminar
   //window.location.reload();
 }
 
@@ -142,6 +148,13 @@ render(){
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               programa={this.state.programaConCoord}
+              parentCallback={this.callback}
+            />}
+            {this.state.open2 && 
+            <EliminarPrograma 
+              open={this.handleOnOpenEliminar} 
+              close={this.handleOnClose}
+              id={this.state.programaConCoord.ID_PROGRAMA}
               parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>

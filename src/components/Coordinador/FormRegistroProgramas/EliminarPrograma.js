@@ -14,39 +14,42 @@ import {getUser} from "../../../Sesion/Sesion";
 
 const EliminarPrograma = (props) => {
   const {open,close,id,parentCallback}=props;
-  const [flag, setFlag] = useState(0);//actualizar lista facu
+  const [flag, setFlag] = useState(0);//actualizar lista 
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensajeStrong: "",
-    mensajeStrongError: "por favor revisalos!",
-    mensajeStrongExito: "satisfactoriamente!",
-    mensajeError: "Existen errores al completar el formulario",
-    mensajeExito: "Coordinador registrado",
-    mensaje: "",
-  });
-  const [severidad, setSeveridad] = useState({
-    severidad:"",
-    severW:"warning",
-    severE:"error",
-    severS:"success"
+    mensaje: "¿Esta seguro de eliminar el programa?",
   });
  
 
   const handleClick = async (e) => {    
       
-      //FACULTAD ELIMINAR 
-      console.log("idFacu",id);
-      let enlace;
-      enlace="/api/programa/eliminar/"+id;
-      const props = { servicio: enlace };
+      //PROGRAMA ELIMINAR 
+      console.log("idPrograma",id);
+      const props = { servicio: "/api/programa/eliminar/"+id };
       let resultado = await Conexion.POST(props);
       console.log("got updated coord from back:", resultado);
       if (resultado){
         if (resultado.eliminacion.ok!==1){
           setElimino(false);
           console.log("elimino",elimino);
+          if (resultado.tutoriasAsociadas===0 && resultado.usuariosAsociados>0){
+            setAlerta({
+              mensaje:"El programa no puede eliminarse porque cuenta con usuarios asignados a este",
+            });
+          }else if (resultado.tutoriasAsociadas>0 && resultado.usuariosAsociados===0){
+            setAlerta({
+              mensaje:"El programa no puede eliminarse porque cuenta con tutorias en curso",
+            });
+          }else{
+            setAlerta({
+              mensaje:"El programa no puede eliminarse porque cuenta con tutorias y usuarios asignados",
+            });
+          }
         }else{          
           setElimino(true);
+          setAlerta({
+            mensaje:"",
+          });
         }    
       }
       //actualizamos lista 
@@ -73,12 +76,12 @@ const EliminarPrograma = (props) => {
         <DialogContent>
             <Grid container md={12} justify="center">
               {!elimino &&
-                <Typography variant="h6" >
-                ¿Esta seguro de eliminar el programa?
-            </Typography>}
+                <Typography variant="subtitle1" >
+                  {alerta.mensaje}
+                </Typography>}
             {elimino &&
-              <Typography variant="h6" >
-                La facultad se elimino satisfactoriamente
+              <Typography variant="subtitle1" >
+                  El programa se elimino satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       
