@@ -39,7 +39,7 @@ class VerInformacionRelevante extends Component {
     super();
     this.state = {
       
-
+      idArchivo:0,
       descripcion: "",
       fileName: "",
       PDFURL: undefined,
@@ -107,53 +107,58 @@ class VerInformacionRelevante extends Component {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
-    this.setState({
+    await this.setState({
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],
     });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
+    console.log("KAMEEEEE: ", this.state.extension);
     return this.state.extension === "pdf"
       ? `data:application/pdf;base64,${archivoOutput.informacionRelevante.ARCHIVO}`
       : (`data:application/octet-stream;base64,${archivoOutput.informacionRelevante.ARCHIVO}`)
           
   }
 
-  async handleVistaPrevia(e, idArchivo) {
-    const { archivo } = this.state;
+  async handleVistaPrevia(e, id_archivo) {
+    const { archivo,idArchivo } = this.state;
     if (archivo) {
-      if (archivo.idArchivo !== idArchivo) {
+      console.log("ARCH: ", idArchivo);
+      console.log("ARCH: ", id_archivo);
+      if (idArchivo !== id_archivo) {
         // si hay archivo i los id son dif,pide al back y muestra
         this.setState({ archivo: undefined });
-        const archivo = await this.getArchivo(idArchivo);
+        const archivo = await this.getArchivo(id_archivo);
 
-        await this.setState({ archivo });
+        await this.setState({ archivo,idArchivo :id_archivo});
       } else {
         //ya esta cargado, so, no hagas nada
       }
     } else {
       //no hay archivos, lo cargo en memoria
-      const archivo = await this.getArchivo(idArchivo);
-      await this.setState({ archivo });
+      const archivo = await this.getArchivo(id_archivo);
+      await this.setState({ archivo ,idArchivo:id_archivo});
     }
     if (this.state.extension.toLowerCase() !== "pdf") {
       this.clickInput();
     }
   }
-  async handleDescargar(e, idArchivo) {
-    const { archivo } = this.state;
+  async handleDescargar(e, id_archivo) {
+    const { archivo,idArchivo } = this.state;
     if (archivo) {
-      if (archivo.idArchivo !== idArchivo) {
+      if (idArchivo !== id_archivo) {
         this.setState({ archivo: undefined });
-        const archivo = await this.getArchivo(idArchivo);
+        const archivo = await this.getArchivo(id_archivo);
 
-        await this.setState({ archivo });
+        await this.setState({ archivo,idArchivo:id_archivo });
+
         this.clickInput();
       } else {
         this.clickInput();
       }
     } else {
-      const archivo = await this.getArchivo(idArchivo);
+      const archivo = await this.getArchivo(id_archivo);
 
-      await this.setState({ archivo });
+      await this.setState({ archivo,idArchivo :id_archivo});
+
       this.clickInput();
     }
   }

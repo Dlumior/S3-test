@@ -72,7 +72,7 @@ class FormularioImportarAlumnos extends Component {
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
   }
 
-  handleOnClickRegistroSSJ_masivo = async () => {
+  async handleOnClickRegistroSSJ_masivo () {
     alert("Registrando Alumnos espere...");
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
@@ -80,29 +80,32 @@ class FormularioImportarAlumnos extends Component {
     console.log("Registrando ", data);
     if (!data || data?.length === 0) {
       alert("aun no hay datos sorry man XD");
+    this.handleCloseLoading();
       return;
     }
-    data.forEach(async (registro) => {
-      let ALUMNO = { alumno: {} };
-      tags.forEach((tag) => {
-        ALUMNO.alumno[tag.toUpperCase()] = registro[tag.toLowerCase()];
+    let alumnosMasivo = [];
+    await data.forEach(async (registro) => {
+      let ALUMNO = {};
+      await tags.forEach((tag) => {
+        ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
-      ALUMNO.alumno.PROGRAMA = this.state.programas;
-      ALUMNO.alumno.CONTRASENHA = "youthinkyouknowme";
-      ALUMNO.alumno.USUARIO = ALUMNO.alumno.CORREO;
-      ALUMNO.alumno.ETIQUETA = this.state.etiquetas;
+      ALUMNO.PROGRAMA = this.state.programas;
+      ALUMNO.CONTRASENHA = "youthinkyouknowme";
+      ALUMNO.USUARIO = ALUMNO.CORREO;
+      ALUMNO.ETIQUETA = this.state.etiquetas;
       console.log("Registrando ALUMNO", ALUMNO);
       //console.log("Podria registrar: ", ALUMNO);
-      let response = await POST({ servicio: "/api/alumno", request: ALUMNO });
-      if (!response) {
-        alert("Hubo un error insperado");
-      } else if (response.error) {
-        alert("Error ", response.error);
-      } else {
-        //se registro bien
-      }
-      this.handleCloseLoading();
+      alumnosMasivo.push(ALUMNO);
     });
+    let response = await POST({ servicio: "/api/alumno/registromasivo", request: {alumnos: alumnosMasivo} });
+    if (!response || response.error) {
+      alert("Hubo un error insperado");
+    } else if (response.errores) {
+      alert("Error ", response.errores);
+    } else {
+      //se registro bien
+    }
+    this.handleCloseLoading();
   };
   handleOnChangeEtiquetas = async (etiqueta) => {
     //primero que llegue
@@ -126,9 +129,7 @@ class FormularioImportarAlumnos extends Component {
     console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = this.state.usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -152,9 +153,7 @@ class FormularioImportarAlumnos extends Component {
    * @param {*} usuario
    */
   getEnlace(usuario) {
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
 
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -329,7 +328,6 @@ class FormularioImportarAlumnos extends Component {
           superPlaceHolder={true}
           //Uploading
           embebed={false}
-                  
           handleOnSuccesLoad={this.handleOnSuccesLoad}
           formato={this.state.formato}
           maxTamanio={this.state.maxTamanio}
@@ -380,9 +378,7 @@ class FormularioImportarAlumnos extends Component {
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
                 subnombre={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
+                  this.getSubRol(getUser().rol) === "programa"
                     ? "FACULTAD"
                     : undefined
                 }
@@ -403,9 +399,7 @@ class FormularioImportarAlumnos extends Component {
                   id={"ID_PROGRAMA"}
                   nombre={"NOMBRE"}
                   keyServicio={
-                    this.getSubRol(
-                      getUser().rol
-                    ) === "programa"
+                    this.getSubRol(getUser().rol) === "programa"
                       ? "programas"
                       : "programa"
                   }

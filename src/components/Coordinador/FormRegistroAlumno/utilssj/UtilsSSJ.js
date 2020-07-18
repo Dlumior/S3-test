@@ -171,7 +171,7 @@ const regex = {
 export const validaciones = {
   nombre: { lim: 25, req: true },
   apellidos: { lim: 50, req: true },
-  correo: { lim: 25, tipo: "email", req: true },
+  correo: { lim: 35, tipo: "email", req: true },
   telefono: { lim: 45, tipo: "telefono", req: false },
   direccion: { lim: 50, tipo: "direccion", req: true },
   codigo: { lim: 10, tipo: "codigo", req: true },
