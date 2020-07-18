@@ -6,7 +6,14 @@ import {
   Button,
   Typography,
   makeStyles,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@material-ui/core";
+import ErrorIcon from "@material-ui/icons/Error";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { POST } from "../../../Conexion/Controller";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +53,17 @@ const useStyles = makeStyles((theme) => ({
 const Solicitud = (props) => {
   const classes = useStyles();
   const { solicitud } = props;
+  const [open, setOpen] = React.useState(false);
+  const [icn, setIcn] = React.useState("success");
+  const [msg, setMsg] = React.useState("");
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    window.location.reload();
+  };
 
   const datos = {
     ID_ASIGNACION: solicitud.ID_ASIGNACION,
@@ -61,8 +79,16 @@ const Solicitud = (props) => {
     console.log("Accepting alumno:", datos);
     let modificacion = await POST(sendData);
     console.log("Got updated alumno from back:", modificacion);
-    alert("Se actualizó correctamente el estado de la solicitud");
-    window.location.reload();
+    //alert("Se actualizó correctamente el estado de la solicitud");
+    if (modificacion.solicitud.RESPUESTA !== undefined) {
+      setIcn("success");
+      setMsg("Se actualizó correctamente el estado de la solicitud");
+      handleClickOpen();
+    } else {
+      setIcn("error");
+      setMsg("Se actualizó correctamente el estado de la solicitud");
+      handleClickOpen();
+    }
   };
 
   const hanldeAceptar = async () => {
@@ -75,8 +101,42 @@ const Solicitud = (props) => {
     await enviarRespuesta();
   };
 
+  const mensaje = (icon, msg) => (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">
+        {icon === "error" ? (
+          <>
+            <ErrorIcon color="error" />
+            <Typography variant="subtitle2">Error</Typography>
+          </>
+        ) : (
+          <>
+            <CheckCircleIcon color="primary" />
+            <Typography variant="subtitle2">Mensaje</Typography>
+          </>
+        )}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {msg}
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary" autoFocus>
+          Aceptar
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+
   return (
     <>
+      {mensaje(icn, msg)}
       <Paper elevation={5} className={classes.caja}>
         <Grid container direction="row" justify="center" alignItems="center">
           <Grid
