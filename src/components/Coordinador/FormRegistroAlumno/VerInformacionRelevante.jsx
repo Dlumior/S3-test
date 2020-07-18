@@ -108,6 +108,7 @@ class VerInformacionRelevante extends Component {
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
     await this.setState({
+      filename: archivoOutput.informacionRelevante.DESCRIPCION,
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],
     });
     console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
@@ -345,7 +346,7 @@ class VerInformacionRelevante extends Component {
             id="superDownload"
             href={this.state.archivo}
             style={{ display: "none" }}
-            download
+            download={this.state.filename}
           ></a>
           
           
