@@ -56,33 +56,39 @@ const style = {
     });
     console.log("fecha",datosForm.fecha);
   };
-  const handleHoraIni = (e, datosForm, setDatosForm) => {
+  const handleHoraIni = (e, datosForm, setDatosForm,duracion) => {
     console.log("horaini",e.target.value);
-    if (e.target.value < "08:00" || e.target.value > '19:30') {
-      document.getElementById("Hora").value = "08:00"; 
-    } else {
-      setDatosForm({
-        ...datosForm,
-        horaini: e.target.value,
-      });
-      console.log("horaini",datosForm.horaini);
+    let hi=e.target.value;
+    let hf;
+    if (moment(e.target.value,'HH:mm').format('HH:mm')>moment('22:30','HH:mm').format('HH:mm')){
+      if (duracion===30){
+        document.getElementById("Hora").value = '23:30';
+        hi=moment('23:30','HH:mm').format('HH:mm');
+        hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
+      }else if (duracion===60){
+        document.getElementById("Hora").value = '23:00';
+        hi=moment('23:00','HH:mm').format('HH:mm');
+        hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
+      }else if (duracion===90){
+        document.getElementById("Hora").value = '22:30';
+        hi=moment('22:30','HH:mm').format('HH:mm');
+        hf=moment('00:00','HH:mm').format('HH:mm');
+      }
     }
-    
-  
+    setDatosForm({
+      ...datosForm,
+      horaini: hi,
+    });
+    console.log("duracionn: ",duracion);
+    console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
+    console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
+    setDatosForm({
+      ...datosForm,
+      horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
+    });
+    console.log("horaini",datosForm.horaini);   
   };
-  const handleHoraFin = (e, datosForm, setDatosForm) => {
-    console.log("horafin",e.target.value);
   
-    if (e.target.value > '20:00' || e.target.value < "08:30") {
-      document.getElementById("Hora fin").value = "20:00"; 
-    } else {
-      setDatosForm({
-        ...datosForm,
-        horafin: e.target.value,
-      });
-      console.log("horafin",datosForm.horafin);
-    }
-  };
   const handleLugar = (e, datosForm, setDatosForm) => {
     console.log("lugar",e.target.value);
     if (e.target.value.length > 45) {
@@ -96,7 +102,7 @@ const style = {
   
   };
 
-const FrmHistorialAsignacion = () => {
+const FrmSesionesGrupales = () => {
 const [datosForm, setDatosForm] = React.useState({
     usuarioCodigo:0,
     usuarioNombre:'',
@@ -111,6 +117,8 @@ const [programas, setProgramas] = useState([]);
 const [programa, setPrograma] = useState("");  
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
+const [duracion, setDuracion] = useState(0);
+
 const [alumnos,setAlumnos]=useState([]);
 const [alerta, setAlerta]= useState({
     mensajeStrong: "",
@@ -168,6 +176,7 @@ useEffect(() => {
     console.log("tutoria: ",res);
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
+      setDuracion(res.tutoria[0].DURACION);
     }
   }
   if (facultad!=="" && programa !== "") {
@@ -232,65 +241,6 @@ const handleOnClick = async(e) => {
                 </Typography>
             </Grid>
             <Grid item md={3}>
-              <TextField
-                  required
-                  margin="dense"
-                  type="date"
-                  id="Fecha"
-                  label="Fecha"
-                  defaultValue={datosForm.fecha}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => handleFecha(e, datosForm, setDatosForm)}
-                  fullWidth
-              />
-            </Grid>
-            <Grid item md={3} >
-              <TextField
-                  required
-                  margin="dense"
-                  type="time"
-                  id="Hora"
-                  label="Hora Inicio"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => handleHoraIni(e, datosForm, setDatosForm)}
-                  fullWidth
-              />
-            </Grid>
-            <Grid item md={3} >
-              <TextField
-                  required
-                  margin="dense"
-                  type="time"
-                  id="Hora fin"
-                  label="Hora Fin"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => handleHoraFin(e, datosForm, setDatosForm)}
-                  fullWidth
-              />
-            </Grid>
-            <Grid item md={3}>
-              <TextField
-                  id="lugar"
-                  label="Lugar"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
-                  fullWidth
-              />
-            </Grid>
-            <Grid item md={12}>
-                <Typography variant="h6">
-                    Seleccionar Alumnos
-                </Typography>
-            </Grid>
-            <Grid item md={3}>
                 <ComboBoxFacus
                     facultades={facultades}
                     facultad={facultad}
@@ -311,6 +261,68 @@ const handleOnClick = async(e) => {
                     setProcesoTutoria={setProcesoTutoria}
                 />
             </Grid>
+            <Grid item md={12}>
+                <Typography variant="h6">
+                    {""}
+                </Typography>
+            </Grid>
+            <Grid item md={3}>
+              <TextField
+                  disabled={procesoTutoria===""}
+                  required
+                  margin="dense"
+                  type="date"
+                  id="Fecha"
+                  label="Fecha"
+                  defaultValue={datosForm.fecha}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => handleFecha(e, datosForm, setDatosForm)}
+                  fullWidth
+              />
+            </Grid>
+            <Grid item md={3} >
+              <TextField
+                  disabled={procesoTutoria===""}
+                  required
+                  margin="dense"
+                  type="time"
+                  id="Hora"
+                  label="Hora Inicio"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => handleHoraIni(e, datosForm, setDatosForm,duracion)}
+                  fullWidth
+              />
+            </Grid>
+            <Grid item md={3} >
+              <TextField
+                  disabled
+                  margin="dense"
+                  type="time"
+                  id="Hora fin"
+                  label="Hora Fin"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={datosForm.horafin}
+                  fullWidth
+              />
+            </Grid>
+            <Grid item md={3}>
+              <TextField
+                  disabled={procesoTutoria===""}
+                  id="lugar"
+                  label="Lugar"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
+                  fullWidth
+              />
+            </Grid>
         </Grid>
         </Paper>
         {procesoTutoria &&
@@ -329,5 +341,5 @@ const handleOnClick = async(e) => {
   );
 }
 
-export default FrmHistorialAsignacion;
+export default FrmSesionesGrupales;
 

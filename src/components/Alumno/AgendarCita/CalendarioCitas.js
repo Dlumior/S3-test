@@ -70,7 +70,7 @@ class CalendarioCitas extends Component {
     console.log("<<<FI",fechaInicial);
 
     let fechasDias = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 7; i++) {
       console.log("inicial: ", fechaInicial.toISOString().split("T")[0])
       fechasDias.push(fechaInicial);
       //fechaInicial.setDate(fechaInicial.getDate() + 1);
@@ -83,7 +83,7 @@ class CalendarioCitas extends Component {
         {this.props.tipo !== "disponibilidad" ? (
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
-              <Grid item md={2} xs={12}>
+              <Grid item style={{width:180,height:180,flexGrow: 1}}>
                 <HorarioDelDia
                   fecha={{
                     fecha: diaSemana,
@@ -98,7 +98,7 @@ class CalendarioCitas extends Component {
         ) : (
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
-              <Grid item md={2} xs={12}>
+              <Grid item style={{width:180,height:180,flexGrow: 1}}>
                 {console.log("QQQ: ", this.state.filtroIdProceso)}
                 {console.log("dia semana: ", diaSemana)}
                 {this.state.filtroIdProceso ? (

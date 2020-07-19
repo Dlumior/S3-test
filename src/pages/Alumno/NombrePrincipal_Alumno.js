@@ -37,7 +37,7 @@ class NombrePrincipal_Alumno extends Component {
     return (
       <Paper style={estilos.paper}>
         <Grid container spacing={0}>
-          <Grid item md={8}>
+          <Grid item md={8} style={{marginLeft:"3%"}}>
             <Typography component="h1" variant="h5">
               <h2>{this.props.titulo}</h2>
             </Typography>

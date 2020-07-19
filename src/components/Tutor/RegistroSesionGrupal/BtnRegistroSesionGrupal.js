@@ -76,14 +76,14 @@ export default function BtnRegistroSesionGrupal(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              Registro de sesión grupal
+              Registro de resultados de sesiones grupales
             </Typography>
             {/* <Button autoFocus color="inherit" onClick={handleClose}>
               Guardar
             </Button> */}
           </Toolbar>
         </AppBar>
-        <Grid container justify="center" alignItems="center" spacing={4}>
+        <Grid container justify="center" alignItems="center" spacing={4} style={{marginTop:"3%"}}>
           <Grid item xs={12} md={11}>
             <TablaGrupoAlumnos columns={grupo.columns} data={grupo.data} />
           </Grid>
