@@ -10,13 +10,14 @@ import { UserContext, getUser } from "../../Sesion/Sesion";
 import { inicializarSesion } from "../../Sesion/actions/sesionAction";
 import NombrePrincipalSSJ from "../../components/Shared/NombrePrincipalSSJ";
 import ListaComboBox from "../../components/Coordinador/Tutorias/ListaComboBox";
-import NombrePrincipal_Alumno from "./NombrePrincipal_Alumno";
+import NombrePrincipal_Alumno from "./NombrePrincipal_Alumno.jsx";
 
 class AgendarCita extends Component {
   constructor() {
     super();
 
     this.state = {
+      programa: undefined,
       procesos: [
         //regularTipo1: [0] <- (Tutor Individual - VARIABLE - Solicitado)
         {
@@ -63,9 +64,8 @@ class AgendarCita extends Component {
       ],
     };
     this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
-
+    this.obtenerPrograma = this.obtenerPrograma.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
-
   }
 
   handleOnChangeProceso(proceso) {
@@ -76,6 +76,10 @@ class AgendarCita extends Component {
     // }
   }
 
+  obtenerPrograma(_programa){
+    console.log("xd", _programa);
+    this.setState({    programa:_programa  });
+  }
 
   renderxTipoProceso(yo) {
     if (this.props.multiProceso) {
@@ -89,14 +93,17 @@ class AgendarCita extends Component {
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs,
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
 
-        {/* <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} /> */}
-        
-        <NombrePrincipal_Alumno titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} />
+        {/* <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} usuario={getUser().usuario} />*/}
+        {/**
+           
+           */}
+        <NombrePrincipal_Alumno
+          titulo={this.state.procesos[0].titulo}
+          usuario={getUser().usuario}
+          obtenerPrograma={this.obtenerPrograma}
+        />
 
-        
         {/*<TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>*/}
-
-        
 
         <TabProceso
           procesos={[
@@ -112,9 +119,10 @@ class AgendarCita extends Component {
                     "/"
                   }
                   tipo="disponibilidad"
+                  programa={this.state.programa}
                 />
               ),
-            }
+            },
           ]}
           paper={false}
         />

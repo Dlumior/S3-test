@@ -8,7 +8,7 @@ class Alertas extends Component {
     } else {
       return (
         <Alert severity={this.props.severity}>
-          <AlertTitle>Observacion</AlertTitle>
+          <AlertTitle>Observación</AlertTitle>
           {this.props.alerta.mensaje + " - "}
           <strong>{this.props.alerta.mensajeStrong}</strong>
         </Alert>

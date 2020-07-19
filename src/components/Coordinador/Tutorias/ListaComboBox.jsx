@@ -121,6 +121,7 @@ class ListaComboBox extends Component {
           listaItems: listaItems[this.props.keyServicio],
         });
         //le digo al formulario padre que ya escogi uno
+        
         await this.props.escogerItem(
           this.props.subnombre
             ? [this.state.item[this.props.subnombre][this.props.id]]

@@ -51,6 +51,13 @@ class CalendarioCitas extends Component {
       ).toDate(),
     });
     console.log("salto actual: ", this.state.lunesActual);
+    this.setState({
+      fechaControles: {
+        mes: mesesAnio[lunesActual.getMonth() + 1],
+        semana: 1,
+        fecha: this.state.fechaActual,
+      },
+    });
   }
   /**
    *
@@ -223,6 +230,8 @@ class CalendarioCitas extends Component {
           colorActivo={this.state.modoBatallador}
 
           handleDuracion={this.handleDuracion}
+          programa={this.props.programa}
+
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

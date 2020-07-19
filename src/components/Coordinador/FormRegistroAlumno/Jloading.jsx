@@ -6,17 +6,21 @@ const estilo={
     marginTop: "25%",
     color: "#3AAFA9",
     textAlign: "center",
+  },
+  miniLoading:{
+    color: "#3AAFA9",
+    textAlign: "center",
   }
 }
 export default class Jloading extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {};
   }
   render() {
     return (
       <>
-      <div className="lds-roller" style={estilo.loading}>
+      <div className="lds-roller" style={this.props.size==="xs"?estilo.miniLoading:estilo.loading}>
         <div></div>
         <div></div>
         <div></div>

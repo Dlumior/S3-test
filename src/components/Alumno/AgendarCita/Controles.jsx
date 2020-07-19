@@ -55,15 +55,21 @@ class Controles extends Component {
       },
       serviciosTutoria: [
         `/api/tutoriavariable/${
-          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        //getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        this.props.programa
+
         }`,
         `/api/tutoriaasignada/${
-          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        //getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        this.props.programa
+
         }/${getUser().usuario.ID_USUARIO}`,
       ],
       servicioTutoriaActual: `/api/tutoriavariable/${
-        getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-      }`,
+        //getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+        this.props.programa
+
+        }`,
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
@@ -124,7 +130,7 @@ class Controles extends Component {
     );
     //aqui se o mando al componente padre
 
-      console.log("escogerITEM => ",tutoria);
+    console.log("escogerITEM => ", tutoria);
 
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
@@ -132,7 +138,7 @@ class Controles extends Component {
 
         this.props.handleFiltroProceso(tutoria);
 
-        this.props.handleDuracion(tutoria?tutoria.DURACION:0); //<< caso tuto fijo le damos el campo duracion
+        this.props.handleDuracion(tutoria ? tutoria.DURACION : 0); //<< caso tuto fijo le damos el campo duracion
 
       } else {
         this.setState({ tutoriaFija: false });
@@ -217,32 +223,32 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Grid container spacing={0} alignContent="center">
-                <Grid item md={3} xs={3}>
-                  <IconButton
-                    color="primary"
-                    aria-label="delete"
-                    onClick={() => this.saltoEnElTiempoLocal(-7)}
-                  >
-                    <ArrowBackIosOutlinedIcon />
-                  </IconButton>
+                <Grid container spacing={0} alignContent="center">
+                  <Grid item md={3} xs={3}>
+                    <IconButton
+                      color="primary"
+                      aria-label="delete"
+                      onClick={() => this.saltoEnElTiempoLocal(-7)}
+                    >
+                      <ArrowBackIosOutlinedIcon />
+                    </IconButton>
+                  </Grid>
+                  <Grid item md={6} xs={6}>
+                    <h3 style={styles.control}>
+                      {"Semana" /*+ this.props.fecha.semana*/ || "Semana Actual"}
+                    </h3>
+                  </Grid>
+                  <Grid item md={3} xs={3}>
+                    <IconButton
+                      color="primary"
+                      aria-label="delete"
+                      onClick={() => this.saltoEnElTiempoLocal(7)}
+                    >
+                      <ArrowForwardIosOutlinedIcon />
+                    </IconButton>
+                  </Grid>
                 </Grid>
-                <Grid item md={6} xs={6}>
-                  <h3 style={styles.control}>
-                    {"Semana" + this.props.fecha.semana || "Semana Actual"}
-                  </h3>
-                </Grid>
-                <Grid item md={3} xs={3}>
-                  <IconButton
-                    color="primary"
-                    aria-label="delete"
-                    onClick={() => this.saltoEnElTiempoLocal(7)}
-                  >
-                    <ArrowForwardIosOutlinedIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            )}
+              )}
           </Grid>
 
           {/** filtro de programa
@@ -252,25 +258,25 @@ class Controles extends Component {
           {this.props.tipo !== "disponibilidad" ? (
             <Grid item md={2} xs={2}></Grid>
           ) : (
-            <Grid item md={2} xs={2}>
-              <Grid item md={12} xs={12}>
-                <GrupoRadioButton
-                  stretch={true}
-                  disabled={false}
-                  titulo="Escoga un Tipo de tutoria"
-                  radios={this.state.radios.tipoTutoria}
-                  obtenerSeleccion={this.obtenerSeleccion}
-                />
+              <Grid item md={2} xs={2}>
+                <Grid item md={12} xs={12}>
+                  <GrupoRadioButton
+                    stretch={true}
+                    disabled={false}
+                    titulo="Escoga un Tipo de tutoria"
+                    radios={this.state.radios.tipoTutoria}
+                    obtenerSeleccion={this.obtenerSeleccion}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          )}
+            )}
           {this.props.tipo !== "disponibilidad" ? (
             <Grid item md={2} xs={2}></Grid>
           ) : (
-            <Grid item md={2} xs={2}>
-              {this.renderTutoria(this.state.servicioTutoriaActual)}
-            </Grid>
-          )}
+              <Grid item md={2} xs={2}>
+                {this.renderTutoria(this.state.servicioTutoriaActual)}
+              </Grid>
+            )}
 
           {/** fecha actual */}
           <Grid item md={3} xs={3}>
@@ -282,27 +288,27 @@ class Controles extends Component {
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Grid container spacing={0} style={styles.control}>
-                <Grid item md={12} xs={12} alignContent="center">
-                  {this.state.vistaColumna}
-                  <IconButton onClick={() => this.ModoBatallador()}>
-                    <ViewColumnIcon
-                      color={this.props.colorActivo ? "Primary" : "Secondary"}
-                    />
-                  </IconButton>
+                <Grid container spacing={0} style={styles.control}>
+                  <Grid item md={12} xs={12} alignContent="center">
+                    {this.state.vistaColumna}
+                    <IconButton onClick={() => this.ModoBatallador()}>
+                      <ViewColumnIcon
+                        color={this.props.colorActivo ? "Primary" : "Secondary"}
+                      />
+                    </IconButton>
 
-                  <IconButton
-                    disabled={this.state.tutoriaFija}
-                    onClick={() => this.ModoLista()}
-                  >
-                    <ViewListIcon
-                      color={!this.props.colorActivo ? "Primary" : "Secondary"}
-                    />
-                  </IconButton>
-                  {this.state.vistaLista}
+                    <IconButton
+                      disabled={this.state.tutoriaFija}
+                      onClick={() => this.ModoLista()}
+                    >
+                      <ViewListIcon
+                        color={!this.props.colorActivo ? "Primary" : "Secondary"}
+                      />
+                    </IconButton>
+                    {this.state.vistaLista}
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
+              )}
           </Grid>
 
           {/** tutor filtro */}
@@ -330,27 +336,27 @@ class Controles extends Component {
                   strecht={true}
                 />
               ) : (
-                <></>
-              )
+                  <></>
+                )
             ) : (
-              <></>
-            )}
+                  <></>
+                )}
 
             {/*Faltaria q cuando se le de click a listaEtiquetas, este paper se ponga disable */}
             {this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : (
-              <Paper style={styles.paperTitulo} elevation={0}>
-                <InputLabel>
-                  <strong>
-                    {this.state.tutoriaFija
-                      ? `Tutor Asignado:`
-                      : " Último Tutor Seleccionado:"}
-                  </strong>{" "}
-                </InputLabel>
-                <h3>{this.props.tutorNombre}</h3>
-              </Paper>
-            )}
+                <Paper style={styles.paperTitulo} elevation={0}>
+                  <InputLabel>
+                    <strong>
+                      {this.state.tutoriaFija
+                        ? `Tutor Asignado:`
+                        : " Último Tutor Seleccionado:"}
+                    </strong>{" "}
+                  </InputLabel>
+                  <h3>{this.props.tutorNombre}</h3>
+                </Paper>
+              )}
           </Grid>
           {this.props.tipo !== "disponibilidad" ? (
             <Grid item md={1} xs={1}>
@@ -381,8 +387,8 @@ class Controles extends Component {
               </Grid>
             </Grid>
           ) : (
-            <></>
-          )}
+              <></>
+            )}
         </Grid>
       </Paper>
     );
