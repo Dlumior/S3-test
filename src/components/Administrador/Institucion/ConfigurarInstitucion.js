@@ -55,7 +55,7 @@ class ConfigurarInstitucion extends React.Component {
           mensajeStrongError: "Por favor revísalos",
           mensajeStrongExito: "Satisfactoriamente",
           mensajeError: "Existen errores al completar el formulario",
-          mensajeExito: "Se modificaron los datos de la institucion",
+          mensajeExito: "Se modificaron los datos de la institución",
           mensaje: "",
         },
         severidad: "warning",
