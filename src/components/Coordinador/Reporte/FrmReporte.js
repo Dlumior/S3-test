@@ -48,13 +48,16 @@ const FrmReporte = () => {
   const [data, setData] = useState([]);
 
   const handleDescargar = async e => {
+   
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
     let fecha = await new Date();
     const fileName = 'Rep_Encuestas'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
+    let excelBuffer = ''
+    const ws1 = XLSX.utils.json_to_sheet(data);
     const ws = XLSX.utils.json_to_sheet(encuestas);
-    const wb = { Sheets: { 'Encuestas': ws }, SheetNames: ['Encuestas'] };
-    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const wb1 = { Sheets: { 'Encuestas': ws1, 'Promedios': ws}, SheetNames: ['Encuestas', 'Promedios'] };
+    excelBuffer = XLSX.write(wb1, { bookType: 'xlsx', type: 'array' });
     const datos = await new Blob([excelBuffer], {type: fileType});
     FileSaver.saveAs(datos, fileName + fileExtension);
   }
@@ -124,10 +127,11 @@ const FrmReporte = () => {
   useEffect(() => {
     async function fetchResultados() {
       let endpoint = "/api/encuesta/tutoria/" + programa;
-      console.log("endpoint: " + endpoint);
-
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
+      let endpoint2 = "/api/encuesta/programa/" + programa;
+      const params2 = { servicio: endpoint2 };
+      const res2 = await Controller.GET(params2);
       console.log(res);
       if (res){
         setEncuestas(res.encuestas);
@@ -142,6 +146,9 @@ const FrmReporte = () => {
           setRecomendaria(res.encuestas.map((item) => item.RECOMENDARIA));
           setCantidad(res.encuestas.map((item) => item.CANTIDAD));
         }
+      }
+      if(res2){
+        setData(res2.encuestas.map((item) => item));
       }
       
     }
