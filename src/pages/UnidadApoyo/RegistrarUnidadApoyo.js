@@ -269,7 +269,7 @@ const RegistrarUnidadApoyo = () => {
                                     error={errors.telefono.error}
                                     margin="dense"
                                     id="TELEFONO"
-                                    label="Telefono"
+                                    label="Teléfono"
                                     fullWidth
                                     onChange={(e) => handleTelefono(e, datosForm, setDatosForm, errors, setErrors)}
                                     helperText={errors.telefono.message}

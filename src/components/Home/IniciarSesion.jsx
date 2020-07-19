@@ -88,7 +88,7 @@ class IniciarSesion extends Component {
                   alt="logo-ututor"
                 />
                 <Typography variant="h6" align="center">
-                  Iniciar Sesión en uTutor
+                  Iniciar Sesión
                 </Typography>
               </Grid>
               <Grid item md={2} xs={2} />
