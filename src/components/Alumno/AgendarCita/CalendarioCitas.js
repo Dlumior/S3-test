@@ -230,6 +230,8 @@ class CalendarioCitas extends Component {
           colorActivo={this.state.modoBatallador}
 
           handleDuracion={this.handleDuracion}
+          programa={this.props.programa}
+
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

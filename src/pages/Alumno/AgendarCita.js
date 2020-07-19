@@ -75,12 +75,12 @@ class AgendarCita extends Component {
     //   this.props.handleFiltroProceso(proceso[0]);
     // }
   }
-  obtenerPrograma(programa){
+
+  obtenerPrograma(_programa){
     console.log("xd", programa);
-    this.setState({
-      programa
-    });
+    this.setState({    programa:_programa  });
   }
+
   renderxTipoProceso(yo) {
     if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
@@ -119,6 +119,7 @@ class AgendarCita extends Component {
                     "/"
                   }
                   tipo="disponibilidad"
+                  programa={this.state.programa}
                 />
               ),
             },
