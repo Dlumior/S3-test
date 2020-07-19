@@ -186,7 +186,7 @@ const BarraNavegacion = (props) => {
               <ListItemIcon>
                   <ExitToAppRoundedIcon/>
               </ListItemIcon>
-              <ListItemText primary={"Cerrar Sesion"} />
+              <ListItemText primary={"Cerrar Sesión"} />
             </ListItem>
         </List>
         {/* <Divider />
