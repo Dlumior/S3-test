@@ -6,7 +6,9 @@ import { Paper,FormControl, FormHelperText, IconButton } from "@material-ui/core
 import * as Controller from "../../../Conexion/Controller";
 import TablaAsignaciones from "./TablaAsignaciones";
 import Button from "@material-ui/core/Button";
-import ModificaAsignacion from "./ModificaAsignaciones";
+import VerAlumnos from "./ModificaAsignaciones";
+import ActualizarAsignacion from "./ActualizarAsignacion";
+
 import { getUser } from "../../../Sesion/Sesion";
 import moment from 'moment';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
@@ -33,7 +35,10 @@ class ListaAsignaciones extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        alumnos:[]
+        alumnos:[],
+        alumnosSelec:[],
+        asignacion:[],
+        flag:0,
     };
     this.establecerData = this.establecerData.bind(this);    
     this.handleOnOpen = this.handleOnOpen.bind(this);
@@ -63,12 +68,14 @@ class ListaAsignaciones extends React.Component {
               <EditRoundedIcon
               color="secondary"
               fontsize="large"
+              onClick={() => this.handleOnOpenModificar(element)}
               />
           </IconButton>
           <IconButton color="primary">
               <DeleteRoundedIcon
               color="error"
-              fontsize="large" />                    
+              fontsize="large" 
+              />                    
           </IconButton>
         </div>
 
@@ -105,19 +112,24 @@ class ListaAsignaciones extends React.Component {
       this.setState({asignaciones:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.idTutoria!==prevProps.idTutoria){
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.idTutoria!==prevProps.idTutoria || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idTutoria);
       let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
-    console.log("arreglo: ",arregloAsigna);
-    this.establecerData(arregloAsigna);
+      console.log("arreglo: ",arregloAsigna);
+      if (arregloAsigna){
+        this.establecerData(arregloAsigna);
+      }
 
     }
   }
   async componentDidMount(){
     let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
     console.log("arreglo: ",arregloAsigna);
-    this.establecerData(arregloAsigna);
+    if (arregloAsigna){
+      this.establecerData(arregloAsigna);
+    }
+    
   
 }
 handleOnOpen= (alumnos) =>{
@@ -125,18 +137,45 @@ handleOnOpen= (alumnos) =>{
   this.state.alumnos=alumnos;
   console.log("alumnos",this.state.alumnos);
 } 
+handleOnOpenModificar= (element) =>{
+  this.setState({ open2: true });
+  this.state.asignacion=element;
+  
+  if (element.ALUMNOS){
+    for (let alu of element.ALUMNOS){//alumnos seleccionados
+      this.state.alumnosSelec.push(alu.ID_ALUMNO);
+    }
+  }  
+  console.log("asignacion",this.state.asignacion);
+} 
 handleOnClose() {
   this.setState({ open: false });
+  this.setState({ open2: false });
+}
+callback = (count) => {
+  // do something with value in parent component, like save to state
+  let i= this.state.flag +1;
+  console.log("veamos: ",i);
+  this.setState({flag:i});
 }
 
 render(){
     return (
         <div>
             {this.state.open && 
-            <ModificaAsignacion 
+            <VerAlumnos 
               open={this.handleOnOpen} 
               close={this.handleOnClose}
               alumnos={this.state.alumnos}
+            />}
+            {this.state.open2 && 
+            <ActualizarAsignacion
+              open={this.handleOnOpen} 
+              close={this.handleOnClose}
+              asignacion={this.state.asignacion}
+              idPrograma={this.props.idPrograma}
+              alumnos={this.state.alumnosSelec}
+              parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>
                 <TablaAsignaciones asignaciones={this.state.asignaciones}  />

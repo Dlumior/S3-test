@@ -19,8 +19,8 @@ class ListaTutores extends React.Component {
   async handleOnChange(e) {
       let tutor = e.target.value;
       let tutores = [];
-      tutores.push(tutor.ID_TUTOR);
-    await this.props.escogerTutor(tutor.ID_TUTOR);
+      tutores.push(tutor);
+    await this.props.escogerTutor(tutor);
     this.setState({ tutor: e.target.value });
     e.target.value=this.state.tutor;
   }

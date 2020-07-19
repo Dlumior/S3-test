@@ -179,7 +179,7 @@ const VerticalLinearStepper = () => {
   };
   const handleOnChangeTutor = (tutor) => {
     console.log("tutoria: ", tutor);
-    setTutor(tutor);
+    setTutor(tutor.ID_TUTOR);
   };
   const handleOnChangeAlumnos = (alumnos) => {
     console.log("alumnos: ", alumnos);

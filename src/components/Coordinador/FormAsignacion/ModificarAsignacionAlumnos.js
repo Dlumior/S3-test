@@ -16,7 +16,7 @@ const style = {
   };
 
 
-class ListaAlumnos extends React.Component {
+class ModificarListaAlumnos extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ class ListaAlumnos extends React.Component {
             title: "Nombre",
             field: "nombre", }],
             data:[{nombre:""}]  },
-        alumnosSeleccionados:[],
+        alumnosSeleccionados:this.props.alumnos,
         flag:0,
     };
     this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
@@ -37,9 +37,8 @@ class ListaAlumnos extends React.Component {
     
     for (let element of arregloDeAlumnos.alumnos){
       arreglillo.push({
-        codigo:element.CODIGO,
-        nombre:element.NOMBRE+ " "+ element.APELLIDOS,
-        correo:element.CORREO,
+        codigo:element.USUARIO.CODIGO,
+        nombre:element.USUARIO.NOMBRE+ " "+ element.USUARIO.APELLIDOS,
         checkbox:
           <div>
             {<Checkbox
@@ -63,8 +62,6 @@ class ListaAlumnos extends React.Component {
             title: "Nombre",
             field: "nombre",
           },
-          { title:"Correo Electrónico",
-            field:"correo"},
            {
             title:"",
             field:"checkbox"
@@ -146,7 +143,7 @@ render(){
 
 }
 
-export default ListaAlumnos;
+export default ModificarListaAlumnos;
 
 const estilo={
 imagen:{

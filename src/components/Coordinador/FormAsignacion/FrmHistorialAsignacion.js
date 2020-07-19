@@ -30,12 +30,6 @@ const style = {
     }
   };
 const FrmHistorialAsignacion = () => {
-  //Line 37:8:   'datosForm' is assigned a value but never used
-  //Line 37:19:  'setDatosForm' is assigned a value but never used 
-const [datosForm, setDatosForm] = React.useState({
-    usuarioCodigo:0,
-    usuarioNombre:'',
-});
 const [facultades, setFacultades] = useState([]);
 const [facultad, setFacultad] = useState("");
 const [programas, setProgramas] = useState([]);
@@ -71,8 +65,6 @@ useEffect(() => {
 }, {});
 
 //programas a partir de un coordinador de Facultad
-//Line 73:4:   React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps    
-//Line 73:4:   React Hook useEffect has a missing dependency: 'facultades'. Either include it or remove the dependency array
 useEffect(() => {
   async function fetchData() {
       if (getUser().rol ==="Coordinador Programa"){
@@ -99,9 +91,6 @@ useEffect(() => {
       fetchData();
   }
 },[facultad]);
-//Line 101:3:  React Hook useEffect has a missing dependency: 'programa'. Either include it or remove the dependency array
-//Line 101:3:  React Hook useEffect has a missing dependency: 'programa'. Either include it or remove the dependency array
-//Line 73:4:   React Hook useEffect has a missing dependency: 'facultades'. Either include it or remove the dependency array 
 //proceso de tutoria a partir de un programa
 useEffect(() => {
   async function fetchData() {
@@ -114,7 +103,6 @@ useEffect(() => {
     }
   }
   if (facultad!=="" && programa !== "") {
-    //Line 117:3:  React Hook useEffect has a missing dependency: 'facultad'. Either include it or remove the dependency array
     fetchData();
   }
 },[programa]);
@@ -148,7 +136,7 @@ useEffect(() => {
         {/*<Paper elevation={0} style={style.paper}>
             Tabla Tutores por proceso de tutoria
           </Paper> */}
-        <ListaAsignaciones idTutoria={procesoTutoria}/>        
+        <ListaAsignaciones idTutoria={procesoTutoria} idPrograma={programa}/>        
       </div>
   );
 }
