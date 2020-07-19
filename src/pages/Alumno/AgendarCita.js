@@ -77,7 +77,7 @@ class AgendarCita extends Component {
   }
 
   obtenerPrograma(_programa){
-    console.log("xd", programa);
+    console.log("xd", _programa);
     this.setState({    programa:_programa  });
   }
 
