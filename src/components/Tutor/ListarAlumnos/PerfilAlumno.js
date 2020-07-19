@@ -46,7 +46,11 @@ const Perfil = (props) => {
     {
       index: 2,
       titulo: "Resultados",
-      proceso: () => <HistoricoResultados datosAlumno={props.match.params} />,
+      proceso: () => (
+        <HistoricoResultados
+          datosAlumno={props.match.params}
+        />
+      ),
     },
     {
       index: 3,
