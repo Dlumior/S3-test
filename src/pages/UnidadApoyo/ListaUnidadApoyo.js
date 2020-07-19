@@ -25,7 +25,7 @@ class ListaUnidadApoyo extends React.Component {
                     field: "NOMBRE",
                 },
                 {
-                    title: "Telefono",
+                    title: "Teléfono",
                     field: "TELEFONO",
                 },
                 {
