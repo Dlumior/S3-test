@@ -81,6 +81,8 @@ class TabProceso extends Component {
     );
   }
   render() {
+    console.log("2020-07-19", this.props);
+
     return (
       <div style={style.tabs}>
         {this.rendertabs()}

@@ -5,7 +5,8 @@ import { NdiasMes, mesesAnio } from "./Util.js";
 import HorarioDelDia from "./HorarioDelDia";
 import FrmSolicitarCitaTutor_granito from "../FrmSolicitarCitaTutor_granito";
 import { getUser } from "../../../Sesion/Sesion";
-import moment from "moment"
+import moment from "moment";
+import Jloading from "../../Coordinador/FormRegistroAlumno/Jloading";
 
 const styles = {
   control: {
@@ -27,7 +28,7 @@ class CalendarioCitas extends Component {
 
       estadoTitulo: "",
       estadoID: 0,
-      duracionPro:0,
+      duracionPro: 0,
     };
     this.saltarEnElTiempo = this.saltarEnElTiempo.bind(this);
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
@@ -36,7 +37,6 @@ class CalendarioCitas extends Component {
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
 
     this.handleDuracion = this.handleDuracion.bind(this);
-
   }
   /**
    * @param {number} salto es el valor de cambio de fecha y podria ser hacia el pasado o hacia el futuro
@@ -46,8 +46,8 @@ class CalendarioCitas extends Component {
     if (!salto) return;
     let lunesActual = moment(new Date(this.state.lunesActual)).toDate();
     this.setState({
-      lunesActual: await moment(new Date(
-        lunesActual.setDate(lunesActual.getDate() + salto))
+      lunesActual: await moment(
+        new Date(lunesActual.setDate(lunesActual.getDate() + salto))
       ).toDate(),
     });
     console.log("salto actual: ", this.state.lunesActual);
@@ -71,19 +71,19 @@ class CalendarioCitas extends Component {
   renderDias = (lunesActual, listaIdTutores) => {
     if (!lunesActual) return;
     let fechaInicial = moment(new Date(lunesActual)).add("hours", -5).toDate();
-    console.log("luneessss", fechaInicial)
-    console.log("äctualll: ", this.state.fechaActual)
+    console.log("luneessss", fechaInicial);
+    console.log("äctualll: ", this.state.fechaActual);
     console.log("CAlendarGAAAAbyy xxx ", lunesActual);
-    console.log("<<<FI",fechaInicial);
+    console.log("<<<FI", fechaInicial);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
-      console.log("inicial: ", fechaInicial.toISOString().split("T")[0])
+      console.log("inicial: ", fechaInicial.toISOString().split("T")[0]);
       fechasDias.push(fechaInicial);
       //fechaInicial.setDate(fechaInicial.getDate() + 1);
-      fechaInicial = moment(fechaInicial).add('days', 1).toDate();
+      fechaInicial = moment(fechaInicial).add("days", 1).toDate();
     }
-    console.log("fechasdiasss: ",fechasDias)
+    console.log("fechasdiasss: ", fechasDias);
     return (
       <>
         {console.log("this.props.tipo xxx ", this.props.tipo)}
@@ -115,15 +115,24 @@ class CalendarioCitas extends Component {
                         ? this.state.filtroIdProceso
                         : this.state.filtroIdProceso.ID_PROCESO_TUTORIA
                     }
-                    duracionPro= {this.state.duracionPro}
+                    duracionPro={this.state.duracionPro}
                     fecha={{
                       fecha: diaSemana,
                       //>>>>>>>>>>>>>>>>>> ACA SE ESTA COLGANDO
-                      servicio: this.state.estadoID? //existe el id
-                       (listaIdTutores===[]) ? //diif de array vacio
-                          `/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}`
-                          : `/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`
-                        : this.props.servicio + diaSemana.toISOString().split("T")[0],
+                      servicio: this.state.estadoID //existe el id
+                        ? listaIdTutores === [] //diif de array vacio
+                          ? `/api/disponibilidad/listarPrograma/${
+                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                                .ID_PROGRAMA
+                            }/${diaSemana.toISOString().split("T")[0]}`
+                          : `/api/disponibilidad/listarPrograma/${
+                              getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
+                                .ID_PROGRAMA
+                            }/${diaSemana.toISOString().split("T")[0]}/${
+                              this.state.estadoID
+                            }`
+                        : this.props.servicio +
+                          diaSemana.toISOString().split("T")[0],
                       tipo: this.props.tipo,
                       listaIdTutores: listaIdTutores,
                     }}
@@ -144,7 +153,7 @@ class CalendarioCitas extends Component {
     let offset = 0;
     const lunes = 1;
     offset = fechaActual.getDay() - lunes;
-    console.log("este actual: ", this.state.fechaActual)
+    console.log("este actual: ", this.state.fechaActual);
     this.setState({
       fechaControles: {
         mes: mesesAnio[fechaActual.getMonth() + 1],
@@ -156,9 +165,9 @@ class CalendarioCitas extends Component {
     console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
 
     this.setState({
-      lunesActual: moment(new Date(
-        await fechaActual.setDate(fechaActual.getDate() - offset)
-      )).toDate(),
+      lunesActual: moment(
+        new Date(await fechaActual.setDate(fechaActual.getDate() - offset))
+      ).toDate(),
     });
   }
   handleModoBatallador(modoBatallador) {
@@ -174,13 +183,11 @@ class CalendarioCitas extends Component {
     this.setState({ estadoID: _tutor.id });
   }
 
-
-  handleDuracion=async(_dura)=>{
+  handleDuracion = async (_dura) => {
     console.log("duraXXX: ", _dura);
 
-    await this.setState({duracionPro:_dura});
-  }
-
+    await this.setState({ duracionPro: _dura });
+  };
 
   handleFiltroProceso = async (idProceso) => {
     console.log("idProceso seleccionado: ", idProceso);
@@ -207,32 +214,37 @@ class CalendarioCitas extends Component {
     //le emtemos lunes actual.......
   };
   render() {
+    console.log("PROPS calendarioCitas.js", this.props);
+    const { programa } = this.props;
     return (
       <div style={styles.container}>
         {/**
          * Desde la lista de tutores (granito) no filtra el tutor seleccionado[arreglado]
          * En tutotria fija no filtra por su tutor fijo[arreglado]
          * Desde las etiquetas tutores no filtra ahora :(
-         * 
-         * 
+         *
+         *
          * al cargar el Combobox no recupera el id para la hora de inicio y fin y duracion pa que te acuerdes, sale undefined pon CTV exelente ya y nada mas .l.
          */}
-        <Controles
-          fecha={this.state.fechaControles}
-          saltoEnElTiempo={this.saltarEnElTiempo}
-          filtroProceso={true}
-          filtroTutores={true}
-          handleFiltroProceso={this.handleFiltroProceso}
-          handleFiltroTutores={this.handleFiltroTutores}xxxxxxxxxxx 
-          tutorNombre={this.state.estadoTitulo}
-          modoBatallador={this.handleModoBatallador}
-          tipo={this.props.tipo}
-          colorActivo={this.state.modoBatallador}
-
-          handleDuracion={this.handleDuracion}
-          programa={this.props.programa}
-
-        />
+        {programa ? (
+          <Controles
+            fecha={this.state.fechaControles}
+            saltoEnElTiempo={this.saltarEnElTiempo}
+            filtroProceso={true}
+            filtroTutores={true}
+            handleFiltroProceso={this.handleFiltroProceso}
+            handleFiltroTutores={this.handleFiltroTutores}
+            xxxxxxxxxxx
+            tutorNombre={this.state.estadoTitulo}
+            modoBatallador={this.handleModoBatallador}
+            tipo={this.props.tipo}
+            colorActivo={this.state.modoBatallador}
+            handleDuracion={this.handleDuracion}
+            programa={programa}
+          />
+        ) : (
+          <Jloading mensaje={"Cargando"} size={"xs"} />
+        )}
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             meter lunes actual dentro de otro state llamado filtros
