@@ -344,7 +344,7 @@ render(){
                             disabled={this.state.deshabilitar}
                             margin="dense"
                             id="telefono"
-                            label="Telefono"
+                            label="Teléfono"
                             value={this.state.institucion.TELEFONO}
                             onChange={this.handleOnChangeTelefono}
                             fullWidth
