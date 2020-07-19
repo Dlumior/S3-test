@@ -40,7 +40,8 @@ const FrmReporteSesiones = () => {
   const handleDescargar = async e => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
-    const fileName = 'Rep_Sesiones'
+    let fecha = await new Date();
+    const fileName = 'Rep_Sesiones'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
     const ws = XLSX.utils.json_to_sheet(data);
     console.log("dataaa",data)
     const wb = { Sheets: { 'Sesiones': ws }, SheetNames: ['Sesiones'] };

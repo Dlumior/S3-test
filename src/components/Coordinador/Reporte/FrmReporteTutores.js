@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-import { Paper, Grid, makeStyles } from "@material-ui/core";
+import { Paper, Grid, makeStyles, Button } from "@material-ui/core";
 import ComboBoxFacultades from "../FormRegistroTutor/ComboBoxFacultades";
 import ComboBoxPrograma from "../FormRegistroTutor/comboBoxProgramas";
 import * as Controller from "./../../../Conexion/Controller.js";
 import { getUser } from "../../../Sesion/Sesion";
 import ChartHorasDisponibilidad from "./ChartHorasDisponibilidad";
 import ChartHorasTutoria from "./ChartHorasTutoria";
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
 
 const useStyles = makeStyles((theme) => ({
   caja: {
@@ -33,9 +35,22 @@ const FrmReporteTutores = () => {
 
   const [nombres, setNombres] = useState([]);
   const [horas, setHoras] = useState([]);
-
-  const [nombres2, setNombres2] = useState([]);
+  
   const [horas2, setHoras2] = useState([]);
+
+  const [data, setData] = useState([]);
+
+  const handleDescargar = async e => {
+    const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    const fileExtension = '.xlsx';
+    let fecha = await new Date();
+    const fileName = 'Rep_Tutores'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = { Sheets: { 'Tutores': ws }, SheetNames: ['Tutores'] };
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const datos = await new Blob([excelBuffer], {type: fileType});
+    FileSaver.saveAs(datos, fileName + fileExtension);
+  }
 
   //Funcion auxiliar para obtener las facultades del coordinador
   useEffect(() => {
@@ -100,24 +115,16 @@ const FrmReporteTutores = () => {
   //Funcion para obtener los datos de las encuestas
   useEffect(() => {
     async function fetchResultados() {
-      let endpoint = "/api/disponibilidadacumulada/" + programa;
-      let endpoint2 = "/api/sesion/horastutoria/" + programa;
+      let endpoint = "/api/disponibilidadvssesiones/" + programa;
       const params = { servicio: endpoint };
-      const params2 = { servicio: endpoint2 };
       const res = await Controller.GET(params);
-      const res2 = await Controller.GET(params2);
       
       if(res){
-        if (res.motivosSolicitud !== []) {        
-          setNombres(res.motivosSolicitud.map((item) => item.NOMBRE));
-          setHoras(res.motivosSolicitud.map((item) => item.TIEMPO));
-        }
-      }
-
-      if(res2){
-        if (res2.motivosSolicitud !== []) {
-          setNombres2(res2.motivosSolicitud.map((item) => item.NOMBRE));
-          setHoras2(res2.motivosSolicitud.map((item) => item.TIEMPO));
+        if (res.motivosSolicitud !== []) {
+          setData(res.motivosSolicitud.map((item) => item));
+          setNombres(res.motivosSolicitud.map((item) => item.TUTOR));
+          setHoras2(res.motivosSolicitud.map((item) => item["SESIONES_BRINDADAS(HORAS)"]));
+          setHoras(res.motivosSolicitud.map((item) => item["DISPONIBILIDAD(HORAS)"]));
         }
       }
     }
@@ -137,7 +144,7 @@ const FrmReporteTutores = () => {
       <Grid item xs={10} md={8}>
         <Paper className={classes.caja}>
           <Grid container spacing={5} justify="center" alignItems="center">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <ComboBoxFacultades
                 programas={facultades}
                 programa={facultad}
@@ -145,13 +152,18 @@ const FrmReporteTutores = () => {
                 setDisabled={setDisabled}
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={5}>
               <ComboBoxPrograma
                 disabled={disabled}
                 programas={programas}
                 programa={programa}
                 setPrograma={setPrograma}
               />
+            </Grid>
+            <Grid item xs={12} md={2}>
+            <Button id = "btnGuardar" color="primary" variant="contained" onClick = {(e) => handleDescargar(e)} disabled = {!data.length}>
+                Descargar
+              </Button>
             </Grid>
           </Grid>
         </Paper>
@@ -165,7 +177,7 @@ const FrmReporteTutores = () => {
 
         <Grid item xs={12} md={6}>
             <ChartHorasTutoria
-            labels={nombres2} 
+            labels={nombres} 
             data={horas2} />
         </Grid>
         
