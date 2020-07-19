@@ -72,7 +72,7 @@ class FormularioImportarAlumnos extends Component {
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
   }
 
-  async handleOnClickRegistroSSJ_masivo () {
+  async handleOnClickRegistroSSJ_masivo() {
     alert("Registrando Alumnos espere...");
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
@@ -80,7 +80,7 @@ class FormularioImportarAlumnos extends Component {
     console.log("Registrando ", data);
     if (!data || data?.length === 0) {
       alert("aun no hay datos sorry man XD");
-    this.handleCloseLoading();
+      this.handleCloseLoading();
       return;
     }
     let alumnosMasivo = [];
@@ -97,7 +97,10 @@ class FormularioImportarAlumnos extends Component {
       //console.log("Podria registrar: ", ALUMNO);
       alumnosMasivo.push(ALUMNO);
     });
-    let response = await POST({ servicio: "/api/alumno/registromasivo", request: {alumnos: alumnosMasivo} });
+    let response = await POST({
+      servicio: "/api/alumno/registromasivo",
+      request: { alumnos: alumnosMasivo },
+    });
     if (!response || response.error) {
       alert("Hubo un error insperado");
     } else if (response.errores) {
@@ -106,7 +109,7 @@ class FormularioImportarAlumnos extends Component {
       //se registro bien
     }
     this.handleCloseLoading();
-  };
+  }
   handleOnChangeEtiquetas = async (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
@@ -442,7 +445,7 @@ class FormularioImportarAlumnos extends Component {
         </>
       );
     } else {
-      return <h1>Algo paso reintente en un momento</h1>;
+      return <Jloading mensaje={"Cargando"} size={"xs"} />;
     }
   }
 }
