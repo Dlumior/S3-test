@@ -7,16 +7,15 @@ class HistoricoResultados extends Component {
     super();
     this.state = {
       alumno: {},
-      title1: "Resultados historicos del alumno",
+      title1: "Resultados historicos",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
       datosTablaOffline: {
         columns: [
-          { title: "Nro", field: "nro" },
           { title: "Fecha", field: "fecha" },
           { title: "Tutor", field: "tutor" },
+          { title: "Proceso de Tutoria", field: "proceso" },
           { title: "Motivo", field: "motivo" },
-          { title: "Compromisos", field: "compromisos" },
           { title: "Resultado", field: "resultado" },
         ],
         data: [
@@ -129,15 +128,6 @@ class HistoricoResultados extends Component {
       },
     };
   }
-  obtenerSesionesXProceso = async (idPprocesoTutoria) => {
-    const { idAlumno } = this.state.alumno;
-
-    const listaProcesos = await GET({
-      servicio: `/api/listaSesionRealizadaAlumnoProcesoTutoria/${idAlumno}/${idPprocesoTutoria}`,
-    });
-    console.log("GOT: ", listaProcesos);
-    return listaProcesos;
-  };
   /*
 COMPROMISOs: (2) […]
 ​​
@@ -218,83 +208,32 @@ USUARIO: "mag.alegre@pucp.edu.pe"
       //sino BAIS!
       return;
     } else {
-      console.log("Recibi this.props.datosAlumno;: ", this.props.datosAlumno);
-      const ALUMNO = await GET({ servicio: `/api/alumno/${idAlumno}` });
-      console.log("Recibi ALUMNO: ", ALUMNO);
-      let idPrograma = 0;
-      if (ALUMNO.alumno) {
-        idPrograma = ALUMNO.alumno.USUARIO.PROGRAMAs[0].ID_PROGRAMA;
-      } else {
-        //SIn alumno, BAIS
-        return;
-      }
-      const alumno = {
-        idAlumno: idAlumno,
-        fullname: fullname,
-        idPrograma: idPrograma,
-      };
-      this.setState({ alumno });
-      console.log("Recibi alumno: ", alumno);
-      const listaTutorias = await GET({
-        servicio: `/api/tutoria/lista/${idPrograma}`,
+      const listaSesiones = await GET({
+        servicio: "/api/listaSesionAlumno/"+idAlumno,
       });
-      console.log("Recibi listaTutorias: ", listaTutorias);
+      console.log("sesioness",listaSesiones);
+      console.log("sesioness",idAlumno);
 
-      //con las tutorias de su programa puedo chequear en cuales tiene sesiones
-      if (!listaTutorias.tutoria[0]) {
-        return;
-      }
-      console.log(
-        "Recibi listaTutorias.tutoria[0]: ",
-        listaTutorias.tutoria[0]
-      );
-
-      let resultados = [];
-      let index = 0;
-      await listaTutorias.tutoria.forEach(async (tutoria) => {
-        const { ID_PROCESO_TUTORIA } = tutoria;
-        const listaResultados = await this.obtenerSesionesXProceso(
-          ID_PROCESO_TUTORIA
-        );
-        console.log("Recibi listaResultados: ", listaResultados.sesiones);
-        if (listaResultados.sesiones != []) {
-          const { sesiones } = listaResultados;
-          await sesiones.forEach(async (sesion) => {
-            index++;
-            const { FECHA, TUTOR, MOTIVO, COMPROMISOs, RESULTADO } = sesion;
-            const { NOMBRE, APELLIDOS } = TUTOR.USUARIO;
-            console.log("HAAA", COMPROMISOs);
-            await resultados.push({
-              nro: index,
-              fecha: FECHA,
-              tutor: `${NOMBRE} ${APELLIDOS}`,
-              motivo: MOTIVO,
-              compromisos: (
-                <ol>
-                  {COMPROMISOs.map((compromiso) => (
-                    <li>{compromiso.DESCRIPCION}</li>
-                  ))}
-                </ol>
-              ),
-              resultado: RESULTADO,
-            });
-            this.setState({
-              datosTabla: {
-                data: resultados,
-                columns: this.state.datosTablaOffline.columns,
-              },
-            });
-            //console.log("**Recibi sesion : ", resultados);
+      let resultados=[];
+      if (listaSesiones){
+        for (let e of listaSesiones.data){
+          console.log("resultadoss",e.ALUMNOs);
+          await resultados.push({
+            fecha: e.FECHA,
+            tutor: `${e.TUTOR.USUARIO.NOMBRE} ${e.TUTOR.USUARIO.APELLIDOS}`,
+            motivo: e.MOTIVO,
+            proceso:e.PROCESO_TUTORIum.NOMBRE,
+            resultado: e.ALUMNOs[0].ALUMNO_X_SESION.RESULTADO,
           });
         }
-      });
-
-      console.log("**Recibi resultados: ", resultados);
-
-      //return;
-      //en teoria el resultado ya incluye l id de alumno y proceso, yo recibo el id listo
-      //const listaTutorias = await GET({servicio:"/api/tutoria"});
-      //for each proceso......
+        this.setState({
+          datosTabla: {
+            data: resultados,
+            columns: this.state.datosTablaOffline.columns,
+          },
+        });
+      }
+      
     }
   }
   renderTabla(datosNuevos) {
@@ -316,7 +255,7 @@ USUARIO: "mag.alegre@pucp.edu.pe"
               fontSize: 14,
             },
           }}
-          title={`${this.state.title1} ${this.state.alumno?.fullname}, ${this.state.title2}`}
+          title={`${this.state.title1} ${this.state.title2}`}
           // lo de pasar a español si te lo dejo de tarea XDDDDD
         />
       );
