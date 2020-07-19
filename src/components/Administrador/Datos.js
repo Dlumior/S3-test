@@ -22,7 +22,7 @@ const Datos = () => {
               autoFocus
               margin="dense"
               id="name"
-              label="Codigo"
+              label="Código"
               type="text"
               fullWidth
               defaultValue = {getUser().usuario.CODIGO}
