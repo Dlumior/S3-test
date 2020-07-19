@@ -42,7 +42,8 @@ const FrmReporteMotivos = () => {
   const handleDescargar = async e => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
-    const fileName = 'Rep_Motivos_Solicitud'
+    let fecha = await new Date();
+    const fileName = 'Rep_Motivos_Solicitud'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
     const ws = XLSX.utils.json_to_sheet(data);
     const wb = { Sheets: { 'Motivos_Solicitud': ws }, SheetNames: ['Motivos_Solicitud'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });

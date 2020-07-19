@@ -50,7 +50,8 @@ const FrmReporte = () => {
   const handleDescargar = async e => {
     const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     const fileExtension = '.xlsx';
-    const fileName = 'Rep_Encuestas'
+    let fecha = await new Date();
+    const fileName = 'Rep_Encuestas'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
     const ws = XLSX.utils.json_to_sheet(encuestas);
     const wb = { Sheets: { 'Encuestas': ws }, SheetNames: ['Encuestas'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
