@@ -20,7 +20,7 @@ class IniciarSesion extends Component {
         mensajeStrong: "",
         mensajeStrongError: "por favor revísalos!",
         mensajeStrongExito: "satisfactoriamente!",
-        mensajeError: "El nombre de usuario o contaseña son incorrectos",
+        mensajeError: "El nombre de usuario o contraseña son incorrectos",
         mensajeExito: "Proceso de Tutoría registrado",
         mensaje: "",
       },
