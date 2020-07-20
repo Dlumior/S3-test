@@ -242,7 +242,7 @@ useEffect(() => {
       */
       console.log("programa",programa)
       console.log("cant Pro sel",cantP,programasSeleccionados.length)
-      if (cantP<programasSeleccionados.length){
+      if (cantP<=programasSeleccionados.length){
         programasSeleccionados.push(programa);
       }
       console.log("programasSelecc",programasSeleccionados)
@@ -252,6 +252,17 @@ useEffect(() => {
       setDatosForm({
         ...datosForm,
       });
+
+      if (datosForm.PROGRAMA.length===0){
+        setSeveridad({
+          severidad:"error",
+        });
+        setAlerta({
+          mensaje:"Falta asignar una facultad",
+        }); 
+        return;
+      }
+
 
       console.log(datosForm);      
       const props = { servicio: "/api/coordinador/", request: {coordinador: datosForm} };

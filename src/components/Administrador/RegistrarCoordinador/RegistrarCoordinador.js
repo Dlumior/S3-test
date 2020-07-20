@@ -192,6 +192,7 @@ const RegistrarCoordinador = (props) => {
 
   const handleClick = async (e, datosForm, setDatosForm) => {
     console.log("programaa",programa);
+    console.log("cant Pro sel",cantP,programasSeleccionados.length)
     if (
       errors.name.error ||
       errors.lastnames.error ||
@@ -221,7 +222,7 @@ const RegistrarCoordinador = (props) => {
     } else {
       console.log("programa ha actualizar: ",programasSeleccionados);
       console.log("cant Pro sel",cantP,programasSeleccionados.length)
-      if (cantP<programasSeleccionados.length){
+      if (cantP<=programasSeleccionados.length){
         programasSeleccionados.push(programa);
       }
       console.log("programasSelecc",programasSeleccionados)
@@ -231,6 +232,16 @@ const RegistrarCoordinador = (props) => {
       setDatosForm({
         ...datosForm,
       });
+
+      if (datosForm.FACULTAD.length===0){
+        setSeveridad({
+          severidad:"error",
+        });
+        setAlerta({
+          mensaje:"Falta asignar una facultad",
+        }); 
+        return;
+      }
 
       console.log(datosForm);      
       const props = { servicio: "/api/coordinadorfacultad", request: {coordinador: datosForm} };
