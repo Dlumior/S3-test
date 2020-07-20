@@ -49,8 +49,8 @@ class Sesiones extends Component {
 
         <NombrePrincipal titulo={this.state.procesos[0].titulo} />
         <TabProceso procesos={this.state.procesos[0].procesos} paper={false} />
-        <Grid container spacing={5}>
-          <Grid item>
+        <Grid container md={12}>
+          <Grid item justify="flex-end" style={{marginTop:"15%",marginRight:"70%",marginLeft:"1%"}}>
             <RegistrarSesion />
           </Grid>
         </Grid>

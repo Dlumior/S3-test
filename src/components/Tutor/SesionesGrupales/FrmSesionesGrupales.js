@@ -196,6 +196,7 @@ const handleOnClick = async(e) => {
           mensaje:"Complete los campos obligatorios (*)",
         }); 
       } else {
+        console.log("alumnos: ",alumnos );
         const nuevaSesion = {
           sesion: {
             ID_TUTOR: (getUser()).usuario.ID_USUARIO,
@@ -219,6 +220,15 @@ const handleOnClick = async(e) => {
           setAlerta({
             mensaje:"La sesión se ha registrado satisfactoriamente",
           }); 
+          if (sesion.message || sesion.error){
+            console.log("ENTRE AL IF: ");
+            setSeveridad({
+              severidad:sesion.message? "warning" : "error",
+            }); 
+            setAlerta({
+              mensaje:sesion.message? sesion.message : "Problema de conexión",
+            });
+          }
         }
         console.log("got updated sesion from back:", sesion);
       }

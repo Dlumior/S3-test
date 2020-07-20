@@ -15,6 +15,7 @@ import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrar
 import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
 import DescriptionSharpIcon from "@material-ui/icons/DescriptionSharp";
 import VerInformacionRelevante from "../FormRegistroAlumno/VerInformacionRelevante";
+import EliminarAlumno from "./EliminarAlumno";
 class ListaAlumnos extends Component {
   constructor() {
     super();
@@ -33,6 +34,7 @@ class ListaAlumnos extends Component {
       title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
+      flag:0, //para actualizar
       datosTablaOffline: {
         columns: [
           { title: "Nro", field: "nro" },
@@ -52,8 +54,12 @@ class ListaAlumnos extends Component {
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
     this.handleEliminar = this.handleEliminar.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
+
     this.handleEditar = this.handleEditar.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
+
   }
   async handleOpenDialog(e, tipoDialogo, idAlumno) {
     await this.setState({ cuerpoDialogo: tipoDialogo });
@@ -149,7 +155,7 @@ class ListaAlumnos extends Component {
                   <DeleteRoundedIcon
                     color="error"
                     fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 3, ID_USUARIO)}
+                    onClick={(e) => this.handleOnOpenEliminar(ID_USUARIO)}
                   />
                 </IconButton>{" "}
               </>
@@ -224,6 +230,11 @@ class ListaAlumnos extends Component {
 
     return enlace;
   }
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.flag!==prevProps.flag ){
+      //aqui va el actualizar
+    }
+  }
   async componentDidMount() {
     const { idPrograma } = this.props;
 
@@ -231,6 +242,7 @@ class ListaAlumnos extends Component {
     // Tengo que buscar con este ID FACULTAD los programas
     console.log("idPrograma", this.props.prog);
   }
+
   renderToolbar = () => {
     return <></>;
   };
@@ -262,6 +274,23 @@ class ListaAlumnos extends Component {
   handleClose() {
     //this.props.hadleClose();
   }
+  handleOnOpenEliminar= (idAlumno) =>{
+    this.setState({ open2: true });//para el eliminar
+    if (idAlumno){
+      this.setState({ currentID: idAlumno });
+    }
+    
+  }
+  handleOnClose() {
+    this.setState({ open2: false });
+    //window.location.reload();
+  } 
+  callback = (count) => {
+    // do something with value in parent component, like save to state
+    let i= this.state.flag +1;
+    console.log("veamos: ",i);
+    this.setState({flag:i});
+  }
 
   render() {
     const titulos = [
@@ -285,7 +314,7 @@ class ListaAlumnos extends Component {
             ) : this.state.cuerpoDialogo === 2 ? (
               <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
             ) : this.state.cuerpoDialogo === 3 ? (
-              <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
+                null
             ) : (
               <VerInformacionRelevante
                 usuario={getUser().usuario}
@@ -361,7 +390,7 @@ class ListaAlumnos extends Component {
               onClick={(e) => this.handleOpenDialog(e, 1)}
               startIcon={<BackupTwoToneIcon />}
             >
-              Importar de archivo CSV
+              Importar desde .CSV
             </Button>
           </Grid>
           {/** Boton registarr */}
@@ -371,13 +400,23 @@ class ListaAlumnos extends Component {
               color="primary"
               onClick={(e) => this.handleOpenDialog(e, 0)}
             >
-              Registrar Nuevo Alumno
+              Registrar Alumno
             </Button>
           </Grid>
         </Grid>
         {/* Lista  facultades */}
-
+        
         {this.renderTabla(this.state.datosTabla)}
+
+        {this.state.open2 &&
+        <EliminarAlumno 
+          open={this.handleOnOpenEliminar} 
+          close={this.handleOnClose}
+          id={this.state.currentID}
+          parentCallback={this.callback}
+        />}
+
+        
       </div>
     );
   }
