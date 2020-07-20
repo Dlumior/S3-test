@@ -917,7 +917,7 @@ const RegistroResultados = ({ cita, user }) => {
 
   return (
     <div>
-      <Button variant="contained" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Registrar resultado
       </Button>
       {open2 && (

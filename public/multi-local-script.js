@@ -1,8 +1,7 @@
-
 async function onSignIn(googleUser) {
   console.log("LOGIN DE GOOOGLEEEEEEEEEE");
   var profile = googleUser.getBasicProfile();
-  
+
   if (!profile) return;
   console.log("LOGIN DE GOOOGLEEEEEEEEEE: ", profile);
 
@@ -20,12 +19,18 @@ async function onSignIn(googleUser) {
     },
   });
   let responseJson = await usuarioLogueado.json();
-  if(responseJson.error){
+  if (responseJson.error) {
+    //console.log("Error GMAIIIILLLL");
+    const inputElement = document.getElementById("AlertGmail");
+    console.log("Error inputElementL",inputElement);
+    
+    if (inputElement) {
+      console.log("Error GMAIIIILLLL");
+      inputElement.click();
+    }
     return;
   }
   console.log("google obtains: ", responseJson);
-  sessionStorage.setItem("Sesion",JSON.stringify(
-    responseJson
-  ));
-  window.location.replace("./"+ responseJson.rol.toLowerCase());
+  sessionStorage.setItem("Sesion", JSON.stringify(responseJson));
+  window.location.replace("./" + responseJson.rol.toLowerCase());
 }

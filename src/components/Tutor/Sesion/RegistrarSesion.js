@@ -23,10 +23,10 @@ import ComboBoxProcesoTutoria from "../../Coordinador/FormAsignacion/ComboBoxPro
 import moment from 'moment';
 const style = {
   paper: {
-    marginTop: "4%",
-    marginLeft: "4%",
-    marginRight: "4%",
-    marginBottom: "5%",
+    marginTop: "3%",
+    marginLeft: "3%",
+    marginRight: "3%",
+    marginBottom: "4%",
     flexDirection: "row",
     alignItems: "center",
     backgroundImage: "",
@@ -72,9 +72,40 @@ const handleHoraIni = (e, datosForm, setDatosForm) => {
     });
     console.log("horaini",datosForm.horaini);
   }
-  
-
 };
+const handleHoraInicial = (e, datosForm, setDatosForm,duracion) => {
+  console.log("horaini",e.target.value);
+  let hi=e.target.value;
+  let hf;
+  if (moment(e.target.value,'HH:mm').format('HH:mm')>moment('22:30','HH:mm').format('HH:mm')){
+    if (duracion===30){
+      document.getElementById("Hora").value = '23:30';
+      hi=moment('23:30','HH:mm').format('HH:mm');
+      hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
+    }else if (duracion===60){
+      document.getElementById("Hora").value = '23:00';
+      hi=moment('23:00','HH:mm').format('HH:mm');
+      hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
+    }else if (duracion===90){
+      document.getElementById("Hora").value = '22:30';
+      hi=moment('22:30','HH:mm').format('HH:mm');
+      hf=moment('00:00','HH:mm').format('HH:mm');
+    }
+  }
+  setDatosForm({
+    ...datosForm,
+    horaini: hi,
+  });
+  console.log("duracionn: ",duracion);
+  console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
+  console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
+  setDatosForm({
+    ...datosForm,
+    horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
+  });
+  console.log("horaini",datosForm.horaini);   
+};
+
 const handleHoraFin = (e, datosForm, setDatosForm) => {
   console.log("horafin",e.target.value);
 
@@ -154,6 +185,7 @@ const RegistrarSesion = () => {
     campo:'',
     check:false, 
   });
+  const [duracion, setDuracion] = useState(0);
 
 //faultades por coordinador de prog o facu
 useEffect(() => {
@@ -196,6 +228,7 @@ useEffect(() => {
     console.log("tutoria: ",res);
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
+      setDuracion(res.tutoria[0].DURACION);
     }
   }
   if (facultad!=="" && programa !== "") {
@@ -410,7 +443,7 @@ useEffect(() => {
         <DialogContent>
           <Paper elevation={0} style={style.paper}>
           <Grid container md={12} spacing={3}>
-            <Grid item md={6}>
+            <Grid item md={4}>
               <TextField
                   required
                   id="codigo  "
@@ -420,14 +453,12 @@ useEffect(() => {
                   fullWidth   
               />
             </Grid>
-            <Grid item md={1} justify="flex-start">
-              <IconButton color="primary" onClick={()=> fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
-                <SearchRoundedIcon
-                color="primary"
-                fontsize="large" />
-              </IconButton> 
-            </Grid>
-            <Grid item md={12}>
+            <IconButton color="primary" onClick={()=> fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
+              <SearchRoundedIcon
+              color="primary"
+              fontsize="large" />
+            </IconButton> 
+            <Grid item style={{flexGrow:1}}>
               <TextField
                   aria-readonly
                   id="alumno"
@@ -437,7 +468,7 @@ useEffect(() => {
               />
             </Grid>
 
-            <Grid item md={12}>
+            <Grid item md={6}>
               <ComboBoxFacus
                 setPrDisabled={setPrDisabled}
                 facultades={facultades}
@@ -446,7 +477,7 @@ useEffect(() => {
               />
             </Grid>
 
-            <Grid item md={12}>
+            <Grid item md={6}>
               <ComboBoxPrograma
                 prDisabled={prDisabled}
                 setPDisabled={setPDisabled}
@@ -456,7 +487,7 @@ useEffect(() => {
               />
             </Grid>
 
-            <Grid item md={12}>
+            <Grid item md={12} style={{marginBottom:"2%"}}>
               <ComboBoxProcesoTutoria
                 pDisabled={pDisabled}
                 procesosTutoria={procesosTutoria}
@@ -468,6 +499,7 @@ useEffect(() => {
             <Grid item md={4}>
               <TextField
                   required
+                  disabled={procesoTutoria===null}
                   margin="dense"
                   type="date"
                   id="Fecha"
@@ -484,6 +516,7 @@ useEffect(() => {
             <Grid item md={4} >
               <TextField
                   required
+                  disabled={procesoTutoria===null}
                   margin="dense"
                   type="time"
                   id="Hora"
@@ -491,13 +524,14 @@ useEffect(() => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(e) => handleHoraIni(e, datosForm, setDatosForm)}
+                  onChange={(e) => handleHoraInicial(e, datosForm, setDatosForm,duracion)}
                   fullWidth
               />
             </Grid>
             <Grid item md={4} >
               <TextField
                   required
+                  disabled
                   margin="dense"
                   type="time"
                   id="Hora fin"
@@ -505,27 +539,17 @@ useEffect(() => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(e) => handleHoraFin(e, datosForm, setDatosForm)}
+                  value={datosForm.horafin}
                   fullWidth
               />
             </Grid>
             <Grid item md={12}>
               <TextField
+                  disabled={procesoTutoria===null}
                   id="lugar"
                   label="Lugar"
                   onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
                   fullWidth   
-              />
-            </Grid>
-            <Grid item md={12} justify="flex-start">
-              <ListaEtiquetas
-                strecht={true}
-                titulo={""}
-                obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e)}
-                enlace={"/api/listaAreasApoyo"}
-                small={true}
-                label={"Unidades de Apoyo"}
-                ID={"ID_AREA_APOYO"}
               />
             </Grid>
             <PlanDeAccion
@@ -539,6 +563,17 @@ useEffect(() => {
                         Resultados
                     </Typography>
                 </Paper>
+            </Grid>
+            <Grid item md={12} justify="flex-start">
+              <ListaEtiquetas
+                strecht={true}
+                titulo={""}
+                obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e)}
+                enlace={"/api/listaAreasApoyo"}
+                small={true}
+                label={"Derivar a unidades de Apoyo"}
+                ID={"ID_AREA_APOYO"}
+              />
             </Grid>
             <Grid item md={12}
               container

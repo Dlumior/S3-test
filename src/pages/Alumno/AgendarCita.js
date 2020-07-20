@@ -10,17 +10,18 @@ import { UserContext, getUser } from "../../Sesion/Sesion";
 import { inicializarSesion } from "../../Sesion/actions/sesionAction";
 import NombrePrincipalSSJ from "../../components/Shared/NombrePrincipalSSJ";
 import ListaComboBox from "../../components/Coordinador/Tutorias/ListaComboBox";
-import NombrePrincipal_Alumno from "./NombrePrincipal_Alumno";
+import NombrePrincipal_Alumno from "./NombrePrincipal_Alumno.jsx";
 
 class AgendarCita extends Component {
   constructor() {
     super();
 
     this.state = {
+      programa: undefined,
       procesos: [
         //regularTipo1: [0] <- (Tutor Individual - VARIABLE - Solicitado)
         {
-          titulo: "Solicite una cita según las disponibilidades ",
+          titulo: "Solicite una cita según las disponibilidades",
           procesos: [
             {
               index: 0,
@@ -63,9 +64,8 @@ class AgendarCita extends Component {
       ],
     };
     this.renderxTipoProceso = this.renderxTipoProceso.bind(this);
-
+    this.obtenerPrograma = this.obtenerPrograma.bind(this);
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
-
   }
 
   handleOnChangeProceso(proceso) {
@@ -76,62 +76,79 @@ class AgendarCita extends Component {
     // }
   }
 
+  obtenerPrograma(_programa) {
+    console.log("xd", _programa);
+    this.setState({ programa: _programa });
+  }
 
-  renderxTipoProceso(yo) {
-    if (this.props.multiProceso) {
-      //switch(this.props.multiProceso)
-      console.log("multiProceso: ", this.props.multiProceso);
-    }
+  async renderxTipoProceso(idPrograma) {
+    console.log("XDD,", idPrograma);
     return (
       <div>
-        {/*Aca habria una especia de if para ver que formulario abrir de acuerdo al tipo de tutoria 
-            <FormSolicitarTuror tipo = idTipo... +o->     */}
-        {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs,
-         *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
-
-        {/* <NombrePrincipalSSJ titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} /> */}
-        
-        <NombrePrincipal_Alumno titulo={this.state.procesos[0].titulo} component={() => <p>Descripcion de la tutoria</p>} />
-
-        
-        {/*<TabProceso procesos={this.state.procesos[0].procesos} paper={false}/>*/}
-
-        
-
         <TabProceso
           procesos={[
             {
               index: 0,
               titulo: "",
 
-              proceso: () => (
-                <CalendarioCitas
-                  servicio={
-                    "/api/disponibilidad/listarPrograma/" +
-                    yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA +
-                    "/"
-                  }
-                  tipo="disponibilidad"
-                />
-              ),
-            }
+              proceso: () =>
+                idPrograma ? (
+                  <CalendarioCitas
+                    servicio={
+                      "/api/disponibilidad/listarPrograma/" +
+                      idPrograma +
+                      //yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA +
+                      "/"
+                    }
+                    tipo="disponibilidad"
+                    programa={idPrograma}
+                  />
+                ) : (
+                  <></>
+                ),
+            },
           ]}
           paper={false}
         />
-        {/*<FrmSolicitarTutorTipoII />*/}
-        {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>
     );
   }
   render() {
     console.log("AGENDAR_CITA XXXXXXXX", this.props);
-    let yo = getUser();
-    console.log("AGENDAR CITA> Alguien esta logueado", yo);
-    console.log(
-      "AGENDAR CITA> Alguien esta rol",
-      yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ROL.DESCRIPCION.toLowerCase()
+
+    return (
+      <>
+        <NombrePrincipal_Alumno
+          titulo={this.state.procesos[0].titulo}
+          usuario={getUser().usuario}
+          obtenerPrograma={this.obtenerPrograma}
+        />
+        {this.state.programa ? 
+          <TabProceso
+            procesos={[
+              {
+                index: 0,
+                titulo: "",
+                proceso: () =>
+                    <CalendarioCitas
+                      servicio={
+                        "/api/disponibilidad/listarPrograma/" +
+                        this.state.programa +
+                        //yo.usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA +
+                        "/"
+                      }
+                      tipo="disponibilidad"
+                      programa={this.state.programa}
+                    />
+              },
+            ]}
+            paper={false}
+          />
+         : 
+          <></>
+        }
+      </>
     );
-    return this.renderxTipoProceso(yo);
   }
 }
 export default compose(withRouter)(AgendarCita);

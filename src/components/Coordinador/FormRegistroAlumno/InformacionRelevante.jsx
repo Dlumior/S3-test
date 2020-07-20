@@ -186,8 +186,9 @@ class InformacionRelevante extends Component {
           }
        // });
 
-        resolve();
+        
       }, 1000);
+      resolve();
     });
   };
 

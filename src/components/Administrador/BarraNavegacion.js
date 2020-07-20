@@ -149,7 +149,7 @@ const BarraNavegacion = (props) => {
         <Divider />
         <List>
           {["Perfil", 
-            "Institucion",
+            "Institución",
             "Facultades",
             "Coordinadores",
             "Unidades de Apoyo",
@@ -160,7 +160,7 @@ const BarraNavegacion = (props) => {
                 button
                 key={text}
                 component={LinkRouter}
-                to={index===5?"/":"/administrador/" + text.split(' ').join('').toLowerCase()}
+                to={index===5?"/":"/administrador/" + text.split(' ').join('').toLowerCase().replace('ó','o')}
               //onClick={handleClick}
               >
                 <ListItemIcon>
@@ -186,7 +186,7 @@ const BarraNavegacion = (props) => {
               <ListItemIcon>
                   <ExitToAppRoundedIcon/>
               </ListItemIcon>
-              <ListItemText primary={"Cerrar Sesion"} />
+              <ListItemText primary={"Cerrar Sesión"} />
             </ListItem>
         </List>
         {/* <Divider />

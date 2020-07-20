@@ -190,31 +190,31 @@ const ModificarAsignacion = (props) => {
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={12}>
-            <Grid item md={12}>
+            <Grid item md={6}>
                 <Typography variant="subtitle1">
                     {"Tutor: "+datosForm.tutor}
                 </Typography>
             </Grid>
-            <Grid item md={12} style={{marginTop:"1%",marginBottom:"2%"}}>
+            <Grid item md={4} style={{marginLeft:"3%",marginBottom:"2%"}}>
                 <ListaTutores
                     titulo={"Tutor"}
                     escogerTutor={handleOnChangeTutor}
                     enlace={"/api/tutor/lista/" + idPrograma}
                 />
             </Grid>
-            <Grid item md={12}>
+            <Grid item md={6}>
                 <Typography variant="subtitle1">
                     {"Tutoria: "+datosForm.proceso}
                 </Typography>
             </Grid>
-            <Grid item md={12} style={{marginTop:"1%",marginBottom:"2%"}}>
+            <Grid item md={4} style={{marginLeft:"3%",marginBottom:"2%"}}>
                 <ListaProcesoTut
                     titulo={"Proceso de Tutoría"}
                     escogerTutoria={handleOnChangeTutoria}
                     enlace={"/api/tutoriafijaasignada/" + idPrograma}
                 />
-            </Grid>
-            <Grid item md={12}>
+              </Grid>
+            <Grid item md={12} style={{marginBottom:"1%"}}>
                 <Typography variant="subtitle1">
                     {"Alumnos: "}
                 </Typography>

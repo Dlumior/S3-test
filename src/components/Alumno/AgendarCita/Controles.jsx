@@ -3,12 +3,7 @@ import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForwardIosOutlinedIcon from "@material-ui/icons/ArrowForwardIosOutlined";
 import ViewListIcon from "@material-ui/icons/ViewList";
 import ViewColumnIcon from "@material-ui/icons/ViewColumn";
-import {
-  IconButton,
-  Grid,
-  Paper,
-  InputLabel,
-} from "@material-ui/core";
+import { IconButton, Grid, Paper, InputLabel } from "@material-ui/core";
 import ListaComboBox from "../../Coordinador/Tutorias/ListaComboBox";
 import ListaEtiquetas from "../../Coordinador/Tutorias/ListaEtiquetas";
 import { getUser } from "../../../Sesion/Sesion";
@@ -53,17 +48,7 @@ class Controles extends Component {
           },
         ],
       },
-      serviciosTutoria: [
-        `/api/tutoriavariable/${
-          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-        }`,
-        `/api/tutoriaasignada/${
-          getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-        }/${getUser().usuario.ID_USUARIO}`,
-      ],
-      servicioTutoriaActual: `/api/tutoriavariable/${
-        getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
-      }`,
+      servicioTutoriaActual: undefined,
     };
     this.saltoEnElTiempoLocal = this.saltoEnElTiempoLocal.bind(this);
     this.ModoBatallador = this.ModoBatallador.bind(this);
@@ -72,18 +57,28 @@ class Controles extends Component {
     this.handleOnChangeTutoria = this.handleOnChangeTutoria.bind(this);
     this.renderTutoria = this.renderTutoria.bind(this);
     this.obtenerSeleccion = this.obtenerSeleccion.bind(this);
+    this.getServicioTutoriaActual = this.getServicioTutoriaActual.bind(this);
   }
-
+  getServicioTutoriaActual(index) {
+    switch (index) {
+      case 0:
+        return `/api/tutoriavariable/${this.props.programa}`;
+      case 1:
+        return `/api/tutoriaasignada/${this.props.programa}/${getUser().usuario.ID_USUARIO}`;
+      default:
+        return null;
+    }
+  }
   obtenerSeleccion = async (seleccion) => {
     console.log("seleccion", seleccion);
     await this.setState({
       servicioTutoriaActual:
         seleccion.value === "Tutorias del Programa"
-          ? this.state.serviciosTutoria[0]
-          : this.state.serviciosTutoria[1],
+          ? this.getServicioTutoriaActual(0)
+          : this.getServicioTutoriaActual(1),
     });
 
-    console.log("=> ", this.state.servicioTutoriaActual);
+    console.log("obtenerSeleccion => ", this.state.servicioTutoriaActual);
   };
 
   async componentDidMount() {
@@ -124,7 +119,7 @@ class Controles extends Component {
     );
     //aqui se o mando al componente padre
 
-      console.log("escogerITEM => ",tutoria);
+    console.log("escogerITEM => ", tutoria);
 
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
@@ -132,14 +127,13 @@ class Controles extends Component {
 
         this.props.handleFiltroProceso(tutoria);
 
-        this.props.handleDuracion(tutoria?tutoria.DURACION:0); //<< caso tuto fijo le damos el campo duracion
-
+        this.props.handleDuracion(tutoria ? tutoria.DURACION : 0); //<< caso tuto fijo le damos el campo duracion
       } else {
         this.setState({ tutoriaFija: false });
         this.setState({ modoBatallador: true });
         this.props.handleFiltroProceso(tutoria[0]);
 
-        this.props.handleDuracion(tutoria[1]);  //<<< para darle la duracion en el arreglo
+        this.props.handleDuracion(tutoria[1]); //<<< para darle la duracion en el arreglo
       }
     }
   };
@@ -162,7 +156,7 @@ class Controles extends Component {
     return (
       <ListaComboBox
         allObject={
-          this.state.servicioTutoriaActual.includes("tutoriaasignada")
+          enlace.includes("tutoriaasignada")
             ? true
             : false
         }
@@ -180,6 +174,8 @@ class Controles extends Component {
     );
   }
   render() {
+    console.log("PROPS controls.js", this.props);
+    
     return (
       <Paper style={styles.paper}>
         <Grid container spacing={0} alignContent="center">
@@ -229,7 +225,7 @@ class Controles extends Component {
                 </Grid>
                 <Grid item md={6} xs={6}>
                   <h3 style={styles.control}>
-                    {"Semana" + this.props.fecha.semana || "Semana Actual"}
+                    {"Semana" /*+ this.props.fecha.semana*/ || "Semana Actual"}
                   </h3>
                 </Grid>
                 <Grid item md={3} xs={3}>
@@ -268,7 +264,7 @@ class Controles extends Component {
             <Grid item md={2} xs={2}></Grid>
           ) : (
             <Grid item md={2} xs={2}>
-              {this.renderTutoria(this.state.servicioTutoriaActual)}
+              {this.renderTutoria(this.state.servicioTutoriaActual?this.state.servicioTutoriaActual:this.getServicioTutoriaActual(0))}
             </Grid>
           )}
 

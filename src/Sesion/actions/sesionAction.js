@@ -30,6 +30,9 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
         });
         localLogin(usuarioLogueado);
         resolve({ status: true, data: usuarioLogueado });
+      }else{
+        resolve({ status: false, data: "Error" });
+
       }
     }
       reject({ status: false, data: "MALDICIOOOOOOOON" });

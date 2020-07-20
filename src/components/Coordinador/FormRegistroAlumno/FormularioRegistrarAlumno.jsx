@@ -102,6 +102,7 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
+    this.mostrarAlerta = this.mostrarAlerta.bind(this);
   }
   validarEntrada(error) {
     console.log("errores:", error);
@@ -139,7 +140,30 @@ class FormularioRegistrarAlumno extends Component {
       this.setState({ errores: newErrores });
     }
   }
+  limpiarAlerta() {
+    let alert = Object.assign({}, this.state.alert);
+    alert.mensaje = "";
+    alert.mensajeStrong = "";
+    this.setState({ alert: alert });
+    this.setState({ severidad: "warning" });
+  }
+  async mostrarAlerta(severidad, mensajeStrong) {
+    new Promise(async (resolve, reject) => {
+      let alert = Object.assign({}, this.state.alert);
+      alert.mensaje = alert.mensajeError;
+      alert.mensajeStrong = mensajeStrong;
+      this.setState({ alert: alert });
+      this.setState({ severidad: severidad });
+      resolve();
+    });
 
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        this.limpiarAlerta();
+      }, 2000);
+      resolve();
+    });
+  }
   async handleOnClick(e) {
     console.log("validacion al click: ", this.state.errores);
     let dominio = this.state.institucion.DOMINIO;
@@ -153,14 +177,10 @@ class FormularioRegistrarAlumno extends Component {
 
     if (!dominio && !dominio2) {
       // validación del dominio de la institución
-      let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong =
-        "Primero debe registrar algún dominio para los correos de la institución.";
-      this.setState({ alert: alert });
-      this.setState({ severidad: "error" });
-
-      this.state.alert.mensaje = this.state.alert.mensajeError;
+      this.mostrarAlerta(
+        "error",
+        "Primero debe registrar algún dominio para los correos de la institución."
+      );
       return;
     }
 
@@ -171,14 +191,10 @@ class FormularioRegistrarAlumno extends Component {
       email.substr(-dominio2.length) !== dominio2
     ) {
       // validación del dominio de la institución
-      let alert = Object.assign({}, this.state.alert);
-      alert.mensaje = alert.mensajeError;
-      alert.mensajeStrong =
-        "El correo debe pertenecer a los dominios de la institución.";
-      this.setState({ alert: alert });
-      this.setState({ severidad: "error" });
-
-      this.state.alert.mensaje = this.state.alert.mensajeError;
+      this.mostrarAlerta(
+        "error",
+        "El correo debe pertenecer a los dominios de la institución."
+      );
       return;
     }
 
@@ -215,13 +231,18 @@ class FormularioRegistrarAlumno extends Component {
       if (nuevoAlumno) {
         if (nuevoAlumno.error) {
           //ocurrio un error
+          this.mostrarAlerta(
+            "error",
+            `${alert.mensajeError}: ${nuevoAlumno.error}`
+          );
+          /*  
           let alert = Object.assign({}, this.state.alert);
           alert.mensaje = `${alert.mensajeError}: ${nuevoAlumno.error}`;
           alert.mensajeStrong = alert.mensajeStrongError;
           this.setState({ alert: alert });
           this.setState({ severidad: "error" });
 
-          this.state.alert.mensaje = this.state.alert.mensajeError;
+          this.state.alert.mensaje = this.state.alert.mensajeError;*/
           return;
         }
         let alert = Object.assign({}, this.state.alert);
@@ -348,10 +369,9 @@ class FormularioRegistrarAlumno extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.modalOrden !== prevProps.modalOrden) {
       console.log("/*/* props diff", this.props.modalOrden);
-      
-        console.log("/*/* props en true", this.props.modalOrden);
-        this.handleOnClick();
-      
+
+      console.log("/*/* props en true", this.props.modalOrden);
+      this.handleOnClick();
     }
   }
   render() {

@@ -210,13 +210,16 @@ class VerInformacionRelevante extends Component {
             </IconButton>
           ),
           descargar: (
-            <GetAppSharpIcon
+            <IconButton>
+              <GetAppSharpIcon
               fontSize="large"
               name="download"
               color="primary"
               aria-label="add"
               onClick={(e) => this.handleDescargar(e, ID_INFORMACION_RELEVANTE)}
             />
+            </IconButton>
+            
           ),
         });
       });
