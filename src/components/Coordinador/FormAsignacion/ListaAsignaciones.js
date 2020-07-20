@@ -13,6 +13,8 @@ import { getUser } from "../../../Sesion/Sesion";
 import moment from 'moment';
 import EditRoundedIcon from '@material-ui/icons/EditRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import EliminarFacultad from "../../Administrador/Facultades/EliminarFacultad";
+import EliminarAsignacion from "./EliminarAsignacion";
 
 const style = {
     paper: {
@@ -39,10 +41,13 @@ class ListaAsignaciones extends React.Component {
         alumnosSelec:[],
         asignacion:[],
         flag:0,
+        idAsignacion:"",
     };
     this.establecerData = this.establecerData.bind(this);    
     this.handleOnOpen = this.handleOnOpen.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
+
   }
   establecerData(arregloAsigna){
     
@@ -75,6 +80,7 @@ class ListaAsignaciones extends React.Component {
               <DeleteRoundedIcon
               color="error"
               fontsize="large" 
+              onClick={() => this.handleOnOpenEliminar(element.ID_ASIGNACION)}
               />                    
           </IconButton>
         </div>
@@ -148,9 +154,16 @@ handleOnOpenModificar= (element) =>{
   }  
   console.log("asignacion",this.state.asignacion);
 } 
+handleOnOpenEliminar= (idAsignacion) =>{
+  this.setState({ open3: true });
+  this.state.idAsignacion=idAsignacion;
+  console.log("alumnos",this.state.idAsignacion);
+} 
 handleOnClose() {
   this.setState({ open: false });
   this.setState({ open2: false });
+  this.setState({ open3: false });
+
 }
 callback = (count) => {
   // do something with value in parent component, like save to state
@@ -175,6 +188,13 @@ render(){
               asignacion={this.state.asignacion}
               idPrograma={this.props.idPrograma}
               alumnos={this.state.alumnosSelec}
+              parentCallback={this.callback}
+            />}
+            {this.state.open3 && 
+            <EliminarAsignacion
+              open={this.handleOnOpenEliminar} 
+              close={this.handleOnClose}
+              id={this.state.idAsignacion}
               parentCallback={this.callback}
             />}
             <Paper elevation={0} style={style.paper}>

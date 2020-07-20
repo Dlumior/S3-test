@@ -73,13 +73,11 @@ class FormularioImportarAlumnos extends Component {
   }
 
   async handleOnClickRegistroSSJ_masivo() {
-    alert("Registrando Alumnos espere...");
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
     const tags = this.state.columnasLimpias;
     console.log("Registrando ", data);
     if (!data || data?.length === 0) {
-      alert("aun no hay datos sorry man XD");
       this.handleCloseLoading();
       return;
     }
@@ -90,7 +88,7 @@ class FormularioImportarAlumnos extends Component {
         ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
       ALUMNO.PROGRAMA = this.state.programas;
-      ALUMNO.CONTRASENHA = "youthinkyouknowme";
+      ALUMNO.CONTRASENHA = "contra";
       ALUMNO.USUARIO = ALUMNO.CORREO;
       ALUMNO.ETIQUETA = this.state.etiquetas;
       console.log("Registrando ALUMNO", ALUMNO);

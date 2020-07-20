@@ -164,7 +164,7 @@ export const validateMaterialJTableData = async (dataIni, columIni, grupo) => {
 
 const regex = {
   email: /^[a-z0-9](\.?[a-z0-9]){5,}@pucp(\.edu)?\.pe$/,
-  codigo: /[a-z]+/i,
+  codigo: /^[a-zA-Z0-9]*$/,
   telefono: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im,
   direccion: /[A-Za-záéíóúñ0-9 ()-,.]+/i,
 };
@@ -245,12 +245,13 @@ export const validacionDeEntrada = (texto, nombre) => {
   //validacion en caso sea codigo
   if (validacion.tipo === "codigo") {
     //si encontr este patron , esta mal
-    if (regex.codigo.test(String(texto))) {
+    if (!regex.codigo.test(String(texto))) {
       errores.push(
         "* Un codigo valido debe contener caracteres alfanumericos y caracters especiales\n"
       );
     }
   }
+  
   //Si paso las validaciones errores sera "[ ]" sino habra contenido
   console.log("Validacion-> ", errores);
   return errores;

@@ -5,7 +5,7 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogTitle, DialogContentText, DialogActions
+  DialogTitle, DialogContentText, DialogActions, Typography
 } from "@material-ui/core";
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
@@ -105,9 +105,9 @@ class FormularioImportarAlumnos extends Component {
       let alu = await GET({
         servicio: "/api/alumno/buscar/" + ALUMNO.alumno.CODIGO,
       });
-      console.log("programaa:", alu.alumno.ID_ALUMNO);
+      console.log("programaa:", alu);
 
-      if (alu !== null) {
+      if (alu.alumno) {
         //valida que pertenezca al mismo programa
         let programs = [];
         programs = await GET({
@@ -301,9 +301,14 @@ class FormularioImportarAlumnos extends Component {
             Deshacer Carga
           </Button>
         </Grid>
-        <Grid item md={8} xs={8} />
+        <Grid container md={7} xs={2} justify="center" style={{marginTop:"1%"}}>
+          <Typography variant="subtitle2" >
+            Los códigos a importar deben ser de alumnos pertenecientes al programa seleccionado y no
+            tener asignado a un tutor en el proceso de tutoria seleccionado
+          </Typography>
+        </Grid>
         {/** Boton registarr */}
-        <Grid item md={2} xs={2}>
+        <Grid item md={3} xs={2} justify="flex-end" >
           <Button
             variant="contained"
             color="primary"
