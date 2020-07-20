@@ -148,7 +148,7 @@ class IniciarSesion extends Component {
                     autoFocus={true}
                     name="Contrasenia"
                     label="Contraseña"
-                    inicial="sudo tys"
+                    inicial="contra"
                     validacion={{ lim: 50 }}
                     onChange={this.handleOnChange}
                     validarEntrada={this.validarEntrada}
