@@ -22,7 +22,7 @@ function Tabla(props) {
            headerStyle: {
             backgroundColor: '#3AAFA9',
             color: '#FFF',
-            fontSize: 20
+            fontSize: 16
           },
         }}
       />

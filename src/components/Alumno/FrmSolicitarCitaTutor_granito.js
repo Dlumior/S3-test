@@ -12,6 +12,7 @@ const style = {
     paper: {
         marginTop: "3%",
         marginLeft: "3%",
+        marginRight:"3%",
         display: "flex",
         flexDirection: "column",
         alignItems: "left",
@@ -110,7 +111,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
         const data = {
             columns: [
                 {
-                    title:"",
+                    title:"N°",
                     field:"campoCont",
                 },
                 /*
@@ -120,11 +121,11 @@ class FrmSolicitarCitaTutor_granito extends Component {
                 },
                 */
                 {
-                    title: "TUTOR",
+                    title: "Tutor",
                     field: "nombre",
                 },
                 {
-                    title: "CORREO ELECTRÓNICO",
+                    title: "Correo",
                     field: "correo"
                 },
                 /*
