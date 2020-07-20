@@ -78,7 +78,7 @@ class CalendarioCitas extends Component {
 
     let fechasDias = [];
     for (let i = 0; i < 7; i++) {
-      console.log("inicial: ", fechaInicial.toISOString().split("T")[0])
+      console.log("inicial: ", fechaInicial.toISOString().split("T")[0]);
       fechasDias.push(fechaInicial);
       //fechaInicial.setDate(fechaInicial.getDate() + 1);
       fechaInicial = moment(fechaInicial).add("days", 1).toDate();
@@ -90,7 +90,7 @@ class CalendarioCitas extends Component {
         {this.props.tipo !== "disponibilidad" ? (
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
-              <Grid item style={{width:180,height:180,flexGrow: 1}}>
+              <Grid item style={{ width: 180, height: 180, flexGrow: 1 }}>
                 <HorarioDelDia
                   fecha={{
                     fecha: diaSemana,
@@ -105,7 +105,7 @@ class CalendarioCitas extends Component {
         ) : (
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
-              <Grid item style={{width:180,height:180,flexGrow: 1}}>
+              <Grid item style={{ width: 180, height: 180, flexGrow: 1 }}>
                 {console.log("QQQ: ", this.state.filtroIdProceso)}
                 {console.log("dia semana: ", diaSemana)}
                 {this.state.filtroIdProceso ? (
@@ -226,7 +226,23 @@ class CalendarioCitas extends Component {
          *
          * al cargar el Combobox no recupera el id para la hora de inicio y fin y duracion pa que te acuerdes, sale undefined pon CTV exelente ya y nada mas .l.
          */}
-        {programa ? (
+        {this.props.tipo === "cita" ? (
+          <Controles
+            fecha={this.state.fechaControles}
+            saltoEnElTiempo={this.saltarEnElTiempo}
+            filtroProceso={true}
+            filtroTutores={true}
+            handleFiltroProceso={this.handleFiltroProceso}
+            handleFiltroTutores={this.handleFiltroTutores}
+            xxxxxxxxxxx
+            tutorNombre={this.state.estadoTitulo}
+            modoBatallador={this.handleModoBatallador}
+            tipo={this.props.tipo}
+            colorActivo={this.state.modoBatallador}
+            handleDuracion={this.handleDuracion}
+            programa={programa}
+          />
+        ) : programa ? (
           <Controles
             fecha={this.state.fechaControles}
             saltoEnElTiempo={this.saltarEnElTiempo}
