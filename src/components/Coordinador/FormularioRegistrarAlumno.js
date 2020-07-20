@@ -123,7 +123,7 @@ class FormularioRegistrarAlumno extends Component {
       alumno: {
         APELLIDOS: apellidos,
         CODIGO: codigo,
-        CONTRASENHA: "sudo tys",
+        CONTRASENHA: "contra",
         CORREO: correo,
         DIRECCION: direccion,
         NOMBRE: nombres,
