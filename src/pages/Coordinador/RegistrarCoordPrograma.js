@@ -46,7 +46,7 @@ const Coordinador = () => {
   
   return (
     <div>
-      <NombrePrincipal titulo="Coordinadores" />
+      <NombrePrincipal titulo="Coordinadores de Programa" />
       <Grid container md={12} alignItems="flex-end" alignContent="center" justify="center">
         <Grid item md={9} >
           <ComboBoxFacus
