@@ -49,10 +49,10 @@ class ListaEtiquetas extends React.Component {
     //   }
     // });
     // console.log("areasApoyoDerivadas ", areasApoyoDerivadas);
-    
-    console.log("Tutores", listaEtiquetas);
-    console.log("enlace2 ", this.props.enlace2);
-    if (listaEtiquetas.data){
+  
+    if (listaEtiquetas){
+      console.log("Tutores", listaEtiquetas);
+      console.log("enlace2 ", this.props.enlace2);
       await this.setState({
         etiquetas: listaEtiquetas.data,
         // etiquetasDefault: areasApoyoDerivadas,
