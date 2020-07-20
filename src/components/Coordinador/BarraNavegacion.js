@@ -153,18 +153,18 @@ const BarraNavegacion = (props) => {
             "Perfil",
             "Facultades",
             "Programas",
-            "Registrar Coordinadores de Programa",
+            "Coordinadores de Programa",
             "Procesos de Tutoria",
-            "Registrar Alumnos",
-            "Registrar Tutores",
-            "Registrar disponibilidades",
+            "Alumnos",
+            "Tutores",
+            "Disponibilidades",
             "Asignacion de Tutor",
             "Asignar Roles",
             "Reportes",
           ]
             .filter((e) =>
               getUser().rol === "Coordinador Programa"
-                ? e !== "Registrar Coordinadores de Programa" &&
+                ? e !== "Coordinadores de Programa" &&
                   e !== "Facultades"
                 : e === e
             )

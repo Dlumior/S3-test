@@ -62,12 +62,12 @@ const Coordinador = (props) => {
 
           <Route
             exact
-            path="/coordinador/registrarTutores"
+            path="/coordinador/tutores"
             component={RegistrarTutor}
           />
           <Route
             exact
-            path="/coordinador/registrarAlumnos"
+            path="/coordinador/alumnos"
             component={RegistrarAlumno}
           />
           <Route
@@ -83,12 +83,12 @@ const Coordinador = (props) => {
           <Route exact path="/coordinador/programas" component={Programas} />
           <Route
             exact
-            path="/coordinador/registrardisponibilidades"
+            path="/coordinador/disponibilidades"
             component={RegistrarDisponibilidad}
           />
           <Route
             exact
-            path="/coordinador/registrarcoordinadoresdeprograma"
+            path="/coordinador/coordinadoresdeprograma"
             component={RegistrarCoordPrograma}
           />
           <Route exact path="/coordinador/reportes" component={Reporte} />

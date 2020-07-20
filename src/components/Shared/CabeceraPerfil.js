@@ -10,6 +10,7 @@ import {
   Select,
   MenuItem,
 } from "@material-ui/core";
+import ImagenCircular from "./ImagenCircular";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -63,13 +64,15 @@ const CabeceraPerfil = (props) => {
         <Grid container>
           <Grid item xs={2} container justify="center" alignItems="center">
             {console.log("holisnombre",props.nombre.replace(/["]+/g,''))}
-            <Avatar
-              alt={props.nombre.replace(/["]+/g,'')}
-              src={props.imagen}
-              className={classes.large}
-            >
-              {props.nombre[0].match(/[a-z]/i) ? props.nombre[0]:props.nombre[1]}
-            </Avatar>
+            {getUser().rol==="Administrador" ? 
+              <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />:
+              <Avatar
+                alt={props.nombre.replace(/["]+/g,'')}
+                src={props.imagen}
+                className={classes.large}
+              >
+                {props.nombre[0].match(/[a-z]/i) ? props.nombre[0]:props.nombre[1]}
+              </Avatar>}
           </Grid>
           <Grid
             item
