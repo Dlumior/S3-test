@@ -63,7 +63,7 @@ class FrmDialogoSolicitarTutor extends Component {
       _motivoSelecc: "",
       descripcion: "",
       open: false,
-      openV:false,
+      openV: false,
       mensajillo: "",
       horaIniR: "",
       horaFinR: "",
@@ -121,21 +121,21 @@ class FrmDialogoSolicitarTutor extends Component {
   handleOnChangeCT = (e) => {
     // nombre y descripcion
     console.log("jhjhjhj: ", e);
-    if(e.target.value.length===0){
-      this.setState({errorDesc: true})
-    }else{
-      this.setState({errorDesc: false})
+    if (e.target.value.length === 0) {
+      this.setState({ errorDesc: true })
+    } else {
+      this.setState({ errorDesc: false })
     }
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  cumpleValidacion(){
+  cumpleValidacion() {
     // if(this.state.flagHI && this.state.flagCT) return true;
     // return false;
-    console.log("<<<CV - descripcion:",this.state.descripcion);
-    console.log("<<<CV - horaIni:",this.state.horaIniR);
+    console.log("<<<CV - descripcion:", this.state.descripcion);
+    console.log("<<<CV - horaIni:", this.state.horaIniR);
 
-    if(this.state.descripcion!=="" && this.state.horaIniR!=="") return true;
+    if (this.state.descripcion !== "" && this.state.horaIniR !== "") return true;
     return false;
   }
 
@@ -170,8 +170,8 @@ class FrmDialogoSolicitarTutor extends Component {
 
       const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
       let sesionTyS = await POST(props);
-      
-      if(!sesionTyS) return;
+
+      if (!sesionTyS) return;
 
       console.log("SESIONtYS XXX ", sesionTyS);
 
@@ -330,7 +330,7 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeHoraIni(e) {
-    this.setState({flagHI:true});
+    this.setState({ flagHI: true });
 
     this.setState({ horaIniR: e.target.value });
     let _strHora = "2020-07-04 ";
@@ -424,9 +424,15 @@ class FrmDialogoSolicitarTutor extends Component {
                         </Grid>
                       </Grid>
                     </Grid>
+
                   </Grid>
                 </Grid>
               </Grid>
+
+              <Grid item md={12} >
+                <h3>{this.props.mensajeDispo}</h3>
+              </Grid>
+
             </Grid>
           </Paper>
 
@@ -445,22 +451,22 @@ class FrmDialogoSolicitarTutor extends Component {
                     <h3>{`Esta sesión de tutoria dura : ${this.props.duracionPro} minutos`}</h3>
                   </Grid>
                   <Grid item md={12} xs={12}>
-                  <Paper elevation={0} style={estilos.paper}>
-                    <TextField
-                      autoFocus={true}
-                      name="descripcion"
-                      label="Ingrese Descripción del motivo de la solicitud:"
-                      fullWidth
-                      //validacion={{ lim: 100 }}
-                      variant={"outlined"}
-                      rows={6}
-                      multiline={true}
-                      required={true}
-                      // inicial=""
-                      onChange={this.handleOnChangeCT}
+                    <Paper elevation={0} style={estilos.paper}>
+                      <TextField
+                        autoFocus={true}
+                        name="descripcion"
+                        label="Ingrese Descripción del motivo de la solicitud:"
+                        fullWidth
+                        //validacion={{ lim: 100 }}
+                        variant={"outlined"}
+                        rows={6}
+                        multiline={true}
+                        required={true}
+                        // inicial=""
+                        onChange={this.handleOnChangeCT}
                       //validarEntrada={this.validarEntradaCT}
-                    />
-                    {this.state.errorDesc && <FormHelperText error>Descripción es un campo requerido</FormHelperText>}
+                      />
+                      {this.state.errorDesc && <FormHelperText error>Descripción es un campo requerido</FormHelperText>}
                     </Paper>
                   </Grid>
                 </Grid>
