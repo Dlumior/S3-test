@@ -265,6 +265,7 @@ const RegistrarCoordinador = (props) => {
                 ...datosAsignacion,
                 idUsuario:res.usuario.ID_USUARIO
               });
+              await setNombre({...nombre, usuario:res.usuario.NOMBRE + " " + res.usuario.APELLIDOS})
             }
         }
         
