@@ -70,7 +70,7 @@ class CalendarioCitas extends Component {
     */
   renderDias = (lunesActual, listaIdTutores) => {
     if (!lunesActual) return;
-    let fechaInicial = moment(new Date(lunesActual)).add("hours", -5).toDate();
+    let fechaInicial = moment(new Date(lunesActual)).toDate();
     console.log("luneessss", fechaInicial);
     console.log("äctualll: ", this.state.fechaActual);
     console.log("CAlendarGAAAAbyy xxx ", lunesActual);
@@ -78,12 +78,12 @@ class CalendarioCitas extends Component {
 
     let fechasDias = [];
     for (let i = 0; i < 7; i++) {
-      console.log("inicial: ", fechaInicial.toISOString().split("T")[0]);
+      console.log("inicial: ", fechaInicial.toISOString());
       fechasDias.push(fechaInicial);
       //fechaInicial.setDate(fechaInicial.getDate() + 1);
       fechaInicial = moment(fechaInicial).add("days", 1).toDate();
     }
-    console.log("fechasdiasss: ", fechasDias);
+    console.log("fechasdiasss: ", moment(fechasDias[0]).add("hours", -5).toISOString());
     return (
       <>
         {console.log("this.props.tipo xxx ", this.props.tipo)}
@@ -96,7 +96,7 @@ class CalendarioCitas extends Component {
                     fecha: diaSemana,
                     servicio:
                       this.props.servicio +
-                      diaSemana.toISOString().split("T")[0],
+                      moment(diaSemana).add("hours", -5).toISOString().split("T")[0],
                   }}
                 />
               </Grid>
@@ -124,15 +124,15 @@ class CalendarioCitas extends Component {
                           ? `/api/disponibilidad/listarPrograma/${
                               getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
                                 .ID_PROGRAMA
-                            }/${diaSemana.toISOString().split("T")[0]}`
+                            }/${moment(diaSemana).add("hours", -5).toISOString().split("T")[0]}`
                           : `/api/disponibilidad/listarPrograma/${
                               getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
                                 .ID_PROGRAMA
-                            }/${diaSemana.toISOString().split("T")[0]}/${
+                            }/${moment(diaSemana).add("hours", -5).toISOString().split("T")[0]}/${
                               this.state.estadoID
                             }`
                         : this.props.servicio +
-                          diaSemana.toISOString().split("T")[0],
+                        moment(diaSemana).add("hours", -5).toISOString().split("T")[0],
                       tipo: this.props.tipo,
                       listaIdTutores: listaIdTutores,
                     }}
