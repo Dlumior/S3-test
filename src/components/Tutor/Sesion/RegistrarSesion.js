@@ -73,7 +73,7 @@ const handleHoraIni = (e, datosForm, setDatosForm) => {
     console.log("horaini",datosForm.horaini);
   }
 };
-const handleHoraInicial = (e, datosForm, setDatosForm,duracion) => {
+const handleHoraInicial = async (e, datosForm, setDatosForm,duracion) => {
   console.log("horaini",e.target.value);
   let hi=e.target.value;
   let hf;
@@ -99,8 +99,9 @@ const handleHoraInicial = (e, datosForm, setDatosForm,duracion) => {
   console.log("duracionn: ",duracion);
   console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
   console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
-  setDatosForm({
+  await setDatosForm({
     ...datosForm,
+    horaini:moment(hi,'HH:mm').format('HH:mm'),
     horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
   });
   console.log("horaini",datosForm.horaini);   
@@ -151,7 +152,7 @@ const RegistrarSesion = () => {
     alumnos:[],
     fecha: moment(new Date()).format("YYYY-MM-DD"),
     horaini:'',
-    horafin:0,
+    horafin:'',
     resultado:'',
     lugar:'',
     descripcion:"",
@@ -297,7 +298,7 @@ useEffect(() => {
       alumnos:[],
       fecha: moment(new Date()).format("YYYY-MM-DD"),
       horaini:'',
-      horafin:0,
+      horafin:'',
       resultado:'',
       lugar:'',
       descripcion:"",
@@ -327,7 +328,7 @@ useEffect(() => {
     setAlerta({
       mensaje:"",
     });
-    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "0" || datosForm.resultado === "" ||datosForm.alumnos === []) {
+    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "" || datosForm.resultado === "" ||datosForm.alumnos === []) {
       setSeveridad({
         severidad:"error",
       }); 
@@ -435,7 +436,7 @@ useEffect(() => {
             <Grid container md={12} justify="space-between" direction="row">
             <Grid item md={9} >
                 <Typography variant="h5">
-                  Registar Sesión
+                  Registrar Sesión
                 </Typography>
             </Grid>
             </Grid>

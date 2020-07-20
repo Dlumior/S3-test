@@ -56,7 +56,7 @@ const style = {
     });
     console.log("fecha",datosForm.fecha);
   };
-  const handleHoraIni = (e, datosForm, setDatosForm,duracion) => {
+  const handleHoraIni = async (e, datosForm, setDatosForm,duracion) => {
     console.log("horaini",e.target.value);
     let hi=e.target.value;
     let hf;
@@ -75,15 +75,12 @@ const style = {
         hf=moment('00:00','HH:mm').format('HH:mm');
       }
     }
-    setDatosForm({
-      ...datosForm,
-      horaini: hi,
-    });
     console.log("duracionn: ",duracion);
     console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
     console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
-    setDatosForm({
+    await setDatosForm({
       ...datosForm,
+      horaini:moment(hi,'HH:mm').format('HH:mm'),
       horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
     });
     console.log("horaini",datosForm.horaini);   
@@ -108,7 +105,7 @@ const [datosForm, setDatosForm] = React.useState({
     usuarioNombre:'',
     fecha: moment(new Date()).format("YYYY-MM-DD"),
     horaini:'',
-    horafin:0,
+    horafin:'',
     lugar:'',
 });
 const [facultades, setFacultades] = useState([]);
@@ -190,7 +187,8 @@ const handleOnChangeAlumnos = (alumnos) => {
   };
 
 const handleOnClick = async(e) => {
-    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "0" || alumnos === []) {
+  console.log("validacion",datosForm.fecha,datosForm.horaini,datosForm.horafin,alumnos);
+    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "" || alumnos === []) {
         setSeveridad({
           severidad:"error",
         }); 
