@@ -219,7 +219,7 @@ class FormularioRegistrarAlumno extends Component {
           CORREO: correo,
           DIRECCION: direccion,
           NOMBRE: nombres,
-          PROGRAMA: programa,
+          PROGRAMA: this.state.programaActual,
           TELEFONO: telefono,
           USUARIO: "UsuarioPruebaRegistrar",
           ETIQUETA: this.state.etiqueta,
@@ -280,9 +280,9 @@ class FormularioRegistrarAlumno extends Component {
   handleTabOnChange = (e) => {
     //para cuando funcione la pestaña de importar alumnos
   };
-  handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
-    this.state.alumno.programa = programa;
+  handleOnChangePrograma(programaa) {
+    console.log("proograma:", programaa);
+    this.setState({programaActual:[programaa[0]]});
     // let tutoria = Object.assign({}, this.state.tutoria);
     // tutoria.programa = programa[0];
     // this.setState({ tutoria: tutoria });
