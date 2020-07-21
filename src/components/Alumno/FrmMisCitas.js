@@ -70,27 +70,27 @@ class FrmMisCitas extends Component {
 
     //de btn cancelar
     async handleOnClick(e, _idSesion, _idTutor, _fecha, _idProg) {
-        console.log("TARGET DEL E idSesion/idTutor", _idSesion, _idTutor);
-        console.log("fechaSesion", _fecha);
+        //console.log("TARGET DEL E idSesion/idTutor", _idSesion, _idTutor);
+        //console.log("fechaSesion", _fecha);
 
         //obtenemos diasAnticipacion
         let facu = await Controller.GET({ servicio: "/api/facultad/" + _idProg });
         if (facu) {
             let pol = await Controller.GET({ servicio: "/api/facultad/politicas/" + facu.facultad.ID_FACULTAD });
-            console.log("POLITICA", pol);
+            //console.log("POLITICA", pol);
 
             if (pol) {
                 let dias = pol.politicas.ANTICIPACION_CANCELAR_CITA;
                 this.state.diasAnticipacion = dias;
-                console.log("dia", this.state.diasAnticipacion);
+                //console.log("dia", this.state.diasAnticipacion);
                 this.setState({ diasAnticipacion: dias });
             }
         }
 
-        console.log("DIAS", this.state.diasAnticipacion);
+        //console.log("DIAS", this.state.diasAnticipacion);
 
-        console.log("fecha::", moment(_fecha).format("YYYY-MM-DD"));
-        console.log("fecha::", moment(new Date()).add(this.state.diasAnticipacion, "days").format("YYYY-MM-DD"));
+        //console.log("fecha::", moment(_fecha).format("YYYY-MM-DD"));
+        //console.log("fecha::", moment(new Date()).add(this.state.diasAnticipacion, "days").format("YYYY-MM-DD"));
 
         let fechaSesion = moment(_fecha).format("YYYY-MM-DD");
         let fechaConAnticip = moment(new Date()).add(this.state.diasAnticipacion, "days").format("YYYY-MM-DD");
@@ -112,13 +112,13 @@ class FrmMisCitas extends Component {
     }
 
     handleOnCloseAceptarCancelacion() {
-        //console.log("ctm",this.state.open);
+        ////console.log("ctm",this.state.open);
         this.setState({ open3: false });
     }
 
 
     handleOnClose() {
-        //console.log("ctm",this.state.open);
+        ////console.log("ctm",this.state.open);
         this.setState({ open: false });
     }
 
@@ -141,7 +141,7 @@ class FrmMisCitas extends Component {
             let arregloDeSesiones =
                 await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
-            //console.log("arreglo: ", arregloDeSesiones);
+            ////console.log("arreglo: ", arregloDeSesiones);
             let arreglillo = [];
             let cont = 0;
             //let max=29;     //let fex=0;      //let letras =['I','II'];
@@ -252,7 +252,7 @@ class FrmMisCitas extends Component {
 
 
     async handleOnclickAceptarCancelacion() {
-        //console.log("ctm",this.state.open);
+        ////console.log("ctm",this.state.open);
         //this.setState({ open: false });
 
         let yo = getUser();
@@ -271,7 +271,7 @@ class FrmMisCitas extends Component {
         let sesionTyS = await Controller.POST(props);
         if (!sesionTyS) return;
 
-        console.log("YOOOPSSS tYS XXX ", sesionTyS);
+        //console.log("YOOOPSSS tYS XXX ", sesionTyS);
 
         //DOING...
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
@@ -299,7 +299,7 @@ class FrmMisCitas extends Component {
 
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
-        //console.log("XXXXXXXXX RAZON ",e.value);
+        ////console.log("XXXXXXXXX RAZON ",e.value);
 
         //this.setState({ [e.name]: e.value });
         //this.setState({ yopsRazon: e.value });
@@ -321,7 +321,7 @@ class FrmMisCitas extends Component {
 
     validarEntradaCT(error) {
         /*
-        console.log("errores:", error);
+        //console.log("errores:", error);
         let encontrado = undefined;
         let nuevo = false;
         let eliminar = this.state.errores.forEach((element) => {
@@ -339,7 +339,7 @@ class FrmMisCitas extends Component {
             nuevo = true;
           }
         }
-        console.log("nuevo: ", nuevo);
+        //console.log("nuevo: ", nuevo);
         if (nuevo) {
           let newErrores = this.state.errores;
           newErrores.push(error);
@@ -363,7 +363,7 @@ class FrmMisCitas extends Component {
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
-        //console.log("arreglo: ", arregloDeSesiones);
+        ////console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
         //let max=29;     //let fex=0;      //let letras =['I','II'];

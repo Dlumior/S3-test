@@ -120,9 +120,9 @@ class ListaAsignaciones extends React.Component {
   }
   async componentDidUpdate(prevProps,nextState){
     if (this.props.idTutoria!==prevProps.idTutoria || nextState.flag !== this.state.flag){
-      console.log("idFacu: ",this.props.idTutoria);
+      //console.log("idFacu: ",this.props.idTutoria);
       let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
-      console.log("arreglo: ",arregloAsigna);
+      //console.log("arreglo: ",arregloAsigna);
       if (arregloAsigna){
         this.establecerData(arregloAsigna);
       }
@@ -131,7 +131,7 @@ class ListaAsignaciones extends React.Component {
   }
   async componentDidMount(){
     let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/lista?tutoria="+this.props.idTutoria});
-    console.log("arreglo: ",arregloAsigna);
+    //console.log("arreglo: ",arregloAsigna);
     if (arregloAsigna){
       this.establecerData(arregloAsigna);
     }
@@ -141,7 +141,7 @@ class ListaAsignaciones extends React.Component {
 handleOnOpen= (alumnos) =>{
   this.setState({ open: true });
   this.state.alumnos=alumnos;
-  console.log("alumnos",this.state.alumnos);
+  //console.log("alumnos",this.state.alumnos);
 } 
 handleOnOpenModificar= (element) =>{
   this.setState({ open2: true });
@@ -152,12 +152,12 @@ handleOnOpenModificar= (element) =>{
       this.state.alumnosSelec.push(alu.ID_ALUMNO);
     }
   }  
-  console.log("asignacion",this.state.asignacion);
+  //console.log("asignacion",this.state.asignacion);
 } 
 handleOnOpenEliminar= (idAsignacion) =>{
   this.setState({ open3: true });
   this.state.idAsignacion=idAsignacion;
-  console.log("alumnos",this.state.idAsignacion);
+  //console.log("alumnos",this.state.idAsignacion);
 } 
 handleOnClose() {
   this.setState({ open: false });
@@ -168,7 +168,7 @@ handleOnClose() {
 callback = (count) => {
   // do something with value in parent component, like save to state
   let i= this.state.flag +1;
-  console.log("veamos: ",i);
+  //console.log("veamos: ",i);
   this.setState({flag:i});
 }
 

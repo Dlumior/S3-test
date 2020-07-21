@@ -99,11 +99,11 @@ class ListaAsignaciones extends React.Component {
   }
   async componentDidUpdate(prevProps,nextState){
     if (this.props.idTutoria!==prevProps.idTutoria || nextState.flag !== this.state.flag){
-      console.log("idFacu: ",this.props.idTutoria);
+      //console.log("idFacu: ",this.props.idTutoria);
       let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/tutoria/tutor/"+this.props.idTutoria+"/"+
         getUser().usuario.ID_USUARIO});
         if (arregloAsigna){
-            console.log("arreglo: ",arregloAsigna);
+            //console.log("arreglo: ",arregloAsigna);
             this.establecerData(arregloAsigna);
         }
     }
@@ -112,7 +112,7 @@ class ListaAsignaciones extends React.Component {
     let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/tutoria/tutor/"+this.props.idTutoria+"/"+
         getUser().usuario.ID_USUARIO});
     if (arregloAsigna){
-        console.log("arreglo: ",arregloAsigna);
+        //console.log("arreglo: ",arregloAsigna);
         this.establecerData(arregloAsigna);
     }
   
@@ -120,32 +120,32 @@ class ListaAsignaciones extends React.Component {
 async handleToggle(idAsignacion,alumnosAsignados){
   for(let ele of alumnosAsignados){
     var i = this.state.alumnosSeleccionados.findIndex(v => v === ele.ID_ALUMNO)
-    console.log("alusA",ele.ID_ALUMNO);
-    console.log("indice",i);
+    //console.log("alusA",ele.ID_ALUMNO);
+    //console.log("indice",i);
     if ( i !== -1 ) {
       this.state.alumnosSeleccionados.splice(i+1,1);
-      console.log("alusS",this.state.alumnosSeleccionados);
+      //console.log("alusS",this.state.alumnosSeleccionados);
     }else{
       this.state.alumnosSeleccionados.push(ele.ID_ALUMNO);
     }
   }
   let j= this.state.flag +1;
-  console.log("veamos: ",j);
+  //console.log("veamos: ",j);
   this.setState({flag:j});
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 };
 
 async handleOnChangeChecked(idAsignacion,alumnosAsignados) {
 
   const cb = document.getElementById(idAsignacion)
-  console.log("event",alumnosAsignados);
+  //console.log("event",alumnosAsignados);
 
   if (this.state.alumnosSeleccionados.length!==0){     
     if (cb.checked===false){
       for (let ele of alumnosAsignados){
         var i = this.state.alumnosSeleccionados.findIndex(v => v === ele.ID_USUARIO)
-        console.log("i=",i);
+        //console.log("i=",i);
         if ( i !== -1 ) {
           this.state.alumnosSeleccionados.splice(i,1);
         } 
@@ -161,16 +161,16 @@ async handleOnChangeChecked(idAsignacion,alumnosAsignados) {
     }
     
   }
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
 
 }
 
 handleOnOpen= (alumnos) =>{
   this.setState({ open: true });
   this.state.alumnos=alumnos;
-  console.log("alumnos",this.state.alumnos);
+  //console.log("alumnos",this.state.alumnos);
 } 
 handleOnClose() {
   this.setState({ open: false });

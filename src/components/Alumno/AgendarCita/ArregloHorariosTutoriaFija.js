@@ -18,7 +18,7 @@ class ArregloHorariosTutoriaFija extends Component {
     this.renderHorarios = this.renderHorarios.bind(this);
   }
   renderHorarios = (horarios) => {
-    console.log("this.props", this.props);
+    //console.log("this.props", this.props);
     if (horarios.data) {
       return (
         <div>
@@ -45,7 +45,7 @@ class ArregloHorariosTutoriaFija extends Component {
   };
   async componentDidMount() {
     if (!this.props.servicio) {
-      //console.log("no habia servico");
+      ////console.log("no habia servico");
       return;
     }
     const servicio = this.props.servicio;    

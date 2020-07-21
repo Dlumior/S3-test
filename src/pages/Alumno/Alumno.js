@@ -11,14 +11,14 @@ import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
 
 const Alumno = (props) => {
-  console.log("Alumno", props.history.location.pathname);
+  //console.log("Alumno", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
     return (Home)
   } else {
     const move_to = getUser().rol.toLowerCase().split(" ")[0];
-    console.log("Ruta", move_to);
+    //console.log("Ruta", move_to);
 
     if (move_to !== "alumno") {
       props.history.push("/"+move_to); 

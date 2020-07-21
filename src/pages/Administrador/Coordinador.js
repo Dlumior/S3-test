@@ -28,7 +28,7 @@ const Coordinador = () => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     if (res){
-      console.log(res.coordinadores);
+      //console.log(res.coordinadores);
     }
     setCoordinadores(res.coordinadores);
   }

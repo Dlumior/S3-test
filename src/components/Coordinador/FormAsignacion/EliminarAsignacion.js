@@ -23,14 +23,14 @@ const EliminarAsignacion = (props) => {
 
   const handleClick = async (e) => {    
             //ASIGNACION ELIMINAR 
-      console.log("id",id);
+      //console.log("id",id);
       const props = { servicio: "/api/asignacion/eliminar/"+id };
       let resultado = await Conexion.POST(props);
-      console.log("got updated coord from back:", resultado);
+      //console.log("got updated coord from back:", resultado);
       if (resultado){
         if (resultado.resultado!=="success"){
           setElimino(false);
-          console.log("elimino",elimino);    
+          //console.log("elimino",elimino);    
           setAlerta({
             mensaje:"La asignación no puede eliminarse porque cuenta sesiones pendientes",
           }); 
@@ -45,7 +45,7 @@ const EliminarAsignacion = (props) => {
       const newValue = flag + 1;
       setFlag(newValue);
       await parentCallback(newValue);
-      console.log("elimino",elimino);
+      //console.log("elimino",elimino);
   };
 
 
@@ -64,7 +64,7 @@ const EliminarAsignacion = (props) => {
         </DialogTitle>
         <DialogContent>
             <Grid container md={12} justify="center">
-              {console.log("alerta",alerta.mensaje)}
+              {/*console.log("alerta",alerta.mensaje)*/}
               {!elimino && 
                 <Typography variant="subtitle1" >
                   {alerta.mensaje}

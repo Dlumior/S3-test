@@ -33,30 +33,24 @@ function App() {
   useEffect(() => {
     async function init() {
       setOpen(true);
-      console.log("Paso por el APP usuario",usuario);
-      console.log("Paso por el APP auth",auth);
+      //console.log("Paso por el APP usuario",usuario);
+      //console.log("Paso por el APP auth",auth);
       if (!auth) {
         //sera por el erase del redux?
-        console.log(
-          "No habia nadie en el context, se borro putho redux XD",
-          usuario
-        );
+        //console.log( "No habia nadie en el context, se borro putho redux XD", usuario );
         const user = await inicializarSesion(dispatch, {});
-        console.log(
-          "Ya lo regenere XD, si es que habia algo en el storage",
-          user
-        );
+        //console.log( "Ya lo regenere XD, si es que habia algo en el storage", user );
         setValue(1);
         setOpen(false);
       } else {
-        console.log("Si habia en el context", usuario);
+        //console.log("Si habia en el context", usuario);
         setValue(1);
         setOpen(false);
       }
     }
     init();
   }, []);
-  console.log("Paso por el APP");
+  //console.log("Paso por el APP");
   
  
   return (

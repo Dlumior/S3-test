@@ -38,13 +38,13 @@ class TabProceso extends Component {
     this.rendertabs = this.rendertabs.bind(this);
   }
   activarTab(tab) {
-    //console.log("lo que seaCTM!!!!");
+    ////console.log("lo que seaCTM!!!!");
     this.setState({ tabActivada: tab });
     this.setState({ procesoActivo: this.state.procesos[tab].proceso });
   }
 
   mostrarTab = (props) => {
-    console.log("Render", props);
+    //console.log("Render", props);
     this.setState({ procesoActivo: this.state.procesos[props.tab].proceso });
     return <this.state.procesoActivo regreso={this.activarTab} />;
   };
@@ -81,7 +81,7 @@ class TabProceso extends Component {
     );
   }
   render() {
-    console.log("2020-07-19", this.props);
+    //console.log("2020-07-19", this.props);
 
     return (
       <div style={style.tabs}>

@@ -80,12 +80,12 @@ class FrmMisCitas_Tutor extends Component {
 
     }
     handleOnCloseVer() {
-        //console.log("<<rico");
+        ////console.log("<<rico");
         this.setState({ open5: false });
     }
 
     handleOnclickVerAlmunos(e, arrAlumno) {
-        //console.log("<<AVER", arrAlumno);
+        ////console.log("<<AVER", arrAlumno);
         let _arr = [];
         _arr = arrAlumno;
         this.setState({ arrAlumnoVer: _arr })
@@ -96,16 +96,16 @@ class FrmMisCitas_Tutor extends Component {
         let valMin = this.state.horaIniR.slice(-2);
         let _yeri = "";
         if (valMin === "00" || valMin === "30") {
-            //console.log(">>> Es 00 o 30");
+            ////console.log(">>> Es 00 o 30");
             _yeri = this.state.horaIniR;
             this.setState({ horaIniR: _yeri });
         } else {
-            // console.log(">>> joder");
-            // console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
-            // console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
-            // console.log(">>> tipo: ", typeof (valMin));
+            // //console.log(">>> joder");
+            // //console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
+            // //console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
+            // //console.log(">>> tipo: ", typeof (valMin));
             _yeri = this.state.horaIniR.slice(0, 2) + ":00";
-            //console.log("FOCUS=>", _yeri);
+            ////console.log("FOCUS=>", _yeri);
             this.setState({ horaIniR: _yeri });
         }
         //actualizamos la hora de la salida
@@ -114,10 +114,10 @@ class FrmMisCitas_Tutor extends Component {
         let _datetime = new Date(_strHora);
         _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
         let n = _datetime.toLocaleTimeString();
-        //console.log("antesIF=> ", n);
+        ////console.log("antesIF=> ", n);
         if (n.length === 7) { n = "0" + n; }
         n = n.slice(0, 5);
-        //console.log("antes n=> ", n);
+        ////console.log("antes n=> ", n);
         this.setState({ horaFinR: n });
 
         if (this.state.horaIniR === ":00") {
@@ -129,20 +129,20 @@ class FrmMisCitas_Tutor extends Component {
 
     handleOnChangeHoraIni(e) {
         this.setState({ horaIniR: e.target.value });
-        //console.log("horaIniR", this.state.horaIniR);
+        ////console.log("horaIniR", this.state.horaIniR);
         //=> aquiRicop
         //********/
 
         let _strHora = "2020-07-04 ";
         _strHora += e.target.value;
-        //console.log("_str", _strHora);
+        ////console.log("_str", _strHora);
         let _datetime = new Date(_strHora);
         _datetime.setMinutes(_datetime.getMinutes() + this.state.duraSesion);
         let n = _datetime.toLocaleTimeString();
-        //console.log("n", n);
+        ////console.log("n", n);
         if (n.length === 7) { n = "0" + n; }
         n = n.slice(0, 5);
-        //console.log("SLICE TUTO=> ", n);
+        ////console.log("SLICE TUTO=> ", n);
         this.setState({ horaFinR: n });
         //********/
 
@@ -161,7 +161,7 @@ class FrmMisCitas_Tutor extends Component {
 
     //de btn cancelar
     handleOnClickCancelar(e, _idSesion, _idAlumno) {
-        //console.log("TARGET DEL E idSesion/idAlumno", _idSesion, _idAlumno);
+        ////console.log("TARGET DEL E idSesion/idAlumno", _idSesion, _idAlumno);
         this.setState({ graciasYopsIdSesion: _idSesion });
         //this.setState({graciasYopsIdTutor:_idTutor});
         let _arrAlumno = [];
@@ -171,20 +171,20 @@ class FrmMisCitas_Tutor extends Component {
         //_arrAlumno.push(_idAlumno.toString());
         this.setState({ graciasYopsIdAlumno: _arrAlumno });
         this.setState({ open: true });
-        //console.log("AFTER sesion: ", this.state.graciasYopsIdSesion);
+        ////console.log("AFTER sesion: ", this.state.graciasYopsIdSesion);
     }
 
     //de boton Reprogramar
 
     handleOnClickPosponer(e, _idSesion, _idAlumno, _idProctuto, _duracion) {
 
-        console.log("<<Iniciales");
-        console.log("<<Hini=>", this.state.horaIniR);
-        console.log("<<Hfin=>", this.state.horaFinR);
-        console.log("<<CT=>", this.state.yopsRazon_Rep);
+        //console.log("<<Iniciales");
+        //console.log("<<Hini=>", this.state.horaIniR);
+        //console.log("<<Hfin=>", this.state.horaFinR);
+        //console.log("<<CT=>", this.state.yopsRazon_Rep);
 
 
-        //console.log("holiss");
+        ////console.log("holiss");
         this.setState({ graciasYopsIdSesionR: _idSesion });
         this.setState({ graciasYopsIdProcesoTuto: _idProctuto });
         this.setState({ duraSesion: _duracion });
@@ -221,7 +221,7 @@ class FrmMisCitas_Tutor extends Component {
 
     handleOnChangeCT = (e) => {
         // nombre y descripcion   
-        //console.log("XXXXXXXXX RAZON ",e.value);
+        ////console.log("XXXXXXXXX RAZON ",e.value);
 
         //this.setState({ [e.name]: e.value });
         //this.setState({ yopsRazon: e.value });
@@ -238,7 +238,7 @@ class FrmMisCitas_Tutor extends Component {
 
 
     handleOnChangeCT_Rep = (e) => {
-        //console.log("XXXXXXXXX RAZON ",e.value);
+        ////console.log("XXXXXXXXX RAZON ",e.value);
         //>>> con CampoDeTexto jin
         //this.setState({ [e.name]: e.value });
         //this.setState({ yopsRazon_Rep: e.value });
@@ -267,9 +267,9 @@ class FrmMisCitas_Tutor extends Component {
             this.setState({ esInvalRTotal: false });
 
         }
-        console.log("<<e.target.value=>", e.target.value);
-        console.log("<<horaIniR=>", this.state.horaIniR);
-        console.log("<<horaFinR=>", this.state.horaFinR);
+        //console.log("<<e.target.value=>", e.target.value);
+        //console.log("<<horaIniR=>", this.state.horaIniR);
+        //console.log("<<horaFinR=>", this.state.horaFinR);
 
         this.setState({ [e.target.name]: e.target.value });
         this.setState({ yopsRazon_Rep: e.target.value });
@@ -288,7 +288,7 @@ class FrmMisCitas_Tutor extends Component {
     }
 
     async handleOnclickAceptarCancelacion() {
-        //console.log("STATE ", this.state.graciasYopsIdSesion);
+        ////console.log("STATE ", this.state.graciasYopsIdSesion);
         let yo = getUser();
         let _razon = "";
         const nuevaSolicitud = {
@@ -301,11 +301,11 @@ class FrmMisCitas_Tutor extends Component {
             },
         };
 
-        console.log("ANTES DE API: ", nuevaSolicitud);
+        //console.log("ANTES DE API: ", nuevaSolicitud);
         const props = { servicio: "/api/cancelarCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
         if (!sesionTyS) return;
-        console.log("RESULTADO API Cancelar ", sesionTyS);
+        //console.log("RESULTADO API Cancelar ", sesionTyS);
 
         //this.setState({mensajillo:"SESIÓN REGISTRADA SASTISFACTORIAMENTE !"});  
         // if (sesionTyS) {
@@ -335,7 +335,7 @@ class FrmMisCitas_Tutor extends Component {
             let arregloDeSesiones =
                 await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO });
 
-            //console.log("arreglo: ", arregloDeSesiones);
+            ////console.log("arreglo: ", arregloDeSesiones);
             let arreglillo = [];
             let cont = 0;
             let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
@@ -469,8 +469,8 @@ class FrmMisCitas_Tutor extends Component {
 
 
     cumpleValidaciones() {
-        console.log("<<esinval", this.state.esInvalidoR);
-        console.log("<<hIniR", this.state.esInvalidoR);
+        //console.log("<<esinval", this.state.esInvalidoR);
+        //console.log("<<hIniR", this.state.esInvalidoR);
         if (this.state.esInvalidoR == false && this.state.horaIniR !== "") return true;
         return false;
     }
@@ -479,7 +479,7 @@ class FrmMisCitas_Tutor extends Component {
 
         //if (this.cumpleValidaciones()) {
 
-        console.log("cumple vals");
+        //console.log("cumple vals");
         this.setState({ esInvalRTotal: false });
         let yo = getUser();
         const nuevaSolicitud = {
@@ -498,13 +498,13 @@ class FrmMisCitas_Tutor extends Component {
         };
 
 
-        console.log("ANTES DE API arreglo Rep nueva soli: ", nuevaSolicitud);
+        //console.log("ANTES DE API arreglo Rep nueva soli: ", nuevaSolicitud);
 
         const props = { servicio: "/api/posponerCita", request: nuevaSolicitud };
         let sesionTyS = await Controller.POST(props);
         if (!sesionTyS) return;
 
-        console.log("RESULTADO API rep ", sesionTyS);
+        //console.log("RESULTADO API rep ", sesionTyS);
 
         if (!sesionTyS.message) {
             if (!sesionTyS.error) {
@@ -523,7 +523,7 @@ class FrmMisCitas_Tutor extends Component {
 
 
         // } else {
-        //     console.log("No cumple validaciiones Rep<<");
+        //     //console.log("No cumple validaciiones Rep<<");
         // }
 
     }
@@ -535,7 +535,7 @@ class FrmMisCitas_Tutor extends Component {
 
         if (!arregloDeSesiones) return;
 
-        //console.log("arreglo: ", arregloDeSesiones);
+        ////console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
         let fechaHoy = moment(new Date()).format("YYYY-MM-DD");

@@ -138,11 +138,11 @@ const RegistrarCoordinador = (props) => {
     async function fetchTutores() {
       let institucion = await Conexion.GET({servicio:"/api/institucion"});
       if (institucion){
-        console.log("RegistrarCoordinador institucion: ", institucion);
+        //console.log("RegistrarCoordinador institucion: ", institucion);
         setDominio1(institucion.institucion.DOMINIO);
         setDominio2(institucion.institucion.DOMINIO2);
-        console.log("RegistrarCoordinador dominio1: ", dominio1);
-        console.log("RegistrarCoordinador dominio2: ", dominio2);
+        //console.log("RegistrarCoordinador dominio1: ", dominio1);
+        //console.log("RegistrarCoordinador dominio2: ", dominio2);
       }
     }
 
@@ -155,11 +155,11 @@ const RegistrarCoordinador = (props) => {
     const endpoint = "/api/programa/lista/"+facultad;
     const params = { servicio: endpoint };
     const res = await GET(params);    
-    console.log("proogramasss:", res);
+    //console.log("proogramasss:", res);
     if (res){
       setProgramas(res.programa);
     }
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
   }
   if (facultad!=""){
     fetchData();
@@ -169,15 +169,15 @@ const RegistrarCoordinador = (props) => {
 //faultades por coordinador
 useEffect(() => {
   async function fetchData() {
-    console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+    //console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
     const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
     const params = { servicio: endpoint };
     const res = await GET(params);    
-    console.log("facultades:", res);
+    //console.log("facultades:", res);
     if (res){
       setFacultades(res.facultades);
     }    
-    console.log("facultad:", facultad);
+    //console.log("facultad:", facultad);
   }
    fetchData();
 }, {});
@@ -231,21 +231,21 @@ useEffect(() => {
       }     
         
     } else {
-      console.log("programa ha actualizar: ",programasSeleccionados);
+      //console.log("programa ha actualizar: ",programasSeleccionados);
       /*
       let arregloProg=[];
       for (let element of programasSeleccionados){
         //arregloProg.push(element.ID_PROGRAMA)
         datosForm.PROGRAMA.push(element)        
       }
-      console.log("arreglo ha actualizar: ",arregloProg);
+      //console.log("arreglo ha actualizar: ",arregloProg);
       */
-      console.log("programa",programa)
-      console.log("cant Pro sel",cantP,programasSeleccionados.length)
+      //console.log("programa",programa)
+      //console.log("cant Pro sel",cantP,programasSeleccionados.length)
       if (cantP<=programasSeleccionados.length){
         programasSeleccionados.push(programa);
       }
-      console.log("programasSelecc",programasSeleccionados)
+      //console.log("programasSelecc",programasSeleccionados)
 
       datosForm.PROGRAMA=programasSeleccionados;
       datosForm.CONTRASENHA="contra";
@@ -264,11 +264,11 @@ useEffect(() => {
       }
 
 
-      console.log(datosForm);      
+      //console.log(datosForm);      
       const props = { servicio: "/api/coordinador/", request: {coordinador: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
+      //console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevoCoord);
+      //console.log("got updated coord from back:", nuevoCoord);
 
       if (nuevoCoord){    
         if (nuevoCoord.error){
@@ -285,16 +285,16 @@ useEffect(() => {
           setAlerta({
             mensaje:"Se registro al coordinador satisfactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
         }  
       }
 
     }  
   };
   const handleCantP = (cant) =>{
-    console.log("CANT",cant);
+    //console.log("CANT",cant);
     setCantP(cant);
-    console.log("CANTP",cantP);
+    //console.log("CANTP",cantP);
   }
 
   return (

@@ -49,15 +49,15 @@ const style = {
       },
   };
   const handleFecha = (e, datosForm, setDatosForm) => {
-    console.log("fecha",e.target.value);
+    //console.log("fecha",e.target.value);
     setDatosForm({
       ...datosForm,
       fecha: e.target.value,
     });
-    console.log("fecha",datosForm.fecha);
+    //console.log("fecha",datosForm.fecha);
   };
   const handleHoraIni = async (e, datosForm, setDatosForm,duracion) => {
-    console.log("horaini",e.target.value);
+    //console.log("horaini",e.target.value);
     let hi=e.target.value;
     let hf;
     if (moment(e.target.value,'HH:mm').format('HH:mm')>moment('22:30','HH:mm').format('HH:mm')){
@@ -75,19 +75,19 @@ const style = {
         hf=moment('00:00','HH:mm').format('HH:mm');
       }
     }
-    console.log("duracionn: ",duracion);
-    console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
-    console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
+    //console.log("duracionn: ",duracion);
+    //console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
+    //console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
     await setDatosForm({
       ...datosForm,
       horaini:moment(hi,'HH:mm').format('HH:mm'),
       horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
     });
-    console.log("horaini",datosForm.horaini);   
+    //console.log("horaini",datosForm.horaini);   
   };
   
   const handleLugar = (e, datosForm, setDatosForm) => {
-    console.log("lugar",e.target.value);
+    //console.log("lugar",e.target.value);
     if (e.target.value.length > 45) {
       document.getElementById("lugar").value = e.target.value.substring(0,45);
     }
@@ -95,7 +95,7 @@ const style = {
       ...datosForm,
       lugar: e.target.value,
     });
-    console.log("lugar",datosForm.lugar);
+    //console.log("lugar",datosForm.lugar);
   
   };
 
@@ -138,11 +138,11 @@ useEffect(() => {
       const endpoint = "/api/facultad/tutor/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("facultades:", res);
+      //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
       }      
-      console.log("facultad:", facultades);
+      //console.log("facultad:", facultades);
     }
    fetchData();
 }, {});
@@ -153,11 +153,11 @@ useEffect(() => {
         const endpoint = "/api/programa/lista/tutor/"+getUser().usuario.ID_USUARIO+"/"+facultad;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("proogramasss:", res);
+        //console.log("proogramasss:", res);
         if (res){
             setProgramas(res.programas);
         }
-        console.log("proograma:", programas);
+        //console.log("proograma:", programas);
       }     
       if (facultad!=""){
           fetchData();
@@ -170,7 +170,7 @@ useEffect(() => {
     const endpoint = "/api/tutoriagrupal/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
-    console.log("tutoria: ",res);
+    //console.log("tutoria: ",res);
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
       setDuracion(res.tutoria[0].DURACION);
@@ -182,12 +182,12 @@ useEffect(() => {
 },[programa]);
 
 const handleOnChangeAlumnos = (alumnos) => {
-    console.log("alumnos: ",alumnos );
+    //console.log("alumnos: ",alumnos );
     setAlumnos(alumnos);
   };
 
 const handleOnClick = async(e) => {
-  console.log("validacion",datosForm.fecha,datosForm.horaini,datosForm.horafin,alumnos);
+  //console.log("validacion",datosForm.fecha,datosForm.horaini,datosForm.horafin,alumnos);
     if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "" || alumnos === []) {
         setSeveridad({
           severidad:"error",
@@ -196,7 +196,7 @@ const handleOnClick = async(e) => {
           mensaje:"Complete los campos obligatorios (*)",
         }); 
       } else {
-        console.log("alumnos: ",alumnos );
+        //console.log("alumnos: ",alumnos );
         const nuevaSesion = {
           sesion: {
             ID_TUTOR: (getUser()).usuario.ID_USUARIO,
@@ -209,11 +209,11 @@ const handleOnClick = async(e) => {
           },
         }
         const props = { servicio: "/api/crearSesionGrupal", request: nuevaSesion };
-        console.log("saving new sesion in DB:", nuevaSesion);
+        //console.log("saving new sesion in DB:", nuevaSesion);
         let sesion = await POST(props);
-        console.log("sesion debug xaeee: ", sesion);
+        //console.log("sesion debug xaeee: ", sesion);
         if (sesion) {
-          console.log("ENTRE AL IF: ");
+          //console.log("ENTRE AL IF: ");
           setSeveridad({
             severidad:"success",
           }); 
@@ -221,7 +221,7 @@ const handleOnClick = async(e) => {
             mensaje:"La sesión se ha registrado satisfactoriamente",
           }); 
           if (sesion.message || sesion.error){
-            console.log("ENTRE AL IF: ");
+            //console.log("ENTRE AL IF: ");
             setSeveridad({
               severidad:sesion.message? "warning" : "error",
             }); 
@@ -230,7 +230,7 @@ const handleOnClick = async(e) => {
             });
           }
         }
-        console.log("got updated sesion from back:", sesion);
+        //console.log("got updated sesion from back:", sesion);
       }
     };
 

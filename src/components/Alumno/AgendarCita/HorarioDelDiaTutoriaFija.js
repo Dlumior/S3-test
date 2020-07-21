@@ -58,7 +58,7 @@ const styles = {
   };
 
   render() {
-    //console.log("this.props",this.props);
+    ////console.log("this.props",this.props);
     return (
       <div>        
         {this.renderCabecera(this.props.fecha.fecha)}

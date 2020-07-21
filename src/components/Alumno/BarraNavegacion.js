@@ -117,7 +117,7 @@ const BarraNavegacion = (props) => {
   const [{}, dispatch] = useUserValue();
   const handleClick = () => {
     //te odio hooks
-    console.log("Alumno LOG OUTTTTT", props);
+    //console.log("Alumno LOG OUTTTTT", props);
 
     logOut(dispatch);
   };
@@ -130,8 +130,8 @@ const BarraNavegacion = (props) => {
   };
 
   const handleMenuOpen = (event) => {
-    console.log("current target:");
-    console.log(event.currentTarget);
+    //console.log("current target:");
+    //console.log(event.currentTarget);
 
     setAnchorEl(event.currentTarget);
   };
@@ -145,7 +145,7 @@ const BarraNavegacion = (props) => {
     const endpoint = "/api/notificacion/actualizar/" + idUsuario;
     const params = { servicio: endpoint };
     const res = await GET(params);
-    console.log(res);
+    //console.log(res);
     if (res) {
       setNumNotif(0);
       // window.location.reload();

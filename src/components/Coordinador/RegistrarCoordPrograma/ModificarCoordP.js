@@ -129,20 +129,20 @@ const ModificaCoordinador = (props) => {
       if (func>0){
         if (func>cantProgramas){  
           setCantPrograma(cantProgramas => func);
-          console.log("func",func);
+          //console.log("func",func);
           if (programa!==""){
             programasSeleccionados.push(programa);
           }          
-          console.log("programasSelecc",programasSeleccionados);
-          console.log("programas ",programas);
-          console.log("programa ",programa);
+          //console.log("programasSelecc",programasSeleccionados);
+          //console.log("programas ",programas);
+          //console.log("programa ",programa);
         }else{
           setCantPrograma(cantProgramas => func);
-          console.log("func",func)
+          //console.log("func",func)
           if (programasSeleccionados.length>=cantProgramas){
             programasSeleccionados.splice(-1);
           }          
-          console.log("programasSelecc",programasSeleccionados)
+          //console.log("programasSelecc",programasSeleccionados)
         }
       }else{
         setCantPrograma(cantProgramas => 0);
@@ -151,7 +151,7 @@ const ModificaCoordinador = (props) => {
   
 
   const renderPrograma = (cantProgramas) => {
-      console.log("cant=",cantProgramas);
+      //console.log("cant=",cantProgramas);
       let n=cantProgramas;
       let arregloProg=[];
       for (let i=0;i<n;i++){
@@ -180,7 +180,7 @@ const ModificaCoordinador = (props) => {
     const endpoint = "/api/coordinador/"+props.id;
     const params = { servicio: endpoint };
     const res = await GET(params);    
-    console.log("COORDINADOR:", res);
+    //console.log("COORDINADOR:", res);
     if (res){
       datosForm.ID=res.coordinador.ID_USUARIO;
       datosForm.USUARIO=res.coordinador.USUARIO;
@@ -192,7 +192,7 @@ const ModificaCoordinador = (props) => {
       datosForm.DIRECCION=res.coordinador.DIRECCION;    
     
       //let cantProg=res.coordinador.PROGRAMAs.length;
-      //console.log("long prog:", cantProg);
+      ////console.log("long prog:", cantProg);
       //setCantPrograma(cantProg);
 
       let arreglillo = [];
@@ -204,15 +204,15 @@ const ModificaCoordinador = (props) => {
         }
       }
       //datosForm.FACULTAD=programasSeleccionados;
-      console.log("proogramaSelecc:", programasSeleccionados);
-      console.log("proogramaD:", programa);
-      console.log("nombreFacultades:", nombreFacultades);
+      //console.log("proogramaSelecc:", programasSeleccionados);
+      //console.log("proogramaD:", programa);
+      //console.log("nombreFacultades:", nombreFacultades);
     }
     setDatosForm({
       ...
       datosForm,
     });
-    console.log("datosForm:", datosForm);
+    //console.log("datosForm:", datosForm);
   }
    fetchData();
 }, {});
@@ -222,7 +222,7 @@ useEffect(() => {
       const endpoint = "/api/programa/lista/"+idFacu;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("proogramasss:", res);
+      //console.log("proogramasss:", res);
       if (res){
         setProgramas(res.programa);
       }      
@@ -269,24 +269,24 @@ useEffect(() => {
       });      
 
     } else {
-      console.log("programa ha actualizar: ",programasSeleccionados);
-      console.log("programa",programa)
+      //console.log("programa ha actualizar: ",programasSeleccionados);
+      //console.log("programa",programa)
 
       if (programasSeleccionados.length<cantProgramas){
         programasSeleccionados.push(programa);
       }      
-      console.log("programasSelecc",programasSeleccionados)
+      //console.log("programasSelecc",programasSeleccionados)
 
       datosForm.PROGRAMA=programasSeleccionados;
       setDatosForm({
         ...datosForm,
       });
 
-      console.log(datosForm);      
+      //console.log(datosForm);      
       const props = { servicio: "/api/coordinador/modificar", request: {coordinador: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
+      //console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevoCoord);
+      //console.log("got updated coord from back:", nuevoCoord);
       if (nuevoCoord.error){
         setSeveridad({
           severidad:"error",
@@ -304,7 +304,7 @@ useEffect(() => {
           setAlerta({
             mensaje:"Se modificaron los datos del coordinador satisfactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
         }
 
       }

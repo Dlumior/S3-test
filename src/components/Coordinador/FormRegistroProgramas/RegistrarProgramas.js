@@ -79,15 +79,15 @@ const RegistrarProgramas = (props) => {
   //facultades por coordinador
   useEffect(() => {
     async function fetchData() {
-      console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+      //console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
       const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("facultades:", res);
+      //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
       }      
-      console.log("facultades:", facultades);
+      //console.log("facultades:", facultades);
     }
      fetchData();
   }, {});
@@ -105,7 +105,7 @@ const RegistrarProgramas = (props) => {
     setAlerta({
       mensaje:"",
     });      
-    console.log("severidad= ",severidad.severidad);
+    //console.log("severidad= ",severidad.severidad);
     //setOpen(false);
     //window.location.reload();
     
@@ -131,21 +131,21 @@ const RegistrarProgramas = (props) => {
           mensaje:"Errores en el formulario",
         });
       }           
-      console.log("severidad= ",severidad.severidad);
+      //console.log("severidad= ",severidad.severidad);
 
       return;
     } else {
-      console.log("id_facu",facultad);
+      //console.log("id_facu",facultad);
       datosForm.ID_FACULTAD=facultad;
       setDatosForm({
         ...datosForm,
       });
-      console.log(datosForm);
+      //console.log(datosForm);
 
       const props = { servicio: "/api/programa", request: {programa: datosForm} };
-      console.log("saving new prog in DB:",   );
+      //console.log("saving new prog in DB:",   );
       let nuevoProg = await Conexion.POST(props);
-      console.log("got updated prog from back:", nuevoProg);
+      //console.log("got updated prog from back:", nuevoProg);
      if (nuevoProg){
       if (nuevoProg.registro.ok===1){
         if (nuevoProg){      
@@ -155,7 +155,7 @@ const RegistrarProgramas = (props) => {
           setAlerta({
             mensaje:"Programa Registrado Satisfactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
           //setOpen(false);        
           setFlag(flag => flag +1);
   
@@ -167,7 +167,7 @@ const RegistrarProgramas = (props) => {
       setAlerta({
         mensaje:"El programa ya existe",
       });      
-      console.log("severidad= ",severidad.severidad);
+      //console.log("severidad= ",severidad.severidad);
       
     }
 

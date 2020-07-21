@@ -60,10 +60,10 @@ class EventsCalendar extends Component {
         }
       }
     }
-    console.log("facultades del tutor: ", facuTutor)
+    //console.log("facultades del tutor: ", facuTutor)
     let listaEventos = []
     let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO + "/" + this.state.facultad  });    
-    console.log("disponibilidad", listaDisponibilidad);
+    //console.log("disponibilidad", listaDisponibilidad);
     if(listaDisponibilidad){
       if(!listaDisponibilidad.hasOwnProperty('error')){
         await this.setState({loading: false})
@@ -119,13 +119,13 @@ class EventsCalendar extends Component {
       //   await this.setState({facultades: facuTutor.facultades})
       //   await this.setState({facultad:facuTutor.facultades[0].ID_PROGRAMA})
       // }
-      //console.log("facultades del tutor: ", facuTutor)
+      ////console.log("facultades del tutor: ", facuTutor)
       let listaEventos = []
       let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace  + this.state.tutor.ID_USUARIO + "/" + this.state.facultad  });    
     
       // let listaEventos = []
       // let listaDisponibilidad = await Conexion.GET({ servicio: this.state.enlace + this.state.tutor.ID_USUARIO });            
-      console.log("disponibilidad", listaDisponibilidad);
+      //console.log("disponibilidad", listaDisponibilidad);
       if(listaDisponibilidad){
         if(!listaDisponibilidad.hasOwnProperty('error')){
           await this.setState({loading: false})
@@ -254,7 +254,7 @@ class EventsCalendar extends Component {
   }
 
   actualizarMensaje (mensaje, mensajeStrong) {
-    console.log(mensaje);
+    //console.log(mensaje);
     this.setState({alerta: {mensaje:mensaje, mensajeStrong:mensajeStrong, mostrar: true}});
   }
 

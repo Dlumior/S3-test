@@ -211,13 +211,13 @@ USUARIO: "mag.alegre@pucp.edu.pe"
       const listaSesiones = await GET({
         servicio: "/api/listaSesionAlumno/"+idAlumno,
       });
-      console.log("sesioness",listaSesiones);
-      console.log("sesioness",idAlumno);
+      //console.log("sesioness",listaSesiones);
+      //console.log("sesioness",idAlumno);
 
       let resultados=[];
       if (listaSesiones){
         for (let e of listaSesiones.data){
-          console.log("resultadoss",e.ALUMNOs);
+          //console.log("resultadoss",e.ALUMNOs);
           await resultados.push({
             fecha: e.FECHA,
             tutor: `${e.TUTOR.USUARIO.NOMBRE} ${e.TUTOR.USUARIO.APELLIDOS}`,
@@ -237,7 +237,7 @@ USUARIO: "mag.alegre@pucp.edu.pe"
     }
   }
   renderTabla(datosNuevos) {
-    console.log("***", datosNuevos);
+    //console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (

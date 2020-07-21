@@ -76,12 +76,12 @@ class FrmMisCitas extends Component {
     //de Valorar
     handleOnOpen= (e) =>{
         this.setState({ open: true });
-        console.log("ses: ",e);
+        //console.log("ses: ",e);
         this.state.encuesta.sesion=e;
 
     }
     handleOnChangeAcompaña= (event,newValue) =>{
-        console.log("Acompaña: ",newValue);
+        //console.log("Acompaña: ",newValue);
         this.state.encuesta.acompana=newValue;
         //this.setState({ encuesta: encuesta });
 
@@ -89,23 +89,23 @@ class FrmMisCitas extends Component {
         //enc.acompana = newValue;
         //this.setState({ encuesta: enc });
         //event.target.value=this.state.encuesta.acompana;
-        console.log("enc.acompa: ",this.state.encuesta.acompana);
+        //console.log("enc.acompa: ",this.state.encuesta.acompana);
     }
     handleOnChangeUtilidad= (event,newValue) => {
-        console.log("Utilidad: ",newValue);
+        //console.log("Utilidad: ",newValue);
         this.state.encuesta.utilidad=newValue;
     }
     handleOnChangeUtilizoRec= (event) => {
-        console.log("Utilizo rec: ",event.target.checked);
+        //console.log("Utilizo rec: ",event.target.checked);
         this.state.encuesta.influyo=event.target.checked;
     }
     
     handleOnChangeSoluciono= (event) => {
-        console.log("ayudo: ",event.target.checked);
+        //console.log("ayudo: ",event.target.checked);
         this.state.encuesta.ayudo=event.target.checked;
     }
     handleOnChangeRecomendaria= (event) => {
-        console.log("Recomendaria: ",event.target.checked);
+        //console.log("Recomendaria: ",event.target.checked);
         this.state.encuesta.recomienda=event.target.checked;
     }
     handleOnClose() {
@@ -119,7 +119,7 @@ class FrmMisCitas extends Component {
     }    
     async handleOnClick(){
         //this.setState({ open: true });
-        console.log("encuesta: ", this.state.encuesta);
+        //console.log("encuesta: ", this.state.encuesta);
         var utilizo_rec,soluciono,recomienda;
         if (this.state.encuesta.influyo){
             utilizo_rec=1;
@@ -148,13 +148,13 @@ class FrmMisCitas extends Component {
             },
           };
         const props = { servicio: "/api/encuesta", request: nuevaEncuesta };
-        console.log("saving new in DB:", nuevaEncuesta);
+        //console.log("saving new in DB:", nuevaEncuesta);
         let enc = await Controller.POST(props);
-        console.log("lo que viene del POST:", enc);
+        //console.log("lo que viene del POST:", enc);
         let alert = Object.assign({}, this.state.alert);
         
         this.state.deshabilitar[this.state.encuesta.sesion]=true;
-        console.log("Se deshabilito?", this.state.deshabilitar[this.state.encuesta.sesion]);
+        //console.log("Se deshabilito?", this.state.deshabilitar[this.state.encuesta.sesion]);
 
         if (enc.encuesta){
             alert.mensaje = "Encuesta Registrada";

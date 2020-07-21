@@ -103,28 +103,28 @@ class FormNuevaTutoria extends Component {
     this.handleOnChangeDuracion = this.handleOnChangeDuracion.bind(this);
   }
   obtenerSeleccion(seleccion) {
-    console.log("seleccion", seleccion);
+    //console.log("seleccion", seleccion);
   }
   handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
     this.state.tutoria.programa = programa[0];
 
     this.state.mensaje.programa = "";
     this.state.validacion.ok = true;
-    console.log("proograma:", this.state.tutoria.programa);
+    //console.log("proograma:", this.state.tutoria.programa);
   }
   handleOnChangeDuracion(duracion) {
-    console.log("duracion:", duracion);
+    //console.log("duracion:", duracion);
     this.state.tutoria.duracion = duracion[0];
 
     this.state.mensaje.duracion = "";
     this.state.validacion.ok = true;
-    console.log("duracion:", this.state.tutoria.duracion);
+    //console.log("duracion:", this.state.tutoria.duracion);
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
+    ////console.log("LLegue: ", etiqueta);
     const listaEtiquetas = [];
     etiqueta.forEach((element) => {
       if (element.agregar) {
@@ -133,11 +133,11 @@ class FormNuevaTutoria extends Component {
     });
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
-    //console.log("Seteado: ", this.state.etiqueta);
+    ////console.log("Seteado: ", this.state.etiqueta);
   };
   handleOnChange = (e) => {
     let tutoria = Object.assign({}, this.state.tutoria);
-    console.log(e.target.value);
+    //console.log(e.target.value);
     if (e.target.value.length > this.state.validacion[e.target.name].lim) {
       this.state.validacion.ok = false;
       let mensajes = Object.assign({}, this.state.mensaje);
@@ -156,7 +156,7 @@ class FormNuevaTutoria extends Component {
     this.setState({ tutoria: tutoria });
   };
   async handleOnClick(e) {
-    console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+    //console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     /** validar que todos los satos esten antes y sino termiar funcion xd */
     /*if(this.state.tutoria.programa=[]){
       this.state.mensaje.programa = this.state.validacion.programa.mssgError;
@@ -167,7 +167,7 @@ class FormNuevaTutoria extends Component {
       this.state.validacion.ok=false;
     }*/
     if (this.state.validacion.ok) {
-      console.log("NOOOOO_________________________________OOOOO");
+      //console.log("NOOOOO_________________________________OOOOO");
       const {
         nombre,
         descripcion,
@@ -194,7 +194,7 @@ class FormNuevaTutoria extends Component {
         },
       };
       const props = { servicio: "/api/tutoria", request: tutoria };
-      console.log("saving new tutoria in DB:", tutoria);
+      //console.log("saving new tutoria in DB:", tutoria);
       let nuevaTutoria = await Conexion.POST(props);
       if (nuevaTutoria) {
         let alert = Object.assign({}, this.state.alert);
@@ -203,9 +203,9 @@ class FormNuevaTutoria extends Component {
         this.setState({ alert: alert });
         this.setState({ severidad: "success" });
         this.state.alert.mensaje = this.state.alert.mensajeExito;
-        console.log("got updated alumno from back:", nuevaTutoria);
+        //console.log("got updated alumno from back:", nuevaTutoria);
       } else {
-        console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+        //console.log("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
       }
     } else {
       let alert = Object.assign({}, this.state.alert);

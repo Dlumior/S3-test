@@ -61,7 +61,7 @@ class DisponibilidadCard extends Component {
     this.setState({ open: true });
   }
   handleOnClose() {
-    //console.log("ctm",this.state.openSolicitarTutor);
+    ////console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
   }
 
@@ -74,7 +74,7 @@ class DisponibilidadCard extends Component {
         ID_TUTOR: this.props.disponibilidad.ID_TUTOR,
       },
     };
-    console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
+    //console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
     //se llama al back
     const props = { servicio: "/api/disponibilidadIntervalos", request: nuevaSolicitud };
     let sesionTyS = await POST(props);
@@ -82,18 +82,18 @@ class DisponibilidadCard extends Component {
 
     if (sesionTyS.message) {
       if (sesionTyS.error) {
-        console.log("<mensajeE:", sesionTyS.message);  //error
+        //console.log("<mensajeE:", sesionTyS.message);  //error
         return;
 
       } else {
 
         if (sesionTyS.message.includes("oKupada")) {
-          console.log("<mensajeNou:", sesionTyS.message);  //sin dispo
+          //console.log("<mensajeNou:", sesionTyS.message);  //sin dispo
           //this.setState({ visible: false });
           return;
         }
         else {
-          console.log("<mensajeWii:", sesionTyS.message);  //satisfactoriamente
+          //console.log("<mensajeWii:", sesionTyS.message);  //satisfactoriamente
           this.setState({ mensajeDispo: sesionTyS.message });  //<<== la magia
           //this.setState({ visible: true });
           return;
@@ -115,7 +115,7 @@ class DisponibilidadCard extends Component {
   render() {
     const disponibilidad = this.props.disponibilidad;
 
-    console.log("disponibilidad: ", disponibilidad);
+    //console.log("disponibilidad: ", disponibilidad);
     return (
       <>
         <Button

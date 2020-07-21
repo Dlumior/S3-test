@@ -106,21 +106,21 @@ class FrmDialogoSolicitarTutor extends Component {
   }
 
   handleOnChangeMotivo(_motivoSeleccionado) {
-    console.log("<<moti", _motivoSeleccionado.NOMBRE);
+    //console.log("<<moti", _motivoSeleccionado.NOMBRE);
     if (_motivoSeleccionado.NOMBRE !== undefined) {
-      console.log("<<<HOC", _motivoSeleccionado.NOMBRE);
+      //console.log("<<<HOC", _motivoSeleccionado.NOMBRE);
       this.setState({ _motivoSelecc: _motivoSeleccionado.NOMBRE });
 
     } else {
       this.setState({ _motivoSelecc: "Académico" });
     }
-    //console.log("<<<motivo", _motivoSeleccionado.NOMBRE);
+    ////console.log("<<<motivo", _motivoSeleccionado.NOMBRE);
     //this.setState({ banderillaMotivo: true });
   }
 
   handleOnChangeCT = (e) => {
     // nombre y descripcion
-    console.log("jhjhjhj: ", e);
+    //console.log("jhjhjhj: ", e);
     if (e.target.value.length === 0) {
       this.setState({ errorDesc: true })
     } else {
@@ -132,8 +132,8 @@ class FrmDialogoSolicitarTutor extends Component {
   cumpleValidacion() {
     // if(this.state.flagHI && this.state.flagCT) return true;
     // return false;
-    console.log("<<<CV - descripcion:", this.state.descripcion);
-    console.log("<<<CV - horaIni:", this.state.horaIniR);
+    //console.log("<<<CV - descripcion:", this.state.descripcion);
+    //console.log("<<<CV - horaIni:", this.state.horaIniR);
 
     if (this.state.descripcion !== "" && this.state.horaIniR !== "") return true;
     return false;
@@ -143,10 +143,10 @@ class FrmDialogoSolicitarTutor extends Component {
   async handleOnClickSolicitarCita() {
 
     if (this.cumpleValidacion()) {
-      console.log("<<cumpleV");
+      //console.log("<<cumpleV");
 
       let yo = getUser();
-      console.log("banderilla", this.state.banderillaMotivo);
+      //console.log("banderilla", this.state.banderillaMotivo);
 
       const nuevaSolicitud = {
         sesion: {
@@ -165,7 +165,7 @@ class FrmDialogoSolicitarTutor extends Component {
         },
       };
 
-      console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
+      //console.log("BTN_SOLICITAR WWW", nuevaSolicitud);
       //se llama al back
 
       const props = { servicio: "/api/registrarCita", request: nuevaSolicitud };
@@ -173,7 +173,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
       if (!sesionTyS) return;
 
-      console.log("SESIONtYS XXX ", sesionTyS);
+      //console.log("SESIONtYS XXX ", sesionTyS);
 
       if (!sesionTyS.message) {
         if (!sesionTyS.error) {
@@ -198,7 +198,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
   validarEntradaCT(error) {
     /*
-        console.log("errores:", error);
+        //console.log("errores:", error);
         let encontrado = undefined;
         let nuevo = false;
         let eliminar = this.state.errores.forEach((element) => {
@@ -216,7 +216,7 @@ class FrmDialogoSolicitarTutor extends Component {
             nuevo = true;
           }
         }
-        console.log("nuevo: ", nuevo);
+        //console.log("nuevo: ", nuevo);
         if (nuevo) {
           let newErrores = this.state.errores;
           newErrores.push(error);
@@ -247,33 +247,33 @@ class FrmDialogoSolicitarTutor extends Component {
     let user_parteMin = this.state.horaIniR.slice(-2);
     let user_Hora = parseInt(user_parteHora, 10);
     let user_Min = parseInt(user_parteMin, 10);
-    console.log(">>> ***********");
+    //console.log(">>> ***********");
     if (user_Hora < nHIni || user_Hora > nHFin) {
-      console.log(">>> fuera de rango");
+      //console.log(">>> fuera de rango");
       user_Hora = nHIni; //setear a la hora
       user_Min = nMIni;
     } else if (user_Hora === nHFin) {
-      console.log(">>> horas iguales");
+      //console.log(">>> horas iguales");
       if (this.props.dispo.HORA_FIN.slice(-2) === "00") {
-        console.log(">>> hora fin acaba en 00");
+        //console.log(">>> hora fin acaba en 00");
         user_Hora = nHIni; //setear a la hora
         user_Min = nMIni;
       } else if (this.props.dispo.HORA_FIN.slice(-2) === "30" && this.props.duracionPro === 30) {
-        console.log(">>> hora fin acaba en 30 y proT = 30");
+        //console.log(">>> hora fin acaba en 30 y proT = 30");
         user_Hora = nHFin;
         user_Min = 0;
       } else {
-        console.log(">>> hora fin acaba en 30 y proT != 30");
+        //console.log(">>> hora fin acaba en 30 y proT != 30");
         user_Hora = nHIni; //setear a la hora 
         user_Min = nMIni;
       }
     } else {
-      console.log(">>> en rango");
+      //console.log(">>> en rango");
       user_Hora = parseInt(user_parteHora, 10);
       user_Min = parseInt(user_parteMin, 10);
       // validar parte minutos del user con parrte min de la disponibildad
       if (user_Min < nMIni) {
-        console.log(">>> en rango pero minutos no");
+        //console.log(">>> en rango pero minutos no");
         //user_Hora = nHIni; //setear a la hora 
         user_Min = nMIni; // <<< le damos la parte de los minutos de la disponibilidad
       }
@@ -294,26 +294,26 @@ class FrmDialogoSolicitarTutor extends Component {
       vali = user_Hora.toString() + ":" + user_Min.toString();
     }
 
-    console.log(">>> ***********");
-    console.log(">>> horaValidada: ", vali);
+    //console.log(">>> ***********");
+    //console.log(">>> horaValidada: ", vali);
     this.setState({ horaIniR: vali });
-    console.log(">>> A,this.state.horaIniR: ", this.state.horaIniR);
+    //console.log(">>> A,this.state.horaIniR: ", this.state.horaIniR);
 
     /*********VALIDACION DEL MINUTOS******* */
     let valMin = this.state.horaIniR.slice(-2);
     let _yeri = "";
     if (valMin === "00" || valMin === "30") {
-      console.log(">>> Es 00 o 30");
+      //console.log(">>> Es 00 o 30");
       _yeri = this.state.horaIniR;
       this.setState({ horaIniR: _yeri });
     } else {
-      console.log(">>> joder");
-      console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
-      console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
-      console.log(">>> tipo: ", typeof (valMin));
+      //console.log(">>> joder");
+      //console.log(">>> D,this.state.horaIniR: ", this.state.horaIniR);
+      //console.log(">>> this.state.horaIniR.slice(-2): ", valMin);
+      //console.log(">>> tipo: ", typeof (valMin));
 
       _yeri = this.state.horaIniR.slice(0, 2) + ":00";
-      console.log("FOCUS=>", _yeri);
+      //console.log("FOCUS=>", _yeri);
       this.setState({ horaIniR: _yeri });
     }
     //actualizamos la hora de la salida
@@ -322,10 +322,10 @@ class FrmDialogoSolicitarTutor extends Component {
     let _datetime = new Date(_strHora);
     _datetime.setMinutes(_datetime.getMinutes() + this.props.duracionPro);
     let n = _datetime.toLocaleTimeString();
-    console.log("antesIF=> ", n);
+    //console.log("antesIF=> ", n);
     if (n.length === 7) { n = "0" + n; }
     n = n.slice(0, 5);
-    console.log("antes n=> ", n);
+    //console.log("antes n=> ", n);
     this.setState({ horaFinR: n });
   }
 
@@ -340,7 +340,7 @@ class FrmDialogoSolicitarTutor extends Component {
     let n = _datetime.toLocaleTimeString();
     if (n.length === 7) { n = "0" + n; }
     n = n.slice(0, 5);
-    //console.log("SLICE=> ",n);
+    ////console.log("SLICE=> ",n);
     this.setState({ horaFinR: n });
     //en los states hay un "delay" de un caracter 07:30 -> se graba 07:03 ... idkwhy
 
@@ -355,7 +355,7 @@ class FrmDialogoSolicitarTutor extends Component {
   }
   render() {
     const _disponibilidad = this.props.dispo;
-    console.log("XXX ", _disponibilidad);
+    //console.log("XXX ", _disponibilidad);
 
     const _fexilla = new Date(this.props.fexaForm);
 

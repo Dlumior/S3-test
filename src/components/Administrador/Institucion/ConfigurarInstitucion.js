@@ -73,49 +73,49 @@ class ConfigurarInstitucion extends React.Component {
   } 
   
   handleOnChangeNombre = (event) => {
-    console.log("nombre:", event.target.value);
+    //console.log("nombre:", event.target.value);
     this.state.institucion.NOMBRE = event.target.value;
     this.setState(this.state.institucion);
-    console.log("nombre:", this.state.institucion.NOMBRE);
+    //console.log("nombre:", this.state.institucion.NOMBRE);
   }
   handleOnChangeInicial = (event) => {
-    console.log("inicial:", event.target.value);
+    //console.log("inicial:", event.target.value);
     this.state.institucion.INICIALES = event.target.value;
     this.setState(this.state.institucion);
-    console.log("inicial:", this.state.institucion.INICIALES);
+    //console.log("inicial:", this.state.institucion.INICIALES);
   }
   handleOnChangeDominio = (event) => {
-    console.log("Dominio:", event.target.value);
+    //console.log("Dominio:", event.target.value);
     this.state.institucion.DOMINIO = event.target.value;
     this.setState(this.state.institucion);
-    console.log("dominio:", this.state.institucion.DOMINIO);
+    //console.log("dominio:", this.state.institucion.DOMINIO);
   }
   handleOnChangeDominio2 = (event) => {
-    console.log("Dominio2:", event.target.value);
+    //console.log("Dominio2:", event.target.value);
     this.state.institucion.DOMINIO2 = event.target.value;
     this.setState(this.state.institucion);
-    console.log("dominio2:", this.state.institucion.DOMINIO2);
+    //console.log("dominio2:", this.state.institucion.DOMINIO2);
   }
   handleOnChangeTelefono = (event) => {
-    console.log("telefono:", event.target.value);
+    //console.log("telefono:", event.target.value);
     this.state.institucion.TELEFONO = event.target.value;
     this.setState(this.state.institucion);
-    console.log("telefono:", this.state.institucion.TELEFONO);
+    //console.log("telefono:", this.state.institucion.TELEFONO);
   }
   handleOnChangeUbicacion = (event) => {
-    console.log("ubicacion:", event.target.value);
+    //console.log("ubicacion:", event.target.value);
     this.state.institucion.UBICACION = event.target.value;
     this.setState(this.state.institucion);
-    console.log("ubicacion:", this.state.institucion.UBICACION);
+    //console.log("ubicacion:", this.state.institucion.UBICACION);
   }
   handleOnChangePagina = (event) => {
-    console.log("pagina:", event.target.value);
+    //console.log("pagina:", event.target.value);
     this.state.institucion.PAGINA_WEB = event.target.value;
     this.setState(this.state.institucion);
-    console.log("pagina:", this.state.institucion.PAGINA_WEB);
+    //console.log("pagina:", this.state.institucion.PAGINA_WEB);
   }
   handleOnChangeImg = (event) => {    
-    console.log(event.target.files[0]);
+    //console.log(event.target.files[0]);
     let ext=event.target.files[0].name;
     let extens=ext.slice(-3);
 
@@ -125,7 +125,7 @@ class ConfigurarInstitucion extends React.Component {
     this.setState({ alert: alert });
     this.setState({ severidad: "" });
 
-    console.log("name: ",extens);
+    //console.log("name: ",extens);
     if (extens==='jpg'){
       extens='jpeg';
     }else if (extens==='png'){
@@ -147,7 +147,7 @@ class ConfigurarInstitucion extends React.Component {
       let inst = Object.assign({}, this.state.institucion);
 
       var base1;
-      console.log("name: ",extens);
+      //console.log("name: ",extens);
       if (extens==='jpeg'){
         inst.EXTENSION='jpeg';
         base1=event.target.result.slice(23);
@@ -155,13 +155,13 @@ class ConfigurarInstitucion extends React.Component {
         inst.EXTENSION='png';
         base1=event.target.result.slice(22);
       }
-      console.log("base1",base1);
+      //console.log("base1",base1);
       inst.IMAGEN=base1;
       
       this.setState({
           institucion:inst,
       })
-      console.log(this.state.institucion.IMAGEN);
+      //console.log(this.state.institucion.IMAGEN);
     }  
 
   }
@@ -172,7 +172,7 @@ class ConfigurarInstitucion extends React.Component {
   }
   async handleOnClick(e) {
     e.preventDefault();
-    console.log("institucion: ", this.state.institucion);
+    //console.log("institucion: ", this.state.institucion);
     let {
       NOMBRE,
       INICIALES,
@@ -208,9 +208,9 @@ class ConfigurarInstitucion extends React.Component {
       this.state.alert.mensaje = this.state.alert.mensajeError;
     }else{
       const props = { servicio: "/api/institucion/modificar", request: nuevaInstitucion };
-      console.log("saving new uni in DB:", nuevaInstitucion);
+      //console.log("saving new uni in DB:", nuevaInstitucion);
       let nuevaUni = await Controller.POST(props);
-      console.log("lo que viene del POST:", nuevaUni);
+      //console.log("lo que viene del POST:", nuevaUni);
       if (nuevaUni) {
         let alert = Object.assign({}, this.state.alert);
         alert.mensaje = alert.mensajeExito;
@@ -219,7 +219,7 @@ class ConfigurarInstitucion extends React.Component {
         this.setState({ severidad: "success" });
         this.state.alert.mensaje = this.state.alert.mensajeExito;
 
-        console.log("got updated institucion from back:", nuevaUni);
+        //console.log("got updated institucion from back:", nuevaUni);
         this.setState({
           deshabilitar:true,
       })
@@ -231,10 +231,10 @@ class ConfigurarInstitucion extends React.Component {
 async componentDidMount() {
     let getInsitucion=await Controller.GET({servicio:"/api/institucion"});
     if (getInsitucion){
-      console.log("got institucion from back:", getInsitucion.institucion);
+      //console.log("got institucion from back:", getInsitucion.institucion);
       this.setState({institucion:getInsitucion.institucion});
-      console.log("state:", this.state.institucion);   
-      console.log("state:", getInsitucion.institucion.NOMBRE);  
+      //console.log("state:", this.state.institucion);   
+      //console.log("state:", getInsitucion.institucion.NOMBRE);  
     }   
 }
 

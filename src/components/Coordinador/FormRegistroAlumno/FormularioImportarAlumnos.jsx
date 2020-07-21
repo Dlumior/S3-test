@@ -79,7 +79,7 @@ class FormularioImportarAlumnos extends Component {
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
 
-    console.log("Registrando ", data);
+    //console.log("Registrando ", data);
     if (!data || data?.length === 0) {
       //alert("Naranjas");
       let mensaje = this.state.mensajesResultado;
@@ -102,8 +102,8 @@ class FormularioImportarAlumnos extends Component {
         ALUMNO.CONTRASENHA = "contra";
         ALUMNO.USUARIO = ALUMNO.CORREO;
         ALUMNO.ETIQUETA = this.state.etiquetas;
-        console.log("Registrando ALUMNO", ALUMNO);
-        //console.log("Podria registrar: ", ALUMNO);
+        //console.log("Registrando ALUMNO", ALUMNO);
+        ////console.log("Podria registrar: ", ALUMNO);
 
         alumnosMasivo.push(ALUMNO);
       });
@@ -166,7 +166,7 @@ class FormularioImportarAlumnos extends Component {
             }
             resolve();
           });
-          console.log("Esperare 5000ms");
+          //console.log("Esperare 5000ms");
         }, 5000);
 
         resolve();
@@ -182,7 +182,7 @@ class FormularioImportarAlumnos extends Component {
   handleOnChangeEtiquetas = async (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
+    ////console.log("LLegue: ", etiqueta);
     const listaEtiquetas = [];
     etiqueta.forEach((element) => {
       if (element.agregar) {
@@ -191,14 +191,14 @@ class FormularioImportarAlumnos extends Component {
     });
     await this.setState({ etiquetas: listaEtiquetas });
     //this.setState({tutoria:tutoria});
-    console.log("Seteado: ", this.state.etiqueta);
+    //console.log("Seteado: ", this.state.etiqueta);
   };
   handleOnChangePrograma(listaPrograma) {
-    console.log("proograma:", listaPrograma);
+    //console.log("proograma:", listaPrograma);
     this.setState({ programas: listaPrograma });
   }
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = this.state.usuario;
     const subrol = this.getSubRol(getUser().rol);
@@ -244,20 +244,20 @@ class FormularioImportarAlumnos extends Component {
    */
   handleOnSuccesLoad = async (alumnosFromCSV, fileName) => {
     await this.setState({ fileName: fileName });
-    console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV);
-    console.log("TAAAGS: fileName", fileName);
+    //console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV);
+    //console.log("TAAAGS: fileName", fileName);
 
     const alumnosTabla = await parseMaterialJTable(
       alumnosFromCSV,
       "alumnos",
       "Estado"
     );
-    console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV.alumnos[0]);
+    //console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV.alumnos[0]);
     this.setState({ columnasLimpias: alumnosFromCSV.alumnos[0] });
     await this.setState({ alumnosTabla: alumnosTabla });
   };
   validarEntrada(error) {
-    console.log("errores:", error);
+    //console.log("errores:", error);
     let encontrado = undefined;
     let nuevo = false;
     let eliminar = this.state.errores.forEach((element) => {
@@ -275,7 +275,7 @@ class FormularioImportarAlumnos extends Component {
         nuevo = true;
       }
     }
-    console.log("nuevo: ", nuevo);
+    //console.log("nuevo: ", nuevo);
     if (nuevo) {
       let newErrores = this.state.errores;
       newErrores.push(error);
@@ -295,12 +295,12 @@ class FormularioImportarAlumnos extends Component {
   handleOnChangeTexto = (e) => {
     // nombre y descripcion
     let tutoria = Object.assign({}, this.state.tutoria);
-    console.log(e);
+    //console.log(e);
     tutoria[e.name] = e.value;
     this.setState({ tutoria: tutoria });
   };
   async componentDidMount() {
-    console.log("*** ", this.props);
+    //console.log("*** ", this.props);
     const { usuario } = this.props;
     if (!usuario) {
       return;
@@ -326,14 +326,14 @@ class FormularioImportarAlumnos extends Component {
           newData.push(registro);
           break;
         case "eliminar":
-          console.log("eliminaDO index: ", index);
-          console.log("eliminaDO antes: ", newData);
+          //console.log("eliminaDO index: ", index);
+          //console.log("eliminaDO antes: ", newData);
           newData.splice(index, 1);
-          console.log("eliminaDO: ", newData);
+          //console.log("eliminaDO: ", newData);
           break;
         case "actualizar":
           newData[index] = registro;
-          console.log("Actualize: ", newData[index]);
+          //console.log("Actualize: ", newData[index]);
           break;
         default:
           break;
@@ -344,7 +344,7 @@ class FormularioImportarAlumnos extends Component {
         this.state.columnasLimpias,
         "Estado"
       );
-      console.log("DATANUEVA: ", tablaFinal.data);
+      //console.log("DATANUEVA: ", tablaFinal.data);
       //reasiganr valores de la tabla
       await this.setState({
         alumnosTabla: {
@@ -387,7 +387,7 @@ class FormularioImportarAlumnos extends Component {
     );
   }
   renderTable(datosNuevos) {
-    console.log("TABLAAAA", datosNuevos);
+    //console.log("TABLAAAA", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       return (
         <JMaterialCSVUploadSSJ

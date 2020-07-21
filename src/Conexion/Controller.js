@@ -6,7 +6,7 @@ import { getUser } from "../Sesion/Sesion";
  */
 export async function GET(props) {
   try {
-    console.log(">>> GET props", props);
+    //console.log(">>> GET props", props);
     let response = await fetch(props.servicio, {
       method: "GET",
       mode: "cors",
@@ -15,14 +15,14 @@ export async function GET(props) {
         "Content-Type": "application/json",
       },
     });
-    console.log(">>> entre al GET response", response);
+    //console.log(">>> entre al GET response", response);
     let responseJson = await response.json();
-    console.log("*>>> entre al GET response", responseJson);
+    //console.log("*>>> entre al GET response", responseJson);
 
     return responseJson;
   } catch (error) {
-    console.log(">>> GET failed");
-    console.log(">>> ", error.message);
+    //console.log(">>> GET failed");
+    //console.log(">>> ", error.message);
     return null;
   }
 }
@@ -36,7 +36,7 @@ export async function GET(props) {
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve
  */
 export async function POST(props) {
-  console.log("POST->", props);
+  //console.log("POST->", props);
   try {
     let response = await fetch(props.servicio, {
       limits: { fileSize: "10mb" },
@@ -49,14 +49,14 @@ export async function POST(props) {
       body: JSON.stringify(props.request),
     });
 
-    console.log(">>> POST pre succesful", response);
+    //console.log(">>> POST pre succesful", response);
 
     let responseJson = await response.json();
     let hoy = new Date();
     let dia = hoy.getDay() + "-" + hoy.getMonth() + "-" + hoy.getFullYear();
-    console.log("DIA", dia);
+    //console.log("DIA", dia);
 
-    console.log(">>> getUser", getUser());
+    //console.log(">>> getUser", getUser());
 
     if (getUser() !== undefined) {
       let auditoria = await fetch("/api/auditoria/", {
@@ -77,16 +77,16 @@ export async function POST(props) {
         }),
       });
 
-      console.log(">>> POST auditoria", await auditoria.json());
-      console.log(">>> POST auditoria", await auditoria);
+      //console.log(">>> POST auditoria", await auditoria.json());
+      //console.log(">>> POST auditoria", await auditoria);
     }
 
-    console.log(">>> POST succesful", responseJson);
+    //console.log(">>> POST succesful", responseJson);
 
     return responseJson;
   } catch (error) {
-    console.log(">>> POST failed");
-    console.log(">>> ", error.message);
+    //console.log(">>> POST failed");
+    //console.log(">>> ", error.message);
     return null;
   }
 }

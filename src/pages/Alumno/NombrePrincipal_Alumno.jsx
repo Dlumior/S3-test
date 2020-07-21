@@ -30,24 +30,24 @@ class NombrePrincipal_Alumno extends Component {
     this.getEnlace = this.getEnlace.bind(this);
   }
   handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
 
     let tutoria = Object.assign({}, this.state.tutoria);
     tutoria.programa = programa[0];
     this.setState({ tutoria: tutoria });
-    // console.log("proograma:", this.state.tutoria.programa);
+    // //console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
   }
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
     
     
     let enlace = `/api/programas/alumno/${this.state.usuario.ID_USUARIO}/${facultad[0]}`;
-    console.log("HAAAAAAAAAA enlace:", enlace);
+    //console.log("HAAAAAAAAAA enlace:", enlace);
     this.setState({ filtroFacultad: enlace });
   }
   handleOnChangePrograma(proceso) {
-    console.log("HAAAME: ", proceso);
+    //console.log("HAAAME: ", proceso);
     this.props.obtenerPrograma(proceso[0]);
     // //aqui se o mando al componente padre
     // if (this.props.filtroProceso) {
@@ -55,7 +55,7 @@ class NombrePrincipal_Alumno extends Component {
     // }
   }
   async componentDidMount() {
-    console.log("*** usuario ", this.props.usuario);
+    //console.log("*** usuario ", this.props.usuario);
     const { usuario } = this.props;
     if (!usuario) {
       return;

@@ -24,14 +24,14 @@ const EliminarPrograma = (props) => {
   const handleClick = async (e) => {    
       
       //PROGRAMA ELIMINAR 
-      console.log("idPrograma",id);
+      //console.log("idPrograma",id);
       const props = { servicio: "/api/programa/eliminar/"+id };
       let resultado = await Conexion.POST(props);
-      console.log("got updated coord from back:", resultado);
+      //console.log("got updated coord from back:", resultado);
       if (resultado){
         if (resultado.eliminacion.ok!==1){
           setElimino(false);
-          console.log("elimino",elimino);
+          //console.log("elimino",elimino);
           if (resultado.tutoriasAsociadas===0 && resultado.usuariosAsociados>0){
             setAlerta({
               mensaje:"El programa no puede eliminarse porque cuenta con usuarios asignados a este",
@@ -56,7 +56,7 @@ const EliminarPrograma = (props) => {
       const newValue = flag + 1;
       setFlag(newValue);
       await parentCallback(newValue);
-      console.log("elimino",elimino);
+      //console.log("elimino",elimino);
   };
 
 

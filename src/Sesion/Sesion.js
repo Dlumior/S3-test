@@ -10,12 +10,12 @@ export const UserProvider = ({ reducer, initialState, children }) => (
 export const useUserValue = () => useContext( UserContext);
 
 export const localLogin = (usuario) => {
-  console.log("guardando: ", usuario);
+  //console.log("guardando: ", usuario);
   sessionStorage.clear();
   sessionStorage.Sesion = JSON.stringify(
     usuario
   );
-  console.log("se guardo: ", sessionStorage.Sesion);
+  //console.log("se guardo: ", sessionStorage.Sesion);
 };
 
 export const localLogOut = () => {
@@ -26,7 +26,7 @@ export const localInitLogUser = localLogOut;
 
 export const getUser = () => {
     let retrievedObject = sessionStorage.Sesion;
-    console.log("Consultando el Storage", retrievedObject);
+    //console.log("Consultando el Storage", retrievedObject);
     if(!retrievedObject) return retrievedObject;
     let retrievedJson = JSON.parse(retrievedObject);
     return retrievedJson;

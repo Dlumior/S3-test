@@ -32,13 +32,13 @@ class FrmCitarAlumno extends Component {
                 //RECEPTOR: 511,
             },
         };
-        console.log(">>> Soli: ", nuevaSolicitud);
+        //console.log(">>> Soli: ", nuevaSolicitud);
         const props = { servicio: "/api/citarAlumno", request: nuevaSolicitud };
 
         let citaTyS = await Controller.POST(props);
         if(!citaTyS) return;
 
-        console.log("RESULTADO API citacion ", citaTyS);
+        //console.log("RESULTADO API citacion ", citaTyS);
         if (!citaTyS.message) {
             if (!citaTyS.error) {
                 this.setState({ mensajillo: "Cita Enviada Satisfactoriamente !" });
@@ -65,9 +65,9 @@ class FrmCitarAlumno extends Component {
     }
 
     handleOnChangeCT = (e) => {
-        console.log("XXX value",e.target.value);
-        console.log("XXX lenth",e.target.value.length);
-        console.log("XXX name",e.target.name);
+        //console.log("XXX value",e.target.value);
+        //console.log("XXX lenth",e.target.value.length);
+        //console.log("XXX name",e.target.name);
 
         //aca valido
         if(e.target.value.length===0){
@@ -83,7 +83,7 @@ class FrmCitarAlumno extends Component {
 
     validarEntradaCT(error) {
         /*
-        console.log("errores:", error);
+        //console.log("errores:", error);
         let encontrado = undefined;
         let nuevo = false;
         let eliminar = this.state.errores.forEach((element) => {
@@ -101,7 +101,7 @@ class FrmCitarAlumno extends Component {
             nuevo = true;
           }
         }
-        console.log("nuevo: ", nuevo);
+        //console.log("nuevo: ", nuevo);
         if (nuevo) {
           let newErrores = this.state.errores;
           newErrores.push(error);

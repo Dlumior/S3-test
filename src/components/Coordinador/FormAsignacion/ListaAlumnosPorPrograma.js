@@ -79,7 +79,7 @@ class ListaAlumnos extends React.Component {
     if (nextState.flag !== this.state.flag ){
       let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
       if (arregloDeAlumnos){
-        console.log("arreglo: ",arregloDeAlumnos);
+        //console.log("arreglo: ",arregloDeAlumnos);
         this.establecerData(arregloDeAlumnos);
       }
     }    
@@ -87,37 +87,37 @@ class ListaAlumnos extends React.Component {
   async componentDidMount(){
     let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
     if (arregloDeAlumnos){
-      console.log("arreglo: ",arregloDeAlumnos);
+      //console.log("arreglo: ",arregloDeAlumnos);
       this.establecerData(arregloDeAlumnos);
     }
 }
 
 async handleToggle(idA){
   var i = this.state.alumnosSeleccionados.findIndex(v => v === idA)
-  console.log("indice",i);
+  //console.log("indice",i);
   if ( i !== -1 ) {
     this.state.alumnosSeleccionados.splice(i,1);
   }else{
     this.state.alumnosSeleccionados.push(idA);
   }
   let j= this.state.flag +1;
-  console.log("veamos: ",j);
+  //console.log("veamos: ",j);
   this.setState({flag:j});
 
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 };
 
 async handleOnChangeChecked(e) {
   let idA=e.target.value;
-  console.log("idAlumo",idA);
+  //console.log("idAlumo",idA);
   
   const cb = document.getElementById(e.target.value)
 
   if (this.state.alumnosSeleccionados.length!==0){     
     if (cb.checked===false){
       var i = this.state.alumnosSeleccionados.findIndex(v => v === idA)
-      console.log("i=",i);
+      //console.log("i=",i);
       if ( i !== -1 ) {
         this.state.alumnosSeleccionados.splice(i,1);
       }      
@@ -129,7 +129,7 @@ async handleOnChangeChecked(e) {
   }else if (cb.checked===true){
     this.state.alumnosSeleccionados.push(idA);
   }
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 
 }

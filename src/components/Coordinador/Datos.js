@@ -22,7 +22,7 @@ const Datos = (props) => {
     <Paper className={classes.caja}>
       <Grid container justify="center" alignItems="center" spacing={2}>
         <Grid item md={6} xs={12}>
-          {console.log("cod::",props.codigo)}
+          {/*console.log("cod::",props.codigo)*/}
           <TextField
             disabled
             margin="dense"

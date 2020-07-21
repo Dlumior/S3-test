@@ -86,7 +86,7 @@ import Confirmacion from './Confirmacion';
         await this.setState({horaInicio:e.target.value.substring(0,2)+":00"});     
         document.getElementById("horaInicio").value = this.state.horaInicio;  
       }
-      console.log("inicio: ", this.state.horaInicio)             
+      //console.log("inicio: ", this.state.horaInicio)             
     }
 
     handleOnChangeHoraIni = async e =>{     
@@ -117,7 +117,7 @@ import Confirmacion from './Confirmacion';
         await this.setState({horaFin:e.target.value.substring(0,2)+":00"});     
         document.getElementById("horaFin").value = this.state.horaFin;  
       }
-      console.log("fin: ", this.state.horaFin)             
+      //console.log("fin: ", this.state.horaFin)             
     }
 
     handleOnChangeHoraFin = e =>{  
@@ -143,7 +143,7 @@ import Confirmacion from './Confirmacion';
           let fecha = this.props.datos.fecha 
           //this.props.empezarCarga();     
           // this.props.closeDialog();
-          console.log(fecha);
+          //console.log(fecha);
           if(!this.props.datos.modificar){ // registro de nueva disponibilidad
             const nuevaDisponibilidad = {
               disponibilidad : {
@@ -158,7 +158,7 @@ import Confirmacion from './Confirmacion';
             } 
             
             const props = { servicio: "/api/disponibilidad", request: nuevaDisponibilidad };
-            console.log("esto amndo", this.props.datos.facultad)      
+            //console.log("esto amndo", this.props.datos.facultad)      
             let nuevo = await Conexion.POST(props);
             if(nuevo){
               if(await nuevo.hasOwnProperty('error')){
@@ -169,8 +169,8 @@ import Confirmacion from './Confirmacion';
                 return;
               }
               this.props.empezarCarga(); 
-              console.log("Mando al back: ", nuevaDisponibilidad);
-              console.log("Respuesta del back: ",nuevo);
+              //console.log("Mando al back: ", nuevaDisponibilidad);
+              //console.log("Respuesta del back: ",nuevo);
               this.props.actualizarMensaje(this.state.mensajeRegistrar, this.state.mensajeStrong);   
             }      
           } else{ // actualizar disponibilidad

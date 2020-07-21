@@ -43,7 +43,7 @@ const FrmReporteSesiones = () => {
     let fecha = await new Date();
     const fileName = 'Rep_Sesiones'+fecha.getFullYear()+fecha.getMonth().toString()+fecha.getDate().toString();
     const ws = XLSX.utils.json_to_sheet(data);
-    console.log("dataaa",data)
+    //console.log("dataaa",data)
     const wb = { Sheets: { 'Sesiones': ws }, SheetNames: ['Sesiones'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const datos = await new Blob([excelBuffer], {type: fileType});
@@ -59,11 +59,11 @@ const FrmReporteSesiones = () => {
       } else if (rolCoordinador === 2) {
         endpoint = "/api/facultad/lista/" + idCoordinador;
       }
-      console.log("endpoint: " + endpoint);
+      //console.log("endpoint: " + endpoint);
 
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
-      console.log(res);
+      //console.log(res);
       if (res){
         setFacultades(res.facultades);
       }      
@@ -83,22 +83,22 @@ const FrmReporteSesiones = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
 
-      console.log("enpoint programa: " + endpoint);
-      console.log("res de programas: ");
-      console.log("=========");
-      console.log(res);
-      console.log("=========");
+      //console.log("enpoint programa: " + endpoint);
+      //console.log("res de programas: ");
+      //console.log("=========");
+      //console.log(res);
+      //console.log("=========");
 
       if (res !== null) {
         if (rolCoordinador === 6) {
-          console.log("asignando programa");
-          console.log(res);
+          //console.log("asignando programa");
+          //console.log(res);
           if (res){
             setProgramas(res.programa);
           }          
         } else if (rolCoordinador === 2) {
-          console.log("asignando programas");
-          console.log(res);
+          //console.log("asignando programas");
+          //console.log(res);
           if (res){
             setProgramas(res.programas);
           }          
@@ -114,11 +114,11 @@ const FrmReporteSesiones = () => {
   useEffect(() => {
     async function fetchResultados() {
       let endpoint = "/api/sesion/estado/" + programa;
-      console.log("endpoint: " + endpoint);
+      //console.log("endpoint: " + endpoint);
 
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
-      console.log(res);
+      //console.log(res);
       if(res){
         if (res.motivosSolicitud !== []) {
           let tot = 0;

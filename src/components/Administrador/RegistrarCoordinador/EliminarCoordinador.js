@@ -33,9 +33,9 @@ const EliminarCoordinador = (props) => {
  
 
   const handleClick = async (e) => {    
-      console.log("idCoord",id);
+      //console.log("idCoord",id);
       let enlace;
-      console.log("ROL:",getUser().rol);
+      //console.log("ROL:",getUser().rol);
       if (getUser().rol==="Administrador"){
         enlace="/api/coordinadorfacultad/eliminar/"+id;
       }else{
@@ -43,7 +43,7 @@ const EliminarCoordinador = (props) => {
       }
       const props = { servicio: enlace };
       let resultado = await Conexion.POST(props);
-      console.log("got updated coord from back:", resultado);
+      //console.log("got updated coord from back:", resultado);
       if (resultado.status!=="success"){
         setElimino(false);
       }else{

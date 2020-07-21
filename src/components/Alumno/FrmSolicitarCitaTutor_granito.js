@@ -52,7 +52,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
     }
 
     handleOnCloseVerDispo() {
-        //console.log("ctm",this.state.openSolicitarTutor);
+        ////console.log("ctm",this.state.openSolicitarTutor);
         this.setState( {openVerDispo : false});
     }
 
@@ -60,7 +60,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
         let arregloDeTutores = 
         await Controller.GET({ servicio: "/api/tutor/lista/"+getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-        console.log("arreglo: ", arregloDeTutores);
+        //console.log("arreglo: ", arregloDeTutores);
 
         let arreglillo = [];
         let cont = 0;
@@ -158,7 +158,7 @@ class FrmSolicitarCitaTutor_granito extends Component {
     }
 
     render() {
-        //console.log("propsFormTipoII:", this.props);
+        ////console.log("propsFormTipoII:", this.props);
   
         return (
             <div>                

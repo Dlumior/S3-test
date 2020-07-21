@@ -135,12 +135,12 @@ const RegistrarCoordinador = (props) => {
     async function fetchTutores() {
       let institucion = await Conexion.GET({servicio:"/api/institucion"});
       if (institucion){
-        console.log("RegistrarCoordinador institucion: ", institucion);
+        //console.log("RegistrarCoordinador institucion: ", institucion);
         setDominio1(institucion.institucion.DOMINIO);
         setDominio2(institucion.institucion.DOMINIO2);
       }
-      console.log("RegistrarCoordinador dominio1: ", dominio1);
-      console.log("RegistrarCoordinador dominio2: ", dominio2);
+      //console.log("RegistrarCoordinador dominio1: ", dominio1);
+      //console.log("RegistrarCoordinador dominio2: ", dominio2);
     }
 
     fetchTutores();
@@ -151,11 +151,11 @@ const RegistrarCoordinador = (props) => {
     const endpoint = "/api/facultad";
     const params = { servicio: endpoint };
     const res = await GET(params);    
-    console.log("proogramasss:", res);
+    //console.log("proogramasss:", res);
     if (res){
       setProgramas(res.facultad);
     }    
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
   }
    fetchData();
 }, {});
@@ -191,8 +191,8 @@ const RegistrarCoordinador = (props) => {
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
-    console.log("programaa",programa);
-    console.log("cant Pro sel",cantP,programasSeleccionados.length)
+    //console.log("programaa",programa);
+    //console.log("cant Pro sel",cantP,programasSeleccionados.length)
     if (
       errors.name.error ||
       errors.lastnames.error ||
@@ -220,12 +220,12 @@ const RegistrarCoordinador = (props) => {
            
 
     } else {
-      console.log("programa ha actualizar: ",programasSeleccionados);
-      console.log("cant Pro sel",cantP,programasSeleccionados.length)
+      //console.log("programa ha actualizar: ",programasSeleccionados);
+      //console.log("cant Pro sel",cantP,programasSeleccionados.length)
       if (cantP<=programasSeleccionados.length){
         programasSeleccionados.push(programa);
       }
-      console.log("programasSelecc",programasSeleccionados)
+      //console.log("programasSelecc",programasSeleccionados)
 
       datosForm.FACULTAD=programasSeleccionados;
       datosForm.CONTRASENHA="contra";
@@ -243,11 +243,11 @@ const RegistrarCoordinador = (props) => {
         return;
       }
 
-      console.log(datosForm);      
+      //console.log(datosForm);      
       const props = { servicio: "/api/coordinadorfacultad", request: {coordinador: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
+      //console.log("saving new coord in DB:", datosForm);
       let nuevoCoord = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevoCoord);
+      //console.log("got updated coord from back:", nuevoCoord);
       if (nuevoCoord.error){
         setSeveridad({
           severidad:"error",
@@ -259,18 +259,18 @@ const RegistrarCoordinador = (props) => {
         
         const propsUsuario = { servicio: "/api/usuario/buscar/"+datosForm.CODIGO }
 
-        console.log("PROOOOOPSUSUARIO: ", propsUsuario);
+        //console.log("PROOOOOPSUSUARIO: ", propsUsuario);
         const resUsuario = await GET(propsUsuario);
-        console.log("got updated coord from back:", resUsuario);
+        //console.log("got updated coord from back:", resUsuario);
         if (resUsuario){
           const props2 = { servicio: 
             nuevoCoord.error==="Correo repetido"? 
             "/api/usuario/" + datosForm.CORREO : 
             "/api/usuario/buscar/" + datosForm.CODIGO};
     
-            console.log("PROOOOOPS2: ", props2);
+            //console.log("PROOOOOPS2: ", props2);
             const res = await GET(props2);
-            console.log("got updated coord from back:", res);
+            //console.log("got updated coord from back:", res);
             if (res.usuario){
               setDatosAsignacion({
                 ...datosAsignacion,
@@ -289,7 +289,7 @@ const RegistrarCoordinador = (props) => {
           setAlerta({
             mensaje:"Se registro al coordinador satisfactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
           
         }
 
@@ -309,20 +309,20 @@ const RegistrarCoordinador = (props) => {
             ID_PROGRAMA: facu,
         },
       };
-        console.log("lo que va:", nuevaAsignacion);
+        //console.log("lo que va:", nuevaAsignacion);
   
         const props = { servicio: "/api/usuario/asignarrol", request: nuevaAsignacion };
-        console.log("saving new asignacion in DB:", nuevaAsignacion);
+        //console.log("saving new asignacion in DB:", nuevaAsignacion);
         let asignado = await Conexion.POST(props);
-        console.log("asignado",asignado); 
+        //console.log("asignado",asignado); 
     }
     setOpenAviso(false);
   }
 
   const handleCantP = (cant) =>{
-    console.log("CANT",cant);
+    //console.log("CANT",cant);
     setCantP(cant);
-    console.log("CANTP",cantP);
+    //console.log("CANTP",cantP);
   }
 
 

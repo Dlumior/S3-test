@@ -140,10 +140,10 @@ const RegistrarUnidadApoyo = () => {
     };
 
     const handleClick = async (e, datosForm, setDatosForm) => {
-        console.log("ERRORS handleclick: ", errors);
+        //console.log("ERRORS handleclick: ", errors);
 
         if (datosForm.NOMBRE==="" || datosForm.CORREO==="" || datosForm.TELEFONO==="" || datosForm.CONTACTO==="") {
-            console.log("error vacia");
+            //console.log("error vacia");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: "Todos los datos son obligatorios."} ); 
 
@@ -151,28 +151,28 @@ const RegistrarUnidadApoyo = () => {
         } 
 
         if (errors.name.error) {
-            console.log("error nombre");
+            //console.log("error nombre");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: errors.name.mesage} ); 
 
             return
         }
         if (errors.telefono.error) {
-            console.log("error telefono");
+            //console.log("error telefono");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: errors.telefono.message} ); 
 
             return
         }
         if (errors.email.error) {
-            console.log("error email");
+            //console.log("error email");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: errors.email.mesage} ); 
 
             return
         }
         if (errors.contacto.error) {
-            console.log("error contacto");
+            //console.log("error contacto");
             setSeveridad( {severidad: "error"} );     
             setAlerta( {mensaje: errors.name.message} ); 
 
@@ -180,9 +180,9 @@ const RegistrarUnidadApoyo = () => {
         }
 
         const props = { servicio: "/api/areaapoyo", request: {areaApoyo: datosForm} };
-        // console.log("saving new coord in DB:", datosForm);
+        // //console.log("saving new coord in DB:", datosForm);
         let newAreaApoyo = await Controller.POST(props);
-        console.log("resp from back:", newAreaApoyo);
+        //console.log("resp from back:", newAreaApoyo);
 
         if (newAreaApoyo){
             if (newAreaApoyo.error) {
@@ -211,8 +211,8 @@ const RegistrarUnidadApoyo = () => {
     }, [dominio1, dominio2]);
 
     useEffect(() => {
-        console.log("severidad: ", severidad.severidad);
-        console.log("alerta: ", alerta);
+        //console.log("severidad: ", severidad.severidad);
+        //console.log("alerta: ", alerta);
     }, [severidad, alerta]);
 
     return (

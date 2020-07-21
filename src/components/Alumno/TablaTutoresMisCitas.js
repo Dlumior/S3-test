@@ -45,9 +45,9 @@ function Tabla(props) {
 
 
   props.sesiones.data.forEach(element => {
-    //console.log("tutores DATA ",element.campoEstado)
-    //console.log("element ",element);
-    //console.log("PROPS ",props);
+    ////console.log("tutores DATA ",element.campoEstado)
+    ////console.log("element ",element);
+    ////console.log("PROPS ",props);
 
     // if(element.campoEstado===props.estado){       
     //   element.campoCont=i;
@@ -75,7 +75,7 @@ function Tabla(props) {
 
   });
 
-  //console.log("AFTER daTA ",arr2);
+  ////console.log("AFTER daTA ",arr2);
 
   return (
     <MaterialTable

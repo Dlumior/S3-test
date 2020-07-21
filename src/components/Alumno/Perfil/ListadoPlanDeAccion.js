@@ -54,11 +54,11 @@ const ListadoPlanDeAccion = (props) => {
         const endpoint = "/api/listaCompromisosAlumnoProcesoTutoria/"+idAlumno+"/"+idTutoria;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("compromisos:", res);
+        //console.log("compromisos:", res);
         if (res){
           if (res.compromisos!==[]){
             setPlan(res.compromisos);
-            console.log("compromisos:", plan);
+            //console.log("compromisos:", plan);
           }
         }  
         }
@@ -69,7 +69,7 @@ const ListadoPlanDeAccion = (props) => {
     
     const handleToggle = async (item) => {
       
-      console.log("item",item);
+      //console.log("item",item);
       setDatos({...datos});
       const nuevoCompromiso = {
         compromiso: {
@@ -81,9 +81,9 @@ const ListadoPlanDeAccion = (props) => {
       };
       //setPlan(plan.filter(v=>v.ID_COMPROMISO===item.ID_COMPROMISO));
       const props = { servicio: "/api/compromiso/modificar", request: nuevoCompromiso };
-      console.log("saving new uni in DB:", nuevoCompromiso);
+      //console.log("saving new uni in DB:", nuevoCompromiso);
       let nuevaUni = await POST(props);
-      console.log("lo que viene del POST:", nuevaUni);
+      //console.log("lo que viene del POST:", nuevaUni);
     };
 
     return (

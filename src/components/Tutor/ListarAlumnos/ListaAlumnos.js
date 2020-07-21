@@ -23,11 +23,11 @@ const Alumnos = [
 const ListaAlumnos = (props) => {
   const classes = useStyles();
   const { alumnos, history } = props;
-  // console.log(alumnos);
+  // //console.log(alumnos);
   // alumnos.map((item) => {
-  //   console.log(item.ID_ALUMNO);
-  //   console.log(item.ALUMNO.USUARIO.NOMBRE + " "+item.ALUMNO.USUARIO.APELLIDOS);
-  //   console.log(item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE);
+  //   //console.log(item.ID_ALUMNO);
+  //   //console.log(item.ALUMNO.USUARIO.NOMBRE + " "+item.ALUMNO.USUARIO.APELLIDOS);
+  //   //console.log(item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE);
   // });
 
   return (

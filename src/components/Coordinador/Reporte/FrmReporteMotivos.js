@@ -60,11 +60,11 @@ const FrmReporteMotivos = () => {
       } else if (rolCoordinador === 2) {
         endpoint = "/api/facultad/lista/" + idCoordinador;
       }
-      console.log("endpoint: " + endpoint);
+      //console.log("endpoint: " + endpoint);
 
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
-      console.log(res);
+      //console.log(res);
       if (res){
         setFacultades(res.facultades);
       }      
@@ -84,22 +84,22 @@ const FrmReporteMotivos = () => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
 
-      console.log("enpoint programa: " + endpoint);
-      console.log("res de programas: ");
-      console.log("=========");
-      console.log(res);
-      console.log("=========");
+      //console.log("enpoint programa: " + endpoint);
+      //console.log("res de programas: ");
+      //console.log("=========");
+      //console.log(res);
+      //console.log("=========");
 
       if (res !== null) {
         if (rolCoordinador === 6) {
-          console.log("asignando programa");
-          console.log(res);
+          //console.log("asignando programa");
+          //console.log(res);
           if (res){
             setProgramas(res.programa);
           }          
         } else if (rolCoordinador === 2) {
-          console.log("asignando programas");
-          console.log(res);
+          //console.log("asignando programas");
+          //console.log(res);
           if (res){
             setProgramas(res.programas);
           }          
@@ -115,11 +115,11 @@ const FrmReporteMotivos = () => {
   useEffect(() => {
     async function fetchResultados() {
       let endpoint = "/api/sesion/motivosolicitud/" + programa;
-      console.log("endpoint: " + endpoint);
+      //console.log("endpoint: " + endpoint);
 
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
-      console.log(res);
+      //console.log(res);
       if(res){
         if (res.motivosSolicitud !== []) {
           let tot = 0;

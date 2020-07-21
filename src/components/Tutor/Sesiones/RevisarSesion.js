@@ -40,7 +40,7 @@ const style = {
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
-  console.log("cod", e.target.value);
+  //console.log("cod", e.target.value);
   //fetchData(e.target.value);
   setDatosForm({
     ...datosForm,
@@ -49,15 +49,15 @@ const handleName = (e, datosForm, setDatosForm) => {
 };
 
 const handleFecha = (e, datosForm, setDatosForm) => {
-  console.log("fecha", e.target.value);
+  //console.log("fecha", e.target.value);
   setDatosForm({
     ...datosForm,
     fecha: e.target.value,
   });
-  console.log("fecha", datosForm.fecha);
+  //console.log("fecha", datosForm.fecha);
 };
 const handleHoraIni = (e, datosForm, setDatosForm) => {
-  console.log("horaini", e.target.value);
+  //console.log("horaini", e.target.value);
   if (e.target.value < "08:00" || e.target.value > "19:30") {
     document.getElementById("Hora").value = "08:00";
   } else {
@@ -65,11 +65,11 @@ const handleHoraIni = (e, datosForm, setDatosForm) => {
       ...datosForm,
       horaini: e.target.value,
     });
-    console.log("horaini", datosForm.horaini);
+    //console.log("horaini", datosForm.horaini);
   }
 };
 const handleHoraFin = (e, datosForm, setDatosForm) => {
-  console.log("horafin", e.target.value);
+  //console.log("horafin", e.target.value);
 
   if (e.target.value > "20:00" || e.target.value < "08:30") {
     document.getElementById("Hora fin").value = "20:00";
@@ -78,11 +78,11 @@ const handleHoraFin = (e, datosForm, setDatosForm) => {
       ...datosForm,
       horafin: e.target.value,
     });
-    console.log("horafin", datosForm.horafin);
+    //console.log("horafin", datosForm.horafin);
   }
 };
 const handleLugar = (e, datosForm, setDatosForm) => {
-  console.log("lugar", e.target.value);
+  //console.log("lugar", e.target.value);
   if (e.target.value.length > 45) {
     document.getElementById("lugar").value = e.target.value.substring(0, 45);
   }
@@ -90,14 +90,14 @@ const handleLugar = (e, datosForm, setDatosForm) => {
     ...datosForm,
     lugar: e.target.value,
   });
-  console.log("lugar", datosForm.lugar);
+  //console.log("lugar", datosForm.lugar);
 };
 const handleOnChangeEtiquetas = (etiqueta, datosForm, setDatosForm) => {
   const listaEtiquetas = [];
-  console.log("etiqueta", etiqueta);
+  //console.log("etiqueta", etiqueta);
   etiqueta.forEach((element) => {
     if (element.agregar) {
-      console.log("agrega", element);
+      //console.log("agrega", element);
       listaEtiquetas.push(element.id);
     }
   });
@@ -107,7 +107,7 @@ const handleOnChangeEtiquetas = (etiqueta, datosForm, setDatosForm) => {
   });
 };
 const handleResultados = (e, datosForm, setDatosForm) => {
-  console.log("resu", e.target.value);
+  //console.log("resu", e.target.value);
   if (e.target.value.length > 250) {
     document.getElementById("res").value = e.target.value.substring(0, 250);
   }
@@ -115,22 +115,22 @@ const handleResultados = (e, datosForm, setDatosForm) => {
     ...datosForm,
     resultado: e.target.value,
   });
-  console.log("resu", datosForm.resultado);
+  //console.log("resu", datosForm.resultado);
 };
 
 const handleDogsAssistance = (e, datosForm, setDatosForm) => {
-  console.log("asistencia del guau guau PRE", e.target.value);
+  //console.log("asistencia del guau guau PRE", e.target.value);
   datosForm.asistencia = 0;
   setDatosForm({
     ...datosForm,
     asistencia: e.target.value,
   });
 
-  console.log("asistencia del guau guau POST", datosForm.asistencia);
+  //console.log("asistencia del guau guau POST", datosForm.asistencia);
 };
 
 const RevisarSesion = (cita) => {
-  console.log("RevisarSesion Debug ", cita.cita);
+  //console.log("RevisarSesion Debug ", cita.cita);
   const [datosForm, setDatosForm] = React.useState({
     alumnoCodigo: 0,
     alumnoNombre: "",
@@ -168,14 +168,14 @@ const RevisarSesion = (cita) => {
   const [open, setOpen] = React.useState(true);
   const [open2, setOpen2] = React.useState(false);
   const [plan, setPlan] = useState(cita.cita.COMPROMISOs);
-  console.log("cita.cita.COMPROMISOs", cita.cita);
-  console.log("test123plan", plan);
+  //console.log("cita.cita.COMPROMISOs", cita.cita);
+  //console.log("test123plan", plan);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleCompromiso = (comp) => {
-    console.log("thisisit", comp);
+    //console.log("thisisit", comp);
     setCompromiso(comp);
   };
   const handleOnOpenVer = () => {
@@ -210,7 +210,7 @@ const RevisarSesion = (cita) => {
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
-    console.log("datosForm: ", datosForm);
+    //console.log("datosForm: ", datosForm);
     if (datosForm.asistencia === "yes") {
       var doggysAssistance = 1;
     } else if (datosForm.asistencia === "no") {
@@ -228,7 +228,7 @@ const RevisarSesion = (cita) => {
     }
     //agrega el ultimo compromiso
     //plan.push(compromiso);
-    console.log("este es el plan", plan);
+    //console.log("este es el plan", plan);
     const resultadosSesion = {
       sesion: {
         ID_SESION: cita.cita.ID_SESION,
@@ -243,9 +243,9 @@ const RevisarSesion = (cita) => {
       servicio: "/api/registrarResultadoCita",
       request: resultadosSesion,
     };
-    console.log("saving new sesion in DB:", resultadosSesion);
+    //console.log("saving new sesion in DB:", resultadosSesion);
     let sesion = await Controller.POST(props);
-    console.log("ASISTENCIA PRUEBA", sesion);
+    //console.log("ASISTENCIA PRUEBA", sesion);
     if (sesion) {
       setSeveridad({
         severidad: "success",
@@ -254,7 +254,7 @@ const RevisarSesion = (cita) => {
         mensaje: "Sesion modificada Satisfactoriamente",
       });
     }
-    console.log("got updated sesion from back:", sesion);
+    //console.log("got updated sesion from back:", sesion);
 
     setDatosForm({
       ...datosForm,
@@ -400,7 +400,7 @@ const RevisarSesion = (cita) => {
               ) : (
                 ""
               )}
-              {console.log("estadoo", cita.cita.ESTADO)}
+              {/*console.log("estadoo", cita.cita.ESTADO)*/}
               {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
                 <></>
               ) : (

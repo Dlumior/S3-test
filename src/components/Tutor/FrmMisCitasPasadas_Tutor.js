@@ -117,10 +117,10 @@ class FrmMisCitasPasadas_Tutor extends Component {
     }
 
     async componentDidMount() {
-        console.log("ID TUTOR: ", getUser().usuario.ID_USUARIO);
-        console.log("SERVICIO: ", "/api/listaSesiones/" + getUser().usuario.ID_USUARIO);
+        //console.log("ID TUTOR: ", getUser().usuario.ID_USUARIO);
+        //console.log("SERVICIO: ", "/api/listaSesiones/" + getUser().usuario.ID_USUARIO);
         let arregloDeSesiones = await Controller.GET({ servicio: "/api/listaSesiones/" + getUser().usuario.ID_USUARIO});
-        console.log("sesiones tutor: ", arregloDeSesiones);
+        //console.log("sesiones tutor: ", arregloDeSesiones);
         this.establecerData(arregloDeSesiones);
     }
 

@@ -12,14 +12,14 @@ import Home from "../Home/Home.js";
 import UnidadApoyo from "../UnidadApoyo/UnidadApoyo";
 
 const Administrador = (props) => {
-  console.log("Administrador", props.history.location.pathname);
+  //console.log("Administrador", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
     return (Home)
   } else {
     const move_to = getUser().rol.toLowerCase().split(" ")[0];
-    console.log("Ruta", move_to);
+    //console.log("Ruta", move_to);
 
     if (move_to !== "administrador") {
       props.history.push("/" + move_to);

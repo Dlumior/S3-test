@@ -15,12 +15,12 @@ export const iniciarSesion = async (dispatch, nombreUsuario, contrasenha) => {
           CONTRASENHA: contrasenha,
         },
       };
-      console.log("LOGUEANDOOO...", datosUsuario);
+      //console.log("LOGUEANDOOO...", datosUsuario);
       const usuarioLogueado = await POST({
         servicio: "/api/usuario/login",
         request: datosUsuario,
       });
-      console.log("consegui...", usuarioLogueado);
+      //console.log("consegui...", usuarioLogueado);
       if (usuarioLogueado.usuario!== null) {
         if(!usuarioLogueado.error){
         dispatch({
@@ -92,13 +92,13 @@ export const logOut = (dispatch) => {
  * @param {*} usuario
  */
 export const inicializarSesion = (dispatch, usuario) => {
-  console.log("Inicializando...");
+  //console.log("Inicializando...");
   try {
     //chequeo al el storage
     let usuarioLogueado = getUser();
-    console.log("Revisando Storage", usuarioLogueado);
+    //console.log("Revisando Storage", usuarioLogueado);
     if (usuarioLogueado.usuario) {
-      console.log("Storage Data inicial", usuarioLogueado);
+      //console.log("Storage Data inicial", usuarioLogueado);
       dispatch({
         type: "INITIALIZE_SESION",
         usuario: usuarioLogueado,
@@ -106,7 +106,7 @@ export const inicializarSesion = (dispatch, usuario) => {
       });
       return { status: true, data: usuarioLogueado };
     }
-    console.log("Storage vacio", usuarioLogueado);
+    //console.log("Storage vacio", usuarioLogueado);
 
     dispatch({
       type: "INITIALIZE_SESION",

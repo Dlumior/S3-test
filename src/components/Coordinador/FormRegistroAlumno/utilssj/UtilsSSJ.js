@@ -10,7 +10,7 @@ export const parseMaterialJTable = async (lista, identificador, grupo) => {
       let columnas = [];
       let data = lista[identificador];
       const tags = data[0];
-      console.log("tags-> then", tags);
+      //console.log("tags-> then", tags);
       let N = 0;
       tags.forEach((tag) => {
         if (grupo) {
@@ -26,7 +26,7 @@ export const parseMaterialJTable = async (lista, identificador, grupo) => {
         N++;
       });
 
-      console.log("tags-> now", columnas);
+      //console.log("tags-> now", columnas);
       ///////////////
       let datafinal = [];
       data = data.slice(1); //quite los titlos
@@ -43,7 +43,7 @@ export const parseMaterialJTable = async (lista, identificador, grupo) => {
           errores += validacionDeEntrada(registro[count], tag.field);
         });
 
-        console.log("[].length", errores);
+        //console.log("[].length", errores);
         if (grupo) {
           if (errores.length > 0) {
             conErrores = true;
@@ -55,11 +55,9 @@ export const parseMaterialJTable = async (lista, identificador, grupo) => {
         }
         datafinal.push(dataregistro);
       });
-      console.log("datafinal-> now", datafinal);
+      //console.log("datafinal-> now", datafinal);
 
-      console.log(
-        "Te odio hooks..... sabias que ya pude usar esa material table como clase con todas sus caracteristicas? XDD"
-      );
+      //console.log( "Te odio hooks..... sabias que ya pude usar esa material table como clase con todas sus caracteristicas? XDD");
       // Le agregamos el group solo a la fila de agruypacion
       if (grupo) {
         if (conErrores) {
@@ -83,18 +81,18 @@ export const parseMaterialJTable = async (lista, identificador, grupo) => {
   });
 };
 export const validateMaterialJTableData = async (dataIni, columIni, grupo) => {
-  console.log("TablaSSJ lo que entra: ", dataIni);
+  //console.log("TablaSSJ lo que entra: ", dataIni);
   return new Promise((resolve, reject) => {
     let datafinal = dataIni;
     let columnas = [];
     let conErrores = false;
     try {
-      console.log("Se logro entrar: ", {
+      /*console.log("Se logro entrar: ", {
         data: dataIni,
         columns: columIni,
         grupo: grupo,
       });
-
+*/
       //genero las columnas
       columIni.forEach((tag) => {
         if (grupo) {
@@ -103,15 +101,15 @@ export const validateMaterialJTableData = async (dataIni, columIni, grupo) => {
             field: tag.toLowerCase(),
             grouping: false,
           });
-          console.log("Se logro agrupar: ");
+          //console.log("Se logro agrupar: ");
         } else {
           columnas.push({ title: tag, field: tag.toLowerCase() });
-          console.log("Se logro no agrupar: ");
+          //console.log("Se logro no agrupar: ");
         }
       });
       //genero y valido la data
       datafinal.forEach((registro,key) => {
-        console.log("Se logro recorrer la data: ");
+        //console.log("Se logro recorrer la data: ");
         registro.key=key;
         let errores = [];
         columIni.forEach((tag) => {
@@ -123,7 +121,7 @@ export const validateMaterialJTableData = async (dataIni, columIni, grupo) => {
             tag.toLowerCase()
           );
         });
-        console.log("Se logro recorrer y validar las columnas: ");
+        //console.log("Se logro recorrer y validar las columnas: ");
         if (errores.length > 0) {
           conErrores = true;
           registro[grupo.toLowerCase()] = "Con errores";
@@ -148,15 +146,15 @@ export const validateMaterialJTableData = async (dataIni, columIni, grupo) => {
           });
         }
       }
-      console.log("Se logro: ", {
+      /*console.log("Se logro: ", {
         data: datafinal,
         columns: columnas,
         huboErrores: conErrores,
-      });
+      });*/
       resolve({ data: datafinal, columns: columnas, huboErrores: conErrores });
-      console.log("TablaSSJ lo que entra: ", datafinal);
+      //console.log("TablaSSJ lo que entra: ", datafinal);
     } catch (error) {
-      console.log("TablaSSJ Se logro fallar: ");
+      //console.log("TablaSSJ Se logro fallar: ");
       reject();
     }
   });
@@ -186,10 +184,10 @@ const dominio2 = "pucp.edu.pe";
  */
 export const validacionDeEntrada = (texto, nombre) => {
   const validacion = validaciones[nombre];
-  console.log(
+  /*console.log(
     "me toca validar a este men",
     texto + "-" + JSON.stringify(validacion) + "-" + nombre
-  );
+  );*/
   if (!validacion.req) {
     return [];
   }
@@ -213,11 +211,11 @@ export const validacionDeEntrada = (texto, nombre) => {
     ) {
       let errorMessageDomain = "";
       if (dominio) {
-        console.log("dom1: ", dominio);
+        //console.log("dom1: ", dominio);
         errorMessageDomain = errorMessageDomain + dominio;
       }
       if (dominio2) {
-        console.log("dom2: ", dominio2);
+        //console.log("dom2: ", dominio2);
         errorMessageDomain = errorMessageDomain + " - " + dominio2;
       }
       errores.push(
@@ -253,6 +251,6 @@ export const validacionDeEntrada = (texto, nombre) => {
   }
   
   //Si paso las validaciones errores sera "[ ]" sino habra contenido
-  console.log("Validacion-> ", errores);
+  //console.log("Validacion-> ", errores);
   return errores;
 };

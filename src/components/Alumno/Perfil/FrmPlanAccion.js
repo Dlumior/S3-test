@@ -47,22 +47,22 @@ useEffect(() => {
       const endpoint = "/api/programa/alumno/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("proogramasss:", res);
+      //console.log("proogramasss:", res);
       if (res){
         if (res.programas!==[]){
           setProgramas(res.programas);
-          console.log("proograma:", programa);
+          //console.log("proograma:", programa);
         }
       }      
     }else{
       const endpoint = "/api/programa/alumno/"+props.idAlumno;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("proogramasss:", res);
+      //console.log("proogramasss:", res);
       if (res){
         if (res.programas!==[]){
           setProgramas(res.programas);
-          console.log("proograma:", programa);
+          //console.log("proograma:", programa);
         }
       }
     }
@@ -77,7 +77,7 @@ useEffect(() => {
     const endpoint = "/api/tutoria/lista/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
-    console.log("tutoria: ",res);
+    //console.log("tutoria: ",res);
     if (res){
       if (res !== []) {
         setProcesosTutoria(res.tutoria);

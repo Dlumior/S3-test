@@ -43,8 +43,8 @@ const handleDiasDisponibilidad = (e, datosForm, setDatosForm) => {
     ...datosForm,
     DIAS_DISP: Number(e.target.value),
   });
-  console.log("valuedisp",e.target.value);
-  console.log("valuedisp",datosForm.DIAS_DISP);
+  //console.log("valuedisp",e.target.value);
+  //console.log("valuedisp",datosForm.DIAS_DISP);
 
 };
 const handleDiasCancelacionCita = (e, datosForm, setDatosForm) => {
@@ -101,8 +101,8 @@ const ModificarFacultad = (props) => {
         ...
         datosForm,
       });
-      console.log("datosForm:", datosForm);
-      console.log("flag",props.flag);
+      //console.log("datosForm:", datosForm);
+      //console.log("flag",props.flag);
     }
      fetchData();
   }, {});
@@ -113,11 +113,11 @@ const ModificarFacultad = (props) => {
       const endpoint = "/api/facultad/"+facultad.ID_PROGRAMA;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("coordinadores de la facu:", res);
+      //console.log("coordinadores de la facu:", res);
       if (res.facultad){
         setCoordinadores(res.facultad.USUARIOs);
       }      
-      console.log("coord:", coordinadores);
+      //console.log("coord:", coordinadores);
     }
      fetchData();
   }, {});
@@ -139,7 +139,7 @@ const ModificarFacultad = (props) => {
       setAlerta({
         mensaje:"Existen errores al completar el formulario",
       });      
-      console.log("severidad= ",severidad.severidad);
+      //console.log("severidad= ",severidad.severidad);
       return;
     } else {
       /*
@@ -148,17 +148,17 @@ const ModificarFacultad = (props) => {
       }else{
         datosForm.INDEPENDIENTE=0;
       }*/
-      console.log("disp",datosForm.DIAS_DISP);
+      //console.log("disp",datosForm.DIAS_DISP);
       //datosForm.DIAS_DISP=parseInt(datosForm.DIAS_DISP);
       setDatosForm({
         ...datosForm
       });
-      console.log(datosForm);
+      //console.log(datosForm);
 
       const props = { servicio: "/api/facultad/modificar", request: {facultad: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
+      //console.log("saving new coord in DB:", datosForm);
       let nuevaFacu = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevaFacu);
+      //console.log("got updated coord from back:", nuevaFacu);
 
       //si se registro bien ok==1, duplicado ok===0, otro error=-1
       if (nuevaFacu){
@@ -169,7 +169,7 @@ const ModificarFacultad = (props) => {
           setAlerta({
             mensaje:"Facultad modificada satifactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
           
   
         }else{

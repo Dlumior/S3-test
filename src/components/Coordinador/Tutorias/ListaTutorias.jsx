@@ -92,18 +92,18 @@ class ListaTutorias extends Component {
     //alert("Selecciondao id: ", idAlumno);
   }
   handleEliminar(id) {
-    console.log("Eliminar a : ", id);
+    //console.log("Eliminar a : ", id);
   }
   handleEditar(id) {
-    console.log("Editar a : ", id);
+    //console.log("Editar a : ", id);
   }
   handleOnChangePrograma = async (programa) => {
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
     this.setState({ programa });
     // let tutoria = Object.assign({}, this.state.tutoria);
     // tutoria.programa = programa[0];
     // this.setState({ tutoria: tutoria });
-    // console.log("proograma:", this.state.tutoria.programa);
+    // //console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
 
     //
@@ -112,7 +112,7 @@ class ListaTutorias extends Component {
         servicio: `/api/tutoria/lista/${programa}`,
       });
       let datos = [];
-      console.log("listaTutorias.tutoria", listaTutorias);
+      //console.log("listaTutorias.tutoria", listaTutorias);
 
       if (listaTutorias.tutoria) {
         listaTutorias.tutoria.forEach((tutoria, index) => {
@@ -178,7 +178,7 @@ class ListaTutorias extends Component {
               </>
             ),
           });
-          console.log("listaTutorias.alumnos push", datos);
+          //console.log("listaTutorias.alumnos push", datos);
         });
         /*
          { title: "Nro", field: "nro" },
@@ -193,12 +193,12 @@ class ListaTutorias extends Component {
             data: datos,
           },
         });
-        console.log("=> ", this.state.datosTabla);
+        //console.log("=> ", this.state.datosTabla);
       }
     }
   };
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
     const subrol = this.getSubRol(
@@ -243,11 +243,11 @@ class ListaTutorias extends Component {
   }
   async componentDidMount() {
     // const { idPrograma } = this.props;
-    // console.log("idPrograma", this.props.prog);
+    // //console.log("idPrograma", this.props.prog);
   }
 
   renderTabla(datosNuevos) {
-    console.log("***", datosNuevos);
+    //console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (

@@ -53,7 +53,7 @@ const ItemAlumno = (props) => {
         </Grid>
       </Grid>
       <Grid item xs={2} container justify="center" alignItems="center">
-        {console.log("idyfull",props.idAlumno,props.fullname)}
+        {/*console.log("idyfull",props.idAlumno,props.fullname)*/}
         <Button color="primary" variant="outlined"
           onClick={()=>history.push("/tutor/mialumno/"+props.idAlumno+"/"+JSON.stringify(props.fullname))}
         >

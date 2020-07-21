@@ -38,21 +38,21 @@ class ListaEtiquetas extends React.Component {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
     // let listaEtiquetasSesion = await Conexion.GET({ servicio: this.props.enlace2 });
 
-    // console.log("listaEtiquetasSesion ", listaEtiquetasSesion);
+    // //console.log("listaEtiquetasSesion ", listaEtiquetasSesion);
     // let areasApoyoDerivadas = []
     // listaEtiquetasSesion.data.forEach((sesion) => {
     //   if (sesion.ID_SESION === this.props.idSesion) {
     //     sesion.AREA_APOYO_X_SESIONs.forEach((area_apoyo)=>{
-    //       console.log("area apoyo push ", area_apoyo.AREA_APOYO.CORREO, area_apoyo.AREA_APOYO.ID_AREA_APOYO, area_apoyo.AREA_APOYO.NOMBRE, area_apoyo.AREA_APOYO.TELEFONO);
+    //       //console.log("area apoyo push ", area_apoyo.AREA_APOYO.CORREO, area_apoyo.AREA_APOYO.ID_AREA_APOYO, area_apoyo.AREA_APOYO.NOMBRE, area_apoyo.AREA_APOYO.TELEFONO);
     //       areasApoyoDerivadas.push({CORREO:area_apoyo.AREA_APOYO.CORREO, ID_AREA_APOYO: area_apoyo.AREA_APOYO.ID_AREA_APOYO, NOMBRE:area_apoyo.AREA_APOYO.NOMBRE, TELEFONO:area_apoyo.AREA_APOYO.TELEFONO});
     //     });
     //   }
     // });
-    // console.log("areasApoyoDerivadas ", areasApoyoDerivadas);
+    // //console.log("areasApoyoDerivadas ", areasApoyoDerivadas);
   
     if (listaEtiquetas){
-      console.log("Tutores", listaEtiquetas);
-      console.log("enlace2 ", this.props.enlace2);
+      //console.log("Tutores", listaEtiquetas);
+      //console.log("enlace2 ", this.props.enlace2);
       await this.setState({
         etiquetas: listaEtiquetas.data,
         // etiquetasDefault: areasApoyoDerivadas,
@@ -60,8 +60,8 @@ class ListaEtiquetas extends React.Component {
     }
     
 
-    console.log("etiquetas del state", this.state.etiquetas);
-    // console.log("etiquetas default", this.state.etiquetasDefault);
+    //console.log("etiquetas del state", this.state.etiquetas);
+    // //console.log("etiquetas default", this.state.etiquetasDefault);
   }
   handle = (etiqueta, valor) => {
     let etiquetaSeleccionada = { id: etiqueta, agregar: valor };
@@ -69,7 +69,7 @@ class ListaEtiquetas extends React.Component {
     let found = false;
     let change = false;
     etiquetas.forEach((element) => {
-      //console.log("element",element);
+      ////console.log("element",element);
       if (element.id === etiquetaSeleccionada.id) {
         found = true;
         if (element.agregar !== etiquetaSeleccionada.agregar) {

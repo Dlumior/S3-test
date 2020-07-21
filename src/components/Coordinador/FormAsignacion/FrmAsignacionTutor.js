@@ -103,22 +103,22 @@ const VerticalLinearStepper = () => {
           "/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);
-        console.log("facultades:", res);
+        //console.log("facultades:", res);
         if (res){
           if (res.facultades) {
             setProgramas(res.facultades);
           }
         }        
-        console.log("facultad:", programa);
+        //console.log("facultad:", programa);
       } else {
         const endpoint = "/api/facultad/lista/" + getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);
-        console.log("ENTREE:", res);
+        //console.log("ENTREE:", res);
         if (res){
           setProgramas(res.facultades);
         }
-        console.log("facultad:", programa);
+        //console.log("facultad:", programa);
       }
     }
     fetchData();
@@ -132,7 +132,7 @@ const VerticalLinearStepper = () => {
       (tutor.length !== 0 && activeStep === 3) ||
       (alumnos.length !== 0 && activeStep === 4)
     ) {
-      console.log("activestep", activeStep);
+      //console.log("activestep", activeStep);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSeveridad({
         severidad: "",
@@ -164,11 +164,11 @@ const VerticalLinearStepper = () => {
     setActiveStep(0);
   };
   const handleOnChangePrograma = (subprograma) => {
-    console.log("subprograma: ", subprograma);
+    //console.log("subprograma: ", subprograma);
     setSubprograma(subprograma);
   };
   const handleOnChangeTutoria = (tutoria) => {
-    console.log("tutoria: ", tutoria);
+    //console.log("tutoria: ", tutoria);
 
     if (tutoria.GRUPAL === 0) {
       setGrupal(false);
@@ -178,11 +178,11 @@ const VerticalLinearStepper = () => {
     setTutoria(tutoria.ID_PROCESO_TUTORIA);
   };
   const handleOnChangeTutor = (tutor) => {
-    console.log("tutoria: ", tutor);
+    //console.log("tutoria: ", tutor);
     setTutor(tutor.ID_TUTOR);
   };
   const handleOnChangeAlumnos = (alumnos) => {
-    console.log("alumnos: ", alumnos);
+    //console.log("alumnos: ", alumnos);
     setAlumnos(alumnos);
     //setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -199,12 +199,12 @@ const VerticalLinearStepper = () => {
     };
     let asignado;
     let props;
-    console.log("grupal", grupal);
+    //console.log("grupal", grupal);
     if (grupal) {
       props = { servicio: "/api/asignacion", request: nuevaAsignacion };
-      console.log("saving new asignacion in DB:", nuevaAsignacion);
+      //console.log("saving new asignacion in DB:", nuevaAsignacion);
       asignado = await Controller.POST(props);
-      console.log("asignado", asignado);
+      //console.log("asignado", asignado);
     } else {
       let newasig;
       let alu;
@@ -219,9 +219,9 @@ const VerticalLinearStepper = () => {
             FECHA_ASIGNACION: moment(new Date()).format("YYYY-MM-DD"),
           },
         };
-        console.log("new", newasig);
+        //console.log("new", newasig);
         props = { servicio: "/api/asignacion", request: newasig }; //aqui seria la asignacion grupal
-        console.log("saving new asignacion in DB:", newasig);
+        //console.log("saving new asignacion in DB:", newasig);
         asignado = await Controller.POST(props);
       }
     }
@@ -235,7 +235,7 @@ const VerticalLinearStepper = () => {
       });
       //alert("Alumno asignado Satisfactoriamente");
     }
-    console.log("got updated alumno from back:", asignado);
+    //console.log("got updated alumno from back:", asignado);
   };
 
   /////////////////////////////////
@@ -261,9 +261,9 @@ const VerticalLinearStepper = () => {
           </div>
         );
       case 1:
-        console.log("fac: ", programa);
+        //console.log("fac: ", programa);
         let fac = programa;
-        console.log("fac: ", fac);
+        //console.log("fac: ", fac);
 
         return (
           <div>
@@ -283,7 +283,7 @@ const VerticalLinearStepper = () => {
         );
 
       case 2:
-        console.log("subprog: ", subprograma);
+        //console.log("subprog: ", subprograma);
         return (
           <div>
             <ListaProcesoTut
@@ -296,7 +296,7 @@ const VerticalLinearStepper = () => {
           </div>
         );
       case 3:
-        console.log("tutoria: ", tutoria);
+        //console.log("tutoria: ", tutoria);
         return (
           <div>
             <ListaTutores
@@ -307,7 +307,7 @@ const VerticalLinearStepper = () => {
           </div>
         );
       case 4:
-        console.log("tutor: ", tutor);
+        //console.log("tutor: ", tutor);
         return (
           <div>
             <Grid

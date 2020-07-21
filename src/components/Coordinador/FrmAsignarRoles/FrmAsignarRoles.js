@@ -65,27 +65,27 @@ const style = {
 
 useEffect(() => {
     async function fetchData() {
-        console.log("cpp",getUser().rol );
+        //console.log("cpp",getUser().rol );
       if(getUser().rol === "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("facultades:", res);
+        //console.log("facultades:", res);
         if (res){
             setFacultades(res.facultades);
             setEsCoordFacu(true);
         }
-        console.log("facultad:", facultades);
+        //console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("ENTREE:", res);
+        //console.log("ENTREE:", res);
         if (res){
             setFacultades(res.facultades);
             setEsCoordFacu(false);
         }
-        console.log("facultades:", facultades);
+        //console.log("facultades:", facultades);
       }
     }
      fetchData();
@@ -98,20 +98,20 @@ useEffect(() => {
                 const endpoint = "/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+facultad;
                 const params = { servicio: endpoint };
                 const res = await GET(params);    
-                console.log("proogramasss:", res);
+                //console.log("proogramasss:", res);
                 if (res){
                     setProgramas(res.programas);
                 }
-                console.log("proograma:", programa);
+                //console.log("proograma:", programa);
             }else{
                 const endpoint = "/api/programa/lista/"+facultad;
                 const params = { servicio: endpoint };
                 const res = await GET(params);    
-                console.log("proogramasss:", res);
+                //console.log("proogramasss:", res);
                 if (res){
                     setProgramas(res.programa);
                 }
-                console.log("proograma:", programa);
+                //console.log("proograma:", programa);
             }
         }     
         if (facultad!=""){
@@ -124,22 +124,22 @@ useEffect(() => {
         const endpoint = "/api/usuario/rol/"+datosForm.idUsuario+"/"+programa;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("roles:", res);
+        //console.log("roles:", res);
         if (res){
             let arrRoles=[];
             for (let element of res.roles){
                 arrRoles.push(element.ROL.ID_ROL);
             }
-            console.log("arrRoles: ",arrRoles);
+            //console.log("arrRoles: ",arrRoles);
             datosForm.roles=arrRoles;
             setRoles(res.roles);
-            console.log("roles",roles);
-            console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
+            //console.log("roles",roles);
+            //console.log("datosForm.usuarioCodigo",datosForm.usuarioCodigo);
             if (datosForm.usuarioCodigo!==0){
                 setDeshabilitar(false);
             }
         }
-        console.log("roles:", datosForm.roles);
+        //console.log("roles:", datosForm.roles);
         }
         if (programa!=""){
         fetchData();
@@ -151,7 +151,7 @@ useEffect(() => {
         const endpoint = "/api/usuario/buscar/"+cod;
         const params = { servicio: endpoint };
         const res = await GET(params);
-        console.log("res",res);
+        //console.log("res",res);
         if (res){
             if (res.usuario===null){
                 setSeveridad({
@@ -160,7 +160,7 @@ useEffect(() => {
                   setAlerta({
                     mensaje:"No existe ningún usuario con ese código",
                   }); 
-                  console.log("severidad= ",severidad.severidad);
+                  //console.log("severidad= ",severidad.severidad);
     
             }else{
                 setDatosForm({
@@ -174,7 +174,7 @@ useEffect(() => {
     }
 
     const handleName = (e) => {
-        console.log("cod",e.target.value);
+        //console.log("cod",e.target.value);
         setDatosForm({
           ...datosForm,
           usuarioCodigo: e.target.value,
@@ -200,12 +200,12 @@ useEffect(() => {
                         ID_PROGRAMA: programa,
                     },
                     };
-                    console.log("lo que va:", nuevaAsignacion);
+                    //console.log("lo que va:", nuevaAsignacion);
             
                     const props = { servicio: "/api/usuario/asignarrol", request: nuevaAsignacion };
-                    console.log("saving new asignacion in DB:", nuevaAsignacion);
+                    //console.log("saving new asignacion in DB:", nuevaAsignacion);
                     let asignado = await Controller.POST(props);
-                    console.log("asignado",asignado);
+                    //console.log("asignado",asignado);
                     if (asignado) {
                           setSeveridad({
                             severidad:"success",
@@ -214,7 +214,7 @@ useEffect(() => {
                             mensaje:"Los roles se han registrado satisfactoriamente",
                           }); 
                     }
-                    console.log("got updated alumno from back:", asignado);
+                    //console.log("got updated alumno from back:", asignado);
             }
 
     }

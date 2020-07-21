@@ -23,9 +23,9 @@ const ComboBoxFacus = (props) => {
 
 
   const handleChangeFacu = (event) => {
-      console.log("facCombo= ",facultad);
+      //console.log("facCombo= ",facultad);
       setFacultad(event.target.value); 
-      console.log("facultad",event.target.value);   
+      //console.log("facultad",event.target.value);   
   };
 
   return (

@@ -70,7 +70,7 @@ class Controles extends Component {
     }
   }
   obtenerSeleccion = async (seleccion) => {
-    console.log("seleccion", seleccion);
+    //console.log("seleccion", seleccion);
     await this.setState({
       servicioTutoriaActual:
         seleccion.value === "Tutorias del Programa"
@@ -78,15 +78,15 @@ class Controles extends Component {
           : this.getServicioTutoriaActual(1),
     });
 
-    console.log("obtenerSeleccion => ", this.state.servicioTutoriaActual);
+    //console.log("obtenerSeleccion => ", this.state.servicioTutoriaActual);
   };
 
   async componentDidMount() {
     const myid = getUser().usuario.ID_USUARIO;
-    console.log("USSSSSEEERRRR: ", myid);
+    //console.log("USSSSSEEERRRR: ", myid);
   }
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
-    //console.log( "1 semana al pasado");
+    ////console.log( "1 semana al pasado");
     this.props.saltoEnElTiempo(saltoEnElTiempo);
   };
   /**
@@ -96,7 +96,7 @@ class Controles extends Component {
   handleOnChangeTutores = (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
+    ////console.log("LLegue: ", etiqueta);
     const listaEtiquetas = [];
     etiqueta.forEach((element) => {
       if (element.agregar) {
@@ -105,7 +105,7 @@ class Controles extends Component {
     });
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
-    console.log("Seteado: ", this.state.etiqueta);
+    //console.log("Seteado: ", this.state.etiqueta);
     this.props.handleFiltroTutores(listaEtiquetas);
   };
   /**
@@ -113,13 +113,13 @@ class Controles extends Component {
    * @param {Array} proceso
    */
   handleOnChangeTutoria = (tutoria) => {
-    console.log(
+    /*console.log(
       "proceso seleccionado this.state.servicioTutoriaActual.includes(tutoriaasignada): ",
       this.state.servicioTutoriaActual.includes("tutoriaasignada")
-    );
+    );*/
     //aqui se o mando al componente padre
 
-    console.log("escogerITEM => ", tutoria);
+    //console.log("escogerITEM => ", tutoria);
 
     if (this.props.filtroProceso) {
       if (this.state.servicioTutoriaActual.includes("tutoriaasignada")) {
@@ -152,7 +152,7 @@ class Controles extends Component {
     this.setState({ vistaLista: "Lista" });
   }
   renderTutoria(enlace) {
-    console.log("Cambiar Enlace", enlace);
+    //console.log("Cambiar Enlace", enlace);
     return (
       <ListaComboBox
         allObject={
@@ -174,7 +174,7 @@ class Controles extends Component {
     );
   }
   render() {
-    console.log("PROPS controls.js", this.props);
+    //console.log("PROPS controls.js", this.props);
     
     return (
       <Paper style={styles.paper}>

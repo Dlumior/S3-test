@@ -39,10 +39,10 @@ const style = {
   };
     
 const PlanDeAccion = (props) => {
-    console.log("PLAN DE ACCION: ", props);
+    //console.log("PLAN DE ACCION: ", props);
     const { plan, setPlan } = props;
-    console.log("plantest", plan);
-    console.log("CANT COMPROMISOS: ", plan.length);
+    //console.log("plantest", plan);
+    //console.log("CANT COMPROMISOS: ", plan.length);
     const [cantCompromisos, setCantCompromisos]=useState(1);
     const [compromiso,setCompromiso]=useState({
         indice:0,
@@ -52,13 +52,13 @@ const PlanDeAccion = (props) => {
     
     const handleCompromiso = (e,cantCom) => {
       for (let i=0; i<100; i++) {
-        console.log("BABA: ", document.getElementById(i));
+        //console.log("BABA: ", document.getElementById(i));
         if (document.getElementById(i) === null) {
           break;
         }
         document.getElementById(i).value = e.target.value.substring(0,50);
       }
-      console.log("comp",e.target.value);
+      //console.log("comp",e.target.value);
       setCompromiso({
         ...compromiso,
         indice:cantCom,
@@ -69,8 +69,8 @@ const PlanDeAccion = (props) => {
           plan[cantCom].campo=e.target.value;
         }
       }
-      console.log("a ver: ",plan)
-      console.log("cantComp: ",cantCom)
+      //console.log("a ver: ",plan)
+      //console.log("cantComp: ",cantCom)
     }; 
 
     const handleCantCompromisos = (func) => {
@@ -78,11 +78,11 @@ const PlanDeAccion = (props) => {
           if (func>cantCompromisos){
             setCantCompromisos(cantCompromisos => func);
             plan.push(compromiso);
-            console.log("plan",plan);
+            //console.log("plan",plan);
           }else{
             setCantCompromisos(cantCompromisos => func);
             plan.splice(-1);
-            console.log("plan",plan);
+            //console.log("plan",plan);
           }
           
         }else{
@@ -92,8 +92,8 @@ const PlanDeAccion = (props) => {
   
   const  keyPress = (e) =>{
       if(e.keyCode === 13 && compromiso.indice==cantCompromisos-1){
-        console.log("entra?",plan);
-        console.log("entra?",cantCompromisos);
+        //console.log("entra?",plan);
+        //console.log("entra?",cantCompromisos);
 
         //setCantCompromisos(cantCompromisos => cantCompromisos+1)
         handleCantCompromisos(cantCompromisos+1)
@@ -102,7 +102,7 @@ const PlanDeAccion = (props) => {
       }
    }
     const renderCompromisos = (plan) => {
-        console.log("cant=",cantCompromisos);
+        //console.log("cant=",cantCompromisos);
         let n=cantCompromisos;
         let arregloPlan=[];
         for (let i=0;i<n;i++){

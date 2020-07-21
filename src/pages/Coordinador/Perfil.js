@@ -34,13 +34,13 @@ const Perfil = (props) => {
       request: { usuario: datos },
     };
 
-    console.log("Saving new info in DB:", datos);
+    //console.log("Saving new info in DB:", datos);
     let edited = await POST(sendData);
     if (edited !== null) {
-      console.log("Got updated user from back:", edited);
+      //console.log("Got updated user from back:", edited);
       alert("Se guardaron los cambios correctamente");
     } else {
-      console.log("Hubo un error");
+      //console.log("Hubo un error");
     }
   };
 

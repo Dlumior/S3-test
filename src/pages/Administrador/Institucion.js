@@ -25,7 +25,7 @@ const Institucion = (props) => {
   useEffect(() => {
     async function fetchData() {
       const endpoint = "/api/institucion/";
-      console.log(endpoint);
+      //console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
       if (res!=null){
@@ -37,14 +37,14 @@ const Institucion = (props) => {
           institucion.institucion.UBICACION=res.institucion.NOMBRE;
           institucion.institucion.EXTENSION=res.institucion.EXTENSION;
     
-          console.log("res.inst",res.institucion);
+          //console.log("res.inst",res.institucion);
           setInstitucion({
             ...institucion,
           });
           
-          console.log(institucion);
+          //console.log(institucion);
         }
-        console.log("inst",institucion);
+        //console.log("inst",institucion);
         if (institucion !== "") {
           fetchData();
         }

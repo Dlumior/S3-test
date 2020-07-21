@@ -109,7 +109,7 @@ class FormularioRegistrarAlumno extends Component {
   }
   async handleOnClick(e) {
     e.preventDefault();
-    console.log("alumno: ", this.state.alumno);
+    //console.log("alumno: ", this.state.alumno);
     let {
       nombres,
       apellidos,
@@ -133,12 +133,12 @@ class FormularioRegistrarAlumno extends Component {
       },
     };
     const props = { servicio: "/api/alumno", request: nuevoEstudiante };
-    console.log("saving new student in DB:", nuevoEstudiante);
+    //console.log("saving new student in DB:", nuevoEstudiante);
     let nuevoAlumno = await Controller.POST(props);
     if (nuevoAlumno) {
       alert("Alumno registrado Satisfactoriamente");
     }
-    console.log("got updated alumno from back:", nuevoAlumno);
+    //console.log("got updated alumno from back:", nuevoAlumno);
   }
   handleOnChange = (e) => {
     let alumno = Object.assign({}, this.state.alumno);
@@ -153,7 +153,7 @@ class FormularioRegistrarAlumno extends Component {
     /*    if (this.state.validacion[e.target.name].regex !== undefined) {
       const str = e.target.value;
       var result = str.match(this.state.validacion[e.target.name].regex);
-      console.log("result", result);
+      //console.log("result", result);
       return;
     }
 */
@@ -167,9 +167,9 @@ class FormularioRegistrarAlumno extends Component {
     //para cuando funcione la pestaña de importar alumnos
   };
   handleOnChangePrograma(programa) {
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
     this.state.alumno.programa = programa;
-    console.log("proograma:", this.state.alumno.programa);
+    //console.log("proograma:", this.state.alumno.programa);
   }
   componentDidMount() {}
   render() {

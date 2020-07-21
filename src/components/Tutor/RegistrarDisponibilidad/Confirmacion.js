@@ -25,8 +25,8 @@ class Confirmacion extends Component{
       let nuevo = await Conexion.POST(props);
       if(nuevo){
         if(!nuevo.hasOwnProperty('error')){
-          console.log("DISP", this.props.datos.idDisponibilidad)
-          console.log("Respuesta", nuevo);  
+          //console.log("DISP", this.props.datos.idDisponibilidad)
+          //console.log("Respuesta", nuevo);  
           this.props.actualizarBandera(); 
           this.props.actualizarMensaje();
         }

@@ -23,16 +23,16 @@ const EliminarAlumno = (props) => {
 
   const handleClick = async (e) => {    
             //FACULTAD ELIMINAR 
-      console.log("idFacu",id);
+      //console.log("idFacu",id);
       let enlace;
       enlace="/api/alumno/eliminar/"+id;
       const props = { servicio: enlace };
       let resultado = await Conexion.POST(props);
-      console.log("got updated coord from back:", resultado);
+      //console.log("got updated coord from back:", resultado);
       if (resultado){
         if (resultado.status!=="success"){
           setElimino(false);
-          console.log("elimino",elimino);    
+          //console.log("elimino",elimino);    
           setAlerta({
             mensaje:"El alumno no puede eliminarse porque cuenta con sesiones pendientes",
           }); 
@@ -47,7 +47,7 @@ const EliminarAlumno = (props) => {
       const newValue = flag + 1;
       setFlag(newValue);
       await parentCallback(newValue);
-      console.log("elimino",elimino);
+      //console.log("elimino",elimino);
   };
 
 
@@ -66,7 +66,7 @@ const EliminarAlumno = (props) => {
         </DialogTitle>
         <DialogContent>
             <Grid container md={12} justify="center">
-              {console.log("alerta",alerta.mensaje)}
+              {/*console.log("alerta",alerta.mensaje)*/}
               {!elimino && 
                 <Typography variant="subtitle1" >
                   {alerta.mensaje}

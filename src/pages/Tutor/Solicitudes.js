@@ -65,7 +65,7 @@ const Solicitudes = () => {
   useEffect(() => {
     async function fetchData() {
       const endpoint = "/api/solicitud/" + idTutor + "/" + procesoTutoria;
-      console.log(endpoint);
+      //console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
       if (res !== []) {

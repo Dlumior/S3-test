@@ -96,10 +96,10 @@ class ListaProgramas extends React.Component {
   async componentDidUpdate(prevProps,nextState){
     if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag 
       || nextState.flag !== this.state.flag){
-      console.log("idFacu: ",this.props.idFacu);
+      //console.log("idFacu: ",this.props.idFacu);
       let arregloProg=await Controller.GET({servicio:"/api/programa/lista/"+this.props.idFacu});
       if (arregloProg){
-        console.log("arreglo: ",arregloProg);
+        //console.log("arreglo: ",arregloProg);
         this.establecerData(arregloProg);
       }
 
@@ -107,10 +107,10 @@ class ListaProgramas extends React.Component {
   }
   async componentDidMount(){
     let idCoord=getUser().usuario.ID_USUARIO;
-    console.log("idFacu: ",this.props.idFacu);
+    //console.log("idFacu: ",this.props.idFacu);
     let arregloProg=await Controller.GET({servicio:"/api/programa/coordinador/"+idCoord});
     if (arregloProg){
-      console.log("arreglo: ",arregloProg);
+      //console.log("arreglo: ",arregloProg);
       this.establecerData(arregloProg);
     }
   
@@ -118,7 +118,7 @@ class ListaProgramas extends React.Component {
 
 handleOnOpen= (programa) =>{
   this.setState({ open: true });
-  console.log("coordinadores del programa",programa);
+  //console.log("coordinadores del programa",programa);
   this.state.programaConCoord=programa;
 } 
 handleOnOpenEliminar= (programa) =>{
@@ -135,7 +135,7 @@ handleOnClose() {
 callback = (count) => {
   // do something with value in parent component, like save to state
   let i= this.state.flag +1;
-  console.log("veamos: ",i);
+  //console.log("veamos: ",i);
   this.setState({flag:i});
 }
 

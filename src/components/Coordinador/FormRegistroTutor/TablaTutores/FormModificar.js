@@ -138,7 +138,7 @@ const FormModificar = (props) => {
       (item) => item.ID_PROGRAMA
     ),
   });
-  console.log(props.datos);
+  //console.log(props.datos);
   const [errors, setErrors] = useState(errorObj);
 
   const [facultades, setFacultades] = useState([]);
@@ -166,11 +166,11 @@ const FormModificar = (props) => {
   useEffect(() => {
     async function fetchTutores() {
       let institucion = await Controller.GET({ servicio: "/api/institucion" });
-      console.log("RegistrarTutor institucion: ", institucion);
+      //console.log("RegistrarTutor institucion: ", institucion);
       setDominio1(institucion.institucion.DOMINIO);
       setDominio2(institucion.institucion.DOMINIO2);
-      console.log("RegistrarTutor dominio1: ", dominio1);
-      console.log("RegistrarTutor dominio2: ", dominio2);
+      //console.log("RegistrarTutor dominio1: ", dominio1);
+      //console.log("RegistrarTutor dominio2: ", dominio2);
     }
 
     fetchTutores();
@@ -185,11 +185,11 @@ const FormModificar = (props) => {
       } else if (rolCoordinador === 2) {
         endpoint = "/api/facultad/lista/" + idCoordinador;
       }
-      console.log("endpoint: " + endpoint);
+      //console.log("endpoint: " + endpoint);
 
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
-      console.log(res);
+      //console.log(res);
       if (res){
         setFacultades(res.facultades);
       }      
@@ -209,22 +209,22 @@ const FormModificar = (props) => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
 
-      console.log("enpoint programa: " + endpoint);
-      console.log("res de programas: ");
-      console.log("=========");
-      console.log(res);
-      console.log("=========");
+      //console.log("enpoint programa: " + endpoint);
+      //console.log("res de programas: ");
+      //console.log("=========");
+      //console.log(res);
+      //console.log("=========");
 
       if (res !== null) {
         if (rolCoordinador === 6) {
-          console.log("asignando programa");
-          console.log(res);
+          //console.log("asignando programa");
+          //console.log(res);
           if (res){
             setProgramas(res.programa);
           }          
         } else if (rolCoordinador === 2) {
-          console.log("asignando programas");
-          console.log(res);
+          //console.log("asignando programas");
+          //console.log(res);
           if (res){
             setProgramas(res.programas);
           }
@@ -257,23 +257,23 @@ const FormModificar = (props) => {
       //     // CONTRASENHA: "contra",
       //     PROGRAMA: datos.PROGRAMA.push(programa),
       //   });
-      //   console.log(datos);
+      //   //console.log(datos);
 
       const sendData = {
         servicio: "/api/tutor/modificar",
         request: { tutor: datos },
       };
-      console.log("Saving new tutor in DB:", sendData);
+      //console.log("Saving new tutor in DB:", sendData);
       let nuevoTutor = await Controller.POST(sendData);
       if (nuevoTutor !== null || nuevoTutor.error === "") {
-        console.log("Got updated tutor from back:", nuevoTutor);
+        //console.log("Got updated tutor from back:", nuevoTutor);
         // alert("Se creó correctamente el tutor");
         setSeveridad("success");
         setAlerta({
           mensaje: "Se modificó correctamente el tutor",
         });
       } else {
-        console.log("Got updated tutor from back:", nuevoTutor);
+        //console.log("Got updated tutor from back:", nuevoTutor);
         // alert("Se creó correctamente el tutor");
         setSeveridad("warning");
         setAlerta({

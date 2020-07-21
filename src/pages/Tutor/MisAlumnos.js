@@ -74,10 +74,10 @@ const MisAlumnos = (props) => {
         procesoTutoria +
         "/" +
         texto;
-      console.log(endpoint);
+      //console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
-      // console.log(res.alumnos);
+      // //console.log(res.alumnos);
       if (res !== [] && res.alumnos[0] !== undefined) {
         setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
       } else {
@@ -97,7 +97,7 @@ const MisAlumnos = (props) => {
         getUser().usuario.ID_USUARIO +
         "/" +
         procesoTutoria;
-      console.log(endpoint);
+      //console.log(endpoint);
       const params = { servicio: endpoint };
       const res = await GET(params);
       if (res !== [] && res.alumnos[0] !== undefined) {

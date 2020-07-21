@@ -50,7 +50,7 @@ class ControlesTutoriaFija extends Component {
     this.handleOnChangeProceso = this.handleOnChangeProceso.bind(this);
   }
   saltoEnElTiempoLocal = (saltoEnElTiempo) => {
-    //console.log( "1 semana al pasado");
+    ////console.log( "1 semana al pasado");
     this.props.saltoEnElTiempo(saltoEnElTiempo);
   };
   /**
@@ -60,7 +60,7 @@ class ControlesTutoriaFija extends Component {
   handleOnChangeTutores = (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
+    ////console.log("LLegue: ", etiqueta);
     const listaEtiquetas = [];
     etiqueta.forEach((element) => {
       if (element.agregar) {
@@ -69,7 +69,7 @@ class ControlesTutoriaFija extends Component {
     });
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
-    console.log("Seteado: ", this.state.etiqueta);
+    //console.log("Seteado: ", this.state.etiqueta);
     this.props.handleFiltroTutores(listaEtiquetas);
   };
   /**
@@ -77,7 +77,7 @@ class ControlesTutoriaFija extends Component {
    * @param {Array} proceso
    */
   handleOnChangeProceso(proceso) {
-    console.log("proceso seleccionado: ", proceso);
+    //console.log("proceso seleccionado: ", proceso);
     //aqui se o mando al componente padre
     this.props.handleFiltroProceso(proceso[0]);
   }

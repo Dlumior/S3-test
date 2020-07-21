@@ -15,7 +15,7 @@ const handleClick = () => {
   let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
   sessionStorage.Sesion = JSON.stringify(usuario);
-  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
+  //console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
 };
 */
 const DatosGenerales = (props) => {
@@ -25,16 +25,16 @@ const DatosGenerales = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("roll",getUser().rol);
+      //console.log("roll",getUser().rol);
         if (getUser().rol ==="Tutor"){
             const endpoint = "/api/alumno/"+props.idAlumno;
             const params = { servicio: endpoint };
             const res = await GET(params);    
-            console.log("alumno:", res);
+            //console.log("alumno:", res);
             if (res){
               setAlumno(res.alumno);
             }            
-            console.log("alumno:", alumno);
+            //console.log("alumno:", alumno);
         }
     }     
         fetchData();
@@ -61,13 +61,13 @@ const DatosGenerales = (props) => {
       request: { usuario: datos },
     };
 
-    console.log("Saving new info in DB:", datos);
+    //console.log("Saving new info in DB:", datos);
     let edited = await POST(sendData);
     if (edited !== null) {
-      console.log("Got updated user from back:", edited);
+      //console.log("Got updated user from back:", edited);
       alert("Se guardaron los cambios correctamente");
     } else {
-      console.log("Hubo un error");
+      //console.log("Hubo un error");
     }
   };
 

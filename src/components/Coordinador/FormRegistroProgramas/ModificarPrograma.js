@@ -83,38 +83,38 @@ const  ModificarPrograma = (props) => {
   /*/facultades por coordinador
   useEffect(() => {
     async function fetchData() {
-      console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+      //console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
       const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("facultades:", res);
+      //console.log("facultades:", res);
       setFacultades(res.facultades);
-      console.log("facultades:", facultades);
+      //console.log("facultades:", facultades);
     }
      fetchData();
   }, {});*/
 
   useEffect(() => {
     async function fetchData() {
-        console.log("cpp",getUser().rol );
+        //console.log("cpp",getUser().rol );
       if(getUser().rol === "Coordinador Facultad"){
         const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("facultades:", res);
+        //console.log("facultades:", res);
         if (res){
           setFacultades(res.facultades);
         }        
-        console.log("facultad:", facultades);
+        //console.log("facultad:", facultades);
       }else{
         const endpoint = "/api/facultad/lista/"+getUser().usuario.ID_USUARIO;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("ENTREE:", res);
+        //console.log("ENTREE:", res);
         if (res){
           setFacultades(res.facultades);
         }        
-        console.log("facultades:", facultades);
+        //console.log("facultades:", facultades);
       }
     }
      fetchData();
@@ -132,7 +132,7 @@ const  ModificarPrograma = (props) => {
         ...
         datosForm,
       });
-      console.log("datosForm:", datosForm);
+      //console.log("datosForm:", datosForm);
     }
      fetchData();
   }, {});
@@ -151,21 +151,21 @@ const  ModificarPrograma = (props) => {
       setAlerta({
         mensaje:alerta.mensajeError,
       });      
-      console.log("severidad= ",severidad.severidad);
+      //console.log("severidad= ",severidad.severidad);
 
       return;
     } else {
-      console.log("id_facu",facultad);
+      //console.log("id_facu",facultad);
       datosForm.ID_FACULTAD=facultad!==""? facultad:programa.ID_FACULTAD;
       setDatosForm({
         ...datosForm,
       });
-      console.log(datosForm);
+      //console.log(datosForm);
 
       const props = { servicio: "/api/programa/modificar", request: {programa: datosForm} };
-      console.log("saving new prog in DB:",  datosForm);
+      //console.log("saving new prog in DB:",  datosForm);
       let nuevoProg = await Conexion.POST(props);
-      console.log("got updated prog from back:", nuevoProg);
+      //console.log("got updated prog from back:", nuevoProg);
      if (nuevoProg){
       if (nuevoProg.modificacion.ok===1){ 
           setSeveridad({
@@ -174,7 +174,7 @@ const  ModificarPrograma = (props) => {
           setAlerta({
             mensaje:"Programa Modificado Satisfactoriamente",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
           //setOpen(false);        
       
       }else{
@@ -184,7 +184,7 @@ const  ModificarPrograma = (props) => {
         setAlerta({
           mensaje:"El programa ya existe",
         });      
-        console.log("severidad= ",severidad.severidad);      
+        //console.log("severidad= ",severidad.severidad);      
       }
     }
     const newValue = flag + 1;
@@ -241,7 +241,7 @@ const  ModificarPrograma = (props) => {
                 /> 
               </Grid>
               <Grid>
-                {console.log(datosForm.COORDINADORES)}
+                {/*console.log(datosForm.COORDINADORES)*/}
                 {datosForm.COORDINADORES!==undefined &&
                 <List>
                 <Grid item style={{marginLeft:"2%"}}>

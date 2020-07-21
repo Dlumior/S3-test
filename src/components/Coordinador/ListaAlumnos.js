@@ -39,7 +39,7 @@ class ListaAlumnos extends React.Component {
   async componentDidMount(){
     let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/"});
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});    
-    console.log("arreglo: ",arregloDeAlumnos);
+    //console.log("arreglo: ",arregloDeAlumnos);
 
     let arreglillo = [];
     for (let element of arregloDeAlumnos.alumnos){
@@ -84,14 +84,14 @@ class ListaAlumnos extends React.Component {
 
 async handleOnChangeChecked(e) {
   let idA=e.target.value;
-  console.log("idAlumo",idA);
+  //console.log("idAlumo",idA);
   
   const cb = document.getElementById(e.target.value)
 
   if (this.state.alumnosSeleccionados.length!==0){     
     if (cb.checked===false){
       var i = this.state.alumnosSeleccionados.findIndex(v => v === idA)
-      console.log("i=",i);
+      //console.log("i=",i);
       if ( i !== -1 ) {
         this.state.alumnosSeleccionados.splice(i,1);
       }      
@@ -103,7 +103,7 @@ async handleOnChangeChecked(e) {
   }else if (cb.checked===true){
     this.state.alumnosSeleccionados.push(idA);
   }
-  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  //console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 
 }
@@ -138,7 +138,7 @@ handleOnChangeChecked() {
 /*
 escogerAlumnos(idAlumno) {
   
-  console.log("idAlumo",idAlumno);
+  //console.log("idAlumo",idAlumno);
   var idA=checkbox.getElementById(idAlumno);
   if (idA.checked===true){
     this.state.alumnosSeleccionados.push({id:idAlumno});  

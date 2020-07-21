@@ -95,7 +95,7 @@ const BarraNavegacion = (props) => {
   const [{ usuario }, dispatch] = useUserValue();
   const handleClick = () => {
     //te odio hooks
-    console.log("Admin LOG OUTTTTT", props);
+    //console.log("Admin LOG OUTTTTT", props);
     logOut(dispatch);
   };
   const handleDrawerOpen = () => {

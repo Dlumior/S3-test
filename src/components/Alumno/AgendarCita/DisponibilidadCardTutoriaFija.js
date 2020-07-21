@@ -39,7 +39,7 @@ class DisponibilidadCardTutoriaFija extends Component {
     this.setState({ open: true });
   }
   handleOnClose() {
-    //console.log("ctm",this.state.openSolicitarTutor);
+    ////console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
   }
 

@@ -86,7 +86,7 @@ class VerInformacionRelevante extends Component {
     this.setState({ descripcion: e.value });
   };
   renderTabla(datosNuevos) {
-    console.log("***", datosNuevos);
+    //console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
@@ -117,8 +117,8 @@ class VerInformacionRelevante extends Component {
       filename: archivoOutput.informacionRelevante.DESCRIPCION,
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],
     });
-    console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
-    console.log("KAMEEEEE: ", this.state.extension);
+    //console.log("KAMEEEEE: ", archivoOutput.informacionRelevante.ARCHIVO);
+    //console.log("KAMEEEEE: ", this.state.extension);
     return this.state.extension === "pdf"
       ? `data:application/pdf;base64,${archivoOutput.informacionRelevante.ARCHIVO}`
       : (`data:application/octet-stream;base64,${archivoOutput.informacionRelevante.ARCHIVO}`)
@@ -128,8 +128,8 @@ class VerInformacionRelevante extends Component {
   async handleVistaPrevia(e, id_archivo) {
     const { archivo,idArchivo } = this.state;
     if (archivo) {
-      console.log("ARCH: ", idArchivo);
-      console.log("ARCH: ", id_archivo);
+      //console.log("ARCH: ", idArchivo);
+      //console.log("ARCH: ", id_archivo);
       if (idArchivo !== id_archivo) {
         // si hay archivo i los id son dif,pide al back y muestra
         this.setState({ archivo: undefined });
@@ -244,11 +244,11 @@ class VerInformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    console.log("JUpload SSJ length: ", {
+    /*console.log("JUpload SSJ length: ", {
       archivo: file ? true : false,
       fileName: fileName,
       ext: ext,
-    });
+    });*/
     const tamanio = file.length;
 
     await this.setState({
@@ -279,7 +279,7 @@ class VerInformacionRelevante extends Component {
         });
 
         if (!response) {
-          console.log("Algo paso en el upload");
+          //console.log("Algo paso en el upload");
           let mensaje = this.state.mensajesResultado;
           mensaje.push(
             <>

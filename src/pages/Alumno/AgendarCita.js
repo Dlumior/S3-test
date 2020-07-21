@@ -69,7 +69,7 @@ class AgendarCita extends Component {
   }
 
   handleOnChangeProceso(proceso) {
-    // console.log("proceso seleccionado: ", proceso);
+    // //console.log("proceso seleccionado: ", proceso);
     // //aqui se o mando al componente padre
     // if (this.props.filtroProceso) {
     //   this.props.handleFiltroProceso(proceso[0]);
@@ -77,12 +77,12 @@ class AgendarCita extends Component {
   }
 
   obtenerPrograma(_programa) {
-    console.log("xd", _programa);
+    //console.log("xd", _programa);
     this.setState({ programa: _programa });
   }
 
   async renderxTipoProceso(idPrograma) {
-    console.log("XDD,", idPrograma);
+    //console.log("XDD,", idPrograma);
     return (
       <div>
         <TabProceso
@@ -114,7 +114,7 @@ class AgendarCita extends Component {
     );
   }
   render() {
-    console.log("AGENDAR_CITA XXXXXXXX", this.props);
+    //console.log("AGENDAR_CITA XXXXXXXX", this.props);
 
     return (
       <>

@@ -39,7 +39,7 @@ const items = ()=>{
       roles.push(item)
     }
   }
-  console.log("roles: ",roles)
+  //console.log("roles: ",roles)
   return Array.from(new Set(roles));
 }
 
@@ -50,7 +50,7 @@ const handleOnChangeRol =async (e) =>{
   sessionStorage.Sesion = JSON.stringify(
     usuarioLogueado
   );
-  console.log("Nuevo rol: ", getUser().rol)
+  //console.log("Nuevo rol: ", getUser().rol)
   window.location.reload(false);
   
 }
@@ -63,7 +63,7 @@ const CabeceraPerfil = (props) => {
       <Container maxWidth="xl" className={classes.customContainer}>
         <Grid container>
           <Grid item xs={2} container justify="center" alignItems="center">
-            {console.log("holisnombre",props.nombre.replace(/["]+/g,''))}
+            {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))}
             {getUser().rol==="Administrador" ? 
               <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />:
               <Avatar
@@ -87,7 +87,7 @@ const CabeceraPerfil = (props) => {
             {/* <Typography variant="h6">{props.titulo}</Typography> */}
             <InputLabel id="demo-simple-select-placeholder-label-label">
         </InputLabel>
-        {console.log("alumnodesdetutor",props.alumnodesdetutor)}
+        {/*console.log("alumnodesdetutor",props.alumnodesdetutor)*/}
         {!props.alumnodesdetutor &&
         <Select
           labelId="demo-simple-select-placeholder-label-label"

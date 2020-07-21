@@ -51,7 +51,7 @@ class CalendarioCitasTutoriaFija extends Component {
         lunesActual.setDate(lunesActual.getDate() + salto)
       ),
     });
-    console.log("salto actual: ", this.state.lunesActual);
+    //console.log("salto actual: ", this.state.lunesActual);
   }
 
   actualizarVisibilidadColumnas(visibilidad){
@@ -74,7 +74,7 @@ class CalendarioCitasTutoriaFija extends Component {
     if (!lunesActual) return;
     let fechaInicial = new Date(lunesActual);
 
-    console.log("CAlendarGAAAAbyy xxx ", lunesActual);
+    //console.log("CAlendarGAAAAbyy xxx ", lunesActual);
 
     let fechasDias = [];
     for (let i = 0; i < 6; i++) {
@@ -84,10 +84,10 @@ class CalendarioCitasTutoriaFija extends Component {
 
     return (
       <>
-        {console.log("ANTES DIA SEMANA xxx ", fechasDias)}
+        {/*console.log("ANTES DIA SEMANA xxx ", fechasDias)*/}
         {fechasDias.map((diaSemana) => (
           <Grid item md={2} xs={2}>
-            {console.log("DIA_SEMANA xxx ", diaSemana)}
+            {/*console.log("DIA_SEMANA xxx ", diaSemana)*/}
             <HorarioDelDiaTutoriaFija
               fecha={{
                 fecha: diaSemana,
@@ -117,7 +117,7 @@ class CalendarioCitasTutoriaFija extends Component {
       },
     });
 
-    console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
+    //console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
 
     this.setState({
       lunesActual: new Date(
@@ -138,7 +138,7 @@ class CalendarioCitasTutoriaFija extends Component {
 
   //_tutor : es un objeto con id y nombre
   handleFiltroTutor(_tutor) {
-    console.log("R2D2 ", _tutor);
+    //console.log("R2D2 ", _tutor);
     this.setState({ estadoTitulo: _tutor.nombre });
     //ahora vamos a seterar id
     this.setState({ estadoID: _tutor.id });
@@ -146,7 +146,7 @@ class CalendarioCitasTutoriaFija extends Component {
   }
 
   handleFiltroProceso(idProceso) {
-    console.log("idProceso seleccionado: ", idProceso);
+    //console.log("idProceso seleccionado: ", idProceso);
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.....
@@ -154,7 +154,7 @@ class CalendarioCitasTutoriaFija extends Component {
   }
 
   handleFiltroTutores(idTutores) {
-    console.log("idTutores seleccionado: ", idTutores);
+    //console.log("idTutores seleccionado: ", idTutores);
     //tenemos q etener un state parael id proceso
     //o manejar el mismo state de los filtros
     //le emtemos lunes actual.......

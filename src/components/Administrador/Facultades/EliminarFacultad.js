@@ -23,16 +23,16 @@ const EliminarFacultad = (props) => {
 
   const handleClick = async (e) => {    
             //FACULTAD ELIMINAR 
-      console.log("idFacu",id);
+      //console.log("idFacu",id);
       let enlace;
       enlace="/api/facultad/eliminar/"+id;
       const props = { servicio: enlace };
       let resultado = await Conexion.POST(props);
-      console.log("got updated coord from back:", resultado);
+      //console.log("got updated coord from back:", resultado);
       if (resultado){
         if (resultado.eliminacion.ok!==1){
           setElimino(false);
-          console.log("elimino",elimino);    
+          //console.log("elimino",elimino);    
           setAlerta({
             mensaje:"La facultad no puede eliminarse porque cuenta con programas registrados",
           }); 
@@ -47,7 +47,7 @@ const EliminarFacultad = (props) => {
       const newValue = flag + 1;
       setFlag(newValue);
       await parentCallback(newValue);
-      console.log("elimino",elimino);
+      //console.log("elimino",elimino);
   };
 
 
@@ -66,7 +66,7 @@ const EliminarFacultad = (props) => {
         </DialogTitle>
         <DialogContent>
             <Grid container md={12} justify="center">
-              {console.log("alerta",alerta.mensaje)}
+              {/*console.log("alerta",alerta.mensaje)*/}
               {!elimino && 
                 <Typography variant="subtitle1" >
                   {alerta.mensaje}

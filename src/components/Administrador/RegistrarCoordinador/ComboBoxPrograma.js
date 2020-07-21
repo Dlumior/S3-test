@@ -24,14 +24,14 @@ const ComboBoxPrograma = (props) => {
   const handleChangePrograma = (event) => {
     setPrograma(event.target.value);
     //quitamos ese valor del combobox
-    console.log("programassss",programas);
+    //console.log("programassss",programas);
     /*
     let arr=programas.filter(function(e){
       return e.ID_PROGRAMA!==event.target.value;
     });
-    console.log("arr",arr);
+    //console.log("arr",arr);
     setProgramas(arr);
-    console.log("prog",programas);
+    //console.log("prog",programas);
     */
   };
 

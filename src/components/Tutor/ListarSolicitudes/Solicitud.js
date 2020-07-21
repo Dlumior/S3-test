@@ -76,9 +76,9 @@ const Solicitud = (props) => {
       servicio: "/api/solicitud/modificar",
       request: { solicitud: datos },
     };
-    console.log("Accepting alumno:", datos);
+    //console.log("Accepting alumno:", datos);
     let modificacion = await POST(sendData);
-    console.log("Got updated alumno from back:", modificacion);
+    //console.log("Got updated alumno from back:", modificacion);
     //alert("Se actualizó correctamente el estado de la solicitud");
     if (modificacion.solicitud.RESPUESTA !== undefined) {
       setIcn("success");

@@ -71,7 +71,7 @@ export default function CustomizedSlider(props) {
 /*
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log("valor: ",value);
+    //console.log("valor: ",value);
   };
   */
   return (

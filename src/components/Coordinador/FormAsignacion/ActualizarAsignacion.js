@@ -51,7 +51,7 @@ const ModificarAsignacion = (props) => {
   });
 
   const handleOnChangeTutor = (tutor) => {
-    console.log("tutor: ", tutor);
+    //console.log("tutor: ", tutor);
     setDatosForm({
         ...datosForm,
         idTutor:tutor.ID_TUTOR,
@@ -59,7 +59,7 @@ const ModificarAsignacion = (props) => {
     });
   };
   const handleOnChangeTutoria = (tutoria) => {
-    console.log("tutoria: ", tutoria);
+    //console.log("tutoria: ", tutoria);
     if (tutoria.GRUPAL === 0) {
         setGrupal(false);
       } else {
@@ -73,15 +73,15 @@ const ModificarAsignacion = (props) => {
     });
   };
   const handleOnChangeAlumnos = (alumnosSelecc) => {
-    console.log("alumnos: ", alumnosSelecc);
+    //console.log("alumnos: ", alumnosSelecc);
     for (let ele of alumnosSelecc){
         datosForm.alumnos.push(ele);
     }
-    console.log("datosForm con alumnos: ", datosForm);
+    //console.log("datosForm con alumnos: ", datosForm);
   };
 
   const handleClick = async () => {   
-    console.log("validando: ", datosForm.idProceso,datosForm.idTutor,datosForm.alumnos.length);
+    //console.log("validando: ", datosForm.idProceso,datosForm.idTutor,datosForm.alumnos.length);
     if (datosForm.idProceso==='' || datosForm.idTutor==='' || datosForm.alumnos.length===0){
         setSeveridad({
             severidad:"error",
@@ -102,12 +102,12 @@ const ModificarAsignacion = (props) => {
         };
         let asignado;
         let props;
-        console.log("grupal", grupal);
+        //console.log("grupal", grupal);
         if (grupal) {
             props = { servicio: "/api/asignacion/modificar", request: nuevaAsignacion };
-            console.log("saving new asignacion in DB:", nuevaAsignacion);
+            //console.log("saving new asignacion in DB:", nuevaAsignacion);
             asignado = await POST(props);
-            console.log("asignado", asignado);
+            //console.log("asignado", asignado);
         } else {
             let newasig;
             let alu;
@@ -139,9 +139,9 @@ const ModificarAsignacion = (props) => {
                         },
                     };
                 }
-                console.log("new", newasig);
+                //console.log("new", newasig);
                 props = { servicio: enlace, request: newasig }; //aqui seria la asignacion indi
-                console.log("saving new asignacion in DB:", newasig);
+                //console.log("saving new asignacion in DB:", newasig);
                 asignado = await POST(props);
 
                 if (asignado) {
@@ -153,7 +153,7 @@ const ModificarAsignacion = (props) => {
                     });
                     //alert("Alumno asignado Satisfactoriamente");
                 }
-                console.log("got updated alumno from back:", asignado);
+                //console.log("got updated alumno from back:", asignado);
             }
         }
     }

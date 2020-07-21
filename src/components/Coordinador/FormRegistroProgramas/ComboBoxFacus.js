@@ -23,15 +23,15 @@ const ComboBoxFacus = (props) => {
 
 
   const handleChangeFacu = (event) => {
-      console.log("facCombo= ",facultad);
+      //console.log("facCombo= ",facultad);
       setFacultad(event.target.value); 
-      console.log("facultad",event.target.value);   
+      //console.log("facultad",event.target.value);   
   };
 
   return (
     <FormControl style={{width:230 }}>
       <InputLabel id="demo-simple-select-label">{nombre? nombre : "Facultad"}</InputLabel>
-      {console.log("idnombre",id,nombre)}
+      {/*console.log("idnombre",id,nombre)*/}
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select-label"

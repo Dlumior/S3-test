@@ -93,11 +93,11 @@ class ListaCoordinadores extends React.Component {
   async componentDidUpdate(prevProps,nextState){
     if (this.props.idFacu!==prevProps.idFacu || this.props.flag!==prevProps.flag
       || nextState.flag !== this.state.flag){
-      console.log("idFacu: ",this.props.idFacu);
+      //console.log("idFacu: ",this.props.idFacu);
       let arregloCoord=await Controller.GET({servicio:"/api/coordinadorprograma/"+this.props.idFacu});
       //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
       if (arregloCoord)   {
-        console.log("arreglo: ",arregloCoord);
+        //console.log("arreglo: ",arregloCoord);
         this.establecerData(arregloCoord);
       }
 
@@ -106,7 +106,7 @@ class ListaCoordinadores extends React.Component {
   async componentDidMount(){
     let arregloCoord=await Controller.GET({servicio:"/api/coordinador/"});
     //
-    console.log("arreglo: ",arregloCoord);
+    //console.log("arreglo: ",arregloCoord);
     //this.establecerData(arregloCoord);
 }
 handleOnOpen= (id) =>{
@@ -125,7 +125,7 @@ handleOnClose() {
 callback = (count) => {
   // do something with value in parent component, like save to state
   let i= this.state.flag +1;
-  console.log("veamos: ",i);
+  //console.log("veamos: ",i);
   this.setState({flag:i});
 }
 

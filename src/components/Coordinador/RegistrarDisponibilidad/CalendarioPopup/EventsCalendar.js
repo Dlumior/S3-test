@@ -48,12 +48,12 @@ class EventsCalendar extends Component {
   }
 
   async componentDidMount() {
-    console.log(this.state.tutor);
+    //console.log(this.state.tutor);
     let listaEventos = [];
     let listaDisponibilidad = await Conexion.GET({
       servicio: this.state.enlace + this.state.tutor.ID_USUARIO + "/" + this.state.facultad,
     });
-    console.log("disponibilidad", listaDisponibilidad);
+    //console.log("disponibilidad", listaDisponibilidad);
     if (listaDisponibilidad) {
       if (!listaDisponibilidad.hasOwnProperty("error")) {
         await this.setState({ loading: false });
@@ -75,11 +75,11 @@ class EventsCalendar extends Component {
         let politicas = await Conexion.GET({
           servicio: "/api/facultad/politicas/" + this.state.facultad,
         });
-        console.log("polit",politicas);
+        //console.log("polit",politicas);
         if (politicas){
           this.setState({ diasAnticipacion: politicas.politicas.ANTICIPACION_DISPONIBILIDAD });
         }
-        console.log("veamossisale",this.state.diasAnticipacion);
+        //console.log("veamossisale",this.state.diasAnticipacion);
 
       } else {
         this.setState({ problemaBack: true });
@@ -114,7 +114,7 @@ class EventsCalendar extends Component {
       let listaDisponibilidad = await Conexion.GET({
         servicio: this.state.enlace + this.state.tutor.ID_USUARIO + "/" + this.state.facultad,
       });
-      console.log("disponibilidad", listaDisponibilidad);
+      //console.log("disponibilidad", listaDisponibilidad);
       if (listaDisponibilidad) {
         if (!listaDisponibilidad.hasOwnProperty("error")) {
           await this.setState({ loading: false });
@@ -136,11 +136,11 @@ class EventsCalendar extends Component {
           let politicas = await Conexion.GET({
             servicio: "/api/facultad/politicas/" + this.state.facultad,
           });
-          console.log("polit",politicas);
+          //console.log("polit",politicas);
           if (politicas){
             this.setState({ diasAnticipacion: politicas.politicas.ANTICIPACION_DISPONIBILIDAD });
           }
-          console.log("veamossisale",this.state.diasAnticipacion);
+          //console.log("veamossisale",this.state.diasAnticipacion);
         } else {
           this.setState({ problemaBack: true });
           let alerta = { ...this.state.alerta };
@@ -254,7 +254,7 @@ class EventsCalendar extends Component {
   };
 
   actualizarMensaje(mensaje, mensajeStrong) {
-    console.log(mensaje);
+    //console.log(mensaje);
     this.setState({
       alerta: { mensaje: mensaje, mensajeStrong: mensajeStrong, mostrar: true },
     });
@@ -289,7 +289,7 @@ class EventsCalendar extends Component {
   render() {
     return (
       <div style={{ height: `${410}px`, width: `${850}px` }} className="Big-calendar-container">
-        {console.log("mostrar",this.state.alerta.mostrar)}
+        {/*console.log("mostrar",this.state.alerta.mostrar)*/}
         {this.state.alerta.mostrar && (
           <Alertas
             severity={this.state.alerta.severity}
@@ -297,7 +297,7 @@ class EventsCalendar extends Component {
             alerta={this.state.alerta}
           />
         )}
-        {console.log("back",this.state.alerta.problemaBack)}
+        {/*console.log("back",this.state.alerta.problemaBack)*/}
         {this.state.problemaBack && (
           <Alertas
             severity={"warning"}
@@ -305,7 +305,7 @@ class EventsCalendar extends Component {
             alerta={this.state.alerta}
           />
         )}
-        {console.log("mostrar",this.state.alerta.mostrar)}
+        {/*console.log("mostrar",this.state.alerta.mostrar)*/}
         {this.state.loading && (
           <CircularProgress color="primary" style={style.carga} />
         )}

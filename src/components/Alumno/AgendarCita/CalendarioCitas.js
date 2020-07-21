@@ -50,7 +50,7 @@ class CalendarioCitas extends Component {
         new Date(lunesActual.setDate(lunesActual.getDate() + salto))
       ).toDate(),
     });
-    console.log("salto actual: ", this.state.lunesActual);
+    //console.log("salto actual: ", this.state.lunesActual);
     this.setState({
       fechaControles: {
         mes: mesesAnio[lunesActual.getMonth() + 1],
@@ -71,22 +71,22 @@ class CalendarioCitas extends Component {
   renderDias = (lunesActual, listaIdTutores) => {
     if (!lunesActual) return;
     let fechaInicial = moment(new Date(lunesActual)).toDate();
-    console.log("luneessss", fechaInicial);
-    console.log("äctualll: ", this.state.fechaActual);
-    console.log("CAlendarGAAAAbyy xxx ", lunesActual);
-    console.log("<<<FI", fechaInicial);
+    //console.log("luneessss", fechaInicial);
+    //console.log("äctualll: ", this.state.fechaActual);
+    //console.log("CAlendarGAAAAbyy xxx ", lunesActual);
+    //console.log("<<<FI", fechaInicial);
 
     let fechasDias = [];
     for (let i = 0; i < 7; i++) {
-      console.log("inicial: ", fechaInicial.toISOString());
+      //console.log("inicial: ", fechaInicial.toISOString());
       fechasDias.push(fechaInicial);
       //fechaInicial.setDate(fechaInicial.getDate() + 1);
       fechaInicial = moment(fechaInicial).add("days", 1).toDate();
     }
-    console.log("fechasdiasss: ", moment(fechasDias[0]).add("hours", -5).toISOString());
+    //console.log("fechasdiasss: ", moment(fechasDias[0]).add("hours", -5).toISOString());
     return (
       <>
-        {console.log("this.props.tipo xxx ", this.props.tipo)}
+        {/*console.log("this.props.tipo xxx ", this.props.tipo)*/}
         {this.props.tipo !== "disponibilidad" ? (
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
@@ -106,8 +106,8 @@ class CalendarioCitas extends Component {
           <Grid container spacing={2}>
             {fechasDias.map((diaSemana) => (
               <Grid item style={{ width: 180, height: 180, flexGrow: 1 }}>
-                {console.log("QQQ: ", this.state.filtroIdProceso)}
-                {console.log("dia semana: ", diaSemana)}
+                {/*console.log("QQQ: ", this.state.filtroIdProceso)*/}
+                {/*console.log("dia semana: ", diaSemana)*/}
                 {this.state.filtroIdProceso ? (
                   <HorarioDelDia
                     idPro={
@@ -153,7 +153,7 @@ class CalendarioCitas extends Component {
     let offset = 0;
     const lunes = 1;
     offset = fechaActual.getDay() - lunes;
-    console.log("este actual: ", this.state.fechaActual);
+    //console.log("este actual: ", this.state.fechaActual);
     this.setState({
       fechaControles: {
         mes: mesesAnio[fechaActual.getMonth() + 1],
@@ -162,7 +162,7 @@ class CalendarioCitas extends Component {
       },
     });
 
-    console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
+    //console.log("CALENDARIO_CITAS>>> XXXXX ", this.props.servicio);
 
     this.setState({
       lunesActual: moment(
@@ -176,21 +176,21 @@ class CalendarioCitas extends Component {
 
   //_tutor : es un objeto con id y nombre
   handleFiltroTutor(_tutor) {
-    //console.log("R2D2 ", _tutor);
-    console.log("/*/ ", _tutor);
+    ////console.log("R2D2 ", _tutor);
+    //console.log("/*/ ", _tutor);
     this.setState({ estadoTitulo: _tutor.nombre });
     //ahora vamos a seterar id
     this.setState({ estadoID: _tutor.id });
   }
 
   handleDuracion = async (_dura) => {
-    console.log("duraXXX: ", _dura);
+    //console.log("duraXXX: ", _dura);
 
     await this.setState({ duracionPro: _dura });
   };
 
   handleFiltroProceso = async (idProceso) => {
-    console.log("idProceso seleccionado: ", idProceso);
+    //console.log("idProceso seleccionado: ", idProceso);
     if (typeof idProceso === "object") {
       this.handleFiltroTutor({
         id: idProceso.ASIGNACION_TUTORIA[0].ID_TUTOR,
@@ -206,7 +206,7 @@ class CalendarioCitas extends Component {
     //le emtemos lunes actual.....
   };
   handleFiltroTutores = async (listaIdTutores) => {
-    console.log("idTutores seleccionado: ", listaIdTutores);
+    //console.log("idTutores seleccionado: ", listaIdTutores);
 
     await this.setState({ listaIdTutores: listaIdTutores });
     //tenemos q etener un state parael id proceso
@@ -214,7 +214,7 @@ class CalendarioCitas extends Component {
     //le emtemos lunes actual.......
   };
   render() {
-    console.log("PROPS calendarioCitas.js", this.props);
+    //console.log("PROPS calendarioCitas.js", this.props);
     const { programa } = this.props;
     return (
       <div style={styles.container}>

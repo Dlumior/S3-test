@@ -15,7 +15,7 @@ const Facultades = () => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("getuser",getUser().rol);
+      //console.log("getuser",getUser().rol);
       if (getUser().rol==="Administrador"){
         const endpoint = "/api/facultad";
         const params = { servicio: endpoint };

@@ -39,13 +39,13 @@ class ListaProgramas extends React.Component {
  
   async componentDidMount() {
     let listaProgramas = await Conexion.GET({servicio:this.props.enlace});
-    console.log("programas",listaProgramas);
+    //console.log("programas",listaProgramas);
     if(getUser().rol === "Coordinador Programa"){
       this.setState({programas:listaProgramas.programas});
     }else{
       this.setState({programas:listaProgramas.programa});
     }    
-    console.log("programas del state",this.state.programas);    
+    //console.log("programas del state",this.state.programas);    
   }
   shouldComponentUpdate(nextState, nextProps) {
     if (nextState.programas !== this.state.programas) {

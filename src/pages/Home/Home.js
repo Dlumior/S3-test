@@ -17,7 +17,7 @@ import ImagenCircular from "../../components/Shared/ImagenCircular.js";
 function Home(props) {
   const classes = useStyles();
   const [{ usuario }, dispatch] = useUserValue();
-  console.log("Home encontro: ", usuario);
+  //console.log("Home encontro: ", usuario);
   return (
     <div className={classes.root}>
       <AppBar position="static">

@@ -53,11 +53,11 @@ class CampoDeTextoTyS extends Component {
 
         let errorMessageDomain = ''
         if (this.props.dominio) {
-          console.log("dom1: ",this.props.dominio);
+          //console.log("dom1: ",this.props.dominio);
           errorMessageDomain = errorMessageDomain + this.props.dominio;
         }
         if (this.props.dominio2) {
-          console.log("dom2: ",this.props.dominio2);
+          //console.log("dom2: ",this.props.dominio2);
           errorMessageDomain = errorMessageDomain + ' - ' + this.props.dominio2;
         }
         this.setState({
@@ -107,7 +107,7 @@ class CampoDeTextoTyS extends Component {
   }
   handleOnChange = (e) => {
     const textoActual = e.target.value;
-    console.log("texto actual", textoActual);
+    //console.log("texto actual", textoActual);
     let error = this.props.name;
     //validacion no vacio
     if (this.props.requerido && textoActual.length === 0) {
@@ -137,7 +137,7 @@ class CampoDeTextoTyS extends Component {
       this.setState({ validacion: this.props.validacion });
     }
     if (this.props.inicial) { 
-      console.log("inicial: ",this.props.inicial);
+      //console.log("inicial: ",this.props.inicial);
       this.props.onChange({ name: this.props.name, value: this.props.inicial });
       this.setState({ texto: this.props.inicial });
      

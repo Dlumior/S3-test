@@ -56,11 +56,11 @@ class FrmSolicitarTutorTipoII extends Component {
     async handleOnClickSolicitarTutor(e, _idTutorFijo) {
         //this.setState( {openSolicitarTutor : true});
 
-        console.log("puto id ", e.target.id);
+        //console.log("puto id ", e.target.id);
 
-        console.log("ZZZ ", _idTutorFijo);
+        //console.log("ZZZ ", _idTutorFijo);
         await this.setState({ _tutorFijo: _idTutorFijo });
-        console.log("ZZZ AFTER ", this.state._tutorFijo);
+        //console.log("ZZZ AFTER ", this.state._tutorFijo);
 
 
 
@@ -76,12 +76,12 @@ class FrmSolicitarTutorTipoII extends Component {
 
         const props = { servicio: "/api/solicitud/enviar", request: nuevaSolicitud };
 
-        console.log("NUEVA SOLIXXXXX ", nuevaSolicitud);
+        //console.log("NUEVA SOLIXXXXX ", nuevaSolicitud);
 
         let sesionTyS = await Controller.POST(props);
         if(!sesionTyS) return;
         
-        console.log("TutoFIJOOO tYS XXX ", sesionTyS);
+        //console.log("TutoFIJOOO tYS XXX ", sesionTyS);
 
         if (sesionTyS.error || !sesionTyS) {
             this.setState({ mensajillo: "UpS, Error Inesperado!    Por favor, Inténtelo más tarde." });
@@ -98,7 +98,7 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     handleOnClose() {
-        //console.log("ctm",this.state.openSolicitarTutor);
+        ////console.log("ctm",this.state.openSolicitarTutor);
         this.setState({ openSolicitarTutor: false });
         this.setState({ botonDisable: true });
 
@@ -107,7 +107,7 @@ class FrmSolicitarTutorTipoII extends Component {
     //=============================================================
     handleOnClickVerDispo(e, _id, _nombre) {
         //this.setState( {openVerDispo : true});
-        console.log("EEE_handleDispo: ", { id: _id, nombre: _nombre });
+        //console.log("EEE_handleDispo: ", { id: _id, nombre: _nombre });
         this.props.handleFiltroTutor({ id: _id, nombre: _nombre });
         this.props.modoBatallador(true);
 
@@ -115,7 +115,7 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     handleOnCloseVerDispo() {
-        //console.log("ctm",this.state.openSolicitarTutor);
+        ////console.log("ctm",this.state.openSolicitarTutor);
         this.setState({ openVerDispo: false });
     }
 
@@ -135,14 +135,14 @@ class FrmSolicitarTutorTipoII extends Component {
                     let arregloDeTutores =
                         await Controller.GET({ servicio: "/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
                     /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-                    console.log("arreglo: ", arregloDeTutores);
+                    //console.log("arreglo: ", arregloDeTutores);
 
 
                     //id del alumno
                     //id del proceso de tutoria
                     let arreglillo = [];
                     let cont = 0;
-                    console.log(res.estado)
+                    //console.log(res.estado)
 
                     for (let element of arregloDeTutores.tutores) {
                         cont++;
@@ -289,14 +289,14 @@ class FrmSolicitarTutorTipoII extends Component {
                     let arregloDeTutores =
                         await Controller.GET({ servicio: "/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
                     /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-                    console.log("arreglo: ", arregloDeTutores);
+                    //console.log("arreglo: ", arregloDeTutores);
 
 
                     //id del alumno
                     //id del proceso de tutoria
                     let arreglillo = [];
                     let cont = 0;
-                    console.log(res.estado)
+                    //console.log(res.estado)
 
                     for (let element of arregloDeTutores.tutores) {
                         cont++;
@@ -436,21 +436,21 @@ class FrmSolicitarTutorTipoII extends Component {
 
     async componentDidMount() {
         let res = await Controller.GET({ servicio: "/api/tutor/estadosolicitud/" + getUser().usuario.ID_USUARIO + "/" + this.props.frmIdProceso });
-        console.log("RES",res);
+        //console.log("RES",res);
         if (res) {
             this.props.actualizarVisibilidadColumnas(res.estado);
             if (res.estado === 0) {
                 let arregloDeTutores =
                     await Controller.GET({ servicio: "/api/tutor/lista/" + getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA });
                 /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-                console.log("arreglo: ", arregloDeTutores);
+                //console.log("arreglo: ", arregloDeTutores);
 
 
                 //id del alumno
                 //id del proceso de tutoria
                 let arreglillo = [];
                 let cont = 0;
-                console.log(res.estado)
+                //console.log(res.estado)
 
                 for (let element of arregloDeTutores.tutores) {
                     cont++;
@@ -588,7 +588,7 @@ class FrmSolicitarTutorTipoII extends Component {
     }
 
     render() {
-        console.log("propsFormTipoII:", this.props);
+        //console.log("propsFormTipoII:", this.props);
         return (
             <div>
                 <Dialog

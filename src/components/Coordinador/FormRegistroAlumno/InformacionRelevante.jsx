@@ -72,11 +72,11 @@ class InformacionRelevante extends Component {
     this.setState({ descripcion: e.value });
   };
   handleOnChangePrograma(listaPrograma) {
-    console.log("proograma:", listaPrograma);
+    //console.log("proograma:", listaPrograma);
     this.setState({ programas: listaPrograma });
   }
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = this.state.usuario;
     const subrol = this.getSubRol(
@@ -125,9 +125,9 @@ class InformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoadURL = async (file, fileName, ext) => {
-    //console.log("++URL: ", file);
-    console.log("JUpload SSJ length: ", file.length);
-    //console.log("JUpload SSJ split: ", file.split("\n"));
+    ////console.log("++URL: ", file);
+    //console.log("JUpload SSJ length: ", file.length);
+    ////console.log("JUpload SSJ split: ", file.split("\n"));
     const tamanio = file.length;
     // let splitedFile = [];
     // var i,
@@ -138,7 +138,7 @@ class InformacionRelevante extends Component {
     //   // do whatever
     // }
     // const Npartes = splitedFile.length;
-    // console.log("JUpload SSJ split: ", splitedFile);
+    // //console.log("JUpload SSJ split: ", splitedFile);
     await this.setState({ FILE: file });
     this.setState({ fileName: fileName, ext: ext });
     if (ext === "pdf") {
@@ -151,14 +151,14 @@ class InformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName) => {
-    console.log("++64: ", file);
+    //console.log("++64: ", file);
 
     this.setState({ fileName: fileName });
     this.setState({ FILE: file });
     //const alumnosFromCSV = await readCSV(file, "alumnos");
   };
   validarEntrada(error) {
-    console.log("errores:", error);
+    //console.log("errores:", error);
   }
   handleOnClickRegistroSSJ_masivo = async () => {
     new Promise(async (resolve, reject) => {
@@ -179,10 +179,10 @@ class InformacionRelevante extends Component {
             });
 
           if (!response) {
-            console.log("Algo paso en el upload");
+            //console.log("Algo paso en el upload");
             return;
           } else {
-            console.log("Se registro la informacion: ", response);
+            //console.log("Se registro la informacion: ", response);
           }
        // });
 

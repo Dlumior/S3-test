@@ -48,7 +48,7 @@ class SolicitarTutoriaFija extends Component {
   renderxTipoProceso(yo) {
     if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
-      //console.log("multiProceso: ", this.props.multiProceso);
+      ////console.log("multiProceso: ", this.props.multiProceso);
     }
     return (
       <div>
@@ -82,7 +82,7 @@ class SolicitarTutoriaFija extends Component {
     );
   }
   render() {
-    //console.log("AGENDAR_CITA XXXXXXXX", this.props);
+    ////console.log("AGENDAR_CITA XXXXXXXX", this.props);
     let yo = getUser();
     return this.renderxTipoProceso(yo);
   }

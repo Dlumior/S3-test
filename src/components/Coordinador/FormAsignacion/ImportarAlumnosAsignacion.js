@@ -91,7 +91,7 @@ class FormularioImportarAlumnos extends Component {
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
     const tags = this.state.columnasLimpias;
-    console.log("Registrando ", data);
+    //console.log("Registrando ", data);
     if (!data || data?.length === 0) {
       alert("aun no hay datos sorry man XD");
       return;
@@ -105,7 +105,7 @@ class FormularioImportarAlumnos extends Component {
       let alu = await GET({
         servicio: "/api/alumno/buscar/" + ALUMNO.alumno.CODIGO,
       });
-      console.log("programaa:", alu);
+      //console.log("programaa:", alu);
 
       if (alu.alumno) {
         //valida que pertenezca al mismo programa
@@ -113,7 +113,7 @@ class FormularioImportarAlumnos extends Component {
         programs = await GET({
           servicio: "/api/programa/alumno/" + alu.alumno.ID_ALUMNO,
         });
-        console.log("programaa:", programs.programas);
+        //console.log("programaa:", programs.programas);
 
         for (let el of programs.programas) {
           if (el.ID_PROGRAMA === this.props.programa) {
@@ -125,7 +125,7 @@ class FormularioImportarAlumnos extends Component {
                 "/" +
                 alu.alumno.ID_ALUMNO,
             });
-            console.log("programaa:", asig.tutoria);
+            //console.log("programaa:", asig.tutoria);
             for (let ele of asig.tutoria) {
               if (ele.ID_PROCESO_TUTORIA === this.props.proceso) {
                 return;
@@ -133,15 +133,15 @@ class FormularioImportarAlumnos extends Component {
             }
 
             this.state.alumnosCargados.push(alu.alumno.ID_ALUMNO);
-            console.log("programaa", this.state.alumnosCargados);
+            //console.log("programaa", this.state.alumnosCargados);
           }
         }
       }
       //AQUI IRIA LA VALIDACION SI EL ALUMNO EXISTE Y SI PERTENECE AL PROGRAMA
       this.handleCloseLoading();
-      console.log("programaa", this.state.alumnosCargados);
+      //console.log("programaa", this.state.alumnosCargados);
       this.props.escogerAlumnos(this.state.alumnosCargados);
-      console.log("programaa", this.state.alumnosCargados);
+      //console.log("programaa", this.state.alumnosCargados);
     });
   };
   /**
@@ -175,20 +175,20 @@ class FormularioImportarAlumnos extends Component {
    */
   handleOnSuccesLoad = async (alumnosFromCSV, fileName) => {
     await this.setState({ fileName: fileName });
-    console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV);
-    console.log("TAAAGS: fileName", fileName);
+    //console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV);
+    //console.log("TAAAGS: fileName", fileName);
 
     const alumnosTabla = await parseMaterialJTable(
       alumnosFromCSV,
       "alumnos",
       "Estado"
     );
-    console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV.alumnos[0]);
+    //console.log("TAAAGS: alumnosFromCSV[0]", alumnosFromCSV.alumnos[0]);
     this.setState({ columnasLimpias: alumnosFromCSV.alumnos[0] });
     await this.setState({ alumnosTabla: alumnosTabla });
   };
   validarEntrada(error) {
-    console.log("errores:", error);
+    //console.log("errores:", error);
     let encontrado = undefined;
     let nuevo = false;
     let eliminar = this.state.errores.forEach((element) => {
@@ -206,7 +206,7 @@ class FormularioImportarAlumnos extends Component {
         nuevo = true;
       }
     }
-    console.log("nuevo: ", nuevo);
+    //console.log("nuevo: ", nuevo);
     if (nuevo) {
       let newErrores = this.state.errores;
       newErrores.push(error);
@@ -226,12 +226,12 @@ class FormularioImportarAlumnos extends Component {
   handleOnChangeTexto = (e) => {
     // nombre y descripcion
     let tutoria = Object.assign({}, this.state.tutoria);
-    console.log(e);
+    //console.log(e);
     tutoria[e.name] = e.value;
     this.setState({ tutoria: tutoria });
   };
   async componentDidMount() {
-    console.log("*** ", this.props);
+    //console.log("*** ", this.props);
     const { usuario } = this.props;
     if (!usuario) {
       return;
@@ -256,14 +256,14 @@ class FormularioImportarAlumnos extends Component {
           newData.push(registro);
           break;
         case "eliminar":
-          console.log("eliminaDO index: ", index);
-          console.log("eliminaDO antes: ", newData);
+          //console.log("eliminaDO index: ", index);
+          //console.log("eliminaDO antes: ", newData);
           newData.splice(index, 1);
-          console.log("eliminaDO: ", newData);
+          //console.log("eliminaDO: ", newData);
           break;
         case "actualizar":
           newData[index] = registro;
-          console.log("Actualize: ", newData[index]);
+          //console.log("Actualize: ", newData[index]);
           break;
         default:
           break;
@@ -274,7 +274,7 @@ class FormularioImportarAlumnos extends Component {
         this.state.columnasLimpias,
         "Estado"
       );
-      console.log("DATANUEVA: ", tablaFinal.data);
+      //console.log("DATANUEVA: ", tablaFinal.data);
       //reasiganr valores de la tabla
       await this.setState({
         alumnosTabla: {
@@ -321,7 +321,7 @@ class FormularioImportarAlumnos extends Component {
     );
   }
   renderTable(datosNuevos) {
-    console.log("TABLAAAA", datosNuevos);
+    //console.log("TABLAAAA", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       return (
         <JMaterialCSVUploadSSJ

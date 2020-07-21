@@ -37,12 +37,12 @@ class ListaEtiquetas extends React.Component {
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
     if(!listaEtiquetas) return;
-    console.log("Tutores", listaEtiquetas);
+    //console.log("Tutores", listaEtiquetas);
     this.setState({
       etiquetas: this.props.keyServicio ? listaEtiquetas[this.props.keyServicio]   : listaEtiquetas.etiquetas,
     });
 
-    console.log("etiquetas del state", this.state.etiquetas);
+    //console.log("etiquetas del state", this.state.etiquetas);
   }
   handle = (etiqueta, valor) => {
     let etiquetaSeleccionada = { id: etiqueta, agregar: valor };
@@ -50,7 +50,7 @@ class ListaEtiquetas extends React.Component {
     let found = false;
     let change = false;
     etiquetas.forEach((element) => {
-      //console.log("element",element);
+      ////console.log("element",element);
       if (element.id === etiquetaSeleccionada.id) {
         found = true;
         if (element.agregar !== etiquetaSeleccionada.agregar) {

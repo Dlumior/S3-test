@@ -39,7 +39,7 @@ const NotificacionBtn = (props) => {
       const endpoint = "/api/notificacion/lista/" + idUsuario;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      console.log(res);
+      //console.log(res);
       if(res){
         if(!res.error){
           setNotificaciones(res.notificaciones);

@@ -37,9 +37,9 @@ class ListaFacultades extends React.Component {
  
   async componentDidMount() {
     let listaFacultades = await Conexion.GET({servicio:this.props.enlace});
-    console.log("facultades",listaFacultades);
+    //console.log("facultades",listaFacultades);
     this.setState({facultades:listaFacultades.facultad});
-    console.log("facultades del state",this.state.facultades);    
+    //console.log("facultades del state",this.state.facultades);    
   }
   shouldComponentUpdate(nextState, nextProps) {
     if (nextState.facultades !== this.state.facultades) {

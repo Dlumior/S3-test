@@ -27,11 +27,11 @@ const ComboBoxPrograma = (props) => {
       const endpoint = enlace;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("programasss:", res);
+      //console.log("programasss:", res);
       if (res){
         setProgramas(res.facultad);
       }      
-      console.log("programa:", programa);
+      //console.log("programa:", programa);
     }
      fetchData();
   }, {});

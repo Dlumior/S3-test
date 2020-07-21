@@ -74,25 +74,25 @@ class ListaAlumnos extends Component {
     //alert("Selecciondao id: ", idAlumno);
   }
   handleEliminar(id) {
-    console.log("Eliminar a : ", id);
+    //console.log("Eliminar a : ", id);
   }
   handleEditar(id) {
-    console.log("Editar a : ", id);
+    //console.log("Editar a : ", id);
   }
   handleOnChangePrograma = async (programa) => {
-    console.log("proograma:", programa);
+    //console.log("proograma:", programa);
     this.setState({ programa });
     // let tutoria = Object.assign({}, this.state.tutoria);
     // tutoria.programa = programa[0];
     // this.setState({ tutoria: tutoria });
-    // console.log("proograma:", this.state.tutoria.programa);
+    // //console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
     if (programa) {
       const listaAtlumnos = await GET({
         servicio: `/api/alumno/lista/${programa}`,
       });
       let datos = [];
-      console.log("listaAtlumnos.alumnos", listaAtlumnos);
+      //console.log("listaAtlumnos.alumnos", listaAtlumnos);
 
       if (listaAtlumnos.alumnos) {
         listaAtlumnos.alumnos.forEach((alumno, index) => {
@@ -159,7 +159,7 @@ class ListaAlumnos extends Component {
               </>
             ),
           });
-          console.log("listaAtlumnos.alumnos push", datos);
+          //console.log("listaAtlumnos.alumnos push", datos);
         });
         await this.setState({
           datosTabla: {
@@ -167,12 +167,12 @@ class ListaAlumnos extends Component {
             data: datos,
           },
         });
-        console.log("=> ", this.state.datosTabla);
+        //console.log("=> ", this.state.datosTabla);
       }
     }
   };
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
     const subrol = this.getSubRol(getUser().rol);
@@ -200,7 +200,7 @@ class ListaAlumnos extends Component {
    * @param {*} usuario
    */
   getEnlace(usuario) {
-    //console.log("HAAAA",usuario);
+    ////console.log("HAAAA",usuario);
     //usuarioLogueado?"/api/facultad//"
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
@@ -227,14 +227,14 @@ class ListaAlumnos extends Component {
 
     //const facultades = await GET({servicio: `api/programa/lista/${idPrograma}`});
     // Tengo que buscar con este ID FACULTAD los programas
-    console.log("idPrograma", this.props.prog);
+    //console.log("idPrograma", this.props.prog);
   }
 
   renderToolbar = () => {
     return <></>;
   };
   renderTabla(datosNuevos) {
-    console.log("***", datosNuevos);
+    //console.log("***", datosNuevos);
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
@@ -275,7 +275,7 @@ class ListaAlumnos extends Component {
   callback = (count) => {
     // do something with value in parent component, like save to state
     let i= this.state.flag +1;
-    console.log("veamos: ",i);
+    //console.log("veamos: ",i);
     this.setState({flag:i});
   }
 

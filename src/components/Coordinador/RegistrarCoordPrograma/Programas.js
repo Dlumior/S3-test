@@ -58,24 +58,24 @@ const Programas = (props) => {
         if (func>=0){
           if (func>cantProgramas){  
             setCantPrograma(cantProgramas => func);
-            console.log("func",func);
+            //console.log("func",func);
             if (programa!==""){
               programasSeleccionados.push(programa);
             }
-            console.log("programasSelecc",programasSeleccionados);
-            console.log("programas ",programas);
+            //console.log("programasSelecc",programasSeleccionados);
+            //console.log("programas ",programas);
             //var i=programas.indexof(programa);
-            console.log("programa ",programa);
+            //console.log("programa ",programa);
 
           }else{
             setCantPrograma(cantProgramas => func);
-            console.log("func",func)
-            console.log("programasSelecc",programasSeleccionados);
-            console.log("cantP",cantProgramas)
+            //console.log("func",func)
+            //console.log("programasSelecc",programasSeleccionados);
+            //console.log("cantP",cantProgramas)
             if (programasSeleccionados.length>cantProgramas){//this is it
               programasSeleccionados.splice(-1);
             } 
-            console.log("programasSelecc",programasSeleccionados)
+            //console.log("programasSelecc",programasSeleccionados)
           }
         }else{
           setCantPrograma(cantProgramas => 0);
@@ -85,7 +85,7 @@ const Programas = (props) => {
     
 
     const renderPrograma = (cantProgramas) => {
-        console.log("cant=",cantProgramas);
+        //console.log("cant=",cantProgramas);
         let n=cantProgramas;
         let arregloProg=[];
         for (let i=0;i<n;i++){

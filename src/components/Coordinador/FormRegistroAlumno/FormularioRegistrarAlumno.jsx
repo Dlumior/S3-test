@@ -105,7 +105,7 @@ class FormularioRegistrarAlumno extends Component {
     this.mostrarAlerta = this.mostrarAlerta.bind(this);
   }
   validarEntrada(error) {
-    console.log("errores:", error);
+    //console.log("errores:", error);
     let encontrado = undefined;
     let nuevo = false;
     let eliminar = this.state.errores.forEach((element) => {
@@ -123,7 +123,7 @@ class FormularioRegistrarAlumno extends Component {
         nuevo = true;
       }
     }
-    console.log("nuevo: ", nuevo);
+    //console.log("nuevo: ", nuevo);
     if (nuevo) {
       let newErrores = this.state.errores;
       newErrores.push(error);
@@ -165,15 +165,15 @@ class FormularioRegistrarAlumno extends Component {
     });
   }
   async handleOnClick(e) {
-    console.log("validacion al click: ", this.state.errores);
+    //console.log("validacion al click: ", this.state.errores);
     let dominio = this.state.institucion.DOMINIO;
     let dominio2 = this.state.institucion.DOMINIO2;
     let email = this.state.alumno.correo;
-    console.log(
+    /*console.log(
       "PRUEBA AAAA",
       email.substr(-dominio.length),
       email.substr(-dominio2.length)
-    );
+    );*/
 
     if (!dominio && !dominio2) {
       // validación del dominio de la institución
@@ -200,8 +200,8 @@ class FormularioRegistrarAlumno extends Component {
 
     if (this.state.errores.length === 0) {
       //e.preventDefault();
-      console.log("alumno: ", this.state.alumno);
-      console.log("errores: ", this.state.errores);
+      //console.log("alumno: ", this.state.alumno);
+      //console.log("errores: ", this.state.errores);
       let {
         nombres,
         apellidos,
@@ -226,7 +226,7 @@ class FormularioRegistrarAlumno extends Component {
         },
       };
       const props = { servicio: "/api/alumno", request: nuevoEstudiante };
-      console.log("saving new student in DB:", nuevoEstudiante);
+      //console.log("saving new student in DB:", nuevoEstudiante);
       let nuevoAlumno = await Controller.POST(props);
       if (nuevoAlumno) {
         if (nuevoAlumno.error) {
@@ -254,7 +254,7 @@ class FormularioRegistrarAlumno extends Component {
         //alert("Alumno registrado Satisfactoriamente");
         //entonces viajo al tab de listado de alumnos
       }
-      console.log("got updated alumno from back:", nuevoAlumno);
+      //console.log("got updated alumno from back:", nuevoAlumno);
     } else {
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = `${alert.mensajeError}: ${this.state.errores.map(
@@ -272,7 +272,7 @@ class FormularioRegistrarAlumno extends Component {
   handleOnChange = (e) => {
     // nombre y descripcion
     let alumno = Object.assign({}, this.state.alumno);
-    console.log(e);
+    //console.log(e);
     alumno[e.name] = e.value;
     this.setState({ alumno: alumno });
   };
@@ -281,16 +281,16 @@ class FormularioRegistrarAlumno extends Component {
     //para cuando funcione la pestaña de importar alumnos
   };
   handleOnChangePrograma(programaa) {
-    console.log("proograma:", programaa);
+    //console.log("proograma:", programaa);
     this.setState({programaActual:[programaa[0]]});
     // let tutoria = Object.assign({}, this.state.tutoria);
     // tutoria.programa = programa[0];
     // this.setState({ tutoria: tutoria });
-    // console.log("proograma:", this.state.tutoria.programa);
+    // //console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
   }
   handleOnChangeFacultad(facultad) {
-    console.log("HAAAAAAAAAA facu:", facultad);
+    //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
     const subrol = this.getSubRol(getUser().rol);
@@ -308,7 +308,7 @@ class FormularioRegistrarAlumno extends Component {
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
-    //console.log("LLegue: ", etiqueta);
+    ////console.log("LLegue: ", etiqueta);
     const listaEtiquetas = [];
     etiqueta.forEach((element) => {
       if (element.agregar) {
@@ -317,7 +317,7 @@ class FormularioRegistrarAlumno extends Component {
     });
     this.setState({ etiqueta: listaEtiquetas });
     //this.setState({tutoria:tutoria});
-    console.log("Seteado: ", this.state.etiqueta);
+    //console.log("Seteado: ", this.state.etiqueta);
   };
 
   /**
@@ -333,7 +333,7 @@ class FormularioRegistrarAlumno extends Component {
    * @param {*} usuario
    */
   getEnlace(usuario) {
-    //console.log("HAAAA",usuario);
+    ////console.log("HAAAA",usuario);
     //usuarioLogueado?"/api/facultad//"
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
@@ -351,26 +351,26 @@ class FormularioRegistrarAlumno extends Component {
     return enlace;
   }
   async componentDidMount() {
-    console.log("*-*- Ocultar Boton", this.props);
+    //console.log("*-*- Ocultar Boton", this.props);
 
     let getInsitucion = await Controller.GET({ servicio: "/api/institucion" });
-    console.log("got institucion from back:", getInsitucion.institucion);
+    //console.log("got institucion from back:", getInsitucion.institucion);
     this.setState({ institucion: getInsitucion.institucion });
     if (this.props.modalOrden !== undefined) {
       this.setState({ modal: true });
     }
-    console.log("this.state.institucion: ", this.state.institucion);
-    console.log(
+    //console.log("this.state.institucion: ", this.state.institucion);
+    /*console.log(
       "this.state.NOMBRE:",
       this.state.institucion.DOMINIO,
       this.state.institucion.DOMINIO2
-    );
+    );*/
   }
   componentDidUpdate(prevProps) {
     if (this.props.modalOrden !== prevProps.modalOrden) {
-      console.log("/*/* props diff", this.props.modalOrden);
+      //console.log("/*/* props diff", this.props.modalOrden);
 
-      console.log("/*/* props en true", this.props.modalOrden);
+      //console.log("/*/* props en true", this.props.modalOrden);
       this.handleOnClick();
     }
   }

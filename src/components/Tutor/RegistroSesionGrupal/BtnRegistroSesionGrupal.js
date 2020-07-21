@@ -42,7 +42,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function BtnRegistroSesionGrupal(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  console.log("cita\n================\n", props.cita);
+  //console.log("cita\n================\n", props.cita);
 
   const [grupo, setGrupo] = useState(ParseGrupoAlumno(props.cita));
 

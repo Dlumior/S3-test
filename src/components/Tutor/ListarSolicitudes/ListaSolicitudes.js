@@ -18,7 +18,7 @@ const ListaSolicitudes = (props) => {
   const classes = useStyles();
   const { solicitudes } = props;
 
-  console.log(solicitudes);
+  //console.log(solicitudes);
 
   return (
     <>

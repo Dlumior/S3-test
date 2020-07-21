@@ -38,7 +38,7 @@ class Sesiones extends Component {
   renderxTipoProceso() {
     if (this.props.multiProceso) {
       //switch(this.props.multiProceso)
-      console.log("multiProceso: ", this.props.multiProceso);
+      //console.log("multiProceso: ", this.props.multiProceso);
     }
     return (
       <div>

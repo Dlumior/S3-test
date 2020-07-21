@@ -58,15 +58,15 @@ class HorarioDelDia extends Component {
     );
   };
   render() {
-    console.log("HORARIO this.props", this.props.fecha.listaIdTutores);
+    //console.log("HORARIO this.props", this.props.fecha.listaIdTutores);
     return (
       <div>
         {this.renderCabecera(this.props.fecha.fecha)}
         <div className="tituloDia" elevation={5} style={styles.paper}>
-          {console.log("ANTES_ARR fecha XXX", this.props.fecha.fecha)}
-          {console.log("antes_arr servicio XXX", this.props.fecha.servicio)}
+          {/*console.log("ANTES_ARR fecha XXX", this.props.fecha.fecha)*/}
+          {/*console.log("antes_arr servicio XXX", this.props.fecha.servicio)*/}
 
-          {console.log("OOO: ", this.props.idPro)}
+          {/*console.log("OOO: ", this.props.idPro)*/}
 
           <ArregloHorarios
             servicio={this.props.fecha.servicio}

@@ -35,30 +35,30 @@ class IniciarSesion extends Component {
     this.limpiarAlerta = this.limpiarAlerta.bind(this);
   }
   validarEntrada(error) {
-    console.log("errores:", error);
+    //console.log("errores:", error);
   }
   onSignInNormal = async (e) => {
     e.preventDefault();
-    //console.log("validacion al click: ", this.state.errores);
+    ////console.log("validacion al click: ", this.state.errores);
     let [{ usuario }, dispatch] = this.context;
-    console.log("this.context ", usuario);
+    //console.log("this.context ", usuario);
     const { Usuario, Contrasenia } = this.state;
-    //console.log("GAAAAAA"+Usuario+" "+Contrasenia);
+    ////console.log("GAAAAAA"+Usuario+" "+Contrasenia);
 
     let status = await iniciarSesion(dispatch, Usuario, Contrasenia);
-    console.log("LOGIN: ", status);
+    //console.log("LOGIN: ", status);
     if (status.error) {
       this.mostrarAlert();
       return;
     }
     if (status.status) {
-      console.log("Parece que login", status);
+      //console.log("Parece que login", status);
       const move_to = status.data;
-      //console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
+      ////console.log(move_to.ROL_X_USUARIO_X_PROGRAMAs);
       this.props.history.push("./" + move_to.rol.toLowerCase().split(" ")[0]);
     } else {
       this.mostrarAlert();
-      console.log("Parece NO que login", status);
+      //console.log("Parece NO que login", status);
       //levanar alerta de fallo en iniciar sesion
     }
   };
@@ -67,7 +67,7 @@ class IniciarSesion extends Component {
       let alert = Object.assign({}, this.state.alert);
       alert.mensaje = alert.mensajeError;
       alert.mensajeStrong = "Revisalos y vuelve a intentar";
-      console.log("LOGIN: ", alert);
+      //console.log("LOGIN: ", alert);
       this.setState({ alert: alert });
       this.setState({ severidad: "error" });
       resolve();
@@ -92,13 +92,13 @@ class IniciarSesion extends Component {
   };
   render() {
     let yo = getUser();
-    console.log("DESTNO", yo);
+    //console.log("DESTNO", yo);
 
     if (yo) {
       //en caso ya este logueado
       const DESTINO = yo.rol.toLowerCase().split(" ")[0];
       this.props.history.push("./" + DESTINO);
-      console.log("DESTNO", DESTINO);
+      //console.log("DESTNO", DESTINO);
     }
     return (
       <>
@@ -137,7 +137,7 @@ class IniciarSesion extends Component {
                     autoFocus={true}
                     name="Usuario"
                     label="Usuario"
-                    inicial="josefeliciano@pucp.edu.pe"
+                    inicial=""
                     validacion={{ lim: 30 }}
                     onChange={this.handleOnChange}
                     validarEntrada={this.validarEntrada}
@@ -148,7 +148,7 @@ class IniciarSesion extends Component {
                     autoFocus={true}
                     name="Contrasenia"
                     label="Contraseña"
-                    inicial="contra"
+                    inicial=""
                     validacion={{ lim: 50 }}
                     onChange={this.handleOnChange}
                     validarEntrada={this.validarEntrada}

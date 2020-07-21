@@ -19,15 +19,15 @@ const Coordinador = () => {
   
   useEffect(() => {
     async function fetchData() {
-      console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
+      //console.log("idCoordinador: ",getUser().usuario.ID_USUARIO);
       const endpoint = "/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("facultades:", res);
+      //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
       }
-      console.log("facultades:", facultades);
+      //console.log("facultades:", facultades);
     }
     fetchData();
   }, {});

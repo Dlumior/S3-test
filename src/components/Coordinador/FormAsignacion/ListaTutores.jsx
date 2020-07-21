@@ -26,9 +26,9 @@ class ListaTutores extends React.Component {
   }
   async componentDidMount() {
     let listaTutor = await Conexion.GET({servicio:this.props.enlace});
-    console.log("TUTORES",listaTutor);
+    //console.log("TUTORES",listaTutor);
     this.setState({tutores:listaTutor.tutores});    
-    console.log("TUTORES del state",this.state.tutores);
+    //console.log("TUTORES del state",this.state.tutores);
   }
   shouldComponentUpdate(nextState, nextProps) {
     if (nextState.tutores !== this.state.tutores) {

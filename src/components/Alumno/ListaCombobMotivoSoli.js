@@ -96,7 +96,7 @@ class ListaCombobMotivoSoli extends Component {
   }
 
   handleOnClick(e){
-    console.log("CLLIIIIIIICK");
+    //console.log("CLLIIIIIIICK");
     if (this.state.item.length === 0) {
       if (this.state.mensajeError.length === 0) {
         this.setState({

@@ -12,9 +12,9 @@ class ListadoDeAlumnos extends Component {
     }
 
     handleOnChangeAlumnos(alumnosSeleccionados) {
-        console.log("ALUMNOS:", alumnosSeleccionados);
+        //console.log("ALUMNOS:", alumnosSeleccionados);
         this.setState({alumnoSeleccionado: alumnosSeleccionados});
-        console.log("ALUMNOS:", this.state.alumnoSeleccionado);
+        //console.log("ALUMNOS:", this.state.alumnoSeleccionado);
       }
     render() {
         return (

@@ -46,7 +46,7 @@ const style = {
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
-  console.log("cod",e.target.value);
+  //console.log("cod",e.target.value);
   //fetchData(e.target.value);
   setDatosForm({
     ...datosForm,
@@ -54,15 +54,15 @@ const handleName = (e, datosForm, setDatosForm) => {
   });
 };
 const handleFecha = (e, datosForm, setDatosForm) => {
-  console.log("fecha",e.target.value);
+  //console.log("fecha",e.target.value);
   setDatosForm({
     ...datosForm,
     fecha: e.target.value,
   });
-  console.log("fecha",datosForm.fecha);
+  //console.log("fecha",datosForm.fecha);
 };
 const handleHoraIni = (e, datosForm, setDatosForm) => {
-  console.log("horaini",e.target.value);
+  //console.log("horaini",e.target.value);
   if (e.target.value < "08:00" || e.target.value > '19:30') {
     document.getElementById("Hora").value = "08:00"; 
   } else {
@@ -70,11 +70,11 @@ const handleHoraIni = (e, datosForm, setDatosForm) => {
       ...datosForm,
       horaini: e.target.value,
     });
-    console.log("horaini",datosForm.horaini);
+    //console.log("horaini",datosForm.horaini);
   }
 };
 const handleHoraInicial = async (e, datosForm, setDatosForm,duracion) => {
-  console.log("horaini",e.target.value);
+  //console.log("horaini",e.target.value);
   let hi=e.target.value;
   let hf;
   if (moment(e.target.value,'HH:mm').format('HH:mm')>moment('22:30','HH:mm').format('HH:mm')){
@@ -96,19 +96,19 @@ const handleHoraInicial = async (e, datosForm, setDatosForm,duracion) => {
     ...datosForm,
     horaini: hi,
   });
-  console.log("duracionn: ",duracion);
-  console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
-  console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
+  //console.log("duracionn: ",duracion);
+  //console.log("horaini: ",moment(e.target.value,'HH:mm').format('HH:mm'));
+  //console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
   await setDatosForm({
     ...datosForm,
     horaini:moment(hi,'HH:mm').format('HH:mm'),
     horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
   });
-  console.log("horaini",datosForm.horaini);   
+  //console.log("horaini",datosForm.horaini);   
 };
 
 const handleHoraFin = (e, datosForm, setDatosForm) => {
-  console.log("horafin",e.target.value);
+  //console.log("horafin",e.target.value);
 
   if (e.target.value > '20:00' || e.target.value < "08:30") {
     document.getElementById("Hora fin").value = "20:00"; 
@@ -117,11 +117,11 @@ const handleHoraFin = (e, datosForm, setDatosForm) => {
       ...datosForm,
       horafin: e.target.value,
     });
-    console.log("horafin",datosForm.horafin);
+    //console.log("horafin",datosForm.horafin);
   }
 };
 const handleLugar = (e, datosForm, setDatosForm) => {
-  console.log("lugar",e.target.value);
+  //console.log("lugar",e.target.value);
   if (e.target.value.length > 45) {
     document.getElementById("lugar").value = e.target.value.substring(0,45);
   }
@@ -129,11 +129,11 @@ const handleLugar = (e, datosForm, setDatosForm) => {
     ...datosForm,
     lugar: e.target.value,
   });
-  console.log("lugar",datosForm.lugar);
+  //console.log("lugar",datosForm.lugar);
 
 };
 const handleResultados = (e, datosForm, setDatosForm) => {
-  console.log("resu",e.target.value);
+  //console.log("resu",e.target.value);
   if (e.target.value.length > 45) {
     document.getElementById("res").value = e.target.value.substring(0,250);
   }
@@ -141,7 +141,7 @@ const handleResultados = (e, datosForm, setDatosForm) => {
     ...datosForm,
     resultado: e.target.value,
   });
-  console.log("resu",datosForm.resultado);
+  //console.log("resu",datosForm.resultado);
 
 };
 
@@ -194,11 +194,11 @@ useEffect(() => {
       const endpoint = "/api/facultad/tutor/"+getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
       const res = await GET(params);    
-      console.log("facultades:", res);
+      //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
       }      
-      console.log("facultad:", facultades);
+      //console.log("facultad:", facultades);
     }
    fetchData();
 }, {});
@@ -209,11 +209,11 @@ useEffect(() => {
         const endpoint = "/api/programa/lista/tutor/"+getUser().usuario.ID_USUARIO+"/"+facultad;
         const params = { servicio: endpoint };
         const res = await GET(params);    
-        console.log("proogramasss:", res);
+        //console.log("proogramasss:", res);
         if (res){
             setProgramas(res.programas);
         }
-        console.log("proograma:", programas);
+        //console.log("proograma:", programas);
       }     
       if (facultad!=""){
           fetchData();
@@ -226,7 +226,7 @@ useEffect(() => {
     const endpoint = "/api/tutoria/lista/"+programa;
     const params = { servicio: endpoint };
     const res = await GET(params);
-    console.log("tutoria: ",res);
+    //console.log("tutoria: ",res);
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
       setDuracion(res.tutoria[0].DURACION);
@@ -254,7 +254,7 @@ useEffect(() => {
           ...datosForm,
           alumnoNombre: "",
         });
-        console.log("severidad= ",severidad.severidad);
+        //console.log("severidad= ",severidad.severidad);
       } else {
         setSeveridad({
           severidad:"",
@@ -262,14 +262,14 @@ useEffect(() => {
         setAlerta({
           mensaje:"",
         }); 
-        console.log("fechaa", moment(new Date()).format("DD-MM-YYYY"))
-        console.log("alumnocod",res.alumno);
+        //console.log("fechaa", moment(new Date()).format("DD-MM-YYYY"))
+        //console.log("alumnocod",res.alumno);
         datosForm.alumnos.push(res.alumno.ID_ALUMNO);
         setDatosForm({
           ...datosForm,
           alumnoNombre: res.alumno.USUARIO.NOMBRE + " " + res.alumno.USUARIO.APELLIDOS,
         }); 
-        console.log("alumnos: ",datosForm.alumnos);
+        //console.log("alumnos: ",datosForm.alumnos);
       }
 
     }
@@ -281,7 +281,7 @@ useEffect(() => {
   };
   
   const handleCompromiso = (comp) => {
-    console.log("thisisit",comp);
+    //console.log("thisisit",comp);
     setCompromiso(comp);
   };
   const handleClose = () => {
@@ -308,10 +308,10 @@ useEffect(() => {
   };
   const handleOnChangeEtiquetas = (etiqueta) => {
     const listaEtiquetas = [];
-    console.log("etiqueta",etiqueta);
+    //console.log("etiqueta",etiqueta);
     etiqueta.forEach((element) => {
       if (element.agregar) {
-        console.log("agrega",element);
+        //console.log("agrega",element);
         listaEtiquetas.push(element.id);
       }
     });
@@ -355,11 +355,11 @@ useEffect(() => {
         },
       }
       const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
-      console.log("saving new sesion in DB:", nuevaSesion);
+      //console.log("saving new sesion in DB:", nuevaSesion);
       let sesion = await Controller.POST(props);
-      console.log("sesion debug xaeee: ", sesion);
+      //console.log("sesion debug xaeee: ", sesion);
       if (sesion) {
-        console.log("ENTRE AL IF: ");
+        //console.log("ENTRE AL IF: ");
         if(sesion.message){
           setSeveridad({
             severidad:"error",
@@ -383,7 +383,7 @@ useEffect(() => {
           }); 
         }
       }
-      console.log("got updated sesion from back:", sesion);
+      //console.log("got updated sesion from back:", sesion);
         
   
       // setDatosForm({

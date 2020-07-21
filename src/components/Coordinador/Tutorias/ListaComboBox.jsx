@@ -63,7 +63,7 @@ class ListaComboBox extends Component {
     let listaItems = [];
     // decido si devuelvo Id o el objeto completo
     if (this.props.allObject) {
-      console.log("All object activated: ", item);
+      //console.log("All object activated: ", item);
       await this.props.escogerItem(item);
     } else {
       listaItems.push(item[this.props.id]);
@@ -79,21 +79,21 @@ class ListaComboBox extends Component {
   async componentDidMount() {
     let listaItems;
     if (this.props.datos) {
-      console.log("this.props.datos---->: ", listaItems);
+      //console.log("this.props.datos---->: ", listaItems);
       listaItems = this.props.datos;
 
     } else {
       listaItems = await Conexion.GET({ servicio: this.props.enlace });
       if(!listaItems) return;
-      console.log("No habian this.props.datos---->: ", listaItems);
-      console.log("this.props.enlace nuevo", this.props.enlace);
+      //console.log("No habian this.props.datos---->: ", listaItems);
+      //console.log("this.props.enlace nuevo", this.props.enlace);
 
-      console.log("*entreeeee---->nuevo", listaItems);
+      //console.log("*entreeeee---->nuevo", listaItems);
     }
     if (
       !listaItems[this.props.keyServicio] ||   listaItems[this.props.keyServicio].length === 0
     ) {
-      console.log("*entreeeee---->vacio", listaItems);
+      //console.log("*entreeeee---->vacio", listaItems);
       if (this.props.allObject) {
         this.props.escogerItem(undefined);
       } else {
@@ -106,12 +106,7 @@ class ListaComboBox extends Component {
       /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
       if (listaItems[this.props.keyServicio].length > 0) {
-        console.log(
-          "entreeeee---->: ",
-          this.props.subnombre
-            ? listaItems[this.props.keyServicio][0][this.props.subnombre]
-            : listaItems[this.props.keyServicio][0]
-        );
+        //console.log( "entreeeee---->: ",  this.props.subnombre ? listaItems[this.props.keyServicio][0][this.props.subnombre] : listaItems[this.props.keyServicio][0] );
         // En item el primero
         this.setState({
           item: listaItems[this.props.keyServicio][0],
@@ -133,17 +128,17 @@ class ListaComboBox extends Component {
   }
   async componentWillReceiveProps(nextProps) {
     if (nextProps.enlace !== this.props.enlace) {
-      console.log("Nueva enlace", nextProps.enlace);
+      //console.log("Nueva enlace", nextProps.enlace);
       let listaItems = await Conexion.GET({ servicio: nextProps.enlace });
-      console.log("this.props.enlace nuevo", this.props.enlace);
+      //console.log("this.props.enlace nuevo", this.props.enlace);
 
-      console.log("*entreeeee---->nuevo", listaItems);
+      //console.log("*entreeeee---->nuevo", listaItems);
 
       if (
         !listaItems[this.props.keyServicio] ||
         listaItems[this.props.keyServicio].length === 0
       ) {
-        console.log("*entreeeee---->vacio", listaItems);
+        //console.log("*entreeeee---->vacio", listaItems);
         if (this.props.allObject) {
           this.props.escogerItem(undefined);
         } else {
@@ -155,12 +150,12 @@ class ListaComboBox extends Component {
         /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
 
         if (listaItems[this.props.keyServicio].length > 0) {
-          console.log(
+          /*console.log(
             "entreeeee---->: ",
             this.props.subnombre
               ? listaItems[this.props.keyServicio][0][this.props.subnombre]
               : listaItems[this.props.keyServicio][0]
-          );
+          );*/
           // En item el primero
           this.setState({
             item: listaItems[this.props.keyServicio][0],
@@ -189,7 +184,7 @@ class ListaComboBox extends Component {
   }
 
   render() {
-    console.log("**listaItems Vacio", this.state.listaItems);
+    //console.log("**listaItems Vacio", this.state.listaItems);
     if (this.state.listaItems.length === 0) {
       return <h1></h1>;
     } else {

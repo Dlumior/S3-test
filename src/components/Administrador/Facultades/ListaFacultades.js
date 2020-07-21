@@ -100,7 +100,7 @@ class ListaFacultades extends React.Component {
   async componentDidUpdate(prevProps,nextState){
     if (this.props.facultades!==prevProps.facultades || this.props.flag!==prevProps.flag 
       || nextState.flag !== this.state.flag){
-      console.log("fac",this.props.facultades);
+      //console.log("fac",this.props.facultades);
       let arregloFac;
       if (getUser().rol==="Administrador"){
         arregloFac=await Controller.GET({servicio:"/api/facultad/"});
@@ -108,7 +108,7 @@ class ListaFacultades extends React.Component {
         arregloFac=await Controller.GET({servicio:"/api/facultad/coordinador/"+getUser().usuario.ID_USUARIO});
       }
       if (arregloFac){
-        console.log("arreglo: ",arregloFac);
+        //console.log("arreglo: ",arregloFac);
         this.establecerData(arregloFac);
       }
     }    
@@ -123,14 +123,14 @@ class ListaFacultades extends React.Component {
     }
     //let arregloDeAlumnos=await Controller.GET({servicio:"/api/alumno/lista/"+this.props.idPrograma});
     if (arregloFac){
-      console.log("arreglo: ",arregloFac);
+      //console.log("arreglo: ",arregloFac);
       this.establecerData(arregloFac);
     }
   }
   handleOnOpen= (element) =>{
     this.setState({ open: true });
     this.state.facultadCompleta=element;
-    console.log("faku",this.state.facultadCompleta);
+    //console.log("faku",this.state.facultadCompleta);
   } 
   handleOnOpenEliminar= (element) =>{
     this.setState({ open2: true });//para el eliminar
@@ -146,7 +146,7 @@ class ListaFacultades extends React.Component {
   callback = (count) => {
     // do something with value in parent component, like save to state
     let i= this.state.flag +1;
-    console.log("veamos: ",i);
+    //console.log("veamos: ",i);
     this.setState({flag:i});
   }
 

@@ -14,7 +14,7 @@ const handleClick = () => {
   let usuario = { ...JSON.parse(sessionStorage.Sesion) };
   usuario.rol = "Alumno";
   sessionStorage.Sesion = JSON.stringify(usuario);
-  console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
+  //console.log("Nuevo rol: ", JSON.parse(sessionStorage.Sesion).rol);
 };
 
 const DatosGenerales = (props) => {
@@ -29,18 +29,18 @@ const DatosGenerales = (props) => {
 
   useEffect(() => {
     async function fetchData() {
-      console.log("roll",getUser().rol);
+      //console.log("roll",getUser().rol);
         if (getUser().rol ==="Tutor"){
             const endpoint = "/api/alumno/"+props.idAlumno;
             const params = { servicio: endpoint };
             const res = await GET(params);    
-            console.log("res:", res);
+            //console.log("res:", res);
             if (res){
               alumno.codigo=res.alumno.USUARIO.CODIGO;
               alumno.correo=res.alumno.USUARIO.CORREO;
               alumno.direccion=res.alumno.USUARIO.DIRECCION;
               alumno.telefono=res.alumno.USUARIO.TELEFONO;
-              console.log("alumno:", alumno);
+              //console.log("alumno:", alumno);
               setAlumno({
                 ...
                 alumno
@@ -72,13 +72,13 @@ const DatosGenerales = (props) => {
       request: { usuario: datos },
     };
 
-    console.log("Saving new info in DB:", datos);
+    //console.log("Saving new info in DB:", datos);
     let edited = await POST(sendData);
     if (edited !== null) {
-      console.log("Got updated user from back:", edited);
+      //console.log("Got updated user from back:", edited);
       alert("Se guardaron los cambios correctamente");
     } else {
-      console.log("Hubo un error");
+      //console.log("Hubo un error");
     }
   };
 
@@ -92,7 +92,7 @@ const DatosGenerales = (props) => {
         className={classes.customContainer}
       >
         <Grid item>
-          {console.log("direcc:",alumno.direccion)}
+          {/*console.log("direcc:",alumno.direccion)*/}
           <Datos
             isEdit={isEdit}
             codigo={alumno.codigo}

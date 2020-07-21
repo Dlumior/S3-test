@@ -114,7 +114,7 @@ const RegistrarFacultad = (props) => {
       setAlerta({
         mensaje:"Existen errores al completar el formulario",
       });      
-      console.log("severidad= ",severidad.severidad);
+      //console.log("severidad= ",severidad.severidad);
       return;
     } else {
       if (checked){
@@ -125,12 +125,12 @@ const RegistrarFacultad = (props) => {
       setDatosForm({
         ...datosForm
       });
-      console.log(datosForm);
+      //console.log(datosForm);
 
       const props = { servicio: "/api/facultad", request: {facultad: datosForm} };
-      console.log("saving new coord in DB:", datosForm);
+      //console.log("saving new coord in DB:", datosForm);
       let nuevaFacu = await Conexion.POST(props);
-      console.log("got updated coord from back:", nuevaFacu);
+      //console.log("got updated coord from back:", nuevaFacu);
 
       //si se registro bien ok==1, duplicado ok===0, otro error=-1
       if (nuevaFacu){
@@ -142,7 +142,7 @@ const RegistrarFacultad = (props) => {
           setAlerta({
             mensaje:"Facultad registrada",
           });      
-          console.log("severidad= ",severidad.severidad);
+          //console.log("severidad= ",severidad.severidad);
           setFlag(flag => flag +1);
   
         }else if(nuevaFacu.registro.ok===0){

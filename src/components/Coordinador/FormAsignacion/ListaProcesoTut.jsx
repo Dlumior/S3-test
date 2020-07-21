@@ -26,9 +26,9 @@ class ListaProcesoTut extends React.Component {
   }
   async componentDidMount() {
     let listaTutorias = await Conexion.GET({servicio:this.props.enlace});
-    console.log("tutorias",listaTutorias);
+    //console.log("tutorias",listaTutorias);
     this.setState({tutorias:listaTutorias.tutoria});    
-    console.log("tutoria del state",this.state.tutorias);
+    //console.log("tutoria del state",this.state.tutorias);
     
   }
   shouldComponentUpdate(nextState, nextProps) {
