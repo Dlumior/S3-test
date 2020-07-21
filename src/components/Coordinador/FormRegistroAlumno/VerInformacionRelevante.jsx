@@ -244,11 +244,6 @@ class VerInformacionRelevante extends Component {
    * @param {Buffer} file
    */
   handleOnSuccesLoad = async (file, fileName, ext) => {
-    /*console.log("JUpload SSJ length: ", {
-      archivo: file ? true : false,
-      fileName: fileName,
-      ext: ext,
-    });*/
     const tamanio = file.length;
 
     await this.setState({
@@ -293,7 +288,7 @@ class VerInformacionRelevante extends Component {
           this.handleCloseLoading();
           resolve();
         } else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
-          alert("Se registro la informacion: ", response);
+          //alert("Se registro la informacion: ", response);
           let mensaje = this.state.mensajesResultado;
           mensaje.push(
             <>

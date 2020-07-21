@@ -140,7 +140,6 @@ class FormularioImportarAlumnos extends Component {
                     {`Se registro Satisfactoriamente a:`}
                     <ul>
                       <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
-                      <li>{`Error: ${nuevoAlumno.error}`}</li>
                     </ul>
                   </>
                 );
@@ -167,7 +166,7 @@ class FormularioImportarAlumnos extends Component {
             resolve();
           });
           //console.log("Esperare 5000ms");
-        }, 5000);
+        }, 1000);
 
         resolve();
       });
@@ -421,14 +420,14 @@ class FormularioImportarAlumnos extends Component {
   }
   renderBodyLoading(mensajesResultado) {
     return (
-      <>
+      <div >
         <h5>Registrando Alumnos:</h5>
-        <ol>
+        <ol style={{"text-align":"left"}}>
           {mensajesResultado.map((mensaje) => (
             <li>{mensaje}</li>
           ))}
         </ol>
-      </>
+      </div>
     );
   }
   render() {
@@ -444,8 +443,12 @@ class FormularioImportarAlumnos extends Component {
               />
             }
             open={this.state.open}
+            disabled={this.state.peticiones}
             hadleClose={this.handleCloseLoading}
-            //botonIzquierdo={"Cancelar"}
+            botonDerecho={
+              {name:"Aceptar", 
+              onClick: ()=>{this.setState({ open: false, mensajesResultado: [], peticiones: 0 })}}
+            }
             //botonDerecho={"Continuar"}
           />
           <Grid container spacing={1} style={estilos.paper}>

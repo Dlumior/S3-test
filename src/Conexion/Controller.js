@@ -17,7 +17,7 @@ export async function GET(props) {
     });
     //console.log(">>> entre al GET response", response);
     let responseJson = await response.json();
-    //console.log("*>>> entre al GET response", responseJson);
+    console.log("*>>> entre al GET response", responseJson);
 
     return responseJson;
   } catch (error) {

@@ -172,7 +172,7 @@ const BarraNavegacion = (props) => {
       >
         <Toolbar>
           <Grid container spacing={1}>
-            <Grid item md={1} xs={4} xl={1}>
+            <Grid item md={1} xs={6} xl={1}>
               <Grid container spacing={1}>
                 <Grid item md={3} xs={2} xl={2}>
                   <IconButton
@@ -201,7 +201,7 @@ const BarraNavegacion = (props) => {
                 | Tutor: {`${usuario.NOMBRE} ${usuario.APELLIDOS} `}
               </Typography>
             </Grid>
-            <Grid item md={1} xs={3} xl={1}>
+            <Grid item md={1} xs={1} xl={1}>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop} />
               <IconButton
