@@ -17,9 +17,18 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link as LinkRouter } from "react-router-dom";
+import { useUserValue, getUser } from "../../Sesion/Sesion";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import { logOut } from "../../Sesion/actions/sesionAction";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -82,8 +90,13 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  
+  const [{}, dispatch] = useUserValue();
 
+  const handleClick = () => {
+    //te odio hooks
+    console.log("Admin LOG OUTTTTT", props);
+    logOut(dispatch);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -101,7 +114,7 @@ const BarraNavegacion = (props) => {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar color="#000000">
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -138,24 +151,83 @@ const BarraNavegacion = (props) => {
         <List>
           {[
             "Perfil",
-            "Registrar Alumnos",
-            "Registrar Tutores",
-            "Send email",
-            "Drafts",
-          ].map((text, index) => (
-            <ListItem
-              button
-              key={text}
-              component={LinkRouter}
-              //to={"/coordinador/" + text.toLowerCase()}
-              to={"/coordinador/" + text.split(' ').join('')}
-            >
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+            "Facultades",
+            "Programas",
+            "Coordinadores de Programa",
+            "Procesos de Tutoria",
+            "Alumnos",
+            "Tutores",
+            "Disponibilidades",
+            "Asignacion de Tutor",
+            "Asignar Roles",
+            "Reportes",
+          ]
+            .filter((e) =>
+              getUser().rol === "Coordinador Programa"
+                ? e !== "Coordinadores de Programa" &&
+                  e !== "Facultades"
+                : e === e
+            )
+            .map((text, index) => (
+              <ListItem
+                button
+                key={text}
+                component={LinkRouter}
+                //to={"/coordinador/" + text.toLowerCase()}
+                to={
+                  index === 11
+                    ? "/"
+                    : "/coordinador/" + text.split(" ").join("").toLowerCase()
+                }
+              >
+                <ListItemIcon>
+                  {index === 0 ? (
+                    <AccountCircleRoundedIcon />
+                  ) : index === 1 ? (
+                    <AccountBalanceRoundedIcon />
+                  ) : index === 2 ? (
+                    getUser().rol === "Coordinador Facultad" ? (
+                      <AccountBalanceRoundedIcon />
+                    ) : (
+                      <NoteAddRoundedIcon />
+                    )
+                  ) : index === 3 || index === 4 ? (
+                    <NoteAddRoundedIcon color="primary" />
+                  ) : index === 7 ? (
+                    getUser().rol === "Coordinador Facultad" ? (
+                      <NoteAddRoundedIcon />
+                    ) : (
+                      <SupervisorAccountRoundedIcon />
+                    )
+                  ) : index === 8 ? (
+                    getUser().rol === "Coordinador Facultad" ? (
+                      <SupervisorAccountRoundedIcon />
+                    ) : (
+                      <AssessmentRoundedIcon />
+                    )
+                  ) : index === 9 ? (
+                    <SupervisorAccountRoundedIcon />
+                  ) : index === 10 ? (
+                    <AssessmentRoundedIcon />
+                  ) : (
+                    <NoteAddRoundedIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          <ListItem
+            button
+            key={"Cerrar Sesion"}
+            component={LinkRouter}
+            to={"/"}
+            onClick={handleClick}
+          >
+            <ListItemIcon>
+              <ExitToAppRoundedIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary={"Cerrar Sesion"} />
+          </ListItem>
         </List>
       </Drawer>
       <main

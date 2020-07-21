@@ -5,16 +5,29 @@
   "dependencies": {
     "@material-ui/core": "^4.9.14",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.54",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
+    "downloadssj": "^1.0.0",
+    "file-saver": "^2.0.2",
+    "jin-upload-ssj2": "^1.0.10",
+    "jinssj-mat-table-drop-upload-csv": "^2.0.5",
     "material-table": "^1.57.2",
+    "moment": "^2.27.0",
     "react": "^16.13.1",
+    "react-big-calendar": "^0.25.0",
+    "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "redux": "^4.0.5"
+    "recompose": "^0.30.0",
+    "redux": "^4.0.5",
+    "typeface-roboto": "0.0.75",
+    "xlsx": "^0.16.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -37,5 +50,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://3.95.30.72:5000"
+  "proxy": "http://3.87.69.212:5000"
 }

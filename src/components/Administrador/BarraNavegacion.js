@@ -17,9 +17,18 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
+import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
+import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
+import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link as LinkRouter } from "react-router-dom";
+import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import { logOut } from "../../Sesion/actions/sesionAction";
+import { useUserValue } from "../../Sesion/Sesion";
 
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -82,7 +90,12 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  const [{usuario},dispatch] = useUserValue();
+  const handleClick = () => {
+    //te odio hooks
+    console.log("Admin LOG OUTTTTT",props);
+    logOut(dispatch);
+  }
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -135,23 +148,46 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-          {["Perfil", "Institución", "Facultades", "Coordinadores"].map(
+          {["Perfil", 
+            "Institución",
+            "Facultades",
+            "Coordinadores",
+            "Unidades de Apoyo",
+           ].map(
             (text, index) => (
               // <LinkRouter to={}>
               <ListItem
                 button
                 key={text}
                 component={LinkRouter}
-                to={"/administrador/" + text.toLowerCase()}
+                to={index===5?"/":"/administrador/" + text.split(' ').join('').toLowerCase().replace('ó','o')}
+              //onClick={handleClick}
               >
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index === 0 ? <AccountCircleRoundedIcon /> : 
+                  index === 1 ? <AccountBalanceRoundedIcon /> : 
+                  index === 2 ? <AccountBalanceRoundedIcon /> : 
+                  index === 3 ? <SupervisorAccountRoundedIcon/> :
+                  index === 4 ? <AccountBalanceRoundedIcon/> :
+                  <NoteAddRoundedIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
               // </LinkRouter>
             )
           )}
+          <ListItem
+              button
+              key={"Cerrar Sesion"}
+              component={LinkRouter}
+              to={"/"}
+              onClick={handleClick}
+            >
+              <ListItemIcon>
+                  <ExitToAppRoundedIcon/>
+              </ListItemIcon>
+              <ListItemText primary={"Cerrar Sesión"} />
+            </ListItem>
         </List>
         {/* <Divider />
         <List>

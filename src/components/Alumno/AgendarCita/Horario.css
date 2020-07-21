@@ -1,0 +1,6 @@
+.tituloDia {
+    overflow: hidden;
+}
+div.tituloDia:hover {
+    overflow: auto;
+}

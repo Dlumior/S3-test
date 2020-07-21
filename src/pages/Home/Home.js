@@ -10,10 +10,13 @@ import { Grid } from "@material-ui/core";
 
 import Login from "../../components/Home/Login.js";
 import useStyles from "./useStyles.js";
+import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
+import { useUserValue } from "../../Sesion/Sesion.js";
 
-function Home() {
+function Home(props) {
   const classes = useStyles();
-
+  const [{ usuario }, dispatch] = useUserValue();
+  console.log("Home encontro: ", usuario);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -36,20 +39,40 @@ function Home() {
         <Grid item xs={12} container className={classes.image}>
           <Grid
             item
-            xs={6}
+            md={6}
+            xs={false}
             container
             justify="flex-start"
             alignItems="center"
-            spacing={5}
           >
             <Grid item>
-              <Typography variant="h3" color="primary">
+              <Typography
+                variant="h2"
+                className={classes.t1}
+                style={{ color: "#2B7A78" }}
+              >
                 Bienvenidos a Ututor
+              </Typography>
+              <Typography
+                variant="h5"
+                className={classes.t2}
+                style={{ color: "#2B7A78" }}
+              >
+                Ingresa y solicita una sesión de tutoría con los profesores de
+                tu universidad.
               </Typography>
             </Grid>
           </Grid>
-          <Grid item xs={6} container justify="center" alignItems="center">
-            <Login />
+          <Grid
+            item
+            md={6}
+            xs={12}
+            container
+            justify="center"
+            alignItems="center"
+          >
+            {/*<Login />*/}
+            <IniciarSesion />
           </Grid>
         </Grid>
       </Grid>

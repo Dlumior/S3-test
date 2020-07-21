@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import * as Controller from "./../../Conexion/Controller";
+import * as Controller from "../../Conexion/Controller";
 import {
   Paper,
   Tabs,
@@ -7,14 +7,12 @@ import {
   TextField,
   Tab,
   Button,
-  Select,
-  MenuItem,
   FormHelperText,
 } from "@material-ui/core";
 import ListaProgramas from "./ListaProgramas";
 const style = {
   paper: {
-    marginTop: "4%",
+    marginTop: "3%",
     marginLeft: "3%",
     display: "flex",
     flexDirection: "column",
@@ -71,7 +69,7 @@ class FormularioRegistrarAlumno extends Component {
         codigo: {
           lim: 12,
           mssgOk: "",
-          mssgError: "Codigo deben ser maximo de 12 caracteres",
+          mssgError: "Codigo debe ser maximo de 12 caracteres",
         },
         nombres: {
           lim: 100,
@@ -81,27 +79,27 @@ class FormularioRegistrarAlumno extends Component {
         apellidos: {
           lim: 100,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 100 caracteres",
+          mssgError: "Apellidos deben ser maximo de 100 caracteres",
         },
         correo: {
-          lim: 5,
+          lim: 100,
           regex: "/[@]/g",
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 45 caracteres",
+          mssgError: "Correo debe ser maximo de 100 caracteres",
         },
         programa: {
           mssgOk: "",
-          mssgError: "Debes seleccionar el programa del alumno",
+          mssgError: "Debe seleccionar el programa del alumno",
         },
         telefono: {
           lim: 45,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 45 caracteres",
+          mssgError: "Telefono debe ser maximo de 45 caracteres",
         },
         direccion: {
           lim: 100,
           mssgOk: "",
-          mssgError: "Nombres deben ser maximo de 100 caracteres",
+          mssgError: "Direccion debe ser maximo de 100 caracteres",
         },
       },
     };
@@ -110,8 +108,7 @@ class FormularioRegistrarAlumno extends Component {
     this.handleOnChange = this.handleOnChange.bind(this);
   }
   async handleOnClick(e) {
-    /** Registar propiamente */
-    e.preventDefault(); //prevenir que se refresque la pantalla
+    e.preventDefault();
     console.log("alumno: ", this.state.alumno);
     let {
       nombres,
@@ -126,7 +123,7 @@ class FormularioRegistrarAlumno extends Component {
       alumno: {
         APELLIDOS: apellidos,
         CODIGO: codigo,
-        CONTRASENHA: "sudo tys",
+        CONTRASENHA: "contra",
         CORREO: correo,
         DIRECCION: direccion,
         NOMBRE: nombres,
@@ -153,13 +150,13 @@ class FormularioRegistrarAlumno extends Component {
 
       return;
     }
-    if (this.state.validacion[e.target.name].regex !== undefined) {
+    /*    if (this.state.validacion[e.target.name].regex !== undefined) {
       const str = e.target.value;
       var result = str.match(this.state.validacion[e.target.name].regex);
       console.log("result", result);
       return;
     }
-
+*/
     let mensajes = Object.assign({}, this.state.mensaje);
     mensajes[e.target.name] = this.state.validacion[e.target.name].mssgOk;
     alumno[e.target.name] = e.target.value;
@@ -174,10 +171,11 @@ class FormularioRegistrarAlumno extends Component {
     this.state.alumno.programa = programa;
     console.log("proograma:", this.state.alumno.programa);
   }
+  componentDidMount() {}
   render() {
     return (
       <div>
-        <Paper square style={style.paper}>
+        <Paper elevation={0} style={style.paper}>
           <Tabs
             value={0}
             indicatorColor="primary"
@@ -185,8 +183,8 @@ class FormularioRegistrarAlumno extends Component {
             onChange={this.handleTabOnChange}
             aria-label="disabled tabs example"
           >
-            <Tab label="Ingresar Alumnos">vadvawedv</Tab>
-            <Tab label="Importar Alumnos" disabled />
+            <Tab label="Ingresar Alumnos" />
+            <Tab label="Importar Alumnos" />
           </Tabs>
         </Paper>
         <div style={style.envoltorioFormulario}>
@@ -248,7 +246,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="telefono"
                     fullWidth
-                    label="Telefono"
+                    label="Teléfono"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>
@@ -259,7 +257,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="direccion"
                     fullWidth
-                    label="Direccion"
+                    label="Dirección"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>
@@ -270,7 +268,7 @@ class FormularioRegistrarAlumno extends Component {
                   <TextField
                     name="codigo"
                     fullWidth
-                    label="Codigo"
+                    label="Código"
                     onChange={this.handleOnChange}
                   />
                   <FormHelperText error>

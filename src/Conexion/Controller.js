@@ -1,16 +1,14 @@
-/**
- * Each method connects to the backend in the specific HTTP request
- */
 
+import {getUser} from "../Sesion/Sesion";
 /**
- *  @param props objeto que contiene url y request
- *  @param props.servicio URL del endpoint al cual se conectara
- * 
- *  @returns metodo GET/ un objeto json que el endpoint en el backend devuelve 
+ * Como llamar a GET: "...... GET ( {servicio: "/servico?query=valorQuery"} )"
+ * @param {string} props.servicio ruta del endpoint en el backend
+ * @param {Object} props 
  */
 export async function GET(props) {
-    console.log(">>> GET");
+    
     try {
+        console.log(">>> GET props",props);
         let response = await fetch(props.servicio,
             {
             method: 'GET',
@@ -20,9 +18,12 @@ export async function GET(props) {
                 'Content-Type': 'application/json',
             },
         });
+        console.log(">>> entre al GET response",response);
         let responseJson = await response.json();
-        console.log(">>> GET succesful");
+        console.log("*>>> entre al GET response",responseJson);
+        
         return responseJson;  
+
     } catch (error) {
         console.log(">>> GET failed");
         console.log(">>> ", error.message);
@@ -30,19 +31,20 @@ export async function GET(props) {
     }
 }
 /**
+ * Como llamar a POST: ".... POST( {servicio: "/servico?query=valorQuery" , request: {objeto} } )"
+ * 
  *  @param props objeto que contiene url y request
- *  @param props.endpoint URL del endpoint al cual se conectara
- *  @param props.request el objeto que requiere el endpoint 
+ *  @param {string} props.servicio URL del endpoint al cual se conectara
+ *  @param {JSON} props.request el objeto que requiere el endpoint 
  * 
  *  @returns metodo POST/ un objeto json que el endpoint en el backend devuelve 
  */
 export async function POST(props) {
-    console.log(">>> POST", props);
-    console.log(">>> POST", props.request);
-    console.log(">>> POST", props.servicio);
+    console.log("POST->",props);
     try {
         let response = await fetch(props.servicio,
         {
+            limits:{fileSize: '10mb'},
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -50,12 +52,47 @@ export async function POST(props) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify( props.request )
+
         });
+        
+        console.log(">>> POST pre succesful",response );
+        
         let responseJson = await response.json();
-        console.log(">>> YEEEE");
+        let hoy=new Date();
+        let dia=(hoy.getDay()+"-"+hoy.getMonth()+"-"+hoy.getFullYear());
+        console.log("DIA",dia);
+
+        console.log(">>> getUser",getUser());
+
+        if (getUser()!== undefined){
+            let auditoria = await fetch("/api/auditoria/",
+            {
+                limits:{fileSize: '10mb'},
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({auditoria:
+                    {usuario:getUser().usuario.CODIGO+"_"+getUser().usuario.NOMBRE+"_",dia,
+                    transaccion:props.request}}
+                    )
+            });
+
+            console.log(">>> POST auditoria",await auditoria.json());
+            console.log(">>> POST auditoria",await auditoria);
+
+        }       
+            
+        console.log(">>> POST succesful",responseJson);
+        
+
         return responseJson;  
     } catch (error) {
-        console.log("dead:", error.message);
+
+        console.log(">>> POST failed");
+        console.log(">>> ", error.message);
         return null;
     }
 }
