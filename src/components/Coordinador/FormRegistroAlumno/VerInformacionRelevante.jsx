@@ -10,6 +10,8 @@ import CampoDeTexto from "../Tutorias/CampoDeTexto";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
 import { getUser } from "../../../Sesion/Sesion";
+import JModal from "../ListaAlumnos/JModal";
+import Jloading from "./Jloading";
 
 const estilos = {
   paper: {
@@ -38,6 +40,8 @@ class VerInformacionRelevante extends Component {
   constructor() {
     super();
     this.state = {
+      open: false,
+      mensajesResultado: [],
       
       idArchivo:0,
       descripcion: "",
@@ -72,7 +76,9 @@ class VerInformacionRelevante extends Component {
     this.handleDescargar = this.handleDescargar.bind(this);
     this.getArchivo = this.getArchivo.bind(this);
 
-
+    this.renderBodyLoading = this.renderBodyLoading.bind(this);
+    this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
+    this.handleCloseLoading = this.handleCloseLoading.bind(this);
 
   }
   handleOnChangeTexto = (e) => {
@@ -253,6 +259,8 @@ class VerInformacionRelevante extends Component {
     });
   };
   handleOnClickRegistroSSJ_masivo = async () => {
+    this.handleClickOpenLoading();
+
     new Promise(async (resolve, reject) => {
       await setTimeout(async () => {
         //await this.state.FILE.forEach(async (pedazo, index) => {
@@ -272,15 +280,37 @@ class VerInformacionRelevante extends Component {
 
         if (!response) {
           console.log("Algo paso en el upload");
-          return;
+          let mensaje = this.state.mensajesResultado;
+          mensaje.push(
+            <>
+              {`Se registro satisfactoriamente:`}
+              <ul>
+                <li>{`${this.state.fileName}`}</li>
+              </ul>
+            </>
+          );
+          this.setState({ mensajesResultado: mensaje });
+          this.handleCloseLoading();
+          resolve();
         } else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
           alert("Se registro la informacion: ", response);
-          this.removerDatos();
+          let mensaje = this.state.mensajesResultado;
+          mensaje.push(
+            <>
+              {`Se registro satisfactoriamente:`}
+              <ul>
+                <li>{`${this.state.fileName}`}</li>
+              </ul>
+            </>
+          );
+          this.setState({ mensajesResultado: mensaje });
+          this.handleCloseLoading();
         }
         // });
 
-        resolve();
+        
       }, 1000);
+      resolve();
     });
   };
   clickInput() {
@@ -290,8 +320,44 @@ class VerInformacionRelevante extends Component {
   removerDatos() {
     this.setState({ archivo: undefined });
   }
+  handleClickOpenLoading() {
+    this.setState({ open: true });
+  }
+  handleCloseLoading() {
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        this.setState({ open: false, mensajesResultado: [], peticiones: 0 });
+      }, 5000);
+      this.removerDatos();
+      resolve();
+    });
+  }
+  renderBodyLoading(mensajesResultado) {
+    return (
+      <>
+        <h5>Registrando Archivo: {this.state.fileName}</h5>
+        
+          {mensajesResultado}
+       
+      </>
+    );
+  }
   render() {
     return (
+      <>
+          <JModal
+            titulo={"Mensaje de uTutor.com"}
+            body={
+              <Jloading
+                size={"xs"}
+                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+              />
+            }
+            open={this.state.open}
+            hadleClose={this.handleCloseLoading}
+            //botonIzquierdo={"Cancelar"}
+            //botonDerecho={"Continuar"}
+          />
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/**tabla de informacuion historica */}
         <Grid item md={4} xs={12}>
@@ -384,6 +450,7 @@ class VerInformacionRelevante extends Component {
           )}
         </Grid>
       </Grid>
+      </>
     );
   }
 }

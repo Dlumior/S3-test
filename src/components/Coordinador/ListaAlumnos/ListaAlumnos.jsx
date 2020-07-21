@@ -39,6 +39,7 @@ class ListaAlumnos extends Component {
           { title: "Codigo", field: "codigo" },
           { title: "Nombre", field: "nombre" },
           { title: "Correo", field: "correo" },
+          { title: "Telefono", field: "telefono" },
           { title: "Información Historica", field: "agregarInfo" },
           { title: "Historial de Asistencias", field: "perfil" },
           { title: "Mantenimiento", field: "mantenimiento" },
@@ -90,12 +91,13 @@ class ListaAlumnos extends Component {
       if (listaAtlumnos.alumnos) {
         listaAtlumnos.alumnos.forEach((alumno, index) => {
           const { ID_USUARIO, USUARIO } = alumno;
-          const { NOMBRE, APELLIDOS, CORREO, CODIGO } = USUARIO;
+          const { NOMBRE, APELLIDOS, CORREO, CODIGO,TELEFONO } = USUARIO;
           datos.push({
             nro: index + 1,
             codigo: CODIGO,
             nombre: `${NOMBRE} ${APELLIDOS}`,
             correo: CORREO,
+            telefono: TELEFONO,
             perfil: (
               <div>
                 <Button
@@ -118,20 +120,16 @@ class ListaAlumnos extends Component {
               <>
                 <Grid container spacing={2} style={{ textAlign: "center" }}>
                   {/** eliminar data */}
-                  
+
                   <Grid item md={6} xs={6}>
-                    
-                   <IconButton>
-                     <DescriptionSharpIcon
-                         fontSize="large"
+                    <IconButton>
+                      <DescriptionSharpIcon
+                        fontSize="large"
                         color="primary"
                         aria-label="add"
-                        
-                        onClick={(e) =>
-                          this.handleOpenDialog(e, 4, ID_USUARIO)}
-                        />
-                   </IconButton>
-                        
+                        onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
+                      />
+                    </IconButton>
                   </Grid>
                 </Grid>
               </>
@@ -157,13 +155,6 @@ class ListaAlumnos extends Component {
           });
           console.log("listaAtlumnos.alumnos push", datos);
         });
-        /*
-         { title: "Nro", field: "nro" },
-            { title: "Codigo", field: "codigo" },
-            { title: "Nombre", field: "nombre" },
-            { title: "Correo", field: "correo" },
-            { title: "Agregar Información Historica", field: "agregarInfo" },
-        */
         await this.setState({
           datosTabla: {
             columns: this.state.datosTablaOffline.columns,
@@ -178,9 +169,7 @@ class ListaAlumnos extends Component {
     console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -209,9 +198,7 @@ class ListaAlumnos extends Component {
     //usuarioLogueado?"/api/facultad//"
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
 
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -278,8 +265,8 @@ class ListaAlumnos extends Component {
           body={
             this.state.cuerpoDialogo === 0 ? (
               <FormularioRegistrarAlumno
-              modalOrden={this.state.registrarAlumno}
-               />
+                modalOrden={this.state.registrarAlumno}
+              />
             ) : this.state.cuerpoDialogo === 1 ? (
               <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
@@ -290,7 +277,6 @@ class ListaAlumnos extends Component {
               <VerInformacionRelevante
                 usuario={getUser().usuario}
                 idAlumno={this.state.currentID}
-                
               />
             )
           }
@@ -299,17 +285,27 @@ class ListaAlumnos extends Component {
             this.setState({ open: false });
             //window.location.replace(this.props.ruta);
           }}
-          maxWidth={this.state.cuerpoDialogo !== 4?"lg":"xl"}
+          maxWidth={this.state.cuerpoDialogo !== 4 ? "lg" : "xl"}
           botonIzquierdo={"Cerrar"}
-          
-          botonDerecho={this.state.cuerpoDialogo === 0 ?
-            {name:"Registrar", 
-            onClick: ()=>{this.setState({registrarAlumno:!this.state.registrarAlumno})}}:undefined
+          botonDerecho={
+            this.state.cuerpoDialogo === 0
+              ? {
+                  name: "Registrar",
+                  onClick: () => {
+                    this.setState({
+                      registrarAlumno: !this.state.registrarAlumno,
+                    });
+                  },
+                }
+              : undefined
           }
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           {/** eliminardata */}
-          <Grid item md={4} xs={4}> 
+       
+
+          <Grid item md={4}  xs={6}>
+
             <ListaComboBox
               mensaje="facultad"
               titulo={"Facultad"}
@@ -317,9 +313,7 @@ class ListaAlumnos extends Component {
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
               subnombre={
-                this.getSubRol(
-                  getUser().rol
-                ) === "programa"
+                this.getSubRol(getUser().rol) === "programa"
                   ? "FACULTAD"
                   : undefined
               }
@@ -330,7 +324,7 @@ class ListaAlumnos extends Component {
               placeholder={"Escoja la facultad"}
             />
           </Grid>
-          <Grid item md={4} xs={4}>
+          <Grid item md={4} xs={6}>
             {this.state.filtroFacultad ? (
               <ListaComboBox
                 mensaje="programa"
@@ -339,9 +333,7 @@ class ListaAlumnos extends Component {
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
                 keyServicio={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
+                  this.getSubRol(getUser().rol) === "programa"
                     ? "programas"
                     : "programa"
                 }
@@ -354,7 +346,7 @@ class ListaAlumnos extends Component {
               <></>
             )}
           </Grid>
-          <Grid item md={2} xs={2}>
+          <Grid item md={2} sm={6} xs={12}>
             <Button
               variant="outlined"
               color="primary"
@@ -365,7 +357,7 @@ class ListaAlumnos extends Component {
             </Button>
           </Grid>
           {/** Boton registarr */}
-          <Grid item md={2} xs={2}>
+          <Grid item md={2} xs={6}>
             <Button
               variant="contained"
               color="primary"

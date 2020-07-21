@@ -32,6 +32,8 @@ class FormularioImportarAlumnos extends Component {
   constructor() {
     super();
     this.state = {
+      peticiones: 0,
+      mensajesResultado: [],
       fileName: "",
       formato:
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -70,44 +72,113 @@ class FormularioImportarAlumnos extends Component {
     this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
     this.handleCloseLoading = this.handleCloseLoading.bind(this);
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
+    this.renderBodyLoading = this.renderBodyLoading.bind(this);
   }
 
-  async handleOnClickRegistroSSJ_masivo() {
+  handleOnClickRegistroSSJ_masivo = async () => {
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
-    const tags = this.state.columnasLimpias;
+
     console.log("Registrando ", data);
     if (!data || data?.length === 0) {
+      //alert("Naranjas");
+      let mensaje = this.state.mensajesResultado;
+      mensaje.push(`No hay registros que Registrar`);
+      this.setState({ mensajesResultado: mensaje });
       this.handleCloseLoading();
       return;
+    } else {
+      //alert("Si hay");
     }
+    const tags = this.state.columnasLimpias;
     let alumnosMasivo = [];
-    await data.forEach(async (registro) => {
-      let ALUMNO = {};
-      await tags.forEach((tag) => {
-        ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
+    await new Promise(async (resolve, reject) => {
+      await data.forEach(async (registro) => {
+        let ALUMNO = {};
+        await tags.forEach((tag) => {
+          ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
+        });
+        ALUMNO.PROGRAMA = this.state.programas;
+        ALUMNO.CONTRASENHA = "contra";
+        ALUMNO.USUARIO = ALUMNO.CORREO;
+        ALUMNO.ETIQUETA = this.state.etiquetas;
+        console.log("Registrando ALUMNO", ALUMNO);
+        //console.log("Podria registrar: ", ALUMNO);
+
+        alumnosMasivo.push(ALUMNO);
       });
-      ALUMNO.PROGRAMA = this.state.programas;
-      ALUMNO.CONTRASENHA = "contra";
-      ALUMNO.USUARIO = ALUMNO.CORREO;
-      ALUMNO.ETIQUETA = this.state.etiquetas;
-      console.log("Registrando ALUMNO", ALUMNO);
-      //console.log("Podria registrar: ", ALUMNO);
-      alumnosMasivo.push(ALUMNO);
+
+      resolve();
     });
+
+    await alumnosMasivo.forEach(async (ALUMNO) => {
+      let nuevoAlumno = undefined;
+      new Promise(async (resolve, reject) => {
+        await setTimeout(async () => {
+          nuevoAlumno = await POST({
+            servicio: "/api/alumno",
+            request: { alumno: ALUMNO },
+          });
+          new Promise(async (resolve, reject) => {
+            if (nuevoAlumno) {
+              if (nuevoAlumno.error) {
+                let mensaje = this.state.mensajesResultado;
+                mensaje.push(
+                  <>
+                    {`Ocurrio un error insesperado al registrar a:`}
+                    <ul>
+                      <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+                      <li>{`Error: ${nuevoAlumno.error}`}</li>
+                    </ul>
+                  </>
+                );
+                this.setState({ mensajesResultado: mensaje });
+              } else {
+                let mensaje = this.state.mensajesResultado;
+                mensaje.push(
+                  <>
+                    {`Se registro Satisfactoriamente a:`}
+                    <ul>
+                      <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+                      <li>{`Error: ${nuevoAlumno.error}`}</li>
+                    </ul>
+                  </>
+                );
+                this.setState({ mensajesResultado: mensaje });
+              }
+              this.setState({ peticiones: this.state.peticiones + 1 });
+              if (this.state.peticiones + 1 === alumnosMasivo.length) {
+                this.handleCloseLoading();
+              }
+            } else {
+              this.setState({ peticiones: this.state.peticiones + 1 });
+              let mensaje = this.state.mensajesResultado;
+              mensaje.push(
+                <>
+                  {`Ocurrio un error insesperado al registrar a:`}
+                  <ul>
+                    <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+                    <li>{`Error: ${nuevoAlumno.error}`}</li>
+                  </ul>
+                </>
+              );
+              this.setState({ mensajesResultado: mensaje });
+            }
+            resolve();
+          });
+          console.log("Esperare 5000ms");
+        }, 5000);
+
+        resolve();
+      });
+    });
+    /*
     let response = await POST({
       servicio: "/api/alumno/registromasivo",
       request: { alumnos: alumnosMasivo },
     });
-    if (!response || response.error) {
-      alert("Hubo un error insperado");
-    } else if (response.errores) {
-      alert("Error ", response.errores);
-    } else {
-      //se registro bien
-    }
-    this.handleCloseLoading();
-  }
+*/
+  };
   handleOnChangeEtiquetas = async (etiqueta) => {
     //primero que llegue
     //luego que se guarde en un state
@@ -235,6 +306,7 @@ class FormularioImportarAlumnos extends Component {
       return;
     }
     await this.setState({ loguedIn: true, usuario: usuario });
+    //this.handleClickOpenLoading();
   }
   removerDatos() {
     this.setState({ alumnosTabla: [] });
@@ -290,7 +362,7 @@ class FormularioImportarAlumnos extends Component {
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/** eliminar data */}
-        <Grid item md={2} xs={2}>
+        <Grid item md={2} xs={6}>
           <Button
             color="primary"
             onClick={() => this.removerDatos()}
@@ -299,9 +371,9 @@ class FormularioImportarAlumnos extends Component {
             Deshacer Carga
           </Button>
         </Grid>
-        <Grid item md={8} xs={8} />
+        <Grid item md={8} xs={false} />
         {/** Boton registarr */}
-        <Grid item md={2} xs={2}>
+        <Grid item md={2} xs={6}>
           <Button
             variant="contained"
             color="primary"
@@ -340,7 +412,24 @@ class FormularioImportarAlumnos extends Component {
     this.setState({ open: true });
   }
   handleCloseLoading() {
-    this.setState({ open: false });
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        this.setState({ open: false, mensajesResultado: [], peticiones: 0 });
+      }, 5000);
+      resolve();
+    });
+  }
+  renderBodyLoading(mensajesResultado) {
+    return (
+      <>
+        <h5>Registrando Alumnos:</h5>
+        <ol>
+          {mensajesResultado.map((mensaje) => (
+            <li>{mensaje}</li>
+          ))}
+        </ol>
+      </>
+    );
   }
   render() {
     if (this.state.loguedIn) {
@@ -348,7 +437,12 @@ class FormularioImportarAlumnos extends Component {
         <>
           <JModal
             titulo={"Mensaje de uTutor.com"}
-            body={<Jloading mensaje={"Registrando Alumnos"} />}
+            body={
+              <Jloading
+                size={"xs"}
+                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+              />
+            }
             open={this.state.open}
             hadleClose={this.handleCloseLoading}
             //botonIzquierdo={"Cancelar"}
@@ -368,6 +462,7 @@ class FormularioImportarAlumnos extends Component {
                 onChange={this.handleOnChangeTexto}
                 validarEntrada={this.validarEntrada}
                 value={this.state.fileName}
+                disabled={true}
               />
             </Grid>
             {/**CB1 */}
@@ -428,18 +523,10 @@ class FormularioImportarAlumnos extends Component {
             </Grid>
           </Grid>
           {/**
-           * Te la creiste Wey aun esta en construcción XDDDD
-           * Lo que viste fue una ilusion XD
-           * PD. holiiiiiiisss aha ha ha haaaa (Cat-2012)
-           * PD2. TE ODIO HOOKS
-           * PD3. lo subo cuando lo acabe de hacerloXDDDDDD
-           */}
-
-          {/**
-                   * <JinUploadSSJ
-                  usuario={getUser().usuario}
-                />
-                   */}
+            <JinUploadSSJ
+              usuario={getUser().usuario}
+            />
+            */}
         </>
       );
     } else {

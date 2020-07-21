@@ -12,6 +12,7 @@ import Login from "../../components/Home/Login.js";
 import useStyles from "./useStyles.js";
 import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
 import { useUserValue } from "../../Sesion/Sesion.js";
+import ImagenCircular from "../../components/Shared/ImagenCircular.js";
 
 function Home(props) {
   const classes = useStyles();
@@ -21,6 +22,18 @@ function Home(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Grid container spacing={1}>
+            <Grid item md={2} xs={4} xl={1}>
+              <ImagenCircular
+                size={"xs"}
+                square={true}
+                src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+              />
+            </Grid>
+            <Grid item md={10} xs={5} xl={10}></Grid>
+          </Grid>
+          {/*
+          asi mero se sintio 
           <IconButton
             edge="start"
             className={classes.menuButton}
@@ -31,7 +44,7 @@ function Home(props) {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             Ututor
-          </Typography>
+          </Typography>*/}
           {/* <Button color="inherit">Login</Button> */}
         </Toolbar>
       </AppBar>
@@ -51,7 +64,7 @@ function Home(props) {
                 className={classes.t1}
                 style={{ color: "#2B7A78" }}
               >
-                Bienvenidos a Ututor
+                Bienvenidos a Ututor.net
               </Typography>
               <Typography
                 variant="h5"

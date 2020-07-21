@@ -27,6 +27,8 @@ import { Link as LinkRouter } from "react-router-dom";
 import { useUserValue, getUser } from "../../Sesion/Sesion";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
+import { Grid } from "@material-ui/core";
+import ImagenCircular from "../Shared/ImagenCircular";
 
 const drawerWidth = 250;
 
@@ -104,6 +106,7 @@ const BarraNavegacion = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const usuario = getUser().usuario;
 
   return (
     <div className={classes.root}>
@@ -115,18 +118,59 @@ const BarraNavegacion = (props) => {
         })}
       >
         <Toolbar color="#000000">
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Ututor
-          </Typography>
+        <Grid container spacing={1}>
+            <Grid item md={1} xs={4} xl={1}>
+              <Grid container spacing={1}>
+                <Grid item md={3} xs={2} xl={2}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    className={clsx(classes.menuButton, open && classes.hide)}
+                    style={{ textAlign: "left" }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item md={9} xs={10} xl={10} style={{textAlign: "left"}}>
+                  <ImagenCircular
+                    size={"xs"}
+                    square={true}
+                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item md={10} xs={5} xl={10}>
+              <Typography variant="h6" noWrap style={{ marginTop: "0.8%" }}>
+                | Coordinador: {`${usuario.NOMBRE} ${usuario.APELLIDOS} `}
+              </Typography>
+            </Grid>
+            <Grid item md={1} xs={3} xl={1}>
+              {
+                /**
+                 
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop} />
+              <IconButton
+                aria-label="norifications of the user"
+                aria-controls="primary-menu"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenuOpen}
+              >
+                <Badge badgeContent={numNotif} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+
+                 */
+              }
+              
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -182,35 +226,35 @@ const BarraNavegacion = (props) => {
               >
                 <ListItemIcon>
                   {index === 0 ? (
-                    <AccountCircleRoundedIcon />
+                    <AccountCircleRoundedIcon color="primary"/>
                   ) : index === 1 ? (
-                    <AccountBalanceRoundedIcon />
+                    <AccountBalanceRoundedIcon color="primary"/>
                   ) : index === 2 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <AccountBalanceRoundedIcon />
+                      <AccountBalanceRoundedIcon color="primary"/>
                     ) : (
-                      <NoteAddRoundedIcon />
+                      <NoteAddRoundedIcon color="primary"/>
                     )
                   ) : index === 3 || index === 4 ? (
                     <NoteAddRoundedIcon color="primary" />
                   ) : index === 7 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <NoteAddRoundedIcon />
+                      <NoteAddRoundedIcon color="primary"/>
                     ) : (
-                      <SupervisorAccountRoundedIcon />
+                      <SupervisorAccountRoundedIcon color="primary"/>
                     )
                   ) : index === 8 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <SupervisorAccountRoundedIcon />
+                      <SupervisorAccountRoundedIcon color="primary"/>
                     ) : (
-                      <AssessmentRoundedIcon />
+                      <AssessmentRoundedIcon color="primary"/>
                     )
                   ) : index === 9 ? (
-                    <SupervisorAccountRoundedIcon />
+                    <SupervisorAccountRoundedIcon color="primary"/>
                   ) : index === 10 ? (
-                    <AssessmentRoundedIcon />
+                    <AssessmentRoundedIcon color="primary"/>
                   ) : (
-                    <NoteAddRoundedIcon />
+                    <NoteAddRoundedIcon color="primary"/>
                   )}
                 </ListItemIcon>
                 <ListItemText primary={text} />

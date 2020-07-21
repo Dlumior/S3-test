@@ -27,8 +27,9 @@ import { logOut } from "../../Sesion/actions/sesionAction";
 import { useUserValue, getUser } from "../../Sesion/Sesion";
 import NotificacionBtn from "../Alumno/Notificaciones/NotificacionBtn";
 import { GET } from "../../Conexion/Controller";
-import { Badge } from "@material-ui/core";
+import { Badge, Grid } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import ImagenCircular from "../Shared/ImagenCircular";
 
 const drawerWidth = 250;
 
@@ -159,7 +160,7 @@ const BarraNavegacion = (props) => {
       refresh={refresh}
     />
   );
-
+  const usuario = getUser().usuario;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -170,31 +171,52 @@ const BarraNavegacion = (props) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Ututor / Tutor
-          </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop} />
-          <IconButton
-            aria-label="norifications of the user"
-            aria-controls="primary-menu"
-            aria-haspopup="true"
-            color="inherit"
-            onClick={handleMenuOpen}
-          >
-            <Badge badgeContent={numNotif} color="error">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <Grid container spacing={1}>
+            <Grid item md={1} xs={4} xl={1}>
+              <Grid container spacing={1}>
+                <Grid item md={3} xs={2} xl={2}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    className={clsx(classes.menuButton, open && classes.hide)}
+                    style={{ textAlign: "left" }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item md={9} xs={10} xl={10} style={{textAlign: "left"}}>
+                  <ImagenCircular
+                    size={"xs"}
+                    square={true}
+                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item md={10} xs={5} xl={10}>
+              <Typography variant="h6" noWrap style={{ marginTop: "0.8%" }}>
+                | Tutor: {`${usuario.NOMBRE} ${usuario.APELLIDOS} `}
+              </Typography>
+            </Grid>
+            <Grid item md={1} xs={3} xl={1}>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop} />
+              <IconButton
+                aria-label="norifications of the user"
+                aria-controls="primary-menu"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenuOpen}
+              >
+                <Badge badgeContent={numNotif} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       {renderMenu}
@@ -235,17 +257,17 @@ const BarraNavegacion = (props) => {
             >
               <ListItemIcon>
                 {index === 0 ? (
-                  <AccountCircleRoundedIcon />
+                  <AccountCircleRoundedIcon color="primary" />
                 ) : index === 1 ? (
-                  <HowToRegRoundedIcon />
+                  <HowToRegRoundedIcon color="primary" />
                 ) : index === 2 ? (
-                  <SupervisorAccountRoundedIcon />
+                  <SupervisorAccountRoundedIcon color="primary" />
                 ) : index === 3 ? (
-                  <ScheduleRoundedIcon />
-                ) : index === 4 || index===5 ? (
-                  <CalendarTodayIcon />
+                  <ScheduleRoundedIcon color="primary" />
+                ) : index === 4 || index === 5 ? (
+                  <CalendarTodayIcon color="primary" />
                 ) : (
-                  <NoteAddRoundedIcon />
+                  <NoteAddRoundedIcon color="primary" />
                 )}
               </ListItemIcon>
               <ListItemText primary={text} />
@@ -258,8 +280,10 @@ const BarraNavegacion = (props) => {
             to={"/"}
             onClick={handleClick}
           >
+            <Divider />
+            
             <ListItemIcon>
-              <ExitToAppRoundedIcon />
+              <ExitToAppRoundedIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary={"Cerrar Sesion"} />
           </ListItem>

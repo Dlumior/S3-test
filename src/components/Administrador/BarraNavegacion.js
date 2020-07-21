@@ -17,16 +17,18 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import NoteAddRoundedIcon from '@material-ui/icons/NoteAddRounded';
-import AccountBalanceRoundedIcon from '@material-ui/icons/AccountBalanceRounded';
-import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
-import AssessmentRoundedIcon from '@material-ui/icons/AssessmentRounded';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import NoteAddRoundedIcon from "@material-ui/icons/NoteAddRounded";
+import AccountBalanceRoundedIcon from "@material-ui/icons/AccountBalanceRounded";
+import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
+import SupervisorAccountRoundedIcon from "@material-ui/icons/SupervisorAccountRounded";
+import AssessmentRoundedIcon from "@material-ui/icons/AssessmentRounded";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { Link as LinkRouter } from "react-router-dom";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
-import { useUserValue } from "../../Sesion/Sesion";
+import { getUser, useUserValue } from "../../Sesion/Sesion";
+import ImagenCircular from "../Shared/ImagenCircular";
+import { Grid } from "@material-ui/core";
 
 const drawerWidth = 250;
 
@@ -90,12 +92,12 @@ const BarraNavegacion = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [{usuario},dispatch] = useUserValue();
+  const [{ usuario }, dispatch] = useUserValue();
   const handleClick = () => {
     //te odio hooks
-    console.log("Admin LOG OUTTTTT",props);
+    console.log("Admin LOG OUTTTTT", props);
     logOut(dispatch);
-  }
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -103,6 +105,7 @@ const BarraNavegacion = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const admin = getUser().usuario;
 
   return (
     <div className={classes.root}>
@@ -114,18 +117,56 @@ const BarraNavegacion = (props) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Ututor
-          </Typography>
+          <Grid container spacing={1}>
+            <Grid item md={1} xs={4} xl={1}>
+              <Grid container spacing={1}>
+                <Grid item md={3} xs={2} xl={2}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    className={clsx(classes.menuButton, open && classes.hide)}
+                    style={{ textAlign: "left" }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item md={9} xs={10} xl={10} style={{ textAlign: "left" }}>
+                  <ImagenCircular
+                    size={"xs"}
+                    square={true}
+                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item md={10} xs={5} xl={10}>
+              <Typography variant="h6" noWrap style={{ marginTop: "0.8%" }}>
+                /Administrador: {`${admin.NOMBRE} ${admin.APELLIDOS} `}
+              </Typography>
+            </Grid>
+            <Grid item md={1} xs={3} xl={1}>
+              {/**
+                 
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop} />
+              <IconButton
+                aria-label="norifications of the user"
+                aria-controls="primary-menu"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenuOpen}
+              >
+                <Badge badgeContent={numNotif} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+
+                 */}
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -148,46 +189,57 @@ const BarraNavegacion = (props) => {
         </div>
         <Divider />
         <List>
-          {["Perfil", 
+          {[
+            "Perfil",
             "Institución",
             "Facultades",
             "Coordinadores",
             "Unidades de Apoyo",
-           ].map(
-            (text, index) => (
-              // <LinkRouter to={}>
-              <ListItem
-                button
-                key={text}
-                component={LinkRouter}
-                to={index===5?"/":"/administrador/" + text.split(' ').join('').toLowerCase().replace('ó','o')}
-              //onClick={handleClick}
-              >
-                <ListItemIcon>
-                  {index === 0 ? <AccountCircleRoundedIcon /> : 
-                  index === 1 ? <AccountBalanceRoundedIcon /> : 
-                  index === 2 ? <AccountBalanceRoundedIcon /> : 
-                  index === 3 ? <SupervisorAccountRoundedIcon/> :
-                  index === 4 ? <AccountBalanceRoundedIcon/> :
-                  <NoteAddRoundedIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-              // </LinkRouter>
-            )
-          )}
-          <ListItem
+          ].map((text, index) => (
+            // <LinkRouter to={}>
+            <ListItem
               button
-              key={"Cerrar Sesion"}
+              key={text}
               component={LinkRouter}
-              to={"/"}
-              onClick={handleClick}
+              to={
+                index === 5
+                  ? "/"
+                  : "/administrador/" +
+                    text.split(" ").join("").toLowerCase().replace("ó", "o")
+              }
+              //onClick={handleClick}
             >
               <ListItemIcon>
-                  <ExitToAppRoundedIcon/>
+                {index === 0 ? (
+                  <AccountCircleRoundedIcon  color="primary"/>
+                ) : index === 1 ? (
+                  <AccountBalanceRoundedIcon  color="primary"/>
+                ) : index === 2 ? (
+                  <AccountBalanceRoundedIcon  color="primary"/>
+                ) : index === 3 ? (
+                  <SupervisorAccountRoundedIcon  color="primary"/>
+                ) : index === 4 ? (
+                  <AccountBalanceRoundedIcon  color="primary"/>
+                ) : (
+                  <NoteAddRoundedIcon  color="primary"/>
+                )}
               </ListItemIcon>
-              <ListItemText primary={"Cerrar Sesión"} />
+              <ListItemText primary={text}  color="primary"/>
             </ListItem>
+            // </LinkRouter>
+          ))}
+          <ListItem
+            button
+            key={"Cerrar Sesion"}
+            component={LinkRouter}
+            to={"/"}
+            onClick={handleClick}
+          >
+            <ListItemIcon>
+              <ExitToAppRoundedIcon  color="primary"/>
+            </ListItemIcon>
+            <ListItemText primary={"Cerrar Sesión"}  color="primary"/>
+          </ListItem>
         </List>
         {/* <Divider />
         <List>

@@ -29,9 +29,10 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { Link as LinkRouter } from "react-router-dom";
 import { logOut } from "../../Sesion/actions/sesionAction";
 import { useUserValue, getUser } from "../../Sesion/Sesion";
-import { Badge, Menu, MenuItem } from "@material-ui/core";
+import { Badge, Menu, MenuItem, Grid } from "@material-ui/core";
 import NotificacionBtn from "./Notificaciones/NotificacionBtn";
 import { GET } from "../../Conexion/Controller";
+import ImagenCircular from "../Shared/ImagenCircular";
 
 const drawerWidth = 250;
 
@@ -145,11 +146,11 @@ const BarraNavegacion = (props) => {
     const params = { servicio: endpoint };
     const res = await GET(params);
     console.log(res);
-    if (res){
+    if (res) {
       setNumNotif(0);
-    // window.location.reload();
+      // window.location.reload();
       setRefresh(1);
-    }    
+    }
   }
 
   const menuId = "primary-menu";
@@ -186,6 +187,7 @@ const BarraNavegacion = (props) => {
       refresh={refresh}
     />
   );
+  const usuario = getUser().usuario;
 
   return (
     <div className={classes.root}>
@@ -197,32 +199,52 @@ const BarraNavegacion = (props) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Ututor / Alumnos
-          </Typography>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton
-              aria-label="norifications of the user"
-              aria-controls="primary-menu"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={handleMenuOpen}
-            >
-              <Badge badgeContent={numNotif} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          </div>
+          <Grid container spacing={1}>
+            <Grid item md={1} sm={2} xs={4} xl={1}>
+              <Grid container spacing={1}>
+                <Grid item md={3} xs={3} xl={3}>
+                  <IconButton
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    className={clsx(classes.menuButton, open && classes.hide)}
+                    style={{ textAlign: "left" }}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </Grid>
+
+                <Grid item md={9} xs={9} xl={9} style={{ textAlign: "left" }}>
+                  <ImagenCircular
+                    size={"xs"}
+                    square={true}
+                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item md={10} sm={9} xs={5} xl={10}>
+              <Typography variant="h6" noWrap style={{ marginTop: "0.8%" }}>
+                | Alumno: {`${usuario.NOMBRE} ${usuario.APELLIDOS} `}
+              </Typography>
+            </Grid>
+            <Grid item md={1} sm={1} xs={3} xl={1} style={{ textAlign: "right" }}>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop} ></div>
+              <IconButton
+                aria-label="norifications of the user"
+                aria-controls="primary-menu"
+                aria-haspopup="true"
+                color="inherit"
+                onClick={handleMenuOpen}
+              >
+                <Badge badgeContent={numNotif} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
       {renderMenu}
@@ -258,16 +280,16 @@ const BarraNavegacion = (props) => {
               >
                 <ListItemIcon>
                   {index === 0 ? (
-                    <AccountCircleRoundedIcon />
+                    <AccountCircleRoundedIcon  color="primary"/>
                   ) : index === 2 ? (
-                    <DateRangeRoundedIcon />
+                    <DateRangeRoundedIcon  color="primary"/>
                   ) : index === 1 ? (
-                    <TodayRoundedIcon />
+                    <TodayRoundedIcon  color="primary"/>
                   ) : (
-                    <NoteAddRoundedIcon />
+                    <NoteAddRoundedIcon  color="primary"/>
                   )}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text}  color="primary"/>
               </ListItem>
             )
           )}
@@ -282,7 +304,7 @@ const BarraNavegacion = (props) => {
             <ListItemIcon>
               <ExitToAppRoundedIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={"Cerrar Sesion"} />
+            <ListItemText primary={"Cerrar Sesion"}  color="primary"/>
           </ListItem>
         </List>
       </Drawer>

@@ -16,12 +16,24 @@ const styles = {
     objectFit: "cover",
     width: "80%",
   },
+  imagenSquareMini: {
+    marginTop: "3%",
+    marginLeft: "3%",
+    objectFit: "cover",
+    width: "100%",
+    minWidth: "70px",
+    maxWidth: "150px",
+  },
 };
 class ImagenCircular extends Component {
   render() {
     return (
-        <Grid item md={12} xs={12}>
-        <img style={this.props.square? styles.imagenSquare:styles.imagenCircle} src= {this.props.src} alt=""/>
+      <Grid item md={12} xs={12}>
+        <img
+          style={this.props.square ? (this.props.size==="xs"?styles.imagenSquareMini: styles.imagenCircle) : styles.imagenCircle}
+          src={this.props.src}
+          alt=""
+        />
       </Grid>
     );
   }
