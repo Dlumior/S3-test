@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   caja: {
     padding: theme.spacing(5),
     width: theme.spacing(150),
-    height: theme.spacing(35),
+    height: theme.spacing(20),
   },
 }));
 
@@ -20,6 +20,7 @@ const Datos = () => {
           <Grid item xs={6}>
             <TextField
               autoFocus
+              disabled
               margin="dense"
               id="name"
               label="Código"
@@ -31,6 +32,7 @@ const Datos = () => {
           <Grid item xs={6}>
             <TextField
               autoFocus
+              disabled
               margin="dense"
               id="name"
               label="Correo"
@@ -39,33 +41,6 @@ const Datos = () => {
               defaultValue = {getUser().usuario.CORREO}
             />
           </Grid>
-        </Grid>
-        <Grid item xs={12} container spacing={10}>
-          <Grid item xs={6}>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Facultad"
-              type="text"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Programa"
-              type="text"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid item xs={12} container justify="flex-start" alignItems="center">
-          <Button color="primary" variant="outlined">
-            Editar
-          </Button>
         </Grid>
       </Grid>
     </Paper>

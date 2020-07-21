@@ -2,7 +2,7 @@ import React from "react";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import { Paper,FormControl, FormHelperText } from "@material-ui/core";
+import { Paper,FormControl, FormHelperText, Checkbox } from "@material-ui/core";
 import * as Controller from "../../../Conexion/Controller";
 import TablaAsignaciones from "../../Coordinador/FormAsignacion/TablaAsignaciones";
 import ModificaAsignacion from "../../Coordinador/FormAsignacion/ModificaAsignaciones";
@@ -34,7 +34,8 @@ class ListaAsignaciones extends React.Component {
             field: "nombre", }],
             data:[{nombre:""}]  },
         alumnos:[],
-        alumnosSeleccionados:[]
+        alumnosSeleccionados:[],
+        flag:0,
     };
     this.establecerData = this.establecerData.bind(this);    
     this.handleOnOpen = this.handleOnOpen.bind(this);
@@ -61,13 +62,12 @@ class ListaAsignaciones extends React.Component {
                 </div>,
           checkbox:
           <div>
-            <input                                     
-                type="checkbox" 
-                id={element.ID_ASIGNACION} 
-                name="alumnos" 
-                value={element.ALUMNOS}
-                onChange={() => this.handleOnChangeChecked(element.ID_ASIGNACION,element.ALUMNOS)}>                                                                           
-            </input>
+            {<Checkbox
+                id={element.ID_ASIGNACION}
+                value={element.ID_ASIGNACION}
+                color="primary"
+                onChange={() => this.handleToggle(element.ID_ASIGNACION,element.ALUMNOS)}                   
+            />}
           </div>
           });  
 
@@ -97,8 +97,8 @@ class ListaAsignaciones extends React.Component {
       this.setState({asignaciones:data});
 
   }
-  async componentDidUpdate(prevProps){
-    if (this.props.idTutoria!==prevProps.idTutoria){
+  async componentDidUpdate(prevProps,nextState){
+    if (this.props.idTutoria!==prevProps.idTutoria || nextState.flag !== this.state.flag){
       console.log("idFacu: ",this.props.idTutoria);
       let arregloAsigna=await Controller.GET({servicio:"/api/asignacion/tutoria/tutor/"+this.props.idTutoria+"/"+
         getUser().usuario.ID_USUARIO});
@@ -117,6 +117,24 @@ class ListaAsignaciones extends React.Component {
     }
   
 }
+async handleToggle(idAsignacion,alumnosAsignados){
+  for(let ele of alumnosAsignados){
+    var i = this.state.alumnosSeleccionados.findIndex(v => v === ele.ID_ALUMNO)
+    console.log("alusA",ele.ID_ALUMNO);
+    console.log("indice",i);
+    if ( i !== -1 ) {
+      this.state.alumnosSeleccionados.splice(i+1,1);
+      console.log("alusS",this.state.alumnosSeleccionados);
+    }else{
+      this.state.alumnosSeleccionados.push(ele.ID_ALUMNO);
+    }
+  }
+  let j= this.state.flag +1;
+  console.log("veamos: ",j);
+  this.setState({flag:j});
+  console.log("listaalumnos",this.state.alumnosSeleccionados);
+  await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
+};
 
 async handleOnChangeChecked(idAsignacion,alumnosAsignados) {
 
