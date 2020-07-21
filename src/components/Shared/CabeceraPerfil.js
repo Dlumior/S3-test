@@ -63,7 +63,7 @@ const CabeceraPerfil = (props) => {
       <Container maxWidth="xl" className={classes.customContainer}>
         <Grid container>
           <Grid item xs={2} container justify="center" alignItems="center">
-            {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))}
+            {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
             {getUser().rol==="Administrador" ? 
               <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />:
               <Avatar

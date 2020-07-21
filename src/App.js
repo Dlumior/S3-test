@@ -72,7 +72,7 @@ function App() {
             <Router>
               <div className="App-header">
                 <Route exact path="/" component={Home} />
-                <Route path="/administrador" component={Administrador} />
+                <Route path="/administrador" component={Administrador} /> 
                 <Route path="/coordinador" component={Coordinador} />
                 <Route path="/tutor" component={Tutor} />
                 <Route path="/alumno" component={Alumno} />
