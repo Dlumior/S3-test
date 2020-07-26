@@ -79,13 +79,16 @@ const Datos = (props) => {
             </Button>
           )}
           {!isEdit && (
-            <Button
+            <div style={{"display": ((getUser().rol === "Tutor"))?"none":"block"}}>
+              <Button
               color="primary"
               variant="outlined"
               onClick={props.handleEdit}
             >
               Editar
             </Button>
+            </div>
+            
           )}
         </Grid>
       </Grid>

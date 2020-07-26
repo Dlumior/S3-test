@@ -42,6 +42,7 @@ class VerInformacionRelevante extends Component {
     this.state = {
       open: false,
       mensajesResultado: [],
+      botonRegistrar: false,
 
       idArchivo: 0,
       descripcion: "",
@@ -144,6 +145,8 @@ class VerInformacionRelevante extends Component {
     }
     if (this.state.extension.toLowerCase() !== "pdf") {
       this.clickInput();
+    }else{
+      this.setState({botonRegistrar:false});
     }
   }
   async handleDescargar(e, id_archivo) {
@@ -243,6 +246,7 @@ class VerInformacionRelevante extends Component {
       fileName: fileName,
       ext: ext,
       extension: ext,
+      botonRegistrar: true,
     });
   };
   handleOnClickRegistroSSJ_masivo = async () => {
@@ -361,11 +365,12 @@ class VerInformacionRelevante extends Component {
                     >
                       Deshacer Carga
                     </Button>
-                  </Grid>
-                  <Grid item md={5} xs={12}>
-                    <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
+                    
                   </Grid>
                   <Grid item md={3} xs={12}>
+                    <h3>{"Vista Previa: (Solo PDF)"}</h3>
+                  </Grid>
+                  <Grid item md={5} xs={12}>
                     <CampoDeTexto
                       variant={"outlined"}
                       name="nombre"
@@ -380,7 +385,9 @@ class VerInformacionRelevante extends Component {
                     />
                   </Grid>
                   <Grid item md={2} xs={6}>
-                    <Button
+                    <div style={{"display": (this.state.botonRegistrar)?"block":"none"}}>
+                      <Button
+                    
                       variant="contained"
                       color="primary"
                       onClick={this.handleOnClickRegistroSSJ_masivo}
@@ -389,6 +396,8 @@ class VerInformacionRelevante extends Component {
                     >
                       Registrar
                     </Button>
+                    </div>
+                    
                   </Grid>
                 </>
               ) : (
@@ -401,7 +410,6 @@ class VerInformacionRelevante extends Component {
               style={{ display: "none" }}
               download={this.state.filename}
             ></a>
-
             {this.state.archivo && this.state.extension === "pdf" ? (
               <div style={estilos.divini}>
                 <iframe
@@ -415,7 +423,10 @@ class VerInformacionRelevante extends Component {
               </div>
             ) : (
               <Grid style={estilos.margen}>
-                <h2>{"Vista previa(solo pdf):"}</h2>
+                {/**
+                 * <h2>{"Vista previa(solo pdf):"}</h2>
+                 */}
+                
                 {(getUser().rol === "Coordinador Facultad" ||
                   getUser().rol === "Coordinador Programa") && (
                   <JUploadSSJ

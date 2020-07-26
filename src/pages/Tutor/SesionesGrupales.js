@@ -34,7 +34,7 @@ class AsignarTutor extends Component {
     render() {
         return (
             <div>
-                <NombrePrincipal titulo="Sesiones Grupales" />
+                <NombrePrincipal titulo="Crear Sesiones Grupales" />
                 <FrmSesionesGrupales/>
                 {/*<TabProceso  procesos={this.state.procesos} />*/}
             </div>
