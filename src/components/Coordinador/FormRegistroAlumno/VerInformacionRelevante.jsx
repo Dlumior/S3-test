@@ -12,6 +12,8 @@ import RestorePageTwoToneIcon from "@material-ui/icons/RestorePageTwoTone";
 import { getUser } from "../../../Sesion/Sesion";
 import JModal from "../ListaAlumnos/JModal";
 import Jloading from "./Jloading";
+import ImagenCircular from "../../Shared/ImagenCircular";
+import EnConstruccion from "../../Shared/EnConstruccion";
 
 const estilos = {
   paper: {
@@ -145,8 +147,8 @@ class VerInformacionRelevante extends Component {
     }
     if (this.state.extension.toLowerCase() !== "pdf") {
       this.clickInput();
-    }else{
-      this.setState({botonRegistrar:false});
+    } else {
+      this.setState({ botonRegistrar: false });
     }
   }
   async handleDescargar(e, id_archivo) {
@@ -331,121 +333,128 @@ class VerInformacionRelevante extends Component {
     );
   }
   render() {
-    return (
-      <>
-        <JModal
-          titulo={"Mensaje de uTutor.com"}
-          body={
-            <Jloading
-              size={"xs"}
-              mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-            />
-          }
-          open={this.state.open}
-          hadleClose={this.handleCloseLoading}
-          //botonIzquierdo={"Cancelar"}
-          //botonDerecho={"Continuar"}
-        />
-        <Grid container spacing={2} style={{ textAlign: "center" }}>
-          {/**tabla de informacuion historica */}
-          <Grid item md={4} xs={12}>
-            {this.renderTabla(this.state.datosTabla)}
-          </Grid>
-          {/** vista previa y opcion de descarga */}
-
-          <Grid item md={8} xs={12}>
-            <Grid container spacing={0}>
-              {this.state.archivo ? (
-                <>
-                  <Grid item md={2} xs={6}>
-                    <Button
-                      color="primary"
-                      onClick={() => this.removerDatos()}
-                      startIcon={<RestorePageTwoToneIcon />}
-                    >
-                      Deshacer Carga
-                    </Button>
-                    
-                  </Grid>
-                  <Grid item md={3} xs={12}>
-                    <h3>{"Vista Previa: (Solo PDF)"}</h3>
-                  </Grid>
-                  <Grid item md={5} xs={12}>
-                    <CampoDeTexto
-                      variant={"outlined"}
-                      name="nombre"
-                      label="Nombre del archivo"
-                      requerido={true}
-                      autoFocus={true}
-                      inicial={this.state.fileName}
-                      validacion={{ lim: 25 }}
-                      onChange={this.handleOnChangeTexto}
-                      validarEntrada={() => {}}
-                      value={this.state.fileName}
-                    />
-                  </Grid>
-                  <Grid item md={2} xs={6}>
-                    <div style={{"display": (this.state.botonRegistrar)?"block":"none"}}>
-                      <Button
-                    
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleOnClickRegistroSSJ_masivo}
-                      startIcon={<CloudUploadIcon />}
-                      disabled={!this.state.archivo}
-                    >
-                      Registrar
-                    </Button>
-                    </div>
-                    
-                  </Grid>
-                </>
-              ) : (
-                <Grid item md={12} xs={false} />
-              )}
+    const enMantenimiento = true;
+    if (enMantenimiento) {
+      return <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg"
+       />;
+    } else {
+      return (
+        <>
+          <JModal
+            titulo={"Mensaje de uTutor.com"}
+            body={
+              <Jloading
+                size={"xs"}
+                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+              />
+            }
+            open={this.state.open}
+            hadleClose={this.handleCloseLoading}
+            //botonIzquierdo={"Cancelar"}
+            //botonDerecho={"Continuar"}
+          />
+          <Grid container spacing={2} style={{ textAlign: "center" }}>
+            {/**tabla de informacuion historica */}
+            <Grid item md={4} xs={12}>
+              {this.renderTabla(this.state.datosTabla)}
             </Grid>
-            <a
-              id="superDownload"
-              href={this.state.archivo}
-              style={{ display: "none" }}
-              download={this.state.filename}
-            ></a>
-            {this.state.archivo && this.state.extension === "pdf" ? (
-              <div style={estilos.divini}>
-                <iframe
-                  src={this.state.archivo}
-                  height={800}
-                  frameborder="1"
-                  allowfullscreen
-                  sandbox
-                  width="100%"
-                ></iframe>
-              </div>
-            ) : (
-              <Grid style={estilos.margen}>
-                {/**
-                 * <h2>{"Vista previa(solo pdf):"}</h2>
-                 */}
-                
-                {(getUser().rol === "Coordinador Facultad" ||
-                  getUser().rol === "Coordinador Programa") && (
-                  <JUploadSSJ
-                    embebed={true}
-                    contained={true}
-                    id_drop_zone={"drop_zone_archivo"}
-                    onSuccesLoadURL={this.handleOnSuccesLoad}
-                    onSuccesLoad={this.handleOnSuccesLoad}
-                    formato={this.state.formato}
-                    maxTamanio={this.state.maxTamanio}
-                    extension="any"
-                  />
+            {/** vista previa y opcion de descarga */}
+
+            <Grid item md={8} xs={12}>
+              <Grid container spacing={0}>
+                {this.state.archivo ? (
+                  <>
+                    <Grid item md={2} xs={6}>
+                      <Button
+                        color="primary"
+                        onClick={() => this.removerDatos()}
+                        startIcon={<RestorePageTwoToneIcon />}
+                      >
+                        Deshacer Carga
+                      </Button>
+                    </Grid>
+                    <Grid item md={3} xs={12}>
+                      <h3>{"Vista Previa: (Solo PDF)"}</h3>
+                    </Grid>
+                    <Grid item md={5} xs={12}>
+                      <CampoDeTexto
+                        variant={"outlined"}
+                        name="nombre"
+                        label="Nombre del archivo"
+                        requerido={true}
+                        autoFocus={true}
+                        inicial={this.state.fileName}
+                        validacion={{ lim: 25 }}
+                        onChange={this.handleOnChangeTexto}
+                        validarEntrada={() => {}}
+                        value={this.state.fileName}
+                      />
+                    </Grid>
+                    <Grid item md={2} xs={6}>
+                      <div
+                        style={{
+                          display: this.state.botonRegistrar ? "block" : "none",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={this.handleOnClickRegistroSSJ_masivo}
+                          startIcon={<CloudUploadIcon />}
+                          disabled={!this.state.archivo}
+                        >
+                          Registrar
+                        </Button>
+                      </div>
+                    </Grid>
+                  </>
+                ) : (
+                  <Grid item md={12} xs={false} />
                 )}
               </Grid>
-            )}
+              <a
+                id="superDownload"
+                href={this.state.archivo}
+                style={{ display: "none" }}
+                download={this.state.filename}
+              ></a>
+              {this.state.archivo && this.state.extension === "pdf" ? (
+                <div style={estilos.divini}>
+                  <iframe
+                    src={this.state.archivo}
+                    height={800}
+                    frameborder="1"
+                    allowfullscreen
+                    sandbox
+                    width="100%"
+                  ></iframe>
+                </div>
+              ) : (
+                <Grid style={estilos.margen}>
+                  {/**
+                   * <h2>{"Vista previa(solo pdf):"}</h2>
+                   */}
+
+                  {(getUser().rol === "Coordinador Facultad" ||
+                    getUser().rol === "Coordinador Programa") && (
+                    <JUploadSSJ
+                      embebed={true}
+                      contained={true}
+                      id_drop_zone={"drop_zone_archivo"}
+                      onSuccesLoadURL={this.handleOnSuccesLoad}
+                      onSuccesLoad={this.handleOnSuccesLoad}
+                      formato={this.state.formato}
+                      maxTamanio={this.state.maxTamanio}
+                      extension="any"
+                    />
+                  )}
+                </Grid>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      </>
-    );
+        </>
+      );
+    }
   }
 }
 

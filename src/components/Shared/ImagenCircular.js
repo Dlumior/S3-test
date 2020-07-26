@@ -21,7 +21,7 @@ const styles = {
     marginLeft: "3%",
     objectFit: "cover",
     width: "100%",
-    minWidth: "70px",
+    minWidth: "100px",
     maxWidth: "150px",
   },
 };

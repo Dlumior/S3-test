@@ -36,7 +36,8 @@ const Perfil = (props) => {
     {
       index: 0,
       titulo: "Datos Generales",
-      proceso: () => <DatosGenerales idAlumno={idAlumno}/>, paper:false
+      proceso: () => <DatosGenerales idAlumno={idAlumno} />,
+      paper: false,
     },
     {
       index: 1,
@@ -46,11 +47,7 @@ const Perfil = (props) => {
     {
       index: 2,
       titulo: "Resultados",
-      proceso: () => (
-        <HistoricoResultados
-          datosAlumno={props.match.params}
-        />
-      ),
+      proceso: () => <HistoricoResultados datosAlumno={props.match.params} />,
     },
     {
       index: 3,
@@ -58,17 +55,19 @@ const Perfil = (props) => {
       proceso: () => <Asistencias datosAlumno={props.match.params} />,
     },
     {
-      index:4,
-      titulo:"Notificar Alumno",
-      proceso:()=> <FrmCitarAlumno idAlumno ={idAlumno}/>,
+      index: 4,
+      titulo: "Notificar Alumno",
+      proceso: () => <FrmCitarAlumno idAlumno={idAlumno} />,
     },
     {
-      index:5,
-      titulo:"Informacion Relevante",
-        proceso:()=><VerInformacionRelevante
+      index: 5,
+      titulo: "Informacion Relevante",
+      proceso: () => (
+        <VerInformacionRelevante
           usuario={getUser().usuario}
           idAlumno={idAlumno}
-      />,
+        />
+      ),
     },
   ];
   const procesosCoordinador = [
@@ -117,9 +116,13 @@ const Perfil = (props) => {
         alumnodesdetutor={true}
       />
 
-
-      <TabProceso procesos={getUser().rol==="Tutor" || getUser().rol==="Alumno"? procesos:procesosCoordinador}
-                  paper={true}
+      <TabProceso
+        procesos={
+          getUser().rol === "Tutor" || getUser().rol === "Alumno"
+            ? procesos
+            : procesosCoordinador
+        }
+        paper={true}
       />
     </div>
   );

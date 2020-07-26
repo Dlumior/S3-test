@@ -16,6 +16,7 @@ import ListaEtiquetas from "../Tutorias/ListaEtiquetas.jsx";
 import JModal from "../ListaAlumnos/JModal.jsx";
 import Jloading from "./Jloading.jsx";
 import { getUser } from "../../../Sesion/Sesion.js";
+import EnConstruccion from "../../Shared/EnConstruccion.js";
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -431,7 +432,12 @@ class FormularioImportarAlumnos extends Component {
     );
   }
   render() {
-    if (this.state.loguedIn) {
+    const enMantenimiento = true;
+    if (enMantenimiento) {
+      return <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg"
+       />;
+    } else {
+      if (this.state.loguedIn) {
       return (
         <>
           <JModal
@@ -535,6 +541,8 @@ class FormularioImportarAlumnos extends Component {
     } else {
       return <Jloading mensaje={"Cargando"} size={"xs"} />;
     }
+    }
+    
   }
 }
 
