@@ -218,7 +218,7 @@ const ModificarFacultad = (props) => {
             <Grid item xs container direction="column" justify={"center"} spacing={2}>
               <Grid item xs>
                 <TextField
-                disabled
+                  disabled={getUser().rol!=="Administrador"}
                   required
                   error={errors.name.error}
                   margin="dense"

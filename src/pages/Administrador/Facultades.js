@@ -40,7 +40,7 @@ const Facultades = () => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Facultades" />
+      <NombrePrincipal titulo="Facultades asignadas" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
         <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
         {getUser().rol==="Administrador" &&

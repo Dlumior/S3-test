@@ -42,8 +42,8 @@ class VerInformacionRelevante extends Component {
     this.state = {
       open: false,
       mensajesResultado: [],
-      
-      idArchivo:0,
+
+      idArchivo: 0,
       descripcion: "",
       fileName: "",
       PDFURL: undefined,
@@ -79,7 +79,6 @@ class VerInformacionRelevante extends Component {
     this.renderBodyLoading = this.renderBodyLoading.bind(this);
     this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
     this.handleCloseLoading = this.handleCloseLoading.bind(this);
-
   }
   handleOnChangeTexto = (e) => {
     // nombre y descripcion
@@ -121,12 +120,11 @@ class VerInformacionRelevante extends Component {
     //console.log("KAMEEEEE: ", this.state.extension);
     return this.state.extension === "pdf"
       ? `data:application/pdf;base64,${archivoOutput.informacionRelevante.ARCHIVO}`
-      : (`data:application/octet-stream;base64,${archivoOutput.informacionRelevante.ARCHIVO}`)
-          
+      : `data:application/octet-stream;base64,${archivoOutput.informacionRelevante.ARCHIVO}`;
   }
 
   async handleVistaPrevia(e, id_archivo) {
-    const { archivo,idArchivo } = this.state;
+    const { archivo, idArchivo } = this.state;
     if (archivo) {
       //console.log("ARCH: ", idArchivo);
       //console.log("ARCH: ", id_archivo);
@@ -135,27 +133,27 @@ class VerInformacionRelevante extends Component {
         this.setState({ archivo: undefined });
         const archivo = await this.getArchivo(id_archivo);
 
-        await this.setState({ archivo,idArchivo :id_archivo});
+        await this.setState({ archivo, idArchivo: id_archivo });
       } else {
         //ya esta cargado, so, no hagas nada
       }
     } else {
       //no hay archivos, lo cargo en memoria
       const archivo = await this.getArchivo(id_archivo);
-      await this.setState({ archivo ,idArchivo:id_archivo});
+      await this.setState({ archivo, idArchivo: id_archivo });
     }
     if (this.state.extension.toLowerCase() !== "pdf") {
       this.clickInput();
     }
   }
   async handleDescargar(e, id_archivo) {
-    const { archivo,idArchivo } = this.state;
+    const { archivo, idArchivo } = this.state;
     if (archivo) {
       if (idArchivo !== id_archivo) {
         this.setState({ archivo: undefined });
         const archivo = await this.getArchivo(id_archivo);
 
-        await this.setState({ archivo,idArchivo:id_archivo });
+        await this.setState({ archivo, idArchivo: id_archivo });
 
         this.clickInput();
       } else {
@@ -164,7 +162,7 @@ class VerInformacionRelevante extends Component {
     } else {
       const archivo = await this.getArchivo(id_archivo);
 
-      await this.setState({ archivo,idArchivo :id_archivo});
+      await this.setState({ archivo, idArchivo: id_archivo });
 
       this.clickInput();
     }
@@ -182,8 +180,16 @@ class VerInformacionRelevante extends Component {
         const EXT = DESCRIPCION.split(".")[1];
         datos.push({
           nro: index + 1,
-          nombreArchivo: (
-            <>
+          nombreArchivo: `${DESCRIPCION}`,
+          vistaPrevia: (
+            <IconButton
+              color="primary"
+              aria-label="add"
+              name="view"
+              onClick={(e) =>
+                this.handleVistaPrevia(e, ID_INFORMACION_RELEVANTE)
+              }
+            >
               <i
                 style={estilos.fa}
                 className={`fa fa-file${
@@ -199,33 +205,20 @@ class VerInformacionRelevante extends Component {
                 }`}
                 aria-hidden="true"
               ></i>
-              {` - ${DESCRIPCION}`}
-            </>
-          ),
-          vistaPrevia: (
-            <IconButton>
-              <VisibilityTwoToneIcon
-                fontSize="large"
-                color="primary"
-                aria-label="add"
-                name="view"
-                onClick={(e) =>
-                  this.handleVistaPrevia(e, ID_INFORMACION_RELEVANTE)
-                }
-              />
             </IconButton>
           ),
           descargar: (
             <IconButton>
               <GetAppSharpIcon
-              fontSize="large"
-              name="download"
-              color="primary"
-              aria-label="add"
-              onClick={(e) => this.handleDescargar(e, ID_INFORMACION_RELEVANTE)}
-            />
+                fontSize="large"
+                name="download"
+                color="primary"
+                aria-label="add"
+                onClick={(e) =>
+                  this.handleDescargar(e, ID_INFORMACION_RELEVANTE)
+                }
+              />
             </IconButton>
-            
           ),
         });
       });
@@ -238,7 +231,6 @@ class VerInformacionRelevante extends Component {
     }
   }
 
- 
   /**
    * buffer array read as text
    * @param {Buffer} file
@@ -302,8 +294,6 @@ class VerInformacionRelevante extends Component {
           this.handleCloseLoading();
         }
         // });
-
-        
       }, 1000);
       resolve();
     });
@@ -331,120 +321,118 @@ class VerInformacionRelevante extends Component {
     return (
       <>
         <h5>Registrando Archivo: {this.state.fileName}</h5>
-        
-          {mensajesResultado}
-       
+
+        {mensajesResultado}
       </>
     );
   }
   render() {
     return (
       <>
-          <JModal
-            titulo={"Mensaje de uTutor.com"}
-            body={
-              <Jloading
-                size={"xs"}
-                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-              />
-            }
-            open={this.state.open}
-            hadleClose={this.handleCloseLoading}
-            //botonIzquierdo={"Cancelar"}
-            //botonDerecho={"Continuar"}
-          />
-      <Grid container spacing={2} style={{ textAlign: "center" }}>
-        {/**tabla de informacuion historica */}
-        <Grid item md={4} xs={12}>
-          {this.renderTabla(this.state.datosTabla)}
-        </Grid>
-        {/** vista previa y opcion de descarga */}
-
-        <Grid item md={8} xs={12}>
-          <Grid container spacing={0}>
-            {this.state.archivo ? (
-              <>
-                <Grid item md={2} xs={6}>
-                  <Button
-                    color="primary"
-                    onClick={() => this.removerDatos()}
-                    startIcon={<RestorePageTwoToneIcon />}
-                  >
-                    Deshacer Carga
-                  </Button>
-                </Grid>
-                <Grid item md={5} xs={12}>
-                  <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
-                </Grid>
-                <Grid item md={3} xs={12}>
-                  <CampoDeTexto
-                    variant={"outlined"}
-                    name="nombre"
-                    label="Descripcion o comentarios"
-                    requerido={true}
-                    autoFocus={true}
-                    inicial={this.state.fileName}
-                    validacion={{ lim: 25 }}
-                    onChange={this.handleOnChangeTexto}
-                    validarEntrada={() => {}}
-                    value={this.state.fileName}
-                  />
-                </Grid>
-                <Grid item md={2} xs={6}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.handleOnClickRegistroSSJ_masivo}
-                    startIcon={<CloudUploadIcon />}
-                    disabled={!this.state.archivo}
-                  >
-                    Registrar
-                  </Button>
-                </Grid>
-              </>
-            ) : (
-              <Grid item md={12} xs={false} />
-            )}
+        <JModal
+          titulo={"Mensaje de uTutor.com"}
+          body={
+            <Jloading
+              size={"xs"}
+              mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+            />
+          }
+          open={this.state.open}
+          hadleClose={this.handleCloseLoading}
+          //botonIzquierdo={"Cancelar"}
+          //botonDerecho={"Continuar"}
+        />
+        <Grid container spacing={2} style={{ textAlign: "center" }}>
+          {/**tabla de informacuion historica */}
+          <Grid item md={4} xs={12}>
+            {this.renderTabla(this.state.datosTabla)}
           </Grid>
-          <a
-            id="superDownload"
-            href={this.state.archivo}
-            style={{ display: "none" }}
-            download={this.state.filename}
-          ></a>
-          
-          
-          {this.state.archivo && this.state.extension === "pdf" ? (
-            <div style={estilos.divini}>
-              <iframe
-                src={this.state.archivo}
-                height={800}
-                frameborder="1"
-                allowfullscreen
-                sandbox
-                width="100%"
-              ></iframe>
-            </div>
-          ) : (
-            <Grid style={estilos.margen}>
-              <h2>{"Vista previa(solo pdf):"}</h2>
-              {(getUser().rol === "Coordinador Facultad" ||
-                getUser().rol === "Coordinador Programa") && (
-                <JUploadSSJ
-                  embebed={true}
-                  contained={true}
-                  id_drop_zone={"drop_zone_archivo"}
-                  onSuccesLoadURL={this.handleOnSuccesLoad}
-                  onSuccesLoad={this.handleOnSuccesLoad}
-                  formato={this.state.formato}
-                  maxTamanio={this.state.maxTamanio}
-                  extension="any"
-                />
+          {/** vista previa y opcion de descarga */}
+
+          <Grid item md={8} xs={12}>
+            <Grid container spacing={0}>
+              {this.state.archivo ? (
+                <>
+                  <Grid item md={2} xs={6}>
+                    <Button
+                      color="primary"
+                      onClick={() => this.removerDatos()}
+                      startIcon={<RestorePageTwoToneIcon />}
+                    >
+                      Deshacer Carga
+                    </Button>
+                  </Grid>
+                  <Grid item md={5} xs={12}>
+                    <h3>{"Vista Previa: (Solo archivos .pdf)"}</h3>
+                  </Grid>
+                  <Grid item md={3} xs={12}>
+                    <CampoDeTexto
+                      variant={"outlined"}
+                      name="nombre"
+                      label="Nombre del archivo"
+                      requerido={true}
+                      autoFocus={true}
+                      inicial={this.state.fileName}
+                      validacion={{ lim: 25 }}
+                      onChange={this.handleOnChangeTexto}
+                      validarEntrada={() => {}}
+                      value={this.state.fileName}
+                    />
+                  </Grid>
+                  <Grid item md={2} xs={6}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleOnClickRegistroSSJ_masivo}
+                      startIcon={<CloudUploadIcon />}
+                      disabled={!this.state.archivo}
+                    >
+                      Registrar
+                    </Button>
+                  </Grid>
+                </>
+              ) : (
+                <Grid item md={12} xs={false} />
               )}
             </Grid>
-          )}
+            <a
+              id="superDownload"
+              href={this.state.archivo}
+              style={{ display: "none" }}
+              download={this.state.filename}
+            ></a>
+
+            {this.state.archivo && this.state.extension === "pdf" ? (
+              <div style={estilos.divini}>
+                <iframe
+                  src={this.state.archivo}
+                  height={800}
+                  frameborder="1"
+                  allowfullscreen
+                  sandbox
+                  width="100%"
+                ></iframe>
+              </div>
+            ) : (
+              <Grid style={estilos.margen}>
+                <h2>{"Vista previa(solo pdf):"}</h2>
+                {(getUser().rol === "Coordinador Facultad" ||
+                  getUser().rol === "Coordinador Programa") && (
+                  <JUploadSSJ
+                    embebed={true}
+                    contained={true}
+                    id_drop_zone={"drop_zone_archivo"}
+                    onSuccesLoadURL={this.handleOnSuccesLoad}
+                    onSuccesLoad={this.handleOnSuccesLoad}
+                    formato={this.state.formato}
+                    maxTamanio={this.state.maxTamanio}
+                    extension="any"
+                  />
+                )}
+              </Grid>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
       </>
     );
   }
