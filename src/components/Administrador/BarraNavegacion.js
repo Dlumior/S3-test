@@ -29,6 +29,7 @@ import { logOut } from "../../Sesion/actions/sesionAction";
 import { getUser, useUserValue } from "../../Sesion/Sesion";
 import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid } from "@material-ui/core";
+import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
 
 const drawerWidth = 250;
 
@@ -93,6 +94,7 @@ const BarraNavegacion = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [{ usuario }, dispatch] = useUserValue();
+  
   const handleClick = () => {
     //te odio hooks
     //console.log("Admin LOG OUTTTTT", props);
@@ -110,17 +112,36 @@ const BarraNavegacion = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
+
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <JToolbarSSJ
+          IconButton={() => (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              className={clsx(classes.menuButton, open && classes.hide)}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          imagenPerfil={"https://www.w3schools.com/howto/img_avatar.png"}
+          rol={"Administrador"}
+          NOMBRE={admin.NOMBRE}
+          APELLIDOS={admin.APELLIDOS}
+        />
+        {/*
+ <Toolbar>
           <Grid container spacing={1}>
-            <Grid item md={1} xs={4} xl={1}>
+            <Grid item lg={9} md={8} sm={6} xl={8} xs={10}>
               <Grid container spacing={1}>
-                <Grid item md={3} xs={2} xl={2}>
+                <Grid item md={1} xs={3}>
                   <IconButton
                     color="inherit"
                     aria-label="open drawer"
@@ -133,22 +154,27 @@ const BarraNavegacion = (props) => {
                   </IconButton>
                 </Grid>
 
-                <Grid item md={9} xs={10} xl={10} style={{ textAlign: "left" }}>
+                <Grid item md={2} xs={9}>
                   <ImagenCircular
                     size={"xs"}
                     square={true}
                     src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
                   />
                 </Grid>
+
+                <Grid item md={9} xs={12}>
+                  <Typography
+                    variant="h6"
+                    style={{ marginTop: "0.8%", "text-align": "center" }}
+                  >
+                    Administrador: {`${admin.NOMBRE} ${admin.APELLIDOS} `}
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
-            <Grid item md={10} xs={5} xl={10}>
-              <Typography variant="h6" noWrap style={{ marginTop: "0.8%" }}>
-                /Administrador: {`${admin.NOMBRE} ${admin.APELLIDOS} `}
-              </Typography>
-            </Grid>
-            <Grid item md={1} xs={3} xl={1}>
-              {/**
+
+            <Grid item lg={3} md={4} sm={6} xl={4} xs={2}>
+              
                  
               <div className={classes.grow} />
               <div className={classes.sectionDesktop} />
@@ -164,10 +190,10 @@ const BarraNavegacion = (props) => {
                 </Badge>
               </IconButton>
 
-                 */}
             </Grid>
           </Grid>
         </Toolbar>
+      */}
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -179,13 +205,23 @@ const BarraNavegacion = (props) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+          <Grid container spacing={1}>
+            <Grid item md={9}>
+              <ImagenCircular
+                src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
+                logoVerde
+              />
+            </Grid>
+            <Grid item md={3}>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </Grid>
+          </Grid>
         </div>
         <Divider />
         <List>
@@ -211,20 +247,20 @@ const BarraNavegacion = (props) => {
             >
               <ListItemIcon>
                 {index === 0 ? (
-                  <AccountCircleRoundedIcon  color="primary"/>
+                  <AccountCircleRoundedIcon color="primary" />
                 ) : index === 1 ? (
-                  <AccountBalanceRoundedIcon  color="primary"/>
+                  <AccountBalanceRoundedIcon color="primary" />
                 ) : index === 2 ? (
-                  <AccountBalanceRoundedIcon  color="primary"/>
+                  <AccountBalanceRoundedIcon color="primary" />
                 ) : index === 3 ? (
-                  <SupervisorAccountRoundedIcon  color="primary"/>
+                  <SupervisorAccountRoundedIcon color="primary" />
                 ) : index === 4 ? (
-                  <AccountBalanceRoundedIcon  color="primary"/>
+                  <AccountBalanceRoundedIcon color="primary" />
                 ) : (
-                  <NoteAddRoundedIcon  color="primary"/>
+                  <NoteAddRoundedIcon color="primary" />
                 )}
               </ListItemIcon>
-              <ListItemText primary={text}  color="primary"/>
+              <ListItemText primary={text} color="primary" />
             </ListItem>
             // </LinkRouter>
           ))}
@@ -236,9 +272,9 @@ const BarraNavegacion = (props) => {
             onClick={handleClick}
           >
             <ListItemIcon>
-              <ExitToAppRoundedIcon  color="primary"/>
+              <ExitToAppRoundedIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={"Cerrar Sesión"}  color="primary"/>
+            <ListItemText primary={"Cerrar Sesión"} color="primary" />
           </ListItem>
         </List>
         {/* <Divider />
