@@ -28,7 +28,7 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
 import { getUser, useUserValue } from "../../Sesion/Sesion";
 import ImagenCircular from "../Shared/ImagenCircular";
-import { Grid } from "@material-ui/core";
+import { Grid, ThemeProvider } from "@material-ui/core";
 import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
 
 const drawerWidth = 250;
@@ -94,7 +94,7 @@ const BarraNavegacion = (props) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [{ usuario }, dispatch] = useUserValue();
-  
+
   const handleClick = () => {
     //te odio hooks
     //console.log("Admin LOG OUTTTTT", props);
@@ -108,93 +108,64 @@ const BarraNavegacion = (props) => {
     setOpen(false);
   };
   const admin = getUser().usuario;
-
+  console.log("=> ", getUser());
   return (
     <div className={classes.root}>
       <CssBaseline />
-
-      <AppBar
+      {/**
+       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
-        <JToolbarSSJ
-          IconButton={() => (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              className={clsx(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-          imagenPerfil={"https://www.w3schools.com/howto/img_avatar.png"}
-          rol={"Administrador"}
-          NOMBRE={admin.NOMBRE}
-          APELLIDOS={admin.APELLIDOS}
-        />
-        {/*
- <Toolbar>
-          <Grid container spacing={1}>
-            <Grid item lg={9} md={8} sm={6} xl={8} xs={10}>
-              <Grid container spacing={1}>
-                <Grid item md={1} xs={3}>
-                  <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    edge="start"
-                    className={clsx(classes.menuButton, open && classes.hide)}
-                    style={{ textAlign: "left" }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Grid>
-
-                <Grid item md={2} xs={9}>
-                  <ImagenCircular
-                    size={"xs"}
-                    square={true}
-                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
-                  />
-                </Grid>
-
-                <Grid item md={9} xs={12}>
-                  <Typography
-                    variant="h6"
-                    style={{ marginTop: "0.8%", "text-align": "center" }}
-                  >
-                    Administrador: {`${admin.NOMBRE} ${admin.APELLIDOS} `}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-
-            <Grid item lg={3} md={4} sm={6} xl={4} xs={2}>
-              
-                 
-              <div className={classes.grow} />
-              <div className={classes.sectionDesktop} />
-              <IconButton
-                aria-label="norifications of the user"
-                aria-controls="primary-menu"
-                aria-haspopup="true"
-                color="inherit"
-                onClick={handleMenuOpen}
-              >
-                <Badge badgeContent={numNotif} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-
-            </Grid>
-          </Grid>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Ututor
+          </Typography>
         </Toolbar>
-      */}
-      </AppBar>
+      </AppBar> 
+       */}
+      <ThemeProvider theme={theme}>
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <JToolbarSSJ
+            MenuIconButton={() => (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+            imagenPerfil={
+              admin.IMAGEN
+                ? admin.IMAGEN
+                : "https://www.w3schools.com/howto/img_avatar.png"
+            }
+            rol={"Administrador"}
+            NOMBRE={admin.NOMBRE}
+            APELLIDOS={admin.APELLIDOS}
+          />
+        </AppBar>
+      </ThemeProvider>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -220,6 +191,15 @@ const BarraNavegacion = (props) => {
                   <ChevronRightIcon />
                 )}
               </IconButton>
+            </Grid>
+            <Grid item md={12}>
+              <Typography
+                variant={"h6"}
+                textAlign={"center"}
+                style={{ "text-align": "center" }}
+              >
+                Administrador
+              </Typography>
             </Grid>
           </Grid>
         </div>

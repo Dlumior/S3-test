@@ -27,8 +27,9 @@ import { Link as LinkRouter } from "react-router-dom";
 import { useUserValue, getUser } from "../../Sesion/Sesion";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
-import { Grid } from "@material-ui/core";
+import { Grid, ThemeProvider } from "@material-ui/core";
 import ImagenCircular from "../Shared/ImagenCircular";
+import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
 
 const drawerWidth = 250;
 
@@ -106,11 +107,12 @@ const BarraNavegacion = (props) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const usuario = getUser().usuario;
+  const { usuario, rol } = getUser();
 
   return (
     <div className={classes.root}>
       <CssBaseline />
+      {/*
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -120,7 +122,7 @@ const BarraNavegacion = (props) => {
         <Toolbar color="#000000">
         <Grid container spacing={1}>
             <Grid item md={1} xs={4} xl={1}>
-              <Grid container spacing={1}>
+              <Grid container spacing={1}> 
                 <Grid item md={3} xs={2} xl={2}>
                   <IconButton
                     color="inherit"
@@ -149,8 +151,7 @@ const BarraNavegacion = (props) => {
               </Typography>
             </Grid>
             <Grid item md={1} xs={3} xl={1}>
-              {
-                /**
+             
                  
               <div className={classes.grow} />
               <div className={classes.sectionDesktop} />
@@ -166,12 +167,43 @@ const BarraNavegacion = (props) => {
                 </Badge>
               </IconButton>
 
-                 */
-              }
+               
               
             </Grid>
           </Grid>
         </Toolbar>
+      </AppBar>
+
+      */}
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <ThemeProvider theme={theme}>
+          <JToolbarSSJ
+            MenuIconButton={() => (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                className={clsx(classes.menuButton, open && classes.hide)}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+            imagenPerfil={
+              usuario.IMAGEN
+                ? usuario.IMAGEN
+                : "https://www.w3schools.com/howto/img_avatar.png"
+            }
+            rol={rol}
+            NOMBRE={usuario.NOMBRE}
+            APELLIDOS={usuario.APELLIDOS}
+          />
+        </ThemeProvider>
       </AppBar>
       <Drawer
         className={classes.drawer}
@@ -183,13 +215,32 @@ const BarraNavegacion = (props) => {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
+          <Grid container spacing={1}>
+            <Grid item md={9}>
+              <ImagenCircular
+                src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
+                logoVerde
+              />
+            </Grid>
+            <Grid item md={3}>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === "ltr" ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </Grid>
+            <Grid item md={12}>
+              <Typography
+                variant={"h6"}
+                textAlign={"center"}
+                style={{ "text-align": "center" }}
+              >
+                {rol}
+              </Typography>
+            </Grid>
+          </Grid>
         </div>
         <Divider />
         <List>
@@ -208,8 +259,7 @@ const BarraNavegacion = (props) => {
           ]
             .filter((e) =>
               getUser().rol === "Coordinador Programa"
-                ? e !== "Coordinadores de Programa" &&
-                  e !== "Facultades"
+                ? e !== "Coordinadores de Programa" && e !== "Facultades"
                 : e === e
             )
             .map((text, index) => (
@@ -226,35 +276,35 @@ const BarraNavegacion = (props) => {
               >
                 <ListItemIcon>
                   {index === 0 ? (
-                    <AccountCircleRoundedIcon color="primary"/>
+                    <AccountCircleRoundedIcon color="primary" />
                   ) : index === 1 ? (
-                    <AccountBalanceRoundedIcon color="primary"/>
+                    <AccountBalanceRoundedIcon color="primary" />
                   ) : index === 2 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <AccountBalanceRoundedIcon color="primary"/>
+                      <AccountBalanceRoundedIcon color="primary" />
                     ) : (
-                      <NoteAddRoundedIcon color="primary"/>
+                      <NoteAddRoundedIcon color="primary" />
                     )
                   ) : index === 3 || index === 4 ? (
                     <NoteAddRoundedIcon color="primary" />
                   ) : index === 7 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <NoteAddRoundedIcon color="primary"/>
+                      <NoteAddRoundedIcon color="primary" />
                     ) : (
-                      <SupervisorAccountRoundedIcon color="primary"/>
+                      <SupervisorAccountRoundedIcon color="primary" />
                     )
                   ) : index === 8 ? (
                     getUser().rol === "Coordinador Facultad" ? (
-                      <SupervisorAccountRoundedIcon color="primary"/>
+                      <SupervisorAccountRoundedIcon color="primary" />
                     ) : (
-                      <AssessmentRoundedIcon color="primary"/>
+                      <AssessmentRoundedIcon color="primary" />
                     )
                   ) : index === 9 ? (
-                    <SupervisorAccountRoundedIcon color="primary"/>
+                    <SupervisorAccountRoundedIcon color="primary" />
                   ) : index === 10 ? (
-                    <AssessmentRoundedIcon color="primary"/>
+                    <AssessmentRoundedIcon color="primary" />
                   ) : (
-                    <NoteAddRoundedIcon color="primary"/>
+                    <NoteAddRoundedIcon color="primary" />
                   )}
                 </ListItemIcon>
                 <ListItemText primary={text} />
