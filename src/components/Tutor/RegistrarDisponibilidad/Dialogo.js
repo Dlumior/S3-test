@@ -162,11 +162,19 @@ import Confirmacion from './Confirmacion';
             let nuevo = await Conexion.POST(props);
             if(nuevo){
               if(await nuevo.hasOwnProperty('error')){
-                let alerta = {...this.state.alerta};
-                alerta.mostrar = true;
-                alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
-                this.setState({alerta});
-                return;
+                if(nuevo.error.includes("ocupada")){
+                  let alerta = {...this.state.alerta};
+                  alerta.mostrar = true;
+                  alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+                  this.setState({alerta});
+                  return;
+                }else{
+                  let alerta = {...this.state.alerta};
+                  alerta.mostrar = true;
+                  alerta.mensaje = "Ocurrió un problema, intente más tarde";
+                  this.setState({alerta});
+                  return;
+                }
               }
               this.props.empezarCarga(); 
               //console.log("Mando al back: ", nuevaDisponibilidad);
@@ -190,11 +198,19 @@ import Confirmacion from './Confirmacion';
             let nuevo = await Conexion.POST(props); 
             if(nuevo){
               if(await nuevo.hasOwnProperty('error')){
-                let alerta = {...this.state.alerta};
-                alerta.mostrar = true;
-                alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
-                this.setState({alerta});
-                return;
+                if(nuevo.error.includes("ocupada")){
+                  let alerta = {...this.state.alerta};
+                  alerta.mostrar = true;
+                  alerta.mensaje = "Ya existe una disponibilidad registrada en ese horario";
+                  this.setState({alerta});
+                  return;
+                }else{
+                  let alerta = {...this.state.alerta};
+                  alerta.mostrar = true;
+                  alerta.mensaje = "Ocurrió un problema, intente más tarde";
+                  this.setState({alerta});
+                  return;
+                }
               }
               this.props.empezarCarga();
               this.props.actualizarMensaje(this.state.mensajeModificar, this.state.mensajeStrong);
