@@ -29,7 +29,7 @@ const Perfil = (props) => {
       <Grid
         container
         xs={12}
-        spacing={5}
+        //spacing={5}
         justify="center"
         alignItems="center"
         className={classes.customContainer}
