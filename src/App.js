@@ -18,6 +18,7 @@ import Tutor from "./pages/Tutor/Tutor.js";
 import Alumno from "./pages/Alumno/Alumno.js";
 import { useUserValue } from "./Sesion/Sesion";
 import { inicializarSesion } from "./Sesion/actions/sesionAction";
+import Footer from "./components/Shared/Footer";
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -77,6 +78,7 @@ function App() {
                 <Route path="/tutor" component={Tutor} />
                 <Route path="/alumno" component={Alumno} />
               </div>
+              <Footer/>
             </Router>
           </ThemeProvider>
         </Provider>
