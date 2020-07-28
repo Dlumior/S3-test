@@ -162,6 +162,7 @@ const BarraNavegacion = (props) => {
     />
   );
   const { usuario, rol } = getUser();
+  console.log(">Jenn98=>",usuario);
   return (
     <div className={classes.root}>
       <CssBaseline />

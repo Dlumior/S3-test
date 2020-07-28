@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Paper, Grid, Button, Typography, Divider } from "@material-ui/core";
+import { Paper, Grid, Button, Typography, Divider, TextField } from "@material-ui/core";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import SaltoDeLinea from "../Shared/SaltoDeLinea";
 import { UserContext, getUser } from "../../Sesion/Sesion";
@@ -33,12 +33,17 @@ class IniciarSesion extends Component {
     // this.onFailure = this.onFailure.bind(this);
     this.mostrarAlert = this.mostrarAlert.bind(this);
     this.limpiarAlerta = this.limpiarAlerta.bind(this);
+
+    this.handleOnChangePSW = this.handleOnChangePSW.bind(this);
+
+
+
   }
   validarEntrada(error) {
     //console.log("errores:", error);
   }
   onSignInNormal = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     ////console.log("validacion al click: ", this.state.errores);
     let [{ usuario }, dispatch] = this.context;
     //console.log("this.context ", usuario);
@@ -90,6 +95,15 @@ class IniciarSesion extends Component {
   handleOnChange = (e) => {
     this.setState({ [e.name]: e.value });
   };
+
+
+  handleOnChangePSW =  (e) => {
+    this.setState({ [e.name]: e.value });
+    if (e.entercillo) {      this.onSignInNormal(e);   } 
+
+  };
+
+
   render() {
     let yo = getUser();
     //console.log("DESTNO", yo);
@@ -142,18 +156,32 @@ class IniciarSesion extends Component {
                     onChange={this.handleOnChange}
                     validarEntrada={this.validarEntrada}
                   />
+
                   {/* Contraseña */}
                   <CampoDeTexto
+                    id={"idPass"}
                     requerido={true}
                     autoFocus={true}
                     name="Contrasenia"
                     label="Contraseña"
                     inicial=""
                     validacion={{ lim: 50 }}
-                    onChange={this.handleOnChange}
+                    onChange={this.handleOnChangePSW}
                     validarEntrada={this.validarEntrada}
                     tipo={"password"}
                   />
+                  {/* <TextField
+                    required={true}
+                    autoFocus={true}
+                    type={"password"}
+                    name="Contrasenia"
+                    label="Contraseña"
+                    //fullWidth
+                    //variant={"outlined"}
+                    //validacion={{ lim: 30 }}
+                    onChange={this.handleOnChangePSW}
+                  //validarEntrada={this.validarEntrada}
+                  /> */}
                   {/* Guardar */}
                   <br />
                   <Grid container spacing={0}>

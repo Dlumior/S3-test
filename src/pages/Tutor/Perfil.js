@@ -54,7 +54,7 @@ const Perfil = () => {
       />
       <Grid
         container
-        spacing={5}
+        //spacing={5}
         justify="center"
         alignItems="center"
         className={classes.customContainer}

@@ -123,7 +123,7 @@ class CampoDeTexto extends Component {
     //Validacion general
     if (this.validacion(textoActual)) {
       this.setState({ texto: textoActual });
-      this.props.onChange({ name: e.target.name, value: textoActual });
+      this.props.onChange({ name: e.target.name, value: textoActual,entercillo:false });
       if (textoActual.length > 0) {
         error = "";
       }
@@ -134,6 +134,18 @@ class CampoDeTexto extends Component {
   };
 
   componentDidMount() {
+    if(this.props.tipo==="password"){
+      let input = document.getElementById("idPass");
+
+      input.addEventListener('keyup', (e) => {
+        if (e.keyCode === 13) {
+          //console.log(">ezz");
+          this.props.onChange({entercillo:true });
+        } else {
+        //console.log(">NoRico");
+        }
+      })
+    }
     if (this.props.validacion) {
       this.setState({ validacion: this.props.validacion });
     }
@@ -158,6 +170,7 @@ class CampoDeTexto extends Component {
     return (
       <Paper elevation={0} style={estilos.paper}>
         <TextField
+          id={this.props.id}
           required={this.props.requerido || false}
           autoFocus={this.props.autoFocus}
           fullWidth
