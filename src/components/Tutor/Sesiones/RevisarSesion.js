@@ -206,59 +206,77 @@ const RevisarSesion = (cita) => {
     setAlerta({
       mensaje: "",
     });
-    window.location.reload();
+    //window.location.reload();
+    //vayanse a la rec...
   };
 
   const handleClick = async (e, datosForm, setDatosForm) => {
-    //console.log("datosForm: ", datosForm);
-    if (datosForm.asistencia === "yes") {
-      var doggysAssistance = 1;
-    } else if (datosForm.asistencia === "no") {
-      var doggysAssistance = 0;
-    } else if (datosForm.asistencia === null) {
-      var doggysAssistance = 0;
-    } else {
-      setSeveridad({
-        severidad: severidad.severE,
-      });
-      setAlerta({
-        mensaje: "Falta llenar la asistencia.",
-      });
-      return;
-    }
-    //agrega el ultimo compromiso
-    //plan.push(compromiso);
-    //console.log("este es el plan", plan);
-    const resultadosSesion = {
-      sesion: {
-        ID_SESION: cita.cita.ID_SESION,
-        RESULTADO: datosForm.resultado,
-        COMPROMISOS: plan,
-        ALUMNOS: [cita.cita.ALUMNOs[0].ID_ALUMNO],
-        ASISTENCIA: [doggysAssistance],
-        AREAS_APOYO: datosForm.apoyo,
-      },
-    };
-    const props = {
-      servicio: "/api/registrarResultadoCita",
-      request: resultadosSesion,
-    };
-    //console.log("saving new sesion in DB:", resultadosSesion);
-    let sesion = await Controller.POST(props);
-    //console.log("ASISTENCIA PRUEBA", sesion);
-    if (sesion) {
-      setSeveridad({
-        severidad: "success",
-      });
-      setAlerta({
-        mensaje: "Sesion modificada Satisfactoriamente",
-      });
-    }
-    //console.log("got updated sesion from back:", sesion);
+    
+    await new Promise(async (resolve, reject) => {
+      //console.log("datosForm: ", datosForm);
+      if (datosForm.asistencia === "yes") {
+        var doggysAssistance = 1;
+      } else if (datosForm.asistencia === "no") {
+        var doggysAssistance = 0;
+      } else if (datosForm.asistencia === null) {
+        var doggysAssistance = 0;
+      } else {
+        setSeveridad({
+          severidad: severidad.severE,
+        });
+        setAlerta({
+          mensaje: "Falta llenar la asistencia.",
+        });
+        return;
+      }
+      //agrega el ultimo compromiso
+      //plan.push(compromiso);
+      //console.log("este es el plan", plan);
+      const resultadosSesion = {
+        sesion: {
+          ID_SESION: cita.cita.ID_SESION,
+          RESULTADO: datosForm.resultado,
+          COMPROMISOS: plan,
+          ALUMNOS: [cita.cita.ALUMNOs[0].ID_ALUMNO],
+          ASISTENCIA: [doggysAssistance],
+          AREAS_APOYO: datosForm.apoyo,
+        },
+      };
+      const props = {
+        servicio: "/api/registrarResultadoCita",
+        request: resultadosSesion,
+      };
+      //console.log("saving new sesion in DB:", resultadosSesion);
+      let sesion = await Controller.POST(props);
+      //console.log("ASISTENCIA PRUEBA", sesion);
+      if (sesion) {
+        setSeveridad({
+          severidad: "success",
+        });
+        setAlerta({
+          mensaje: "Sesion modificada Satisfactoriamente",
+        });
+      }
+      //console.log("got updated sesion from back:", sesion);
 
-    setDatosForm({
-      ...datosForm,
+      setDatosForm({
+        ...datosForm,
+      });
+
+      resolve();
+
     });
+
+    await new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        handleClose();
+      }, 3000);
+      resolve();
+    });
+
+    window.location.reload();
+
+
   };
 
   return (
@@ -398,143 +416,143 @@ const RevisarSesion = (cita) => {
                   <BtnRegistroSesionGrupal cita={cita.cita} />
                 </Grid>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {/*console.log("estadoo", cita.cita.ESTADO)*/}
               {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
                 <></>
               ) : (
-                cita.cita.ESTADO.includes("realizada") && (
-                  <ModificarPlanDeAccion
-                    plan={plan}
-                    setPlan={setPlan}
-                    ultimoCompromiso={handleCompromiso}
-                  />
-                )
-              )}
+                  cita.cita.ESTADO.includes("realizada") && (
+                    <ModificarPlanDeAccion
+                      plan={plan}
+                      setPlan={setPlan}
+                      ultimoCompromiso={handleCompromiso}
+                    />
+                  )
+                )}
 
               {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
                 <></>
               ) : (
-                (cita.cita.ESTADO.includes("03") ||
-                  cita.cita.ESTADO.includes("04")) && (
-                  <PlanDeAccion
-                    plan={plan}
-                    setPlan={setPlan}
-                    ultimoCompromiso={handleCompromiso}
-                  />
-                )
-              )}
+                  (cita.cita.ESTADO.includes("03") ||
+                    cita.cita.ESTADO.includes("04")) && (
+                    <PlanDeAccion
+                      plan={plan}
+                      setPlan={setPlan}
+                      ultimoCompromiso={handleCompromiso}
+                    />
+                  )
+                )}
 
               {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
                 <></>
               ) : (
-                <Grid item md={12} justify="flex-start">
-                  <ListaEtiquetas
-                    strecht={true}
-                    titulo={""}
-                    obtenerEtiquetas={(e) =>
-                      handleOnChangeEtiquetas(e, datosForm, setDatosForm)
-                    }
-                    enlace={"/api/listaAreasApoyo"}
-                    enlace2={
-                      "/api/listaSesiones/" +
-                      cita.cita.ID_TUTOR +
-                      "/" +
-                      cita.cita.FECHA
-                    }
-                    small={true}
-                    label={"Unidades de Apoyo"}
-                    idSesion={cita.cita.ID_SESION}
-                    ID={"ID_AREA_APOYO"}
-                  />
-                </Grid>
-              )}
-
-              {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
-                <></>
-              ) : (
-                <>
-                  <Grid item md={12} justify="center">
-                    <Paper elevation={0} style={style.paperitem}>
-                      <Typography variant="h6">Resultados</Typography>
-                    </Paper>
-                  </Grid>
-                  <Grid item md={12} container justify="center">
-                    <TextField
-                      multiline
-                      rows={4}
-                      id="res"
-                      variant="outlined"
-                      defaultValue={
-                        cita.cita.ALUMNOs[0].ALUMNO_X_SESION.RESULTADO
+                  <Grid item md={12} justify="flex-start">
+                    <ListaEtiquetas
+                      strecht={true}
+                      titulo={""}
+                      obtenerEtiquetas={(e) =>
+                        handleOnChangeEtiquetas(e, datosForm, setDatosForm)
                       }
-                      onChange={(e) =>
-                        handleResultados(e, datosForm, setDatosForm)
+                      enlace={"/api/listaAreasApoyo"}
+                      enlace2={
+                        "/api/listaSesiones/" +
+                        cita.cita.ID_TUTOR +
+                        "/" +
+                        cita.cita.FECHA
                       }
-                      fullWidth
+                      small={true}
+                      label={"Unidades de Apoyo"}
+                      idSesion={cita.cita.ID_SESION}
+                      ID={"ID_AREA_APOYO"}
                     />
                   </Grid>
-                </>
-              )}
+                )}
 
               {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
                 <></>
               ) : (
-                <p>
-                  <Typography variant="h6">¿Asistió a la cita?</Typography>
-                  <br></br>
-                  {/* <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
-                  {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ? (
-                    <input
-                      type="radio"
-                      id="asistio"
-                      name="asistencia"
-                      value="yes"
-                      onChange={(e) =>
-                        handleDogsAssistance(e, datosForm, setDatosForm)
-                      }
-                      checked
-                    ></input>
-                  ) : (
-                    <input
-                      type="radio"
-                      id="asistio"
-                      name="asistencia"
-                      value="yes"
-                      onChange={(e) =>
-                        handleDogsAssistance(e, datosForm, setDatosForm)
-                      }
-                    ></input>
-                  )}
-                  <label for="asistio">Sí</label>
-                  {/* <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
-                  {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ==
-                  false ? (
-                    <input
-                      type="radio"
-                      id="noasistio"
-                      name="asistencia"
-                      value="no"
-                      onChange={(e) =>
-                        handleDogsAssistance(e, datosForm, setDatosForm)
-                      }
-                      checked
-                    ></input>
-                  ) : (
-                    <input
-                      type="radio"
-                      id="noasistio"
-                      name="asistencia"
-                      value="no"
-                      onChange={(e) =>
-                        handleDogsAssistance(e, datosForm, setDatosForm)
-                      }
-                    ></input>
-                  )}
-                  <label for="noasistio">No</label>
-                </p>
-              )}
+                  <>
+                    <Grid item md={12} justify="center">
+                      <Paper elevation={0} style={style.paperitem}>
+                        <Typography variant="h6">Resultados</Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item md={12} container justify="center">
+                      <TextField
+                        multiline
+                        rows={4}
+                        id="res"
+                        variant="outlined"
+                        defaultValue={
+                          cita.cita.ALUMNOs[0].ALUMNO_X_SESION.RESULTADO
+                        }
+                        onChange={(e) =>
+                          handleResultados(e, datosForm, setDatosForm)
+                        }
+                        fullWidth
+                      />
+                    </Grid>
+                  </>
+                )}
+
+              {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
+                <></>
+              ) : (
+                  <p>
+                    <Typography variant="h6">¿Asistió a la cita?</Typography>
+                    <br></br>
+                    {/* <input type="radio" id="asistio" name="asistencia" value="yes" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+                    {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ? (
+                      <input
+                        type="radio"
+                        id="asistio"
+                        name="asistencia"
+                        value="yes"
+                        onChange={(e) =>
+                          handleDogsAssistance(e, datosForm, setDatosForm)
+                        }
+                        checked
+                      ></input>
+                    ) : (
+                        <input
+                          type="radio"
+                          id="asistio"
+                          name="asistencia"
+                          value="yes"
+                          onChange={(e) =>
+                            handleDogsAssistance(e, datosForm, setDatosForm)
+                          }
+                        ></input>
+                      )}
+                    <label for="asistio">Sí</label>
+                    {/* <input type="radio" id="noasistio" name="asistencia" value="no" onChange={(e) => handleDogsAssistance(e, datosForm, setDatosForm)}></input> */}
+                    {cita.cita.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO ==
+                      false ? (
+                        <input
+                          type="radio"
+                          id="noasistio"
+                          name="asistencia"
+                          value="no"
+                          onChange={(e) =>
+                            handleDogsAssistance(e, datosForm, setDatosForm)
+                          }
+                          checked
+                        ></input>
+                      ) : (
+                        <input
+                          type="radio"
+                          id="noasistio"
+                          name="asistencia"
+                          value="no"
+                          onChange={(e) =>
+                            handleDogsAssistance(e, datosForm, setDatosForm)
+                          }
+                        ></input>
+                      )}
+                    <label for="noasistio">No</label>
+                  </p>
+                )}
             </Grid>
           </Paper>
         </DialogContent>
@@ -545,14 +563,14 @@ const RevisarSesion = (cita) => {
           {cita.cita.PROCESO_TUTORIum.GRUPAL ? (
             <></>
           ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={(e) => handleClick(e, datosForm, setDatosForm)}
-            >
-              Guardar
-            </Button>
-          )}
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={(e) => handleClick(e, datosForm, setDatosForm)}
+              >
+                Guardar
+              </Button>
+            )}
         </DialogActions>
       </Dialog>
     </div>

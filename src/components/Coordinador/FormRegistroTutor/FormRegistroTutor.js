@@ -204,59 +204,76 @@ const FormRegistroTutor = (props) => {
   }, [facultad]);
 
   const handleClick = async (e, datos, setDatos) => {
-    if (
-      errors.name.error ||
-      errors.lastnames.error ||
-      errors.email.error ||
-      errors.phoneNumber.error ||
-      errors.address.error ||
-      errors.code.error
-    ) {
-      // alert("Hay errores en los campos");
-      setSeveridad("error");
-      setAlerta({
-        mensaje: "Existen errores en el formulario",
-      });
-      return;
-    } else {
-      // await setDatos({
-      //   ...datos,
-      //   // CONTRASENHA: "contra",
-      //   PROGRAMA: [programa],
-      // });
-      //console.log(datos);
 
-      const sendData = {
-        servicio: "/api/tutor",
-        request: { tutor: { ...datos, PROGRAMA: [programa] } },
-      };
-      //console.log("Saving new tutor in DB:", sendData);
-      let nuevoTutor = Controller.POST(sendData);
-      //console.log("Got updated alumno from back:", nuevoTutor);
-      //console.log("Got updated alumno from back:", nuevoTutor.error);
+
+    new Promise(async (resolve, reject) => {
+
+      //aquii
       if (
-        nuevoTutor === null ||
-        nuevoTutor === undefined ||
-        nuevoTutor.error !== undefined
+        errors.name.error ||
+        errors.lastnames.error ||
+        errors.email.error ||
+        errors.phoneNumber.error ||
+        errors.address.error ||
+        errors.code.error
       ) {
-        if (nuevoTutor.error !== undefined) {
-          setSeveridad("error");
+        // alert("Hay errores en los campos");
+        setSeveridad("error");
+        setAlerta({
+          mensaje: "Existen errores en el formulario",
+        });
+        return;
+      } else {
+        // await setDatos({
+        //   ...datos,
+        //   // CONTRASENHA: "contra",
+        //   PROGRAMA: [programa],
+        // });
+        //console.log(datos);
+
+        const sendData = {
+          servicio: "/api/tutor",
+          request: { tutor: { ...datos, PROGRAMA: [programa] } },
+        };
+        //console.log("Saving new tutor in DB:", sendData);
+        let nuevoTutor = Controller.POST(sendData);
+        //console.log("Got updated alumno from back:", nuevoTutor);
+        //console.log("Got updated alumno from back:", nuevoTutor.error);
+        if (
+          nuevoTutor === null ||
+          nuevoTutor === undefined ||
+          nuevoTutor.error !== undefined
+        ) {
+          if (nuevoTutor.error !== undefined) {
+            setSeveridad("error");
+            setAlerta({
+              mensaje: nuevoTutor.error,
+            });
+          } else if (nuevoTutor === null) {
+            setSeveridad("error");
+            setAlerta({
+              mensaje: "Algo salió mal :(",
+            });
+          }
+        } else {
+          setSeveridad("success");
           setAlerta({
-            mensaje: nuevoTutor.error,
-          });
-        } else if (nuevoTutor === null) {
-          setSeveridad("error");
-          setAlerta({
-            mensaje: "Algo salió mal :(",
+            mensaje: "Se registró correctamente el tutor",
           });
         }
-      } else {
-        setSeveridad("success");
-        setAlerta({
-          mensaje: "Se registró correctamente el tutor",
-        });
       }
-    }
+
+      resolve();
+    });
+
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        handleClose();
+      }, 3000);
+      resolve();
+    });
+
+
   };
 
   return (
@@ -395,7 +412,7 @@ const FormRegistroTutor = (props) => {
           container
           justify="flex-end"
           alignItems="center"
-          // spacing={10}
+        // spacing={10}
         >
           <Grid item xs={2}>
             <Button color="primary" variant="outlined" onClick={handleClose}>

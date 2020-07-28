@@ -13,7 +13,7 @@ import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import IndeterminateCheckBoxRoundedIcon from '@material-ui/icons/IndeterminateCheckBoxRounded';
 import SearchRoundedIcon from '@material-ui/icons/SearchRounded';
 import PlanDeAccion from './PlanDeAccion';
-import { Grid, Paper, makeStyles,Typography, Checkbox } from "@material-ui/core";
+import { Grid, Paper, makeStyles, Typography, Checkbox } from "@material-ui/core";
 import { getUser } from "../../../Sesion/Sesion";
 import Alertas from "../../Coordinador/Alertas"
 import ListaEtiquetas from "./ListaEtiquetas";
@@ -32,17 +32,17 @@ const style = {
     backgroundImage: "",
   },
   paperitem: {
-      marginTop: "2%",
-      marginLeft: "4%",
-    },
-    foto: {
-      marginTop: "2%",
-      marginLeft: "4%",
-      marginTop: "4%",
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundImage: "",
-    }
+    marginTop: "2%",
+    marginLeft: "4%",
+  },
+  foto: {
+    marginTop: "2%",
+    marginLeft: "4%",
+    marginTop: "4%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundImage: "",
+  }
 };
 
 const handleName = (e, datosForm, setDatosForm) => {
@@ -64,7 +64,7 @@ const handleFecha = (e, datosForm, setDatosForm) => {
 const handleHoraIni = (e, datosForm, setDatosForm) => {
   //console.log("horaini",e.target.value);
   if (e.target.value < "08:00" || e.target.value > '19:30') {
-    document.getElementById("Hora").value = "08:00"; 
+    document.getElementById("Hora").value = "08:00";
   } else {
     setDatosForm({
       ...datosForm,
@@ -73,23 +73,23 @@ const handleHoraIni = (e, datosForm, setDatosForm) => {
     //console.log("horaini",datosForm.horaini);
   }
 };
-const handleHoraInicial = async (e, datosForm, setDatosForm,duracion) => {
+const handleHoraInicial = async (e, datosForm, setDatosForm, duracion) => {
   //console.log("horaini",e.target.value);
-  let hi=e.target.value;
+  let hi = e.target.value;
   let hf;
-  if (moment(e.target.value,'HH:mm').format('HH:mm')>moment('22:30','HH:mm').format('HH:mm')){
-    if (duracion===30){
+  if (moment(e.target.value, 'HH:mm').format('HH:mm') > moment('22:30', 'HH:mm').format('HH:mm')) {
+    if (duracion === 30) {
       document.getElementById("Hora").value = '23:30';
-      hi=moment('23:30','HH:mm').format('HH:mm');
-      hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
-    }else if (duracion===60){
+      hi = moment('23:30', 'HH:mm').format('HH:mm');
+      hf = moment(e.target.value, 'HH:mm').add(duracion, 'minutes').format('HH:mm');
+    } else if (duracion === 60) {
       document.getElementById("Hora").value = '23:00';
-      hi=moment('23:00','HH:mm').format('HH:mm');
-      hf=moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm');
-    }else if (duracion===90){
+      hi = moment('23:00', 'HH:mm').format('HH:mm');
+      hf = moment(e.target.value, 'HH:mm').add(duracion, 'minutes').format('HH:mm');
+    } else if (duracion === 90) {
       document.getElementById("Hora").value = '22:30';
-      hi=moment('22:30','HH:mm').format('HH:mm');
-      hf=moment('00:00','HH:mm').format('HH:mm');
+      hi = moment('22:30', 'HH:mm').format('HH:mm');
+      hf = moment('00:00', 'HH:mm').format('HH:mm');
     }
   }
   setDatosForm({
@@ -101,8 +101,8 @@ const handleHoraInicial = async (e, datosForm, setDatosForm,duracion) => {
   //console.log("horafin: ",moment(e.target.value,'HH:mm').add(duracion,'minutes').format('HH:mm'));
   await setDatosForm({
     ...datosForm,
-    horaini:moment(hi,'HH:mm').format('HH:mm'),
-    horafin: moment(hi,'HH:mm').add(duracion,'minutes').format('HH:mm'),
+    horaini: moment(hi, 'HH:mm').format('HH:mm'),
+    horafin: moment(hi, 'HH:mm').add(duracion, 'minutes').format('HH:mm'),
   });
   //console.log("horaini",datosForm.horaini);   
 };
@@ -111,7 +111,7 @@ const handleHoraFin = (e, datosForm, setDatosForm) => {
   //console.log("horafin",e.target.value);
 
   if (e.target.value > '20:00' || e.target.value < "08:30") {
-    document.getElementById("Hora fin").value = "20:00"; 
+    document.getElementById("Hora fin").value = "20:00";
   } else {
     setDatosForm({
       ...datosForm,
@@ -123,7 +123,7 @@ const handleHoraFin = (e, datosForm, setDatosForm) => {
 const handleLugar = (e, datosForm, setDatosForm) => {
   //console.log("lugar",e.target.value);
   if (e.target.value.length > 45) {
-    document.getElementById("lugar").value = e.target.value.substring(0,45);
+    document.getElementById("lugar").value = e.target.value.substring(0, 45);
   }
   setDatosForm({
     ...datosForm,
@@ -135,7 +135,7 @@ const handleLugar = (e, datosForm, setDatosForm) => {
 const handleResultados = (e, datosForm, setDatosForm) => {
   //console.log("resu",e.target.value);
   if (e.target.value.length > 45) {
-    document.getElementById("res").value = e.target.value.substring(0,250);
+    document.getElementById("res").value = e.target.value.substring(0, 250);
   }
   setDatosForm({
     ...datosForm,
@@ -147,18 +147,18 @@ const handleResultados = (e, datosForm, setDatosForm) => {
 
 const RegistrarSesion = () => {
   const [datosForm, setDatosForm] = React.useState({
-    alumnoCodigo:0,
-    alumnoNombre:'',
-    alumnos:[],
+    alumnoCodigo: 0,
+    alumnoNombre: '',
+    alumnos: [],
     fecha: moment(new Date()).format("YYYY-MM-DD"),
-    horaini:'',
-    horafin:'',
-    resultado:'',
-    lugar:'',
-    descripcion:"",
-    apoyo:[],
+    horaini: '',
+    horafin: '',
+    resultado: '',
+    lugar: '',
+    descripcion: "",
+    apoyo: [],
   });
-  const [alerta, setAlerta]= useState({
+  const [alerta, setAlerta] = useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
     mensajeStrongExito: "satisfactoriamente!",
@@ -167,89 +167,89 @@ const RegistrarSesion = () => {
     mensaje: "",
   });
   const [severidad, setSeveridad] = useState({
-    severidad:"error",
-    severW:"warning",
-    severE:"error",
-    severS:"success"
+    severidad: "error",
+    severW: "warning",
+    severE: "error",
+    severS: "success"
   });
   const [open, setOpen] = React.useState(false);
-  const [plan,setPlan]=useState([]);
+  const [plan, setPlan] = useState([]);
   const [pDisabled, setPDisabled] = useState(true);
   const [prDisabled, setPrDisabled] = useState(true);
   const [facultades, setFacultades] = useState([]);
   const [facultad, setFacultad] = useState("");
   const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState("");  
+  const [programa, setPrograma] = useState("");
   const [procesosTutoria, setProcesosTutoria] = useState([]);
   const [procesoTutoria, setProcesoTutoria] = useState("");
-  const [compromiso,setCompromiso]=useState({
-    campo:'',
-    check:false, 
+  const [compromiso, setCompromiso] = useState({
+    campo: '',
+    check: false,
   });
   const [duracion, setDuracion] = useState(0);
 
-//faultades por coordinador de prog o facu
-useEffect(() => {
-  async function fetchData() {
-      const endpoint = "/api/facultad/tutor/"+getUser().usuario.ID_USUARIO;
+  //faultades por coordinador de prog o facu
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/facultad/tutor/" + getUser().usuario.ID_USUARIO;
       const params = { servicio: endpoint };
-      const res = await GET(params);    
+      const res = await GET(params);
       //console.log("facultades:", res);
-      if (res){
+      if (res) {
         setFacultades(res.facultades);
-      }      
+      }
       //console.log("facultad:", facultades);
     }
-   fetchData();
-}, {});
-
-//programas a partir de un coordinador de Facultad
-useEffect(() => {
-    async function fetchData() {
-        const endpoint = "/api/programa/lista/tutor/"+getUser().usuario.ID_USUARIO+"/"+facultad;
-        const params = { servicio: endpoint };
-        const res = await GET(params);    
-        //console.log("proogramasss:", res);
-        if (res){
-            setProgramas(res.programas);
-        }
-        //console.log("proograma:", programas);
-      }     
-      if (facultad!=""){
-          fetchData();
-      }
-},[facultad]);
-
-//proceso de tutoria a partir de un programa
-useEffect(() => {
-  async function fetchData() {
-    const endpoint = "/api/tutoria/lista/"+programa;
-    const params = { servicio: endpoint };
-    const res = await GET(params);
-    //console.log("tutoria: ",res);
-    if (res !== []) {
-      setProcesosTutoria(res.tutoria);
-      setDuracion(res.tutoria[0].DURACION);
-    }
-  }
-  if (facultad!=="" && programa !== "") {
     fetchData();
-  }
-},[programa]);
+  }, {});
+
+  //programas a partir de un coordinador de Facultad
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/programa/lista/tutor/" + getUser().usuario.ID_USUARIO + "/" + facultad;
+      const params = { servicio: endpoint };
+      const res = await GET(params);
+      //console.log("proogramasss:", res);
+      if (res) {
+        setProgramas(res.programas);
+      }
+      //console.log("proograma:", programas);
+    }
+    if (facultad != "") {
+      fetchData();
+    }
+  }, [facultad]);
+
+  //proceso de tutoria a partir de un programa
+  useEffect(() => {
+    async function fetchData() {
+      const endpoint = "/api/tutoria/lista/" + programa;
+      const params = { servicio: endpoint };
+      const res = await GET(params);
+      //console.log("tutoria: ",res);
+      if (res !== []) {
+        setProcesosTutoria(res.tutoria);
+        setDuracion(res.tutoria[0].DURACION);
+      }
+    }
+    if (facultad !== "" && programa !== "") {
+      fetchData();
+    }
+  }, [programa]);
 
   async function fetchData(cod, datosForm, setDatosForm) {
     const endpoint = "/api/alumno/buscar/" + cod;
     const params = { servicio: endpoint };
     const res = await GET(params);
-    if (res){
+    if (res) {
       datosForm.alumnos.pop();
-      if (res.alumno === null) {  
+      if (res.alumno === null) {
         setSeveridad({
-          severidad:"error",
-        }); 
+          severidad: "error",
+        });
         setAlerta({
-          mensaje:"No existe ningún alumno con ese código",
-        }); 
+          mensaje: "No existe ningún alumno con ese código",
+        });
         setDatosForm({
           ...datosForm,
           alumnoNombre: "",
@@ -257,29 +257,29 @@ useEffect(() => {
         //console.log("severidad= ",severidad.severidad);
       } else {
         setSeveridad({
-          severidad:"",
-        }); 
+          severidad: "",
+        });
         setAlerta({
-          mensaje:"",
-        }); 
+          mensaje: "",
+        });
         //console.log("fechaa", moment(new Date()).format("DD-MM-YYYY"))
         //console.log("alumnocod",res.alumno);
         datosForm.alumnos.push(res.alumno.ID_ALUMNO);
         setDatosForm({
           ...datosForm,
           alumnoNombre: res.alumno.USUARIO.NOMBRE + " " + res.alumno.USUARIO.APELLIDOS,
-        }); 
+        });
         //console.log("alumnos: ",datosForm.alumnos);
       }
 
     }
-    
+
   }
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
+
   const handleCompromiso = (comp) => {
     //console.log("thisisit",comp);
     setCompromiso(comp);
@@ -287,24 +287,25 @@ useEffect(() => {
   const handleClose = () => {
     setOpen(false);
     setSeveridad({
-      severidad:"",
-    }); 
-    setAlerta({
-      mensaje:"",
-    }); 
-    setDatosForm({
-      alumnoCodigo:0,
-      alumnoNombre:'',
-      alumnos:[],
-      fecha: moment(new Date()).format("YYYY-MM-DD"),
-      horaini:'',
-      horafin:'',
-      resultado:'',
-      lugar:'',
-      descripcion:"",
-      apoyo:[],
+      severidad: "",
     });
-    window.location.reload();
+    setAlerta({
+      mensaje: "",
+    });
+    setDatosForm({
+      alumnoCodigo: 0,
+      alumnoNombre: '',
+      alumnos: [],
+      fecha: moment(new Date()).format("YYYY-MM-DD"),
+      horaini: '',
+      horafin: '',
+      resultado: '',
+      lugar: '',
+      descripcion: "",
+      apoyo: [],
+    });
+    //window.location.reload();
+    //no jennn location nooo
   };
   const handleOnChangeEtiquetas = (etiqueta) => {
     const listaEtiquetas = [];
@@ -315,87 +316,112 @@ useEffect(() => {
         listaEtiquetas.push(element.id);
       }
     });
-    datosForm.apoyo=listaEtiquetas;
+    datosForm.apoyo = listaEtiquetas;
     setDatosForm({
       ...datosForm
     });
   };
-  
+
   const handleClick = async (e, datosForm, setDatosForm) => {
-    setSeveridad({
-      severidad:"",
-    }); 
-    setAlerta({
-      mensaje:"",
-    });
-    if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "" || datosForm.resultado === "" ||datosForm.alumnos === []) {
+    const resultado = await new Promise(async (resolve, reject) => {
       setSeveridad({
-        severidad:"error",
-      }); 
+        severidad: "",
+      });
       setAlerta({
-        mensaje:"Complete los campos obligatorios (*)",
-      }); 
-    } else {
-      //agrega el ultimo compromiso
-      //plan.push(compromiso);
-      const nuevaSesion = {
-        sesion: {
-          ID_TUTOR: (getUser()).usuario.ID_USUARIO,
-          ID_PROCESO_TUTORIA: datosForm.procesoTutoria,
-          LUGAR: datosForm.lugar,
-          MOTIVO: "PUCP",
-          DESCRIPCION: datosForm.descripcion,
-          FECHA: datosForm.fecha,
-          HORA_INICIO: datosForm.horaini,
-          HORA_FIN: datosForm.horafin,
-          RESULTADO: datosForm.resultado,
-          COMPROMISOS: plan,
-          AREAS_APOYO: datosForm.apoyo,
-          ALUMNOS:datosForm.alumnos,
-        },
-      }
-      const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
-      //console.log("saving new sesion in DB:", nuevaSesion);
-      let sesion = await Controller.POST(props);
-      //console.log("sesion debug xaeee: ", sesion);
-      if (sesion) {
-        //console.log("ENTRE AL IF: ");
-        if(sesion.message){
-          setSeveridad({
-            severidad:"error",
-          }); 
-          setAlerta({
-            mensaje:sesion.message,
-          });
-        }else if (sesion.error){
-          setSeveridad({
-            severidad:"error",
-          }); 
-          setAlerta({
-            mensaje:"Ocurrió un error en la operación, intente de nuevo",
-          }); 
-        }else{
-          setSeveridad({
-            severidad:"success",
-          }); 
-          setAlerta({
-            mensaje:"La sesión se ha registrado satisfactoriamente",
-          }); 
+        mensaje: "",
+      });
+      if (datosForm.fecha === "" || datosForm.horaini === "" || datosForm.horafin === "" || datosForm.resultado === "" || datosForm.alumnos === []) {
+        setSeveridad({
+          severidad: "error",
+        });
+        setAlerta({
+          mensaje: "Complete los campos obligatorios (*)",
+        });
+        reject(false);
+      } else {
+        //agrega el ultimo compromiso
+        //plan.push(compromiso);
+        const nuevaSesion = {
+          sesion: {
+            ID_TUTOR: (getUser()).usuario.ID_USUARIO,
+            ID_PROCESO_TUTORIA: datosForm.procesoTutoria,
+            LUGAR: datosForm.lugar,
+            MOTIVO: "PUCP",
+            DESCRIPCION: datosForm.descripcion,
+            FECHA: datosForm.fecha,
+            HORA_INICIO: datosForm.horaini,
+            HORA_FIN: datosForm.horafin,
+            RESULTADO: datosForm.resultado,
+            COMPROMISOS: plan,
+            AREAS_APOYO: datosForm.apoyo,
+            ALUMNOS: datosForm.alumnos,
+          },
         }
+        const props = { servicio: "/api/registrarSesion", request: nuevaSesion };
+        //console.log("saving new sesion in DB:", nuevaSesion);
+        let sesion = await Controller.POST(props);
+        //console.log("sesion debug xaeee: ", sesion);
+        if (sesion) {
+          //console.log("ENTRE AL IF: ");
+          if (sesion.message) {
+            setSeveridad({
+              severidad: "error",
+            });
+            setAlerta({
+              mensaje: sesion.message,
+            });
+          } else if (sesion.error) {
+            setSeveridad({
+              severidad: "error",
+            });
+            setAlerta({
+              mensaje: "Ocurrió un error en la operación, intente de nuevo",
+            });
+          } else {
+            setSeveridad({
+              severidad: "success",
+            });
+            setAlerta({
+              mensaje: "La sesión se ha registrado satisfactoriamente",
+            });
+          }
+        }
+        //console.log("got updated sesion from back:", sesion);
+
+
+        // setDatosForm({
+        //   ...datosForm,
+        // });
+        // setSeveridad({
+        //   severidad:"success",
+        // }); 
+        // setAlerta({
+        //   mensaje:"",
+        // }); 
       }
-      //console.log("got updated sesion from back:", sesion);
-        
-  
-      // setDatosForm({
-      //   ...datosForm,
-      // });
-      // setSeveridad({
-      //   severidad:"success",
-      // }); 
-      // setAlerta({
-      //   mensaje:"",
-      // }); 
+
+      resolve(true);
+
     }
+
+    )
+
+
+    await new Promise(async (resolve, reject) => {
+      console.log(">Resul=>",resultado);
+
+      if (resultado) {
+        await setTimeout(async () => {
+          handleClose();
+        }, 3000);
+
+        window.location.reload();
+      }
+      resolve();
+    });
+
+
+
   };
 
   //Obtener a los alumnos una vez seleccionado el programa y el procesos de tutoria
@@ -412,11 +438,11 @@ useEffect(() => {
     }
   }, [procesoTutoria]);
 
-  
+
 
   return (
     <div>
-      <Button 
+      <Button
         variant="contained"
         color="primary"
         onClick={handleClickOpen}>
@@ -433,74 +459,74 @@ useEffect(() => {
           alerta={alerta}
         />
         <DialogTitle id="form-dialog-title">
-            <Grid container md={12} justify="space-between" direction="row">
+          <Grid container md={12} justify="space-between" direction="row">
             <Grid item md={9} >
-                <Typography variant="h5">
-                  Registrar Sesión
+              <Typography variant="h5">
+                Registrar Sesión
                 </Typography>
             </Grid>
-            </Grid>
+          </Grid>
         </DialogTitle>
         <DialogContent>
           <Paper elevation={0} style={style.paper}>
-          <Grid container md={12} spacing={3}>
-            <Grid item md={4}>
-              <TextField
+            <Grid container md={12} spacing={3}>
+              <Grid item md={4}>
+                <TextField
                   required
                   id="codigo  "
                   label="Código"
                   variant="outlined"
                   onChange={(e) => handleName(e, datosForm, setDatosForm)}
-                  fullWidth   
-              />
-            </Grid>
-            <IconButton color="primary" onClick={()=> fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
-              <SearchRoundedIcon
-              color="primary"
-              fontsize="large" />
-            </IconButton> 
-            <Grid item style={{flexGrow:1}}>
-              <TextField
+                  fullWidth
+                />
+              </Grid>
+              <IconButton color="primary" onClick={() => fetchData(datosForm.alumnoCodigo, datosForm, setDatosForm)}>
+                <SearchRoundedIcon
+                  color="primary"
+                  fontsize="large" />
+              </IconButton>
+              <Grid item style={{ flexGrow: 1 }}>
+                <TextField
                   aria-readonly
                   id="alumno"
                   label="Alumno"
                   value={datosForm.alumnoNombre}
-                  fullWidth   
-              />
-            </Grid>
+                  fullWidth
+                />
+              </Grid>
 
-            <Grid item md={6}>
-              <ComboBoxFacus
-                setPrDisabled={setPrDisabled}
-                facultades={facultades}
-                facultad={facultad}
-                setFacultad={setFacultad}
-              />
-            </Grid>
+              <Grid item md={6}>
+                <ComboBoxFacus
+                  setPrDisabled={setPrDisabled}
+                  facultades={facultades}
+                  facultad={facultad}
+                  setFacultad={setFacultad}
+                />
+              </Grid>
 
-            <Grid item md={6}>
-              <ComboBoxPrograma
-                prDisabled={prDisabled}
-                setPDisabled={setPDisabled}
-                programas={programas}
-                programa={programa}
-                setPrograma={setPrograma}
-              />
-            </Grid>
+              <Grid item md={6}>
+                <ComboBoxPrograma
+                  prDisabled={prDisabled}
+                  setPDisabled={setPDisabled}
+                  programas={programas}
+                  programa={programa}
+                  setPrograma={setPrograma}
+                />
+              </Grid>
 
-            <Grid item md={12} style={{marginBottom:"2%"}}>
-              <ComboBoxProcesoTutoria
-                pDisabled={pDisabled}
-                procesosTutoria={procesosTutoria}
-                procesoTutoria={procesoTutoria}
-                setProcesoTutoria={setProcesoTutoria}
-              />
-            </Grid>
+              <Grid item md={12} style={{ marginBottom: "2%" }}>
+                <ComboBoxProcesoTutoria
+                  pDisabled={pDisabled}
+                  procesosTutoria={procesosTutoria}
+                  procesoTutoria={procesoTutoria}
+                  setProcesoTutoria={setProcesoTutoria}
+                />
+              </Grid>
 
-            <Grid item md={4}>
-              <TextField
+              <Grid item md={4}>
+                <TextField
                   required
-                  disabled={procesoTutoria===null}
+                  disabled={procesoTutoria === null}
                   margin="dense"
                   type="date"
                   id="Fecha"
@@ -509,15 +535,15 @@ useEffect(() => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  defaultValue = {moment(new Date()).format("YYYY-MM-DD")}
+                  defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                   onChange={(e) => handleFecha(e, datosForm, setDatosForm)}
-                  fullWidth   
-              />
-            </Grid>
-            <Grid item md={4} >
-              <TextField
+                  fullWidth
+                />
+              </Grid>
+              <Grid item md={4} >
+                <TextField
                   required
-                  disabled={procesoTutoria===null}
+                  disabled={procesoTutoria === null}
                   margin="dense"
                   type="time"
                   id="Hora"
@@ -525,12 +551,12 @@ useEffect(() => {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={(e) => handleHoraInicial(e, datosForm, setDatosForm,duracion)}
+                  onChange={(e) => handleHoraInicial(e, datosForm, setDatosForm, duracion)}
                   fullWidth
-              />
-            </Grid>
-            <Grid item md={4} >
-              <TextField
+                />
+              </Grid>
+              <Grid item md={4} >
+                <TextField
                   required
                   disabled
                   margin="dense"
@@ -542,64 +568,64 @@ useEffect(() => {
                   }}
                   value={datosForm.horafin}
                   fullWidth
-              />
-            </Grid>
-            <Grid item md={12}>
-              <TextField
-                  disabled={procesoTutoria===null}
+                />
+              </Grid>
+              <Grid item md={12}>
+                <TextField
+                  disabled={procesoTutoria === null}
                   id="lugar"
                   label="Lugar"
                   onChange={(e) => handleLugar(e, datosForm, setDatosForm)}
-                  fullWidth   
+                  fullWidth
+                />
+              </Grid>
+              <PlanDeAccion
+                plan={plan}
+                setPlan={setPlan}
+                ultimoCompromiso={handleCompromiso}
               />
-            </Grid>
-            <PlanDeAccion
-              plan={plan}
-              setPlan={setPlan}
-              ultimoCompromiso={handleCompromiso}
-            />
-            <Grid item md={12} justify="center" >
+              <Grid item md={12} justify="center" >
                 <Paper elevation={0} style={style.paperitem}>
-                    <Typography variant="h6">
-                        Resultados
+                  <Typography variant="h6">
+                    Resultados
                     </Typography>
                 </Paper>
-            </Grid>
-            <Grid item md={12} justify="flex-start">
-              <ListaEtiquetas
-                strecht={true}
-                titulo={""}
-                obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e)}
-                enlace={"/api/listaAreasApoyo"}
-                small={true}
-                label={"Derivar a unidades de Apoyo"}
-                ID={"ID_AREA_APOYO"}
-              />
-            </Grid>
-            <Grid item md={12}
-              container
-              justify="center" >
-              <TextField
+              </Grid>
+              <Grid item md={12} justify="flex-start">
+                <ListaEtiquetas
+                  strecht={true}
+                  titulo={""}
+                  obtenerEtiquetas={(e) => handleOnChangeEtiquetas(e)}
+                  enlace={"/api/listaAreasApoyo"}
+                  small={true}
+                  label={"Derivar a unidades de Apoyo"}
+                  ID={"ID_AREA_APOYO"}
+                />
+              </Grid>
+              <Grid item md={12}
+                container
+                justify="center" >
+                <TextField
                   multiline
                   rows={4}
                   id="res"
                   variant="outlined"
                   onChange={(e) => handleResultados(e, datosForm, setDatosForm)}
-                  fullWidth   
-              />
+                  fullWidth
+                />
+              </Grid>
             </Grid>
-          </Grid>
           </Paper>
-          
+
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             variant="outlined"
             onClick={handleClose} color="primary">
             Cancelar
           </Button>
 
-          <Button 
+          <Button
             variant="contained"
             color="primary"
             onClick={(e) => handleClick(e, datosForm, setDatosForm)}
