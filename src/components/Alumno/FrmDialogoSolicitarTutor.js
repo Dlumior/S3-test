@@ -18,6 +18,10 @@ import { POST } from "../../Conexion/Controller";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
+import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+
 
 import moment from 'moment';
 
@@ -67,7 +71,8 @@ class FrmDialogoSolicitarTutor extends Component {
       mensajillo: "",
       horaIniR: "",
       horaFinR: "",
-      errorDesc: false
+      errorDesc: false,
+      horaOcupada: false,
       //banderillaMotivo: false,
     };
 
@@ -177,6 +182,7 @@ class FrmDialogoSolicitarTutor extends Component {
 
       if (!sesionTyS.message) {
         if (!sesionTyS.error) {
+
           this.setState({ mensajillo: "¡ Sesión Registrada Satisfactoriamente !" });
         } else {
           this.setState({
@@ -185,6 +191,9 @@ class FrmDialogoSolicitarTutor extends Component {
           });
         }
       } else {
+        // if (sesionTyS.message.includes("ocupada")) {
+        //   this.setState({ horaOcupada: true })
+        // }
         this.setState({ mensajillo: sesionTyS.message });
       }
       this.setState({ open: true });
@@ -549,10 +558,26 @@ class FrmDialogoSolicitarTutor extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle>
+          {/* <DialogTitle>
             <h3>Resultado </h3>
+          </DialogTitle> */}
+          <DialogTitle id="form-dialog-title">
+            <Grid container md={12} justify="center">
+
+              {this.state.mensajillo.includes("satisfactoriamente") ?
+                <CheckCircleRoundedIcon
+                  color="primary"
+                  style={{ fontSize: 70 }}
+                />
+                :
+                //casos ocupada y ups error inesperado
+                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+              }
+            </Grid>
           </DialogTitle>
-          <DialogContent>{this.state.mensajillo}</DialogContent>
+          <DialogContent>
+            {this.state.mensajillo}
+          </DialogContent>
           <DialogActions>
             <Button
               variant="contained"
@@ -571,8 +596,14 @@ class FrmDialogoSolicitarTutor extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle>
+          {/* <DialogTitle>
             <h3>Resultado </h3>
+          </DialogTitle> */}
+          <DialogTitle id="form-dialog-title">
+            <Grid container md={12} justify="center">
+              <WarningRoundedIcon
+                style={{ fontSize: 70, fill: "orange" }} />
+            </Grid>
           </DialogTitle>
           <DialogContent>{this.state.mensajillo}</DialogContent>
           <DialogActions>

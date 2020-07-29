@@ -94,6 +94,8 @@ class NombrePrincipal_Alumno extends Component {
             {!this.state.usuario ? (
               <Jloading mensaje={"Cargando"} size={"xs"} />
             ) : (
+              <>
+              <br></br>
               <ListaComboBox
                 mensaje="facultad"
                 titulo={"Facultad"}
@@ -107,10 +109,13 @@ class NombrePrincipal_Alumno extends Component {
                 inicial={true}
                 placeholder={"Escoja la facultad"}
               />
+              </>
             )}
           </Grid>
           <Grid item md={3} xs={6}>
             {this.state.filtroFacultad ? (
+              <>
+              <br></br>
               <ListaComboBox
                 mensaje="programa"
                 titulo={"Programa"}
@@ -123,6 +128,7 @@ class NombrePrincipal_Alumno extends Component {
                 inicial={true}
                 placeholder={"Escoja el programa"}
               />
+              </>
             ) : (
               <Jloading mensaje={"Cargando"} size={"xs"} />
             )}
