@@ -9,6 +9,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Button,
 } from "@material-ui/core";
 import ImagenCircular from "./ImagenCircular";
 
@@ -52,6 +53,62 @@ const handleOnChangeRol = async (e) => {
   window.location.reload(false);
 };
 
+
+// const handleOnChangeImg = (event) => {
+//   //console.log(event.target.files[0]);
+//   let ext = event.target.files[0].name;
+//   let extens = ext.slice(-3);
+
+//   //let alert = Object.assign({}, this.state.alert);
+//   //alert.mensaje = "";
+//   //alert.mensajeStrong = "";
+//   //this.setState({ alert: alert });
+//   //this.setState({ severidad: "" });
+
+//   //console.log("name: ",extens);
+//   // if (extens === 'jpg') {
+//   //   extens = 'jpeg';
+//   // } else if (extens === 'png') {
+//   //   extens = 'png'
+//   // } else {
+//   //   let alert = Object.assign({}, this.state.alert);
+//   //   alert.mensaje = "El logo debe tener extensión .jpg o .png";
+//   //   alert.mensajeStrong = alert.mensajeStrongError;
+//   //   this.setState({ alert: alert });
+//   //   this.setState({ severidad: "error" });
+//   //   this.state.alert.mensaje = this.state.alert.mensajeError;
+//   // }
+
+//   let reader = new FileReader();
+//   reader.readAsDataURL(event.target.files[0]);
+//   reader.onload = (event) => {
+//     let base = event.target.result.slice(23);
+//     console.warn("img data", event.target.result);
+   
+//     let inst = Object.assign({}, this.state.institucion);
+
+//     var base1;
+//     //console.log("name: ",extens);
+//     if (extens === 'jpeg') {
+//       inst.EXTENSION = 'jpeg';
+//       base1 = event.target.result.slice(23);
+//     } else {
+//       inst.EXTENSION = 'png';
+//       base1 = event.target.result.slice(22);
+//     }
+//     //console.log("base1",base1);
+//     inst.IMAGEN = base1;
+
+//     this.setState({
+//       institucion: inst,
+//     })
+//     //console.log(this.state.institucion.IMAGEN);
+//   }
+// }
+
+
+
+
 const CabeceraPerfil = (props) => {
   const classes = useStyles();
 
@@ -63,7 +120,7 @@ const CabeceraPerfil = (props) => {
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
             {getUser().rol === "Administrador" ? (
               <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
-            ) : getUser().usuario.IMAGEN ? (
+            ) : getUser().usuario.IMAGEN  ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
               />
@@ -109,6 +166,21 @@ const CabeceraPerfil = (props) => {
               <Typography variant="h6">Alumno</Typography>
             )}
           </Grid>
+
+          {/* <Button
+                  variant="outlined"
+                  component="label"
+                  color="primary"
+                >
+                  Importar
+                            <input
+                    type="file"
+                    //onChange={handleOnChangeImg}
+                    style={{ display: "none" }}
+                  />
+                </Button> */}
+
+
         </Grid>
       </Container>
     </div>

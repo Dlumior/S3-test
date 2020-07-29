@@ -70,6 +70,9 @@ class ConfigurarInstitucion extends React.Component {
     this.handleOnChangeImg = this.handleOnChangeImg.bind(this);
     this.handleHabilitar = this.handleHabilitar.bind(this);
 
+    
+    this.handleOnClickCancelar = this.handleOnClickCancelar.bind(this);
+
   }
 
   handleOnChangeNombre = (event) => {
@@ -240,6 +243,11 @@ class ConfigurarInstitucion extends React.Component {
     }
   }
 
+
+  handleOnClickCancelar(){
+    this.setState({deshabilitar:true})
+  }
+
   render() {
     return (
       <div>
@@ -277,6 +285,7 @@ class ConfigurarInstitucion extends React.Component {
               </div>
               <div>
                 <Button
+                  disabled={this.state.deshabilitar}
                   variant="outlined"
                   component="label"
                   color="primary"
@@ -381,6 +390,7 @@ class ConfigurarInstitucion extends React.Component {
               <Grid container spacing={2}  justify="center">            
                 <Grid item>
                   <Button
+                    disabled={this.state.deshabilitar}
                     variant="contained"
                     color="primary"
                     onClick={this.handleOnClick}>
@@ -390,10 +400,13 @@ class ConfigurarInstitucion extends React.Component {
                 </Grid>
                 <Grid item>
                   <Button
+                    disabled={this.state.deshabilitar}
                     variant="outlined"
-                    color="primary">
+                    color="primary"
+                    onClick={this.handleOnClickCancelar}>
+                    
                     Cancelar
-                            </Button>
+                    </Button>
                 </Grid>
               </Grid>
             </Grid>
