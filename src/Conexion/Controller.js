@@ -81,12 +81,12 @@ export async function POST(props) {
       //console.log(">>> POST auditoria", await auditoria);
     }
 
-    //console.log(">>> POST succesful", responseJson);
+    console.log(">>> POST succesful", responseJson);
 
     return responseJson;
   } catch (error) {
-    //console.log(">>> POST failed");
-    //console.log(">>> ", error.message);
+    console.log(">>> POST failed");
+    console.log(">>> ", error.message);
     return null;
   }
 }

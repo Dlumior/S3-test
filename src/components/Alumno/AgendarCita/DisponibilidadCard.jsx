@@ -40,6 +40,7 @@ class DisponibilidadCard extends Component {
       open: false,
       mensajeDispo: "",
       visible: false,
+      actuTys: false,
       fotos: [
         "data:image/jpeg;base64,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"
         ,
@@ -55,6 +56,8 @@ class DisponibilidadCard extends Component {
     this.handleOnClose = this.handleOnClose.bind(this);
     this.obtenerMensajeRango = this.obtenerMensajeRango.bind(this);
 
+    this.handleOnChangeUpdate = this.handleOnChangeUpdate.bind(this);
+
   }
   //=============================================================
   handleOnClick() {
@@ -63,6 +66,48 @@ class DisponibilidadCard extends Component {
   handleOnClose() {
     ////console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
+  }
+
+  handleOnChangeUpdate(e) {
+    if (e.actualizaMensajillo) {
+      this.setState({ actuTys: !this.state.actuTys });
+    }
+  }
+
+  async componentDidUpdate(prevProps, prevState) {
+    if (prevState.actuTys != this.state.actuTys) {
+      const nuevaSolicitud = {
+        disponibilidad: {
+          HORA_INICIO: this.props.disponibilidad.HORA_INICIO,
+          HORA_FIN: this.props.disponibilidad.HORA_FIN,
+          FECHA: this.props.disponibilidad.FECHA,
+          ID_TUTOR: this.props.disponibilidad.ID_TUTOR,
+        },
+      };
+      const props = { servicio: "/api/disponibilidadIntervalos", request: nuevaSolicitud };
+      let sesionTyS = await POST(props);
+      if (!sesionTyS) return;
+
+      if (sesionTyS.message) {
+        if (sesionTyS.error) {
+          //console.log("<mensajeE:", sesionTyS.message);  //error
+          return;
+        } else {
+          if (sesionTyS.message.includes("oKupada")) {
+            //console.log("<mensajeNou:", sesionTyS.message);  //sin dispo
+            //this.setState({ visible: false });
+            return;
+          }
+          else {
+            //console.log("<mensajeWii:", sesionTyS.message);  //satisfactoriamente
+            this.setState({ mensajeDispo: sesionTyS.message });  //<<== la magia
+            //this.setState({ visible: true });
+            return;
+          }
+        }
+      }
+      //return false;
+    }
   }
 
   async obtenerMensajeRango() {
@@ -120,7 +165,7 @@ class DisponibilidadCard extends Component {
       <>
         <Button
           onClick={this.handleOnClick}
-          //disabled={!this.state.visible}
+        //disabled={!this.state.visible}
 
         >
 
@@ -208,6 +253,7 @@ class DisponibilidadCard extends Component {
               idPro={this.props.idPro}
               duracionPro={this.props.duracionPro}
               mensajeDispo={this.state.mensajeDispo}
+              onChange={this.handleOnChangeUpdate}
 
 
             />

@@ -182,8 +182,8 @@ class FrmDialogoSolicitarTutor extends Component {
 
       if (!sesionTyS.message) {
         if (!sesionTyS.error) {
-
           this.setState({ mensajillo: "¡ Sesión Registrada Satisfactoriamente !" });
+          this.props.onChange({actualizaMensajillo:true})
         } else {
           this.setState({
             mensajillo:
@@ -564,7 +564,7 @@ class FrmDialogoSolicitarTutor extends Component {
           <DialogTitle id="form-dialog-title">
             <Grid container md={12} justify="center">
 
-              {this.state.mensajillo.includes("satisfactoriamente") ?
+              {this.state.mensajillo.includes("Satisfactoriamente") ?
                 <CheckCircleRoundedIcon
                   color="primary"
                   style={{ fontSize: 70 }}
