@@ -7,6 +7,10 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { getUser } from "../../Sesion/Sesion";
 //import DialogTitle from "@material-ui/core/DialogTitle";
+import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+
 
 const style = {
     paper: {
@@ -79,8 +83,8 @@ class FrmSolicitarTutorTipoII extends Component {
         //console.log("NUEVA SOLIXXXXX ", nuevaSolicitud);
 
         let sesionTyS = await Controller.POST(props);
-        if(!sesionTyS) return;
-        
+        if (!sesionTyS) return;
+
         //console.log("TutoFIJOOO tYS XXX ", sesionTyS);
 
         if (sesionTyS.error || !sesionTyS) {
@@ -88,7 +92,7 @@ class FrmSolicitarTutorTipoII extends Component {
 
         } else
             if (sesionTyS) {
-                this.setState({ mensajillo: <><p>Solicitud Registrada Satisfactoriamente !</p> <p>Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.</p></> });
+                this.setState({ mensajillo:`¡ Solicitud Registrada Satisfactoriamente ! \n Espere a que el Tutor Acepte su solicitud, Por favor, revise su bandeja.`}) ;
                 this.setState({ botonDisable: true });
                 this.setState({ actualizar: !this.state.actualizar });
             }
@@ -597,9 +601,24 @@ class FrmSolicitarTutorTipoII extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle >
+                    {/* <DialogTitle >
                         <h3 >Resultado </h3>
 
+                    </DialogTitle> */}
+
+                    <DialogTitle id="form-dialog-title">
+                        <Grid container md={12} justify="center">
+
+                            {this.state.mensajillo.includes("Satisfactoriamente") ?
+                                <CheckCircleRoundedIcon
+                                    color="primary"
+                                    style={{ fontSize: 70 }}
+                                />
+                                :
+                                //casos  ups error inesperado
+                                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                            }
+                        </Grid>
                     </DialogTitle>
                     <DialogContent>
                         {this.state.mensajillo}

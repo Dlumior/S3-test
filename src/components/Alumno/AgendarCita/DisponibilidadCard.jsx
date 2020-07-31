@@ -60,9 +60,16 @@ class DisponibilidadCard extends Component {
 
   }
   //=============================================================
-  handleOnClick() {
-    this.setState({ open: true });
+  async handleOnClick() {
+    const yeri = await this.obtenerMensajeRango();
+    if (yeri) {
+      this.setState({ open: true });
+
+    }
   }
+
+
+
   handleOnClose() {
     ////console.log("ctm",this.state.openSolicitarTutor);
     this.setState({ open: false });
@@ -141,7 +148,7 @@ class DisponibilidadCard extends Component {
           //console.log("<mensajeWii:", sesionTyS.message);  //satisfactoriamente
           this.setState({ mensajeDispo: sesionTyS.message });  //<<== la magia
           //this.setState({ visible: true });
-          return;
+          return true;
         }
       }
     }
@@ -151,9 +158,9 @@ class DisponibilidadCard extends Component {
   }
 
   async componentDidMount() {
-    let ojalaPes = this.obtenerMensajeRango();
-    if (ojalaPes) { this.setState({ visible: true }); }
-    else { this.setState({ visible: false }); }
+    // let ojalaPes = this.obtenerMensajeRango();
+    // if (ojalaPes) { this.setState({ visible: true }); }
+    // else { this.setState({ visible: false }); }
   }
 
 

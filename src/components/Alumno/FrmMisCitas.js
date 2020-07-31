@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography,TextField, FormHelperText } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography, TextField, FormHelperText } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -50,8 +50,8 @@ class FrmMisCitas extends Component {
             yopsRazon: "",
             diasAnticipacion: 0,
             actuTys: false,
-            esInvalido:true,
-            mensajeError:"",
+            esInvalido: true,
+            mensajeError: "",
 
         };
 
@@ -483,7 +483,12 @@ class FrmMisCitas extends Component {
                 >
 
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}</DialogTitle>
+                        <Grid container md={12} justify="center">
+                            <WarningRoundedIcon
+                                style={{ fontSize: 70, fill: "orange" }} />
+                        </Grid>
+                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}
+                    </DialogTitle>
 
                     <DialogContent>
                         <Paper elevation={0} >
@@ -510,7 +515,7 @@ class FrmMisCitas extends Component {
                                 variant={"outlined"}
                                 rows={10}
                                 multiline={true}
-                                //value={this.state.Motivo}
+                            //value={this.state.Motivo}
 
                             />
                             <FormHelperText error>{this.state.mensajeError}</FormHelperText>
