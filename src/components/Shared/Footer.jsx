@@ -81,11 +81,11 @@ class Footer extends Component {
 
                   <div class="address">
                     <i class="fa fa-map-marker" aria-hidden="true"></i>
-                    {institucion.UBICACION || " Av. Universitaria 1801, San Miguel Lima 32, Perú"}
+                    {institucion?.UBICACION || " Av. Universitaria 1801, San Miguel Lima 32, Perú"}
                   </div>
                   <div class="address">
                     <i class="fa fa-phone" aria-hidden="true"></i>{" "}
-                    {institucion.TELEFONO || "(01) 626-2000"}
+                    {institucion?.TELEFONO || "(01) 626-2000"}
                   </div>
                 </Grid>
                 <Grid item md={3} />
@@ -108,7 +108,7 @@ class Footer extends Component {
               </Grid>
             </div>
             <div class="copyright">
-              Copyright © 2020 uTutor.net | {institucion.NOMBRE || "PUCP"} - Todos los derechos reservados.
+              Copyright © 2020 uTutor.net | {institucion?.NOMBRE || "PUCP"} - Todos los derechos reservados.
             </div>
           </div>
         </div>
