@@ -215,7 +215,12 @@ const FormRegistroTutor = (props) => {
         errors.email.error ||
         errors.phoneNumber.error ||
         errors.address.error ||
-        errors.code.error
+        errors.code.error ||
+        datos.APELLIDOS === "" ||
+        datos.NOMBRE === "" ||
+        datos.CORREO === "" ||
+        datos.CODIGO === "" ||
+        programa === ""
       ) {
         // alert("Hay errores en los campos");
         setSeveridad("error");
