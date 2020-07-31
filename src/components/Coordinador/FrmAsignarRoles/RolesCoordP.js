@@ -28,11 +28,10 @@ const Roles = (props) => {
     } else {
       roles.splice(currentIndex,1);
     }
-    /*console.log("roles: ",roles);
     setRoles({
       ...datos,
       roles:roles
-    });*/
+    });
 };
 
   return (

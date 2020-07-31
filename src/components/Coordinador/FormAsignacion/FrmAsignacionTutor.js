@@ -379,16 +379,17 @@ const VerticalLinearStepper = () => {
                     >
                       Anterior
                     </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
                       {activeStep === steps.length - 1
-                        ? "Finalizar"
-                        : "Siguiente"}
-                    </Button>
+                        ? null  : 
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                        Siguiente
+                        </Button>}
+                    
                   </div>
                 </div>
               </StepContent>
