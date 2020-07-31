@@ -15,6 +15,7 @@ import * as Controller from "./../../Conexion/Controller";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { getUser } from "../../Sesion/Sesion";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 
 class FrmCitarAlumno extends Component {
   constructor() {
@@ -51,7 +52,7 @@ class FrmCitarAlumno extends Component {
     //console.log("RESULTADO API citacion ", citaTyS);
     if (!citaTyS.message) {
       if (!citaTyS.error) {
-        this.setState({ mensajillo: "¡ Notificación enviada satisfactoriamente !" });
+        this.setState({ mensajillo: "¡ Notificación Enviada satisfactoriamente !" });
       } else {
         this.setState({
           mensajillo:
@@ -189,12 +190,18 @@ class FrmCitarAlumno extends Component {
         >
           <DialogTitle id="form-dialog-title">
             <Grid container md={12} justify="center">
-              <CheckCircleRoundedIcon
-                color="primary"
-                style={{ fontSize: 70 }}
-              />
+            {this.state.mensajillo.includes("Satisfactoriamente") ?
+                <CheckCircleRoundedIcon
+                  color="primary"
+                  style={{ fontSize: 70 }}
+                />
+                :
+                //caso ups error inesperado
+                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+              }
             </Grid>
           </DialogTitle>
+
           <DialogContent> {this.state.mensajillo} </DialogContent>
           <DialogActions>
             <Button
