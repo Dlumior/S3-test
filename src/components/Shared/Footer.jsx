@@ -21,6 +21,7 @@ const styles = (theme) => ({
 
 class Footer extends Component {
   constructor(){
+    super();
     this.state={
       institucion: undefined,
     }
