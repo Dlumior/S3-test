@@ -17,7 +17,7 @@ const EliminarPrograma = (props) => {
   const [flag, setFlag] = useState(0);//actualizar lista 
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensaje: "¿Esta seguro de eliminar el programa?",
+    mensaje: "¿Está seguro de eliminar el programa?",
   });
  
 

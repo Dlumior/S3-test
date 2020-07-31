@@ -12,29 +12,28 @@ import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import { getUser } from "../../../Sesion/Sesion";
 
-const EliminarAlumno = (props) => {
+const EliminarTutoria = (props) => {
   const { open, close, id, parentCallback } = props;
   const [flag, setFlag] = useState(0); //actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta] = useState({
-    mensaje: "¿Está seguro de eliminar el alumno?",
+    mensaje: "¿Está seguro de eliminar la tutoría?",
   });
 
   const handleClick = async (e) => {
-    //FACULTAD ELIMINAR
-    //console.log("idFacu",id);
+    console.log("idFacu",id);
     let enlace;
-    enlace = "/api/alumno/eliminar/" + id;
+    enlace = "/api/tutoria/eliminar/" + id;
     const props = { servicio: enlace };
     let resultado = await Conexion.POST(props);
-    //console.log("got updated coord from back:", resultado);
+    console.log("got updated coord from back:", resultado);
     if (resultado) {
-      if (resultado.status !== "success") {
+      if (resultado.resultado !== "success") {
         setElimino(false);
-        //console.log("elimino",elimino);
+        console.log("elimino",elimino);
         setAlerta({
           mensaje:
-            "El alumno no puede eliminarse porque cuenta con sesiones pendientes",
+            "La tutoria no puede eliminarse porque cuenta con sesiones pendientes",
         });
       } else {
         setElimino(true);
@@ -47,7 +46,7 @@ const EliminarAlumno = (props) => {
     const newValue = flag + 1;
     setFlag(newValue);
     await parentCallback(newValue);
-    //console.log("elimino",elimino);
+    console.log("elimino",elimino);
   };
 
   return (
@@ -74,7 +73,7 @@ const EliminarAlumno = (props) => {
             )}
             {elimino && (
               <Typography variant="subtitle1">
-                El alumno se elimino satisfactoriamente
+                La tutoría se elimino satisfactoriamente
               </Typography>
             )}
           </Grid>
@@ -99,4 +98,4 @@ const EliminarAlumno = (props) => {
     </div>
   );
 };
-export default EliminarAlumno;
+export default EliminarTutoria;
