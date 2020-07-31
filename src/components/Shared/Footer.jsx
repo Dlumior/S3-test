@@ -1,5 +1,6 @@
 import { Grid, withStyles } from "@material-ui/core";
 import React, { Component } from "react";
+import { GET } from "../../Conexion/Controller";
 import "./Footer.css";
 import ImagenCircular from "./ImagenCircular";
 const styles = (theme) => ({
@@ -25,7 +26,7 @@ class Footer extends Component {
     }
   }
   async componentDidMount(){
-    let institucion = await Controller.GET({servicio:"/api/institucion"});
+    let institucion = await GET({servicio:"/api/institucion"});
     if(institucion?.institucion){
       this.setState({institucion});
     }
