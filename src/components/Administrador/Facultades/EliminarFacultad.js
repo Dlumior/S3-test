@@ -17,7 +17,7 @@ const EliminarFacultad = (props) => {
   const [flag, setFlag] = useState(0);//actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensaje: "¿Esta seguro de eliminar la facultad?",
+    mensaje: "¿Está seguro de eliminar la facultad?",
   });
  
 

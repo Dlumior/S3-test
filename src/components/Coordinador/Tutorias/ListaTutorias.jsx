@@ -13,6 +13,7 @@ import FormularioRegistrarAlumno from "../FormRegistroAlumno/FormularioRegistrar
 import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarAlumnos";
 import JModal from "../ListaAlumnos/JModal";
 import FormularioNuevaTutoria from "./FormularioNuevaTutoria";
+import EliminarTutoria from "./EliminarTutoria";
 
 const style = {
   paper: {
@@ -54,6 +55,7 @@ class ListaTutorias extends Component {
       title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
+      flag:0, //para actualizar
       datosTablaOffline: {
         columns: [
           { title: "Nro", field: "nro" },
@@ -79,6 +81,10 @@ class ListaTutorias extends Component {
     this.handleEliminar = this.handleEliminar.bind(this);
     this.handleEditar = this.handleEditar.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
+    this.handleOnClose = this.handleOnClose.bind(this);
+    this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
+
+
   }
   async handleOpenDialog(e, tipoDialogo, idAlumno) {
     await this.setState({ cuerpoDialogo: tipoDialogo });
@@ -97,6 +103,16 @@ class ListaTutorias extends Component {
   handleEditar(id) {
     //console.log("Editar a : ", id);
   }
+  handleOnOpenEliminar= (id) =>{
+    this.setState({ open2: true });//para el eliminar
+    if (id){
+      this.setState({ currentID: id });
+    }    
+  }
+  handleOnClose() {
+    this.setState({ open2: false });
+    //window.location.reload();
+  } 
   handleOnChangePrograma = async (programa) => {
     //console.log("proograma:", programa);
     this.setState({ programa });
@@ -157,7 +173,7 @@ class ListaTutorias extends Component {
 
             mantenimiento: (
               <>
-                <IconButton color="primary">
+                {/*<IconButton color="primary">
                   <EditRoundedIcon
                     color="secondary"
                     fontsize="large"
@@ -165,14 +181,12 @@ class ListaTutorias extends Component {
                       this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
                     }
                   />
-                </IconButton>
+                  </IconButton>*/}
                 <IconButton color="primary">
                   <DeleteRoundedIcon
                     color="error"
                     fontsize="large"
-                    onClick={(e) =>
-                      this.handleOpenDialog(e, 3, ID_PROCESO_TUTORIA)
-                    }
+                    onClick={(e) => this.handleOnOpenEliminar(ID_PROCESO_TUTORIA)}
                   />
                 </IconButton>{" "}
               </>
@@ -273,6 +287,12 @@ class ListaTutorias extends Component {
 
   handleClose() {
     //this.props.hadleClose();
+  }
+  callback = (count) => {
+    // do something with value in parent component, like save to state
+    let i= this.state.flag +1;
+    //console.log("veamos: ",i);
+    this.setState({flag:i});
   }
 
   render() {
@@ -399,6 +419,14 @@ class ListaTutorias extends Component {
 
         {/* Lista tutorias */}
         {this.renderTabla(this.state.datosTabla)}
+
+        {this.state.open2 &&
+        <EliminarTutoria
+          open={this.handleOnOpenEliminar} 
+          close={this.handleOnClose}
+          id={this.state.currentID}
+          parentCallback={this.callback}
+        />}
       </div>
     );
   }

@@ -142,13 +142,13 @@ class ListaAlumnos extends Component {
             ),
             mantenimiento: (
               <>
-                <IconButton color="primary">
+                {/*<IconButton color="primary">
                   <EditRoundedIcon
                     color="secondary"
                     fontsize="large"
                     onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
                   />
-                </IconButton>
+            </IconButton>*/}
                 <IconButton color="primary">
                   <DeleteRoundedIcon
                     color="error"

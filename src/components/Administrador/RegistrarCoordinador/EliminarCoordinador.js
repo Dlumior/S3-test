@@ -73,7 +73,7 @@ const EliminarCoordinador = (props) => {
             <Grid container md={12} justify="center">
               {!elimino &&
                 <Typography variant="h6" >
-                ¿Esta seguro de eliminar al coordinador?
+                ¿Está seguro de eliminar al coordinador?
             </Typography>}
             {elimino &&
               <Typography variant="h6" >
