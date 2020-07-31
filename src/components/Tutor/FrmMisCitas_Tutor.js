@@ -10,6 +10,7 @@ import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
 import moment from 'moment';
 import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaciones";
+import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 
 class FrmMisCitas_Tutor extends Component {
     constructor() {
@@ -47,7 +48,7 @@ class FrmMisCitas_Tutor extends Component {
             esInvalido: true,
             esInvalidoR: true,
             esInvalRTotal: true,
-            dataMotivo:"",
+            dataMotivo: "",
 
         };
 
@@ -252,7 +253,7 @@ class FrmMisCitas_Tutor extends Component {
         }
         if (e.target.value.length !== 0 && this.state.horaFinR === "") {
             this.setState({ mensajeErrorR: "¡ Debe ingresar la hora inicial !", esInvalidoR: true });
-            this.setState({ dataMotivo: ""});
+            this.setState({ dataMotivo: "" });
 
             this.setState({ esInvalRTotal: true });
         }
@@ -262,7 +263,7 @@ class FrmMisCitas_Tutor extends Component {
         //     this.setState({ esInvalRTotal: true });
 
         // }
-        if (e.target.value.length !== 0 && this.state.horaFinR!=="") {
+        if (e.target.value.length !== 0 && this.state.horaFinR !== "") {
             this.setState({ mensajeErrorR: "", esInvalidoR: false });
             this.setState({ esInvalRTotal: false });
 
@@ -687,7 +688,13 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}</DialogTitle>
+                        <Grid container md={12} justify="center">
+                            <WarningRoundedIcon
+                                style={{ fontSize: 70, fill: "orange" }} />
+                        </Grid>
+
+                        {<h3> ¿ Está seguro de cancelar esta cita ? </h3>}
+                    </DialogTitle>
                     <DialogContent>
                         <Paper elevation={0} >
                             {/* <CampoDeTexto
@@ -746,9 +753,14 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="form-dialog-title"
                 >
                     <DialogTitle id="alert-dialog-title">
-                        {<h3> ¿ Está seguro de reprogramar esta cita ? </h3>}</DialogTitle>
-                    <Grid item md={12} xs={12}>
-                        <h3>{`  => Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
+                        <Grid container md={12} justify="center">
+                            <WarningRoundedIcon
+                                style={{ fontSize: 70, fill: "orange" }} />
+                        </Grid>
+                        {<h3> ¿ Está seguro de reprogramar esta cita ? </h3>}
+                    </DialogTitle>
+                    <Grid item md={12} xs={12} style={estilos.subtitulo}>
+                        <h3>{`Esta sesión de tutoria dura : ${this.state.duraSesion} minutos`}</h3>
                     </Grid>
                     <DialogContent>
                         <Grid container spacing={2} >
@@ -800,7 +812,7 @@ class FrmMisCitas_Tutor extends Component {
                                 />
                             </Grid>
                         </Grid>
-
+                        <br></br>
                         <Paper elevation={0} >
                             {/* <CampoDeTexto
                                 autoFocus={true}
@@ -815,6 +827,7 @@ class FrmMisCitas_Tutor extends Component {
                                 onChange={this.handleOnChangeCT_Rep}
                                 validarEntrada={this.validarEntradaCT_Rep}
                             /> */}
+
                             <TextField
                                 required={true}
                                 autoFocus={true}
@@ -907,3 +920,9 @@ class FrmMisCitas_Tutor extends Component {
 
 
 export default compose(withRouter)(FrmMisCitas_Tutor);
+
+const estilos = {
+    subtitulo:{
+        textAlign:"center",
+    }
+}
