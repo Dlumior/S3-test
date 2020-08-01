@@ -23,6 +23,7 @@ const Alumnos = [
 const ListaAlumnos = (props) => {
   const classes = useStyles();
   const { alumnos, history } = props;
+  let alumnosAux = [];
   // //console.log(alumnos);
   // alumnos.map((item) => {
   //   //console.log(item.ID_ALUMNO);
@@ -30,10 +31,20 @@ const ListaAlumnos = (props) => {
   //   //console.log(item.ALUMNO.USUARIO.PROGRAMAs[0].NOMBRE);
   // });
 
+  if (alumnos !== null || alumnos !== undefined) {
+    if (alumnos.length > 1) {
+      alumnosAux = alumnos.map((item) => item.ASIGNACION_TUTORIA_X_ALUMNOs[0]);
+      console.log("================================");
+      console.log("Lista alumnos parseado: ", alumnosAux);
+    } else if (alumnos.length === 1) {
+      alumnosAux = alumnos;
+    }
+  }
+
   return (
     <Paper className={classes.caja}>
       <Grid container spacing={5}>
-        {alumnos.map((item) => (
+        {alumnosAux.map((item) => (
           <ItemAlumno
             key={item.ID_ALUMNO}
             idAlumno={item.ID_ALUMNO}

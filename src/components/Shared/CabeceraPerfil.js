@@ -151,7 +151,7 @@ const CabeceraPerfil = (props) => {
               style={{ textAlign: "center", marginTop: "10%" }}
             >
               <Button variant="outlined" component="label" color="primary">
-                Cambair foto
+                Cambiar foto
                 <input
                   type="file"
                   onChange={handleOnChangeImg}
