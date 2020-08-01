@@ -9,20 +9,21 @@ import HistorialDeCitas from "./HistorialDeCitas.js";
 import PerfilAlumno from "../../components/Tutor/ListarAlumnos/PerfilAlumno";
 import SesionesGrupales from "./SesionesGrupales";
 
-
 //import Calendario from "./Calendario.js";
 import Sesiones from "./Sesiones.js";
 import Solicitudes from "./Solicitudes.js";
 import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "../../theme.js";
 
 const Tutor = (props) => {
   //console.log("Tutor", props.history.location.pathname);
   const [{ usuario, auth }, dispatch] = useUserValue();
   if (!auth) {
     props.history.push("/");
-    return (Home)
+    return Home;
   } else {
     const move_to = getUser().rol.toLowerCase().split(" ")[0];
     //console.log("Ruta", move_to);
@@ -32,23 +33,42 @@ const Tutor = (props) => {
   }
   return (
     <div>
-      <Route exact path={"/tutor/"} component={()=><><SaltoDeLinea N={3}/><MisAlumnos/></>} />
-      <BarraNavegacion>
-        <Route exact path={"/tutor/perfil"} component={Perfil} />     
-        <Route exact path={"/tutor/misalumnos"} component={MisAlumnos} />
-        <Route exact path={"/tutor/midisponibilidad"} component={MiDisponibilidad}
+      <ThemeProvider theme={theme}>
+        <Route
+          exact
+          path={"/tutor/"}
+          component={() => (
+            <>
+              <SaltoDeLinea N={3} />
+              <MisAlumnos />
+            </>
+          )}
         />
-        {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
-        <Route exact path={"/tutor/sesiones"} component={Sesiones} />
-        <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
-        <Route exact path={"/tutor/sesionesgrupales"} component={SesionesGrupales} />
+        <BarraNavegacion>
+          <Route exact path={"/tutor/perfil"} component={Perfil} />
+          <Route exact path={"/tutor/misalumnos"} component={MisAlumnos} />
+          <Route
+            exact
+            path={"/tutor/midisponibilidad"}
+            component={MiDisponibilidad}
+          />
+          {/*<Route exact path={"/tutor/calendario"} component={Calendario} />*/}
+          <Route exact path={"/tutor/sesiones"} component={Sesiones} />
+          <Route exact path={"/tutor/solicitudes"} component={Solicitudes} />
+          <Route
+            exact
+            path={"/tutor/sesionesgrupales"}
+            component={SesionesGrupales}
+          />
 
-
-        <Route exact path={"/tutor/misCitas"} component={HistorialDeCitas}/>    
-        <Route exact path={"/tutor/mialumno/:idAlumno/:fullname"} component={PerfilAlumno}/>   
-
-
-      </BarraNavegacion>
+          <Route exact path={"/tutor/misCitas"} component={HistorialDeCitas} />
+          <Route
+            exact
+            path={"/tutor/mialumno/:idAlumno/:fullname"}
+            component={PerfilAlumno}
+          />
+        </BarraNavegacion>
+      </ThemeProvider>
     </div>
   );
 };
