@@ -35,6 +35,7 @@ const ComboBoxPrograma = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          defaultValue = {programa}
           value={programa}
           onChange={handleChangePrograma}
         >

@@ -34,6 +34,7 @@ const ComboBoxFacus = (props) => {
       <Select
         labelId="demo-simple-select-label"
         id="demo-simple-select-label"
+        defaultValue = {facultad}
         value={facultad}
         onChange={handleChangeFacu}
         fullWidth
