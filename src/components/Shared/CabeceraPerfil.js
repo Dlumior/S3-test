@@ -50,7 +50,7 @@ const handleOnChangeRol = async (e) => {
   usuarioLogueado.rol = await document.getElementById("rol").innerHTML.trim();
   sessionStorage.Sesion = JSON.stringify(usuarioLogueado);
   //console.log("Nuevo rol: ", getUser().rol)
-  window.location.reload(false);
+  window.location.reload();
 };
 
 

@@ -69,12 +69,13 @@ const handleApellidos = (e, datosForm, setDatosForm, errors, setErrors) => {
     setErrors({ ...errors, lastnames: res });
 };
 
-const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors) => {
+const handleCorreo = (e, datosForm, setDatosForm, errors, setErrors,dominio1, dominio2) => {
     setDatosForm({
       ...datosForm,
       CORREO: e.target.value,
     });
-    const res = validateEmail(e.target.value);
+    const res = validateEmail(e.target.value,dominio1, dominio2);
+    console.log("resemail",res);
     setErrors({ ...errors, email: res });
 };
 const handleTelefono = (e, datosForm, setDatosForm, errors, setErrors) => {
@@ -101,6 +102,8 @@ const ModificaCoordinador = (props) => {
     FACULTAD:[],
   });
   const [flag, setFlag] = useState(0);//actualizar lista 
+  const [dominio1, setDominio1] = useState("");
+  const [dominio2, setDominio2] = useState("");
 
   const [programasSeleccionados,setProgramasSeleccionados]=useState([]);//facultades
   const [nombreFacultades,setNombreFacultades]=useState([]);//nombre facultades
@@ -124,6 +127,21 @@ const ModificaCoordinador = (props) => {
     severS:"success"
   });
   const [cantProgramas, setCantPrograma]=useState(0);
+
+  useEffect(() => {
+    async function fetchDat() {
+      let institucion = await Conexion.GET({servicio:"/api/institucion"});
+      if (institucion){
+        //console.log("RegistrarCoordinador institucion: ", institucion);
+        setDominio1(institucion.institucion.DOMINIO);
+        setDominio2(institucion.institucion.DOMINIO2);
+      }
+      //console.log("RegistrarCoordinador dominio1: ", dominio1);
+      //console.log("RegistrarCoordinador dominio2: ", dominio2);
+    }
+
+    fetchDat();
+  }, [dominio1, dominio2]);
       
   const handleCantPrograma = (func) => {
       if (func>0){
@@ -412,14 +430,13 @@ useEffect(() => {
               />
               <TextField
                 required
-                disabled
                 error={errors.email.error}
                 margin="dense"
                 id="CORREO"
                 label="Correo electrónico"
                 type="email"
                 value={datosForm.CORREO}
-                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors)}
+                onChange={(e) => handleCorreo(e, datosForm, setDatosForm, errors, setErrors,dominio1,dominio2)}
                 fullWidth
               />
               <TextField

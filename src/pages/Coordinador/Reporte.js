@@ -7,13 +7,16 @@ import FrmReporteMotivos from "../../components/Coordinador/Reporte/FrmReporteMo
 import FrmReporteTutores from "../../components/Coordinador/Reporte/FrmReporteTutores";
 import FrmReporteSesiones from "../../components/Coordinador/Reporte/FrmReporteSesiones";
 
- let procesos=[
-                    { index: 0, titulo: "Encuestas", proceso: () => < FrmReporte  />},
-                    { index: 1, titulo: "Motivos de solicitud", proceso: () => <FrmReporteMotivos /> },
-                    { index: 2, titulo: "Tutores", proceso: () => <FrmReporteTutores /> },
-                    { index: 3, titulo: "Sesiones", proceso: () => <FrmReporteSesiones /> },
-
-                ]
+let procesos = [
+  { index: 0, titulo: "Encuestas", proceso: () => <FrmReporte /> },
+  {
+    index: 1,
+    titulo: "Motivos de solicitud",
+    proceso: () => <FrmReporteMotivos />,
+  },
+  { index: 2, titulo: "Tutores", proceso: () => <FrmReporteTutores /> },
+  { index: 3, titulo: "Sesiones", proceso: () => <FrmReporteSesiones /> },
+];
 
 const Reporte = () => {
   return (
@@ -22,11 +25,10 @@ const Reporte = () => {
       <FrmReporte/>   
     
             <div> */}
-                <NombrePrincipal titulo={"Reportes"} />
-                {/*Aca vendria a mostrar las citas de este alumno...   */}
-                <TabProceso  procesos={procesos} />
-            </div>
-      
+      <NombrePrincipal titulo={"Reportes"} />
+      {/*Aca vendria a mostrar las citas de este alumno...   */}
+      <TabProceso procesos={procesos} />
+    </div>
 
     // </div>
   );

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { GET } from "./.././../../Conexion/Controller";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import MaterialTable from "material-table";
 import { dateFnsLocalizer } from "react-big-calendar";
 class HistoricoResultados extends Component {
@@ -19,187 +20,12 @@ class HistoricoResultados extends Component {
           { title: "Resultado", field: "resultado" },
         ],
         data: [
-          // {
-          //   nro: 1,
-          //   fecha: "25/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "Odia a los hooks",
-          // },
-          // {
-          //   nro: 2,
-          //   fecha: "26/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "Sacara 40 en la PC2 de CGI",
-          // },
-          // {
-          //   nro: 3,
-          //   fecha: "27/06/2021",
-          //   motivo: "Psicopedagogico",
-          //   tutor: "YOPS",
-          //   resultado: "saco 39 de 20 puntos en la PC2",
-          // },
-          // {
-          //   nro: 4,
-          //   fecha: "28/06/2021",
-          //   motivo: "Personal",
-          //   tutor: "YOPS",
-          //   resultado: "Esta siendo atendido por la DAES",
-          // },
-          // {
-          //   nro: 5,
-          //   fecha: "28/06/2021",
-          //   motivo: "Academico",
-          //   resultado:
-          //     "react classes  much better than hooks and you know it  ",
-          // },
-          // {
-          //   nro: 6,
-          //   fecha: "28/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "Tengo sueñoooooooooooo",
-          // },
-          // {
-          //   nro: 7,
-          //   fecha: "28/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "Las fotos son la travesura menor",
-          // },
-          // {
-          //   nro: 8,
-          //   fecha: "28/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "Asistio a las asesorias",
-          // },
-          // {
-          //   nro: 9,
-          //   fecha: "28/06/2021",
-          //   motivo: "Academico",
-          //   tutor: "YOPS",
-          //   resultado: "El sprint 4 estare de vacaciones XDDD",
-          // },
-          // {
-          //   nro: 10,
-          //   fecha: "29/06/2021",
-          //   motivo: "Academico",
-          //   resultado:
-          //     "La expo de pruebas funcionales es un Mito (Gabriel, 2020)",
-          // },
-          // {
-          //   nro: 11,
-          //   fecha: "30/06/2021",
-          //   motivo: "Academico",
-          //   resultado:
-          //     "Se dedicara a CGI y a mejorar la travesura de lo suploads",
-          // },
-          // {
-          //   nro: 12,
-          //   fecha: "01/07/2021",
-          //   motivo: "SSJ",
-          //   tutor: "YOPS",
-          //   resultado: "KAMEEEEEE...",
-          // },
-          // {
-          //   nro: 12,
-          //   fecha: "01/07/2021",
-          //   motivo: "SSJ",
-          //   tutor: "YOPS",
-          //   resultado: "HAMEEEEEE...",
-          // },
-          // {
-          //   nro: 12,
-          //   fecha: "01/07/2021",
-          //   motivo: "SSJ",
-          //   tutor: "YOPS",
-          //   resultado: ".......",
-          // },
-          // {
-          //   nro: 12,
-          //   fecha: "01/07/2021",
-          //   motivo: "SSJ",
-          //   tutor: "YOPS",
-          //   resultado: "HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA !",
-          // },
+          
         ],
       },
     };
   }
-  /*
-COMPROMISOs: (2) […]
-​​
-0: {…}
-​​​
-DESCRIPCION: "aprobar pc3"
-​​​
-ESTADO: 0
-​​​
-ID_COMPROMISO: 37
-​​​
-ID_SESION: 87
-​​​
-<prototype>: Object { … }
-​​
-1: Object { ID_COMPROMISO: 38, ID_SESION: 87, DESCRIPCION: "examen parcial 18", … }
-​​
-length: 2
-****************
-
-  DESCRIPCION: "F"
-​
-ESTADO: "01-realizada_sin_cita"
-​
-FECHA: "2019-06-12"
-​
-HORA_FIN: "14:00:00"
-​
-HORA_INICIO: "13:00:00"
-​
-ID_PROCESO_TUTORIA: 41
-​
-ID_SESION: 87
-​
-ID_TUTOR: 271
-​
-LUGAR: "V777"
-​
-MOTIVO: "Expulsión"
-​
-RAZON_MANTENIMIENTO: null
-​
-RESULTADO: "El estudiante será eliminado"
-
-
-tutor:
-TUTOR: {…}
-​​
-ID_TUTOR: 271
-​​
-USUARIO: {…}
-​​​
-APELLIDOS: "Alegre"
-​​​
-CODIGO: "321357456"
-​​​
-CONTRASENHA: "$2b$10$c5YbMyx6yju9U7L9PrhLZuPTa/IT6/7s8u/H1eVFmrBy4p4JR4Jne"
-​​​
-CORREO: "mag.alegre@pucp.edu.pe"
-​​​
-DIRECCION: "av test2"
-​​​
-ID_USUARIO: 271
-​​​
-IMAGEN: Object { type: "Buffer", data: [] }
-​​​
-NOMBRE: "Maguito"
-​​​
-TELEFONO: "132456"
-​​​
-USUARIO: "mag.alegre@pucp.edu.pe"
-   */
+  
   async componentDidMount() {
     // si recibo los props como {idAlumno: ID_USUARIO, fullname: NOMBRE}
     // entonces todo OK y sera totalmente reutilizable
@@ -241,6 +67,14 @@ USUARIO: "mag.alegre@pucp.edu.pe"
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
+        <>
+        <JMaterialTableSpanishSSJ
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            title={`${this.state.title1} ${this.state.title2}`}
+          />
+          {
+            /**
         <MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
@@ -258,6 +92,11 @@ USUARIO: "mag.alegre@pucp.edu.pe"
           title={`${this.state.title1} ${this.state.title2}`}
           // lo de pasar a español si te lo dejo de tarea XDDDDD
         />
+
+             */
+          }
+        
+        </>
       );
     }
   }

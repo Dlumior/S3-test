@@ -30,7 +30,8 @@ import { GET } from "../../Conexion/Controller";
 import { Badge, Grid, ThemeProvider } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ImagenCircular from "../Shared/ImagenCircular";
-import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
+// import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
+import JToolbarSSJ3 from "../Shared/Toolbar2.jsx";
 
 const drawerWidth = 250;
 
@@ -209,7 +210,7 @@ const BarraNavegacion = (props) => {
         })}
       >
         <ThemeProvider theme={theme}>
-          <JToolbarSSJ
+          <JToolbarSSJ3
             MenuIconButton={() => (
               <IconButton
                 color="inherit"

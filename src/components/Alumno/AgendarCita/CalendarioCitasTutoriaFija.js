@@ -35,7 +35,9 @@ class CalendarioCitasTutoriaFija extends Component {
     this.handleFiltroProceso = this.handleFiltroProceso.bind(this);
     this.handleFiltroTutor = this.handleFiltroTutor.bind(this);
     this.handleModoBatallador = this.handleModoBatallador.bind(this);
-    this.actualizarVisibilidadColumnas = this.actualizarVisibilidadColumnas.bind(this)
+    this.actualizarVisibilidadColumnas = this.actualizarVisibilidadColumnas.bind(
+      this
+    );
   }
 
   /**
@@ -54,15 +56,13 @@ class CalendarioCitasTutoriaFija extends Component {
     //console.log("salto actual: ", this.state.lunesActual);
   }
 
-  actualizarVisibilidadColumnas(visibilidad){
-    this.setState({columnasInvisible: visibilidad})
+  actualizarVisibilidadColumnas(visibilidad) {
+    this.setState({ columnasInvisible: visibilidad });
   }
   /**
    *
    * @param {Date} lunesActual el lunes de la semana actual
    */
-
-
 
   /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
        linea 61 agregar paramtero para la linea 82
@@ -91,9 +91,13 @@ class CalendarioCitasTutoriaFija extends Component {
             <HorarioDelDiaTutoriaFija
               fecha={{
                 fecha: diaSemana,
-                servicio: this.state.estadoID ?
-                  (`/api/disponibilidad/listarPrograma/${getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA}/${diaSemana.toISOString().split("T")[0]}/${this.state.estadoID}`) :
-                  this.props.servicio + diaSemana.toISOString().split("T")[0],
+                servicio: this.state.estadoID
+                  ? `/api/disponibilidad/listarPrograma/${
+                      getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA
+                    }/${diaSemana.toISOString().split("T")[0]}/${
+                      this.state.estadoID
+                    }`
+                  : this.props.servicio + diaSemana.toISOString().split("T")[0],
 
                 tipo: this.props.tipo,
               }}
@@ -126,12 +130,8 @@ class CalendarioCitasTutoriaFija extends Component {
     });
   }
 
-
-
-
   handleModoBatallador(modoBatallador) {
     this.setState({ modoBatallador: modoBatallador });
-
   }
 
   // >>>>>>>>>>>>>>>> ACA SE DEBE FILTAR SOLO X PROCESOS DE TIPOS DE TUTORES FIJOS <<<<<<<<<<<
@@ -142,7 +142,6 @@ class CalendarioCitasTutoriaFija extends Component {
     this.setState({ estadoTitulo: _tutor.nombre });
     //ahora vamos a seterar id
     this.setState({ estadoID: _tutor.id });
-
   }
 
   handleFiltroProceso(idProceso) {
@@ -161,7 +160,6 @@ class CalendarioCitasTutoriaFija extends Component {
   }
   render() {
     return (
-
       <div style={styles.container}>
         <ControlesTutoriaFija
           fecha={this.state.fechaControles}
@@ -174,7 +172,7 @@ class CalendarioCitasTutoriaFija extends Component {
           modoBatallador={this.handleModoBatallador}
           tipo={this.props.tipo}
           colorActivo={this.state.modoBatallador}
-          columnasInvisible = {this.state.columnasInvisible}
+          columnasInvisible={this.state.columnasInvisible}
         />
 
         {/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -188,17 +186,16 @@ class CalendarioCitasTutoriaFija extends Component {
             {this.renderDias(this.state.lunesActual)}
           </Grid>
         ) : (
-            this.state._idProceso && 
-              <FrmSolicitarTutorTipoII
+          this.state._idProceso && (
+            <FrmSolicitarTutorTipoII
               modoBatallador={this.handleModoBatallador}
               frmIdProceso={this.state._idProceso}
               handleFiltroTutor={this.handleFiltroTutor}
-              actualizarVisibilidadColumnas = {this.actualizarVisibilidadColumnas} />
-            //standbyCambiosJin
-          )}
-
-
-
+              actualizarVisibilidadColumnas={this.actualizarVisibilidadColumnas}
+            />
+          )
+          //standbyCambiosJin
+        )}
       </div>
     );
   }

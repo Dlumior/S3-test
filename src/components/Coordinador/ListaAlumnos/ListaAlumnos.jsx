@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
 import { Button, Grid, Fab, IconButton } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
 import AddIcon from "@material-ui/icons/Add";
@@ -16,6 +17,7 @@ import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarA
 import DescriptionSharpIcon from "@material-ui/icons/DescriptionSharp";
 import VerInformacionRelevante from "../FormRegistroAlumno/VerInformacionRelevante";
 import EliminarAlumno from "./EliminarAlumno";
+import Jloading from "../FormRegistroAlumno/Jloading";
 class ListaAlumnos extends Component {
   constructor() {
     super();
@@ -34,7 +36,7 @@ class ListaAlumnos extends Component {
       title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
-      flag:0, //para actualizar
+      flag: 0, //para actualizar
       datosTablaOffline: {
         columns: [
           { title: "Nro", field: "nro" },
@@ -51,7 +53,7 @@ class ListaAlumnos extends Component {
     };
     this.renderToolbar = this.renderToolbar.bind(this);
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
-
+    this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
     this.handleEliminar = this.handleEliminar.bind(this);
@@ -60,7 +62,7 @@ class ListaAlumnos extends Component {
     this.handleEditar = this.handleEditar.bind(this);
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
-
+    this.refrescarDatosSSJ = this.refrescarDatosSSJ.bind(this);
   }
   async handleOpenDialog(e, tipoDialogo, idAlumno) {
     await this.setState({ cuerpoDialogo: tipoDialogo });
@@ -79,6 +81,89 @@ class ListaAlumnos extends Component {
   handleEditar(id) {
     //console.log("Editar a : ", id);
   }
+  async refrescarDatosSSJ(programa) {
+    this.setState({ datosTabla: {} });
+    const listaAtlumnos = await GET({
+      servicio: `/api/alumno/lista/${programa}`,
+    });
+    let datos = [];
+    //console.log("listaAtlumnos.alumnos", listaAtlumnos);
+
+    if (listaAtlumnos.alumnos) {
+      listaAtlumnos.alumnos.forEach((alumno, index) => {
+        const { ID_USUARIO, USUARIO } = alumno;
+        const { NOMBRE, APELLIDOS, CORREO, CODIGO, TELEFONO } = USUARIO;
+        datos.push({
+          nro: index + 1,
+          codigo: CODIGO,
+          nombre: `${NOMBRE} ${APELLIDOS}`,
+          correo: CORREO,
+          telefono: TELEFONO,
+          perfil: (
+            <div>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() =>
+                  this.props.history.push(
+                    "/coordinador/alumno/" +
+                      ID_USUARIO +
+                      "/" +
+                      JSON.stringify(APELLIDOS + ", " + NOMBRE)
+                  )
+                }
+              >
+                Asistencias
+              </Button>
+            </div>
+          ),
+          agregarInfo: (
+            <>
+              <Grid container spacing={2} style={{ textAlign: "center" }}>
+                {/** eliminar data */}
+
+                <Grid item md={6} xs={6}>
+                  <IconButton>
+                    <DescriptionSharpIcon
+                      fontSize="large"
+                      color="primary"
+                      aria-label="add"
+                      onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
+                    />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </>
+          ),
+          mantenimiento: (
+            <>
+              {/*<IconButton color="primary">
+                <EditRoundedIcon
+                  color="secondary"
+                  fontsize="large"
+                  onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
+                />
+          </IconButton>*/}
+              <IconButton color="primary">
+                <DeleteRoundedIcon
+                  color="error"
+                  fontsize="large"
+                  onClick={(e) => this.handleOnOpenEliminar(ID_USUARIO)}
+                />
+              </IconButton>{" "}
+            </>
+          ),
+        });
+        //console.log("listaAtlumnos.alumnos push", datos);
+      });
+      await this.setState({
+        datosTabla: {
+          columns: this.state.datosTablaOffline.columns,
+          data: datos,
+        },
+      });
+    }
+  }
   handleOnChangePrograma = async (programa) => {
     //console.log("proograma:", programa);
     this.setState({ programa });
@@ -88,87 +173,8 @@ class ListaAlumnos extends Component {
     // //console.log("proograma:", this.state.tutoria.programa);
     // this.setState({ filtroFacultad: programa[0] });
     if (programa) {
-      const listaAtlumnos = await GET({
-        servicio: `/api/alumno/lista/${programa}`,
-      });
-      let datos = [];
-      //console.log("listaAtlumnos.alumnos", listaAtlumnos);
-
-      if (listaAtlumnos.alumnos) {
-        listaAtlumnos.alumnos.forEach((alumno, index) => {
-          const { ID_USUARIO, USUARIO } = alumno;
-          const { NOMBRE, APELLIDOS, CORREO, CODIGO,TELEFONO } = USUARIO;
-          datos.push({
-            nro: index + 1,
-            codigo: CODIGO,
-            nombre: `${NOMBRE} ${APELLIDOS}`,
-            correo: CORREO,
-            telefono: TELEFONO,
-            perfil: (
-              <div>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() =>
-                    this.props.history.push(
-                      "/coordinador/alumno/" +
-                        ID_USUARIO +
-                        "/" +
-                        JSON.stringify(APELLIDOS + ", " + NOMBRE)
-                    )
-                  }
-                >
-                  Asistencias
-                </Button>
-              </div>
-            ),
-            agregarInfo: (
-              <>
-                <Grid container spacing={2} style={{ textAlign: "center" }}>
-                  {/** eliminar data */}
-
-                  <Grid item md={6} xs={6}>
-                    <IconButton>
-                      <DescriptionSharpIcon
-                        fontSize="large"
-                        color="primary"
-                        aria-label="add"
-                        onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
-                      />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </>
-            ),
-            mantenimiento: (
-              <>
-                {/*<IconButton color="primary">
-                  <EditRoundedIcon
-                    color="secondary"
-                    fontsize="large"
-                    onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
-                  />
-            </IconButton>*/}
-                <IconButton color="primary">
-                  <DeleteRoundedIcon
-                    color="error"
-                    fontsize="large"
-                    onClick={(e) => this.handleOnOpenEliminar(ID_USUARIO)}
-                  />
-                </IconButton>{" "}
-              </>
-            ),
-          });
-          //console.log("listaAtlumnos.alumnos push", datos);
-        });
-        await this.setState({
-          datosTabla: {
-            columns: this.state.datosTablaOffline.columns,
-            data: datos,
-          },
-        });
-        //console.log("=> ", this.state.datosTabla);
-      }
+      this.refrescarDatosSSJ(programa);
+      //console.log("=> ", this.state.datosTabla);
     }
   };
   handleOnChangeFacultad(facultad) {
@@ -217,8 +223,8 @@ class ListaAlumnos extends Component {
 
     return enlace;
   }
-  async componentDidUpdate(prevProps,nextState){
-    if (this.props.flag!==prevProps.flag ){
+  async componentDidUpdate(prevProps, nextState) {
+    if (this.props.flag !== prevProps.flag) {
       //aqui va el actualizar
     }
   }
@@ -235,25 +241,37 @@ class ListaAlumnos extends Component {
   };
   renderTabla(datosNuevos) {
     //console.log("***", datosNuevos);
-    if (datosNuevos !== this.state.datosNuevos) {
+    if (!this.state.datosTabla.data) {
+      return <Jloading mensaje={"Cargando Alumnos"} size={"md"} base />;
+    } else if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <MaterialTable
-          columns={this.state.datosTabla.columns}
-          data={this.state.datosTabla.data}
-          options={{
-            //selection: true,
-            rowStyle: {
-              backgroundColor: "#FFF",
-            },
-            headerStyle: {
-              backgroundColor: "#3AAFA9",
-              color: "#ffffff",
-              fontSize: 14,
-            },
-          }}
-          title={`Listado de Alumnos`}
-        />
+        <>
+          <JMaterialTableSpanishSSJ
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            title={`Listado de Alumnos`}
+          />
+          {/**
+             * arriba en español xd
+             * <MaterialTable
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            options={{
+              //selection: true,
+              rowStyle: {
+                backgroundColor: "#FFF",
+              },
+              headerStyle: {
+                backgroundColor: "#3AAFA9",
+                color: "#ffffff",
+                fontSize: 14,
+              },
+            }}
+            title={`Listado de Alumnos`}
+          />
+             */}
+        </>
       );
     }
   }
@@ -261,23 +279,23 @@ class ListaAlumnos extends Component {
   handleClose() {
     //this.props.hadleClose();
   }
-  handleOnOpenEliminar= (idAlumno) =>{
-    this.setState({ open2: true });//para el eliminar
-    if (idAlumno){
+  handleOnOpenEliminar = (idAlumno) => {
+    this.setState({ open2: true }); //para el eliminar
+    if (idAlumno) {
       this.setState({ currentID: idAlumno });
     }
-    
-  }
+  };
   handleOnClose() {
     this.setState({ open2: false });
     //window.location.reload();
-  } 
+    this.refrescarDatosSSJ(this.state.programa);
+  }
   callback = (count) => {
     // do something with value in parent component, like save to state
-    let i= this.state.flag +1;
+    let i = this.state.flag + 1;
     //console.log("veamos: ",i);
-    this.setState({flag:i});
-  }
+    this.setState({ flag: i });
+  };
 
   render() {
     const titulos = [
@@ -300,9 +318,7 @@ class ListaAlumnos extends Component {
               <FormularioImportarAlumnos usuario={getUser().usuario} />
             ) : this.state.cuerpoDialogo === 2 ? (
               <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
-            ) : this.state.cuerpoDialogo === 3 ? (
-                null
-            ) : (
+            ) : this.state.cuerpoDialogo === 3 ? null : (
               <VerInformacionRelevante
                 usuario={getUser().usuario}
                 idAlumno={this.state.currentID}
@@ -312,6 +328,7 @@ class ListaAlumnos extends Component {
           open={this.state.open}
           hadleClose={() => {
             this.setState({ open: false });
+            this.refrescarDatosSSJ(this.state.programa);
             //window.location.replace(this.props.ruta);
           }}
           maxWidth={this.state.cuerpoDialogo !== 4 ? "lg" : "xl"}
@@ -331,10 +348,8 @@ class ListaAlumnos extends Component {
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
           {/** eliminardata */}
-       
 
-          <Grid item md={4}  xs={6}>
-
+          <Grid item md={4} xs={6}>
             <ListaComboBox
               mensaje="facultad"
               titulo={"Facultad"}
@@ -397,18 +412,17 @@ class ListaAlumnos extends Component {
           </Grid>
         </Grid>
         {/* Lista  facultades */}
-        
+
         {this.renderTabla(this.state.datosTabla)}
 
-        {this.state.open2 &&
-        <EliminarAlumno 
-          open={this.handleOnOpenEliminar} 
-          close={this.handleOnClose}
-          id={this.state.currentID}
-          parentCallback={this.callback}
-        />}
-
-        
+        {this.state.open2 && (
+          <EliminarAlumno
+            open={this.handleOnOpenEliminar}
+            close={this.handleOnClose}
+            id={this.state.currentID}
+            parentCallback={this.callback}
+          />
+        )}
       </div>
     );
   }

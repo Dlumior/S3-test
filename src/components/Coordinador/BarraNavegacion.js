@@ -29,8 +29,8 @@ import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import { logOut } from "../../Sesion/actions/sesionAction";
 import { Grid, ThemeProvider } from "@material-ui/core";
 import ImagenCircular from "../Shared/ImagenCircular";
-import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
-
+//import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
+import JToolbarSSJ3 from "../Shared/Toolbar2.jsx";
 const drawerWidth = 250;
 
 const useStyles = makeStyles((theme) => ({
@@ -108,7 +108,7 @@ const BarraNavegacion = (props) => {
     setOpen(false);
   };
   const { usuario, rol } = getUser();
-  console.log(">Jenn98=>",usuario);
+  console.log(">Jenn98=>", usuario);
 
   return (
     <div className={classes.root}>
@@ -183,7 +183,7 @@ const BarraNavegacion = (props) => {
         })}
       >
         <ThemeProvider theme={theme}>
-          <JToolbarSSJ
+          <JToolbarSSJ3
             MenuIconButton={() => (
               <IconButton
                 color="inherit"

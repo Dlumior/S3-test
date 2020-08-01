@@ -25,7 +25,7 @@ class SolicitarTutoriaFija extends Component {
           procesos: [
             {
               index: 0,
-              titulo: "Horarios Disponibles",
+              titulo: "Horarios disponibles",
 
               proceso: () => (
                 <CalendarioCitasTutoriaFija

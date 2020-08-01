@@ -10,6 +10,8 @@ import SaltoDeLinea from "../../components/Shared/SaltoDeLinea.jsx";
 import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
 import UnidadApoyo from "../UnidadApoyo/UnidadApoyo";
+import { ThemeProvider } from "@material-ui/core";
+import theme from "../../theme.js";
 
 const Administrador = (props) => {
   //console.log("Administrador", props.history.location.pathname);
@@ -26,7 +28,8 @@ const Administrador = (props) => {
     }
   }
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+      <div>
       <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />
@@ -48,6 +51,8 @@ const Administrador = (props) => {
         <Route exact path={"/administrador/unidadesdeapoyo"} component={UnidadApoyo} />
       </BarraNavegacion>
     </div>
+    </ThemeProvider>
+    
   );
 };
 

@@ -333,7 +333,7 @@ class VerInformacionRelevante extends Component {
     );
   }
   render() {
-    const enMantenimiento = true;
+    const enMantenimiento = false;
     if (enMantenimiento) {
       return <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg"
        />;
