@@ -72,7 +72,7 @@ const CabeceraPerfil = (props) => {
     if (extens.toLowerCase() === "png") {
       openMensajePantalla(dispatchDialog, {
         open: true,
-        mensaje: "X.Solo se permiten imagenes con extension 'jpeg'",
+        mensaje: "X.Solo se permiten imágenes con extensión 'jpeg'",
       });
       return;
     }
@@ -157,7 +157,7 @@ const CabeceraPerfil = (props) => {
               style={{ textAlign: "center", marginTop: "10%" }}
             >
               <Button variant="outlined" component="label" color="primary">
-                Cambair foto
+                Cambiar foto
                 <input
                   type="file"
                   onChange={handleOnChangeImg}

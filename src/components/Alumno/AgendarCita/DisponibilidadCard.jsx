@@ -161,6 +161,7 @@ class DisponibilidadCard extends Component {
     // let ojalaPes = this.obtenerMensajeRango();
     // if (ojalaPes) { this.setState({ visible: true }); }
     // else { this.setState({ visible: false }); }
+    console.log(">>Dispo",this.props.disponibilidad);
   }
 
 
