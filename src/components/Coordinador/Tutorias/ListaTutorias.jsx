@@ -429,7 +429,7 @@ class ListaTutorias extends Component {
               color="primary"
               onClick={(e) => this.handleOpenDialog(e, 0)}
             >
-              Registrar Nueva Tutoria
+              Registrar Nueva Tutoría
             </Button>
           </Grid>
         </Grid>

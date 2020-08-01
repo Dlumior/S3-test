@@ -33,7 +33,7 @@ class AsignarTutor extends Component {
     render() {
         return (
             <div>
-                <NombrePrincipal titulo="Asignación de Tutor" />
+                <NombrePrincipal titulo="Asignación de tutor" />
                 <TabProceso  procesos={this.state.procesos} />
             </div>
         );

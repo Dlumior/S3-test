@@ -62,12 +62,12 @@ class Footer extends Component {
                     <ul>
                       <li>
                         {
-                          "Proyecto desarrollado por el grupo KND de para el curso de Ingeniería de Software - PUCP"
+                          "Proyecto desarrollado por el grupo KND-Los Chicos de Software de para el curso de Ingeniería de Software - PUCP"
                         }
                       </li>
                       <li>
                         {
-                          "Este proyecto fue implementato utilizando react.js y Express.js y esta corriendo en una maquina virtual en Amazon AWS."
+                          "Este proyecto fue implementato utilizando react.js y Express.js y está corriendo en una maquina virtual en Amazon AWS."
                         }
                       </li>
                     </ul>
@@ -101,7 +101,7 @@ class Footer extends Component {
                 <p class="text-justify">
                   <strong>{"uTutor.net "}</strong>
                   es una plataforma web de gestión y administracion de procesos
-                  de tutorias. Esta dirigida para apoyar el desempeño
+                  de tutorias. Está dirigida para apoyar el desempeño
                   profesional de alumnos de la Pontificia Universidad Católica
                   del Perú.
                 </p>

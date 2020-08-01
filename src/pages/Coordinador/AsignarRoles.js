@@ -6,7 +6,7 @@ import FrmAsignarRoles from "../../components/Coordinador/FrmAsignarRoles/FrmAsi
 const AsignarRoles = () => {
   return (
     <div>
-      <NombrePrincipal titulo="Asignación de Roles" />
+      <NombrePrincipal titulo="Asignación de roles a usuarios" />
       <FrmAsignarRoles/>
     </div>
   );
