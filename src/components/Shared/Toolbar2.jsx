@@ -36,7 +36,7 @@ class JToolbarSSJ3 extends Component {
           NOMBRE={this.props.NOMBRE}
           APELLIDOS={this.props.APELLIDOS}
           classes={this.props.classes}
-          CampanitaIconButton={false}
+          CampanitaIconButton={this.props.CampanitaIconButton}
         />
       </div>
     );

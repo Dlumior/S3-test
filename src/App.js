@@ -19,6 +19,8 @@ import Alumno from "./pages/Alumno/Alumno.js";
 import { useUserValue } from "./Sesion/Sesion";
 import { inicializarSesion } from "./Sesion/actions/sesionAction";
 import Footer from "./components/Shared/Footer";
+import { useDialogValueSSJ } from "./Sesion/dialog";
+import MultiDialog from "./components/Shared/MultiDialog";
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -29,8 +31,10 @@ function App() {
   const classes = useStyles();
   //Context provider de user
   const [open, setOpen] = useState(true);
-  const [{ usuario,auth}, dispatch] = useUserValue();
+  const [{ usuario, auth }, dispatch] = useUserValue();
+  const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
   const [value, setValue] = useState(0);
+
   useEffect(() => {
     async function init() {
       setOpen(true);
@@ -52,37 +56,37 @@ function App() {
     init();
   }, []);
   //console.log("Paso por el APP");
-  
- 
+  const onCloseDialog = () => {
+    dispatchDialog({
+      type: "OPEN_DIALOG",
+      openMensaje: {
+        open: false,
+        mensaje: "",
+      },
+    });
+  };
+
   return (
     <div>
-      {/** aun no se porque no se abre, 
-       * si le das una chequeada al Backdrop bacan! */}
-      <Backdrop open={open} >
-          <CircularProgress color="primary" />
-        </Backdrop>
-      {value === 0 ? (<>
-      <Backdrop className={classes.backdrop} open={open} >
-          <CircularProgress color="primary" />
-        </Backdrop>
-      </>
-         
-      ) : (
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <Router>
-              <div className="App-header">
-                <Route exact path="/" component={Home} />
-                <Route path="/administrador" component={Administrador} /> 
-                <Route path="/coordinador" component={Coordinador} />
-                <Route path="/tutor" component={Tutor} />
-                <Route path="/alumno" component={Alumno} />
-              </div>
-              <Footer/>
-            </Router>
-          </ThemeProvider>
-        </Provider>
-      )}
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <MultiDialog
+            open={openMensaje}
+            mensaje={mensaje}
+            onCloseDialog={onCloseDialog}
+          />
+          <Router>
+            <div className="App-header">
+              <Route exact path="/" component={Home} />
+              <Route path="/administrador" component={Administrador} />
+              <Route path="/coordinador" component={Coordinador} />
+              <Route path="/tutor" component={Tutor} />
+              <Route path="/alumno" component={Alumno} />
+            </div>
+            <Footer />
+          </Router>
+        </ThemeProvider>
+      </Provider>
     </div>
   );
 }
