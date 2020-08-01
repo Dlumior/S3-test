@@ -45,11 +45,24 @@ const styles = {
     maxWidth: "150px",
     maxHeight: "80px",
   },
+  perfil: {
+    objectFit: "cover",
+    width: "100px",
+    height: "100px",
+    "object-position": "center",
+  },
 };
 class ImagenCircular extends Component {
   render() {
-    const { link, square,size,logoVerde } = this.props;
+    const { link, square,size,logoVerde,perfil } = this.props;
     console.log("Imagen circular PROPS: ", this.props);
+    if(perfil){
+      return <img
+      style={styles.perfil}
+      src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
+      alt="logo-ututor"
+    />
+    } else
     if(logoVerde){
       return (  <img
         style={styles.logo}

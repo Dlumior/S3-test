@@ -72,7 +72,7 @@ const CabeceraPerfil = (props) => {
     if (extens.toLowerCase() === "png") {
       openMensajePantalla(dispatchDialog, {
         open: true,
-        mensaje: "X.Solo se permiten imagenes con extension 'jpeg'",
+        mensaje: "X>Solo se permiten imagenes con extension 'jpeg'",
       });
       return;
     }
@@ -115,7 +115,7 @@ const CabeceraPerfil = (props) => {
       if(response){
         openMensajePantalla(dispatchDialog, {
           open: true,
-          mensaje: "C.Imagen registrada satisfactoriamente",
+          mensaje: "C>Imagen registrada satisfactoriamente",
         });
       }
     };
@@ -133,23 +133,17 @@ const CabeceraPerfil = (props) => {
             alignItems="center"
           >
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
-            {getUser().rol === "Administrador" ? (
-              <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
-            ) : getUser().usuario.IMAGEN ? (
+            {getUser().rol === "Administrador" ?  
+            (getUser().usuario.IMAGEN ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
-              />
-            ) : (
-              <Avatar
-                alt={props.nombre.replace(/["]+/g, "")}
-                src={props.imagen}
-                className={classes.large}
-              >
-                {props.nombre[0].match(/[a-z]/i)
-                  ? props.nombre[0]
-                  : props.nombre[1]}
-              </Avatar>
-            )}
+              />)
+             : 
+              <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
+              
+            ):
+                <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
+            }
             <Grid
               item
               md={12}

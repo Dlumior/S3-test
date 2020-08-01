@@ -32,7 +32,7 @@ class MultiDialog extends Component {
   }
   render() {
     const { mensaje, open } = this.props;
-    const [tipo, mensajePropiamente] = mensaje.split(".");
+    const [tipo, mensajePropiamente] = mensaje.split(">");
     return (
       <div>
         <ThemeProvider theme={theme}>
