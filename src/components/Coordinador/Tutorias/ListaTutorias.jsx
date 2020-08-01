@@ -4,7 +4,6 @@ import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
 import { Button, Grid, Fab, IconButton, Chip } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
-
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
 import AddIcon from "@material-ui/icons/Add";
