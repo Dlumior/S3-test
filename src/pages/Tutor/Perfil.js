@@ -3,9 +3,10 @@ import React, { useState, useRef } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import ImgTutor from "../../components/Tutor/tutor.png";
 import CabeceraPerfil from "../../components/Shared/CabeceraPerfil";
-import { getUser } from "../../Sesion/Sesion";
+import { getUser, reinitialize } from "../../Sesion/Sesion";
 import { POST } from "../../Conexion/Controller";
 import Datos from "../../components/Coordinador/Datos";
+import Alertas from "../../components/Coordinador/Alertas"
 
 const useStyles = makeStyles((theme) => ({
   customContainer: {
@@ -18,6 +19,9 @@ const Perfil = () => {
   const [isEdit, setIsEdit] = useState(false);
   const dir = useRef(null);
   const tel = useRef(null);
+
+  const [severidad, setSeveridad] = useState("");
+  const [alerta, setAlerta] = useState({ mensaje: "" });
 
   const handleEdit = (e) => {
     setIsEdit(true);
@@ -40,7 +44,12 @@ const Perfil = () => {
     let edited = await POST(sendData);
     if (edited !== null) {
       //console.log("Got updated user from back:", edited);
-      alert("Se guardaron los cambios correctamente");
+      //alert("Se guardaron los cambios correctamente");
+      setSeveridad("success");
+        setAlerta({
+          mensaje: "Se guardaron los cambios correctamente",
+        });
+        reinitialize();
     } else {
       //console.log("Hubo un error");
     }
@@ -60,6 +69,7 @@ const Perfil = () => {
         className={classes.customContainer}
       >
         <Grid item>
+        <Alertas severity={severidad} titulo={"Observacion:"} alerta={alerta} />
           <Datos
             isEdit={isEdit}
             codigo={getUser().usuario.CODIGO}
