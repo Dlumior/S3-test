@@ -134,6 +134,7 @@ const FormRegistroTutor = (props) => {
     async function fetchTutores() {
       let institucion = await Controller.GET({ servicio: "/api/institucion" });
       //console.log("RegistrarTutor institucion: ", institucion);
+      if(!institucion.institucion) return;
       setDominio1(institucion.institucion.DOMINIO);
       setDominio2(institucion.institucion.DOMINIO2);
       //console.log("RegistrarTutor dominio1: ", dominio1);

@@ -4,7 +4,7 @@ import FrmMisCitas from "../../components/Alumno/FrmMisCitas.js";
 import TabProceso from "../../components/Coordinador/Tutorias/TabProceso";
 
 
-const titulo = "Mis Citas Agendadas";
+const titulo = "Mis citas agendadas";
 
 class MisCitas extends Component {
     constructor() {

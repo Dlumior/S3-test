@@ -183,7 +183,7 @@ class FrmDialogoSolicitarTutor extends Component {
       if (!sesionTyS.message) {
         if (!sesionTyS.error) {
           this.setState({ mensajillo: "¡ Sesión Registrada Satisfactoriamente !" });
-          this.props.onChange({actualizaMensajillo:true})
+          this.props.onChange({ actualizaMensajillo: true })
         } else {
           this.setState({
             mensajillo:
@@ -536,16 +536,28 @@ class FrmDialogoSolicitarTutor extends Component {
                     //value={this.state._motivoSelecc}
                     />
                   </Grid>
-                  <Grid item md={12} xs={12}>
-                    <Button
-                      size="large"
-                      variant="contained"
-                      color="primary"
-                      onClick={this.handleOnClickSolicitarCita}
-                    >
-                      Solicitar Cita
+                  <Grid container spacing={2} alignContent="center">
+                    <Grid item md={6} xs={12}>
+                      <Button
+                        size="large"
+                        variant="outlined"
+                        color="primary"
+                        onClick={this.handleOnClose}  >
+                        Cancelar
                     </Button>
+                    </Grid>
+                    <Grid item md={6} xs={12}>
+                      <Button
+                        size="large"
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleOnClickSolicitarCita}
+                      >
+                        Solicitar Cita
+                    </Button>
+                    </Grid>
                   </Grid>
+
                 </Grid>
               </Grid>
             </Grid>
@@ -607,6 +619,7 @@ class FrmDialogoSolicitarTutor extends Component {
           </DialogTitle>
           <DialogContent>{this.state.mensajillo}</DialogContent>
           <DialogActions>
+
             <Button
               variant="contained"
               color="primary"

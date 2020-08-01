@@ -52,7 +52,7 @@ class FrmCitarAlumno extends Component {
     //console.log("RESULTADO API citacion ", citaTyS);
     if (!citaTyS.message) {
       if (!citaTyS.error) {
-        this.setState({ mensajillo: "¡ Notificación Enviada satisfactoriamente !" });
+        this.setState({ mensajillo: "¡ Notificación Enviada Satisfactoriamente !" });
       } else {
         this.setState({
           mensajillo:

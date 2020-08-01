@@ -11,6 +11,9 @@ import FrmMisCitasPasadas_Tutor from "./FrmMisCitasPasadas_Tutor";
 import moment from 'moment';
 import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaciones";
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+
 
 class FrmMisCitas_Tutor extends Component {
     constructor() {
@@ -882,7 +885,21 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle >    <h3 >Resultado </h3> </DialogTitle>
+                    {/* <DialogTitle >    <h3 >Resultado </h3> </DialogTitle> */}
+                    <DialogTitle id="form-dialog-title">
+                        <Grid container md={12} justify="center">
+
+                            {this.state.mensajillo.includes("Satisfactoriamente") ?
+                                <CheckCircleRoundedIcon
+                                    color="primary"
+                                    style={{ fontSize: 70 }}
+                                />
+                                :
+                                //casos ocupada y ups error inesperado
+                                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                            }
+                        </Grid>
+                    </DialogTitle>
                     <DialogContent>  {this.state.mensajillo}   </DialogContent>
                     <DialogActions>
                         <Button
@@ -901,7 +918,21 @@ class FrmMisCitas_Tutor extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle >    <h3 >Resultado </h3> </DialogTitle>
+                    {/* <DialogTitle >    <h3 >Resultado </h3> </DialogTitle> */}
+                    <DialogTitle id="form-dialog-title">
+                        <Grid container md={12} justify="center">
+
+                            {this.state.mensajilloR.includes("Satisfactoriamente") ?
+                                <CheckCircleRoundedIcon
+                                    color="primary"
+                                    style={{ fontSize: 70 }}
+                                />
+                                :
+                                //casos ocupada y ups error inesperado
+                                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                            }
+                        </Grid>
+                    </DialogTitle>
                     <DialogContent>  {this.state.mensajilloR}   </DialogContent>
                     <DialogActions>
                         <Button
@@ -922,7 +953,7 @@ class FrmMisCitas_Tutor extends Component {
 export default compose(withRouter)(FrmMisCitas_Tutor);
 
 const estilos = {
-    subtitulo:{
-        textAlign:"center",
+    subtitulo: {
+        textAlign: "center",
     }
 }
