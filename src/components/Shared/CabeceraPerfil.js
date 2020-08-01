@@ -111,7 +111,13 @@ const CabeceraPerfil = (props) => {
       //console.warn("img data", event.target.result);
       //console.warn("img data base", base);
       const response = await POST({servicio:"/api/usuario/guardarimagen", request:{imagen:{ID_USUARIO:usuario.ID_USUARIO,IMAGEN:base}}});
-      console.warn("HAAAAAAAAAAAAA:", response );
+      //console.warn("HAAAAAAAAAAAAA:", response );
+      if(response){
+        openMensajePantalla(dispatchDialog, {
+          open: true,
+          mensaje: "C.Imagen registrada satisfactoriamente",
+        });
+      }
     };
   };
   return (
