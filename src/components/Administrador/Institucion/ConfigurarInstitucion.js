@@ -280,7 +280,7 @@ class ConfigurarInstitucion extends React.Component {
               <div>
                 <img
                   style={estilo.imagen}
-                  src={"data:image/" + this.state.institucion.EXTENSION + ";base64," + this.state.institucion.IMAGEN}>
+                  src={"data:image/" + this.state.institucion?.EXTENSION + ";base64," + this.state.institucion?.IMAGEN}>
                 </img>
               </div>
               <div>
@@ -306,7 +306,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="NOMBRE"
                 label="Nombre"
-                value={this.state.institucion.NOMBRE}
+                value={this.state.institucion?.NOMBRE}
                 onChange={this.handleOnChangeNombre}
                 fullWidth
                 InputLabelProps={{
@@ -319,7 +319,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="iniciales"
                 label="Iniciales"
-                value={this.state.institucion.INICIALES}
+                value={this.state.institucion?.INICIALES}
                 onChange={this.handleOnChangeInicial}
                 fullWidth
                 InputLabelProps={{
@@ -332,7 +332,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="DOMINIO"
                 label="Dominio"
-                value={this.state.institucion.DOMINIO}
+                value={this.state.institucion?.DOMINIO}
                 onChange={this.handleOnChangeDominio}
                 fullWidth
                 InputLabelProps={{
@@ -344,7 +344,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="DOMINIO"
                 label="Dominio Opcional"
-                value={this.state.institucion.DOMINIO2}
+                value={this.state.institucion?.DOMINIO2}
                 onChange={this.handleOnChangeDominio2}
                 fullWidth
                 InputLabelProps={{
@@ -356,7 +356,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="telefono"
                 label="Teléfono"
-                value={this.state.institucion.TELEFONO}
+                value={this.state.institucion?.TELEFONO}
                 onChange={this.handleOnChangeTelefono}
                 fullWidth
                 InputLabelProps={{
@@ -368,7 +368,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="ubicacion"
                 label="Ubicación"
-                value={this.state.institucion.UBICACION}
+                value={this.state.institucion?.UBICACION}
                 onChange={this.handleOnChangeUbicacion}
                 fullWidth
                 InputLabelProps={{
@@ -380,7 +380,7 @@ class ConfigurarInstitucion extends React.Component {
                 margin="dense"
                 id="sitioweb"
                 label="Sitio Web"
-                value={this.state.institucion.PAGINA_WEB}
+                value={this.state.institucion?.PAGINA_WEB}
                 onChange={this.handleOnChangePagina}
                 fullWidth
                 InputLabelProps={{
