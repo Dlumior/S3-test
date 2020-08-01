@@ -53,7 +53,6 @@ const handleOnChangeRol = async (e) => {
   window.location.reload();
 };
 
-
 // const handleOnChangeImg = (event) => {
 //   //console.log(event.target.files[0]);
 //   let ext = event.target.files[0].name;
@@ -84,7 +83,7 @@ const handleOnChangeRol = async (e) => {
 //   reader.onload = (event) => {
 //     let base = event.target.result.slice(23);
 //     console.warn("img data", event.target.result);
-   
+
 //     let inst = Object.assign({}, this.state.institucion);
 
 //     var base1;
@@ -106,9 +105,6 @@ const handleOnChangeRol = async (e) => {
 //   }
 // }
 
-
-
-
 const CabeceraPerfil = (props) => {
   const classes = useStyles();
 
@@ -116,11 +112,18 @@ const CabeceraPerfil = (props) => {
     <div>
       <Container maxWidth="xl" className={classes.customContainer}>
         <Grid container>
-          <Grid item xs={2} container justify="center" alignItems="center">
+          <Grid
+            item
+            md={2}
+            xs={12}
+            container
+            justify="center"
+            alignItems="center"
+          >
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
             {getUser().rol === "Administrador" ? (
               <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
-            ) : getUser().usuario.IMAGEN  ? (
+            ) : getUser().usuario.IMAGEN ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
               />
@@ -135,20 +138,34 @@ const CabeceraPerfil = (props) => {
                   : props.nombre[1]}
               </Avatar>
             )}
+            <Grid item md ={12} xs={12} style={{textAlign:"center", marginTop:"10%"}}>
+              <Button variant="outlined" component="label" color="primary">
+              Cambair foto
+              <input
+                type="file"
+                //onChange={handleOnChangeImg}
+                style={{ display: "none" }}
+              />
+            </Button>
+            </Grid>
+            
           </Grid>
           <Grid
             item
-            xs={10}
+            md={4}
+            xs={12}
             container
             direction="column"
             alignItems="flex-start"
             justify="center"
           >
-            <Typography variant="h4">
+            <Typography variant="h4" >
               {props.nombre.replace(/["]+/g, "")}
             </Typography>
             {/* <Typography variant="h6">{props.titulo}</Typography> */}
-            <InputLabel id="demo-simple-select-placeholder-label-label"></InputLabel>
+            <InputLabel id="demo-simple-select-placeholder-label-label" style={{textAlign:"center", marginTop:"2%"}}>
+              Cambiar de rol
+            </InputLabel>
             {/*console.log("alumnodesdetutor",props.alumnodesdetutor)*/}
             {!props.alumnodesdetutor && (
               <Select
@@ -166,7 +183,14 @@ const CabeceraPerfil = (props) => {
               <Typography variant="h6">Alumno</Typography>
             )}
           </Grid>
-
+          <Grid
+            item
+            md={6}
+            container
+            direction="column"
+            alignItems="flex-start"
+            justify="center"
+          ></Grid>
           {/* <Button
                   variant="outlined"
                   component="label"
@@ -179,8 +203,6 @@ const CabeceraPerfil = (props) => {
                     style={{ display: "none" }}
                   />
                 </Button> */}
-
-
         </Grid>
       </Container>
     </div>
