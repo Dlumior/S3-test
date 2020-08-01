@@ -12,7 +12,7 @@ import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 import theme from "../../theme";
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
 
-//import CancelRoundedIcon from "@material-ui/icons/CancelRoundedIcon";
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 
 class MultiDialog extends Component {
   constructor(props) {
@@ -32,7 +32,7 @@ class MultiDialog extends Component {
   }
   render() {
     const { mensaje, open } = this.props;
-
+    const [tipo, mensajePropiamente] = mensaje.split(".");
     return (
       <div>
         <ThemeProvider theme={theme}>
@@ -44,17 +44,25 @@ class MultiDialog extends Component {
           >
             <DialogTitle id="form-dialog-title">
               <Grid container md={12} justify="center">
-                <WarningRoundedIcon style={{ fontSize: 70, fill: "orange" }} />
+                {tipo === "C" ? (
+                  <CheckCircleRoundedIcon
+                    color="primary"
+                    style={{ fontSize: 70 }}
+                  />
+                ) : tipo === "W" ? (
+                  <WarningRoundedIcon
+                    style={{ fontSize: 70, fill: "orange" }}
+                  />
+                ) : (
+                  <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                )}
 
-                {/**<CheckCircleRoundedIcon
-                  color="primary"
-                  style={{ fontSize: 70 }}
-                />
-                 * <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                {/**
+                 *
                  */}
               </Grid>
             </DialogTitle>
-            <DialogContent>{mensaje}</DialogContent>
+            <DialogContent>{mensajePropiamente}</DialogContent>
             <DialogActions>
               <Button
                 variant="contained"

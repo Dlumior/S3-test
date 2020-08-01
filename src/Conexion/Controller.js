@@ -38,6 +38,7 @@ export async function GET(props) {
 export async function POST(props) {
   //console.log("POST->", props);
   try {
+    console.log(">>> POST entrada", props.request);
     let response = await fetch(props.servicio, {
       limits: { fileSize: "10mb" },
       method: "POST",
@@ -57,7 +58,11 @@ export async function POST(props) {
     //console.log("DIA", dia);
 
     //console.log(">>> getUser", getUser());
+    if (props.request.imagen?.IMAGEN) {
+      console.log(">>> POST habia imagen",props.request.imagen.ID_USUARIO );
 
+      props.request.imagen.IMAGEN = "Imagen";
+    }
     if (getUser() !== undefined) {
       let auditoria = await fetch("/api/auditoria/", {
         limits: { fileSize: "10mb" },

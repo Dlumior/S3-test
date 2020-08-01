@@ -369,7 +369,7 @@ class FormularioRegistrarAlumno extends Component {
       openMensajePantalla(dispatchDialog, {
         open: true,
         mensaje:
-          "Los datos de la institucion no se cargaron correctamente, intente nuevamente en unos instantes.",
+          "W.Los datos de la institucion no se cargaron correctamente, intente nuevamente en unos instantes.",
       });
     }
     this.setState({ institucion: getInsitucion.institucion });

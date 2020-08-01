@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { getUser, useUserValue } from "../../Sesion/Sesion";
 import {
   Grid,
@@ -12,6 +12,9 @@ import {
   Button,
 } from "@material-ui/core";
 import ImagenCircular from "./ImagenCircular";
+import { openMensajePantalla } from "../../Sesion/actions/dialogAction";
+import { useDialogValueSSJ } from "../../Sesion/dialog";
+import { POST } from "../../Conexion/Controller";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -53,61 +56,64 @@ const handleOnChangeRol = async (e) => {
   window.location.reload();
 };
 
-// const handleOnChangeImg = (event) => {
-//   //console.log(event.target.files[0]);
-//   let ext = event.target.files[0].name;
-//   let extens = ext.slice(-3);
-
-//   //let alert = Object.assign({}, this.state.alert);
-//   //alert.mensaje = "";
-//   //alert.mensajeStrong = "";
-//   //this.setState({ alert: alert });
-//   //this.setState({ severidad: "" });
-
-//   //console.log("name: ",extens);
-//   // if (extens === 'jpg') {
-//   //   extens = 'jpeg';
-//   // } else if (extens === 'png') {
-//   //   extens = 'png'
-//   // } else {
-//   //   let alert = Object.assign({}, this.state.alert);
-//   //   alert.mensaje = "El logo debe tener extensión .jpg o .png";
-//   //   alert.mensajeStrong = alert.mensajeStrongError;
-//   //   this.setState({ alert: alert });
-//   //   this.setState({ severidad: "error" });
-//   //   this.state.alert.mensaje = this.state.alert.mensajeError;
-//   // }
-
-//   let reader = new FileReader();
-//   reader.readAsDataURL(event.target.files[0]);
-//   reader.onload = (event) => {
-//     let base = event.target.result.slice(23);
-//     console.warn("img data", event.target.result);
-
-//     let inst = Object.assign({}, this.state.institucion);
-
-//     var base1;
-//     //console.log("name: ",extens);
-//     if (extens === 'jpeg') {
-//       inst.EXTENSION = 'jpeg';
-//       base1 = event.target.result.slice(23);
-//     } else {
-//       inst.EXTENSION = 'png';
-//       base1 = event.target.result.slice(22);
-//     }
-//     //console.log("base1",base1);
-//     inst.IMAGEN = base1;
-
-//     this.setState({
-//       institucion: inst,
-//     })
-//     //console.log(this.state.institucion.IMAGEN);
-//   }
-// }
-
 const CabeceraPerfil = (props) => {
   const classes = useStyles();
+  const usuario = getUser().usuario;
+  const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
+  const [imagenActual, setimagenActual] = useState(undefined);
 
+  const handleOnChangeImg = async(event) => {
+    //console.log(event.target.files[0]);
+
+    const ext = event.target.files[0].name;
+    //let extens = ext.slice(-3);    => Si resulta ser jpeg (tiene 4 aracteres ahi valimos)
+    const extens = ext.split(".")[1];
+    alert(extens);
+    if (extens.toLowerCase() === "png") {
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje: "X.Solo se permiten imagenes con extension 'jpeg'",
+      });
+      return;
+    }
+    //else
+    // if (extens.toLowerCase() === "jpeg") {
+    //   openMensajePantalla(dispatchDialog, {
+    //     open: true,
+    //     mensaje: "X.Solo se permiten imagenes con extension 'jpeg'",
+    //   });
+    //   return;
+    // }
+    //let alert = Object.assign({}, this.state.alert);
+    //alert.mensaje = "";
+    //alert.mensajeStrong = "";
+    //this.setState({ alert: alert });
+    //this.setState({ severidad: "" });
+
+    //console.log("name: ",extens);
+    // if (extens === 'jpg') {
+    //   extens = 'jpeg';
+    // } else if (extens === 'png') {
+    //   extens = 'png'
+    // } else {
+    //   let alert = Object.assign({}, this.state.alert);
+    //   alert.mensaje = "El logo debe tener extensión .jpg o .png";
+    //   alert.mensajeStrong = alert.mensajeStrongError;
+    //   this.setState({ alert: alert });
+    //   this.setState({ severidad: "error" });
+    //   this.state.alert.mensaje = this.state.alert.mensajeError;
+    // }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = async (event) => {
+      let base = event.target.result.slice(23);
+      //console.warn("img data", event.target.result);
+      //console.warn("img data base", base);
+      const response = await POST({servicio:"/api/usuario/guardarimagen", request:{imagen:{ID_USUARIO:usuario.ID_USUARIO,IMAGEN:base}}});
+      console.warn("HAAAAAAAAAAAAA:", response );
+    };
+  };
   return (
     <div>
       <Container maxWidth="xl" className={classes.customContainer}>
@@ -138,17 +144,21 @@ const CabeceraPerfil = (props) => {
                   : props.nombre[1]}
               </Avatar>
             )}
-            <Grid item md ={12} xs={12} style={{textAlign:"center", marginTop:"10%"}}>
+            <Grid
+              item
+              md={12}
+              xs={12}
+              style={{ textAlign: "center", marginTop: "10%" }}
+            >
               <Button variant="outlined" component="label" color="primary">
-              Cambair foto
-              <input
-                type="file"
-                //onChange={handleOnChangeImg}
-                style={{ display: "none" }}
-              />
-            </Button>
+                Cambair foto
+                <input
+                  type="file"
+                  onChange={handleOnChangeImg}
+                  style={{ display: "none" }}
+                />
+              </Button>
             </Grid>
-            
           </Grid>
           <Grid
             item
@@ -159,11 +169,14 @@ const CabeceraPerfil = (props) => {
             alignItems="flex-start"
             justify="center"
           >
-            <Typography variant="h4" >
+            <Typography variant="h4">
               {props.nombre.replace(/["]+/g, "")}
             </Typography>
             {/* <Typography variant="h6">{props.titulo}</Typography> */}
-            <InputLabel id="demo-simple-select-placeholder-label-label" style={{textAlign:"center", marginTop:"2%"}}>
+            <InputLabel
+              id="demo-simple-select-placeholder-label-label"
+              style={{ textAlign: "center", marginTop: "2%" }}
+            >
               Cambiar de rol
             </InputLabel>
             {/*console.log("alumnodesdetutor",props.alumnodesdetutor)*/}
@@ -191,18 +204,6 @@ const CabeceraPerfil = (props) => {
             alignItems="flex-start"
             justify="center"
           ></Grid>
-          {/* <Button
-                  variant="outlined"
-                  component="label"
-                  color="primary"
-                >
-                  Importar
-                            <input
-                    type="file"
-                    //onChange={handleOnChangeImg}
-                    style={{ display: "none" }}
-                  />
-                </Button> */}
         </Grid>
       </Container>
     </div>

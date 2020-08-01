@@ -33,9 +33,6 @@ function App() {
   const [open, setOpen] = useState(true);
   const [{ usuario, auth }, dispatch] = useUserValue();
   const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
-  console.log("OPEN: ", openMensaje);
-  console.log("OPEN: ", mensaje);
-  console.log("OPEN: ", dispatchDialog);
   const [value, setValue] = useState(0);
 
   useEffect(() => {
