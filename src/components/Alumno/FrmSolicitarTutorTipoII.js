@@ -615,7 +615,7 @@ class FrmSolicitarTutorTipoII extends Component {
                                     style={{ fontSize: 70 }}
                                 />
                                 :
-                                //casos  ups error inesperado
+                                ///caso  ups error inesperado
                                 <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
                             }
                         </Grid>
