@@ -14,6 +14,8 @@ import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { compose } from "recompose";
 import { withRouter } from "react-router-dom";
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
+import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 
 
 
@@ -287,7 +289,7 @@ class FrmMisCitas extends Component {
                 this.setState({ actuTys: !this.state.actuTys });
 
             } else {
-                this.setState({ mensajillo: "Ups, Error inesperado... Por favor, inténtelo más tarde." });
+                this.setState({ mensajillo: "Ups, Error Inesperado... Por favor, inténtelo más tarde." });
             }
         }
         else {
@@ -579,9 +581,20 @@ class FrmMisCitas extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <DialogTitle >
-                        <h3 >Resultado </h3>
+                    {/* <DialogTitle >  <h3 >Resultado </h3>  </DialogTitle> */}
+                    <DialogTitle id="form-dialog-title">
+                        <Grid container md={12} justify="center">
 
+                            {this.state.mensajillo.includes("Satisfactoriamente") ?
+                                <CheckCircleRoundedIcon
+                                    color="primary"
+                                    style={{ fontSize: 70 }}
+                                />
+                                :
+                                //casos ocupada y ups error inesperado
+                                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                            }
+                        </Grid>
                     </DialogTitle>
                     <DialogContent>
                         {this.state.mensajillo}
