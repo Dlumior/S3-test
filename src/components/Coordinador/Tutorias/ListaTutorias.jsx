@@ -3,6 +3,8 @@ import { GET } from "../../../Conexion/Controller";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
 import { Button, Grid, Fab, IconButton, Chip } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
+
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
 import AddIcon from "@material-ui/icons/Add";
@@ -14,6 +16,7 @@ import FormularioImportarAlumnos from "../FormRegistroAlumno/FormularioImportarA
 import JModal from "../ListaAlumnos/JModal";
 import FormularioNuevaTutoria from "./FormularioNuevaTutoria";
 import EliminarTutoria from "./EliminarTutoria";
+import Jloading from "../FormRegistroAlumno/Jloading";
 
 const style = {
   paper: {
@@ -55,13 +58,13 @@ class ListaTutorias extends Component {
       title1: "Resultados historicos del alumno",
       title2: `al ${new Date().toISOString().split("T")[0]}`,
       datosTabla: {},
-      flag:0, //para actualizar
+      flag: 0, //para actualizar
       datosTablaOffline: {
         columns: [
           { title: "Nro", field: "nro" },
           { title: "Nombre", field: "nombre" },
           { title: "Descripcion", field: "descripcion" },
-          { title: "Vigencia", field: "vigencia" },
+          //{ title: "Vigencia", field: "vigencia" },
           { title: "Duracion sesión (min)", field: "duracion" },
           { title: "Etiquetas", field: "etiquetas" },
           { title: "Tipo Asignacion de tutor", field: "asignacion" },
@@ -83,8 +86,97 @@ class ListaTutorias extends Component {
     this.handleOpenDialog = this.handleOpenDialog.bind(this);
     this.handleOnClose = this.handleOnClose.bind(this);
     this.handleOnOpenEliminar = this.handleOnOpenEliminar.bind(this);
+    this.refrescarDatosSSJ = this.refrescarDatosSSJ.bind(this);
+  }
+  async refrescarDatosSSJ(programa) {
+    this.setState({
+      datosTabla: {},
+    });
+    const listaTutorias = await GET({
+      servicio: `/api/tutoria/lista/${programa}`,
+    });
+    let datos = [];
+    //console.log("listaTutorias.tutoria", listaTutorias);
 
+    if (listaTutorias.tutoria) {
+      listaTutorias.tutoria.forEach((tutoria, index) => {
+        const {
+          ID_PROCESO_TUTORIA,
+          NOMBRE,
+          DESCRIPCION,
+          OBLIGATORIO,
+          TUTOR_FIJO,
+          GRUPAL,
+          TUTOR_ASIGNADO,
+          PERMANENTE,
+          ETIQUETA,
+          DURACION,
+        } = tutoria;
+        let listaEtiquetas = [];
+        ETIQUETA.forEach((etiqueta) => {
+          listaEtiquetas.push(etiqueta.DESCRIPCION);
+        });
 
+        datos.push({
+          nro: index + 1,
+          nombre: NOMBRE,
+          descripcion: DESCRIPCION,
+          //vigencia: tutoriaOpciones.vigencia[PERMANENTE],
+          duracion: DURACION,
+          etiquetas: (
+            <>
+              {listaEtiquetas.map((etiqueta) => (
+                <Chip
+                  label={etiqueta}
+                  color="primary"
+                  style={{ marginRight: 5 }}
+                />
+              ))}
+            </>
+          ),
+          asignacion: tutoriaOpciones.asignacion[TUTOR_ASIGNADO],
+          naturaleza: tutoriaOpciones.naturaleza[OBLIGATORIO],
+          tipotutor: tutoriaOpciones.tipotutor[TUTOR_FIJO],
+          agrupacion: tutoriaOpciones.agrupacion[GRUPAL],
+
+          mantenimiento: (
+            <>
+              {/*<IconButton color="primary">
+                <EditRoundedIcon
+                  color="secondary"
+                  fontsize="large"
+                  onClick={(e) =>
+                    this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
+                  }
+                />
+                </IconButton>*/}
+              <IconButton color="primary">
+                <DeleteRoundedIcon
+                  color="error"
+                  fontsize="large"
+                  onClick={(e) => this.handleOnOpenEliminar(ID_PROCESO_TUTORIA)}
+                />
+              </IconButton>{" "}
+            </>
+          ),
+        });
+        //console.log("listaTutorias.alumnos push", datos);
+      });
+      /*
+       { title: "Nro", field: "nro" },
+          { title: "Codigo", field: "codigo" },
+          { title: "Nombre", field: "nombre" },
+          { title: "Correo", field: "correo" },
+          { title: "Agregar Información Historica", field: "agregarInfo" },
+      */
+      await this.setState({
+        datosTabla: {
+          columns: this.state.datosTablaOffline.columns,
+          data: datos,
+        },
+      });
+      //console.log("=> ", this.state.datosTabla);
+    }
   }
   async handleOpenDialog(e, tipoDialogo, idAlumno) {
     await this.setState({ cuerpoDialogo: tipoDialogo });
@@ -103,16 +195,17 @@ class ListaTutorias extends Component {
   handleEditar(id) {
     //console.log("Editar a : ", id);
   }
-  handleOnOpenEliminar= (id) =>{
-    this.setState({ open2: true });//para el eliminar
-    if (id){
+  handleOnOpenEliminar = (id) => {
+    this.setState({ open2: true }); //para el eliminar
+    if (id) {
       this.setState({ currentID: id });
-    }    
-  }
+    }
+  };
   handleOnClose() {
     this.setState({ open2: false });
+    this.refrescarDatosSSJ(this.state.programa);
     //window.location.reload();
-  } 
+  }
   handleOnChangePrograma = async (programa) => {
     //console.log("proograma:", programa);
     this.setState({ programa });
@@ -124,100 +217,14 @@ class ListaTutorias extends Component {
 
     //
     if (programa) {
-      const listaTutorias = await GET({
-        servicio: `/api/tutoria/lista/${programa}`,
-      });
-      let datos = [];
-      //console.log("listaTutorias.tutoria", listaTutorias);
-
-      if (listaTutorias.tutoria) {
-        listaTutorias.tutoria.forEach((tutoria, index) => {
-          const {
-            ID_PROCESO_TUTORIA,
-            NOMBRE,
-            DESCRIPCION,
-            OBLIGATORIO,
-            TUTOR_FIJO,
-            GRUPAL,
-            TUTOR_ASIGNADO,
-            PERMANENTE,
-            ETIQUETA,
-            DURACION,
-          } = tutoria;
-          let listaEtiquetas = [];
-          ETIQUETA.forEach((etiqueta) => {
-            listaEtiquetas.push(etiqueta.DESCRIPCION);
-          });
-
-          datos.push({
-            nro: index + 1,
-            nombre: NOMBRE,
-            descripcion: DESCRIPCION,
-            vigencia: tutoriaOpciones.vigencia[PERMANENTE],
-            duracion: DURACION,
-            etiquetas: (
-              <>
-                {listaEtiquetas.map((etiqueta) => (
-                  <Chip
-                    label={etiqueta}
-                    color="primary"
-                    style={{ marginRight: 5 }}
-                  />
-                ))}
-              </>
-            ),
-            asignacion: tutoriaOpciones.asignacion[TUTOR_ASIGNADO],
-            naturaleza: tutoriaOpciones.naturaleza[OBLIGATORIO],
-            tipotutor: tutoriaOpciones.tipotutor[TUTOR_FIJO],
-            agrupacion: tutoriaOpciones.agrupacion[GRUPAL],
-
-            mantenimiento: (
-              <>
-                {/*<IconButton color="primary">
-                  <EditRoundedIcon
-                    color="secondary"
-                    fontsize="large"
-                    onClick={(e) =>
-                      this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
-                    }
-                  />
-                  </IconButton>*/}
-                <IconButton color="primary">
-                  <DeleteRoundedIcon
-                    color="error"
-                    fontsize="large"
-                    onClick={(e) => this.handleOnOpenEliminar(ID_PROCESO_TUTORIA)}
-                  />
-                </IconButton>{" "}
-              </>
-            ),
-          });
-          //console.log("listaTutorias.alumnos push", datos);
-        });
-        /*
-         { title: "Nro", field: "nro" },
-            { title: "Codigo", field: "codigo" },
-            { title: "Nombre", field: "nombre" },
-            { title: "Correo", field: "correo" },
-            { title: "Agregar Información Historica", field: "agregarInfo" },
-        */
-        await this.setState({
-          datosTabla: {
-            columns: this.state.datosTablaOffline.columns,
-            data: datos,
-          },
-        });
-        //console.log("=> ", this.state.datosTabla);
-      }
+      this.refrescarDatosSSJ(programa);
     }
   };
   handleOnChangeFacultad(facultad) {
     //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -242,9 +249,7 @@ class ListaTutorias extends Component {
    * @param {*} usuario
    */
   getEnlace(usuario) {
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -262,10 +267,19 @@ class ListaTutorias extends Component {
 
   renderTabla(datosNuevos) {
     //console.log("***", datosNuevos);
+    if(!this.state.datosTabla.data){
+      return <Jloading mensaje={"Cargando Tutorias"} size={"md"} base/>
+    }else
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <MaterialTable
+        <>
+        <JMaterialTableSpanishSSJ
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            title={`Listado de Tutorias`}
+          />
+        {/*<MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -281,6 +295,8 @@ class ListaTutorias extends Component {
           }}
           title={`Listado de Tutorias`}
         />
+        */}
+        </>
       );
     }
   }
@@ -290,13 +306,13 @@ class ListaTutorias extends Component {
   }
   callback = (count) => {
     // do something with value in parent component, like save to state
-    let i= this.state.flag +1;
+    let i = this.state.flag + 1;
     //console.log("veamos: ",i);
-    this.setState({flag:i});
-  }
+    this.setState({ flag: i });
+  };
 
   render() {
-    const titulos= [
+    const titulos = [
       "Registro de Procesos de Tutoria",
       "Importar Alumnos desde un CSV",
       "Registro de Informacion historica",
@@ -310,9 +326,8 @@ class ListaTutorias extends Component {
           titulo={titulos[this.state.cuerpoDialogo]}
           body={
             this.state.cuerpoDialogo === 0 ? (
-              <FormularioNuevaTutoria 
-              modalOrden={this.state.registrarTutoria}
-
+              <FormularioNuevaTutoria
+                modalOrden={this.state.registrarTutoria}
               />
             ) : this.state.cuerpoDialogo === 1 ? (
               <FormularioImportarAlumnos usuario={getUser().usuario} />
@@ -330,14 +345,22 @@ class ListaTutorias extends Component {
           open={this.state.open}
           hadleClose={() => {
             this.setState({ open: false });
+            this.refrescarDatosSSJ(this.state.programa);
             //window.location.replace(this.props.ruta);
           }}
           maxWidth={"lg"}
           botonIzquierdo={"Cerrar"}
-          
-          botonDerecho={this.state.cuerpoDialogo === 0 ?
-            {name:"Registrar", 
-            onClick: ()=>{this.setState({registrarTutoria:!this.state.registrarTutoria})}}:undefined
+          botonDerecho={
+            this.state.cuerpoDialogo === 0
+              ? {
+                  name: "Registrar",
+                  onClick: () => {
+                    this.setState({
+                      registrarTutoria: !this.state.registrarTutoria,
+                    });
+                  },
+                }
+              : undefined
           }
         />
         <Grid container spacing={2} style={{ textAlign: "center" }}>
@@ -350,9 +373,7 @@ class ListaTutorias extends Component {
               id={"ID_PROGRAMA"}
               nombre={"NOMBRE"}
               subnombre={
-                this.getSubRol(
-                  getUser().rol
-                ) === "programa"
+                this.getSubRol(getUser().rol) === "programa"
                   ? "FACULTAD"
                   : undefined
               }
@@ -374,9 +395,7 @@ class ListaTutorias extends Component {
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
                 keyServicio={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
+                  this.getSubRol(getUser().rol) === "programa"
                     ? "programas"
                     : "programa"
                 }
@@ -403,7 +422,6 @@ class ListaTutorias extends Component {
               Importar de archivo CSV
             </Button>
              */}
-            
           </Grid>
           {/** Boton registarr */}
           <Grid item md={2} xs={2}>
@@ -420,13 +438,14 @@ class ListaTutorias extends Component {
         {/* Lista tutorias */}
         {this.renderTabla(this.state.datosTabla)}
 
-        {this.state.open2 &&
-        <EliminarTutoria
-          open={this.handleOnOpenEliminar} 
-          close={this.handleOnClose}
-          id={this.state.currentID}
-          parentCallback={this.callback}
-        />}
+        {this.state.open2 && (
+          <EliminarTutoria
+            open={this.handleOnOpenEliminar}
+            close={this.handleOnClose}
+            id={this.state.currentID}
+            parentCallback={this.callback}
+          />
+        )}
       </div>
     );
   }

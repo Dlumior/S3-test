@@ -231,6 +231,7 @@ class FormularioRegistrarAlumno extends Component {
       if (nuevoAlumno) {
         if (nuevoAlumno.error) {
           //ocurrio un error
+          let alert = Object.assign({}, this.state.alert);
           this.mostrarAlerta(
             "error",
             `${alert.mensajeError}: ${nuevoAlumno.error}`
