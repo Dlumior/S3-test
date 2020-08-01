@@ -15,6 +15,11 @@ import CampoDeTexto from "../Tutorias/CampoDeTexto";
 import TituloFormulario from "../Tutorias/TituloFormulario";
 import { getUser } from "../../../Sesion/Sesion";
 import SaltoDeLinea from "../../Shared/SaltoDeLinea";
+import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
+import Jloading from "./Jloading";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction";
+import { DialogContext } from "../../../Sesion/dialog";
+
 const style = {
   paper: {
     marginTop: "3%",
@@ -37,6 +42,8 @@ const style = {
   },
 };
 class FormularioRegistrarAlumno extends Component {
+  static contextType = DialogContext;
+
   constructor() {
     super();
     this.state = {
@@ -283,7 +290,7 @@ class FormularioRegistrarAlumno extends Component {
   };
   handleOnChangePrograma(programaa) {
     //console.log("proograma:", programaa);
-    this.setState({programaActual:[programaa[0]]});
+    this.setState({ programaActual: [programaa[0]] });
     // let tutoria = Object.assign({}, this.state.tutoria);
     // tutoria.programa = programa[0];
     // this.setState({ tutoria: tutoria });
@@ -356,6 +363,15 @@ class FormularioRegistrarAlumno extends Component {
 
     let getInsitucion = await Controller.GET({ servicio: "/api/institucion" });
     //console.log("got institucion from back:", getInsitucion.institucion);
+    if (!getInsitucion.institucion) {
+      let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "Los datos de la institucion no se cargaron correctamente, intente nuevamente en unos instantes.",
+      });
+    }
     this.setState({ institucion: getInsitucion.institucion });
     if (this.props.modalOrden !== undefined) {
       this.setState({ modal: true });
@@ -376,150 +392,155 @@ class FormularioRegistrarAlumno extends Component {
     }
   }
   render() {
-    return (
-      <>
-        <Alertas
-          severity={this.state.severidad}
-          titulo={"Observacion:"}
-          alerta={this.state.alert}
-        />
-        {/**<TituloFormulario titulo="Formulario de Registro de Alumnos:" /> */}
-        <Grid container spacing={0}>
-          <Grid item md={6} xs={12}>
-            {/* Npmbres */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="nombres"
-              label="Nombres"
-              inicial=""
-              validacion={{ lim: 25 }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            {/* Apellidos */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="apellidos"
-              label="Apellidos"
-              validacion={{ lim: 50 }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            {/* Correo */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="correo"
-              type="email"
-              label="Correo"
-              validacion={{ lim: 35, tipo: "email" }}
-              dominio={this.state.institucion.DOMINIO}
-              dominio2={this.state.institucion.DOMINIO2}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            {/* Telefono */}
-            <CampoDeTexto
-              requerido={false}
-              autoFocus={true}
-              name="telefono"
-              label="Teléfono"
-              validacion={{ lim: 45, tipo: "telefono" }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            {/* Direccion */}
-            <CampoDeTexto
-              requerido={false}
-              autoFocus={true}
-              name="direccion"
-              label="Dirección"
-              validacion={{ lim: 50, tipo: "direccion" }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
-            <br />
-            <br />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            {/* Codigo */}
-            <CampoDeTexto
-              requerido={true}
-              autoFocus={true}
-              name="codigo"
-              label="Código"
-              validacion={{ lim: 10, tipo: "codigo" }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
+    const { institucion } = this.state;
+    if (institucion) {
+      return (
+        <>
+          <Alertas
+            severity={this.state.severidad}
+            titulo={"Observacion:"}
+            alerta={this.state.alert}
+          />
+          {/**<TituloFormulario titulo="Formulario de Registro de Alumnos:" /> */}
+          <Grid container spacing={0}>
+            <Grid item md={6} xs={12}>
+              {/* Npmbres */}
+              <CampoDeTexto
+                requerido={true}
+                autoFocus={true}
+                name="nombres"
+                label="Nombres"
+                inicial=""
+                validacion={{ lim: 25 }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              {/* Apellidos */}
+              <CampoDeTexto
+                requerido={true}
+                autoFocus={true}
+                name="apellidos"
+                label="Apellidos"
+                validacion={{ lim: 50 }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              {/* Correo */}
+              <CampoDeTexto
+                requerido={true}
+                autoFocus={true}
+                name="correo"
+                type="email"
+                label="Correo"
+                validacion={{ lim: 35, tipo: "email" }}
+                dominio={this.state.institucion.DOMINIO}
+                dominio2={this.state.institucion.DOMINIO2}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              {/* Telefono */}
+              <CampoDeTexto
+                requerido={false}
+                autoFocus={true}
+                name="telefono"
+                label="Teléfono"
+                validacion={{ lim: 45, tipo: "telefono" }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              {/* Direccion */}
+              <CampoDeTexto
+                requerido={false}
+                autoFocus={true}
+                name="direccion"
+                label="Dirección"
+                validacion={{ lim: 50, tipo: "direccion" }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              <br />
+              <br />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              {/* Codigo */}
+              <CampoDeTexto
+                requerido={true}
+                autoFocus={true}
+                name="codigo"
+                label="Código"
+                validacion={{ lim: 10, tipo: "codigo" }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
 
-            {/* Lista  facultades */}
-            <ListaComboBox
-              mensaje="facultad"
-              titulo={"Facultad"}
-              enlace={this.getEnlace(getUser().usuario)}
-              id={"ID_PROGRAMA"}
-              nombre={"NOMBRE"}
-              subnombre={
-                this.getSubRol(getUser().rol) === "programa"
-                  ? "FACULTAD"
-                  : undefined
-              }
-              keyServicio={"facultades"}
-              escogerItem={this.handleOnChangeFacultad}
-              small={true}
-              inicial={true}
-              placeholder={"Escoja la facultad"}
-            />
-            {this.state.filtroFacultad ? (
+              {/* Lista  facultades */}
               <ListaComboBox
-                mensaje="programa"
-                titulo={"Programa"}
-                enlace={this.state.filtroFacultad}
+                mensaje="facultad"
+                titulo={"Facultad"}
+                enlace={this.getEnlace(getUser().usuario)}
                 id={"ID_PROGRAMA"}
                 nombre={"NOMBRE"}
-                keyServicio={
+                subnombre={
                   this.getSubRol(getUser().rol) === "programa"
-                    ? "programas"
-                    : "programa"
+                    ? "FACULTAD"
+                    : undefined
                 }
-                escogerItem={this.handleOnChangePrograma}
+                keyServicio={"facultades"}
+                escogerItem={this.handleOnChangeFacultad}
                 small={true}
                 inicial={true}
-                placeholder={"Escoja el programa"}
+                placeholder={"Escoja la facultad"}
               />
-            ) : (
-              <></>
-            )}
+              {this.state.filtroFacultad ? (
+                <ListaComboBox
+                  mensaje="programa"
+                  titulo={"Programa"}
+                  enlace={this.state.filtroFacultad}
+                  id={"ID_PROGRAMA"}
+                  nombre={"NOMBRE"}
+                  keyServicio={
+                    this.getSubRol(getUser().rol) === "programa"
+                      ? "programas"
+                      : "programa"
+                  }
+                  escogerItem={this.handleOnChangePrograma}
+                  small={true}
+                  inicial={true}
+                  placeholder={"Escoja el programa"}
+                />
+              ) : (
+                <></>
+              )}
 
-            {/**etiquetas */}
-            <ListaEtiquetas
-              strecht={false}
-              titulo={"Etiquetas(opcional):"}
-              obtenerEtiquetas={this.handleOnChangeEtiquetas}
-              enlace={"/api/etiqueta"}
-            />
-            {/* Guardar */}
-            <Grid item md={12} xs={12} style={{ alignText: "center" }}>
-              <SaltoDeLinea N={3} />
+              {/**etiquetas */}
+              <ListaEtiquetas
+                strecht={false}
+                titulo={"Etiquetas(opcional):"}
+                obtenerEtiquetas={this.handleOnChangeEtiquetas}
+                enlace={"/api/etiqueta"}
+              />
+              {/* Guardar */}
+              <Grid item md={12} xs={12} style={{ alignText: "center" }}>
+                <SaltoDeLinea N={3} />
 
-              <Button
-                type="submit"
-                size="large"
-                variant="contained"
-                color="primary"
-                onClick={this.handleOnClick}
-                style={{ display: this.state.modal ? "none" : "block" }}
-              >
-                Guardar
-              </Button>
+                <Button
+                  type="submit"
+                  size="large"
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleOnClick}
+                  style={{ display: this.state.modal ? "none" : "block" }}
+                >
+                  Guardar
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </>
-    );
+        </>
+      );
+    } else {
+      return <></>;
+    }
   }
 }
 

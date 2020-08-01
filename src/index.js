@@ -5,14 +5,20 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { UserProvider } from "./Sesion/Sesion";
 //import { mainReducer } from "./Sesion/reducers";
-import { EstadoInicial } from "./Sesion/estadoInicial";
+import { EstadoInicialUser, EstadoInicialDialog } from "./Sesion/estadoInicial";
 import sesionReducer from "./Sesion/reducers/sesionReducer";
-
+import { DialogProviderSSJ } from "./Sesion/dialog";
+import openDialogReducer from "./Sesion/reducers/openDialogReducer";
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserProvider initialState={EstadoInicial} reducer={sesionReducer}>
-      <App/>
+    <UserProvider initialState={EstadoInicialUser} reducer={sesionReducer}>
+      <DialogProviderSSJ
+        initialState={EstadoInicialDialog}
+        reducer={openDialogReducer}
+      >
+        <App />
+      </DialogProviderSSJ>
     </UserProvider>
   </React.StrictMode>,
   document.getElementById("root")
