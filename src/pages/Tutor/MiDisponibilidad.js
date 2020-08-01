@@ -7,7 +7,7 @@ import EventsCalendar from "../../components/Tutor/RegistrarDisponibilidad/Event
 const MiDisponibilidad = () => {
   return (
     <div>
-      <NombrePrincipal titulo="Registrar Disponibilidad" />
+      <NombrePrincipal titulo="Registrar disponibilidad" />
       {/* <Scroller /> */}
       <VistaMes />       
     </div>

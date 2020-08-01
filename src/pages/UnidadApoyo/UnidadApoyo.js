@@ -11,7 +11,7 @@ const UnidadApoyo = () => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Unidades de Apoyo" />  
+      <NombrePrincipal titulo="Unidades de apoyo" />  
 
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
         <Grid item>

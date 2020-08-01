@@ -15,7 +15,7 @@ class Sesiones extends Component {
     this.state = {
       procesos: [
         {
-          titulo: "Calendario de Citas",
+          titulo: "Calendario de citas",
           procesos: [
             {
               index: 0,
