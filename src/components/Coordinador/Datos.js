@@ -17,6 +17,7 @@ const Datos = (props) => {
   const classes = useStyles();
 
   const { isEdit } = props;
+  console.log("DATOS", props);
 
   return (
     <Paper className={classes.caja}>
