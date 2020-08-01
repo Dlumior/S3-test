@@ -14,8 +14,7 @@ import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 
 const style = {
     paper: {
-        marginTop: "3%",
-        marginLeft: "3%",
+        marginTop: "1.5%",
         display: "flex",
         flexDirection: "column",
         alignItems: "left",

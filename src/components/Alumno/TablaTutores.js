@@ -1,11 +1,11 @@
 import React from "react";
-import MaterialTable from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 
 function Tabla(props) {
     //const [state, setState] = React.useState(data);  //ya no uso el state de material
     //ahora usamos props
     return (      
-      <MaterialTable
+      <JMaterialTableSpanishSSJ
         //title={props.titulo}
         //title=""
         //columns={state.columns}
@@ -15,7 +15,7 @@ function Tabla(props) {
         columns={props.tutores.columns}
         data={props.tutores.data}
        
-        options={{
+        /*options={{
           rowStyle: {
              backgroundColor: '#FFF',
            },
@@ -24,7 +24,7 @@ function Tabla(props) {
             color: '#FFF',
             fontSize: 16
           },
-        }}
+        }}*/
       />
     );
   }
