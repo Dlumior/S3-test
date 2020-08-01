@@ -29,7 +29,8 @@ import { logOut } from "../../Sesion/actions/sesionAction";
 import { getUser, useUserValue } from "../../Sesion/Sesion";
 import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, ThemeProvider } from "@material-ui/core";
-import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
+//import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
+import JToolbarSSJ3 from "../Shared/Toolbar2.jsx";
 
 const drawerWidth = 250;
 
@@ -142,7 +143,7 @@ const BarraNavegacion = (props) => {
             [classes.appBarShift]: open,
           })}
         >
-          <JToolbarSSJ
+          <JToolbarSSJ3
             MenuIconButton={() => (
               <IconButton
                 color="inherit"
