@@ -107,6 +107,7 @@ const VerticalLinearStepper = () => {
         if (res){
           if (res.facultades) {
             setProgramas(res.facultades);
+            
           }
         }        
         //console.log("facultad:", programa);

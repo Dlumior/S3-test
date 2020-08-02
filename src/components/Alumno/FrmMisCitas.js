@@ -175,7 +175,7 @@ class FrmMisCitas extends Component {
                             CANCELAR
                         </Button>,
                     //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                    campoEstado: (estadillo !== "00" && estadillo !== "01") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
+                    campoEstado: (estadillo !== "00" && estadillo !== "01" && estadillo !== "02") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
 
                         (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))) :
 
@@ -397,7 +397,7 @@ class FrmMisCitas extends Component {
                             CANCELAR
                         </Button>,
                     //campoEstado: estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada")),
-                    campoEstado: (estadillo !== "00" && estadillo !== "01") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
+                    campoEstado: (estadillo !== "00" && estadillo !== "01" && estadillo !== "02") ? fechaSesion < fechaHoy ? "Pendiente Registro" :
 
                         (estadillo === "04" ? "Pendiente" : (estadillo === "03" ? "Reprogramada" : (estadillo === "02" ? "Cancelada" : "Realizada"))) :
 

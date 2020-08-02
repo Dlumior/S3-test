@@ -348,7 +348,9 @@ class FrmMisCitas_Tutor extends Component {
             for (let element of arregloDeSesiones.data) {
                 cont++;
                 fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
-                let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+                let estadillo = element.ESTADO.includes("realizada") || element.ESTADO.includes("cancelada") ? element.ESTADO.split("-")[0] : fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+                
+                //let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
                 arreglillo.push({
                     campoCont: cont,
@@ -549,7 +551,9 @@ class FrmMisCitas_Tutor extends Component {
             cont++;
             fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
             if (!fechaSesion) return;
-            let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+            let estadillo = element.ESTADO.includes("realizada") || element.ESTADO.includes("cancelada") ? element.ESTADO.split("-")[0] : fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
+
+            //let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
             arreglillo.push({
                 campoCont: cont,

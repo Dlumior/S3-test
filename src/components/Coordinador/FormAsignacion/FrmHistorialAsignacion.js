@@ -36,6 +36,7 @@ const [programas, setProgramas] = useState([]);
 const [programa, setPrograma] = useState("");  
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
+const [prDisabled, setPrDisabled] = useState(true);
 
 //faultades por coordinador de prog o facu
 useEffect(() => {
@@ -48,6 +49,9 @@ useEffect(() => {
       //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }      
       //console.log("facultad:", facultades);
     }else{
@@ -57,6 +61,9 @@ useEffect(() => {
       //console.log("ENTREE:", res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }      
       //console.log("facultades:", facultades);
     }
@@ -71,18 +78,30 @@ useEffect(() => {
           const endpoint = "/api/programa/lista/"+getUser().usuario.ID_USUARIO+"/"+facultad;
           const params = { servicio: endpoint };
           const res = await GET(params);    
-          //console.log("proogramasss:", res);
+          console.log("proogramasss:", res);
           if (res){
             setProgramas(res.programas);
+            if(res.programas[0]){
+              let prog=[];
+              prog.push(res.programas[0].ID_PROGRAMA);
+              setPrograma(prog);
+              console.log("programa", programa)
+            }
           }          
           //console.log("proograma:", programa);
       }else{
           const endpoint = "/api/programa/lista/"+facultad;
           const params = { servicio: endpoint };
           const res = await GET(params);    
-          //console.log("proogramasss:", res);
+          console.log("proogramasss:", res);
           if (res){
             setProgramas(res.programa);
+            if(res.programa[0]){
+              let prog=[];
+              prog.push(res.programa[0].ID_PROGRAMA);
+              setPrograma(prog);
+              console.log("programa", programa)
+            }
           }          
           //console.log("proograma:", programa);
       }
@@ -100,6 +119,11 @@ useEffect(() => {
     //console.log("tutoria: ",res);
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
+      if(res.tutoria[0]){
+        setProcesoTutoria(res.tutoria[0].ID_PROCESO_TUTORIA)
+        console.log("asdf", res.tutoria)
+      }
+      
     }
   }
   if (facultad!=="" && programa !== "") {

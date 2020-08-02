@@ -172,7 +172,18 @@ class DisponibilidadCard extends Component {
             <Grid container spacing={0}>
               <Grid container spacing={0}>
                 <Grid item md={3} xs={3}>
-                  <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+
+                  {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
+                  {
+                    disponibilidad.TUTOR.USUARIO.IMAGEN ? (
+                      <ImagenCircular
+                        src={`data:image/jpeg;base64,${disponibilidad.TUTOR.USUARIO.IMAGEN}`}
+                      />
+                    ) : (
+                        <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                      )
+                  }
+
                 </Grid>
                 <Grid item md={9} xs={9}>
                   <Grid item md={12} xs={12}>

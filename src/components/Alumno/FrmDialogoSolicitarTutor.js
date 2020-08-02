@@ -197,6 +197,7 @@ class FrmDialogoSolicitarTutor extends Component {
         this.setState({ mensajillo: sesionTyS.message });
       }
       this.setState({ open: true });
+      
     } else {
       //muestra mensajito
       this.setState({ mensajillo: "¡ Complete todos los campos, por favor !" });
