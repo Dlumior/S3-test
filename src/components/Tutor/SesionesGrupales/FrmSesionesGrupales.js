@@ -115,7 +115,7 @@ const [programa, setPrograma] = useState("");
 const [procesosTutoria, setProcesosTutoria] = useState([]);
 const [procesoTutoria, setProcesoTutoria] = useState("");
 const [duracion, setDuracion] = useState(0);
-
+const [prDisabled, setPrDisabled] = useState(true);
 const [alumnos,setAlumnos]=useState([]);
 const [alerta, setAlerta]= useState({
     mensajeStrong: "",
@@ -141,6 +141,9 @@ useEffect(() => {
       //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].FACULTAD.ID_PROGRAMA)
+        }
       }      
       //console.log("facultad:", facultades);
     }
@@ -156,6 +159,10 @@ useEffect(() => {
         //console.log("proogramasss:", res);
         if (res){
             setProgramas(res.programas);
+            if(res.programas[0]){
+              setPrograma(res.programas[0].ID_PROGRAMA)
+              console.log("asdf", res.programas)
+            }
         }
         //console.log("proograma:", programas);
       }     
@@ -174,6 +181,10 @@ useEffect(() => {
     if (res !== []) {
       setProcesosTutoria(res.tutoria);
       setDuracion(res.tutoria[0].DURACION);
+      if(res.tutoria[0]){
+        setProcesoTutoria(res.tutoria[0].ID_PROCESO_TUTORIA)
+        console.log("asdf", res.tutoria)
+      }
     }
   }
   if (facultad!=="" && programa !== "") {
@@ -250,6 +261,7 @@ const handleOnClick = async(e) => {
             </Grid>
             <Grid item md={3}>
                 <ComboBoxFacus
+                    setPrDisabled={setPrDisabled}
                     facultades={facultades}
                     facultad={facultad}
                     setFacultad={setFacultad}
