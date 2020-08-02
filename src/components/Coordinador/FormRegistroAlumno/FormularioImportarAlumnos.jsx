@@ -65,7 +65,9 @@ class FormularioImportarAlumnos extends Component {
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
-    this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(this);
+    this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(
+      this
+    );
     this.removerDatos = this.removerDatos.bind(this);
     this.onUpdateDatos = this.onUpdateDatos.bind(this);
     this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
@@ -419,9 +421,9 @@ class FormularioImportarAlumnos extends Component {
   }
   renderBodyLoading(mensajesResultado) {
     return (
-      <div >
+      <div>
         <h5>Registrando Alumnos:</h5>
-        <ol style={{"text-align":"left"}}>
+        <ol style={{ "text-align": "left" }}>
           {mensajesResultado.map((mensaje) => (
             <li>{mensaje}</li>
           ))}
@@ -432,115 +434,121 @@ class FormularioImportarAlumnos extends Component {
   render() {
     const enMantenimiento = false;
     if (enMantenimiento) {
-      return <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg"
-       />;
+      return (
+        <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg" />
+      );
     } else {
       if (this.state.loguedIn) {
-      return (
-        <>
-          <JModal
-            titulo={"Mensaje de uTutor.com"}
-            body={
-              <Jloading
-                size={"xs"}
-                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-              />
-            }
-            open={this.state.open}
-            disabled={this.state.peticiones}
-            hadleClose={this.handleCloseLoading}
-            botonDerecho={
-              {name:"Aceptar", 
-              onClick: ()=>{this.setState({ open: false, mensajesResultado: [], peticiones: 0 })}}
-            }
-            //botonDerecho={"Continuar"}
-          />
-          <Grid container spacing={1} style={estilos.paper}>
-            {/** nombre del archivo */}
-            <Grid item md={2} xs={12}>
-              <CampoDeTexto
-                variant={"outlined"}
-                name="nombre"
-                label="Nombre del archivo"
-                requerido={true}
-                autoFocus={true}
-                inicial={this.state.fileName}
-                validacion={{ lim: 25 }}
-                onChange={this.handleOnChangeTexto}
-                validarEntrada={this.validarEntrada}
-                value={this.state.fileName}
-                disabled={true}
-              />
-            </Grid>
-            {/**CB1 */}
-            <Grid item md={3} xs={12}>
-              <ListaComboBox
-                mensaje="facultad"
-                titulo={"Facultad"}
-                enlace={this.getEnlace(this.state.usuario)}
-                id={"ID_PROGRAMA"}
-                nombre={"NOMBRE"}
-                subnombre={
-                  this.getSubRol(getUser().rol) === "programa"
-                    ? "FACULTAD"
-                    : undefined
-                }
-                keyServicio={"facultades"}
-                escogerItem={this.handleOnChangeFacultad}
-                small={true}
-                inicial={true}
-                placeholder={"Escoja la facultad"}
-              />
-            </Grid>
-            {/**CB2 */}
-            <Grid item md={3} xs={12}>
-              {this.state.filtroFacultad ? (
+        return (
+          <>
+            <JModal
+              titulo={"Mensaje de uTutor.com"}
+              body={
+                <Jloading
+                  size={"xs"}
+                  mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+                />
+              }
+              open={this.state.open}
+              disabled={this.state.peticiones}
+              hadleClose={this.handleCloseLoading}
+              botonDerecho={{
+                name: "Aceptar",
+                onClick: () => {
+                  this.setState({
+                    open: false,
+                    mensajesResultado: [],
+                    peticiones: 0,
+                  });
+                },
+              }}
+              //botonDerecho={"Continuar"}
+            />
+            <Grid container spacing={1} style={estilos.paper}>
+              {/** nombre del archivo */}
+              <Grid item md={2} xs={12}>
+                <CampoDeTexto
+                  variant={"outlined"}
+                  name="nombre"
+                  label="Nombre del archivo"
+                  requerido={true}
+                  autoFocus={true}
+                  inicial={this.state.fileName}
+                  validacion={{ lim: 25 }}
+                  onChange={this.handleOnChangeTexto}
+                  validarEntrada={this.validarEntrada}
+                  value={this.state.fileName}
+                  disabled={true}
+                />
+              </Grid>
+              {/**CB1 */}
+              <Grid item md={3} xs={12}>
                 <ListaComboBox
-                  mensaje="programa"
-                  titulo={"Programa"}
-                  enlace={this.state.filtroFacultad}
+                  mensaje="facultad"
+                  titulo={"Facultad"}
+                  enlace={this.getEnlace(this.state.usuario)}
                   id={"ID_PROGRAMA"}
                   nombre={"NOMBRE"}
-                  keyServicio={
+                  subnombre={
                     this.getSubRol(getUser().rol) === "programa"
-                      ? "programas"
-                      : "programa"
+                      ? "FACULTAD"
+                      : undefined
                   }
-                  escogerItem={this.handleOnChangePrograma}
+                  keyServicio={"facultades"}
+                  escogerItem={this.handleOnChangeFacultad}
                   small={true}
                   inicial={true}
-                  placeholder={"Escoja el programa"}
+                  placeholder={"Escoja la facultad"}
                 />
-              ) : (
-                <></>
-              )}
+              </Grid>
+              {/**CB2 */}
+              <Grid item md={3} xs={12}>
+                {this.state.filtroFacultad ? (
+                  <ListaComboBox
+                    mensaje="programa"
+                    titulo={"Programa"}
+                    enlace={this.state.filtroFacultad}
+                    id={"ID_PROGRAMA"}
+                    nombre={"NOMBRE"}
+                    keyServicio={
+                      this.getSubRol(getUser().rol) === "programa"
+                        ? "programas"
+                        : "programa"
+                    }
+                    escogerItem={this.handleOnChangePrograma}
+                    small={true}
+                    inicial={true}
+                    placeholder={"Escoja el programa"}
+                  />
+                ) : (
+                  <></>
+                )}
+              </Grid>
+              {/**Etiquetas */}
+              <Grid item md={4} xs={12}>
+                <ListaEtiquetas
+                  small={true}
+                  strecht={false}
+                  titulo={"Etiquetas(opcional):"}
+                  obtenerEtiquetas={this.handleOnChangeEtiquetas}
+                  enlace={"/api/etiqueta"}
+                />
+              </Grid>
+              <Grid item md={12} xs={12}>
+                {this.renderTable(this.state.alumnosTabla)}
+              </Grid>
             </Grid>
-            {/**Etiquetas */}
-            <Grid item md={4} xs={12}>
-              <ListaEtiquetas
-                small={true}
-                strecht={false}
-                titulo={"Etiquetas(opcional):"}
-                obtenerEtiquetas={this.handleOnChangeEtiquetas}
-                enlace={"/api/etiqueta"}
-              />
-            </Grid>
-            <Grid item md={12} xs={12}>
-              {this.renderTable(this.state.alumnosTabla)}
-            </Grid>
-          </Grid>
-          {/**
+            {/**
             <JinUploadSSJ
               usuario={getUser().usuario}
             />
             */}
-        </>
-      );
-    } else {
-      return <Jloading mensaje={"Cargando"} size={"xs"} />;
+          </>
+        );
+      } else {
+        return <Jloading mensaje={"Cargando"} size={"xs"} />;
+      }
     }
-    }
-    
   }
 }
 

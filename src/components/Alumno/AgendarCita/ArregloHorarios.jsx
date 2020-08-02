@@ -73,7 +73,10 @@ class ArregloHorarios extends Component {
                 duracionPro={this.props.duracionPro}
               />
             ) : (
-              <SesionesCard cita={element} />
+              <SesionesCard
+                cita={element}
+                refreshCalendarioCitas={this.refreshCalendarioCitas}
+              />
             )
           )}
           {horarios.data.length === 0 ? (

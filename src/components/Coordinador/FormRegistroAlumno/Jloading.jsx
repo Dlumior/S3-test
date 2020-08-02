@@ -2,9 +2,8 @@ import "./styles_Jloading.css";
 import React from "react";
 import { Component } from "react";
 const estilo = {
-  general:{
-     textAlign: "center",
-     
+  general: {
+    textAlign: "center",
   },
   loading: {
     marginTop: "25%",
@@ -54,7 +53,7 @@ export default class Jloading extends Component {
           <div style={base ? estilo.base : { display: "none" }}></div>
         </div>
       );
-    }else if (size === "md") {
+    } else if (size === "md") {
       return (
         <div style={estilo.general}>
           <div className="lds-roller" style={estilo.md}>
