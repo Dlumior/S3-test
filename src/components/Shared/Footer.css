@@ -103,3 +103,9 @@
     text-align: center;
     padding-bottom: 10px;
 }
+
+ul.a {
+    list-style-type: circle;
+    color: #ffffff;
+  }
+  

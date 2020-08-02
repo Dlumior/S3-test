@@ -6,6 +6,12 @@ const styles = {
     objectFit: "cover",
     width: "100%",
   },
+  tablas: {
+    minWidth: "40px",
+    borderRadius: "50%",
+    height:"70px"
+   
+  },
   xxs: {
     borderRadius: "50%",
     objectFit: "cover",
@@ -54,9 +60,19 @@ const styles = {
 };
 class ImagenCircular extends Component {
   render() {
-    const { link, square, size, logoVerde, perfil ,src} = this.props;
+    const { link, square, size, logoVerde, perfil, src, tablas } = this.props;
     console.log("Imagen circular PROPS: ", this.props);
-    if (perfil) {
+
+    if (tablas) {
+      return (
+        <img
+          style={styles.tablas}
+          src={src}
+          alt="logo-ututor"
+        />
+      );
+    }
+    else if (perfil) {
       return (
         <img
           style={styles.perfil}

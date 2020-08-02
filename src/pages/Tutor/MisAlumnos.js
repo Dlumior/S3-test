@@ -104,6 +104,7 @@ const MisAlumnos = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       if (res !== [] && res.alumnos[0] !== undefined) {
+        setAlumnos([]);
         if (res.alumnos.length > 1) {
           setAlumnos(res.alumnos);
         } else {
@@ -150,7 +151,11 @@ const MisAlumnos = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <ListaAlumnos alumnos={alumnos} history={props.history} />
+          <ListaAlumnos
+            alumnos={alumnos}
+            history={props.history}
+            procesoTutoria={procesoTutoria}
+          />
         </Grid>
       </Grid>
     </div>

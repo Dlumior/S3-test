@@ -110,6 +110,11 @@ const NotificacionBtn = (props) => {
                       <Typography variant="subtitle2">
                       {item.MENSAJE}
                     </Typography>
+                    <Typography variant="subtitle1">
+                        {item.EMISOR.APELLIDOS +
+                          ", " +
+                          item.EMISOR.NOMBRE}
+                      </Typography>
                     </>)
                   }
                   secondary={item.SESION?item.SESION.FECHA:""}
