@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import { GET } from "../../Conexion/Controller";
-
+import moment from "moment";
 
 
 class FrmBuzon extends Component {
@@ -71,7 +71,7 @@ class FrmBuzon extends Component {
                 <JMaterialTableSpanishSSJ
                     columns={this.state.sesiones.columns}
                     data={this.state.sesiones.data}
-                    title={`Lista de sugerencias al ${new Date()}`}
+                    title={`Lista de sugerencias al ${moment(new Date()).format("DD-MM-YYYY")}`}
                     exportar
                 />
 
