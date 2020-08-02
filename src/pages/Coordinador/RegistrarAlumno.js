@@ -10,7 +10,7 @@ import ListaAlumnos from "../../components/Coordinador/ListaAlumnos/ListaAlumnos
 import { compose } from "recompose";
 import { withRouter } from "react-router-dom";
 
-const titulo = "Registro de nuevos alumnos";
+const titulo = "Alumnos";
 class RegistrarAlumno extends React.Component {
   constructor(props) {
     super();

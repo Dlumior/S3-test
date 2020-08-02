@@ -251,6 +251,7 @@ class ListaAlumnos extends Component {
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Alumnos`}
+            exportar
           />
           {/**
              * arriba en español xd
