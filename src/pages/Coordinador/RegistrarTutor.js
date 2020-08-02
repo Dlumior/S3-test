@@ -83,7 +83,11 @@ const RegistrarTutor = () => {
       if (res){
         setFacultades(res.facultades);
         if(res.facultades[0]){
-          setFacultad(res.facultades[0].ID_PROGRAMA)
+          if (rolCoordinador === 6){
+            setFacultad(res.facultades[0].ID_PROGRAMA)
+          }else{
+            setFacultad(res.facultades[0].FACULTAD.ID_PROGRAMA)
+          }          
         }
       }
     }
