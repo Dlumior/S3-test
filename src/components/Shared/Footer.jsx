@@ -1,4 +1,4 @@
-import { Grid, withStyles, TextField, Paper, Button, } from "@material-ui/core";
+import { Grid, withStyles, TextField, Paper, Button, ThemeProvider } from "@material-ui/core";
 import React, { Component } from "react";
 import { GET, POST } from "../../Conexion/Controller";
 import "./Footer.css";
@@ -6,6 +6,7 @@ import ImagenCircular from "./ImagenCircular";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { openMensajePantalla } from "../../Sesion/actions/dialogAction";
 import { DialogContext } from "../../Sesion/dialog";
+import theme from "../../theme";
 const styles = (theme) => ({
   sectionDesktop: {
     display: "none",
@@ -128,7 +129,7 @@ class Footer extends Component {
     const { classes } = this.props;
     const { institucion } = this.state;
     return (
-      <div>
+      <ThemeProvider theme={theme}>
         <footer>
           <div class="footer-wrap">
             <div class="container">
@@ -260,7 +261,9 @@ class Footer extends Component {
             </div>
           </div>
         </footer>
-      </div>
+      
+      </ThemeProvider>
+        
     );
   }
 }
