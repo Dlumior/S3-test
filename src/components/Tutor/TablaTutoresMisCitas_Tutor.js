@@ -1,5 +1,6 @@
 import React from "react";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 
 function Tabla(props) {
     const arr2 = [];
@@ -76,6 +77,13 @@ function Tabla(props) {
 
 
     return (
+        <JMaterialTableSpanishSSJ
+            columns={titulosColumnas}
+            data={arr2}
+            title={``}
+            agrupar
+          />
+          /*
         <MaterialTable
 
             title=""
@@ -94,6 +102,7 @@ function Tabla(props) {
                 },
             }}
         />
+        */
     );
 }
 export default Tabla;

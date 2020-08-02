@@ -873,7 +873,7 @@ class FrmMisCitas_Tutor extends Component {
 
 
 
-                <TabProceso procesos={[
+                <TabProceso procesos={[ 
                     {
                         index: 0, titulo: "Pendientes", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"PyR"} />
