@@ -4,7 +4,9 @@ import GetAppSharpIcon from "@material-ui/icons/GetAppSharp";
 import JUploadSSJ from "jin-upload-ssj2";
 import { GET, POST } from "../../../Conexion/Controller";
 import { IconButton, Grid, Paper, Button } from "@material-ui/core";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
+
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -14,6 +16,8 @@ import JModal from "../ListaAlumnos/JModal";
 import Jloading from "./Jloading";
 import ImagenCircular from "../../Shared/ImagenCircular";
 import EnConstruccion from "../../Shared/EnConstruccion";
+import { DialogContext } from "../../../Sesion/dialog";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction";
 
 const estilos = {
   paper: {
@@ -39,6 +43,8 @@ const estilos = {
   },
 };
 class VerInformacionRelevante extends Component {
+  static contextType = DialogContext;
+
   constructor() {
     super();
     this.state = {
@@ -92,7 +98,15 @@ class VerInformacionRelevante extends Component {
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <MaterialTable
+
+        <JMaterialTableSpanishSSJ
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            title={`Archivos del Alumno`}
+          />);
+          
+          { /**
+             * <MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -108,13 +122,25 @@ class VerInformacionRelevante extends Component {
           }}
           title={`Archivos del Alumno`}
         />
-      );
+             */ }
+        
+      
     }
   }
   async getArchivo(idArchivo) {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
+    if(!archivoOutput.informacionRelevante){
+      let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "W>Disculpe las molestias, el archivo seleccionado no es accesible en este momento. Si el problema persiste, comuníquese con el administrador del sistema. Gracias.",
+      });
+      return;
+    }
     await this.setState({
       filename: archivoOutput.informacionRelevante.DESCRIPCION,
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],

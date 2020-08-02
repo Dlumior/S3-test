@@ -96,7 +96,10 @@ class CalendarioCitas extends Component {
                     fecha: diaSemana,
                     servicio:
                       this.props.servicio +
-                      moment(diaSemana).add("hours", -5).toISOString().split("T")[0],
+                      moment(diaSemana)
+                        .add("hours", -5)
+                        .toISOString()
+                        .split("T")[0],
                   }}
                 />
               </Grid>
@@ -124,15 +127,26 @@ class CalendarioCitas extends Component {
                           ? `/api/disponibilidad/listarPrograma/${
                               getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
                                 .ID_PROGRAMA
-                            }/${moment(diaSemana).add("hours", -5).toISOString().split("T")[0]}`
+                            }/${
+                              moment(diaSemana)
+                                .add("hours", -5)
+                                .toISOString()
+                                .split("T")[0]
+                            }`
                           : `/api/disponibilidad/listarPrograma/${
                               getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0]
                                 .ID_PROGRAMA
-                            }/${moment(diaSemana).add("hours", -5).toISOString().split("T")[0]}/${
-                              this.state.estadoID
-                            }`
+                            }/${
+                              moment(diaSemana)
+                                .add("hours", -5)
+                                .toISOString()
+                                .split("T")[0]
+                            }/${this.state.estadoID}`
                         : this.props.servicio +
-                        moment(diaSemana).add("hours", -5).toISOString().split("T")[0],
+                          moment(diaSemana)
+                            .add("hours", -5)
+                            .toISOString()
+                            .split("T")[0],
                       tipo: this.props.tipo,
                       listaIdTutores: listaIdTutores,
                     }}

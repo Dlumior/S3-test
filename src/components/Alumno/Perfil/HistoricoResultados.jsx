@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { GET } from "./.././../../Conexion/Controller";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
 import { dateFnsLocalizer } from "react-big-calendar";
 class HistoricoResultados extends Component {
   constructor() {

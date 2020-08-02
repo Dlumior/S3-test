@@ -140,15 +140,17 @@ class ListaTutorias extends Component {
 
           mantenimiento: (
             <>
-              {<IconButton color="primary">
-                <EditRoundedIcon
-                  color="secondary"
-                  fontsize="large"
-                  onClick={(e) =>
-                    this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
-                  }
-                />
-                </IconButton>}
+              {
+                <IconButton color="primary">
+                  <EditRoundedIcon
+                    color="secondary"
+                    fontsize="large"
+                    onClick={(e) =>
+                      this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
+                    }
+                  />
+                </IconButton>
+              }
               <IconButton color="primary">
                 <DeleteRoundedIcon
                   color="error"
@@ -266,19 +268,18 @@ class ListaTutorias extends Component {
 
   renderTabla(datosNuevos) {
     //console.log("***", datosNuevos);
-    if(!this.state.datosTabla.data){
-      return <Jloading mensaje={"Cargando Tutorias"} size={"md"} base/>
-    }else
-    if (datosNuevos !== this.state.datosNuevos) {
+    if (!this.state.datosTabla.data) {
+      return <Jloading mensaje={"Cargando Tutorias"} size={"md"} base />;
+    } else if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
         <>
-        <JMaterialTableSpanishSSJ
+          <JMaterialTableSpanishSSJ
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Tutorias`}
           />
-        {/*<MaterialTable
+          {/*<MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -334,7 +335,6 @@ class ListaTutorias extends Component {
                 idFacultad={this.state.currentID}
                 actualizarTutoria
               />
-
             ) : this.state.cuerpoDialogo === 2 ? (
               <FormularioNuevaTutoria
                 modalOrden={this.state.registrarTutoria}
@@ -343,7 +343,6 @@ class ListaTutorias extends Component {
                   this.setState({ open: false });
                 }}
                 actualizarTutoria
-                
               />
             ) : this.state.cuerpoDialogo === 3 ? (
               <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>

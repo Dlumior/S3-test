@@ -58,6 +58,7 @@ class HorarioDelDia extends Component {
     );
   };
   render() {
+    const bb = this.props.fecha.fecha < new Date();
     //console.log("HORARIO this.props", this.props.fecha.listaIdTutores);
     return (
       <div>
@@ -75,6 +76,7 @@ class HorarioDelDia extends Component {
             filtroTutores={this.props.fecha.listaIdTutores}
             idPro={this.props.idPro}
             duracionPro={this.props.duracionPro}
+            diseibol={bb}
           />
         </div>
       </div>
