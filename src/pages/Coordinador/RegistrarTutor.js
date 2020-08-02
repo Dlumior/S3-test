@@ -80,14 +80,14 @@ const RegistrarTutor = () => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       //console.log(res);
-      if (res){
+      if (res) {
         setFacultades(res.facultades);
-        if(res.facultades[0]){
-          if (rolCoordinador === 6){
-            setFacultad(res.facultades[0].ID_PROGRAMA)
-          }else{
-            setFacultad(res.facultades[0].FACULTAD.ID_PROGRAMA)
-          }          
+        if (res.facultades[0]) {
+          if (rolCoordinador === 6) {
+            setFacultad(res.facultades[0].ID_PROGRAMA);
+          } else {
+            setFacultad(res.facultades[0].FACULTAD.ID_PROGRAMA);
+          }
         }
       }
     }
@@ -117,20 +117,18 @@ const RegistrarTutor = () => {
           //console.log("asignando programa");
           //console.log(res);
           setProgramas(res.programa);
-          if(res.programa[0]){
-            setPrograma(res.programa[0].ID_PROGRAMA)
-            console.log("asdf", programa)
+          if (res.programa[0]) {
+            setPrograma(res.programa[0].ID_PROGRAMA);
+            console.log("asdf", programa);
           }
-
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
           setProgramas(res.programas);
-          if(res.programas[0]){
-            setPrograma(res.programas[0].ID_PROGRAMA)
-            console.log("asdf", programa)
+          if (res.programas[0]) {
+            setPrograma(res.programas[0].ID_PROGRAMA);
+            console.log("asdf", programa);
           }
-          
         }
       }
     }
@@ -145,8 +143,8 @@ const RegistrarTutor = () => {
       const endpoint = "/api/tutor/lista/" + programa;
       const params = { servicio: endpoint };
       const res = await GET(params);
-      if (res){
-        const auxTutores = ParseTutors(res.tutores, facultad);
+      if (res) {
+        const auxTutores = ParseTutors(res.tutores, facultad, programa);
         //console.log(auxTutores);
         setTutores({ ...tutores, data: auxTutores.data });
         //setTutores(res.tutores);
@@ -171,7 +169,7 @@ const RegistrarTutor = () => {
         <Grid item xs={12} md={8}>
           <Paper className={classes.caja}>
             <Grid container spacing={3} justify="center">
-              <Grid item  xs={10} md={4}>
+              <Grid item xs={10} md={4}>
                 <ComboBoxFacultades
                   programas={facultades}
                   programa={facultad}
@@ -196,7 +194,7 @@ const RegistrarTutor = () => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={11} style={{marginBottom:"3%"}}>
+        <Grid item xs={12} md={11} style={{ marginBottom: "3%" }}>
           <TableTutores columnas={tutores.columns} datos={tutores.data} />
         </Grid>
       </Grid>
