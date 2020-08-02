@@ -21,11 +21,11 @@ class ArregloHorarios extends Component {
   }
   async refreshCalendarioCitas(_servicio, _filtroTutores) {
     this.setState({ horarios: [] });
-    if(_servicio){
+    if (_servicio) {
       let horarios = await GET({ servicio: _servicio });
 
       this.setState({ horarios: horarios });
-    }else if(_filtroTutores){
+    } else if (_filtroTutores) {
       await this.setState({ filtroTutores: _filtroTutores });
       /*console.log(
         "filtro holiiisss.... aha ha ha ha haaa",
@@ -49,7 +49,7 @@ class ArregloHorarios extends Component {
         //console.log("horarios ",horarios);
         await this.setState({ horarios: horarios });
       }
-    }else{
+    } else {
       //caso inicial
       let horarios = await GET({ servicio: this.props.servicio });
       await this.setState({ horarios: horarios });
@@ -93,7 +93,7 @@ class ArregloHorarios extends Component {
       //console.log("no habia servico");
       return;
     }
-    this.refreshCalendarioCitas(undefined,undefined);
+    this.refreshCalendarioCitas(undefined, undefined);
     //console.log("POKEMON GO: ", horarios);
   }
   /** NADIE TQUE AQUI O ELMO LOS BUSCARA
@@ -103,15 +103,13 @@ class ArregloHorarios extends Component {
    */
   async componentWillReceiveProps(nextProps) {
     if (nextProps.servicio !== this.props.servicio) {
-      this.refreshCalendarioCitas(nextProps.servicio,undefined);
-      
+      this.refreshCalendarioCitas(nextProps.servicio, undefined);
     }
 
     if (nextProps.filtroTutores !== this.props.filtroTutores) {
       //console.log("RIP n=>", nextProps.servicio);
       //console.log("RIP p=>", this.props.servicio);
       this.refreshCalendarioCitas(undefined, nextProps.filtroTutores);
-      
     }
   }
 
