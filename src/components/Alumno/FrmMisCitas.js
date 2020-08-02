@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography, TextField, FormHelperText } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, Typography, TextField, FormHelperText, Avatar } from "@material-ui/core";
 import TablaTutoresMisCitas from "./TablaTutoresMisCitas.js";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -16,6 +16,7 @@ import { withRouter } from "react-router-dom";
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import ImagenCircular from "../Shared/ImagenCircular";
 
 
 
@@ -158,6 +159,28 @@ class FrmMisCitas extends Component {
                 let estadillo = element.ESTADO.split("-")[0];
                 arreglillo.push({
                     campoCont: cont,
+                    imagen: (
+                        <div>
+                            {
+                                  element.TUTOR.USUARIO.IMAGEN ? (
+                                    <ImagenCircular tablas
+                                        src={`data:image/jpeg;base64,${element.TUTOR.USUARIO.IMAGEN}`}
+                                    />
+                                ) : (
+                                        <Avatar
+                                            alt={element.TUTOR.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                            //src={props.imagen}
+                                            className={this.props.classes.large}
+                                        >
+                                            {element.TUTOR.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                ? element.USUARIO.NOMBRE[0]
+                                                : element.USUARIO.NOMBRE[1]}
+                                        </Avatar>
+                                    )
+                            }
+
+                        </div>
+                    ),
                     nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
                     //fecha: fex + " " + "de Mayo del 2020",
                     fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
@@ -199,14 +222,15 @@ class FrmMisCitas extends Component {
 
             const data = {
                 columns: [
-                    // {
-                    //     title: "",
-                    //     field: "imagen"
-                    // },
+
                     {
                         title: "N°",
                         field: "campoCont",
 
+                    },
+                    {
+                        title: "",
+                        field: "imagen"
                     },
                     {
                         title: "Tutor",
@@ -365,7 +389,7 @@ class FrmMisCitas extends Component {
         let arregloDeSesiones =
             await Controller.GET({ servicio: "/api/listaSesionAlumno/" + getUser().usuario.ID_USUARIO });
 
-        ////console.log("arreglo: ", arregloDeSesiones);
+        console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
         //let max=29;     //let fex=0;      //let letras =['I','II'];
@@ -380,6 +404,28 @@ class FrmMisCitas extends Component {
                 let estadillo = element.ESTADO.split("-")[0];
                 arreglillo.push({
                     campoCont: cont,
+                    imagen: (
+                        <div>
+                            {
+                                element.TUTOR.USUARIO.IMAGEN ? (
+                                    <ImagenCircular tablas
+                                        src={`data:image/jpeg;base64,${element.TUTOR.USUARIO.IMAGEN}`}
+                                    />
+                                ) : (
+                                        <Avatar
+                                            alt={element.TUTOR.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                            //src={props.imagen}
+                                            className={this.props.classes.large}
+                                        >
+                                            {element.TUTOR.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                ? element.USUARIO.NOMBRE[0]
+                                                : element.USUARIO.NOMBRE[1]}
+                                        </Avatar>
+                                    )
+                            }
+
+                        </div>
+                    ),
                     nombre: element.TUTOR ? element.TUTOR.USUARIO.NOMBRE + " " + element.TUTOR.USUARIO.APELLIDOS : "",
                     //fecha: fex + " " + "de Mayo del 2020",
                     fecha: element.FECHA + " / " + element.HORA_INICIO + " - " + element.HORA_FIN,
@@ -429,6 +475,11 @@ class FrmMisCitas extends Component {
                 {
                     title: "N°",
                     field: "campoCont",
+
+                },
+                {
+                    title: "",
+                    field: "imagen",
 
                 },
                 {
@@ -559,8 +610,8 @@ class FrmMisCitas extends Component {
                         <DialogContent>
                             <Grid container md={12} justify="center">
                                 <Typography variant="subtitle1" >
-                                    Por politica de la facultad solo puede cancelar su
-                            cita con mínimo {this.state.diasAnticipacion} dias de Anticipación
+                                    Por política de la facultad solo puede cancelar su
+                            cita con mínimo {this.state.diasAnticipacion} días de anticipación
                         </Typography>
                             </Grid>
                         </DialogContent>

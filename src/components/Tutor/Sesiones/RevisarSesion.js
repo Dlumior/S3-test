@@ -274,7 +274,7 @@ const RevisarSesion = (cita) => {
       resolve();
     });
 
-    window.location.reload();
+    //window.location.reload();
 
 
   };
