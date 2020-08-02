@@ -73,6 +73,9 @@ const CabeceraPerfil = (props) => {
       openMensajePantalla(dispatchDialog, {
         open: true,
         mensaje: "X>Solo se permiten imagenes con extension 'jpeg'",
+        postClose: ()=>{
+          alert("Bais extension");
+        }
       });
       return;
     }
@@ -116,6 +119,9 @@ const CabeceraPerfil = (props) => {
         openMensajePantalla(dispatchDialog, {
           open: true,
           mensaje: "C>Imagen registrada satisfactoriamente",
+          postClose: ()=>{
+            alert("Si funciono extension");
+          }
         });
       }
     };

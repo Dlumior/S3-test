@@ -6,5 +6,5 @@ export const EstadoInicialUser = {
 export const EstadoInicialDialog = {
     openMensaje:false,
     mensaje: "vacio",
-  
+    postClose: ()=>{console.log("*********")},
 }
