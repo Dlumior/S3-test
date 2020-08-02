@@ -7,7 +7,7 @@ function Tabla(props) {
     return (      
       <MaterialTable 
         //className={classes.table} 
-        title="Alumnos"
+        title=""
         columns={props.asignaciones.columns}
         data={props.asignaciones.data}
 

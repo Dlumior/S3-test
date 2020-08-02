@@ -190,16 +190,14 @@ class Footer extends Component {
                 <Grid item md={3} xs={12}>
                   <h3 style={{ textAlign: "center" }}>Envíanos tus sugerencias: </h3>
 
-                  <Paper elevation={0} style={estilos.paper}>
-                    <Grid container spacing={0}>
+                  <Grid elevation={0} style={estilos.paper}>
+                    <Paper container spacing={0}>
                       <Grid item md={12}>
                         <TextField
-                          style={{ marginTop: "5%", }}
                           value={this.state.dataMotivo}
                           color="primary"
                           autoFocus={true}
                           name="dataMotivo"
-                          label="Ingrese su sugerencia aquí "
                           fullWidth
                           //validacion={{ lim: 100 }}
                           variant={"outlined"}
@@ -213,7 +211,7 @@ class Footer extends Component {
 
                         <br />
                       </Grid>
-                    </Grid>
+                    </Paper>
 
                     <div style={{ textAlign: "center" }}>
                       <Button
@@ -227,7 +225,7 @@ class Footer extends Component {
                       <br />
                     </div>
 
-                  </Paper>
+                  </Grid>
                 </Grid>
                 <Grid item md={1} ></Grid>
 
