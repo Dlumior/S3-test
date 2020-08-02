@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Paper, Grid, Button } from "@material-ui/core";
+import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
 
@@ -17,6 +18,8 @@ import JModal from "../ListaAlumnos/JModal.jsx";
 import Jloading from "./Jloading.jsx";
 import { getUser } from "../../../Sesion/Sesion.js";
 import EnConstruccion from "../../Shared/EnConstruccion.js";
+import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -358,6 +361,7 @@ class FormularioImportarAlumnos extends Component {
       resolve();
     });
   };
+
   renderToolbar() {
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
@@ -371,16 +375,46 @@ class FormularioImportarAlumnos extends Component {
             Deshacer Carga
           </Button>
         </Grid>
-        <Grid item md={8} xs={false} />
+        <Grid item md={8} xs={12}>
+          <Grid container spacing={2} style={{ textAlign: "left" }}>
+            <Grid item md={9} xs={6}>
+              <h4><BackupTwoToneIcon />Descarga nuesta plantilla en .csv</h4>
+              <p className="text-justify">
+                Para poder imporar alumnos en lote, primero debes descargar
+                nuestra plantilla de ejemplo. (contiene 2 alumnos). Luego debes
+                subir tu archivo en el mismo formato. :)
+              </p>
+            </Grid>
+            <Grid item md={3} xs={6}>
+              <a
+                id="superDownload"
+                href={
+                  "https://ututor-recursos.s3.amazonaws.com/TemplateCargaMasivaAlumnos_uTutor.csv"
+                }
+                download={"Plantilla para carga masiva de alumnos.csv"}
+              >
+                <Button
+                  color="primary"
+                  variant={"outlined"}
+                  color="primary"
+                  onClick={() => {}}
+                  startIcon={<GetAppOutlinedIcon />}
+                >
+                  Descargar Plantilla
+                </Button>
+              </a>
+            </Grid>
+          </Grid>
+        </Grid>
         {/** Boton registarr */}
-        <Grid item md={2} xs={6}>
+        <Grid item md={2} xs={6} style={{ textAlign: "right" }}>
           <Button
             variant="contained"
             color="primary"
             onClick={this.handleOnClickRegistroSSJ_masivo}
             startIcon={<CloudUploadIcon />}
           >
-            Registrar
+            Registrar alumnos
           </Button>
         </Grid>
       </Grid>
