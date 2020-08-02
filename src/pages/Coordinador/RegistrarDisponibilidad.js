@@ -71,6 +71,9 @@ const RegistrarDisponibilidad = () => {
       //console.log(res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }
     }
     fetchFacultades();
@@ -99,10 +102,18 @@ const RegistrarDisponibilidad = () => {
           //console.log("asignando programa");
           //console.log(res);
           setProgramas(res.programa);
+          if(res.programa[0]){
+            setPrograma(res.programa[0].ID_PROGRAMA)
+            console.log("asdf", programa)
+          }
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
           setProgramas(res.programas);
+          if(res.programas[0]){
+            setPrograma(res.programas[0].ID_PROGRAMA)
+            console.log("asdf", programa)
+          }
         }
       }
     }
@@ -158,12 +169,10 @@ const RegistrarDisponibilidad = () => {
                   programas={facultades}
                   programa={facultad}
                   setPrograma={setFacultad}
-                  setDisabled={setDisabled}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
                 <ComboBoxPrograma
-                  disabled={disabled}
                   programas={programas}
                   programa={programa}
                   setPrograma={setPrograma}
@@ -172,7 +181,7 @@ const RegistrarDisponibilidad = () => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={11}>
+        <Grid item xs={12} md={11} style={{marginBottom:"3%"}}>
           <TablaTutores columnas={tutores.columns} datos={tutores.data} />
         </Grid>
       </Grid>

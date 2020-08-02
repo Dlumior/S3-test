@@ -82,6 +82,9 @@ const RegistrarTutor = () => {
       //console.log(res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }
     }
     fetchFacultades();
@@ -110,10 +113,20 @@ const RegistrarTutor = () => {
           //console.log("asignando programa");
           //console.log(res);
           setProgramas(res.programa);
+          if(res.programa[0]){
+            setPrograma(res.programa[0].ID_PROGRAMA)
+            console.log("asdf", programa)
+          }
+
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
           setProgramas(res.programas);
+          if(res.programas[0]){
+            setPrograma(res.programas[0].ID_PROGRAMA)
+            console.log("asdf", programa)
+          }
+          
         }
       }
     }
@@ -142,7 +155,7 @@ const RegistrarTutor = () => {
 
   return (
     <div>
-      <NombrePrincipal titulo="Registro de nuevos tutores" />
+      <NombrePrincipal titulo="Tutores" />
 
       {/* <Grid container spacing={5} justify="center" alignItems="center">
         <Grid item>
@@ -150,21 +163,19 @@ const RegistrarTutor = () => {
         </Grid>
       </Grid> */}
 
-      <Grid container justify="center" alignItems="center" spacing={4}>
-        <Grid item xs={12} md={6}>
+      <Grid container justify="center" alignItems="center" spacing={4} md={12}>
+        <Grid item xs={12} md={8}>
           <Paper className={classes.caja}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={5}>
+            <Grid container spacing={3} justify="center">
+              <Grid item  xs={10} md={4}>
                 <ComboBoxFacultades
                   programas={facultades}
                   programa={facultad}
                   setPrograma={setFacultad}
-                  setDisabled={setDisabled}
                 />
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={10} md={4}>
                 <ComboBoxPrograma
-                  disabled={disabled}
                   programas={programas}
                   programa={programa}
                   setPrograma={setPrograma}
@@ -173,15 +184,15 @@ const RegistrarTutor = () => {
               <Grid item xs={10} md={2}>
                 <BtnRegistroTutor datos={datosForm} setDatos={setDatosForm} />
               </Grid>
-              <Grid item xs={2} md={1}>
+              {/*<Grid item xs={2} md={1}>
                 <IconButton color="primary" onClick={forceUpdate}>
                   <RefreshRoundedIcon color="primary"></RefreshRoundedIcon>
                 </IconButton>
-              </Grid>
+              </Grid>*/}
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={11}>
+        <Grid item xs={12} md={11} style={{marginBottom:"3%"}}>
           <TableTutores columnas={tutores.columns} datos={tutores.data} />
         </Grid>
       </Grid>
