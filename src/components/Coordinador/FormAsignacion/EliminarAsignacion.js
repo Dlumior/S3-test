@@ -71,7 +71,7 @@ const EliminarAsignacion = (props) => {
                </Typography>}
             {elimino &&
               <Typography variant="subtitle1" >
-                La asignación se elimino satisfactoriamente
+                La asignación se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       

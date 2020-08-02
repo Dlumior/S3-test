@@ -73,7 +73,7 @@ const EliminarFacultad = (props) => {
                </Typography>}
             {elimino &&
               <Typography variant="subtitle1" >
-                La facultad se elimino satisfactoriamente
+                La facultad se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       

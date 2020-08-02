@@ -287,7 +287,7 @@ const RegistrarCoordinador = (props) => {
             severidad:severidad.severS,
           });     
           setAlerta({
-            mensaje:"Se registro al coordinador satisfactoriamente",
+            mensaje:"Se registró al coordinador satisfactoriamente",
           });      
           //console.log("severidad= ",severidad.severidad);
           

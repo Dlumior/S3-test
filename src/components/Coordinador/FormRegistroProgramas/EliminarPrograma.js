@@ -81,7 +81,7 @@ const EliminarPrograma = (props) => {
                 </Typography>}
             {elimino &&
               <Typography variant="subtitle1" >
-                  El programa se elimino satisfactoriamente
+                  El programa se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       

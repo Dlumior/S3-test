@@ -182,7 +182,7 @@ class InformacionRelevante extends Component {
             //console.log("Algo paso en el upload");
             return;
           } else {
-            //console.log("Se registro la informacion: ", response);
+            //console.log("Se registró la informacion: ", response);
           }
        // });
 
