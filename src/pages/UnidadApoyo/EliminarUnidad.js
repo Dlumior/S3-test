@@ -1,38 +1,38 @@
 import React, { Component, useEffect,useState } from "react";
-import * as Conexion from "../../../Conexion/Controller";
+import * as Conexion from "../../Conexion/Controller";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";  
 import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
-
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-import {getUser} from "../../../Sesion/Sesion";
+import {getUser} from "../../Sesion/Sesion";
 
-const EliminarAsignacion = (props) => {
+const EliminarUnidad = (props) => {
   const {open,close,id,parentCallback}=props;
   const [flag, setFlag] = useState(0);//actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensaje: "¿Está seguro de eliminar la asignación?",
+    mensaje: "¿Está seguro de eliminar la Unidad de Apoyo?",
   });
  
 
   const handleClick = async (e) => {    
-      //ASIGNACION ELIMINAR 
-      console.log("id",id);
-      const props = { servicio: "/api/asignacion/eliminar/"+id, request:{}};
+        //UNIDAD ELIMINAR 
+      //console.log("idFacu",id);
+      let enlace;
+      enlace="/api/areaapoyo/eliminar/"+id;
+      const props = { servicio: enlace ,request:{}};
       let resultado = await Conexion.POST(props);
       console.log("got updated coord from back:", resultado);
       if (resultado){
-        if (resultado.resultado!=="success"){
+        if (resultado.resultado!=="registro eliminado"){
           setElimino(false);
-          console.log("elimino",elimino);    
+          //console.log("elimino",elimino);    
           setAlerta({
-            mensaje:"La asignación no puede eliminarse porque cuenta sesiones pendientes",
+            mensaje:"Ocurrió un error, intente de nuevo",
           }); 
         }else{          
           setElimino(true);
@@ -45,7 +45,7 @@ const EliminarAsignacion = (props) => {
       const newValue = flag + 1;
       setFlag(newValue);
       await parentCallback(newValue);
-      console.log("elimino",elimino);
+      //console.log("elimino",elimino);
   };
 
 
@@ -71,7 +71,7 @@ const EliminarAsignacion = (props) => {
                </Typography>}
             {elimino &&
               <Typography variant="subtitle1" >
-                La asignación se elimino satisfactoriamente
+                La Unidad de Apoyo se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       
@@ -95,4 +95,4 @@ const EliminarAsignacion = (props) => {
     </div>
   );
 };
-export default EliminarAsignacion;
+export default EliminarUnidad;
