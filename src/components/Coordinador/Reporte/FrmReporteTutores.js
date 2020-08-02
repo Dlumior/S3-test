@@ -13,7 +13,7 @@ import * as FileSaver from 'file-saver';
 const useStyles = makeStyles((theme) => ({
   caja: {
     marginTop: theme.spacing(3),
-    padding: theme.spacing(5),
+    padding: theme.spacing(3),
     [theme.breakpoints.down("sm")]: {
       padding: theme.spacing(2),
     },
@@ -68,6 +68,9 @@ const FrmReporteTutores = () => {
       //console.log(res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }
     }
     fetchFacultades();
@@ -97,12 +100,20 @@ const FrmReporteTutores = () => {
           //console.log(res);
           if (res){
             setProgramas(res.programa);
+            if(res.programa[0]){
+              setPrograma(res.programa[0].ID_PROGRAMA)
+              console.log("asdf", programa)
+            }
           }          
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
           if (res){
             setProgramas(res.programas);
+            if(res.programas[0]){
+              setPrograma(res.programas[0].ID_PROGRAMA)
+              console.log("asdf", programa)
+            }
           }
         }
       }
@@ -138,29 +149,28 @@ const FrmReporteTutores = () => {
       container
       // direction="column"
       spacing={5}
+      md={12}
       justify="center"
       alignItems="center"
     >
-      <Grid item xs={10} md={8}>
+      <Grid item xs={12} md={8}>
         <Paper className={classes.caja}>
           <Grid container spacing={5} justify="center" alignItems="center">
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <ComboBoxFacultades
                 programas={facultades}
                 programa={facultad}
                 setPrograma={setFacultad}
-                setDisabled={setDisabled}
               />
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <ComboBoxPrograma
-                disabled={disabled}
                 programas={programas}
                 programa={programa}
                 setPrograma={setPrograma}
               />
             </Grid>
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} md={2} style={{marginRight:"1%"}}>
             <Button id = "btnGuardar" color="primary" variant="contained" onClick = {(e) => handleDescargar(e)} disabled = {!data.length}>
                 Descargar
               </Button>

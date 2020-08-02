@@ -67,6 +67,9 @@ const FrmReporteMotivos = () => {
       //console.log(res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }      
     }
     fetchFacultades();
@@ -96,12 +99,20 @@ const FrmReporteMotivos = () => {
           //console.log(res);
           if (res){
             setProgramas(res.programa);
+            if(res.programa[0]){
+              setPrograma(res.programa[0].ID_PROGRAMA)
+              console.log("asdf", programa)
+            }
           }          
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
           if (res){
             setProgramas(res.programas);
+            if(res.programas[0]){
+              setPrograma(res.programas[0].ID_PROGRAMA)
+              console.log("asdf", programa)
+            }
           }          
         }
       }
@@ -142,29 +153,28 @@ const FrmReporteMotivos = () => {
       container
       // direction="column"
       spacing={5}
+      md={12}
       justify="center"
       alignItems="center"
     >
       <Grid item xs={10} md={8}>
         <Paper className={classes.caja}>
           <Grid container spacing={5} justify="center" alignItems="center">
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <ComboBoxFacultades
                 programas={facultades}
                 programa={facultad}
                 setPrograma={setFacultad}
-                setDisabled={setDisabled}
               />
             </Grid>
-            <Grid item xs={12} md={5}>
+            <Grid item xs={12} md={4}>
               <ComboBoxPrograma
-                disabled={disabled}
                 programas={programas}
                 programa={programa}
                 setPrograma={setPrograma}
               />
             </Grid>
-            <Grid item xs={12} md={2}>
+            <Grid item xs={12} md={2} style={{marginRight:"1%"}}>
             <Button id = "btnGuardar" color="primary" variant="contained" onClick = {(e) => handleDescargar(e)} disabled = {!motivos.length}>
                 Descargar
               </Button>
