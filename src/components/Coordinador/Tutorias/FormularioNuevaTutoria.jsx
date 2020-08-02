@@ -335,9 +335,10 @@ class FormularioNuevaTutoria extends Component {
     }
   }
   LanzarError() {
-    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+    let [{ openMensaje, mensaje,postClose }, dispatchDialog] = this.context;
 
     openMensajePantalla(dispatchDialog, {
+      postClose:this.props.hadleClose,
       open: true,
       mensaje:
         "X>Los datos de la tutoria no se pudiaron cargar correctamente, intente nuevamente en unos instantes.",
