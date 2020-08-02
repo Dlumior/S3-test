@@ -16,6 +16,9 @@ import CampoDeTexto from "./CampoDeTexto";
 import TituloFormulario from "./TituloFormulario";
 import ListaComboBox from "./ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
+import Jloading from "../FormRegistroAlumno/Jloading";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction";
+import { DialogContext } from "../../../Sesion/dialog";
 const estilos = {
   paper: {
     marginTop: "1%",
@@ -28,12 +31,14 @@ const estilos = {
   },
 };
 class FormularioNuevaTutoria extends Component {
+  static contextType = DialogContext;
   constructor() {
     super();
     this.state = {
-      modal:false,
+      modal: false,
       usuarioLogueado: getUser(),
       etiqueta: [],
+      tutoriaInicial: undefined,
       tutoria: {
         nombre: "",
         descripcion: "",
@@ -96,6 +101,7 @@ class FormularioNuevaTutoria extends Component {
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
     this.getSubRol = this.getSubRol.bind(this);
     this.getEnlace = this.getEnlace.bind(this);
+    this.LanzarError = this.LanzarError.bind(this);
   }
   validarEntrada(error) {
     //console.log("errores:", error);
@@ -159,9 +165,7 @@ class FormularioNuevaTutoria extends Component {
     //console.log("HAAAAAAAAAA facu:", facultad);
 
     const usuario = getUser().usuario;
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
       ? subrol === "facultad"
@@ -175,8 +179,8 @@ class FormularioNuevaTutoria extends Component {
   handleOnChangeDuracion(duracion) {
     //console.log("duracion:", duracion);
     let tutoria = Object.assign({}, this.state.tutoria);
-    tutoria.duracion=duracion;
-    this.setState({tutoria:tutoria});
+    tutoria.duracion = duracion;
+    this.setState({ tutoria: tutoria });
   }
   handleOnChangeEtiquetas = (etiqueta) => {
     //primero que llegue
@@ -284,9 +288,7 @@ class FormularioNuevaTutoria extends Component {
     //usuarioLogueado?"/api/facultad//"
     //          "/api/facultad/lista/" + getUser().usuario.ID_USUARIO
     //"/api/facultad/coordinador/" + getUser().usuario.ID_USUARIO
-    const subrol = this.getSubRol(
-      getUser().rol
-    );
+    const subrol = this.getSubRol(getUser().rol);
 
     const ID = usuario.ID_USUARIO;
     let enlace = usuario
@@ -301,99 +303,129 @@ class FormularioNuevaTutoria extends Component {
   }
   async componentDidMount() {
     //console.log("FORMULARIONUEVATURRIA: ", this.state.usuarioLogueado);
+    if (this.props.idFacultad) {
+      //modo update
+      const tutoria = await Conexion.GET({
+        servicio: `/api/tutoria/${this.props.idFacultad}`,
+      });
+      console.log("Consegui esto", tutoria);
+      if (tutoria?.tutoria) {
+        this.setState({ tutoriaInicial: tutoria });
+        
+      }else{
+        this.LanzarError();
+      }
+    }
     if (this.props.modalOrden !== undefined) {
       this.setState({ modal: true });
     }
   }
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     if (this.props.modalOrden !== prevProps.modalOrden) {
       //console.log("/*/* props diff", this.props.modalOrden);
-      
-        //console.log("/*/* props en true", this.props.modalOrden);
-        this.handleOnClick();
-      
+
+      //console.log("/*/* props en true", this.props.modalOrden);
+      this.handleOnClick();
+    }
+    if (this.props.idFacultad !== prevProps.idFacultad) {
+      //console.log("/*/* props diff", this.props.modalOrden);
+
+      //console.log("/*/* props en true", this.props.modalOrden);
+      this.handleOnClick();
     }
   }
+  LanzarError() {
+    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+    openMensajePantalla(dispatchDialog, {
+      open: true,
+      mensaje:
+        "X>Los datos de la tutoria no se pudiaron cargar correctamente, intente nuevamente en unos instantes.",
+    });
+  }
   render() {
-    return (
-      <>
-        <Alertas
-          severity={this.state.severidad}
-          titulo={"Observacion"}
-          alerta={this.state.alert}
-        />
-        <Grid container spacing={0}>
-          <Grid item md={6} xs={12}>
-            {/* Nombre tutoria */}
-            <CampoDeTexto
-              name="nombre"
-              label="Nombre de la Tutoria"
-              requerido={true}
-              autoFocus={true}
-              inicial=""
-              validacion={{ lim: 25 }}
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
+    if (this.props.actualizarTutoria) {
+      if (!this.state.tutoriaInicial) {
+        return (
+          <Jloading mensaje={"Cargando datos de la tutoria"} size={"md"} base />
+        );
+      } else if (this.state.tutoriaInicial.tutoria) {
+        //mostrar con data incial
+        return (
+          <>
+            <Alertas
+              severity={this.state.severidad}
+              titulo={"Observacion"}
+              alerta={this.state.alert}
             />
-            {/* Descripcion tutoria */}
-            <CampoDeTexto
-              autoFocus={true}
-              name="descripcion"
-              label="Descripción"
-              validacion={{ lim: 100 }}
-              variant={"outlined"}
-              rows={4}
-              multiline={true}
-              requerido={true}
-              inicial=""
-              onChange={this.handleOnChange}
-              validarEntrada={this.validarEntrada}
-            />
+            <Grid container spacing={0}>
+              <Grid item md={6} xs={12}>
+                {/* Nombre tutoria */}
+                <CampoDeTexto
+                  name="nombre"
+                  label="Nombre de la Tutoria"
+                  requerido={true}
+                  autoFocus={true}
+                  inicial={""}
+                  validacion={{ lim: 25 }}
+                  onChange={this.handleOnChange}
+                  validarEntrada={this.validarEntrada}
+                />
+                {/* Descripcion tutoria */}
+                <CampoDeTexto
+                  autoFocus={true}
+                  name="descripcion"
+                  label="Descripción"
+                  validacion={{ lim: 100 }}
+                  variant={"outlined"}
+                  rows={4}
+                  multiline={true}
+                  requerido={true}
+                  inicial=""
+                  onChange={this.handleOnChange}
+                  validarEntrada={this.validarEntrada}
+                />
 
-            {/* Lista  facultades */}
-            <ListaComboBox
-              mensaje="facultad"
-              titulo={"Facultad"}
-              enlace={this.getEnlace(getUser().usuario)}
-              id={"ID_PROGRAMA"}
-              nombre={"NOMBRE"}
-              subnombre={
-                this.getSubRol(
-                  getUser().rol
-                ) === "programa"
-                  ? "FACULTAD"
-                  : undefined
-              }
-              keyServicio={"facultades"}
-              escogerItem={this.handleOnChangeFacultad}
-              small={true}
-              inicial={true}
-              placeholder={"Escoja la facultad"}
-            />
-            {this.state.filtroFacultad ? (
-              <ListaComboBox
-                mensaje="programa"
-                titulo={"Programa"}
-                enlace={this.state.filtroFacultad}
-                id={"ID_PROGRAMA"}
-                nombre={"NOMBRE"}
-                keyServicio={
-                  this.getSubRol(
-                    getUser().rol
-                  ) === "programa"
-                    ? "programas"
-                    : "programa"
-                }
-                escogerItem={this.handleOnChangePrograma}
-                small={true}
-                inicial={true}
-                placeholder={"Escoja el programa"}
-              />
-            ) : (
-              <></>
-            )}
+                {/* Lista  facultades */}
+                <ListaComboBox
+                  mensaje="facultad"
+                  titulo={"Facultad"}
+                  enlace={this.getEnlace(getUser().usuario)}
+                  id={"ID_PROGRAMA"}
+                  nombre={"NOMBRE"}
+                  subnombre={
+                    this.getSubRol(getUser().rol) === "programa"
+                      ? "FACULTAD"
+                      : undefined
+                  }
+                  keyServicio={"facultades"}
+                  escogerItem={this.handleOnChangeFacultad}
+                  small={true}
+                  inicial={true}
+                  placeholder={"Escoja la facultad"}
+                />
+                {this.state.filtroFacultad ? (
+                  <ListaComboBox
+                    mensaje="programa"
+                    titulo={"Programa"}
+                    enlace={this.state.filtroFacultad}
+                    id={"ID_PROGRAMA"}
+                    nombre={"NOMBRE"}
+                    keyServicio={
+                      this.getSubRol(getUser().rol) === "programa"
+                        ? "programas"
+                        : "programa"
+                    }
+                    escogerItem={this.handleOnChangePrograma}
+                    small={true}
+                    inicial={true}
+                    placeholder={"Escoja el programa"}
+                  />
+                ) : (
+                  <></>
+                )}
 
-            {/* Vigencia
+                {/* Vigencia
             
             @deprecado
             <GrupoRadioButton
@@ -405,91 +437,265 @@ class FormularioNuevaTutoria extends Component {
             />
             
             */}
-            
 
-            {/* Duracion */}
+                {/* Duracion */}
 
-            <ListaComboBox
-            //allObject={true}
-              mensaje="periodo"
-              escogerItem={this.handleOnChangeDuracion}
-              titulo={"Duracion Maxima"}
-              datos={this.state.duracion}
-              id={"ID"}
-              nombre={"NOMBRE"}
-              keyServicio={"duracion"}
-              placeholder={"Escoja una duración"}
-            />
-            <br />
-          </Grid>
-          <Grid item md={6} xs={12}>
-            {/* Etiqueats de tipo de tutoria */}
-            <ListaEtiquetas
-              titulo={"Etiquetas(opcional):"}
-              obtenerEtiquetas={this.handleOnChangeEtiquetas}
-              enlace={"/api/etiqueta"}
-            />
-
-            {/* Tipo de Asignacion */}
-            <GrupoRadioButton
-              name={"tutor_asignado"}
-              id="tipoAsignarTutor"
-              titulo="Tipo de Asignacion Tutor"
-              radios={this.state.radios.tutor_asignado}
-              obtenerSeleccion={this.obtenerSeleccionRadio}
-            />
-
-            {/* Naturaleza de Tutoria*/}
-            <GrupoRadioButton
-              name={"obligatorio"}
-              titulo="Naturaleza de la Tutoría"
-              radios={this.state.radios.obligatorio}
-              obtenerSeleccion={this.obtenerSeleccionRadio}
-            />
-
-            {/* Tipo de Tutor */}
-            <GrupoRadioButton
-              name={"tutor_fijo"}
-              id="tipoTutor"
-              titulo="Tipo de Tutor"
-              radios={this.state.radios.tutor_fijo}
-              obtenerSeleccion={this.obtenerSeleccionRadio}
-            />
-
-            {/* Tipo de Agrupacion */}
-            <GrupoRadioButton
-              name={"grupal"}
-              id="tipoAsignarTutor"
-              titulo="Tipo de Agrupacion de Alumnos"
-              radios={this.state.radios.grupal}
-              obtenerSeleccion={this.obtenerSeleccionRadio}
-            />
-
-            {/* Guardar */}
-            <br />
-            <Grid container spacing={5}>
-              <Grid item md={6} xs={8}></Grid>
-              <Grid item md={4} xs={4}>
-                <Button
-                  type="submit"
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  color="primary"
-                  onClick={this.handleOnClick}
-                style={{ display: this.state.modal ? "none" : "block" }}
-
-                >
-                  Guardar
-                </Button>
+                <ListaComboBox
+                  //allObject={true}
+                  mensaje="periodo"
+                  escogerItem={this.handleOnChangeDuracion}
+                  titulo={"Duracion Maxima"}
+                  datos={this.state.duracion}
+                  id={"ID"}
+                  nombre={"NOMBRE"}
+                  keyServicio={"duracion"}
+                  placeholder={"Escoja una duración"}
+                />
+                <br />
               </Grid>
-              <Grid item md={6} xs={8}></Grid>
+              <Grid item md={6} xs={12}>
+                {/* Etiqueats de tipo de tutoria */}
+                <ListaEtiquetas
+                  titulo={"Etiquetas(opcional):"}
+                  obtenerEtiquetas={this.handleOnChangeEtiquetas}
+                  enlace={"/api/etiqueta"}
+                />
+
+                {/* Tipo de Asignacion */}
+                <GrupoRadioButton
+                  name={"tutor_asignado"}
+                  id="tipoAsignarTutor"
+                  titulo="Tipo de Asignacion Tutor"
+                  radios={this.state.radios.tutor_asignado}
+                  obtenerSeleccion={this.obtenerSeleccionRadio}
+                />
+
+                {/* Naturaleza de Tutoria*/}
+                <GrupoRadioButton
+                  name={"obligatorio"}
+                  titulo="Naturaleza de la Tutoría"
+                  radios={this.state.radios.obligatorio}
+                  obtenerSeleccion={this.obtenerSeleccionRadio}
+                />
+
+                {/* Tipo de Tutor */}
+                <GrupoRadioButton
+                  name={"tutor_fijo"}
+                  id="tipoTutor"
+                  titulo="Tipo de Tutor"
+                  radios={this.state.radios.tutor_fijo}
+                  obtenerSeleccion={this.obtenerSeleccionRadio}
+                />
+
+                {/* Tipo de Agrupacion */}
+                <GrupoRadioButton
+                  name={"grupal"}
+                  id="tipoAsignarTutor"
+                  titulo="Tipo de Agrupacion de Alumnos"
+                  radios={this.state.radios.grupal}
+                  obtenerSeleccion={this.obtenerSeleccionRadio}
+                />
+
+                {/* Guardar */}
+                <br />
+                <Grid container spacing={5}>
+                  <Grid item md={6} xs={8}></Grid>
+                  <Grid item md={4} xs={4}>
+                    <Button
+                      type="submit"
+                      fullWidth
+                      size="large"
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleOnClick}
+                      style={{ display: this.state.modal ? "none" : "block" }}
+                    >
+                      Guardar
+                    </Button>
+                  </Grid>
+                  <Grid item md={6} xs={8}></Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+            <br />
+          </>
+        );
+      } else {
+        //error
+        //this.LanzarError();
+        return <></>;
+      }
+    } else {
+      return (
+        <>
+          <Alertas
+            severity={this.state.severidad}
+            titulo={"Observacion"}
+            alerta={this.state.alert}
+          />
+          <Grid container spacing={0}>
+            <Grid item md={6} xs={12}>
+              {/* Nombre tutoria */}
+              <CampoDeTexto
+                name="nombre"
+                label="Nombre de la Tutoria"
+                requerido={true}
+                autoFocus={true}
+                inicial={""}
+                validacion={{ lim: 25 }}
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+              {/* Descripcion tutoria */}
+              <CampoDeTexto
+                autoFocus={true}
+                name="descripcion"
+                label="Descripción"
+                validacion={{ lim: 100 }}
+                variant={"outlined"}
+                rows={4}
+                multiline={true}
+                requerido={true}
+                inicial=""
+                onChange={this.handleOnChange}
+                validarEntrada={this.validarEntrada}
+              />
+
+              {/* Lista  facultades */}
+              <ListaComboBox
+                mensaje="facultad"
+                titulo={"Facultad"}
+                enlace={this.getEnlace(getUser().usuario)}
+                id={"ID_PROGRAMA"}
+                nombre={"NOMBRE"}
+                subnombre={
+                  this.getSubRol(getUser().rol) === "programa"
+                    ? "FACULTAD"
+                    : undefined
+                }
+                keyServicio={"facultades"}
+                escogerItem={this.handleOnChangeFacultad}
+                small={true}
+                inicial={true}
+                placeholder={"Escoja la facultad"}
+              />
+              {this.state.filtroFacultad ? (
+                <ListaComboBox
+                  mensaje="programa"
+                  titulo={"Programa"}
+                  enlace={this.state.filtroFacultad}
+                  id={"ID_PROGRAMA"}
+                  nombre={"NOMBRE"}
+                  keyServicio={
+                    this.getSubRol(getUser().rol) === "programa"
+                      ? "programas"
+                      : "programa"
+                  }
+                  escogerItem={this.handleOnChangePrograma}
+                  small={true}
+                  inicial={true}
+                  placeholder={"Escoja el programa"}
+                />
+              ) : (
+                <></>
+              )}
+
+              {/* Vigencia
+            
+            @deprecado
+            <GrupoRadioButton
+              name={"permanente"}
+              disabled={false}
+              titulo="Vigencia"
+              radios={this.state.radios.permanente}
+              obtenerSeleccion={this.obtenerSeleccionRadio}
+            />
+            
+            */}
+
+              {/* Duracion */}
+
+              <ListaComboBox
+                //allObject={true}
+                mensaje="periodo"
+                escogerItem={this.handleOnChangeDuracion}
+                titulo={"Duracion Maxima"}
+                datos={this.state.duracion}
+                id={"ID"}
+                nombre={"NOMBRE"}
+                keyServicio={"duracion"}
+                placeholder={"Escoja una duración"}
+              />
+              <br />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              {/* Etiqueats de tipo de tutoria */}
+              <ListaEtiquetas
+                titulo={"Etiquetas(opcional):"}
+                obtenerEtiquetas={this.handleOnChangeEtiquetas}
+                enlace={"/api/etiqueta"}
+              />
+
+              {/* Tipo de Asignacion */}
+              <GrupoRadioButton
+                name={"tutor_asignado"}
+                id="tipoAsignarTutor"
+                titulo="Tipo de Asignacion Tutor"
+                radios={this.state.radios.tutor_asignado}
+                obtenerSeleccion={this.obtenerSeleccionRadio}
+              />
+
+              {/* Naturaleza de Tutoria*/}
+              <GrupoRadioButton
+                name={"obligatorio"}
+                titulo="Naturaleza de la Tutoría"
+                radios={this.state.radios.obligatorio}
+                obtenerSeleccion={this.obtenerSeleccionRadio}
+              />
+
+              {/* Tipo de Tutor */}
+              <GrupoRadioButton
+                name={"tutor_fijo"}
+                id="tipoTutor"
+                titulo="Tipo de Tutor"
+                radios={this.state.radios.tutor_fijo}
+                obtenerSeleccion={this.obtenerSeleccionRadio}
+              />
+
+              {/* Tipo de Agrupacion */}
+              <GrupoRadioButton
+                name={"grupal"}
+                id="tipoAsignarTutor"
+                titulo="Tipo de Agrupacion de Alumnos"
+                radios={this.state.radios.grupal}
+                obtenerSeleccion={this.obtenerSeleccionRadio}
+              />
+
+              {/* Guardar */}
+              <br />
+              <Grid container spacing={5}>
+                <Grid item md={6} xs={8}></Grid>
+                <Grid item md={4} xs={4}>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={this.handleOnClick}
+                    style={{ display: this.state.modal ? "none" : "block" }}
+                  >
+                    Guardar
+                  </Button>
+                </Grid>
+                <Grid item md={6} xs={8}></Grid>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <br />
-      </>
-    );
+          <br />
+        </>
+      );
+    }
   }
 }
 

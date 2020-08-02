@@ -67,7 +67,7 @@ function App() {
         postClose:()=>{}
       },
     });
-    postClose();
+    if(postClose)postClose();
   };
 
   return (

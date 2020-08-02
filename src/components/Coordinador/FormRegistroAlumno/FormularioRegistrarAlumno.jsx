@@ -43,7 +43,6 @@ const style = {
 };
 class FormularioRegistrarAlumno extends Component {
   static contextType = DialogContext;
-
   constructor() {
     super();
     this.state = {
