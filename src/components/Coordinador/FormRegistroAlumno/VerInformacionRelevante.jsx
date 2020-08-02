@@ -276,7 +276,7 @@ class VerInformacionRelevante extends Component {
           let mensaje = this.state.mensajesResultado;
           mensaje.push(
             <>
-              {`Se registro satisfactoriamente:`}
+              {`Se registró satisfactoriamente:`}
               <ul>
                 <li>{`${this.state.fileName}`}</li>
               </ul>
@@ -290,7 +290,7 @@ class VerInformacionRelevante extends Component {
           let mensaje = this.state.mensajesResultado;
           mensaje.push(
             <>
-              {`Se registro satisfactoriamente:`}
+              {`Se registró satisfactoriamente:`}
               <ul>
                 <li>{`${this.state.fileName}`}</li>
               </ul>

@@ -74,7 +74,7 @@ const EliminarAlumno = (props) => {
             )}
             {elimino && (
               <Typography variant="subtitle1">
-                El alumno se elimino satisfactoriamente
+                El alumno se eliminó satisfactoriamente
               </Typography>
             )}
           </Grid>

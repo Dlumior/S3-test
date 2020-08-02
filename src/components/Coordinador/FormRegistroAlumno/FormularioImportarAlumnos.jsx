@@ -136,7 +136,7 @@ class FormularioImportarAlumnos extends Component {
                 let mensaje = this.state.mensajesResultado;
                 mensaje.push(
                   <>
-                    {`Se registro Satisfactoriamente a:`}
+                    {`Se registró Satisfactoriamente a:`}
                     <ul>
                       <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
                     </ul>

@@ -58,11 +58,13 @@ export async function POST(props) {
     //console.log("DIA", dia);
 
     //console.log(">>> getUser", getUser());
+    
     if (props.request.imagen?.IMAGEN) {
       console.log(">>> POST habia imagen",props.request.imagen.ID_USUARIO );
 
       props.request.imagen.IMAGEN = "Imagen";
     }
+    
     if (getUser() !== undefined) {
       let auditoria = await fetch("/api/auditoria/", {
         limits: { fileSize: "10mb" },
@@ -72,18 +74,18 @@ export async function POST(props) {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        body: props.request? JSON.stringify({
           auditoria: {
             usuario:
               getUser().usuario.CODIGO + "_" + getUser().usuario.NOMBRE + "_",
             dia,
             transaccion: props.request,
           },
-        }),
+        }):null,
       });
 
       //console.log(">>> POST auditoria", await auditoria.json());
-      //console.log(">>> POST auditoria", await auditoria);
+      console.log(">>> POST auditoria", await auditoria);
     }
 
     console.log(">>> POST succesful", responseJson);
