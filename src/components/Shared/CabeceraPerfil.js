@@ -72,7 +72,10 @@ const CabeceraPerfil = (props) => {
     if (extens.toLowerCase() === "png") {
       openMensajePantalla(dispatchDialog, {
         open: true,
-        mensaje: "X.Solo se permiten imagenes con extension 'jpeg'",
+        mensaje: "X>Solo se permiten imagenes con extension 'jpeg'",
+        postClose: ()=>{
+          alert("Bais extension");
+        }
       });
       return;
     }
@@ -111,7 +114,16 @@ const CabeceraPerfil = (props) => {
       //console.warn("img data", event.target.result);
       //console.warn("img data base", base);
       const response = await POST({servicio:"/api/usuario/guardarimagen", request:{imagen:{ID_USUARIO:usuario.ID_USUARIO,IMAGEN:base}}});
-      console.warn("HAAAAAAAAAAAAA:", response );
+      //console.warn("HAAAAAAAAAAAAA:", response );
+      if(response){
+        openMensajePantalla(dispatchDialog, {
+          open: true,
+          mensaje: "C>Imagen registrada satisfactoriamente",
+          postClose: ()=>{
+            alert("Si funciono extension");
+          }
+        });
+      }
     };
   };
   return (
@@ -127,23 +139,17 @@ const CabeceraPerfil = (props) => {
             alignItems="center"
           >
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
-            {getUser().rol === "Administrador" ? (
-              <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
-            ) : getUser().usuario.IMAGEN ? (
+            {getUser().rol === "Administrador" ?  
+            (getUser().usuario.IMAGEN ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
-              />
-            ) : (
-              <Avatar
-                alt={props.nombre.replace(/["]+/g, "")}
-                src={props.imagen}
-                className={classes.large}
-              >
-                {props.nombre[0].match(/[a-z]/i)
-                  ? props.nombre[0]
-                  : props.nombre[1]}
-              </Avatar>
-            )}
+              />)
+             : 
+              <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
+              
+            ):
+                <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
+            }
             <Grid
               item
               md={12}
@@ -151,7 +157,7 @@ const CabeceraPerfil = (props) => {
               style={{ textAlign: "center", marginTop: "10%" }}
             >
               <Button variant="outlined" component="label" color="primary">
-                Cambair foto
+                Cambiar foto
                 <input
                   type="file"
                   onChange={handleOnChangeImg}

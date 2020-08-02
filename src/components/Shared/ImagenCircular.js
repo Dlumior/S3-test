@@ -6,7 +6,7 @@ const styles = {
     objectFit: "cover",
     width: "100%",
   },
-  xxs:{
+  xxs: {
     borderRadius: "50%",
     objectFit: "cover",
     width: "100%",
@@ -45,18 +45,34 @@ const styles = {
     maxWidth: "150px",
     maxHeight: "80px",
   },
+  perfil: {
+    objectFit: "cover",
+    width: "100px",
+    height: "100px",
+    "object-position": "center",
+  },
 };
 class ImagenCircular extends Component {
   render() {
-    const { link, square,size,logoVerde } = this.props;
+    const { link, square, size, logoVerde, perfil ,src} = this.props;
     console.log("Imagen circular PROPS: ", this.props);
-    if(logoVerde){
-      return (  <img
-        style={styles.logo}
-        src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
-        alt="logo-ututor"
-      />);
-    }else if (link) {
+    if (perfil) {
+      return (
+        <img
+          style={styles.perfil}
+          src={src}
+          alt="logo-ututor"
+        />
+      );
+    } else if (logoVerde) {
+      return (
+        <img
+          style={styles.logo}
+          src="https://ututor-recursos.s3.amazonaws.com/Imagenes/ututor-main-logo-inverted.png"
+          alt="logo-ututor"
+        />
+      );
+    } else if (link) {
       return (
         <a href={link}>
           <Grid item md={12} xs={12}>
@@ -78,25 +94,16 @@ class ImagenCircular extends Component {
           />
         </Grid>
       );
-    } if (size === "xs") {
+    }
+    if (size === "xs") {
       return (
         <Grid item md={12} xs={12}>
-          <img
-            style={styles.imagenSquareMini}
-            src={this.props.src}
-            alt=""
-          />
+          <img style={styles.imagenSquareMini} src={this.props.src} alt="" />
         </Grid>
       );
-    }else if (size === "xxs") {
-      return (
-          <img
-            style={styles.xxs}
-            src={this.props.src}
-            alt=""
-          />
-      );
-    }else{
+    } else if (size === "xxs") {
+      return <img style={styles.xxs} src={this.props.src} alt="" />;
+    } else {
       return (
         <Grid item md={12} xs={12}>
           <img style={styles.imagenCircle} src={this.props.src} alt="" />

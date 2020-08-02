@@ -381,10 +381,24 @@ class FrmDialogoSolicitarTutor extends Component {
               style={styles.chip}
             >
               <Grid item md={3} xs={3}>
-                <ImagenCircular
+                {/* <ImagenCircular
                   square={true}
                   src="https://cdn.iconscout.com/icon/premium/png-256-thumb/deadline-calendar-date-schedule-timeline-33430.png"
-                />
+                /> */}
+
+                {
+                  _disponibilidad.TUTOR.USUARIO.IMAGEN ? (
+                    <ImagenCircular
+                      src={`data:image/jpeg;base64,${_disponibilidad.TUTOR.USUARIO.IMAGEN}`}
+                    />
+                  ) : (
+                      <ImagenCircular
+                        square={true}
+                        src="https://cdn.iconscout.com/icon/premium/png-256-thumb/deadline-calendar-date-schedule-timeline-33430.png"
+                      />
+                    )
+                }
+               
                 <h3>
                   {diasSemana[_fexilla.getDay()] +
                     ", " +

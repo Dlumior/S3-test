@@ -13,6 +13,8 @@ import { getUser } from "../../../Sesion/Sesion";
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
+import { DialogContext } from "../../../Sesion/dialog";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction";
 
 
 const style = {
@@ -29,6 +31,8 @@ const style = {
 
 
 class Asistencias extends React.Component {
+  static contextType = DialogContext;
+
   constructor(props) {
     super();
     this.state = {
@@ -43,6 +47,16 @@ class Asistencias extends React.Component {
   }
 
   establecerData(arregloSesiones){
+    if(!arregloSesiones){
+      let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "W>Ocurrió un error al cargar la informacion de las sesiones. Porfavor intente mas tarde",
+      });
+      return;
+    }
     let arreglillo = [];
     for (let element of (arregloSesiones.data)){
       if (element.ALUMNOs[0].ALUMNO_X_SESION.ASISTENCIA_ALUMNO===0 ||
