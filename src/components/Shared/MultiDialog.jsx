@@ -32,50 +32,55 @@ class MultiDialog extends Component {
   }
   render() {
     const { mensaje, open } = this.props;
-    const [tipo, mensajePropiamente] = mensaje.split(">");
-    return (
-      <div style={{display:mensajePropiamente===""?"none":"block"}}>
-        <ThemeProvider theme={theme}>
-          <Dialog
-            open={this.props.open}
-            onClose={this.handleOnClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="form-dialog-title">
-              <Grid container md={12} justify="center">
-                {tipo === "C" ? (
-                  <CheckCircleRoundedIcon
-                    color="primary"
-                    style={{ fontSize: 70 }}
-                  />
-                ) : tipo === "W" ? (
-                  <WarningRoundedIcon
-                    style={{ fontSize: 70, fill: "orange" }}
-                  />
-                ) : (
-                  <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
-                )}
 
-                {/**
-                 *
-                 */}
-              </Grid>
-            </DialogTitle>
-            <DialogContent>{mensajePropiamente}</DialogContent>
-            <DialogActions>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={this.handleOnClose}
-              >
-                Aceptar
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </ThemeProvider>
-      </div>
-    );
+    if (mensaje === "") {
+      return <></>;
+    } else {
+      const [tipo, mensajePropiamente] = mensaje.split(">");
+      return (
+        <div style={{ display: mensajePropiamente === "" ? "none" : "block" }}>
+          <ThemeProvider theme={theme}>
+            <Dialog
+              open={this.props.open}
+              onClose={this.handleOnClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="form-dialog-title">
+                <Grid container md={12} justify="center">
+                  {tipo === "C" ? (
+                    <CheckCircleRoundedIcon
+                      color="primary"
+                      style={{ fontSize: 70 }}
+                    />
+                  ) : tipo === "W" ? (
+                    <WarningRoundedIcon
+                      style={{ fontSize: 70, fill: "orange" }}
+                    />
+                  ) : (
+                    <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                  )}
+
+                  {/**
+                   *
+                   */}
+                </Grid>
+              </DialogTitle>
+              <DialogContent>{mensajePropiamente}</DialogContent>
+              <DialogActions>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.handleOnClose}
+                >
+                  Aceptar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </ThemeProvider>
+        </div>
+      );
+    }
   }
 }
 
