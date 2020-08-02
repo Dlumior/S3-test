@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import * as Controller from "./../../Conexion/Controller";
+import { withStyles } from "@material-ui/core";
+
 import {
   Paper,
   Tabs,
@@ -8,6 +10,7 @@ import {
   Grid,
   Dialog,
   DialogTitle,
+  Avatar,
 } from "@material-ui/core";
 import TablaTutores from "./TablaTutores.js";
 
@@ -18,6 +21,23 @@ import { getUser } from "../../Sesion/Sesion";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import ImagenCircular from "../Shared/ImagenCircular";
+
+const styles = (theme) => ({
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    fontSize: "300%",
+  },
+  customContainer: {
+    padding: theme.spacing(5),
+    backgroundColor: "#ffffff",
+  },
+});
 
 const style = {
   paper: {
@@ -28,6 +48,7 @@ const style = {
     backgroundImage: "",
   },
 };
+
 
 class FrmSolicitarTutorTipoII extends Component {
   constructor() {
@@ -169,10 +190,33 @@ class FrmSolicitarTutorTipoII extends Component {
               campoCont: cont,
               imagen: (
                 <div>
-                  <img
+                  {/* <img
                     style={estilo.imagen}
                     src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
-                  ></img>
+                  ></img> */}
+
+{
+                  element.USUARIO.IMAGEN ? (
+                    <ImagenCircular tablas
+                      src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
+                    />
+                    // <img
+                    //   style={estilo.imagen}
+                    //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
+                    // ></img>
+                  ) : (
+                      <Avatar
+                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                        //src={props.imagen}
+                        className={this.props.classes.large}
+                      >
+                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                          ? element.USUARIO.NOMBRE[0]
+                          : element.USUARIO.NOMBRE[1]}
+                      </Avatar>
+                    )
+                }
+
                 </div>
               ),
               //numeroOrden: cont,
@@ -211,9 +255,9 @@ class FrmSolicitarTutorTipoII extends Component {
                     this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                   }
                   disabled={this.state.botonDisable}
-                  //id={element.ID_TUTOR}
+                //id={element.ID_TUTOR}
 
-                  //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                 >
                   SOLICITAR TUTOR
                 </Button>
@@ -221,18 +265,18 @@ class FrmSolicitarTutorTipoII extends Component {
             });
           }
 
+
+
           const data = {
             columns: [
               {
                 title: "N°",
                 field: "campoCont",
               },
-
-              /*}
-                            {
-                                title: "",
-                                field: "imagen",
-                            },*/
+              {
+                title: "",
+                field: "imagen",
+              },
               {
                 title: "Tutor",
                 field: "nombre",
@@ -343,10 +387,32 @@ class FrmSolicitarTutorTipoII extends Component {
               campoCont: cont,
               imagen: (
                 <div>
-                  <img
+                  {/* <img
                     style={estilo.imagen}
                     src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
-                  ></img>
+                  ></img> */}
+                  {
+                  element.USUARIO.IMAGEN ? (
+                    <ImagenCircular tablas
+                      src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
+                    />
+                    // <img
+                    //   style={estilo.imagen}
+                    //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
+                    // ></img>
+                  ) : (
+                      <Avatar
+                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                        //src={props.imagen}
+                        className={this.props.classes.large}
+                      >
+                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                          ? element.USUARIO.NOMBRE[0]
+                          : element.USUARIO.NOMBRE[1]}
+                      </Avatar>
+                    )
+                }
+
                 </div>
               ),
               //numeroOrden: cont,
@@ -385,9 +451,9 @@ class FrmSolicitarTutorTipoII extends Component {
                     this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                   }
                   disabled={this.state.botonDisable}
-                  //id={element.ID_TUTOR}
+                //id={element.ID_TUTOR}
 
-                  //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                 >
                   SOLICITAR TUTOR
                 </Button>
@@ -401,12 +467,10 @@ class FrmSolicitarTutorTipoII extends Component {
                 title: "N°",
                 field: "campoCont",
               },
-
-              /*}
-                            {
-                                title: "",
-                                field: "imagen",
-                            },*/
+              {
+                title: "",
+                field: "imagen",
+              },
               {
                 title: "Tutor",
                 field: "nombre",
@@ -503,7 +567,7 @@ class FrmSolicitarTutorTipoII extends Component {
             getUser().usuario.ROL_X_USUARIO_X_PROGRAMAs[0].ID_PROGRAMA,
         });
         /**if arreglo ttores hago lo q esta sino le meto s harcodeo */
-        //console.log("arreglo: ", arregloDeTutores);
+        console.log("arreglo: ", arregloDeTutores);
 
         //id del alumno
         //id del proceso de tutoria
@@ -517,10 +581,30 @@ class FrmSolicitarTutorTipoII extends Component {
             campoCont: cont,
             imagen: (
               <div>
-                <img
-                  style={estilo.imagen}
-                  src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
-                ></img>
+
+                {
+                  element.USUARIO.IMAGEN ? (
+                    <ImagenCircular tablas
+                      src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
+                    />
+                    // <img
+                    //   style={estilo.imagen}
+                    //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
+                    // ></img>
+                  ) : (
+                      <Avatar
+                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                        //src={props.imagen}
+                        className={this.props.classes.large}
+                      >
+                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                          ? element.USUARIO.NOMBRE[0]
+                          : element.USUARIO.NOMBRE[1]}
+                      </Avatar>
+                    )
+                }
+
+
               </div>
             ),
             //numeroOrden: cont,
@@ -559,9 +643,9 @@ class FrmSolicitarTutorTipoII extends Component {
                   this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                 }
                 disabled={this.state.botonDisable}
-                //id={element.ID_TUTOR}
+              //id={element.ID_TUTOR}
 
-                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+              //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
               >
                 SOLICITAR TUTOR
               </Button>
@@ -575,12 +659,10 @@ class FrmSolicitarTutorTipoII extends Component {
               title: "N°",
               field: "campoCont",
             },
-
-            /*}
-                        {
-                            title: "",
-                            field: "imagen",
-                        },*/
+            {
+              title: "",
+              field: "imagen",
+            },
             {
               title: "Tutor",
               field: "nombre",
@@ -681,9 +763,9 @@ class FrmSolicitarTutorTipoII extends Component {
                   style={{ fontSize: 70 }}
                 />
               ) : (
-                ///caso  ups error inesperado
-                <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
-              )}
+                  ///caso  ups error inesperado
+                  <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                )}
             </Grid>
           </DialogTitle>
           <DialogContent>{this.state.mensajillo}</DialogContent>
@@ -733,11 +815,11 @@ class FrmSolicitarTutorTipoII extends Component {
   }
 }
 
-export default FrmSolicitarTutorTipoII;
+export default withStyles(styles)(FrmSolicitarTutorTipoII);
 
 const estilo = {
   imagen: {
-    width: "30%",
+    width: "100%",
     borderRadius: "100%",
   },
 };
