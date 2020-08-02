@@ -32,7 +32,8 @@ function App() {
   //Context provider de user
   const [open, setOpen] = useState(true);
   const [{ usuario, auth }, dispatch] = useUserValue();
-  const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
+  const [{ openMensaje, mensaje, postClose }, dispatchDialog] = useDialogValueSSJ();
+
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -57,13 +58,16 @@ function App() {
   }, []);
   //console.log("Paso por el APP");
   const onCloseDialog = () => {
+      
     dispatchDialog({
       type: "OPEN_DIALOG",
       openMensaje: {
         open: false,
         mensaje: "",
+        postClose:()=>{}
       },
     });
+    if(postClose)postClose();
   };
 
   return (

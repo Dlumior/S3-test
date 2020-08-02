@@ -201,10 +201,20 @@ const VerticalLinearStepper = () => {
     let props;
     //console.log("grupal", grupal);
     if (grupal) {
-      props = { servicio: "/api/asignacion", request: nuevaAsignacion };
-      //console.log("saving new asignacion in DB:", nuevaAsignacion);
-      asignado = await Controller.POST(props);
-      //console.log("asignado", asignado);
+      if (alumnos.length>1){
+        props = { servicio: "/api/asignacion", request: nuevaAsignacion };
+        //console.log("saving new asignacion in DB:", nuevaAsignacion);
+        asignado = await Controller.POST(props);
+        //console.log("asignado", asignado);
+      }else{
+        setSeveridad({
+          severidad: "warning",
+        });
+        setAlerta({
+          mensaje: "Los procesos de tutoria grupales deben contar como mínimo con dos alumnos",
+        });
+        return;
+      }
     } else {
       let newasig;
       let alu;

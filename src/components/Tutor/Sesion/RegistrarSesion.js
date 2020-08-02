@@ -197,6 +197,9 @@ const RegistrarSesion = () => {
       //console.log("facultades:", res);
       if (res) {
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].FACULTAD.ID_PROGRAMA)
+        }
       }
       //console.log("facultad:", facultades);
     }
@@ -212,6 +215,10 @@ const RegistrarSesion = () => {
       //console.log("proogramasss:", res);
       if (res) {
         setProgramas(res.programas);
+        if(res.programas[0]){
+          setPrograma(res.programas[0].ID_PROGRAMA)
+          console.log("asdf", res.programas)
+        }
       }
       //console.log("proograma:", programas);
     }

@@ -132,7 +132,10 @@ const ModificaCoordinador = (props) => {
       let institucion = await Conexion.GET({servicio:"/api/institucion"});
       if (institucion){
         //console.log("RegistrarCoordinador institucion: ", institucion);
-        setDominio1(institucion.institucion.DOMINIO);
+        if (institucion.institucion){
+          setDominio1(institucion.institucion.DOMINIO);
+          setDominio2(institucion.institucion.DOMINIO2);
+        }
         setDominio2(institucion.institucion.DOMINIO2);
       }
       //console.log("RegistrarCoordinador dominio1: ", dominio1);

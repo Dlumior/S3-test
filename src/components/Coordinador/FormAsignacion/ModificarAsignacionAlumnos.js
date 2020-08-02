@@ -27,7 +27,7 @@ class ModificarListaAlumnos extends React.Component {
         alumnosSeleccionados:this.props.alumnos,
         flag:0,
     };
-    this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
+    //this.handleOnChangeChecked = this.handleOnChangeChecked.bind(this);
     this.establecerData = this.establecerData.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
 
@@ -76,15 +76,16 @@ class ModificarListaAlumnos extends React.Component {
     if (nextState.flag !== this.state.flag ){
       let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
       if (arregloDeAlumnos){
-        //console.log("arreglo: ",arregloDeAlumnos);
+        console.log("arreglo: ",arregloDeAlumnos);
         this.establecerData(arregloDeAlumnos);
       }
     }    
   }
   async componentDidMount(){
+    console.log("enlace::",this.props.enlace);
     let arregloDeAlumnos=await Controller.GET({servicio:this.props.enlace});
     if (arregloDeAlumnos){
-      //console.log("arreglo: ",arregloDeAlumnos);
+      console.log("arreglo: ",arregloDeAlumnos);
       this.establecerData(arregloDeAlumnos);
     }
 }
@@ -101,10 +102,10 @@ async handleToggle(idA){
   //console.log("veamos: ",j);
   this.setState({flag:j});
 
-  //console.log("listaalumnos",this.state.alumnosSeleccionados);
+  console.log("listaalumnos",this.state.alumnosSeleccionados);
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 };
-
+/*
 async handleOnChangeChecked(e) {
   let idA=e.target.value;
   //console.log("idAlumo",idA);
@@ -130,7 +131,7 @@ async handleOnChangeChecked(e) {
   await this.props.escogerAlumnos(this.state.alumnosSeleccionados); 
 
 }
-
+*/
 render(){
     return (
         <div>

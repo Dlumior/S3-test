@@ -1,40 +1,38 @@
 import React, { Component, useEffect,useState } from "react";
-import * as Conexion from "../../../Conexion/Controller";
+import * as Conexion from "../../Conexion/Controller";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";  
 import { Grid, Paper, makeStyles, Typography } from "@material-ui/core";
-
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
-
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
-import {getUser} from "../../../Sesion/Sesion";
+import {getUser} from "../../Sesion/Sesion";
 
-const EliminarFacultad = (props) => {
+const EliminarUnidad = (props) => {
   const {open,close,id,parentCallback}=props;
   const [flag, setFlag] = useState(0);//actualizar lista facu
   const [elimino, setElimino] = useState(false);
   const [alerta, setAlerta]=useState({
-    mensaje: "¿Está seguro de eliminar la facultad?",
+    mensaje: "¿Está seguro de eliminar la Unidad de Apoyo?",
   });
  
 
   const handleClick = async (e) => {    
-            //FACULTAD ELIMINAR 
+        //UNIDAD ELIMINAR 
       //console.log("idFacu",id);
       let enlace;
-      enlace="/api/facultad/eliminar/"+id;
-      const props = { servicio: enlace };
+      enlace="/api/areaapoyo/eliminar/"+id;
+      const props = { servicio: enlace ,request:{}};
       let resultado = await Conexion.POST(props);
-      //console.log("got updated coord from back:", resultado);
+      console.log("got updated coord from back:", resultado);
       if (resultado){
-        if (resultado.eliminacion.ok!==1){
+        if (resultado.resultado!=="registro eliminado"){
           setElimino(false);
           //console.log("elimino",elimino);    
           setAlerta({
-            mensaje:"La facultad no puede eliminarse porque cuenta con programas registrados",
+            mensaje:"Ocurrió un error, intente de nuevo",
           }); 
         }else{          
           setElimino(true);
@@ -73,7 +71,7 @@ const EliminarFacultad = (props) => {
                </Typography>}
             {elimino &&
               <Typography variant="subtitle1" >
-                La facultad se eliminó satisfactoriamente
+                La Unidad de Apoyo se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       
@@ -97,4 +95,4 @@ const EliminarFacultad = (props) => {
     </div>
   );
 };
-export default EliminarFacultad;
+export default EliminarUnidad;

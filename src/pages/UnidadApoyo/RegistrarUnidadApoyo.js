@@ -94,7 +94,8 @@ const handleContacto = (e, datosForm, setDatosForm, errors, setErrors) => {
 
 
 
-const RegistrarUnidadApoyo = () => {
+const RegistrarUnidadApoyo = (props) => {
+    const {flag,setFlag}=props;
     const [datosForm, setDatosForm] = React.useState({
         NOMBRE:"",
         TELEFONO: "",
@@ -134,9 +135,8 @@ const RegistrarUnidadApoyo = () => {
 
         setAlerta({
           mensaje:"",
-        }); 
-        
-        window.location.reload();
+        });         
+        //window.location.reload();
     };
 
     const handleClick = async (e, datosForm, setDatosForm) => {
@@ -192,6 +192,7 @@ const RegistrarUnidadApoyo = () => {
                 setSeveridad({severidad: "success"});     
                 setAlerta({mensaje: "Unidad de apoyo registrada"}); 
             }
+            setFlag(flag => flag +1);
         }
     }
 
@@ -202,8 +203,10 @@ const RegistrarUnidadApoyo = () => {
         async function fetchDominios() {
           let institucion = await Controller.GET({servicio:"/api/institucion"});
           if (institucion){
-            setDominio1(institucion.institucion.DOMINIO);
-            setDominio2(institucion.institucion.DOMINIO2);
+            if (institucion.institucion){
+                setDominio1(institucion.institucion.DOMINIO);
+                setDominio2(institucion.institucion.DOMINIO2);
+              }
           }
         }
     

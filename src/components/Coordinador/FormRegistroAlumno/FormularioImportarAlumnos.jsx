@@ -65,9 +65,7 @@ class FormularioImportarAlumnos extends Component {
     this.handleOnChangeFacultad = this.handleOnChangeFacultad.bind(this);
     this.handleOnChangePrograma = this.handleOnChangePrograma.bind(this);
     this.renderToolbar = this.renderToolbar.bind(this);
-    this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(
-      this
-    );
+    this.handleOnClickRegistroSSJ_masivo = this.handleOnClickRegistroSSJ_masivo.bind(this);
     this.removerDatos = this.removerDatos.bind(this);
     this.onUpdateDatos = this.onUpdateDatos.bind(this);
     this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
@@ -138,7 +136,7 @@ class FormularioImportarAlumnos extends Component {
                 let mensaje = this.state.mensajesResultado;
                 mensaje.push(
                   <>
-                    {`Se registro Satisfactoriamente a:`}
+                    {`Se registró Satisfactoriamente a:`}
                     <ul>
                       <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
                     </ul>

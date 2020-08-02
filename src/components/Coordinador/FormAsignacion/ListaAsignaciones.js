@@ -141,18 +141,21 @@ class ListaAsignaciones extends React.Component {
 handleOnOpen= (alumnos) =>{
   this.setState({ open: true });
   this.state.alumnos=alumnos;
-  //console.log("alumnos",this.state.alumnos);
+  console.log("alumnos",this.state.alumnos);
 } 
 handleOnOpenModificar= (element) =>{
   this.setState({ open2: true });
   this.state.asignacion=element;
-  
+  console.log("alumnosSelec",this.state.alumnosSelec);
+  this.state.alumnosSelec=[];
   if (element.ALUMNOS){
     for (let alu of element.ALUMNOS){//alumnos seleccionados
       this.state.alumnosSelec.push(alu.ID_ALUMNO);
     }
   }  
-  //console.log("asignacion",this.state.asignacion);
+  console.log("asignacion",this.state.asignacion);
+  console.log("alumnosSelec",this.state.alumnosSelec);
+
 } 
 handleOnOpenEliminar= (idAsignacion) =>{
   this.setState({ open3: true });

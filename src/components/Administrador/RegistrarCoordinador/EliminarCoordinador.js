@@ -77,7 +77,7 @@ const EliminarCoordinador = (props) => {
             </Typography>}
             {elimino &&
               <Typography variant="h6" >
-                El coordinador se elimino satisfactoriamente
+                El coordinador se eliminó satisfactoriamente
             </Typography>}
             </Grid>
         </DialogContent>       

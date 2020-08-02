@@ -35,6 +35,27 @@ const ModificarAsignacion = (props) => {
     proceso:asignacion.PROCESO_TUTORIA.NOMBRE,
     alumnos:[],
   });
+  useEffect(() => {
+    async function fetchTutores() {
+      let tuto = await Conexion.GET({servicio:"/api/tutoria/"+asignacion.ID_PROCESO_TUTORIA});
+      if (tuto){
+        if (tuto.tutoria.GRUPAL === 0) {
+          setGrupal(false);
+        } else {
+          setGrupal(true);
+        }
+      }
+      //alumnos Selecc
+      for (let ele of asignacion.ALUMNOS){
+        if (datosForm.alumnos.findIndex(v => v === ele.ID_ALUMNO)===-1){
+          datosForm.alumnos.push(ele.ID_ALUMNO);
+        }
+      }
+      console.log("ALUMNOSELCC",datosForm.alumnos);
+    }
+
+    fetchTutores();
+  }, [grupal]);
   const [alerta, setAlerta]=useState({
     mensajeStrong: "",
     mensajeStrongError: "por favor revisalos!",
@@ -73,23 +94,33 @@ const ModificarAsignacion = (props) => {
     });
   };
   const handleOnChangeAlumnos = (alumnosSelecc) => {
-    //console.log("alumnos: ", alumnosSelecc);
+    console.log("alumnos: ", alumnosSelecc);
+    datosForm.alumnos=[];
     for (let ele of alumnosSelecc){
         datosForm.alumnos.push(ele);
     }
-    //console.log("datosForm con alumnos: ", datosForm);
+    console.log("datosForm con alumnos: ", datosForm);
   };
 
   const handleClick = async () => {   
-    //console.log("validando: ", datosForm.idProceso,datosForm.idTutor,datosForm.alumnos.length);
-    if (datosForm.idProceso==='' || datosForm.idTutor==='' || datosForm.alumnos.length===0){
-        setSeveridad({
+    console.log("validando: ", datosForm.idProceso,datosForm.idTutor,datosForm.alumnos.length);
+    if (datosForm.idProceso==='' || datosForm.idTutor==='' || datosForm.alumnos.length<2){
+        if (datosForm.alumnos.length<2){
+          setSeveridad({
             severidad:"error",
-        });     
-        setAlerta({
-            mensaje:"Falta completar los datos del formulario",
-        });      
-          return;
+          });     
+          setAlerta({
+              mensaje:"Una tutoría grupal debe tener al menos dos alumnos",
+          });          
+        }else{
+          setSeveridad({
+            severidad:"error",
+          });     
+          setAlerta({
+              mensaje:"Falta completar los datos del formulario",
+          });    
+        }  
+        return;
     }else{
         const nuevaAsignacion = {
             asignacionTutoria: {
@@ -102,17 +133,23 @@ const ModificarAsignacion = (props) => {
         };
         let asignado;
         let props;
-        //console.log("grupal", grupal);
+        console.log("grupal", grupal);
+        props = { servicio: "/api/asignacion/modificar", request: nuevaAsignacion };
+        console.log("saving new asignacion in DB:", nuevaAsignacion);
+        asignado = await POST(props);
+        console.log("asignado", asignado);
+        /*
         if (grupal) {
             props = { servicio: "/api/asignacion/modificar", request: nuevaAsignacion };
-            //console.log("saving new asignacion in DB:", nuevaAsignacion);
+            console.log("saving new asignacion in DB:", nuevaAsignacion);
             asignado = await POST(props);
-            //console.log("asignado", asignado);
+            console.log("asignado", asignado);
         } else {
             let newasig;
             let alu;
             let enlace;
             for (let element of datosForm.alumnos) {
+              console.log("CREA UNA NUEVA",alumnos.findIndex(v => v === element)!==-1);
                 if (alumnos.findIndex(v => v === element)!==-1){//si no esta crea una asignacion individual
                     enlace="/api/asignacion";
                     alu = []; //guarda un unico alumo
@@ -139,23 +176,23 @@ const ModificarAsignacion = (props) => {
                         },
                     };
                 }
-                //console.log("new", newasig);
+                console.log("new", newasig);
                 props = { servicio: enlace, request: newasig }; //aqui seria la asignacion indi
-                //console.log("saving new asignacion in DB:", newasig);
+                console.log("saving new asignacion in DB:", newasig);
                 asignado = await POST(props);
-
-                if (asignado) {
-                    setSeveridad({
-                        severidad: "success",
-                    });
-                    setAlerta({
-                        mensaje: "Asignación modificada satisfactoriamente",
-                    });
-                    //alert("Alumno asignado Satisfactoriamente");
-                }
-                //console.log("got updated alumno from back:", asignado);
             }
         }
+        */
+       if (asignado) {
+        setSeveridad({
+            severidad: "success",
+        });
+        setAlerta({
+            mensaje: "Asignación modificada satisfactoriamente",
+        });
+        //alert("Alumno asignado Satisfactoriamente");
+    }
+    console.log("got updated alumno from back:", asignado);
     }
       
     //actualizamos lista 
@@ -202,7 +239,7 @@ const ModificarAsignacion = (props) => {
                     enlace={"/api/tutor/lista/" + idPrograma}
                 />
             </Grid>
-            <Grid item md={6}>
+            {/*<Grid item md={6}>
                 <Typography variant="subtitle1">
                     {"Tutoria: "+datosForm.proceso}
                 </Typography>
@@ -213,21 +250,23 @@ const ModificarAsignacion = (props) => {
                     escogerTutoria={handleOnChangeTutoria}
                     enlace={"/api/tutoriafijaasignada/" + idPrograma}
                 />
-              </Grid>
-            <Grid item md={12} style={{marginBottom:"1%"}}>
+            </Grid>*/}
+            {grupal &&
+              <Grid item md={12} style={{marginBottom:"1%"}}>
                 <Typography variant="subtitle1">
                     {"Alumnos: "}
                 </Typography>
-            </Grid>
-            <Grid item md={12}>
+            </Grid>}
+            {grupal &&
+              <Grid item md={12}>
                 <ModificarAsignacionAlumnos
                     escogerAlumnos={handleOnChangeAlumnos}
-                    enlace={"/api/alumno/lista/" + idPrograma}
+                    enlace={"/api/alumno/listar/"+datosForm.idTutor+"/"+datosForm.idProceso+"/"+idPrograma}
                     programa={idPrograma}
                     proceso={datosForm.idProceso}
                     alumnos={alumnos}
                 />
-            </Grid>
+            </Grid>}
           </Grid>
         </DialogContent>
         <DialogActions>

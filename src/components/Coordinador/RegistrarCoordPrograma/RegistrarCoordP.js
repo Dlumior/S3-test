@@ -139,8 +139,10 @@ const RegistrarCoordinador = (props) => {
       let institucion = await Conexion.GET({servicio:"/api/institucion"});
       if (institucion){
         //console.log("RegistrarCoordinador institucion: ", institucion);
-        setDominio1(institucion.institucion.DOMINIO);
-        setDominio2(institucion.institucion.DOMINIO2);
+        if (institucion.institucion){
+          setDominio1(institucion.institucion.DOMINIO);
+          setDominio2(institucion.institucion.DOMINIO2);
+        }
         //console.log("RegistrarCoordinador dominio1: ", dominio1);
         //console.log("RegistrarCoordinador dominio2: ", dominio2);
       }
@@ -283,7 +285,7 @@ useEffect(() => {
             severidad:severidad.severS,
           });     
           setAlerta({
-            mensaje:"Se registro al coordinador satisfactoriamente",
+            mensaje:"Se registró al coordinador satisfactoriamente",
           });      
           //console.log("severidad= ",severidad.severidad);
         }  

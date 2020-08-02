@@ -140,7 +140,7 @@ class ListaTutorias extends Component {
 
           mantenimiento: (
             <>
-              {/*<IconButton color="primary">
+              {<IconButton color="primary">
                 <EditRoundedIcon
                   color="secondary"
                   fontsize="large"
@@ -148,7 +148,7 @@ class ListaTutorias extends Component {
                     this.handleOpenDialog(e, 2, ID_PROCESO_TUTORIA)
                   }
                 />
-                </IconButton>*/}
+                </IconButton>}
               <IconButton color="primary">
                 <DeleteRoundedIcon
                   color="error"
@@ -261,7 +261,7 @@ class ListaTutorias extends Component {
   }
   async componentDidMount() {
     // const { idPrograma } = this.props;
-    // //console.log("idPrograma", this.props.prog);
+    // console.log("idPrograma", this.props.prog);
   }
 
   renderTabla(datosNuevos) {
@@ -329,9 +329,22 @@ class ListaTutorias extends Component {
                 modalOrden={this.state.registrarTutoria}
               />
             ) : this.state.cuerpoDialogo === 1 ? (
-              <FormularioImportarAlumnos usuario={getUser().usuario} />
+              <FormularioNuevaTutoria
+                modalOrden={this.state.registrarTutoria}
+                idFacultad={this.state.currentID}
+                actualizarTutoria
+              />
+
             ) : this.state.cuerpoDialogo === 2 ? (
-              <h2>Actualizar Alumno con ID : {this.state.currentID}</h2>
+              <FormularioNuevaTutoria
+                modalOrden={this.state.registrarTutoria}
+                idFacultad={1000}
+                hadleClose={() => {
+                  this.setState({ open: false });
+                }}
+                actualizarTutoria
+                
+              />
             ) : this.state.cuerpoDialogo === 3 ? (
               <h2>Eliminar Alumno con ID : {this.state.currentID}</h2>
             ) : (
@@ -350,7 +363,7 @@ class ListaTutorias extends Component {
           maxWidth={"lg"}
           botonIzquierdo={"Cerrar"}
           botonDerecho={
-            this.state.cuerpoDialogo === 0
+            this.state.cuerpoDialogo === 0 || this.state.cuerpoDialogo === 2
               ? {
                   name: "Registrar",
                   onClick: () => {

@@ -73,7 +73,7 @@ const EliminarTutoria = (props) => {
             )}
             {elimino && (
               <Typography variant="subtitle1">
-                La tutoría se elimino satisfactoriamente
+                La tutoría se eliminó satisfactoriamente
               </Typography>
             )}
           </Grid>

@@ -79,7 +79,10 @@ const MisAlumnos = (props) => {
       const res = await GET(params);
       // //console.log(res.alumnos);
       if (res !== [] && res.alumnos[0] !== undefined) {
+        setAlumnos([]);
         setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
+        console.log("**********************");
+        console.log("Buscador", res.alumnos);
       } else {
         setAlumnos([]);
       }
@@ -101,7 +104,11 @@ const MisAlumnos = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       if (res !== [] && res.alumnos[0] !== undefined) {
-        setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
+        if (res.alumnos.length > 1) {
+          setAlumnos(res.alumnos);
+        } else {
+          setAlumnos(res.alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs);
+        }
       } else {
         setAlumnos([]);
       }
