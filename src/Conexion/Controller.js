@@ -77,15 +77,15 @@ export async function POST(props) {
         body: props.request? JSON.stringify({
           auditoria: {
             usuario:
-              getUser().usuario.CODIGO + "_" + getUser().usuario.NOMBRE + "_",
+              getUser().usuario.CODIGO + "_" + getUser().usuario.NOMBRE +" "+ getUser().usuario.APELLIDOS + ": ",
             dia,
             transaccion: props.request,
           },
         }):null,
       });
 
-      //console.log(">>> POST auditoria", await auditoria.json());
-      console.log(">>> POST auditoria", await auditoria);
+      console.log(">>> POST auditoria", await auditoria.json());
+      //console.log(">>> POST auditoria", await auditoria);
     }
 
     console.log(">>> POST succesful", responseJson);
