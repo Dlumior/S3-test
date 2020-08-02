@@ -31,6 +31,7 @@ import ImagenCircular from "../Shared/ImagenCircular";
 import { Grid, ThemeProvider } from "@material-ui/core";
 //import JToolbarSSJ from "jin-super-responsive-toolbar-ssj";
 import JToolbarSSJ3 from "../Shared/Toolbar2.jsx";
+import MarkunreadMailboxTwoToneIcon from '@material-ui/icons/MarkunreadMailboxTwoTone';
 
 const drawerWidth = 250;
 
@@ -189,8 +190,8 @@ const BarraNavegacion = (props) => {
                 {theme.direction === "ltr" ? (
                   <ChevronLeftIcon />
                 ) : (
-                  <ChevronRightIcon />
-                )}
+                    <ChevronRightIcon />
+                  )}
               </IconButton>
             </Grid>
             <Grid item md={12}>
@@ -212,6 +213,7 @@ const BarraNavegacion = (props) => {
             "Facultades",
             "Coordinadores",
             "Unidades de Apoyo",
+            "Buzón de Sugerencias"
           ].map((text, index) => (
             // <LinkRouter to={}>
             <ListItem
@@ -219,12 +221,12 @@ const BarraNavegacion = (props) => {
               key={text}
               component={LinkRouter}
               to={
-                index === 5
+                index === 6
                   ? "/"
                   : "/administrador/" +
-                    text.split(" ").join("").toLowerCase().replace("ó", "o")
+                  text.split(" ").join("").toLowerCase().replace("ó", "o")
               }
-              //onClick={handleClick}
+            //onClick={handleClick}
             >
               <ListItemIcon>
                 {index === 0 ? (
@@ -237,8 +239,10 @@ const BarraNavegacion = (props) => {
                   <SupervisorAccountRoundedIcon color="primary" />
                 ) : index === 4 ? (
                   <AccountBalanceRoundedIcon color="primary" />
+                ) : index === 5 ? (
+                  <MarkunreadMailboxTwoToneIcon color="primary" />
                 ) : (
-                  <NoteAddRoundedIcon color="primary" />
+                    <NoteAddRoundedIcon color="primary" />
                 )}
               </ListItemIcon>
               <ListItemText primary={text} color="primary" />
@@ -284,3 +288,4 @@ const BarraNavegacion = (props) => {
 };
 
 export default BarraNavegacion;
+

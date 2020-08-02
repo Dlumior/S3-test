@@ -12,6 +12,7 @@ import Home from "../Home/Home.js";
 import UnidadApoyo from "../UnidadApoyo/UnidadApoyo";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme.js";
+import BuzonSugerencias from "../../components/Administrador/buzonSugerencias.js";
 
 const Administrador = (props) => {
   //console.log("Administrador", props.history.location.pathname);
@@ -31,6 +32,7 @@ const Administrador = (props) => {
     <ThemeProvider theme={theme}>
       <div>
       <Route exact path={"/administrador/"} component={()=><><SaltoDeLinea N={3}/><Perfil/></>} />
+      
       <BarraNavegacion>
         <Route exact path={"/administrador/perfil"} component={Perfil} />
         <Route
@@ -49,6 +51,8 @@ const Administrador = (props) => {
           component={Coordinador}
         />
         <Route exact path={"/administrador/unidadesdeapoyo"} component={UnidadApoyo} />
+        <Route exact path={"/administrador/buzondesugerencias"} component={BuzonSugerencias} />
+
       </BarraNavegacion>
     </div>
     </ThemeProvider>

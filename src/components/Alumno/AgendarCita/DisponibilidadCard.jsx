@@ -21,6 +21,10 @@ const styles = {
   chip: {
     textAlign: "center",
   },
+  paperDiseibol:{
+    borderTop: "3px solid #3AAFA9",
+    backgroundColor: "#cccccc",
+  }
 };
 class DisponibilidadCard extends Component {
   //static contextType = UserContext;
@@ -172,12 +176,13 @@ class DisponibilidadCard extends Component {
     return (
       <>
         <Button
+          disabled={this.props.diseibol}
           onClick={this.handleOnClick}
         //disabled={!this.state.visible}
 
         >
 
-          <Paper style={styles.paper}>
+          <Paper style={this.props.diseibol?styles.paperDiseibol: styles.paper}>
             {/** Encabezado Imagen y nombre */}
             <Grid container spacing={0}>
               <Grid container spacing={0}>

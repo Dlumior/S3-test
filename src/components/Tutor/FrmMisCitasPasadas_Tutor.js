@@ -91,9 +91,11 @@ class FrmMisCitasPasadas_Tutor extends Component {
             if (!sesionTyS.error) {
                 let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
                 openMensajePantalla(dispatchDialog, {
+                    postClose: this.handleOnCloseResul,
+
                     open: true,
                     mensaje:
-                        "C.¡ Resultados Registrados Satisfactoriamente !",
+                        "C>¡ Resultados Registrados Satisfactoriamente !",
                 });
                 this.setState({ actuTys: !this.state.actuTys });
 
@@ -111,7 +113,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
                 openMensajePantalla(dispatchDialog, {
                     open: true,
                     mensaje:
-                        "X.Ups, Error Inesperado.   Por favor, Inténtelo más tarde.",
+                        "X>Ups, Error Inesperado.   Por favor, Inténtelo más tarde.",
                 });
             }
 
@@ -123,13 +125,12 @@ class FrmMisCitasPasadas_Tutor extends Component {
             openMensajePantalla(dispatchDialog, {
                 open: true,
                 mensaje:
-                    `X.${sesionTyS.message}`,
+                    `X>${sesionTyS.message}`,
             });
         }
     }
 
     handleDeDoggy = (e) => {
-
         this.setState({ asistencia: e.target.value });
     }
 
@@ -185,15 +186,10 @@ class FrmMisCitasPasadas_Tutor extends Component {
 
     handleOnOpen = (e, element) => {
         console.log(">>Element", element);
-
         //elementResul = element;
         this.setState({ elementResul: element });
         console.log(">>ElementResul", this.state.elementResul);
         this.setState({ open: true });
-
-
-
-
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -421,7 +417,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
                                 ) : (
                                         ""
                                     )}
-                            
+
                                 {this.state.elementResul?.PROCESO_TUTORIum.GRUPAL ? (
                                     <></>
                                 ) : (
@@ -562,9 +558,6 @@ class FrmMisCitasPasadas_Tutor extends Component {
 
                     </DialogActions>
                 </Dialog>
-
-
-
 
                 {this.state.open5 &&
                     <ModificaAsignaciones
