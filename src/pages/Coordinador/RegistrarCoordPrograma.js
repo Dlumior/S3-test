@@ -26,6 +26,9 @@ const Coordinador = () => {
       //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }
       //console.log("facultades:", facultades);
     }

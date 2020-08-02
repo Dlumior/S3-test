@@ -10,7 +10,7 @@ import { getUser } from "../../Sesion/Sesion";
 
 const Programas = () => {
   const [facultades, setFacultades] = useState([]);
-  const [facultad, setFacultad] = useState([]);
+  const [facultad, setFacultad] = useState("");
   const [flag1,setFlag1]=useState(0);//actualizacion entre hermanos
   const [flag2,setFlag2]=useState(0);
   /*
@@ -33,6 +33,9 @@ const Programas = () => {
       //console.log("facultades:", res);
       if (res){
         setFacultades(res.facultades);
+        if(res.facultades[0]){
+          setFacultad(res.facultades[0].ID_PROGRAMA)
+        }
       }
       //console.log("facultades:", facultades);
     }
