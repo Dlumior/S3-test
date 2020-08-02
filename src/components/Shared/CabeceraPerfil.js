@@ -62,7 +62,7 @@ const CabeceraPerfil = (props) => {
   const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
   const [imagenActual, setimagenActual] = useState(undefined);
 
-  const handleOnChangeImg = async(event) => {
+  const handleOnChangeImg = async (event) => {
     //console.log(event.target.files[0]);
 
     const ext = event.target.files[0].name;
@@ -73,9 +73,9 @@ const CabeceraPerfil = (props) => {
       openMensajePantalla(dispatchDialog, {
         open: true,
         mensaje: "X>Solo se permiten imagenes con extension 'jpeg'",
-        postClose: ()=>{
+        postClose: () => {
           alert("Bais extension");
-        }
+        },
       });
       return;
     }
@@ -113,15 +113,18 @@ const CabeceraPerfil = (props) => {
       let base = event.target.result.slice(23);
       //console.warn("img data", event.target.result);
       //console.warn("img data base", base);
-      const response = await POST({servicio:"/api/usuario/guardarimagen", request:{imagen:{ID_USUARIO:usuario.ID_USUARIO,IMAGEN:base}}});
+      const response = await POST({
+        servicio: "/api/usuario/guardarimagen",
+        request: { imagen: { ID_USUARIO: usuario.ID_USUARIO, IMAGEN: base } },
+      });
       //console.warn("HAAAAAAAAAAAAA:", response );
-      if(response){
+      if (response) {
         openMensajePantalla(dispatchDialog, {
           open: true,
           mensaje: "C>Imagen registrada satisfactoriamente",
-          postClose: ()=>{
+          postClose: () => {
             alert("Si funciono extension");
-          }
+          },
         });
       }
     };
@@ -139,17 +142,27 @@ const CabeceraPerfil = (props) => {
             alignItems="center"
           >
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
-            {getUser().rol === "Administrador" ?  
-            (getUser().usuario.IMAGEN ? (
+            {getUser().usuario.IMAGEN ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
-              />)
-             : 
-              <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
-              
-            ):
-                <ImagenCircular perfil src="https://www.w3schools.com/howto/img_avatar.png" />
-            }
+              />
+            ) : getUser().rol === "Administrador" ? (
+              <ImagenCircular
+                perfil
+                src="https://www.w3schools.com/howto/img_avatar.png"
+              />
+            ) : (
+              <Avatar
+                alt={props.nombre.replace(/["]+/g, "")}
+                src={props.imagen}
+                className={classes.large}
+              >
+                {props.nombre[0].match(/[a-z]/i)
+                  ? props.nombre[0]
+                  : props.nombre[1]}
+              </Avatar>
+            )}
+
             <Grid
               item
               md={12}

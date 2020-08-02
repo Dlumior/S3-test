@@ -14,6 +14,8 @@ import JModal from "../ListaAlumnos/JModal";
 import Jloading from "./Jloading";
 import ImagenCircular from "../../Shared/ImagenCircular";
 import EnConstruccion from "../../Shared/EnConstruccion";
+import { DialogContext } from "../../../Sesion/dialog";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction";
 
 const estilos = {
   paper: {
@@ -39,6 +41,8 @@ const estilos = {
   },
 };
 class VerInformacionRelevante extends Component {
+  static contextType = DialogContext;
+
   constructor() {
     super();
     this.state = {
@@ -115,6 +119,16 @@ class VerInformacionRelevante extends Component {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
+    if(!archivoOutput.informacionRelevante){
+      let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "W>Disculpe las molestias, el archivo seleccionado no es accesible en este momento. Si el problema persiste, comuníquese con el administrador del sistema. Gracias.",
+      });
+      return;
+    }
     await this.setState({
       filename: archivoOutput.informacionRelevante.DESCRIPCION,
       extension: archivoOutput.informacionRelevante.DESCRIPCION.split(".")[1],

@@ -32,9 +32,13 @@ class MultiDialog extends Component {
   }
   render() {
     const { mensaje, open } = this.props;
-    const [tipo, mensajePropiamente] = mensaje.split(">");
+
+    if (mensaje === "") {
+      return <></>;
+    } else 
+    {const [tipo, mensajePropiamente] = mensaje.split(">");
     return (
-      <div style={{display:mensajePropiamente===""?"none":"block"}}>
+      <div style={{ display: mensajePropiamente === "" ? "none" : "block" }}>
         <ThemeProvider theme={theme}>
           <Dialog
             open={this.props.open}
@@ -75,7 +79,7 @@ class MultiDialog extends Component {
           </Dialog>
         </ThemeProvider>
       </div>
-    );
+    );}
   }
 }
 
