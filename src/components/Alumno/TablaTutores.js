@@ -14,7 +14,7 @@ function Tabla(props) {
         title=""
         columns={props.tutores.columns}
         data={props.tutores.data}
-       
+        exportar
         /*options={{
           rowStyle: {
              backgroundColor: '#FFF',

@@ -72,6 +72,7 @@ class FrmBuzon extends Component {
                     columns={this.state.sesiones.columns}
                     data={this.state.sesiones.data}
                     title={`Lista de sugerencias al ${new Date()}`}
+                    exportar
                 />
 
 

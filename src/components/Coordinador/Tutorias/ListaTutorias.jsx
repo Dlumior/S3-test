@@ -278,6 +278,7 @@ class ListaTutorias extends Component {
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Tutorias`}
+            exportar
           />
           {/*<MaterialTable
           columns={this.state.datosTabla.columns}

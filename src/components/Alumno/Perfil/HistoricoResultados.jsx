@@ -72,6 +72,7 @@ class HistoricoResultados extends Component {
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`${this.state.title1} ${this.state.title2}`}
+            exportar
           />
           {
             /**

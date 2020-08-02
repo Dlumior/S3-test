@@ -103,6 +103,7 @@ class VerInformacionRelevante extends Component {
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Archivos del Alumno`}
+            exportar
           />);
           
           { /**
