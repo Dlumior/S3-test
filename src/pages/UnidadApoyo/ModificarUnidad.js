@@ -143,8 +143,10 @@ useEffect(() => {
     async function fetchDominios() {
         let institucion = await Controller.GET({servicio:"/api/institucion"});
         if (institucion){
-        setDominio1(institucion.institucion.DOMINIO);
-        setDominio2(institucion.institucion.DOMINIO2);
+          if (institucion.institucion){
+            setDominio1(institucion.institucion.DOMINIO);
+            setDominio2(institucion.institucion.DOMINIO2);
+          }
         }
     }
 
