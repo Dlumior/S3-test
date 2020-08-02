@@ -4,7 +4,9 @@ import GetAppSharpIcon from "@material-ui/icons/GetAppSharp";
 import JUploadSSJ from "jin-upload-ssj2";
 import { GET, POST } from "../../../Conexion/Controller";
 import { IconButton, Grid, Paper, Button } from "@material-ui/core";
-import MaterialTable from "material-table";
+//import MaterialTable from "material-table";
+import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
+
 import CampoDeTexto from "../Tutorias/CampoDeTexto";
 //import JDownloadButtonIcon from "downloadssj";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
@@ -96,7 +98,15 @@ class VerInformacionRelevante extends Component {
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <MaterialTable
+
+        <JMaterialTableSpanishSSJ
+            columns={this.state.datosTabla.columns}
+            data={this.state.datosTabla.data}
+            title={`Archivos del Alumno`}
+          />);
+          
+          { /**
+             * <MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -112,7 +122,9 @@ class VerInformacionRelevante extends Component {
           }}
           title={`Archivos del Alumno`}
         />
-      );
+             */ }
+        
+      
     }
   }
   async getArchivo(idArchivo) {
