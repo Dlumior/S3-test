@@ -18,8 +18,8 @@ const estilo = {
     marginRight: "1%",
     color: "#002D3D",
     textAlign: "center",
-    minHeight:550,
-    maxHeight: 900
+    minHeight: 550,
+    maxHeight: 900,
   },
 };
 class JModal extends Component {
@@ -35,12 +35,12 @@ class JModal extends Component {
   handleClose() {
     this.props.hadleClose();
   }
-componentDidMount(){
-this.setState({open:false});
-}
+  componentDidMount() {
+    this.setState({ open: false });
+  }
   render() {
-    const {maxWidth} = this.props;
-    const titleSize= maxWidth==="xl"?1:2;
+    const { maxWidth } = this.props;
+    const titleSize = maxWidth === "xl" ? 1 : 2;
     return (
       <>
         <Dialog
@@ -54,20 +54,16 @@ this.setState({open:false});
         >
           <DialogTitle id="scroll-dialog-title">
             <Grid container spacing={2}>
-
-            <Grid item md={titleSize} xs={titleSize}>
-                <ImagenCircular 
-                src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted.png"
-                square
+              <Grid item md={titleSize} xs={titleSize}>
+                <ImagenCircular
+                  src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted.png"
+                  square
                 />
+              </Grid>
+              <Grid item md={12 - titleSize} xs={12 - titleSize}>
+                <TituloFormulario titulo={this.props.titulo} />
+              </Grid>
             </Grid>
-            <Grid item md={12-titleSize} xs={12-titleSize}>
-            <TituloFormulario titulo={this.props.titulo} />
-
-              
-            </Grid>
-            </Grid>
-            
           </DialogTitle>
           <DialogContent dividers={"paper"}>
             <DialogContentText
@@ -94,7 +90,9 @@ this.setState({open:false});
               )}
               {this.props.botonDerecho ? (
                 <Button
-                  onClick={async ()=>{await this.props.botonDerecho.onClick()}}
+                  onClick={async () => {
+                    await this.props.botonDerecho.onClick();
+                  }}
                   variant={"contained"}
                   color="primary"
                 >

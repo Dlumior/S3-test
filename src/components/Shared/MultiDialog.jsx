@@ -43,19 +43,16 @@ class MultiDialog extends Component {
           <ThemeProvider theme={theme}>
             <Dialog
               open={this.props.open}
+              scroll={"paper"}
               onClose={this.handleOnClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
+              aria-describedby="scroll-dialog-description"
+              aria-labelledby="max-width-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">
+              <DialogTitle id="scroll-dialog-title">
                 <Grid container md={12} justify="center">
-                  {
-                  tipo === "X" ? (
+                  {tipo === "X" ? (
                     <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
-
-                  ):
-                  
-                  tipo === "L" ? (
+                  ) : tipo === "L" ? (
                     <Jloading mensaje={""} size={"xs"} />
                   ) : tipo === "C" ? (
                     <CheckCircleRoundedIcon
@@ -75,7 +72,10 @@ class MultiDialog extends Component {
                    */}
                 </Grid>
               </DialogTitle>
-              <DialogContent>{mensajePropiamente}</DialogContent>
+              
+              <DialogContent >
+                {mensajePropiamente}
+                </DialogContent>
               <DialogActions>
                 <Button
                   variant="contained"
