@@ -122,7 +122,7 @@ const FormModificar = (props) => {
   const idCoordinador = getUser().usuario.ID_USUARIO;
   const rolCoordinador = getUser().idRol;
 
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
   const [datos, setDatos] = React.useState({
     ID_TUTOR: props.datos.ID_USUARIO,
