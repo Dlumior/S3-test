@@ -104,8 +104,8 @@ const ModificarAsignacion = (props) => {
 
   const handleClick = async () => {   
     console.log("validando: ", datosForm.idProceso,datosForm.idTutor,datosForm.alumnos.length);
-    if (datosForm.idProceso==='' || datosForm.idTutor==='' || datosForm.alumnos.length<2){
-        if (datosForm.alumnos.length<2){
+    if (datosForm.idProceso==='' || datosForm.idTutor==='' || (grupal && datosForm.alumnos.length<2)){
+        if ((grupal && datosForm.alumnos.length<2)){
           setSeveridad({
             severidad:"error",
           });     
