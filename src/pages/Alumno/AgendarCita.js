@@ -123,6 +123,8 @@ class AgendarCita extends Component {
           usuario={getUser().usuario}
           obtenerPrograma={this.obtenerPrograma}
         />
+        
+
         {this.state.programa ? 
           <TabProceso
             procesos={[

@@ -13,7 +13,6 @@ import UnidadApoyo from "../UnidadApoyo/UnidadApoyo";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme.js";
 import BuzonSugerencias from "../../components/Administrador/buzonSugerencias.js";
-import Footer from "../../components/Shared/Footer.jsx";
 
 const Administrador = (props) => {
   //console.log("Administrador", props.history.location.pathname);
@@ -55,7 +54,7 @@ const Administrador = (props) => {
         <Route exact path={"/administrador/buzondesugerencias"} component={BuzonSugerencias} />
 
       </BarraNavegacion>
-      <Footer />
+      
     </div>
     </ThemeProvider>
     

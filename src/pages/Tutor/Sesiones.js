@@ -7,8 +7,14 @@ import FrmSolicitarCitaTutor_granito from "../../components/Alumno/FrmSolicitarC
 import CalendarioCitas from "../../components/Alumno/AgendarCita/CalendarioCitas";
 import { UserContext, getUser } from "../../Sesion/Sesion";
 import BtnRegistroSesionGrupal from "../../components/Tutor/RegistroSesionGrupal/BtnRegistroSesionGrupal";
-import { Grid } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 
+const estilo={
+  sesion:{
+    minHeight: "1000px",
+    backgroundColor: "#ffffff",
+  }
+}
 class Sesiones extends Component {
   constructor() {
     super();
@@ -19,7 +25,7 @@ class Sesiones extends Component {
           procesos: [
             {
               index: 0,
-              titulo: "Horarios Disponibles",
+              titulo: "Sesiones con tus alumnos",
               proceso: () => (
                 <CalendarioCitas
                   servicio={
@@ -47,17 +53,10 @@ class Sesiones extends Component {
         {/** exacto y lo unico que se debe reemlazar seria los procesos que van a los tabs,
          *  btw tabbproceso si soporta no mostrar tabs XDDD*/}
 
-        <NombrePrincipal titulo={this.state.procesos[0].titulo} />
-        <TabProceso procesos={this.state.procesos[0].procesos} paper={false} />
-        <Grid container md={12}>
-          <Grid
-            item
-            justify="flex-end"
-            style={{ marginTop: "15%", marginRight: "70%", marginLeft: "1%" }}
-          >
-            <RegistrarSesion />
-          </Grid>
-        </Grid>
+        <NombrePrincipal titulo={this.state.procesos[0].titulo} botonRegistrar={RegistrarSesion} />
+          <TabProceso procesos={this.state.procesos[0].procesos} paper={false} />
+        
+        
         {/*<FrmSolicitarTutorTipoII />*/}
         {/*//Tipo II : tutoria INDIVIDUAL, tutor FIJO y SELECCIONADO */}
       </div>

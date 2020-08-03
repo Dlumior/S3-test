@@ -13,6 +13,8 @@ const styles = {
   container: {
     marginLeft: "1%",
     marginRight: "1%",
+    minHeight: "500px",
+    maxHeight: "800px",
   },
 };
 

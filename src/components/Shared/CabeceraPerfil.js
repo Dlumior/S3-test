@@ -74,7 +74,7 @@ const CabeceraPerfil = (props) => {
         open: true,
         mensaje: "X>Solo se permiten imagenes con extension 'jpeg'",
         postClose: () => {
-          alert("Bais extension");
+          //alert("Bais extension");
         },
       });
       return;
@@ -123,7 +123,7 @@ const CabeceraPerfil = (props) => {
           open: true,
           mensaje: "C>Imagen registrada satisfactoriamente",
           postClose: () => {
-            alert("Si funciono extension");
+            //alert("Si funciono extension");
           },
         });
       }

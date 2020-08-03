@@ -12,7 +12,7 @@ const styles = {
   control: {
     textAlign: "center",
   },
-  container: {},
+  container: { minHeight: "500px", maxHeight: "800px" },
 };
 class CalendarioCitas extends Component {
   constructor() {
@@ -231,7 +231,7 @@ class CalendarioCitas extends Component {
     //console.log("PROPS calendarioCitas.js", this.props);
     const { programa } = this.props;
     return (
-      <div style={styles.container}>
+      <div id={"AgendarCita"} style={styles.container}>
         {/**
          * Desde la lista de tutores (granito) no filtra el tutor seleccionado[arreglado]
          * En tutotria fija no filtra por su tutor fijo[arreglado]
@@ -283,7 +283,7 @@ class CalendarioCitas extends Component {
          */}
 
         {this.state.modoBatallador ? (
-          <Grid container alignContent="center">
+          <Grid container style={styles.container}>
             {this.props.tipo === "cita" ? (
               this.renderDias(this.state.lunesActual, this.state.listaIdTutores)
             ) : this.state.filtroIdProceso ? (
