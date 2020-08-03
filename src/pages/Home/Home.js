@@ -90,7 +90,6 @@ function Home(props) {
           </Grid>
         </Grid>
       </Grid>
-      <Footer />
     </div>
   );
 }
