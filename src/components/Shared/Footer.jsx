@@ -180,7 +180,7 @@ class Footer extends Component {
                         src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
                       />
                       <p class="text-justify">
-                        <strong>{"uTutor.net "}</strong>
+                        <strong>{"Ututor.net "}</strong>
                     es una plataforma web de gestión y administración de
                     procesos de tutorías. Está dirigida para apoyar el desempeño
                     profesional de alumnos de la Pontificia Universidad Católica
@@ -282,7 +282,7 @@ class Footer extends Component {
                       src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
                     />
                     <p class="text-justify">
-                      <strong>{"uTutor.net "}</strong>
+                      <strong>{"Ututor.net "}</strong>
                   es una plataforma web de gestión y administracion de procesos
                   de tutorias. Está dirigida para apoyar el desempeño
                   profesional de alumnos de la Pontificia Universidad Católica
@@ -291,7 +291,7 @@ class Footer extends Component {
                   </Grid>
                 </div>
                 <div class="copyright">
-                  Copyright © 2020 uTutor.net | {institucion?.NOMBRE || "PUCP"} - Todos los derechos reservados.
+                  Copyright © 2020 Ututor.net | {institucion?.NOMBRE || "PUCP"} - Todos los derechos reservados.
             </div>
               </div>
             </div>
