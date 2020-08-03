@@ -9,8 +9,12 @@ const styles = {
   tablas: {
     minWidth: "40px",
     borderRadius: "50%",
-    height:"70px"
-   
+    height: "70px"
+  },
+  cardsTutor: {
+    minWidth: "40px",
+    borderRadius: "50%",
+    height: "50px"
   },
   xxs: {
     borderRadius: "50%",
@@ -67,6 +71,14 @@ class ImagenCircular extends Component {
       return (
         <img
           style={styles.tablas}
+          src={src}
+          alt="logo-ututor"
+        />
+      );
+    } else if (cardsTutor) {
+      return (
+        <img
+          style={styles.cardsTutor}
           src={src}
           alt="logo-ututor"
         />

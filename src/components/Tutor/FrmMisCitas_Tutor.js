@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, DialogActions, DialogContent, TextField, FormHelperText } from "@material-ui/core";
+import { Paper, Tabs, Tab, Button, Grid, Dialog, DialogTitle, DialogActions, DialogContent, TextField, FormHelperText, Avatar, withStyles } from "@material-ui/core";
 import { compose } from "recompose";
 import { withRouter } from "react-router-dom";
 import TabProceso from "../Coordinador/Tutorias/TabProceso";
@@ -13,8 +13,23 @@ import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaci
 import WarningRoundedIcon from '@material-ui/icons/WarningRounded';
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
+import ImagenCircular from "../Shared/ImagenCircular";
 
-
+const styles = (theme) => ({
+    small: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    },
+    large: {
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+        fontSize: "300%",
+    },
+    customContainer: {
+        padding: theme.spacing(5),
+        backgroundColor: "#ffffff",
+    },
+});
 class FrmMisCitas_Tutor extends Component {
     constructor() {
         super();
@@ -349,7 +364,7 @@ class FrmMisCitas_Tutor extends Component {
                 cont++;
                 fechaSesion = await moment(element.FECHA).format("YYYY-MM-DD");
                 let estadillo = element.ESTADO.includes("realizada") || element.ESTADO.includes("cancelada") ? element.ESTADO.split("-")[0] : fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
-                
+
                 //let estadillo = fechaHoy > fechaSesion ? "PR" : element.ESTADO.split("-")[0];
 
                 arreglillo.push({
@@ -363,7 +378,34 @@ class FrmMisCitas_Tutor extends Component {
                           </img>
                       </div>, 
                      */
+                    imagen: (
+                        <div>
+                            {
+                                element.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                                    <ImagenCircular tablas
+                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                                    />
+                                ) : (
+                                        element.ALUMNOs[0].USUARIO.IMAGEN ? (
+                                            <ImagenCircular tablas
+                                                src={`data:image/jpeg;base64,${element.ALUMNOs[0].USUARIO.IMAGEN}`}
+                                            />
+                                        ) : (
+                                                <Avatar
+                                                    alt={element.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                                    //src={props.imagen}
+                                                    className={this.props.classes.large}
+                                                >
+                                                    {element.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                        ? element.ALUMNOs[0].USUARIO.NOMBRE[0]
+                                                        : element.ALUMNOs[0].USUARIO.NOMBRE[1]}
+                                                </Avatar>
+                                            )
+                                    )
+                            }
 
+                        </div>
+                    ),
                     //>>> ASUMIMOS PARA UN ALUMNO
                     //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
                     nombre: element.PROCESO_TUTORIum.GRUPAL ?
@@ -416,14 +458,14 @@ class FrmMisCitas_Tutor extends Component {
 
             const data = {
                 columns: [
-                    // {
-                    //     title: "",
-                    //     field: "imagen"
-                    // },
                     {
                         title: "N°",
                         field: "campoCont",
 
+                    },
+                    {
+                        title: "",
+                        field: "imagen"
                     },
                     {
                         title: "Alumno",
@@ -541,7 +583,7 @@ class FrmMisCitas_Tutor extends Component {
 
         if (!arregloDeSesiones) return;
 
-        ////console.log("arreglo: ", arregloDeSesiones);
+        console.log("arreglo: ", arregloDeSesiones);
         let arreglillo = [];
         let cont = 0;
         let fechaHoy = moment(new Date()).format("YYYY-MM-DD");
@@ -566,7 +608,36 @@ class FrmMisCitas_Tutor extends Component {
                       </img>
                   </div>, 
                  */
+                imagen: (
+                    <div>
+                        {
+                            element.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                                <ImagenCircular tablas
+                                    src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                                />
+                            ) : (
+                                    element.ALUMNOs[0].USUARIO.IMAGEN ? (
+                                        <ImagenCircular tablas
+                                            src={`data:image/jpeg;base64,${element.ALUMNOs[0].USUARIO.IMAGEN}`}
+                                        />
+                                    ) : (
 
+                                            <Avatar
+                                                alt={element.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                                //src={props.imagen}
+                                                className={this.props.classes.large}
+                                            >
+                                                {element.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                    ? element.ALUMNOs[0].USUARIO.NOMBRE[0]
+                                                    : element.ALUMNOs[0].USUARIO.NOMBRE[1]}
+                                            </Avatar>
+                                        )
+
+                                )
+                        }
+
+                    </div>
+                ),
                 //>>> ASUMIMOS PARA UN ALUMNO
                 //.....Sino se tendria qrecorrer el arreglo de alumno de la cita(caso grupales)
                 nombre: element.PROCESO_TUTORIum.GRUPAL ?
@@ -616,14 +687,14 @@ class FrmMisCitas_Tutor extends Component {
 
         const data = {
             columns: [
-                // {
-                //     title: "",
-                //     field: "imagen"
-                // },
                 {
                     title: "N°",
                     field: "campoCont",
 
+                },
+                {
+                    title: "",
+                    field: "imagen",
                 },
                 {
                     title: "Alumno",
@@ -631,7 +702,7 @@ class FrmMisCitas_Tutor extends Component {
                 },
                 {
                     title: "Fecha / Hora",
-                    field: "fecha"
+                    field: "fecha",
                 },
                 {
                     title: "Lugar",
@@ -873,7 +944,7 @@ class FrmMisCitas_Tutor extends Component {
 
 
 
-                <TabProceso procesos={[
+                <TabProceso paperTutor procesos={[
                     {
                         index: 0, titulo: "Pendientes", //Pendientes y realizadas
                         proceso: () => < TablaTutoresMisCitas_Tutor sesiones={this.state.sesiones} estado={"PyR"} />
@@ -954,7 +1025,7 @@ class FrmMisCitas_Tutor extends Component {
 }
 
 
-export default compose(withRouter)(FrmMisCitas_Tutor);
+export default  compose(withRouter,withStyles(styles))(FrmMisCitas_Tutor);
 
 const estilos = {
     subtitulo: {

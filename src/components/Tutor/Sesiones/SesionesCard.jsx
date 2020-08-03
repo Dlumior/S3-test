@@ -6,12 +6,28 @@ import {
   Typography,
   Button,
   Dialog,
+  Avatar,
+  withStyles,
 } from "@material-ui/core";
 import ImagenCircular from "../../Shared/ImagenCircular";
 import RevisarSesion from "./RevisarSesion";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-
+const stylesXXX = (theme) => ({
+  small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+  },
+  large: {
+      width: theme.spacing(10),
+      height: theme.spacing(10),
+      fontSize: "300%",
+  },
+  customContainer: {
+      padding: theme.spacing(5),
+      backgroundColor: "#ffffff",
+  },
+});
 const styles = {
   paper1: {
     borderTop: "3px solid #3AAFA9",
@@ -58,7 +74,7 @@ class SesionesCard extends Component {
 
   render() {
     const cita = this.props.cita;
-    //console.log("PERRO", cita);
+    console.log("PERRO", cita);
     // si es que es pospuesta o futura
     if (cita.ESTADO.includes("03") || cita.ESTADO.includes("04")) {
       return (
@@ -69,7 +85,32 @@ class SesionesCard extends Component {
               <Grid container spacing={2} style={styles.chip}>
                 {/** IMAGEN  */}
                 <Grid item md={3} xs={3}>
-                  <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                  {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
+                  {
+                                cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                                    <ImagenCircular tablas
+                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                                    />
+                                ) : (
+                                  cita.ALUMNOs[0].USUARIO.IMAGEN ? (
+                                            <ImagenCircular tablas
+                                                src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
+                                            />
+                                        ) : (
+                                                <Avatar
+                                                    alt={cita.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                                    //src={props.imagen}
+                                                    className={this.props.classes.large}
+                                                >
+                                                    {cita.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                        ? cita.ALUMNOs[0].USUARIO.NOMBRE[0]
+                                                        : cita.ALUMNOs[0].USUARIO.NOMBRE[1]}
+                                                </Avatar>
+                                            )
+                                    )
+                            }
+
+                
                 </Grid>
 
                 {/** NOMBRE-APELLIDOS  */}
@@ -131,7 +172,30 @@ class SesionesCard extends Component {
               <Grid container spacing={2} style={styles.chip}>
                 {/** IMAGEN  */}
                 <Grid item md={3} xs={3}>
-                  <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                  {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
+                  {
+                                cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                                    <ImagenCircular tablas
+                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                                    />
+                                ) : (
+                                  cita.ALUMNOs[0].USUARIO.IMAGEN ? (
+                                            <ImagenCircular cardsTutor
+                                                src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
+                                            />
+                                        ) : (
+                                                <Avatar
+                                                    alt={cita.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                                    //src={props.imagen}
+                                                    className={this.props.classes.large}
+                                                >
+                                                    {cita.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                        ? cita.ALUMNOs[0].USUARIO.NOMBRE[0]
+                                                        : cita.ALUMNOs[0].USUARIO.NOMBRE[1]}
+                                                </Avatar>
+                                            )
+                                    )
+                            }                
                 </Grid>
 
                 {/** NOMBRE-APELLIDOS  */}
@@ -207,4 +271,4 @@ class SesionesCard extends Component {
   }
 }
 
-export default SesionesCard;
+export default withStyles(stylesXXX)(SesionesCard);

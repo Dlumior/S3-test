@@ -3,7 +3,7 @@ import * as Controller from "../../Conexion/Controller";
 import TablaCitasPasadas from "../Alumno/AgendarCita/CitasPasadas/TablaCitasPasadas";
 
 import { getUser } from "../../Sesion/Sesion"
-import { Button, Dialog, DialogTitle, Typography, DialogContent, Paper, Grid, DialogActions, TextField } from "@material-ui/core";
+import { Button, Dialog, DialogTitle, Typography, DialogContent, Paper, Grid, DialogActions, TextField, Avatar, withStyles } from "@material-ui/core";
 import moment from 'moment';
 import Alertas from "../Coordinador/Alertas";
 import ModificaAsignaciones from "../Coordinador/FormAsignacion/ModificaAsignaciones";
@@ -15,8 +15,23 @@ import { openMensajePantalla } from "./../../Sesion/actions/dialogAction";
 
 import { DialogContext } from "./../../Sesion/dialog.js";
 import RevisarSesion from "./Sesiones/RevisarSesion";
+import ImagenCircular from "../Shared/ImagenCircular";
 
-
+const styles = (theme) => ({
+    small: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    },
+    large: {
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+        fontSize: "300%",
+    },
+    customContainer: {
+        padding: theme.spacing(5),
+        backgroundColor: "#ffffff",
+    },
+});
 class FrmMisCitasPasadas_Tutor extends Component {
     static contextType = DialogContext;
     constructor() {
@@ -220,6 +235,36 @@ class FrmMisCitasPasadas_Tutor extends Component {
                 arreglillo.push({
                     campoCont: cont,
                     // nombre: element.ALUMNOs ? element.ALUMNOs[0].USUARIO.NOMBRE + " " + element.ALUMNOs[0].USUARIO.APELLIDOS : "",
+                    imagen: (
+                        <div>
+                            {
+                                element.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                                    <ImagenCircular tablas
+                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                                    />
+                                ) : (
+                                        element.ALUMNOs[0].USUARIO.IMAGEN ? (
+                                            <ImagenCircular tablas
+                                                src={`data:image/jpeg;base64,${element.ALUMNOs[0].USUARIO.IMAGEN}`}
+                                            />
+                                        ) : (
+    
+                                                <Avatar
+                                                    alt={element.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
+                                                    //src={props.imagen}
+                                                    className={this.props.classes.large}
+                                                >
+                                                    {element.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
+                                                        ? element.ALUMNOs[0].USUARIO.NOMBRE[0]
+                                                        : element.ALUMNOs[0].USUARIO.NOMBRE[1]}
+                                                </Avatar>
+                                            )
+    
+                                    )
+                            }
+    
+                        </div>
+                    ),
                     nombre: element.PROCESO_TUTORIum.GRUPAL ?
                         <Button
                             href="#text-buttons" color="primary"
@@ -262,6 +307,11 @@ class FrmMisCitasPasadas_Tutor extends Component {
                 {
                     title: "N°",
                     field: "campoCont",
+
+                },
+                {
+                    title: "",
+                    field: "imagen",
 
                 },
                 {
@@ -572,7 +622,7 @@ class FrmMisCitasPasadas_Tutor extends Component {
 
 }
 
-export default FrmMisCitasPasadas_Tutor;
+export default withStyles(styles)(FrmMisCitasPasadas_Tutor);
 
 const estilos = {
     paper: {
