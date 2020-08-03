@@ -92,6 +92,7 @@ class CalendarioCitas extends Component {
             {fechasDias.map((diaSemana) => (
               <Grid item style={{ width: 180, height: 180, flexGrow: 1 }}>
                 <HorarioDelDia
+                  hoy
                   fecha={{
                     fecha: diaSemana,
                     servicio:

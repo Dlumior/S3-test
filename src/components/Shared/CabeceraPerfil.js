@@ -68,7 +68,7 @@ const CabeceraPerfil = (props) => {
     const ext = event.target.files[0].name;
     //let extens = ext.slice(-3);    => Si resulta ser jpeg (tiene 4 aracteres ahi valimos)
     const extens = ext.split(".")[1];
-    alert(extens);
+    //alert(extens);
     if (extens.toLowerCase() === "png") {
       openMensajePantalla(dispatchDialog, {
         open: true,

@@ -10,8 +10,8 @@ const styles = {
     marginTop: "1%",
     flexDirection: "column",
     backgroundImage: "",
-    minHeight: "500px",
-    maxHeight: "800px",
+    minHeight: "300px",
+    maxHeight: "600px",
     whiteSpace: "nowrap",
   },
   control: {
