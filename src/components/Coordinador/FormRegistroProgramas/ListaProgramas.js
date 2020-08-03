@@ -18,6 +18,7 @@ const style = {
       marginTop: "3%",
       marginLeft: "3%",
       marginRight:"3%",
+      marginBottom:"3%",
       display: "flex",
       flexDirection: "column",
       alignItems: "left",
