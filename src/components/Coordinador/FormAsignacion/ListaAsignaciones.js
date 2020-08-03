@@ -54,8 +54,9 @@ class ListaAsignaciones extends React.Component {
     let arreglillo = [];
     for (let element of arregloAsigna.asignaciones){
       if (element.ID_ASIGNACION!==null){
+        console.log("fechaa",element.FECHA_ASIGNACION);
         arreglillo.push({
-          fecha:moment(element.FECHA_ASIGNACION).format("YYYY-MM-DD"),
+          fecha:element.FECHA_ASIGNACION.split('T')[0],
           tutor:element.TUTOR.USUARIO.NOMBRE+" "+element.TUTOR.USUARIO.APELLIDOS,
           tutoria:element.PROCESO_TUTORIA.NOMBRE,
           boton:<div> 

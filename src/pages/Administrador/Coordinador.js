@@ -36,7 +36,7 @@ const Coordinador = () => {
   
   return (
     <div>
-      <NombrePrincipal titulo="Coordinadores" />
+      <NombrePrincipal titulo="Coordinadores de facultad" />
       <Grid container md={12} justify="flex-end" alignItems="center" spacing={1}>
         <Grid item style={{marginRight:"3%",marginTop:"1%"}}>
         <RegistrarCoordinador flag={flag2} setFlag={setFlag1}/>
