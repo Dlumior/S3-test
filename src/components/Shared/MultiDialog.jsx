@@ -81,6 +81,7 @@ class MultiDialog extends Component {
                   variant="contained"
                   color="primary"
                   onClick={this.handleOnClose}
+                  style={{display:(tipo === "L")?"none":"block"}}
                 >
                   Aceptar
                 </Button>

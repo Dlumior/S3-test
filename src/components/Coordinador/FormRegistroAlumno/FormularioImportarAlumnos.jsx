@@ -162,15 +162,22 @@ class FormularioImportarAlumnos extends Component {
           open: false,
           mensaje: `N>Naranjas`,
         });
+        let superError= "X> Lo sentimos pero no se pudo realizar el registro. \nResultado:";
+        respuestaMasiva.errores.forEach((error,count) => {
+          superError=superError+` \n\t${count+1}- ${alumnos[count].NOMBRE}: ${error}`;
+        });
         openMensajePantalla(dispatchDialog, {
           open: true,
-          mensaje: `X> Se encontro el siguiente error: ${respuestaMasiva.errores}. \nNo se pudo registrar a los alumnos en lote. No se registraró ningun alumno, porfavor corrija los errores e intentelo nuevamente.`,
+          mensaje: superError,
+
+          //mensaje: `X> Se encontro el siguiente error: ${respuestaMasiva.errores}. \nNo se pudo registrar a los alumnos en lote. No se registraró ningun alumno, porfavor corrija los errores e intentelo nuevamente.`,
         });
       } else {
         openMensajePantalla(dispatchDialog, {
           open: false,
           mensaje: `N>Naranjas`,
         });
+        
         openMensajePantalla(dispatchDialog, {
           open: true,
           mensaje: `C>Se registró satisfactoriamente a todos los alumnos en lote .`,
