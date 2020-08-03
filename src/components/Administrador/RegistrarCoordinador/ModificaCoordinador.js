@@ -399,7 +399,6 @@ useEffect(() => {
             <Grid item md={12}>
               <TextField
                 required
-                disabled
                 error={errors.code.error}
                 margin="dense"
                 id="CODIGO"
