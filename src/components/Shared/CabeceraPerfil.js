@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getUser, useUserValue } from "../../Sesion/Sesion";
+import { getUser, useUserValue,localLogin } from "../../Sesion/Sesion";
 import {
   Grid,
   Typography,
@@ -119,13 +119,17 @@ const CabeceraPerfil = (props) => {
       });
       //console.warn("HAAAAAAAAAAAAA:", response );
       if (response) {
+        let usuario = getUser();
+        usuario.usuario.IMAGEN=base;
+        localLogin(usuario);
         openMensajePantalla(dispatchDialog, {
           open: true,
           mensaje: "C>Imagen registrada satisfactoriamente",
           postClose: () => {
-            //alert("Si funciono extension");
+            //window.location.replace("/alumno/perfil");
           },
         });
+        
       }
     };
   };
