@@ -142,10 +142,10 @@ const FormModificar = (props) => {
   const [errors, setErrors] = useState(errorObj);
 
   const [facultades, setFacultades] = useState([]);
-  const [facultad, setFacultad] = useState("");
+  const [facultad, setFacultad] = useState(props.facultad);
 
   const [programas, setProgramas] = useState([]);
-  const [programa, setPrograma] = useState("");
+  const [programa, setPrograma] = useState(props.programa);
 
   const [dominio1, setDominio1] = useState("");
   const [dominio2, setDominio2] = useState("");
@@ -190,9 +190,9 @@ const FormModificar = (props) => {
       const params = { servicio: endpoint };
       const res = await Controller.GET(params);
       //console.log(res);
-      if (res){
+      if (res) {
         setFacultades(res.facultades);
-      }      
+      }
     }
     fetchFacultades();
   }, [rolCoordinador, idCoordinador]);
@@ -219,13 +219,13 @@ const FormModificar = (props) => {
         if (rolCoordinador === 6) {
           //console.log("asignando programa");
           //console.log(res);
-          if (res){
+          if (res) {
             setProgramas(res.programa);
-          }          
+          }
         } else if (rolCoordinador === 2) {
           //console.log("asignando programas");
           //console.log(res);
-          if (res){
+          if (res) {
             setProgramas(res.programas);
           }
         }
@@ -261,7 +261,7 @@ const FormModificar = (props) => {
 
       const sendData = {
         servicio: "/api/tutor/modificar",
-        request: { tutor: datos },
+        request: { tutor: { ...datos, PROGRAMA: [programa] } },
       };
       //console.log("Saving new tutor in DB:", sendData);
       let nuevoTutor = await Controller.POST(sendData);
@@ -417,7 +417,7 @@ const FormModificar = (props) => {
                   />
                 </Grid>
               </Grid>
-              {/* <Grid item xs={12} container spacing={10}>
+              <Grid item xs={12} container spacing={10}>
                 <Grid item xs={12} md={6}>
                   <ComboBoxFacultades
                     programas={facultades}
@@ -434,7 +434,7 @@ const FormModificar = (props) => {
                     setPrograma={setPrograma}
                   />
                 </Grid>
-              </Grid> */}
+              </Grid>
               <Grid
                 item
                 xs={12}
