@@ -114,7 +114,7 @@ class Asistencias extends React.Component {
         //sino BAIS!
         return;
       } else{
-        arregloSesiones=await Controller.GET({servicio:"/api/listaSesionAlumno/"+idAlumno});      
+        arregloSesiones=await Controller.GET({servicio:"/api/listaSesionAlumnoSinFoto/"+idAlumno});      
       }    
       //console.log("arreglo: ",arregloSesiones);
       this.establecerData(arregloSesiones);
@@ -128,7 +128,7 @@ class Asistencias extends React.Component {
       //sino BAIS!
       return;
     } else{
-      arregloSesiones=await Controller.GET({servicio:"/api/listaSesionAlumno/"+idAlumno});      
+      arregloSesiones=await Controller.GET({servicio:"/api/listaSesionAlumnoSinFoto/"+idAlumno});      
     }    
     //console.log("arreglo: ",arregloSesiones);
     this.establecerData(arregloSesiones);
