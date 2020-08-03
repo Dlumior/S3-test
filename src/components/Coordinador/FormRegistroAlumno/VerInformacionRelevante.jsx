@@ -290,61 +290,72 @@ class VerInformacionRelevante extends Component {
   handleOnClickRegistroSSJ_masivo = async () => {
     //this.handleClickOpenLoading(`${this.state.descripcion}.${this.state.ext}`);
     let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
-
     openMensajePantalla(dispatchDialog, {
       open: true,
       mensaje: `L>Registrando Archivo: ${this.state.descripcion}`,
     });
     // new Promise(async (resolve, reject) => {
     //   await setTimeout(async () => {
-        //await this.state.FILE.forEach(async (pedazo, index) => {
-        const ARCHIVO = {
-          archivo: {
-            ID_ALUMNO: this.props.idAlumno,
-            ARCHIVO: this.state.archivo,
-            EXTENSION: this.state.ext,
-            DESCRIPCION: `${this.state.descripcion}`,
-            // PARTES: this.state.Npartes,
-          },
-        };
-        let response = await POST({
-          servicio: "/api/alumno/informacionrelevante",
-          request: ARCHIVO,
-        });
+    //await this.state.FILE.forEach(async (pedazo, index) => {
+    const ARCHIVO = {
+      archivo: {
+        ID_ALUMNO: this.props.idAlumno,
+        ARCHIVO: this.state.archivo,
+        EXTENSION: this.state.ext,
+        DESCRIPCION: `${this.state.descripcion}`,
+        // PARTES: this.state.Npartes,
+      },
+    };
+    let response = await POST({
+      servicio: "/api/alumno/informacionrelevante",
+      request: ARCHIVO,
+    });
 
-        if (!response) {
-          //console.log("Algo paso en el upload");
-         
-          openMensajePantalla(dispatchDialog, {
-            open: true,
-            mensaje: "W>Lo sentimos pero no se pudo registrar el archivo" +
-            this.state.file +
-            ". Intentelo nuevamente en unos momentos.",
-          });
-          
-         // resolve();
-        } else if (response.error) {
-          //error
-          alert("ERRRO");
-          openMensajePantalla(dispatchDialog, {
-            open: false,
-            mensaje: "X>" +response.error ,
-          });
-          openMensajePantalla(dispatchDialog, {
-            open: true,
-            mensaje: "X>" +response.error ,
-          });
-          //resolve();
-        }else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
-          //alert("Se registro la informacion: ", response);
-          
-          openMensajePantalla(dispatchDialog, {
-            open: true,
-            mensaje: "C>Se registró satisfactoriamente el archivo: " + this.state.file,
-          });
-         // resolve();
-        }
-        // });
+    if (!response) {
+      //console.log("Algo paso en el upload");
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje:
+          "W>Lo sentimos pero no se pudo registrar el archivo" +
+          this.state.file +
+          ". Intentelo nuevamente en unos momentos.",
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "W>Lo sentimos pero no se pudo registrar el archivo" +
+          this.state.file +
+          ". Intentelo nuevamente en unos momentos.",
+      });
+
+      // resolve();
+    } else if (response.error) {
+      //error
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje: "X>" + response.error,
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje: "X>" + response.error,
+      });
+      //resolve();
+    } else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
+      //alert("Se registro la informacion: ", response);
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje:
+          "C>Se registró satisfactoriamente el archivo: " + this.state.file,
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje:
+          "C>Se registró satisfactoriamente el archivo: " + this.state.file,
+      });
+      this.refreshSSJ();
+      // resolve();
+    }
+    // });
     //   }, 1000);
     //   resolve();
     // });
@@ -386,19 +397,6 @@ class VerInformacionRelevante extends Component {
       case 0:
         return (
           <>
-            <JModal
-              titulo={"Mensaje de Ututor.net"}
-              body={
-                <Jloading
-                  size={"xs"}
-                  mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-                />
-              }
-              open={false}
-              hadleClose={this.handleCloseLoading}
-              //botonIzquierdo={"Cancelar"}
-              //botonDerecho={"Continuar"}
-            />
             <Grid container spacing={2} style={{ textAlign: "center" }}>
               {/**tabla de informacuion historica */}
               <Grid item md={4} xs={12}>

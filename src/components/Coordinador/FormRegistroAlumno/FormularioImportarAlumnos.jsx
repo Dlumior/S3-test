@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Paper, Grid, Button } from "@material-ui/core";
+import { Paper, Grid, Button, Divider } from "@material-ui/core";
 import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
@@ -19,6 +19,8 @@ import Jloading from "./Jloading.jsx";
 import { getUser } from "../../../Sesion/Sesion.js";
 import EnConstruccion from "../../Shared/EnConstruccion.js";
 import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+import { openMensajePantalla } from "../../../Sesion/actions/dialogAction.js";
+import { DialogContext } from "../../../Sesion/dialog.js";
 
 const estilos = {
   paper: {
@@ -33,6 +35,8 @@ const estilos = {
   },
 };
 class FormularioImportarAlumnos extends Component {
+  static contextType = DialogContext;
+
   constructor() {
     super();
     this.state = {
@@ -80,7 +84,13 @@ class FormularioImportarAlumnos extends Component {
   }
 
   handleOnClickRegistroSSJ_masivo = async () => {
-    this.handleClickOpenLoading();
+    //this.handleClickOpenLoading();
+
+    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+    openMensajePantalla(dispatchDialog, {
+      open: true,
+      mensaje: `L>Registrando alumnos en lote. Profavor espere`,
+    });
     const { data } = this.state.alumnosTabla;
 
     //console.log("Registrando ", data);
@@ -89,92 +99,132 @@ class FormularioImportarAlumnos extends Component {
       let mensaje = this.state.mensajesResultado;
       mensaje.push(`No hay registros que Registrar`);
       this.setState({ mensajesResultado: mensaje });
-      this.handleCloseLoading();
+      //this.handleCloseLoading();
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje: `N>Naranjas`,
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje: `W>Aun no hay datos que registrar`,
+      });
       return;
     } else {
-      //alert("Si hay");
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje: `N>Naranjas`,
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje: `L>Registrando ${data.length} alumnos en lote. Profavor espere`,
+      });
     }
     const tags = this.state.columnasLimpias;
-    let alumnosMasivo = [];
-    await new Promise(async (resolve, reject) => {
-      await data.forEach(async (registro) => {
-        let ALUMNO = {};
-        await tags.forEach((tag) => {
-          ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
+    let alumnos = [];
+
+    await data.forEach(async (registro) => {
+      let ALUMNO = {};
+      await tags.forEach((tag) => {
+        ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
+      });
+      ALUMNO.PROGRAMA = [this.state.programas[0]];
+      ALUMNO.CONTRASENHA = "contra";
+      ALUMNO.USUARIO = ALUMNO.CORREO;
+      ALUMNO.ETIQUETA = this.state.etiquetas;
+      //console.log("Registrando ALUMNO", ALUMNO);
+      ////console.log("Podria registrar: ", ALUMNO);
+
+      alumnos.push(ALUMNO);
+    });
+    // console.log("=> ", alumnos);
+    // return;
+
+    let respuestaMasiva = undefined;
+
+    respuestaMasiva = await POST({
+      servicio: "/api/alumno/registromasivo",
+      request: { alumnos: alumnos },
+    });
+
+    if (!respuestaMasiva) {
+      openMensajePantalla(dispatchDialog, {
+        open: false,
+        mensaje: `N>Naranjas`,
+      });
+      openMensajePantalla(dispatchDialog, {
+        open: true,
+        mensaje: `X>No se pudo registrar los alumnos en lote. \nProfavor intente nuevamente en unos intantes`,
+      });
+    } else {
+      //si llego al back
+      if (respuestaMasiva.errores) {
+        openMensajePantalla(dispatchDialog, {
+          open: false,
+          mensaje: `N>Naranjas`,
         });
-        ALUMNO.PROGRAMA = this.state.programas;
-        ALUMNO.CONTRASENHA = "contra";
-        ALUMNO.USUARIO = ALUMNO.CORREO;
-        ALUMNO.ETIQUETA = this.state.etiquetas;
-        //console.log("Registrando ALUMNO", ALUMNO);
-        ////console.log("Podria registrar: ", ALUMNO);
+        openMensajePantalla(dispatchDialog, {
+          open: true,
+          mensaje: `X> Se encontro el siguiente error: ${respuestaMasiva.errores}. \nNo se pudo registrar a los alumnos en lote. No se registraró ningun alumno, porfavor corrija los errores e intentelo nuevamente.`,
+        });
+      } else {
+        openMensajePantalla(dispatchDialog, {
+          open: false,
+          mensaje: `N>Naranjas`,
+        });
+        openMensajePantalla(dispatchDialog, {
+          open: true,
+          mensaje: `C>Se registró satisfactoriamente a todos los alumnos en lote .`,
+        });
+      }
+    }
+    this.removerDatos();
+    // if (respuestaMasiva) {
 
-        alumnosMasivo.push(ALUMNO);
-      });
+    //   if (nuevoAlumno.error) {
+    //     let mensaje = this.state.mensajesResultado;
+    //     mensaje.push(
+    //       <>
+    //         {`Ocurrio un error insesperado al registrar a:`}
+    //         <ul>
+    //           <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+    //           <li>{`Error: ${nuevoAlumno.error}`}</li>
+    //         </ul>
+    //       </>
+    //     );
+    //     this.setState({ mensajesResultado: mensaje });
+    //   } else {
+    //     let mensaje = this.state.mensajesResultado;
+    //     mensaje.push(
+    //       <>
+    //         {`Se registró Satisfactoriamente a:`}
+    //         <ul>
+    //           <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+    //         </ul>
+    //       </>
+    //     );
+    //     this.setState({ mensajesResultado: mensaje });
+    //   }
+    //   this.setState({ peticiones: this.state.peticiones + 1 });
+    //   if (this.state.peticiones + 1 === alumnosMasivo.length) {
+    //     this.handleCloseLoading();
+    //   }
+    // } else {
+    //   this.setState({ peticiones: this.state.peticiones + 1 });
+    //   let mensaje = this.state.mensajesResultado;
+    //   mensaje.push(
+    //     <>
+    //       {`Ocurrio un error insesperado al registrar a:`}
+    //       <ul>
+    //         <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
+    //         <li>{`Error: ${nuevoAlumno.error}`}</li>
+    //       </ul>
+    //     </>
+    //   );
+    //   this.setState({ mensajesResultado: mensaje });
+    // }
 
-      resolve();
-    });
+    //console.log("Esperare 5000ms");
 
-    await alumnosMasivo.forEach(async (ALUMNO) => {
-      let nuevoAlumno = undefined;
-      new Promise(async (resolve, reject) => {
-        await setTimeout(async () => {
-          nuevoAlumno = await POST({
-            servicio: "/api/alumno",
-            request: { alumno: ALUMNO },
-          });
-          new Promise(async (resolve, reject) => {
-            if (nuevoAlumno) {
-              if (nuevoAlumno.error) {
-                let mensaje = this.state.mensajesResultado;
-                mensaje.push(
-                  <>
-                    {`Ocurrio un error insesperado al registrar a:`}
-                    <ul>
-                      <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
-                      <li>{`Error: ${nuevoAlumno.error}`}</li>
-                    </ul>
-                  </>
-                );
-                this.setState({ mensajesResultado: mensaje });
-              } else {
-                let mensaje = this.state.mensajesResultado;
-                mensaje.push(
-                  <>
-                    {`Se registró Satisfactoriamente a:`}
-                    <ul>
-                      <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
-                    </ul>
-                  </>
-                );
-                this.setState({ mensajesResultado: mensaje });
-              }
-              this.setState({ peticiones: this.state.peticiones + 1 });
-              if (this.state.peticiones + 1 === alumnosMasivo.length) {
-                this.handleCloseLoading();
-              }
-            } else {
-              this.setState({ peticiones: this.state.peticiones + 1 });
-              let mensaje = this.state.mensajesResultado;
-              mensaje.push(
-                <>
-                  {`Ocurrio un error insesperado al registrar a:`}
-                  <ul>
-                    <li>{`${ALUMNO.NOMBRE} ${ALUMNO.APELLIDOS}`}</li>
-                    <li>{`Error: ${nuevoAlumno.error}`}</li>
-                  </ul>
-                </>
-              );
-              this.setState({ mensajesResultado: mensaje });
-            }
-            resolve();
-          });
-          //console.log("Esperare 5000ms");
-        }, 1000);
-
-        resolve();
-      });
-    });
     /*
     let response = await POST({
       servicio: "/api/alumno/registromasivo",
@@ -364,20 +414,25 @@ class FormularioImportarAlumnos extends Component {
 
   renderToolbar() {
     return (
-      <Grid container spacing={2} style={{ textAlign: "center" ,display:"flex"}}>
-        <Grid item md={6} xs={6} style={{ textAlign: "left" }}>
-          <h4>
-            <BackupTwoToneIcon />
-            Descarga nuesta plantilla en .csv
-          </h4>
-          <p className="text-justify">
-            Para poder imporar alumnos en lote, primero debes descargar nuestra
-            plantilla de ejemplo. (contiene 2 alumnos). Luego debes subir tu
-            archivo en el mismo formato. :)
-          </p>
-        </Grid>
-        <Grid item md={2} xs={6}>
-          <a
+      <Grid
+        container
+        spacing={2}
+        style={{ textAlign: "center", display: "flex" }}
+      >
+          <Grid item md={8} xs={12}>
+            <h4>
+              <BackupTwoToneIcon />
+              Descarga nuesta plantilla en .csv
+            </h4>
+            <p className="text-justify" style={{ textAlign: "left", display: "flex" }}>
+              Para poder imporar alumnos en lote, primero debes descargar
+              nuestra plantilla de ejemplo. (contiene 2 alumnos). Luego debes
+              subir tu archivo en el mismo formato. :)
+            </p>
+          </Grid>
+          <Grid item md={2} xs={false}></Grid>
+          <Grid item md={2} xs={12}  >
+            <a
             id="superDownload"
             href={
               "https://ututor-recursos.s3.amazonaws.com/TemplateCargaMasivaAlumnos_uTutor.csv"
@@ -394,7 +449,9 @@ class FormularioImportarAlumnos extends Component {
               Descargar Plantilla
             </Button>
           </a>
-        </Grid>
+          </Grid>
+
+          <Divider/>
 
         {/** eliminar data */}
         <Grid item md={2} xs={6}>
@@ -406,8 +463,10 @@ class FormularioImportarAlumnos extends Component {
             Deshacer Carga
           </Button>
         </Grid>
+
+        <Grid item md={8} xs={false}></Grid>
         {/** Boton registarr */}
-        <Grid item md={2} xs={6} style={{ textAlign: "right" }}>
+        <Grid item md={2} xs={6}>
           <Button
             variant="contained"
             color="primary"
@@ -475,29 +534,6 @@ class FormularioImportarAlumnos extends Component {
       if (this.state.loguedIn) {
         return (
           <>
-            <JModal
-              titulo={"Mensaje de Ututor.net"}
-              body={
-                <Jloading
-                  size={"xs"}
-                  mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-                />
-              }
-              open={this.state.open}
-              disabled={this.state.peticiones}
-              hadleClose={this.handleCloseLoading}
-              botonDerecho={{
-                name: "Aceptar",
-                onClick: () => {
-                  this.setState({
-                    open: false,
-                    mensajesResultado: [],
-                    peticiones: 0,
-                  });
-                },
-              }}
-              //botonDerecho={"Continuar"}
-            />
             <Grid container spacing={1} style={estilos.paper}>
               {/** nombre del archivo */}
               <Grid item md={2} xs={12}>

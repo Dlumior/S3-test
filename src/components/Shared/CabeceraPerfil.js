@@ -61,7 +61,7 @@ const CabeceraPerfil = (props) => {
   const usuario = getUser().usuario;
   const [{ openMensaje, mensaje }, dispatchDialog] = useDialogValueSSJ();
   const [imagenActual, setimagenActual] = useState(undefined);
-
+console.log("GAAAAAAAAA", props);
   const handleOnChangeImg = async (event) => {
     //console.log(event.target.files[0]);
 
@@ -146,7 +146,18 @@ const CabeceraPerfil = (props) => {
             alignItems="center"
           >
             {/*console.log("holisnombre",props.nombre.replace(/["]+/g,''))*/}
-            {getUser().usuario.IMAGEN ? (
+            
+            {props.alumnodesdetutor?
+            <Avatar
+            alt={props.nombre.replace(/["]+/g, "")}
+            src={props.imagen}
+            className={classes.large}
+          >
+            {props.nombre[0].match(/[a-z]/i)
+              ? props.nombre[0]
+              : props.nombre[1]}
+          </Avatar>
+            :getUser().usuario.IMAGEN ? (
               <ImagenCircular
                 src={`data:image/jpeg;base64,${getUser().usuario.IMAGEN}`}
               />

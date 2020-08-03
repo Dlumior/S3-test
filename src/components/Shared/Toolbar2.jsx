@@ -27,13 +27,14 @@ class JToolbarSSJ3 extends Component {
     return false;
   }
   render() {
-    console.log("TOOLBAR : ", this.props.imagenPerfil);
+    
     return (
       <div>
         <JToolbarSSJ
           MenuIconButton={this.props.MenuIconButton}
           imagenPerfil={`data:image/jpeg;base64,${this.props.imagenPerfil}`}
-          rol={this.props.rol.toUpperCase()}
+          
+          rol={this.props.rol}
           NOMBRE={this.props.NOMBRE}
           APELLIDOS={this.props.APELLIDOS}
           classes={this.props.classes}
