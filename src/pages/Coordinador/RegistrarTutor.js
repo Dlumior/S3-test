@@ -63,6 +63,7 @@ const RegistrarTutor = () => {
       },
       { title: "Correo Electrónico", field: "correo" },
       { title: "Modificar Tutor", field: "modificar" },
+      { title: "Eliminar Tutor", field: "eliminar" },
     ],
     data: [],
   });
