@@ -362,7 +362,9 @@ class Controles extends Component {
                 </Grid>
                 <Grid item md={6} xs={6}>
                   <h3 style={styles.control}>
-                    {"Semana" + this.props.fecha.semana || "Semana Actual"}
+                    {/* {"Semana" + this.props.fecha.semana || "Semana Actual"} */}
+                    {"Semana"  || "Semana Actual"}
+
                   </h3>
                 </Grid>
                 <Grid item md={3} xs={3}>

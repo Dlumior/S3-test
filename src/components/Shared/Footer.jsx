@@ -7,6 +7,39 @@ import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { openMensajePantalla } from "../../Sesion/actions/dialogAction";
 import { DialogContext } from "../../Sesion/dialog";
 import theme from "../../theme";
+
+const style = {
+  paper: {
+    marginTop: "1%",
+    marginLeft: "7%",
+    marginRight: "7%",
+    flexDirection: "column",
+    alignItems: "left",
+    backgroundImage: "",
+    minHeight: 400,
+  },
+  paperTutor: {
+    marginTop: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+  },
+  papermini: {
+    marginTop: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+  },
+  envoltorioFormulario: {
+    alignItems: "center",
+    paddingTop: "1%",
+    paddingBottom: "2%",
+    width: "100%",
+    backgroundColor: "#f2f2f2",
+  },
+  tabs: {
+    backgroundColor: "#ffffff",
+  },
+};
+
 const styles = (theme) => ({
   sectionDesktop: {
     display: "none",
@@ -129,14 +162,120 @@ class Footer extends Component {
     const { classes } = this.props;
     const { institucion } = this.state;
     return (
+
+
       <ThemeProvider theme={theme}>
-        <footer>
-          <div class="footer-wrap">
-            <div class="container">
-              <div className={classes.sectionDesktop}>
-                <Grid container spacing={0}>
-                  <Grid item md={1} ></Grid>
-                  <Grid item md={2} xs={12}>
+
+        <Paper elevation={0} >
+          <footer>
+            <div class="footer-wrap">
+              <div class="container">
+                <div className={classes.sectionDesktop}>
+                  <Grid container spacing={0}>
+                    <Grid item md={1} ></Grid>
+                    <Grid item md={2} xs={12}>
+                      <ImagenCircular
+                        size={"xs"}
+                        square={true}
+                        src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
+                      />
+                      <p class="text-justify">
+                        <strong>{"uTutor.net "}</strong>
+                    es una plataforma web de gestión y administración de
+                    procesos de tutorías. Está dirigida para apoyar el desempeño
+                    profesional de alumnos de la Pontificia Universidad Católica
+                    del Perú.
+                  </p>
+                    </Grid>
+
+                    <Grid item md={3} xs={12}>
+                      <h3 style={{ textAlign: "center" }}>NOSOTROS</h3>
+
+                      <ul class="a">
+                        <li >
+                          <p class="text-justify">
+                            {
+                              "Proyecto desarrollado por el grupo KND-Los Chicos de Software de para el curso de Ingeniería de Software - PUCP"
+                            }
+                          </p>
+
+                        </li>
+                        <li>
+                          <p class="text-justify">
+
+                            {
+                              "Este proyecto fue implementato utilizando react.js y Express.js y está corriendo en una maquina virtual en Amazon AWS."
+                            }
+                          </p>
+
+
+                        </li>
+                      </ul>
+
+                      {/*<a href="about-us.html">Read More</a>
+                     */}
+
+                    </Grid>
+                    <Grid item md={2} xs={12}>
+                      <h3 style={{ textAlign: "center" }}>Ubícanos</h3>
+
+                      <div class="address">
+                        <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        {institucion?.UBICACION || " Av. Universitaria 1801, San Miguel Lima 32, Perú"}
+                      </div>
+                      <div class="address">
+                        <i class="fa fa-phone" aria-hidden="true"></i>{" "}
+                        {institucion?.TELEFONO || "(01) 626-2000"}
+                      </div>
+                    </Grid>
+
+
+
+                    <Grid item md={3} xs={12}>
+                      <h3 style={{ textAlign: "center" }}>Envíanos tus sugerencias: </h3>
+
+                      <Grid elevation={0} style={estilos.paper}>
+                        <Paper container spacing={0}>
+                          <Grid item md={12} style={{ marginBottom: "3%" }}>
+                            <TextField
+                              value={this.state.dataMotivo}
+                              color="primary"
+                              name="dataMotivo"
+                              fullWidth
+                              //validacion={{ lim: 100 }}
+                              variant={"outlined"}
+                              rows={5}
+                              multiline={true}
+                              required={true}
+                              // inicial=""
+                              onChange={this.handleOnChangeCT}
+                            //validarEntrada={this.validarEntradaCT}
+                            />
+
+                            <br />
+                          </Grid>
+                        </Paper>
+
+                        <div style={{ textAlign: "center" }}>
+                          <Button
+                            size="large"
+                            variant="contained"
+                            color="white"
+                            disabled={this.state.esValido}
+                            onClick={this.handleOnclickEnviarBuzon}   >
+                            Enviar
+                      </Button>
+                          <br />
+                        </div>
+
+                      </Grid>
+                    </Grid>
+                    <Grid item md={1} ></Grid>
+
+                  </Grid>
+                </div>
+                <div className={classes.sectionMobile}>
+                  <Grid item xs={12} style={{ textAlign: "center" }}>
                     <ImagenCircular
                       size={"xs"}
                       square={true}
@@ -144,124 +283,26 @@ class Footer extends Component {
                     />
                     <p class="text-justify">
                       <strong>{"uTutor.net "}</strong>
-                    es una plataforma web de gestión y administración de
-                    procesos de tutorías. Está dirigida para apoyar el desempeño
-                    profesional de alumnos de la Pontificia Universidad Católica
-                    del Perú.
-                  </p>
-                  </Grid>
-
-                  <Grid item md={3} xs={12}>
-                    <h3 style={{ textAlign: "center" }}>NOSOTROS</h3>
-
-                    <ul class="a">
-                      <li >
-                        <p class="text-justify">
-                          {
-                            "Proyecto desarrollado por el grupo KND-Los Chicos de Software de para el curso de Ingeniería de Software - PUCP"
-                          }
-                        </p>
-
-                      </li>
-                      <li>
-                        <p class="text-justify">
-
-                          {
-                            "Este proyecto fue implementato utilizando react.js y Express.js y está corriendo en una maquina virtual en Amazon AWS."
-                          }
-                        </p>
-
-
-                      </li>
-                    </ul>
-
-                    {/*<a href="about-us.html">Read More</a>
-                     */}
-
-                  </Grid>
-                  <Grid item md={2} xs={12}>
-                    <h3 style={{ textAlign: "center" }}>Ubícanos</h3>
-
-                    <div class="address">
-                      <i class="fa fa-map-marker" aria-hidden="true"></i>
-                      {institucion?.UBICACION || " Av. Universitaria 1801, San Miguel Lima 32, Perú"}
-                    </div>
-                    <div class="address">
-                      <i class="fa fa-phone" aria-hidden="true"></i>{" "}
-                      {institucion?.TELEFONO || "(01) 626-2000"}
-                    </div>
-                  </Grid>
-
-
-
-                  <Grid item md={3} xs={12}>
-                    <h3 style={{ textAlign: "center" }}>Envíanos tus sugerencias: </h3>
-
-                    <Grid elevation={0} style={estilos.paper}>
-                      <Paper container spacing={0}>
-                        <Grid item md={12} style={{marginBottom:"3%"}}>
-                          <TextField
-                            value={this.state.dataMotivo}
-                            color="primary"
-                            name="dataMotivo"
-                            fullWidth
-                            //validacion={{ lim: 100 }}
-                            variant={"outlined"}
-                            rows={4}
-                            multiline={true}
-                            required={true}
-                            // inicial=""
-                            onChange={this.handleOnChangeCT}
-                          //validarEntrada={this.validarEntradaCT}
-                          />
-
-                          <br />
-                        </Grid>
-                      </Paper>
-
-                      <div style={{ textAlign: "center" }}>
-                        <Button
-                          size="large"
-                          variant="contained"
-                          color="white"
-                          disabled={this.state.esValido}
-                          onClick={this.handleOnclickEnviarBuzon}   >
-                          Enviar
-                      </Button>
-                        <br />
-                      </div>
-
-                    </Grid>
-                  </Grid>
-                  <Grid item md={1} ></Grid>
-
-                </Grid>
-              </div>
-              <div className={classes.sectionMobile}>
-                <Grid item xs={12} style={{ textAlign: "center" }}>
-                  <ImagenCircular
-                    size={"xs"}
-                    square={true}
-                    src="https://ututor-recursos.s3.amazonaws.com/ututor-main-logo-inverted_emptyBG_light.png"
-                  />
-                  <p class="text-justify">
-                    <strong>{"uTutor.net "}</strong>
                   es una plataforma web de gestión y administracion de procesos
                   de tutorias. Está dirigida para apoyar el desempeño
                   profesional de alumnos de la Pontificia Universidad Católica
                   del Perú.
                 </p>
-                </Grid>
+                  </Grid>
+                </div>
+                <div class="copyright">
+                  Copyright © 2020 uTutor.net | {institucion?.NOMBRE || "PUCP"} - Todos los derechos reservados.
+            </div>
               </div>
-              <div class="copyright">
-                Copyright © 2020 uTutor.net | {institucion?.NOMBRE || "PUCP"} - Todos los derechos reservados.
             </div>
-            </div>
-          </div>
-        </footer>
-      
+          </footer>
+        </Paper>
+
+
+
+
       </ThemeProvider>
-        
+
     );
   }
 }

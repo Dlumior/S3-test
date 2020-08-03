@@ -15,17 +15,17 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 const stylesXXX = (theme) => ({
   small: {
-      width: theme.spacing(3),
-      height: theme.spacing(3),
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
   large: {
-      width: theme.spacing(10),
-      height: theme.spacing(10),
-      fontSize: "300%",
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    fontSize: "300%",
   },
   customContainer: {
-      padding: theme.spacing(5),
-      backgroundColor: "#ffffff",
+    padding: theme.spacing(5),
+    backgroundColor: "#ffffff",
   },
 });
 const styles = {
@@ -39,6 +39,7 @@ const styles = {
   },
   chip: {
     textAlign: "center",
+    display: "flex"
   },
 };
 
@@ -79,7 +80,7 @@ class SesionesCard extends Component {
     if (cita.ESTADO.includes("03") || cita.ESTADO.includes("04")) {
       return (
         <>
-          <Button  onClick={this.handleOnClick}>
+          <Button onClick={this.handleOnClick}>
             <Paper style={styles.paper2}>
               {/** Encabezado Imagen y nombre */}
               <Grid container spacing={0} >
@@ -87,47 +88,54 @@ class SesionesCard extends Component {
                 <Grid item md={3} xs={3}>
                   {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
                   {
-                                cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
-                                    <ImagenCircular 
-                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
-                                    />
-                                ) : (
-                                  cita.ALUMNOs[0].USUARIO.IMAGEN ? (
-                                            <ImagenCircular 
-                                                src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
-                                            />
-                                        ) : (
-                                                <Avatar
-                                                    alt={cita.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
-                                                    //src={props.imagen}
-                                                    className={this.props.classes.large}
-                                                >
-                                                    {cita.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
-                                                        ? cita.ALUMNOs[0].USUARIO.NOMBRE[0]
-                                                        : cita.ALUMNOs[0].USUARIO.NOMBRE[1]}
-                                                </Avatar>
-                                            )
-                                    )
-                            }
+                    cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                      <ImagenCircular
+                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                      />
+                    ) : (
+                        cita.ALUMNOs[0].USUARIO.IMAGEN ? (
+                          <ImagenCircular
+                            src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
+                          />
+                        ) : (
+                            <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                          )
+                      )
+                  }
 
-                
+
                 </Grid>
 
                 {/** NOMBRE-APELLIDOS  */}
                 <Grid item md={9} xs={9}>
-                  <Typography
-                    variant="button"
-                    component="h5"
-                    style={styles.control}
-                    display="block"
-                    gutterBottom
-                  >
-                    {cita.PROCESO_TUTORIum.GRUPAL
-                      ? "Sesión  -- Grupal"
-                      : cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] +
-                        " " +
-                        cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
-                  </Typography>
+
+                  {
+                    cita.PROCESO_TUTORIum.GRUPAL ?
+                      <>
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            Grupal
+                          </Typography>
+                        </Grid>
+                      </>
+                      :
+                      <>
+
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            {cita.ALUMNOs[0].USUARIO.NOMBRE + " "}
+                          </Typography>
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            {cita.ALUMNOs[0].USUARIO.APELLIDOS}
+                          </Typography>
+                        </Grid>
+
+                      </>
+                  }
+
+
                 </Grid>
               </Grid>
 
@@ -174,46 +182,68 @@ class SesionesCard extends Component {
                 <Grid item md={3} xs={3}>
                   {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
                   {
-                                cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
-                                    <ImagenCircular 
-                                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
-                                    />
-                                ) : (
-                                  cita.ALUMNOs[0].USUARIO.IMAGEN ? (
-                                            <ImagenCircular 
-                                                src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
-                                            />
-                                        ) : (
-                                                <Avatar
-                                                    alt={cita.ALUMNOs[0].USUARIO.NOMBRE.replace(/["]+/g, "")}
-                                                    //src={props.imagen}
-                                                    className={this.props.classes.large}
-                                                >
-                                                    {cita.ALUMNOs[0].USUARIO.NOMBRE[0].match(/[a-z]/i)
-                                                        ? cita.ALUMNOs[0].USUARIO.NOMBRE[0]
-                                                        : cita.ALUMNOs[0].USUARIO.NOMBRE[1]}
-                                                </Avatar>
-                                            )
-                                    )
-                            }                
+                    cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
+                      <ImagenCircular
+                        src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
+                      />
+                    ) : (
+                        cita.ALUMNOs[0].USUARIO.IMAGEN ? (
+                          <ImagenCircular
+                            src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
+                          />
+                        ) : (
+                            <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
+                          )
+                      )
+                  }
                 </Grid>
 
                 {/** NOMBRE-APELLIDOS  */}
                 <Grid item md={9} xs={9}>
-                  <Typography
+                  {/* {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]} */}
+
+                  {/* <Typography
                     variant="button"
                     component="h5"
                     style={styles.control}
                     display="block"
                     gutterBottom
                   >
-                    {/* {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]} */}
-                    {cita.PROCESO_TUTORIum.GRUPAL
-                      ? "Sesión  --  Grupal"
-                      : cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] +
-                        " " +
-                        cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
-                  </Typography>
+                  
+                  {cita.PROCESO_TUTORIum.GRUPAL
+                    ? "Sesión  --  Grupal"
+                    : cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] +
+                    " " +
+                    cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
+
+                  </Typography> */}
+
+
+                  {
+                    cita.PROCESO_TUTORIum.GRUPAL ?
+                      <>
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            Grupal
+                          </Typography>
+                        </Grid>
+                      </>
+                      :
+                      <>
+
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            {cita.ALUMNOs[0].USUARIO.NOMBRE + " "}
+                          </Typography>
+                        </Grid>
+                        <Grid item md={12} xs={12}>
+                          <Typography component="paragraph">
+                            {cita.ALUMNOs[0].USUARIO.APELLIDOS}
+                          </Typography>
+                        </Grid>
+
+                      </>
+                  }
                 </Grid>
               </Grid>
 
