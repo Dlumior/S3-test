@@ -2,7 +2,7 @@ import React from "react";
 
 import FormModificar from "./FormModificar";
 
-const ParseTutors = (data, facultad) => {
+const ParseTutors = (data, facultad, programa) => {
   if (data === [] || data === null || data === undefined) {
     return {
       columns: [
@@ -26,7 +26,13 @@ const ParseTutors = (data, facultad) => {
       codigo: item.USUARIO.CODIGO,
       nombre: item.USUARIO.NOMBRE + " " + item.USUARIO.APELLIDOS,
       correo: item.USUARIO.CORREO,
-      modificar: <FormModificar datos={item.USUARIO} />,
+      modificar: (
+        <FormModificar
+          datos={item.USUARIO}
+          facultad={facultad}
+          programa={programa}
+        />
+      ),
     };
   });
 

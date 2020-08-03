@@ -22,6 +22,7 @@ import CheckCircleRoundedIcon from "@material-ui/icons/CheckCircleRounded";
 
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
 import ImagenCircular from "../Shared/ImagenCircular";
+import Jloading from "../Coordinador/FormRegistroAlumno/Jloading";
 
 const styles = (theme) => ({
   small: {
@@ -49,20 +50,12 @@ const style = {
   },
 };
 
-
 class FrmSolicitarTutorTipoII extends Component {
   constructor() {
     super();
     this.state = {
-      tutores: {
-        columns: [
-          {
-            title: "Nombre",
-            field: "nombre",
-          },
-        ],
-        data: [{ nombre: "" }],
-      }, //aqui va el nombre de la tablilla
+      cargando: false,
+      tutores: undefined, //aqui va el nombre de la tablilla
       openSolicitarTutor: false,
       openVerDispo: false,
       _tutorFijo: 0,
@@ -160,6 +153,7 @@ class FrmSolicitarTutorTipoII extends Component {
 
   async componentDidUpdate(prevProps, prevState) {
     if (prevState.actualizar != this.state.actualizar) {
+      this.setState({cargando:true});
       let res = await Controller.GET({
         servicio:
           "/api/tutor/estadosolicitud/" +
@@ -170,6 +164,7 @@ class FrmSolicitarTutorTipoII extends Component {
       if (res) {
         this.props.actualizarVisibilidadColumnas(res.estado);
         if (res.estado === 0) {
+          this.setState({cargando:true});
           let arregloDeTutores = await Controller.GET({
             servicio:
               "/api/tutor/lista/" +
@@ -195,28 +190,26 @@ class FrmSolicitarTutorTipoII extends Component {
                     src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
                   ></img> */}
 
-{
-                  element.USUARIO.IMAGEN ? (
-                    <ImagenCircular tablas
+                  {element.USUARIO.IMAGEN ? (
+                    <ImagenCircular
+                      tablas
                       src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
                     />
+                  ) : (
                     // <img
                     //   style={estilo.imagen}
                     //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
                     // ></img>
-                  ) : (
-                      <Avatar
-                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
-                        //src={props.imagen}
-                        className={this.props.classes.large}
-                      >
-                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
-                          ? element.USUARIO.NOMBRE[0]
-                          : element.USUARIO.NOMBRE[1]}
-                      </Avatar>
-                    )
-                }
-
+                    <Avatar
+                      alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                      //src={props.imagen}
+                      className={this.props.classes.large}
+                    >
+                      {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                        ? element.USUARIO.NOMBRE[0]
+                        : element.USUARIO.NOMBRE[1]}
+                    </Avatar>
+                  )}
                 </div>
               ),
               //numeroOrden: cont,
@@ -255,17 +248,15 @@ class FrmSolicitarTutorTipoII extends Component {
                     this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                   }
                   disabled={this.state.botonDisable}
-                //id={element.ID_TUTOR}
+                  //id={element.ID_TUTOR}
 
-                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                  //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                 >
                   SOLICITAR TUTOR
                 </Button>
               ),
             });
           }
-
-
 
           const data = {
             columns: [
@@ -311,7 +302,7 @@ class FrmSolicitarTutorTipoII extends Component {
                         ],*/
           };
 
-          await this.setState({ tutores: data });
+          await this.setState({ tutores: data ,cargando:false});
         } else {
           const data = {
             columns: [
@@ -349,7 +340,7 @@ class FrmSolicitarTutorTipoII extends Component {
               },
             ],
           };
-          await this.setState({ tutores: data });
+          await this.setState({ tutores: data ,cargando:false});
         }
       }
     }
@@ -357,6 +348,8 @@ class FrmSolicitarTutorTipoII extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.frmIdProceso !== this.props.frmIdProceso) {
+      
+      this.setState({cargando:true});
       let res = await Controller.GET({
         servicio:
           "/api/tutor/estadosolicitud/" +
@@ -367,6 +360,7 @@ class FrmSolicitarTutorTipoII extends Component {
       if (res) {
         this.props.actualizarVisibilidadColumnas(res.estado);
         if (res.estado === 0) {
+          this.setState({cargando:true});
           let arregloDeTutores = await Controller.GET({
             servicio:
               "/api/tutor/lista/" +
@@ -391,28 +385,26 @@ class FrmSolicitarTutorTipoII extends Component {
                     style={estilo.imagen}
                     src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
                   ></img> */}
-                  {
-                  element.USUARIO.IMAGEN ? (
-                    <ImagenCircular tablas
+                  {element.USUARIO.IMAGEN ? (
+                    <ImagenCircular
+                      tablas
                       src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
                     />
+                  ) : (
                     // <img
                     //   style={estilo.imagen}
                     //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
                     // ></img>
-                  ) : (
-                      <Avatar
-                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
-                        //src={props.imagen}
-                        className={this.props.classes.large}
-                      >
-                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
-                          ? element.USUARIO.NOMBRE[0]
-                          : element.USUARIO.NOMBRE[1]}
-                      </Avatar>
-                    )
-                }
-
+                    <Avatar
+                      alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                      //src={props.imagen}
+                      className={this.props.classes.large}
+                    >
+                      {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                        ? element.USUARIO.NOMBRE[0]
+                        : element.USUARIO.NOMBRE[1]}
+                    </Avatar>
+                  )}
                 </div>
               ),
               //numeroOrden: cont,
@@ -451,9 +443,9 @@ class FrmSolicitarTutorTipoII extends Component {
                     this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                   }
                   disabled={this.state.botonDisable}
-                //id={element.ID_TUTOR}
+                  //id={element.ID_TUTOR}
 
-                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                  //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
                 >
                   SOLICITAR TUTOR
                 </Button>
@@ -505,7 +497,7 @@ class FrmSolicitarTutorTipoII extends Component {
                         ],*/
           };
 
-          await this.setState({ tutores: data });
+          await this.setState({ tutores: data ,cargando:false});
         } else {
           const data = {
             columns: [
@@ -543,7 +535,7 @@ class FrmSolicitarTutorTipoII extends Component {
               },
             ],
           };
-          await this.setState({ tutores: data });
+          await this.setState({ tutores: data ,cargando:false});
         }
       }
     }
@@ -561,6 +553,7 @@ class FrmSolicitarTutorTipoII extends Component {
     if (res) {
       this.props.actualizarVisibilidadColumnas(res.estado);
       if (res.estado === 0) {
+        this.setState({cargando:true});
         let arregloDeTutores = await Controller.GET({
           servicio:
             "/api/tutor/lista/" +
@@ -581,30 +574,26 @@ class FrmSolicitarTutorTipoII extends Component {
             campoCont: cont,
             imagen: (
               <div>
-
-                {
-                  element.USUARIO.IMAGEN ? (
-                    <ImagenCircular tablas
-                      src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
-                    />
-                    // <img
-                    //   style={estilo.imagen}
-                    //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
-                    // ></img>
-                  ) : (
-                      <Avatar
-                        alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
-                        //src={props.imagen}
-                        className={this.props.classes.large}
-                      >
-                        {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
-                          ? element.USUARIO.NOMBRE[0]
-                          : element.USUARIO.NOMBRE[1]}
-                      </Avatar>
-                    )
-                }
-
-
+                {element.USUARIO.IMAGEN ? (
+                  <ImagenCircular
+                    tablas
+                    src={`data:image/jpeg;base64,${element.USUARIO.IMAGEN}`}
+                  />
+                ) : (
+                  // <img
+                  //   style={estilo.imagen}
+                  //   src="https://files.pucp.education/profesor/img-docentes/tupia-anticona-manuel-francisco-19931850.jpg"
+                  // ></img>
+                  <Avatar
+                    alt={element.USUARIO.NOMBRE.replace(/["]+/g, "")}
+                    //src={props.imagen}
+                    className={this.props.classes.large}
+                  >
+                    {element.USUARIO.NOMBRE[0].match(/[a-z]/i)
+                      ? element.USUARIO.NOMBRE[0]
+                      : element.USUARIO.NOMBRE[1]}
+                  </Avatar>
+                )}
               </div>
             ),
             //numeroOrden: cont,
@@ -643,9 +632,9 @@ class FrmSolicitarTutorTipoII extends Component {
                   this.handleOnClickSolicitarTutor(e, element.ID_TUTOR)
                 }
                 disabled={this.state.botonDisable}
-              //id={element.ID_TUTOR}
+                //id={element.ID_TUTOR}
 
-              //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
+                //onClick={e=>this.handleOnClick(e,element.ID_SESION,element.ID_TUTOR)}
               >
                 SOLICITAR TUTOR
               </Button>
@@ -697,7 +686,7 @@ class FrmSolicitarTutorTipoII extends Component {
                     ],*/
         };
 
-        await this.setState({ tutores: data });
+        await this.setState({ tutores: data ,cargando:false});
       } else {
         const data = {
           columns: [
@@ -735,83 +724,86 @@ class FrmSolicitarTutorTipoII extends Component {
             },
           ],
         };
-        await this.setState({ tutores: data });
+        await this.setState({ tutores: data ,cargando:false});
       }
     }
   }
 
   render() {
     //console.log("propsFormTipoII:", this.props);
-    return (
-      <div>
-        <Dialog
-          open={this.state.openSolicitarTutor}
-          onClose={this.handleOnClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          {/* <DialogTitle >
+    if (!this.state.tutores || this.state.cargando) {
+      return <Jloading mensaje={"Cargando Tutores"} size={"md"} base fondoBlanco/>;
+    } else 
+      return (
+        <div>
+          <Dialog
+            open={this.state.openSolicitarTutor}
+            onClose={this.handleOnClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            {/* <DialogTitle >
                         <h3 >Resultado </h3>
 
                     </DialogTitle> */}
 
-          <DialogTitle id="form-dialog-title">
-            <Grid container md={12} justify="center">
-              {this.state.mensajillo.includes("Satisfactoriamente") ? (
-                <CheckCircleRoundedIcon
-                  color="primary"
-                  style={{ fontSize: 70 }}
-                />
-              ) : (
+            <DialogTitle id="form-dialog-title">
+              <Grid container md={12} justify="center">
+                {this.state.mensajillo.includes("Satisfactoriamente") ? (
+                  <CheckCircleRoundedIcon
+                    color="primary"
+                    style={{ fontSize: 70 }}
+                  />
+                ) : (
                   ///caso  ups error inesperado
                   <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
                 )}
-            </Grid>
-          </DialogTitle>
-          <DialogContent>{this.state.mensajillo}</DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={this.handleOnClose}
-            >
-              Aceptar
-            </Button>
-          </DialogActions>
-        </Dialog>
+              </Grid>
+            </DialogTitle>
+            <DialogContent>{this.state.mensajillo}</DialogContent>
+            <DialogActions>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleOnClose}
+              >
+                Aceptar
+              </Button>
+            </DialogActions>
+          </Dialog>
 
-        <Paper elevation={0} style={style.paper}>
-          {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
-          <TablaTutores tutores={this.state.tutores} />
-        </Paper>
+          <Paper elevation={0} style={style.paper}>
+            {/*<TablaTutores  tutores={arregloDeTutores}  />*/}
+            <TablaTutores tutores={this.state.tutores} />
+          </Paper>
 
-        <Dialog
-          open={this.state.openVerDispo}
-          onClose={this.handleOnCloseVerDispo}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogContent>
-            <Grid container xs={12}>
-              <Paper style={style.paper}>
-                {
-                  ">> Redireccionando al calendario de disponibilidades de tutores..."
-                }
-              </Paper>
-            </Grid>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              size="large"
-              variant="contained"
-              color="primary"
-              onClick={this.handleOnCloseVerDispo}
-            >
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    );
+          <Dialog
+            open={this.state.openVerDispo}
+            onClose={this.handleOnCloseVerDispo}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogContent>
+              <Grid container xs={12}>
+                <Paper style={style.paper}>
+                  {
+                    ">> Redireccionando al calendario de disponibilidades de tutores..."
+                  }
+                </Paper>
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                size="large"
+                variant="contained"
+                color="primary"
+                onClick={this.handleOnCloseVerDispo}
+              >
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      );
   }
 }
 

@@ -1,4 +1,4 @@
-import { Grid, withStyles, TextField, Paper, Button, } from "@material-ui/core";
+import { Grid, withStyles, TextField, Paper, Button, ThemeProvider } from "@material-ui/core";
 import React, { Component } from "react";
 import { GET, POST } from "../../Conexion/Controller";
 import "./Footer.css";
@@ -6,6 +6,7 @@ import ImagenCircular from "./ImagenCircular";
 import CampoDeTexto from "../Coordinador/Tutorias/CampoDeTexto";
 import { openMensajePantalla } from "../../Sesion/actions/dialogAction";
 import { DialogContext } from "../../Sesion/dialog";
+import theme from "../../theme";
 const styles = (theme) => ({
   sectionDesktop: {
     display: "none",
@@ -128,7 +129,7 @@ class Footer extends Component {
     const { classes } = this.props;
     const { institucion } = this.state;
     return (
-      <div>
+      <ThemeProvider theme={theme}>
         <footer>
           <div class="footer-wrap">
             <div class="container">
@@ -196,19 +197,17 @@ class Footer extends Component {
                   <Grid item md={3} xs={12}>
                     <h3 style={{ textAlign: "center" }}>Envíanos tus sugerencias: </h3>
 
-                    <Paper elevation={0} style={estilos.paper}>
-                      <Grid container spacing={0}>
-                        <Grid item md={12}>
+                    <Grid elevation={0} style={estilos.paper}>
+                      <Paper container spacing={0}>
+                        <Grid item md={12} style={{marginBottom:"3%"}}>
                           <TextField
-                            style={{ marginTop: "5%", }}
                             value={this.state.dataMotivo}
                             color="primary"
                             name="dataMotivo"
-                            label="Ingrese su sugerencia aquí "
                             fullWidth
                             //validacion={{ lim: 100 }}
                             variant={"outlined"}
-                            rows={6}
+                            rows={5}
                             multiline={true}
                             required={true}
                             // inicial=""
@@ -218,13 +217,13 @@ class Footer extends Component {
 
                           <br />
                         </Grid>
-                      </Grid>
+                      </Paper>
 
                       <div style={{ textAlign: "center" }}>
                         <Button
                           size="large"
                           variant="contained"
-                          color="primary"
+                          color="white"
                           disabled={this.state.esValido}
                           onClick={this.handleOnclickEnviarBuzon}   >
                           Enviar
@@ -232,7 +231,7 @@ class Footer extends Component {
                         <br />
                       </div>
 
-                    </Paper>
+                    </Grid>
                   </Grid>
                   <Grid item md={1} ></Grid>
 
@@ -260,7 +259,9 @@ class Footer extends Component {
             </div>
           </div>
         </footer>
-      </div>
+      
+      </ThemeProvider>
+        
     );
   }
 }

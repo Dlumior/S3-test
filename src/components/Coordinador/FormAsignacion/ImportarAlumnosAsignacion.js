@@ -7,6 +7,9 @@ import {
   DialogContent,
   DialogTitle, DialogContentText, DialogActions, Typography
 } from "@material-ui/core";
+import GetAppOutlinedIcon from "@material-ui/icons/GetAppOutlined";
+import BackupTwoToneIcon from "@material-ui/icons/BackupTwoTone";
+
 
 import JMaterialCSVUploadSSJ from "jinssj-mat-table-drop-upload-csv";
 
@@ -52,6 +55,8 @@ class FormularioImportarAlumnos extends Component {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       maxTamanio: 100,
       errores: [],
+      peticiones: 0,
+      mensajesResultado: [],
       alert: {
         mensajeStrong: "",
         mensajeStrongError: "por favor revisalos!",
@@ -84,23 +89,29 @@ class FormularioImportarAlumnos extends Component {
     this.handleClickOpenLoading = this.handleClickOpenLoading.bind(this);
     this.handleCloseLoading = this.handleCloseLoading.bind(this);
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
+    this.renderBodyLoading = this.renderBodyLoading.bind(this);
   }
 
   handleOnClickRegistroSSJ_masivo = async () => {
-    alert("Cargando Alumnos espere...");
     this.handleClickOpenLoading();
     const { data } = this.state.alumnosTabla;
     const tags = this.state.columnasLimpias;
     //console.log("Registrando ", data);
     if (!data || data?.length === 0) {
-      alert("aun no hay datos sorry man XD");
+      //alert("aun no hay datos sorry man XD");
+      let mensaje = this.state.mensajesResultado;
+      mensaje.push(`No hay registros para`);
+      this.setState({ mensajesResultado: mensaje });
+      this.handleCloseLoading();
       return;
     }
+    let alumnosMasivo = [];
     data.forEach(async (registro) => {
       let ALUMNO = { alumno: {} };
       tags.forEach((tag) => {
         ALUMNO.alumno[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
+      alumnosMasivo.push(ALUMNO);
       //valida que exista el alumno
       let alu = await GET({
         servicio: "/api/alumno/buscar/" + ALUMNO.alumno.CODIGO,
@@ -114,31 +125,75 @@ class FormularioImportarAlumnos extends Component {
           servicio: "/api/programa/alumno/" + alu.alumno.ID_ALUMNO,
         });
         //console.log("programaa:", programs.programas);
-
-        for (let el of programs.programas) {
-          if (el.ID_PROGRAMA === this.props.programa) {
-            //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
-            let asig = await GET({
-              servicio:
-                "/api/tutoriaasignada/" +
-                el.ID_PROGRAMA +
-                "/" +
-                alu.alumno.ID_ALUMNO,
-            });
-            //console.log("programaa:", asig.tutoria);
-            for (let ele of asig.tutoria) {
-              if (ele.ID_PROCESO_TUTORIA === this.props.proceso) {
-                return;
+        if (programs.programas){
+          for (let el of programs.programas) {
+            if (el.ID_PROGRAMA === this.props.programa) {
+              //validamos que el alumno no tenga asignado a nadie en ese proceso de tutoria
+              let asig = await GET({
+                servicio:
+                  "/api/tutoriaasignada/" +
+                  el.ID_PROGRAMA +
+                  "/" +
+                  alu.alumno.ID_ALUMNO,
+              });
+              //console.log("programaa:", asig.tutoria);
+              for (let ele of asig.tutoria) {
+                if (ele.ID_PROCESO_TUTORIA === this.props.proceso) {
+                  let mensaje = this.state.mensajesResultado;
+                  mensaje.push(
+                    <>
+                      {`El alumno de codigo:``${ALUMNO.alumno.CODIGO}``ya pertenece a la tutoria seleccionada` }
+                    </>
+                  );
+                  this.setState({ mensajesResultado: mensaje });
+                  return;
+                }
               }
-            }
 
-            this.state.alumnosCargados.push(alu.alumno.ID_ALUMNO);
-            //console.log("programaa", this.state.alumnosCargados);
+              let mensaje = this.state.mensajesResultado;
+              mensaje.push(
+                <>
+                  {`Se asignó satisfactoriamente:`}
+                  <ul>
+                    <li>{`${ALUMNO.alumno.CODIGO}`}</li>
+                  </ul>
+                </>
+              );
+              this.setState({ mensajesResultado: mensaje });
+              this.state.alumnosCargados.push(alu.alumno.ID_ALUMNO);
+              //console.log("programaa", this.state.alumnosCargados);
+            }
           }
+        }else{
+          let mensaje = this.state.mensajesResultado;
+          mensaje.push(
+            <>
+              {`El código del alumno no pertenece al programa seleccionado:`}
+              <ul>
+                <li>{`${ALUMNO.alumno.CODIGO}`}</li>
+              </ul>
+            </>
+          );
+          this.setState({ mensajesResultado: mensaje });
         }
+      }else{
+        let mensaje = this.state.mensajesResultado;
+        mensaje.push(
+          <>
+            {`El código registrado no pertenece a un alumno:`}
+            <ul>
+              <li>{`${ALUMNO.alumno.CODIGO}`}</li>
+            </ul>
+          </>
+        );
+        this.setState({ mensajesResultado: mensaje });
       }
-      //AQUI IRIA LA VALIDACION SI EL ALUMNO EXISTE Y SI PERTENECE AL PROGRAMA
-      this.handleCloseLoading();
+      this.setState({ peticiones: this.state.peticiones + 1 });
+      if (this.state.peticiones + 1 === alumnosMasivo.length) {
+        this.handleCloseLoading();
+      }
+          
+      //this.handleCloseLoading();
       //console.log("programaa", this.state.alumnosCargados);
       this.props.escogerAlumnos(this.state.alumnosCargados);
       //console.log("programaa", this.state.alumnosCargados);
@@ -292,7 +347,7 @@ class FormularioImportarAlumnos extends Component {
     return (
       <Grid container spacing={2} style={{ textAlign: "center" }}>
         {/** eliminar data */}
-        <Grid item md={2} xs={2}>
+        <Grid item md={2} xs={6}>
           <Button
             color="primary"
             onClick={() => this.removerDatos()}
@@ -301,14 +356,38 @@ class FormularioImportarAlumnos extends Component {
             Deshacer Carga
           </Button>
         </Grid>
-        <Grid container md={7} xs={2} justify="center" style={{marginTop:"1%"}}>
-          <Typography variant="subtitle2" >
-            Los códigos a importar deben ser de alumnos pertenecientes al programa seleccionado y no
-            tener asignado a un tutor en el proceso de tutoria seleccionado
-          </Typography>
+        <Grid item md={8} xs={12}>
+          <Grid container spacing={2} style={{ textAlign: "left" }}>
+            <Grid item md={9} xs={6}>
+              <h4><BackupTwoToneIcon />Descarga nuesta plantilla en .csv</h4>
+              <p className="text-justify">
+                Los alumnos a importar deben pertenecer al programa seleccionado y no
+                tener asignado un tutor en el proceso de tutoria seleccionado
+              </p>
+            </Grid>
+            <Grid item md={3} xs={6}>
+              <a
+                id="superDownload"
+                href={
+                  "https://ututor-recursos.s3.amazonaws.com/Importar_Asignacion_Formato.csv"
+                }
+                download={"Plantilla para carga masiva de alumnos.csv"}
+              >
+                <Button
+                  color="primary"
+                  variant={"outlined"}
+                  color="primary"
+                  onClick={() => {}}
+                  startIcon={<GetAppOutlinedIcon />}
+                >
+                  Descargar Plantilla
+                </Button>
+              </a>
+            </Grid>
+          </Grid>
         </Grid>
         {/** Boton registarr */}
-        <Grid item md={3} xs={2} justify="flex-end" >
+        <Grid item md={1} xs={6} style={{ textAlign: "right"}}>
           <Button
             variant="contained"
             color="primary"
@@ -346,7 +425,24 @@ class FormularioImportarAlumnos extends Component {
     this.setState({ open: true });
   }
   handleCloseLoading() {
-    this.setState({ open: false });
+    new Promise(async (resolve, reject) => {
+      await setTimeout(async () => {
+        this.setState({ open: false, mensajesResultado: [], peticiones: 0 });
+      }, 5000);
+      resolve();
+    });
+  }
+  renderBodyLoading(mensajesResultado) {
+    return (
+      <div>
+        <h5>Asignando Alumnos:</h5>
+        <ol style={{ "text-align": "left" }}>
+          {mensajesResultado.map((mensaje) => (
+            <li>{mensaje}</li>
+          ))}
+        </ol>
+      </div>
+    );
   }
   render() {
     if (this.state.loguedIn) {
@@ -387,14 +483,25 @@ class FormularioImportarAlumnos extends Component {
           </Dialog>
           <JModal
             titulo={"Mensaje de uTutor.com"}
-            body={<Jloading mensaje={"Cargando Alumnos"} />}
+            body={<Jloading size={"xs"} mensaje={this.renderBodyLoading(this.state.mensajesResultado)}/>}
             open={this.state.open}
             handleClose={this.handleCloseLoading}
+            disabled={this.state.peticiones}
+            botonDerecho={{
+              name: "Aceptar",
+              onClick: () => {
+                this.setState({
+                  open: false,
+                  mensajesResultado: [],
+                  peticiones: 0,
+                });
+              },
+            }}
           />
         </>
       );
     } else {
-      return <h1>Algo paso reintente en un momento</h1>;
+      return <Jloading mensaje={"Cargando"} size={"xs"} />;
     }
   }
 }

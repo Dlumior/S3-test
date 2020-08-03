@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, makeStyles, Grid } from "@material-ui/core";
+import { Paper, makeStyles, Grid, Typography } from "@material-ui/core";
 import ItemAlumno from "./ItemAlumno";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,7 @@ const Alumnos = [
 
 const ListaAlumnos = (props) => {
   const classes = useStyles();
-  const { alumnos, history } = props;
+  const { alumnos, history, procesoTutoria } = props;
   let alumnosAux = [];
   // //console.log(alumnos);
   // alumnos.map((item) => {
@@ -32,11 +32,15 @@ const ListaAlumnos = (props) => {
   // });
 
   if (alumnos !== null || alumnos !== undefined) {
-    if (alumnos.length > 1) {
+    console.log("DESDE LISTA alumnos", alumnos);
+    if (
+      alumnos.length > 1 &&
+      alumnos[0].ASIGNACION_TUTORIA_X_ALUMNOs !== undefined
+    ) {
       alumnosAux = alumnos.map((item) => item.ASIGNACION_TUTORIA_X_ALUMNOs[0]);
       console.log("================================");
       console.log("Lista alumnos parseado: ", alumnosAux);
-    } else if (alumnos.length === 1) {
+    } else {
       alumnosAux = alumnos;
     }
   }
@@ -44,6 +48,16 @@ const ListaAlumnos = (props) => {
   return (
     <Paper className={classes.caja}>
       <Grid container spacing={5}>
+        {procesoTutoria === "" && (
+          <Typography variant="subtitle1" align="center">
+            Seleccione una facultad y un proceso de tutoría
+          </Typography>
+        )}
+        {alumnosAux.length === 0 && procesoTutoria !== "" && (
+          <Typography variant="subtitle1" align="center">
+            No tiene alumnos asignados
+          </Typography>
+        )}
         {alumnosAux.map((item) => (
           <ItemAlumno
             key={item.ID_ALUMNO}

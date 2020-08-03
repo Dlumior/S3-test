@@ -1,9 +1,13 @@
 import React from "react";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
+import Jloading from "../Coordinador/FormRegistroAlumno/Jloading";
 
 function Tabla(props) {
     //const [state, setState] = React.useState(data);  //ya no uso el state de material
     //ahora usamos props
+    if(!props.tutores){
+      return <Jloading mensaje={"Cargando Tutores"} size={"lg"} base />;
+    }else
     return (      
       <JMaterialTableSpanishSSJ
         //title={props.titulo}

@@ -3,8 +3,8 @@ import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
 import { withRouter } from "react-router-dom";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid, Fab, IconButton } from "@material-ui/core";
-import MaterialTable, { MTableToolbar } from "material-table";
+import { Button, Grid, Fab, IconButton, ThemeProvider } from "@material-ui/core";
+//import MaterialTable from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
@@ -18,6 +18,7 @@ import DescriptionSharpIcon from "@material-ui/icons/DescriptionSharp";
 import VerInformacionRelevante from "../FormRegistroAlumno/VerInformacionRelevante";
 import EliminarAlumno from "./EliminarAlumno";
 import Jloading from "../FormRegistroAlumno/Jloading";
+import theme from "../../../theme";
 class ListaAlumnos extends Component {
   constructor() {
     super();
@@ -44,9 +45,64 @@ class ListaAlumnos extends Component {
           { title: "Nombre", field: "nombre" },
           { title: "Correo", field: "correo" },
           { title: "Telefono", field: "telefono" },
-          { title: "Información Historica", field: "agregarInfo" },
-          { title: "Historial de Asistencias", field: "perfil" },
-          { title: "Mantenimiento", field: "mantenimiento" },
+          {
+            title: "Información Historica",
+            field: "agregarInfo",
+            render: (rowData) => (
+              <Grid container spacing={2} style={{ textAlign: "center" }}>
+                {/** eliminar data */}
+
+                <Grid item md={6} xs={6}>
+                  <IconButton>
+                    <DescriptionSharpIcon
+                      fontSize="large"
+                      color="primary"
+                      aria-label="add"
+                      onClick={(e) =>
+                        this.handleOpenDialog(e, 4, rowData.agregarInfo)
+                      }
+                    />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ),
+
+            //<img src={rowData.imageUrl} style={{width: 40, borderRadius: '50%'}}/>
+          },
+          {
+            title: "Historial de Asistencias",
+            field: "perfil",
+            render: (rowData) => (
+              <div>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => this.props.history.push(rowData.perfil)}
+                >
+                  Asistencias
+                </Button>
+              </div>
+            ),
+          },
+          { title: "Mantenimiento", field: "mantenimiento" ,render: (rowData) => (
+            <>
+              {/*<IconButton color="primary">
+                <EditRoundedIcon
+                  color="secondary"
+                  fontsize="large"
+                  onClick={(e) => this.handleOpenDialog(e, 2, rowData.mantenimiento)}
+                />
+          </IconButton>*/}
+              <IconButton color="primary">
+                <DeleteRoundedIcon
+                  color="error"
+                  fontsize="large"
+                  onClick={(e) => this.handleOnOpenEliminar(rowData.mantenimiento)}
+                />
+              </IconButton>{" "}
+            </>
+            
+          )},
         ],
         data: [],
       },
@@ -99,60 +155,14 @@ class ListaAlumnos extends Component {
           nombre: `${NOMBRE} ${APELLIDOS}`,
           correo: CORREO,
           telefono: TELEFONO,
-          perfil: (
-            <div>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() =>
-                  this.props.history.push(
-                    "/coordinador/alumno/" +
-                      ID_USUARIO +
-                      "/" +
-                      JSON.stringify(APELLIDOS + ", " + NOMBRE)
-                  )
-                }
-              >
-                Asistencias
-              </Button>
-            </div>
-          ),
-          agregarInfo: (
-            <>
-              <Grid container spacing={2} style={{ textAlign: "center" }}>
-                {/** eliminar data */}
+          perfil:
+            "/coordinador/alumno/" +
+            ID_USUARIO +
+            "/" +
+            JSON.stringify(APELLIDOS + ", " + NOMBRE),
 
-                <Grid item md={6} xs={6}>
-                  <IconButton>
-                    <DescriptionSharpIcon
-                      fontSize="large"
-                      color="primary"
-                      aria-label="add"
-                      onClick={(e) => this.handleOpenDialog(e, 4, ID_USUARIO)}
-                    />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </>
-          ),
-          mantenimiento: (
-            <>
-              {/*<IconButton color="primary">
-                <EditRoundedIcon
-                  color="secondary"
-                  fontsize="large"
-                  onClick={(e) => this.handleOpenDialog(e, 2, ID_USUARIO)}
-                />
-          </IconButton>*/}
-              <IconButton color="primary">
-                <DeleteRoundedIcon
-                  color="error"
-                  fontsize="large"
-                  onClick={(e) => this.handleOnOpenEliminar(ID_USUARIO)}
-                />
-              </IconButton>{" "}
-            </>
-          ),
+          agregarInfo: ID_USUARIO,
+          mantenimiento: ID_USUARIO
         });
         //console.log("listaAtlumnos.alumnos push", datos);
       });
@@ -246,14 +256,16 @@ class ListaAlumnos extends Component {
     } else if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <>
+        <ThemeProvider theme={theme}>
           <JMaterialTableSpanishSSJ
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Alumnos`}
             exportar
           />
-          {/**
+        </ThemeProvider>
+          
+          /**
              * arriba en español xd
              * <MaterialTable
             columns={this.state.datosTabla.columns}
@@ -271,8 +283,7 @@ class ListaAlumnos extends Component {
             }}
             title={`Listado de Alumnos`}
           />
-             */}
-        </>
+             */
       );
     }
   }

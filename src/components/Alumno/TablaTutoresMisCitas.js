@@ -1,5 +1,6 @@
 import React from "react";
 import MaterialTable from "material-table";
+import Jloading from "../Coordinador/FormRegistroAlumno/Jloading";
 
 function Tabla(props) {
   const arr2 = [];
@@ -76,8 +77,11 @@ function Tabla(props) {
   });
 
   ////console.log("AFTER daTA ",arr2);
+if(arr2.length===0){
+  return <Jloading mensaje={"Cargando Citas"} size={"md"} base />;
 
-  return (
+}else{
+return (
     <MaterialTable
       //title={props.titulo}
       //title=""
@@ -103,5 +107,7 @@ function Tabla(props) {
       }}
     />
   );
+}
+  
 }
 export default Tabla;
