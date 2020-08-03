@@ -187,6 +187,7 @@ class DisponibilidadCard extends Component {
                     <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" />
                   )}
                 </Grid>
+                
                 <Grid item md={9} xs={9}>
                   <Grid item md={12} xs={12}>
                     <Typography component="paragraph">

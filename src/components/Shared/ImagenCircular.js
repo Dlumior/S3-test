@@ -64,7 +64,7 @@ const styles = {
 };
 class ImagenCircular extends Component {
   render() {
-    const { link, square, size, logoVerde, perfil, src, tablas } = this.props;
+    const { link, square, size, logoVerde, perfil, src, tablas ,cardsTutor} = this.props;
     console.log("Imagen circular PROPS: ", this.props);
 
     if (tablas) {
