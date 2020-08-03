@@ -13,6 +13,7 @@ import theme from "../../theme";
 import WarningRoundedIcon from "@material-ui/icons/WarningRounded";
 
 import CancelRoundedIcon from "@material-ui/icons/CancelRounded";
+import Jloading from "../Coordinador/FormRegistroAlumno/Jloading";
 
 class MultiDialog extends Component {
   constructor(props) {
@@ -48,7 +49,15 @@ class MultiDialog extends Component {
             >
               <DialogTitle id="form-dialog-title">
                 <Grid container md={12} justify="center">
-                  {tipo === "C" ? (
+                  {
+                  tipo === "X" ? (
+                    <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+
+                  ):
+                  
+                  tipo === "L" ? (
+                    <Jloading mensaje={""} size={"xs"} />
+                  ) : tipo === "C" ? (
                     <CheckCircleRoundedIcon
                       color="primary"
                       style={{ fontSize: 70 }}
@@ -58,7 +67,7 @@ class MultiDialog extends Component {
                       style={{ fontSize: 70, fill: "orange" }}
                     />
                   ) : (
-                    <CancelRoundedIcon color="error" style={{ fontSize: 70 }} />
+                    <></>
                   )}
 
                   {/**

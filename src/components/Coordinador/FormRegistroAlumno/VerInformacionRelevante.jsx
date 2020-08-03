@@ -51,7 +51,7 @@ class VerInformacionRelevante extends Component {
       open: false,
       mensajesResultado: [],
       botonRegistrar: false,
-
+      loading: 1,
       idArchivo: 0,
       descripcion: "",
       fileName: "",
@@ -75,6 +75,7 @@ class VerInformacionRelevante extends Component {
         data: [],
       },
     };
+    this.refreshSSJ = this.refreshSSJ.bind(this);
     this.handleOnSuccesLoad = this.handleOnSuccesLoad.bind(this);
 
     this.removerDatos = this.removerDatos.bind(this);
@@ -98,15 +99,16 @@ class VerInformacionRelevante extends Component {
     if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-
         <JMaterialTableSpanishSSJ
-            columns={this.state.datosTabla.columns}
-            data={this.state.datosTabla.data}
-            title={`Archivos del Alumno`}
-            //exportar
-          />);
-          
-          { /**
+          columns={this.state.datosTabla.columns}
+          data={this.state.datosTabla.data}
+          title={`Archivos del Alumno`}
+          //exportar
+        />
+      );
+
+      {
+        /**
              * <MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
@@ -123,16 +125,15 @@ class VerInformacionRelevante extends Component {
           }}
           title={`Archivos del Alumno`}
         />
-             */ }
-        
-      
+             */
+      }
     }
   }
   async getArchivo(idArchivo) {
     const archivoOutput = await GET({
       servicio: `/api/alumno/informacionrelevante/descargar/${idArchivo}`,
     });
-    if(!archivoOutput.informacionRelevante){
+    if (!archivoOutput.informacionRelevante) {
       let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
 
       openMensajePantalla(dispatchDialog, {
@@ -199,8 +200,8 @@ class VerInformacionRelevante extends Component {
       this.clickInput();
     }
   }
-  async componentDidMount() {
-    if (!this.props.idAlumno) return;
+  async refreshSSJ() {
+    this.setState({ loading: 1 });
     let listaResultados = await GET({
       servicio: `/api/alumno/informacionrelevante/${this.props.idAlumno}`,
     });
@@ -259,8 +260,16 @@ class VerInformacionRelevante extends Component {
           columns: this.state.datosTablaOffline.columns,
           data: datos,
         },
+        loading: 0,
       });
+    } else {
+      this.setState({ loading: 2 });
+      //LANZAR ERROR
     }
+  }
+  async componentDidMount() {
+    if (!this.props.idAlumno) return;
+    await this.refreshSSJ();
   }
 
   /**
@@ -279,10 +288,15 @@ class VerInformacionRelevante extends Component {
     });
   };
   handleOnClickRegistroSSJ_masivo = async () => {
-    this.handleClickOpenLoading();
+    //this.handleClickOpenLoading(`${this.state.descripcion}.${this.state.ext}`);
+    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
 
-    new Promise(async (resolve, reject) => {
-      await setTimeout(async () => {
+    openMensajePantalla(dispatchDialog, {
+      open: true,
+      mensaje: `L>Registrando Archivo: ${this.state.descripcion}`,
+    });
+    // new Promise(async (resolve, reject) => {
+    //   await setTimeout(async () => {
         //await this.state.FILE.forEach(async (pedazo, index) => {
         const ARCHIVO = {
           archivo: {
@@ -300,36 +314,40 @@ class VerInformacionRelevante extends Component {
 
         if (!response) {
           //console.log("Algo paso en el upload");
-          let mensaje = this.state.mensajesResultado;
-          mensaje.push(
-            <>
-              {`Se registró satisfactoriamente:`}
-              <ul>
-                <li>{`${this.state.fileName}`}</li>
-              </ul>
-            </>
-          );
-          this.setState({ mensajesResultado: mensaje });
-          this.handleCloseLoading();
-          resolve();
-        } else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
+         
+          openMensajePantalla(dispatchDialog, {
+            open: true,
+            mensaje: "W>Lo sentimos pero no se pudo registrar el archivo" +
+            this.state.file +
+            ". Intentelo nuevamente en unos momentos.",
+          });
+          
+         // resolve();
+        } else if (response.error) {
+          //error
+          alert("ERRRO");
+          openMensajePantalla(dispatchDialog, {
+            open: false,
+            mensaje: "X>" +response.error ,
+          });
+          openMensajePantalla(dispatchDialog, {
+            open: true,
+            mensaje: "X>" +response.error ,
+          });
+          //resolve();
+        }else if (response.informacionRelevante.ID_INFORMACION_RELEVANTE) {
           //alert("Se registro la informacion: ", response);
-          let mensaje = this.state.mensajesResultado;
-          mensaje.push(
-            <>
-              {`Se registró satisfactoriamente:`}
-              <ul>
-                <li>{`${this.state.fileName}`}</li>
-              </ul>
-            </>
-          );
-          this.setState({ mensajesResultado: mensaje });
-          this.handleCloseLoading();
+          
+          openMensajePantalla(dispatchDialog, {
+            open: true,
+            mensaje: "C>Se registró satisfactoriamente el archivo: " + this.state.file,
+          });
+         // resolve();
         }
         // });
-      }, 1000);
-      resolve();
-    });
+    //   }, 1000);
+    //   resolve();
+    // });
   };
   clickInput() {
     const inputElement = document.getElementById("superDownload");
@@ -338,16 +356,20 @@ class VerInformacionRelevante extends Component {
   removerDatos() {
     this.setState({ archivo: undefined });
   }
-  handleClickOpenLoading() {
-    this.setState({ open: true });
+  handleClickOpenLoading(nombre) {
+    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+    openMensajePantalla(dispatchDialog, {
+      open: true,
+      mensaje: `L>Registrando Archivo ${nombre}`,
+    });
   }
-  handleCloseLoading() {
-    new Promise(async (resolve, reject) => {
-      await setTimeout(async () => {
-        this.setState({ open: false, mensajesResultado: [], peticiones: 0 });
-      }, 5000);
-      this.removerDatos();
-      resolve();
+  handleCloseLoading(mensajeResuktado) {
+    let [{ openMensaje, mensaje }, dispatchDialog] = this.context;
+
+    openMensajePantalla(dispatchDialog, {
+      open: true,
+      mensaje: mensajeResuktado,
     });
   }
   renderBodyLoading(mensajesResultado) {
@@ -360,127 +382,135 @@ class VerInformacionRelevante extends Component {
     );
   }
   render() {
-    const enMantenimiento = false;
-    if (enMantenimiento) {
-      return <EnConstruccion src="https://ututor-recursos.s3.amazonaws.com/EnMantenimientoKND.jpg"
-       />;
-    } else {
-      return (
-        <>
-          <JModal
-            titulo={"Mensaje de Ututor.net"}
-            body={
-              <Jloading
-                size={"xs"}
-                mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
-              />
-            }
-            open={this.state.open}
-            hadleClose={this.handleCloseLoading}
-            //botonIzquierdo={"Cancelar"}
-            //botonDerecho={"Continuar"}
-          />
-          <Grid container spacing={2} style={{ textAlign: "center" }}>
-            {/**tabla de informacuion historica */}
-            <Grid item md={4} xs={12}>
-              {this.renderTabla(this.state.datosTabla)}
-            </Grid>
-            {/** vista previa y opcion de descarga */}
-
-            <Grid item md={8} xs={12}>
-              <Grid container spacing={0}>
-                {this.state.archivo ? (
-                  <>
-                    <Grid item md={2} xs={6}>
-                      <Button
-                        color="primary"
-                        onClick={() => this.removerDatos()}
-                        startIcon={<RestorePageTwoToneIcon />}
-                      >
-                        Deshacer Carga
-                      </Button>
-                    </Grid>
-                    <Grid item md={3} xs={12}>
-                      <h3>{"Vista Previa: (Solo PDF)"}</h3>
-                    </Grid>
-                    <Grid item md={5} xs={12}>
-                      <CampoDeTexto
-                        variant={"outlined"}
-                        name="nombre"
-                        label="Nombre del archivo"
-                        requerido={true}
-                        autoFocus={true}
-                        inicial={this.state.fileName}
-                        validacion={{ lim: 25 }}
-                        onChange={this.handleOnChangeTexto}
-                        validarEntrada={() => {}}
-                        value={this.state.fileName}
-                      />
-                    </Grid>
-                    <Grid item md={2} xs={6}>
-                      <div
-                        style={{
-                          display: this.state.botonRegistrar ? "block" : "none",
-                        }}
-                      >
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={this.handleOnClickRegistroSSJ_masivo}
-                          startIcon={<CloudUploadIcon />}
-                          disabled={!this.state.archivo}
-                        >
-                          Registrar
-                        </Button>
-                      </div>
-                    </Grid>
-                  </>
-                ) : (
-                  <Grid item md={12} xs={false} />
-                )}
+    switch (this.state.loading) {
+      case 0:
+        return (
+          <>
+            <JModal
+              titulo={"Mensaje de Ututor.net"}
+              body={
+                <Jloading
+                  size={"xs"}
+                  mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+                />
+              }
+              open={false}
+              hadleClose={this.handleCloseLoading}
+              //botonIzquierdo={"Cancelar"}
+              //botonDerecho={"Continuar"}
+            />
+            <Grid container spacing={2} style={{ textAlign: "center" }}>
+              {/**tabla de informacuion historica */}
+              <Grid item md={4} xs={12}>
+                {this.renderTabla(this.state.datosTabla)}
               </Grid>
-              <a
-                id="superDownload"
-                href={this.state.archivo}
-                style={{ display: "none" }}
-                download={this.state.filename}
-              ></a>
-              {this.state.archivo && this.state.extension === "pdf" ? (
-                <div style={estilos.divini}>
-                  <iframe
-                    src={this.state.archivo}
-                    height={800}
-                    frameborder="1"
-                    allowfullscreen
-                    sandbox
-                    width="100%"
-                  ></iframe>
-                </div>
-              ) : (
-                <Grid style={estilos.margen}>
-                  {/**
-                   * <h2>{"Vista previa(solo pdf):"}</h2>
-                   */}
+              {/** vista previa y opcion de descarga */}
 
-                  {(getUser().rol === "Coordinador Facultad" ||
-                    getUser().rol === "Coordinador Programa") && (
-                    <JUploadSSJ
-                      embebed={true}
-                      contained={true}
-                      id_drop_zone={"drop_zone_archivo"}
-                      onSuccesLoadURL={this.handleOnSuccesLoad}
-                      onSuccesLoad={this.handleOnSuccesLoad}
-                      formato={this.state.formato}
-                      maxTamanio={this.state.maxTamanio}
-                      extension="any"
-                    />
+              <Grid item md={8} xs={12}>
+                <Grid container spacing={0}>
+                  {this.state.archivo ? (
+                    <>
+                      <Grid item md={2} xs={6}>
+                        <Button
+                          color="primary"
+                          onClick={() => this.removerDatos()}
+                          startIcon={<RestorePageTwoToneIcon />}
+                        >
+                          Deshacer Carga
+                        </Button>
+                      </Grid>
+                      <Grid item md={3} xs={12}>
+                        <h3>{"Vista Previa: (Solo PDF)"}</h3>
+                      </Grid>
+                      <Grid item md={5} xs={12}>
+                        <CampoDeTexto
+                          variant={"outlined"}
+                          name="nombre"
+                          label="Nombre del archivo"
+                          requerido={true}
+                          autoFocus={true}
+                          inicial={this.state.fileName}
+                          validacion={{ lim: 25 }}
+                          onChange={this.handleOnChangeTexto}
+                          validarEntrada={() => {}}
+                          value={this.state.fileName}
+                        />
+                      </Grid>
+                      <Grid item md={2} xs={6}>
+                        <div
+                          style={{
+                            display: this.state.botonRegistrar
+                              ? "block"
+                              : "none",
+                          }}
+                        >
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleOnClickRegistroSSJ_masivo}
+                            startIcon={<CloudUploadIcon />}
+                            disabled={!this.state.archivo}
+                          >
+                            Registrar
+                          </Button>
+                        </div>
+                      </Grid>
+                    </>
+                  ) : (
+                    <Grid item md={12} xs={false} />
                   )}
                 </Grid>
-              )}
+                <a
+                  id="superDownload"
+                  href={this.state.archivo}
+                  style={{ display: "none" }}
+                  download={this.state.filename}
+                ></a>
+                {this.state.archivo && this.state.extension === "pdf" ? (
+                  <div style={estilos.divini}>
+                    <iframe
+                      src={this.state.archivo}
+                      height={800}
+                      frameborder="1"
+                      allowfullscreen
+                      sandbox
+                      width="100%"
+                    ></iframe>
+                  </div>
+                ) : (
+                  <Grid style={estilos.margen}>
+                    {/**
+                     * <h2>{"Vista previa(solo pdf):"}</h2>
+                     */}
+
+                    {(getUser().rol === "Coordinador Facultad" ||
+                      getUser().rol === "Coordinador Programa") && (
+                      <JUploadSSJ
+                        embebed={true}
+                        contained={true}
+                        id_drop_zone={"drop_zone_archivo"}
+                        onSuccesLoadURL={this.handleOnSuccesLoad}
+                        onSuccesLoad={this.handleOnSuccesLoad}
+                        formato={this.state.formato}
+                        maxTamanio={this.state.maxTamanio}
+                        extension="any"
+                      />
+                    )}
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-        </>
-      );
+          </>
+        );
+      case 1:
+        return (
+          <Jloading
+            size={"xs"}
+            mensaje={this.renderBodyLoading(this.state.mensajesResultado)}
+          />
+        );
+      default:
+        return <></>;
     }
   }
 }
