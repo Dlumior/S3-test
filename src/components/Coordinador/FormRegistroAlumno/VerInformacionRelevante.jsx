@@ -317,14 +317,14 @@ class VerInformacionRelevante extends Component {
         open: false,
         mensaje:
           "W>Lo sentimos pero no se pudo registrar el archivo" +
-          this.state.file +
+          this.state.descripcion +
           ". Intentelo nuevamente en unos momentos.",
       });
       openMensajePantalla(dispatchDialog, {
         open: true,
         mensaje:
           "W>Lo sentimos pero no se pudo registrar el archivo" +
-          this.state.file +
+          this.state.descripcion +
           ". Intentelo nuevamente en unos momentos.",
       });
 
@@ -345,12 +345,12 @@ class VerInformacionRelevante extends Component {
       openMensajePantalla(dispatchDialog, {
         open: false,
         mensaje:
-          "C>Se registró satisfactoriamente el archivo: " + this.state.file,
+          "C>Se registró satisfactoriamente el archivo: " + this.state.descripcion,
       });
       openMensajePantalla(dispatchDialog, {
         open: true,
         mensaje:
-          "C>Se registró satisfactoriamente el archivo: " + this.state.file,
+          "C>Se registró satisfactoriamente el archivo: " + this.state.descripcion,
       });
       this.refreshSSJ();
       // resolve();

@@ -128,7 +128,7 @@ class FormularioImportarAlumnos extends Component {
         ALUMNO[tag.toUpperCase()] = registro[tag.toLowerCase()];
       });
       ALUMNO.PROGRAMA = [this.state.programas[0]];
-      ALUMNO.CONTRASENHA = "contra";
+      ALUMNO.CONTRASENHA = "contra$%";
       ALUMNO.USUARIO = ALUMNO.CORREO;
       ALUMNO.ETIQUETA = this.state.etiquetas;
       //console.log("Registrando ALUMNO", ALUMNO);

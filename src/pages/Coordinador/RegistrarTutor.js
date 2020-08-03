@@ -33,7 +33,7 @@ const RegistrarTutor = () => {
     TELEFONO: "",
     DIRECCION: "",
     USUARIO: "",
-    CONTRASENHA: "contra",
+    CONTRASENHA: "contra$%",
     IMAGEN: "",
     PROGRAMA: [],
   });

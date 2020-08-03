@@ -250,7 +250,7 @@ useEffect(() => {
       //console.log("programasSelecc",programasSeleccionados)
 
       datosForm.PROGRAMA=programasSeleccionados;
-      datosForm.CONTRASENHA="contra";
+      datosForm.CONTRASENHA="contra$%";
       setDatosForm({
         ...datosForm,
       });

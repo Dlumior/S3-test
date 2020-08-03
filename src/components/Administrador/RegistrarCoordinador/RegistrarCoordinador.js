@@ -230,7 +230,7 @@ const RegistrarCoordinador = (props) => {
       //console.log("programasSelecc",programasSeleccionados)
 
       datosForm.FACULTAD=programasSeleccionados;
-      datosForm.CONTRASENHA="contra";
+      datosForm.CONTRASENHA="contra$%";
       setDatosForm({
         ...datosForm,
       });
