@@ -326,7 +326,7 @@ class ListaAlumnos extends Component {
       "Importar Alumnos desde un CSV",
       "Actualizar alumno: ",
       "Eliminar alumno: ",
-      "Informacion relevante del alumno: ",
+      "Información relevante del alumno: ",
     ];
     return (
       <div style={{ backgroundColor: "#ffffff" }}>
