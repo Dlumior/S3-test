@@ -41,7 +41,7 @@ const Perfil = (props) => {
     },
     {
       index: 1,
-      titulo: "Plan de Accion",
+      titulo: "Plan de Acción",
       proceso: () => <FrmPlanAccion idAlumno={idAlumno} />,
     },
     {
