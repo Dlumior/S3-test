@@ -79,21 +79,21 @@ class SesionesCard extends Component {
     if (cita.ESTADO.includes("03") || cita.ESTADO.includes("04")) {
       return (
         <>
-          <Button onClick={this.handleOnClick}>
+          <Button  onClick={this.handleOnClick}>
             <Paper style={styles.paper2}>
               {/** Encabezado Imagen y nombre */}
-              <Grid container spacing={2} style={styles.chip}>
+              <Grid container spacing={0} >
                 {/** IMAGEN  */}
                 <Grid item md={3} xs={3}>
                   {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
                   {
                                 cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
-                                    <ImagenCircular tablas
+                                    <ImagenCircular 
                                         src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
                                     />
                                 ) : (
                                   cita.ALUMNOs[0].USUARIO.IMAGEN ? (
-                                            <ImagenCircular tablas
+                                            <ImagenCircular 
                                                 src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
                                             />
                                         ) : (
@@ -123,7 +123,7 @@ class SesionesCard extends Component {
                     gutterBottom
                   >
                     {cita.PROCESO_TUTORIum.GRUPAL
-                      ? "Grupal"
+                      ? "Sesión  -- Grupal"
                       : cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] +
                         " " +
                         cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
@@ -169,18 +169,18 @@ class SesionesCard extends Component {
           <Button onClick={this.handleOnClick}>
             <Paper style={styles.paper1}>
               {/** Encabezado Imagen y nombre */}
-              <Grid container spacing={2} style={styles.chip}>
+              <Grid container spacing={0} >
                 {/** IMAGEN  */}
                 <Grid item md={3} xs={3}>
                   {/* <ImagenCircular src="https://www.w3schools.com/howto/img_avatar.png" /> */}
                   {
                                 cita.PROCESO_TUTORIum.GRUPAL === 1 ? (
-                                    <ImagenCircular tablas
+                                    <ImagenCircular 
                                         src="https://ututor-recursos.s3.amazonaws.com/WhatsApp+Image+2020-08-02+at+5.06.55+PM.jpeg"
                                     />
                                 ) : (
                                   cita.ALUMNOs[0].USUARIO.IMAGEN ? (
-                                            <ImagenCircular cardsTutor
+                                            <ImagenCircular 
                                                 src={`data:image/jpeg;base64,${cita.ALUMNOs[0].USUARIO.IMAGEN}`}
                                             />
                                         ) : (
@@ -209,7 +209,7 @@ class SesionesCard extends Component {
                   >
                     {/* {cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] + " " + cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]} */}
                     {cita.PROCESO_TUTORIum.GRUPAL
-                      ? "Grupal"
+                      ? "Sesión  --  Grupal"
                       : cita.ALUMNOs[0].USUARIO.NOMBRE.split()[0] +
                         " " +
                         cita.ALUMNOs[0].USUARIO.APELLIDOS.split()[0]}
