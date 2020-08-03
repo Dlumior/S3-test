@@ -40,7 +40,7 @@ const CBoxProcesoTutoria = (props) => {
       </IconButton> */}
       <FormControl className={classes.formControl} disabled={pDisabled}>
         <InputLabel id="demo-simple-select-label">
-          Procesos de tutoria
+          Procesos de tutoría
         </InputLabel>
         <Select
           labelId="demo-simple-select-label"

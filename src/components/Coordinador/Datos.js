@@ -28,7 +28,7 @@ const Datos = (props) => {
             disabled
             margin="dense"
             id="name"
-            label="Codigo"
+            label="Código"
             type="text"
             fullWidth
             value={props.codigo}
