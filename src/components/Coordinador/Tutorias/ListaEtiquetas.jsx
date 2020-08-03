@@ -36,15 +36,20 @@ class ListaEtiquetas extends React.Component {
   }
   async componentDidMount() {
     let listaEtiquetas = await Conexion.GET({ servicio: this.props.enlace });
-    if(!listaEtiquetas) return;
+    if (!listaEtiquetas) return;
     //console.log("Tutores", listaEtiquetas);
+
     this.setState({
-      etiquetas: this.props.keyServicio ? listaEtiquetas[this.props.keyServicio]   : listaEtiquetas.etiquetas,
+      etiquetas: this.props.keyServicio
+        ? listaEtiquetas[this.props.keyServicio]
+        : listaEtiquetas.etiquetas,
     });
 
     //console.log("etiquetas del state", this.state.etiquetas);
   }
   handle = (etiqueta, valor) => {
+    console.log("+.+ etiqueta",etiqueta);
+    console.log("+.+ valor",valor);
     let etiquetaSeleccionada = { id: etiqueta, agregar: valor };
     let etiquetas = this.state.etiquetasSeleccionadas;
     let found = false;
@@ -82,8 +87,10 @@ class ListaEtiquetas extends React.Component {
   }
   render() {
     return (
-        <Paper elevation={0} style={this.props.strecht?estilos.paperStrecht:estilos.paper} >
-        
+      <Paper
+        elevation={0}
+        style={this.props.strecht ? estilos.paperStrecht : estilos.paper}
+      >
         {this.props.titulo ? (
           <InputLabel id="demo-simple-select-placeholder-label-label">
             {this.props.titulo}
@@ -104,8 +111,10 @@ class ListaEtiquetas extends React.Component {
               : etiqueta.DESCRIPCION
           }
           renderOption={(option, { selected }) => {
-            this.handle(this.props.ID?option[this.props.ID]:
-              option.ID_ETIQUETA, selected);
+            this.handle(
+              this.props.ID ? option[this.props.ID] : option.ID_ETIQUETA,
+              selected
+            );
             return (
               <React.Fragment>
                 <Checkbox
@@ -130,7 +139,6 @@ class ListaEtiquetas extends React.Component {
           )}
         />
       </Paper>
-      
     );
   }
 }

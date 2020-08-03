@@ -87,7 +87,7 @@ function App() {
               <Route path="/tutor" component={Tutor} />
               <Route path="/alumno" component={Alumno} />
             </div>
-            <Footer />
+            
           </Router>
         </ThemeProvider>
       </Provider>

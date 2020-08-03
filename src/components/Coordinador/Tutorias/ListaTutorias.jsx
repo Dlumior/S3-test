@@ -1,7 +1,14 @@
 import React, { Component } from "react";
 import { GET } from "../../../Conexion/Controller";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid, Fab, IconButton, Chip, ThemeProvider } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Fab,
+  IconButton,
+  Chip,
+  ThemeProvider,
+} from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
@@ -35,9 +42,9 @@ const style = {
 };
 const tutoriaOpciones = {
   vigencia: ["Semestral", "Permanente"],
-  tipoasignacion: ["Solicitado", "Asignado"],
-  asignacion: ["Obligatorio", "Opcional"],
-  naturaleza: ["Semestral", "Permanente"],
+  asignacion : ["Solicitado", "Asignado"],
+  tipoasignacion : ["Semestral", "Permanente"],
+  naturaleza: ["Opcional","Obligatorio" ],
   tipotutor: ["Variable", "Fijo Semestral", "Fijo Permanente"],
   agrupacion: ["Individual", "Grupal"],
 };
@@ -281,8 +288,8 @@ class ListaTutorias extends Component {
             title={`Listado de Tutorias`}
             exportar
           />
-          </ThemeProvider>
-          /*<MaterialTable
+        </ThemeProvider>
+        /*<MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -299,7 +306,6 @@ class ListaTutorias extends Component {
           title={`Listado de Tutorias`}
         />
         */
-        
       );
     }
   }
@@ -316,11 +322,11 @@ class ListaTutorias extends Component {
 
   render() {
     const titulos = [
-      "Registro de Procesos de Tutoria",
+      "Registro de nuevo proceso de tutoria",
       "Importar Alumnos desde un CSV",
-      "Registro de Informacion historica",
-      "Actualizar alumno",
-      "Eliminar alumno",
+      "Actualizar proceso de tutoría",
+      "Actualizar",
+      "Eliminar proceso de tutoria",
     ];
     return (
       <div style={{ backgroundColor: "#ffffff" }}>
@@ -341,7 +347,7 @@ class ListaTutorias extends Component {
             ) : this.state.cuerpoDialogo === 2 ? (
               <FormularioNuevaTutoria
                 modalOrden={this.state.registrarTutoria}
-                idFacultad={1000}
+                idTutoria={this.state.currentID}
                 hadleClose={() => {
                   this.setState({ open: false });
                 }}

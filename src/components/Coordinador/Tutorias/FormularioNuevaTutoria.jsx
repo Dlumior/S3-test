@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import {
-  Paper,
-  Grid,
-  TextField,
-  Button,
-  FormHelperText,
-  Typography,
-} from "@material-ui/core";
-import ListaProgramas from "./../ListaProgramas";
+import { Grid, Button } from "@material-ui/core";
 import GrupoRadioButton from "./GrupoRadioButton";
 import ListaEtiquetas from "./ListaEtiquetas";
 import * as Conexion from "./../../../Conexion/Controller.js";
 import Alertas from "../Alertas";
 import CampoDeTexto from "./CampoDeTexto";
-import TituloFormulario from "./TituloFormulario";
 import ListaComboBox from "./ListaComboBox";
 import { getUser } from "../../../Sesion/Sesion";
 import Jloading from "../FormRegistroAlumno/Jloading";
@@ -221,6 +212,7 @@ class FormularioNuevaTutoria extends Component {
       } = this.state.tutoria;
       let tutoria = {
         tutoria: {
+          ID: this.props.idTutoria,
           NOMBRE: nombre,
           DESCRIPCION: descripcion,
           OBLIGATORIO: obligatorio,
@@ -233,9 +225,17 @@ class FormularioNuevaTutoria extends Component {
           DURACION: duracion,
         },
       };
-      const props = { servicio: "/api/tutoria", request: tutoria };
+      
       //console.log("saving new tutoria in DB:", tutoria);
-      let nuevaTutoria = await Conexion.POST(props);
+      let nuevaTutoria=undefined;
+      if(this.props.actualizarTutoria){
+        const props = { servicio: "/api/tutoria/modificar", request: tutoria };
+        nuevaTutoria = await Conexion.POST(props);
+
+      }else{
+        const props = { servicio: "/api/tutoria", request: tutoria };
+        nuevaTutoria = await Conexion.POST(props);
+      }
       if (nuevaTutoria) {
         if (nuevaTutoria.error) {
           //ocurrio un error
@@ -303,14 +303,31 @@ class FormularioNuevaTutoria extends Component {
   }
   async componentDidMount() {
     //console.log("FORMULARIONUEVATURRIA: ", this.state.usuarioLogueado);
-    if (this.props.idFacultad) {
+    if (this.props.actualizarTutoria) {
       //modo update
       const tutoria = await Conexion.GET({
-        servicio: `/api/tutoria/${this.props.idFacultad}`,
+        servicio: `/api/tutoria/${this.props.idTutoria}`,
       });
       console.log("Consegui esto", tutoria);
       if (tutoria?.tutoria) {
-        this.setState({ tutoriaInicial: tutoria });
+        this.setState({
+          tutoriaInicial: tutoria,
+        });
+        let tutoriaIni = {};
+        this.setState({
+          tutoria: {
+            nombre: tutoria.tutoria.NOMBRE,
+            descripcion: tutoria.tutoria.DESCRIPCION,
+            obligatorio: tutoria.tutoria.OBLIGATORIO,
+            tutor_fijo: tutoria.tutoria.TUTOR_FIJO,
+            grupal: tutoria.tutoria.GRUPAL,
+            tutor_asignado: tutoria.tutoria.TUTOR_ASIGNADO,
+            permanente: tutoria.tutoria.PERMANENTE,
+            programa: tutoria.tutoria.PROGRAMA,
+            duracion: tutoria.tutoria.DURACION,
+          },
+          etiqueta: tutoria.tutoria.ETIQUETA,
+        });
       } else {
         this.LanzarError();
       }
@@ -326,7 +343,7 @@ class FormularioNuevaTutoria extends Component {
       //console.log("/*/* props en true", this.props.modalOrden);
       this.handleOnClick();
     }
-    if (this.props.idFacultad !== prevProps.idFacultad) {
+    if (this.props.idTutoria !== prevProps.idTutoria) {
       //console.log("/*/* props diff", this.props.modalOrden);
 
       //console.log("/*/* props en true", this.props.modalOrden);
@@ -344,13 +361,40 @@ class FormularioNuevaTutoria extends Component {
     });
   }
   render() {
+    const { tutoriaInicial } = this.state;
     if (this.props.actualizarTutoria) {
-      if (!this.state.tutoriaInicial) {
+      //console.log("===>", );
+
+      if (!tutoriaInicial) {
         return (
           <Jloading mensaje={"Cargando datos de la tutoria"} size={"md"} base />
         );
-      } else if (this.state.tutoriaInicial.tutoria) {
+      } else if (this.state.tutoriaInicial) {
         //mostrar con data incial
+        console.log("ENTREE: ", tutoriaInicial);
+        const radios = {
+          permanente: [
+            { titulo: "Semestral", valor: 0 },
+            { titulo: "Permanente", valor: 1 },
+          ],
+          obligatorio: [
+            { titulo: "Obligatorio", valor: 1 },
+            { titulo: "Opcional", valor: 0 },
+          ],
+          tutor_asignado: [
+            { titulo: "Solicitado", valor: 0 },
+            { titulo: "Asignado", valor: 1 },
+          ],
+          tutor_fijo: [
+            { titulo: "Variable", valor: 0 },
+            { titulo: "Fijo Semestral", valor: 1 },
+          ],
+          grupal: [
+            { titulo: "Grupal", valor: 1 },
+            { titulo: "Individual", valor: 0 },
+          ],
+        };
+        const { tutoria } = tutoriaInicial;
         return (
           <>
             <Alertas
@@ -366,7 +410,7 @@ class FormularioNuevaTutoria extends Component {
                   label="Nombre de la Tutoria"
                   requerido={true}
                   autoFocus={true}
-                  inicial={""}
+                  inicial={tutoria.NOMBRE}
                   validacion={{ lim: 25 }}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
@@ -381,7 +425,7 @@ class FormularioNuevaTutoria extends Component {
                   rows={4}
                   multiline={true}
                   requerido={true}
-                  inicial=""
+                  inicial={tutoria.DESCRIPCION}
                   onChange={this.handleOnChange}
                   validarEntrada={this.validarEntrada}
                 />
@@ -459,10 +503,12 @@ class FormularioNuevaTutoria extends Component {
                   titulo={"Etiquetas(opcional):"}
                   obtenerEtiquetas={this.handleOnChangeEtiquetas}
                   enlace={"/api/etiqueta"}
+                  base={tutoriaInicial.ETIQUETA}
                 />
 
                 {/* Tipo de Asignacion */}
                 <GrupoRadioButton
+                  editar={tutoria.TUTOR_ASIGNADO}
                   name={"tutor_asignado"}
                   id="tipoAsignarTutor"
                   titulo="Tipo de Asignacion Tutor"
@@ -472,6 +518,7 @@ class FormularioNuevaTutoria extends Component {
 
                 {/* Naturaleza de Tutoria*/}
                 <GrupoRadioButton
+                  editar={tutoria.OBLIGATORIO === 0 ? 1 : 0}
                   name={"obligatorio"}
                   titulo="Naturaleza de la Tutoría"
                   radios={this.state.radios.obligatorio}
@@ -480,6 +527,7 @@ class FormularioNuevaTutoria extends Component {
 
                 {/* Tipo de Tutor */}
                 <GrupoRadioButton
+                  editar={tutoria.TUTOR_FIJO}
                   name={"tutor_fijo"}
                   id="tipoTutor"
                   titulo="Tipo de Tutor"
@@ -489,6 +537,7 @@ class FormularioNuevaTutoria extends Component {
 
                 {/* Tipo de Agrupacion */}
                 <GrupoRadioButton
+                  editar={tutoria.GRUPAL === 0 ? 1 : 0}
                   name={"grupal"}
                   id="tipoAsignarTutor"
                   titulo="Tipo de Agrupacion de Alumnos"
