@@ -476,7 +476,7 @@ class FormularioImportarAlumnos extends Component {
         return (
           <>
             <JModal
-              titulo={"Mensaje de uTutor.com"}
+              titulo={"Mensaje de Ututor.net"}
               body={
                 <Jloading
                   size={"xs"}
