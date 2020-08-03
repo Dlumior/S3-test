@@ -35,7 +35,7 @@ class HistoricoResultados extends Component {
       return;
     } else {
       const listaSesiones = await GET({
-        servicio: "/api/listaSesionAlumno/"+idAlumno,
+        servicio: "/api/listaSesionAlumnoSinFoto/"+idAlumno,
       });
       //console.log("sesioness",listaSesiones);
       //console.log("sesioness",idAlumno);

@@ -332,7 +332,7 @@ class FormNuevaTutoria extends Component {
               <Grid item md={12} xs={12}>
                 <GrupoRadioButton
                   id="tipoAsignarTutor"
-                  titulo="Tipo de Agrupacion de Alumnos"
+                  titulo="Tipo de Agrupación de Alumnos"
                   radios={this.state.radios.tipoAgrupacion}
                   obtenerSeleccion={this.obtenerSeleccion}
                 />
