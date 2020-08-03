@@ -332,7 +332,7 @@ const BarraNavegacion = (props) => {
             <ListItemIcon>
               <ExitToAppRoundedIcon color="primary" />
             </ListItemIcon>
-            <ListItemText primary={"Cerrar Sesion"} />
+            <ListItemText primary={"Cerrar Sesión"} />
           </ListItem>
         </List>
       </Drawer>
