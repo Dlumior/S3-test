@@ -173,6 +173,7 @@ class Controles extends Component {
       />
     );
   }
+ 
   render() {
     //console.log("PROPS controls.js", this.props);
     
@@ -307,7 +308,12 @@ class Controles extends Component {
             md={this.props.tipo !== "disponibilidad" ? 3 : 4}
             xs={this.props.tipo !== "disponibilidad" ? 3 : 4}
           >
-            {this.props.tipo !== "disponibilidad" ? (
+
+            {this.state.modoBatallador
+            ?<></>
+            
+            :
+            this.props.tipo !== "disponibilidad" ? (
               <></>
             ) : this.props.filtroTutores ? (
               !this.state.tutoriaFija ? (

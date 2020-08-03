@@ -222,6 +222,7 @@ const BarraNavegacion = (props) => {
                 <MenuIcon />
               </IconButton>
             )}
+            imagenBase
             imagenPerfil={
               usuario.IMAGEN
                 ? usuario.IMAGEN
