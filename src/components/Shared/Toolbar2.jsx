@@ -33,7 +33,6 @@ class JToolbarSSJ3 extends Component {
         <JToolbarSSJ
           MenuIconButton={this.props.MenuIconButton}
           imagenPerfil={this.props.imagenBase?`data:image/jpeg;base64,${this.props.imagenPerfil}`:this.props.imagenPerfil}
-          
           rol={this.props.rol}
           NOMBRE={this.props.NOMBRE}
           APELLIDOS={this.props.APELLIDOS}
