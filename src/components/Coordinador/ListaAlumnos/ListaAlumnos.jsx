@@ -3,7 +3,13 @@ import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
 import { withRouter } from "react-router-dom";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid, Fab, IconButton, ThemeProvider } from "@material-ui/core";
+import {
+  Button,
+  Grid,
+  Fab,
+  IconButton,
+  ThemeProvider,
+} from "@material-ui/core";
 //import MaterialTable from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
@@ -84,25 +90,30 @@ class ListaAlumnos extends Component {
               </div>
             ),
           },
-          { title: "Mantenimiento", field: "mantenimiento" ,render: (rowData) => (
-            <>
-              {/*<IconButton color="primary">
+          {
+            title: "Mantenimiento",
+            field: "mantenimiento",
+            render: (rowData) => (
+              <>
+                {/*<IconButton color="primary">
                 <EditRoundedIcon
                   color="secondary"
                   fontsize="large"
                   onClick={(e) => this.handleOpenDialog(e, 2, rowData.mantenimiento)}
                 />
           </IconButton>*/}
-              <IconButton color="primary">
-                <DeleteRoundedIcon
-                  color="error"
-                  fontsize="large"
-                  onClick={(e) => this.handleOnOpenEliminar(rowData.mantenimiento)}
-                />
-              </IconButton>{" "}
-            </>
-            
-          )},
+                <IconButton color="primary">
+                  <DeleteRoundedIcon
+                    color="error"
+                    fontsize="large"
+                    onClick={(e) =>
+                      this.handleOnOpenEliminar(rowData.mantenimiento)
+                    }
+                  />
+                </IconButton>{" "}
+              </>
+            ),
+          },
         ],
         data: [],
       },
@@ -162,7 +173,7 @@ class ListaAlumnos extends Component {
             JSON.stringify(APELLIDOS + ", " + NOMBRE),
 
           agregarInfo: ID_USUARIO,
-          mantenimiento: ID_USUARIO
+          mantenimiento: ID_USUARIO,
         });
         //console.log("listaAtlumnos.alumnos push", datos);
       });
@@ -264,8 +275,8 @@ class ListaAlumnos extends Component {
             exportar
           />
         </ThemeProvider>
-          
-          /**
+
+        /**
              * arriba en español xd
              * <MaterialTable
             columns={this.state.datosTabla.columns}

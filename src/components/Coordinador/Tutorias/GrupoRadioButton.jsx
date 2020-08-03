@@ -78,7 +78,8 @@ class GrupoRadioButton extends Component {
       name: this.props.name,
       value: this.props.radios[0].titulo ,
     });
-    this.setState({ seleccion: this.props.radios[0].titulo  });
+    //alert("=>" + this.props.editar);
+    this.setState({ seleccion: this.props.radios[this.props.editar!==undefined? this.props.editar: 0].titulo  });
   }
   render() {
     return (

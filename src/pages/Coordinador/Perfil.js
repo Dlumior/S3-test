@@ -66,8 +66,8 @@ const Perfil = (props) => {
       const params = { servicio: endpoint };
       const res = await GET(params);
       console.log("=================");
-      console.log("Perifl", res.data);
-      console.log(getUser());
+      //console.log("Perifl", res.data);
+      //console.log(getUser());
       if (
         res !== null &&
         res.coordinador !== undefined &&

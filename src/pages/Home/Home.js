@@ -13,6 +13,7 @@ import useStyles from "./useStyles.js";
 import IniciarSesion from "../../components/Home/IniciarSesion.jsx";
 import { useUserValue } from "../../Sesion/Sesion.js";
 import ImagenCircular from "../../components/Shared/ImagenCircular.js";
+import Footer from "../../components/Shared/Footer.jsx";
 
 function Home(props) {
   const classes = useStyles();
@@ -89,6 +90,7 @@ function Home(props) {
           </Grid>
         </Grid>
       </Grid>
+      <Footer />
     </div>
   );
 }

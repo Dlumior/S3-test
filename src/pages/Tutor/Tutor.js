@@ -17,6 +17,7 @@ import { useUserValue, getUser } from "../../Sesion/Sesion.js";
 import Home from "../Home/Home.js";
 import { ThemeProvider } from "@material-ui/core";
 import theme from "../../theme.js";
+import Footer from "../../components/Shared/Footer.jsx";
 
 const Tutor = (props) => {
   //console.log("Tutor", props.history.location.pathname);
@@ -69,6 +70,7 @@ const Tutor = (props) => {
           />
         </BarraNavegacion>
       </ThemeProvider>
+      <Footer />
     </div>
   );
 };
