@@ -54,6 +54,7 @@ class ListaAlumnos extends Component {
           {
             title: "Información Historica",
             field: "agregarInfo",
+            export: false,
             render: (rowData) => (
               <Grid container spacing={2} style={{ textAlign: "center" }}>
                 {/** eliminar data */}
@@ -78,6 +79,7 @@ class ListaAlumnos extends Component {
           {
             title: "Historial de Asistencias",
             field: "perfil",
+            export: false,
             render: (rowData) => (
               <div>
                 <Button
@@ -93,15 +95,23 @@ class ListaAlumnos extends Component {
           {
             title: "Mantenimiento",
             field: "mantenimiento",
+            export: false,
             render: (rowData) => (
               <>
-                {/*<IconButton color="primary">
-                <EditRoundedIcon
-                  color="secondary"
-                  fontsize="large"
-                  onClick={(e) => this.handleOpenDialog(e, 2, rowData.mantenimiento)}
-                />
-          </IconButton>*/}
+              {
+                /**
+                 <IconButton color="primary">
+                  <EditRoundedIcon
+                    color="secondary"
+                    fontsize="large"
+                    onClick={(e) =>
+                      this.handleOpenDialog(e, 2, rowData.mantenimiento)
+                    }
+                  />
+                </IconButton>
+                 */
+              }
+                
                 <IconButton color="primary">
                   <DeleteRoundedIcon
                     color="error"
