@@ -10,7 +10,12 @@ const style = {
     backgroundImage: "",
     minHeight: 400,
   },
-  papermini:{
+  paperTutor: {
+    marginTop: "1%",
+    marginLeft: "1%",
+    marginRight: "1%",
+  },
+  papermini: {
     marginTop: "1%",
     marginLeft: "1%",
     marginRight: "1%",
@@ -82,33 +87,47 @@ class TabProceso extends Component {
   }
   render() {
     //console.log("2020-07-19", this.props);
+    if (this.props.paperTutor) {
+      return (
 
-    return (
-      <div style={style.tabs}>
-        {this.rendertabs()}
-        <div style={style.envoltorioFormulario}>
-          {this.props.procesos[this.state.tabActivada].paper ===false ? (
-            this.props.procesos[this.state.tabActivada].paper === false ? (
-              //si lo mande por aqui, este manda
-              <div style={style.papermini}>
-                <this.state.procesoActivo />
-              </div>
-              
-            ) : (
+        <div style={style.tabs}>
+          {this.rendertabs()}
+          <div style={style.envoltorioFormulario}>
+            <div style={style.paperTutor}>
+              <this.state.procesoActivo />
+            </div>
+
+          </div>
+        </div>
+      );
+    } else
+      return (
+
+        <div style={style.tabs}>
+          {this.rendertabs()}
+          <div style={style.envoltorioFormulario}>
+            {this.props.procesos[this.state.tabActivada].paper === false ? (
+              this.props.procesos[this.state.tabActivada].paper === false ? (
+                //si lo mande por aqui, este manda
+                <div style={style.papermini}>
+                  <this.state.procesoActivo />
+                </div>
+
+              ) : (
+                  <Paper elevation={5} style={style.paper}>
+                    <this.state.procesoActivo />
+                  </Paper>
+                )
+            ) : this.props.paper && this.props.paper === true ? (
               <Paper elevation={5} style={style.paper}>
                 <this.state.procesoActivo />
               </Paper>
-            )
-          ) : this.props.paper && this.props.paper === true ? (
-            <Paper elevation={5} style={style.paper}>
-              <this.state.procesoActivo />
-            </Paper>
-          ) : (
-            <this.state.procesoActivo />
-          )}
+            ) : (
+                  <this.state.procesoActivo />
+                )}
+          </div>
         </div>
-      </div>
-    );
+      );
   }
 }
 

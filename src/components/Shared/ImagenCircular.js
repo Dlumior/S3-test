@@ -9,8 +9,12 @@ const styles = {
   tablas: {
     minWidth: "40px",
     borderRadius: "50%",
-    height:"70px"
-   
+    height: "70px"
+  },
+  cardsTutor: {
+    minWidth: "40px",
+    borderRadius: "50%",
+    height: "50px"
   },
   xxs: {
     borderRadius: "50%",
@@ -60,13 +64,21 @@ const styles = {
 };
 class ImagenCircular extends Component {
   render() {
-    const { link, square, size, logoVerde, perfil, src, tablas } = this.props;
+    const { link, square, size, logoVerde, perfil, src, tablas ,cardsTutor} = this.props;
     console.log("Imagen circular PROPS: ", this.props);
 
     if (tablas) {
       return (
         <img
           style={styles.tablas}
+          src={src}
+          alt="logo-ututor"
+        />
+      );
+    } else if (cardsTutor) {
+      return (
+        <img
+          style={styles.cardsTutor}
           src={src}
           alt="logo-ututor"
         />

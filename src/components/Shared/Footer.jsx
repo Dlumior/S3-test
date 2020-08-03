@@ -207,7 +207,7 @@ class Footer extends Component {
                             fullWidth
                             //validacion={{ lim: 100 }}
                             variant={"outlined"}
-                            rows={5}
+                            rows={4}
                             multiline={true}
                             required={true}
                             // inicial=""

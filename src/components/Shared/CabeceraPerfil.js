@@ -152,15 +152,15 @@ const CabeceraPerfil = (props) => {
                 src="https://www.w3schools.com/howto/img_avatar.png"
               />
             ) : (
-              <Avatar
-                alt={props.nombre.replace(/["]+/g, "")}
-                src={props.imagen}
-                className={classes.large}
-              >
-                {props.nombre[0].match(/[a-z]/i)
-                  ? props.nombre[0]
-                  : props.nombre[1]}
-              </Avatar>
+                  <Avatar
+                    alt={props.nombre.replace(/["]+/g, "")}
+                    src={props.imagen}
+                    className={classes.large}
+                  >
+                    {props.nombre[0].match(/[a-z]/i)
+                      ? props.nombre[0]
+                      : props.nombre[1]}
+                  </Avatar>
             )}
 
             <Grid
@@ -169,14 +169,21 @@ const CabeceraPerfil = (props) => {
               xs={12}
               style={{ textAlign: "center", marginTop: "10%" }}
             >
-              <Button variant="outlined" component="label" color="primary">
-                Cambiar foto
+
+              {
+                !props.alumnodesdetutor &&
+                <Button
+                  variant="outlined"
+                  component="label" color="primary">
+                  Cambiar foto
                 <input
-                  type="file"
-                  onChange={handleOnChangeImg}
-                  style={{ display: "none" }}
-                />
-              </Button>
+                    type="file"
+                    onChange={handleOnChangeImg}
+                    style={{ display: "none" }}
+                  />
+                </Button>
+              }
+
             </Grid>
           </Grid>
           <Grid

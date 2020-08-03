@@ -1,6 +1,7 @@
 import React from "react";
 
 import FormModificar from "./FormModificar";
+import BtnEliminarTutor from "./BtnEliminarTutor";
 
 const ParseTutors = (data, facultad, programa) => {
   if (data === [] || data === null || data === undefined) {
@@ -16,6 +17,7 @@ const ParseTutors = (data, facultad, programa) => {
         },
         { title: "Correo Electrónico", field: "correo" },
         { title: "Modificar Tutor", field: "modificar" },
+        { title: "Eliminar Tutor", field: "eliminar" },
       ],
       data: [],
     };
@@ -33,6 +35,7 @@ const ParseTutors = (data, facultad, programa) => {
           programa={programa}
         />
       ),
+      eliminar: <BtnEliminarTutor datos={item.USUARIO} />,
     };
   });
 
@@ -48,6 +51,7 @@ const ParseTutors = (data, facultad, programa) => {
       },
       { title: "Correo Electrónico", field: "correo" },
       { title: "Modificar Tutor", field: "modificar" },
+      { title: "Eliminar Tutor", field: "eliminar" },
     ],
     data: aux,
   };

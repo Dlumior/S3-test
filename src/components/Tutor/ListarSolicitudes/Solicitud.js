@@ -109,17 +109,21 @@ const Solicitud = (props) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">
-        {icon === "error" ? (
-          <>
-            <ErrorIcon color="error" />
-            <Typography variant="subtitle2">Error</Typography>
-          </>
-        ) : (
-          <>
-            <CheckCircleIcon color="primary" />
-            <Typography variant="subtitle2">Mensaje</Typography>
-          </>
-        )}
+        <Grid container md={12} justify="center">
+          {icon === "error" ? (
+            <>
+              <ErrorIcon color="error"
+                style={{ fontSize: 70 }} />
+              {/* <Typography variant="subtitle2">Error</Typography> */}
+            </>
+          ) : (
+              <>
+                <CheckCircleIcon color="primary"
+                  style={{ fontSize: 70 }} />
+                {/* <Typography variant="subtitle2">Mensaje</Typography> */}
+              </>
+            )}
+        </Grid>
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
