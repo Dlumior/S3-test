@@ -26,7 +26,7 @@ const EliminarFacultad = (props) => {
       //console.log("idFacu",id);
       let enlace;
       enlace="/api/facultad/eliminar/"+id;
-      const props = { servicio: enlace };
+      const props = { servicio: enlace, request:{} };
       let resultado = await Conexion.POST(props);
       //console.log("got updated coord from back:", resultado);
       if (resultado){

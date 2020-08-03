@@ -25,7 +25,7 @@ const EliminarPrograma = (props) => {
       
       //PROGRAMA ELIMINAR 
       //console.log("idPrograma",id);
-      const props = { servicio: "/api/programa/eliminar/"+id };
+      const props = { servicio: "/api/programa/eliminar/"+id , request:{}};
       let resultado = await Conexion.POST(props);
       //console.log("got updated coord from back:", resultado);
       if (resultado){
