@@ -2,6 +2,11 @@ import "./styles_Jloading.css";
 import React from "react";
 import { Component } from "react";
 const estilo = {
+  generalBlanco:{
+    marginTop: "2%",
+    textAlign: "center",
+    backgroundColor: "#ffffff",
+  },
   general: {
     textAlign: "center",
   },
@@ -16,7 +21,7 @@ const estilo = {
   },
   md: {
     textAlign: "center",
-    marginTop: "10%",
+    marginTop: "15%",
   },
   lg: {
     textAlign: "center",
@@ -35,7 +40,7 @@ export default class Jloading extends Component {
     this.state = {};
   }
   render() {
-    const { size, base } = this.props;
+    const { size, base,fondoBlanco } = this.props;
     if (size === "lg") {
       return (
         <div style={estilo.general}>
@@ -55,7 +60,7 @@ export default class Jloading extends Component {
       );
     } else if (size === "md") {
       return (
-        <div style={estilo.general}>
+        <div style={fondoBlanco?estilo.generalBlanco:estilo.general}>
           <div className="lds-roller" style={estilo.md}>
             <div style={estilo.tema}></div>
             <div style={estilo.tema}></div>

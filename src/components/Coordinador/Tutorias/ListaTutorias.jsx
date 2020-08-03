@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { GET } from "../../../Conexion/Controller";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid, Fab, IconButton, Chip } from "@material-ui/core";
+import { Button, Grid, Fab, IconButton, Chip, ThemeProvider } from "@material-ui/core";
 import MaterialTable, { MTableToolbar } from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
@@ -16,6 +16,7 @@ import JModal from "../ListaAlumnos/JModal";
 import FormularioNuevaTutoria from "./FormularioNuevaTutoria";
 import EliminarTutoria from "./EliminarTutoria";
 import Jloading from "../FormRegistroAlumno/Jloading";
+import theme from "../../../theme";
 
 const style = {
   paper: {
@@ -273,14 +274,15 @@ class ListaTutorias extends Component {
     } else if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <>
+        <ThemeProvider theme={theme}>
           <JMaterialTableSpanishSSJ
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Tutorias`}
             exportar
           />
-          {/*<MaterialTable
+          </ThemeProvider>
+          /*<MaterialTable
           columns={this.state.datosTabla.columns}
           data={this.state.datosTabla.data}
           options={{
@@ -296,8 +298,8 @@ class ListaTutorias extends Component {
           }}
           title={`Listado de Tutorias`}
         />
-        */}
-        </>
+        */
+        
       );
     }
   }

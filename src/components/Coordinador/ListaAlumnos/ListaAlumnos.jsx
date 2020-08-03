@@ -3,7 +3,7 @@ import { GET } from "../../../Conexion/Controller";
 import JModal from "./JModal";
 import { withRouter } from "react-router-dom";
 import InformacionRelevante from "../FormRegistroAlumno/InformacionRelevante";
-import { Button, Grid, Fab, IconButton } from "@material-ui/core";
+import { Button, Grid, Fab, IconButton, ThemeProvider } from "@material-ui/core";
 //import MaterialTable from "material-table";
 import JMaterialTableSpanishSSJ from "jinssj-mat-table-spanish-noeditable";
 import ListaComboBox from "../Tutorias/ListaComboBox";
@@ -18,6 +18,7 @@ import DescriptionSharpIcon from "@material-ui/icons/DescriptionSharp";
 import VerInformacionRelevante from "../FormRegistroAlumno/VerInformacionRelevante";
 import EliminarAlumno from "./EliminarAlumno";
 import Jloading from "../FormRegistroAlumno/Jloading";
+import theme from "../../../theme";
 class ListaAlumnos extends Component {
   constructor() {
     super();
@@ -255,14 +256,16 @@ class ListaAlumnos extends Component {
     } else if (datosNuevos !== this.state.datosNuevos) {
       //asegurarme de no renderizar si no vale la pena
       return (
-        <>
+        <ThemeProvider theme={theme}>
           <JMaterialTableSpanishSSJ
             columns={this.state.datosTabla.columns}
             data={this.state.datosTabla.data}
             title={`Listado de Alumnos`}
             exportar
           />
-          {/**
+        </ThemeProvider>
+          
+          /**
              * arriba en español xd
              * <MaterialTable
             columns={this.state.datosTabla.columns}
@@ -280,8 +283,7 @@ class ListaAlumnos extends Component {
             }}
             title={`Listado de Alumnos`}
           />
-             */}
-        </>
+             */
       );
     }
   }
