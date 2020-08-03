@@ -482,7 +482,7 @@ class FormularioImportarAlumnos extends Component {
             </DialogContent>
           </Dialog>
           <JModal
-            titulo={"Mensaje de uTutor.com"}
+            titulo={"Mensaje de Ututor.net"}
             body={<Jloading size={"xs"} mensaje={this.renderBodyLoading(this.state.mensajesResultado)}/>}
             open={this.state.open}
             handleClose={this.handleCloseLoading}
