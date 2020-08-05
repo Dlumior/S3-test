@@ -137,6 +137,7 @@ class Asistencias extends React.Component {
 render(){
     return (
         <div>
+          
             <TablaAsistencias sesiones={this.state.sesiones}  />
         </div>
     );

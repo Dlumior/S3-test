@@ -104,6 +104,7 @@ class ListaComboBox extends Component {
       await this.setState({ listaItems: [] });
     } else {
       /** Parche porque el api devuelve Json diferente cuando es coord de facultad o de programa */
+      console.log("$$lista items=>",this.state.listaItems);
 
       if (listaItems[this.props.keyServicio].length > 0) {
         //console.log( "entreeeee---->: ",  this.props.subnombre ? listaItems[this.props.keyServicio][0][this.props.subnombre] : listaItems[this.props.keyServicio][0] );
@@ -116,7 +117,7 @@ class ListaComboBox extends Component {
           listaItems: listaItems[this.props.keyServicio],
         });
         //le digo al formulario padre que ya escogi uno
-        
+        console.log("$$this.stt item=>",this.state.item);
         await this.props.escogerItem(
           this.props.subnombre
             ? [this.state.item[this.props.subnombre][this.props.id]]
@@ -165,6 +166,9 @@ class ListaComboBox extends Component {
             listaItems: listaItems[this.props.keyServicio],
           });
           //le digo al formulario padre que ya escogi uno
+          console.log("$$lista items=>",this.state.listaItems);
+          console.log("$$item=>",this.state.item);
+
           if (this.props.allObject) {
             await this.props.escogerItem(
               this.props.subnombre
@@ -172,11 +176,23 @@ class ListaComboBox extends Component {
                 : this.state.item
             );
           } else {
-            await this.props.escogerItem(
-              this.props.subnombre
-                ? [this.state.item[this.props.subnombre][this.props.id]]
-                : [this.state.item[this.props.id]]
-            );
+            //SI ALGO PASA Y NO CREEMOS QUE PUEDA PASAR
+            //ACA ESTA LA POSIBLE SOLUCION DE tutoria que
+            //lo uso en el agendar cita del alumno  ... "switch"
+            if(this.props.keyServicio==="tutoria" ){
+              await this.props.escogerItem(
+                this.props.subnombre
+                  ? [this.state.item[this.props.subnombre][this.props.id]]
+                  : [this.state.item[this.props.id],this.state.item.DURACION]
+              );
+            }else{
+              await this.props.escogerItem(
+                this.props.subnombre
+                  ? [this.state.item[this.props.subnombre][this.props.id]]
+                  : [this.state.item[this.props.id]]
+              );
+            }
+           
           }
         }
       }

@@ -73,8 +73,8 @@ const Perfil = (props) => {
   const procesosCoordinador = [
     {
       index: 0,
-      titulo: "Asistencias",
-      proceso: () => <Asistencias datosAlumno={props.match.params} />,
+      titulo: "Asistencias",  proceso: () => <Asistencias datosAlumno={props.match.params} />,
+      algomas: true, //<= para un futuro desarrollo :D
     },
   ];
 

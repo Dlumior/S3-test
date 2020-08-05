@@ -199,13 +199,13 @@ class CalendarioCitas extends Component {
   }
 
   handleDuracion = async (_dura) => {
-    //console.log("duraXXX: ", _dura);
+    console.log("duraXXX: ", _dura);
 
     await this.setState({ duracionPro: _dura });
   };
 
   handleFiltroProceso = async (idProceso) => {
-    //console.log("idProceso seleccionado: ", idProceso);
+    console.log("idProceso seleccionado: ", idProceso);
     if (typeof idProceso === "object") {
       this.handleFiltroTutor({
         id: idProceso.ASIGNACION_TUTORIA[0].ID_TUTOR,
